@@ -1,0 +1,788 @@
+{
+  "schemaVersion": 1,
+  "source": "The Mordheimer's Master Skill List Compilation v1.30 (compiled by Edwin \"The Mordheimer\" Molina, based on prior work by Tim Leach), fetched from https://www.broheim.net/downloads/resources/Master%20Skill%20List.pdf on 2026-07-03. Core lists cite the Mordheim rulebook (RB) page numbers as given in that document; owner should still cross-check against their own physical rulebook printing.",
+  "lists": {
+    "combat": {
+      "name": "Combat",
+      "skills": [
+        {
+          "id": "strikeToInjure",
+          "name": "Strike to Injure",
+          "effect": "Add +1 to all injury rolls caused by the model in hand-to-hand combat. (RB 122)"
+        },
+        {
+          "id": "combatMaster",
+          "name": "Combat Master",
+          "effect": "If the warrior fights against more than one enemy at a time, he gains an extra Attack in each hand-to-hand combat phase as long as he is fighting two or more enemy models. The warrior is also immune to 'All Alone' tests. (RB 122)"
+        },
+        {
+          "id": "weaponsTraining",
+          "name": "Weapons Training",
+          "effect": "The warrior may use any hand-to-hand combat weapon he comes across, not just those in his equipment options. (RB 122)"
+        },
+        {
+          "id": "webOfSteel",
+          "name": "Web of Steel",
+          "effect": "The model gains +1 to all his rolls on Critical Hit tables in hand-to-hand combat. (RB 122)"
+        },
+        {
+          "id": "expertSwordsman",
+          "name": "Expert Swordsman",
+          "effect": "The warrior may re-roll all missed attacks if using a sword in the hand-to-hand phase of the turn he charges. Only applies when armed with normal swords or weeping blades, not double-handed swords or other weapons. (RB 122)"
+        },
+        {
+          "id": "stepAside",
+          "name": "Step Aside",
+          "effect": "Each time the warrior suffers a wound in close combat he may make an additional saving throw of 5+. This save is never modified and is taken after all other armour saves. (RB 122)"
+        }
+      ]
+    },
+    "shooting": {
+      "name": "Shooting",
+      "skills": [
+        {
+          "id": "quickShot",
+          "name": "Quick Shot",
+          "effect": "The warrior may shoot twice per turn with a bow or crossbow (but not a crossbow pistol). (RB 122 — Official Errata 2002)"
+        },
+        {
+          "id": "pistolier",
+          "name": "Pistolier",
+          "effect": "If equipped with a brace of pistols of any type (including crossbow pistols), the warrior may fire twice in the Shooting phase (normal reloading rules apply). With a single pistol he may fire it the same turn it was reloaded. (RB 122 — Official Errata 2002)"
+        },
+        {
+          "id": "eagleEyes",
+          "name": "Eagle Eyes",
+          "effect": "The warrior adds +6\" to the range of any missile weapon he is using. (RB 122)"
+        },
+        {
+          "id": "weaponsExpert",
+          "name": "Weapons Expert",
+          "effect": "The warrior may use any missile weapon he comes across, not just the weapons available from his warband's list. (RB 122, implied — page reference not explicit in source)"
+        },
+        {
+          "id": "nimble",
+          "name": "Nimble",
+          "effect": "The warrior may move and fire with weapons that are normally only used if the firer has not moved. Cannot be combined with Quick Shot. (RB 122)"
+        },
+        {
+          "id": "trickShooter",
+          "name": "Trick Shooter",
+          "effect": "The warrior ignores all modifiers for cover when using missile weapons. (RB 122) Suggested Changes: not usable with Quick Shot."
+        },
+        {
+          "id": "hunter",
+          "name": "Hunter",
+          "effect": "The warrior may fire each turn with a handgun or Hochland long rifle. (RB 122) Suggested Changes: may be used with Pistolier."
+        },
+        {
+          "id": "knifeFighter",
+          "name": "Knife-Fighter",
+          "effect": "The warrior can throw a maximum of three throwing knives/throwing stars in his shooting phase and may divide his shots between any targets within range. Cannot be combined with Quick Shot. (RB 122)"
+        }
+      ]
+    },
+    "academic": {
+      "name": "Academic",
+      "skills": [
+        {
+          "id": "battleTongue",
+          "name": "Battle Tongue",
+          "effect": "Leader only. Increases the range of his Leader ability by 6\". Undead leaders may not use this skill. (RB 123)"
+        },
+        {
+          "id": "sorcery",
+          "name": "Sorcery",
+          "effect": "Heroes capable of casting spells only. +1 to rolls to see whether a spell is cast successfully. Sisters of Sigmar and Warrior-Priests may not use this skill. (RB 123)"
+        },
+        {
+          "id": "streetwise",
+          "name": "Streetwise",
+          "effect": "+2 to the roll that determines chances of finding Rare items (see Trading section). (RB 123)"
+        },
+        {
+          "id": "haggle",
+          "name": "Haggle",
+          "effect": "Deduct 2D6 gold crowns from the price of any single item (minimum cost 1gc) once per post-battle sequence. (RB 123)"
+        },
+        {
+          "id": "arcaneLore",
+          "name": "Arcane Lore",
+          "effect": "Witch Hunters, Sisters of Sigmar and Warrior-Priests may not have this skill. A warrior with this skill may learn Lesser Magic if he owns a Tome of Magic. (RB 123)"
+        },
+        {
+          "id": "wyrdstoneHunter",
+          "name": "Wyrdstone Hunter",
+          "effect": "If a Hero with this skill searches ruins in the exploration phase, re-roll one dice when rolling on the Exploration chart; the second result stands. (RB 123)"
+        },
+        {
+          "id": "warriorWizard",
+          "name": "Warrior Wizard",
+          "effect": "Spellcasters only. Allows the wizard to wear armour and cast spells. (RB 123)"
+        },
+        {
+          "id": "scribe",
+          "name": "Scribe",
+          "effect": "Any warrior able to cast spells or use prayers may take this. Allows making a scroll before battle inscribed with one known spell/prayer, usable just before casting it for +2 to the difficulty roll; the scroll crumbles after use and cannot be saved between battles. (TC7)"
+        },
+        {
+          "id": "mindFocus",
+          "name": "Mind Focus",
+          "effect": "Spellcasters/prayer users only. May re-roll one dice roll used in the difficulty roll when using a spell or prayer. (TC7)"
+        },
+        {
+          "id": "tactician",
+          "name": "Tactician",
+          "effect": "Warband leader only. May reposition his warriors after the opponent has set up, and may advance them up to 12\" onto the board instead of 8\". (TC7)"
+        },
+        {
+          "id": "hunch",
+          "name": "Hunch",
+          "effect": "Warband leader only. May position up to 3 of his XP-earning men in any ruined building on the board at least 12\" from an enemy model and not in the enemy deployment zone. (TC7)"
+        },
+        {
+          "id": "magicalAptitude",
+          "name": "Magical Aptitude",
+          "effect": "Spellcasters only (not Sisters of Sigmar or Warrior Priests). May attempt to cast two spells per turn if not in hand-to-hand combat; after the first, take a Toughness test — pass to attempt a second (even the same spell); fail and roll on the injury table immediately with no saves, treating out of action as stunned. (TC7)"
+        },
+        {
+          "id": "driveChariot",
+          "name": "Drive Chariot",
+          "effect": "Required to drive a chariot effectively in combat; a charioteer without this skill cannot charge. (TC18)"
+        }
+      ]
+    },
+    "strength": {
+      "name": "Strength",
+      "skills": [
+        {
+          "id": "mightyBlow",
+          "name": "Mighty Blow",
+          "effect": "+1 Strength bonus in close combat (excluding pistols), applying to all close combat weapons. (RB 123)"
+        },
+        {
+          "id": "pitFighter",
+          "name": "Pit Fighter",
+          "effect": "+1 WS and +1 Attacks when fighting inside buildings or ruins. Agree with your opponent what counts as 'buildings or ruins' before the battle. (RB 123)"
+        },
+        {
+          "id": "resilient",
+          "name": "Resilient",
+          "effect": "Deduct -1 Strength from all hits against the warrior in close combat. Does not affect armour save modifiers. (RB 123)"
+        },
+        {
+          "id": "fearsome",
+          "name": "Fearsome",
+          "effect": "The model causes fear in opposing models. (RB 123)"
+        },
+        {
+          "id": "strongman",
+          "name": "Strongman",
+          "effect": "The warrior may use a double-handed weapon without the usual penalty of always striking last. (RB 123)"
+        },
+        {
+          "id": "unstoppableCharge",
+          "name": "Unstoppable Charge",
+          "effect": "+1 to Weapon Skill when charging. (RB 123)"
+        }
+      ]
+    },
+    "speed": {
+      "name": "Speed",
+      "skills": [
+        {
+          "id": "leap",
+          "name": "Leap",
+          "effect": "May leap D6\" in the movement phase in addition to normal movement (once per turn); may jump over man-sized models/obstacles up to 1\" high without penalty, or leap gaps (committing to the leap before rolling). (RB 123)"
+        },
+        {
+          "id": "sprint",
+          "name": "Sprint",
+          "effect": "Triples Movement rate when running or charging, instead of doubling. (RB 123)"
+        },
+        {
+          "id": "acrobat",
+          "name": "Acrobat",
+          "effect": "May fall/jump from up to 12\" without damage on a passed Initiative test, and may re-roll failed Diving Charge rolls (still limited to a 6\" diving charge). (RB 123)"
+        },
+        {
+          "id": "lightningReflexes",
+          "name": "Lightning Reflexes",
+          "effect": "If charged, 'strikes first' against the charger(s); order between multiple 'strike first' combatants is resolved by comparing Initiative. (RB 123)"
+        },
+        {
+          "id": "jumpUp",
+          "name": "Jump Up",
+          "effect": "May ignore Knocked Down results when rolling for injuries, unless knocked down via a successful helmet save or the No Pain special rule. (RB 123)"
+        },
+        {
+          "id": "dodge",
+          "name": "Dodge",
+          "effect": "May avoid a missile hit on a D6 roll of 5+, rolled as soon as the hit is scored, before rolling to wound and before other skill/equipment effects. (RB 123)"
+        },
+        {
+          "id": "scaleSheerSurfaces",
+          "name": "Scale Sheer Surfaces",
+          "effect": "May climb up/down a height equal to twice normal Movement without Initiative tests. (RB 123)"
+        }
+      ]
+    }
+  },
+  "warbandSpecific": {
+    "ogreSpecial": {
+      "name": "Ogres Special Skills (Border Town Burning — Maneaters)",
+      "skills": [
+        {
+          "id": "masterOfArms",
+          "name": "Master of Arms",
+          "effect": "The Ogre may wield a Difficult to Use weapon and a hand weapon at the same time, but not two Difficult to Use weapons."
+        },
+        {
+          "id": "crudeBelch",
+          "name": "Crude Belch",
+          "effect": "A Hero with this may unleash thunderous fumes on all enemies engaged in close combat; those who fail a Ld test suffer -1 to hit for the turn. Must wait for a new enemy to engage before using again."
+        },
+        {
+          "id": "maneater",
+          "name": "Maneater",
+          "effect": "May immediately learn one skill from the Shooting or Academic skill list. May be taken only once and may not be taken by the Guide."
+        },
+        {
+          "id": "bullCharge",
+          "name": "Bull Charge",
+          "effect": "When charging, may attempt a single attack at +1 to hit instead of normal attacks; on a hit the enemy is automatically knocked down."
+        },
+        {
+          "id": "dogOfWar",
+          "name": "Dog of War",
+          "effect": "The warband may hire Hired Swords available to Mercenaries. Only the leader may take this skill; if he dies, all Hired Swords are removed from the warband."
+        },
+        {
+          "id": "bellowingRoar",
+          "name": "Bellowing Roar",
+          "effect": "Warband leader only. Allows a re-roll of the first failed Rout test."
+        }
+      ]
+    },
+    "ogreSpecialAzmodan": {
+      "name": "Ogres' Special Skills (unofficial Azmodan Ogre warband list — NOT the Border Town Burning Maneaters list; kept for reference only, do not merge with ogreSpecial)",
+      "skills": [
+        {
+          "id": "beenThereLearnedThat",
+          "name": "Been There, Learned That",
+          "effect": "May only be taken once. Immediately take ONE skill from the Shooting or Academic skill list (treat Pistolier as 'handguneer'). (New — by Azmodan)"
+        },
+        {
+          "id": "battleCryAzmodan",
+          "name": "Battle Cry",
+          "effect": "All enemies within 8\" must take a fear test as if charged by a fear-causing opponent; on a failure they only hit (combat or shooting) on a 6 next turn. One Ogre may have this skill at a time, usable once per battle; fear-immune enemies don't test. (New — by Azmodan)"
+        },
+        {
+          "id": "determinedAzmodan",
+          "name": "Determined",
+          "effect": "Leader only. The warband may re-roll their first failed Rout test, unless the leader is out of action. (New — by Azmodan)"
+        },
+        {
+          "id": "bullsChargeAzmodan",
+          "name": "Bull's Charge",
+          "effect": "Requires a belly plate. When charging more than 6\", may use this instead of normal attacks: one attack at +1 to hit; on a hit the target is knocked down, then wounded at the Ogre's S — a wound result also stuns. Resolved before other attacks. (New — by Azmodan)"
+        },
+        {
+          "id": "combatTrainingAzmodan",
+          "name": "Combat Training",
+          "effect": "Runt only. Allows choosing Combat skills from now on. (New — by Azmodan)"
+        },
+        {
+          "id": "hardenedStomachAzmodan",
+          "name": "Hardened Stomach",
+          "effect": "Butcher only. Count only every second spell cast for the purpose of the Indigestion table after the game. (New — by Azmodan)"
+        },
+        {
+          "id": "wyrdstoneEaterAzmodan",
+          "name": "Wyrdstone Eater",
+          "effect": "Butcher only. May cast the seventh Lore of Gastromancy spell by consuming a Wyrdstone shard from his equipment (capturable if he goes out of action, as in the Wyrdstone Hunt scenario); doubles the spell's range and rolls 3D6 picking the two highest, but a misfire adds another die to the indigestion pool. (New — by Azmodan)"
+        }
+      ]
+    },
+    "assassins": {
+      "name": "Assassins' Skills",
+      "skills": [
+        {
+          "id": "silentStrike",
+          "name": "Silent Strike",
+          "effect": "Roll a D6; on a 5+ the character may charge out of hiding, attack, and (if uninjured) return to his original hiding place, provided the round trip does not exceed his maximum movement (2xM, or 3xM with Sprint). On a failed roll it is treated as a normal charge. (New — by Archeonicus)"
+        },
+        {
+          "id": "ultimateKill",
+          "name": "Ultimate Kill",
+          "effect": "Requires 2+ Attacks. Forgo all extra HtH attacks for one attack at +1 to hit, +1 to wound, +1 on the injury roll. Not combinable with Ultimate Specialist or Strike to Injure; does not work with black powder weapons. (New — by Archeonicus)"
+        },
+        {
+          "id": "masterOfPoisonsAssassin",
+          "name": "Master of Poisons",
+          "effect": "If the hero does not search for rare items, he may brew 3D-1 portions of dark venom or black lotus (single-weapon sized, must be used next battle). (New — by Archeonicus)"
+        },
+        {
+          "id": "shadowDefense",
+          "name": "Shadow Defense",
+          "effect": "May parry, with re-roll, with any weapon used; if the weapon already has Parry, may parry on an equal-or-higher roll, also re-rollable. (New — by Archeonicus)"
+        },
+        {
+          "id": "ultimateSpecialist",
+          "name": "Ultimate Specialist",
+          "effect": "+1 WS and +1 on the injury roll. Not combinable with Ultimate Kill or Strike to Injure. (New — by Archeonicus)"
+        },
+        {
+          "id": "playDead",
+          "name": "Play Dead",
+          "effect": "May re-roll a result on the Serious Injury table. A Shadowblade with this skill may use Vanish Into the Shadows while Stunned, or return to hiding via Silent Strike if Knocked Down. (New — by Archeonicus)"
+        }
+      ]
+    },
+    "beastmenRaiders": {
+      "name": "Beastmen Raiders Skills",
+      "skills": [
+        {
+          "id": "shaggyHide",
+          "name": "Shaggy Hide",
+          "effect": "Gains a 6+ Armour Save, combinable with other armour as normal. (EiF 74)"
+        },
+        {
+          "id": "mutant",
+          "name": "Mutant",
+          "effect": "May buy one mutation. (EiF 74)"
+        },
+        {
+          "id": "fearlessBeastman",
+          "name": "Fearless",
+          "effect": "Immune to Fear and All Alone tests. (EiF 74)"
+        },
+        {
+          "id": "hornedOne",
+          "name": "Horned One",
+          "effect": "May make an additional Attack at basic Strength on a turn it charges. (EiF 74)"
+        },
+        {
+          "id": "bellowingRoarBeastman",
+          "name": "Bellowing Roar",
+          "effect": "Beastman Chief only. May re-roll any failed Rout tests. (EiF 74)"
+        },
+        {
+          "id": "manhater",
+          "name": "Manhater",
+          "effect": "Affected by the rules of Hatred when fighting any Human warbands. (EiF 74)"
+        }
+      ]
+    },
+    "bretonnianKnights": {
+      "name": "Bretonnian Knights Skills",
+      "skills": [
+        {
+          "id": "virtueOfPurity",
+          "name": "Virtue of Purity",
+          "effect": "Any spell cast against the Knight is dispelled on a D6 roll of 4+. (TC8)"
+        },
+        {
+          "id": "virtueOfValor",
+          "name": "Virtue of Valor",
+          "effect": "May re-roll missed to-hit rolls against an enemy with higher Strength. (TC8)"
+        },
+        {
+          "id": "virtueOfDiscipline",
+          "name": "Virtue of Discipline",
+          "effect": "Once per game, if not Out of Action, Stunned or Knocked Down, may re-roll a failed Rout Test. (TC8)"
+        },
+        {
+          "id": "virtueOfNobleDisdain",
+          "name": "Virtue of Noble Disdain",
+          "effect": "Subject to Hatred of all enemies armed with shooting weapons. (TC8)"
+        },
+        {
+          "id": "virtueOfTheImpetuous",
+          "name": "Virtue of the Impetuous",
+          "effect": "Gains an additional +D3\" to move when charging, rolled each time before moving. (TC8)"
+        }
+      ]
+    },
+    "darkElf": {
+      "name": "Dark Elf Skills",
+      "skills": [
+        {
+          "id": "furyOfKhaine",
+          "name": "Fury of Khaine",
+          "effect": "May make a 4\" follow-up move after taking all opponents in a combat out of action, starting a new combat (counts as charging) the following turn if it makes contact. May not follow up in the opponent's turn. (TC10)"
+        },
+        {
+          "id": "powerfulBuildDarkElf",
+          "name": "Powerful Build",
+          "effect": "May choose skills from the Strength table. The Sorceress may never take this; no more than two warriors in the warband may have it at once. (TC10)"
+        },
+        {
+          "id": "feyQuickness",
+          "name": "Fey Quickness",
+          "effect": "Avoids melee/missile attacks on a roll of 6; combined with Step Aside or Dodge this improves to 4+ in the relevant area. (TC10)"
+        },
+        {
+          "id": "infiltrationDarkElf",
+          "name": "Infiltration",
+          "effect": "Always placed on the battlefield after the opposing warband, anywhere out of sight and more than 12\" from any enemy model. If both sides have infiltrators, lowest D6 sets up first. (RB 93)"
+        },
+        {
+          "id": "masterOfPoisonsDarkElf",
+          "name": "Master of Poisons",
+          "effect": "If the Hero doesn't search for rare items, may make D3-1 doses of Dark Venom instead (may be none); must be used next battle, cannot be sold/traded. (TC10)"
+        }
+      ]
+    },
+    "dwarves": {
+      "name": "Dwarves' Skills",
+      "skills": [
+        {
+          "id": "masterOfBlades",
+          "name": "Master of Blades",
+          "effect": "Parries successfully with a Parry weapon on an equal-or-higher roll (not just higher); with two Parry weapons may parry two attacks instead of one; two Dwarf axes allow re-rolling failed parries. (A02 24)"
+        },
+        {
+          "id": "extraTough",
+          "name": "Extra Tough",
+          "effect": "When rolling on the Heroes Serious Injury chart after being taken out of action, may re-roll once; the second result must be accepted even if worse. (A02 24)"
+        },
+        {
+          "id": "resourceHunter",
+          "name": "Resource Hunter",
+          "effect": "May modify one Exploration chart dice roll by +1/-1. (A02 24)"
+        },
+        {
+          "id": "trueGrit",
+          "name": "True Grit",
+          "effect": "On the Injury table for this Hero: 1-3 is Knocked Down, 4-5 is Stunned, 6 is Out of Action. (A02 24)"
+        },
+        {
+          "id": "thickSkullDwarf",
+          "name": "Thick Skull",
+          "effect": "3+ save on a D6 to avoid being Stunned (treated as Knocked Down if saved); 2+ instead of 3+ if also wearing a helmet (replaces the normal Helmet rule). (A02 24)"
+        }
+      ]
+    },
+    "halflings": {
+      "name": "Halflings' Skills",
+      "skills": [
+        {
+          "id": "quietAsAMouse",
+          "name": "Quiet as a Mouse",
+          "effect": "Enemy warriors must use half their Initiative value in inches (rounded down) when trying to detect this hidden Halfling."
+        },
+        {
+          "id": "crudeBelchHalfling",
+          "name": "Crude Belch",
+          "effect": "In the first round of hand-to-hand combat, releases fumes on all enemies in base contact; those failing a Ld test miss their first attack that round."
+        },
+        {
+          "id": "wizenedHalfling",
+          "name": "Wizened Halfling",
+          "effect": "Leaders only. All Halflings within 6\" may re-roll failed Leadership tests and use his Leadership for both tests."
+        },
+        {
+          "id": "stealthyHalflingThief",
+          "name": "Stealthy",
+          "effect": "Halfling Thieves only. May hide even after running, and may run within 8\" of enemy models if starting and ending the move hidden."
+        },
+        {
+          "id": "skilledHuntsman",
+          "name": "Skilled Huntsman",
+          "effect": "May fire a ranged weapon and remain hidden: roll D6, on a 3+ stays hidden that turn. Not combinable with black powder weapons."
+        },
+        {
+          "id": "layersOfFat",
+          "name": "Layers of Fat",
+          "effect": "Always has a basic saving throw of 6 regardless of the enemy's Strength, on top of any armour worn."
+        },
+        {
+          "id": "shifty",
+          "name": "Shifty",
+          "effect": "Gains a bonus attack that strikes first when charged."
+        }
+      ]
+    },
+    "nightGoblins": {
+      "name": "Night Goblins' Special Skills",
+      "skills": [
+        {
+          "id": "dedShooty",
+          "name": "Ded Shooty",
+          "effect": "+6\" to the range of any missile weapon used (not nets). (New — by Terry Maltman)"
+        },
+        {
+          "id": "sneakyGit",
+          "name": "Sneaky Git",
+          "effect": "Night Goblin Big Boss only. May move D3 of his warband members after all other deployment is complete. (New — by Terry Maltman)"
+        },
+        {
+          "id": "netter",
+          "name": "Netter",
+          "effect": "May declare a net charge: throws a net at the target as per the rulebook; a hit that isn't escaped counts the target as knocked down and completes the charge (a miss/escape is a failed charge, stopping 1\" short if it would reach base contact). A netted warrior is automatically hit in combat (still rolled to wound) and, unless Stunned/Out of Action, spends his next recovery phase cutting free, then acts last that combat as if standing up from Knocked Down. (New — by Terry Maltman)"
+        }
+      ]
+    },
+    "orcsAndGoblinsHordes": {
+      "name": "Orcs & Goblins Hordes' Skills",
+      "skills": [
+        {
+          "id": "ardEad",
+          "name": "'ard ead",
+          "effect": "3+ save on a D6 to avoid being Stunned (treated as Knocked Down if saved); 2+ instead of 3+ if also wearing a helmet (replaces the normal Helmet rule). (A02 13)"
+        },
+        {
+          "id": "waaagh",
+          "name": "Waaagh!",
+          "effect": "+D3\" to charge range. (A02 13)"
+        },
+        {
+          "id": "ereWeGo",
+          "name": "'ere we go!",
+          "effect": "May ignore Fear and Terror tests when charging. (A02 13)"
+        },
+        {
+          "id": "daCunninPlan",
+          "name": "da cunnin' plan",
+          "effect": "Boss only. The warband may re-roll failed Rout tests as long as the Boss is not out of action. (A02 13)"
+        },
+        {
+          "id": "wellArd",
+          "name": "well 'ard",
+          "effect": "+1 to any armour saves. (A02 13)"
+        },
+        {
+          "id": "eadbasher",
+          "name": "'eadbasher",
+          "effect": "Any Knocked Down results this Orc causes in hand-to-hand count as Stunned instead. (A02 13)"
+        }
+      ]
+    },
+    "ostlanders": {
+      "name": "Ostlanders' Skills",
+      "skills": [
+        {
+          "id": "bullRush",
+          "name": "Bull Rush",
+          "effect": "When charging, may attempt to knock down the opponent instead of making normal attacks: roll to hit once at +1, no to-wound roll needed — a hit Knocks Down the target. (A02 46)"
+        },
+        {
+          "id": "foulOdor",
+          "name": "Foul Odor",
+          "effect": "Living enemies (not Undead/Possessed) are at -1 to hit this warrior in hand-to-hand combat; he cannot carry open flames, and fire attacks against him are resolved at +1 Strength. (A02 13)"
+        },
+        {
+          "id": "taunt",
+          "name": "Taunt",
+          "effect": "In the shooting phase, instead of shooting/casting, may taunt one visible enemy (nearest, per LOS rules); on a failed Ld test the enemy must move toward the taunter next movement phase. (A02 13)"
+        },
+        {
+          "id": "animalFriendship",
+          "name": "Animal Friendship",
+          "effect": "Normal animals never attack this warrior; up to two Wardogs he owns do not count against the warband's maximum model count. (A02 13)"
+        },
+        {
+          "id": "bloodOath",
+          "name": "Blood Oath",
+          "effect": "Warband leader only. May re-roll a single Rout test once per game. (A02 13)"
+        }
+      ]
+    },
+    "pirates": {
+      "name": "Pirates' Skills",
+      "skills": [
+        {
+          "id": "seaShantySinger",
+          "name": "Sea Shanty Singer",
+          "effect": "At the start of his Close Combat phase, one chosen opponent in base contact must pass a Ld test or lose 1 Attack that turn. No effect on Undead/non-living creatures. (TC9)"
+        },
+        {
+          "id": "seaLegs",
+          "name": "Sea Legs",
+          "effect": "If he Falls, may ignore the D3 hits on a roll of 4+ (single roll for all hits); if Knocked Down/Stunned within 1\" of a precipice, may re-roll the Initiative test to avoid falling. (TC9)"
+        },
+        {
+          "id": "cutlassMaster",
+          "name": "Cutlass Master",
+          "effect": "If equipped with a Sword, may also parry successfully on a roll equal to the to-hit roll (not just higher), but only when in cover/a building or within 2\" of a terrain feature. (TC9)"
+        },
+        {
+          "id": "boomingVoice",
+          "name": "Booming Voice",
+          "effect": "Captain only. Once per turn, may let one pirate within 8\" who just failed a flee/rally test re-roll it, provided the Captain is on his feet and not in close combat. (TC9)"
+        },
+        {
+          "id": "hardyConstitution",
+          "name": "Hardy Constitution",
+          "effect": "May ignore a Critical Hit on a roll of 5+ (treated as a normal wound); on a failed roll the Critical Hit applies as normal. (TC9)"
+        },
+        {
+          "id": "swashbuckler",
+          "name": "Swashbuckler",
+          "effect": "At the end of any Hand-to-Hand phase while still in base contact, may pass a Ld test to move away normally (no run/charge) without the enemy striking back; on a failed test remains in combat and fights normally next turn. (TC9)"
+        }
+      ]
+    },
+    "pitFighters": {
+      "name": "Pit Fighters' Skills",
+      "skills": [
+        {
+          "id": "pitFighterWarband",
+          "name": "Pit Fighter",
+          "effect": "All Pit Fighters have this skill (as the Strength Skill List version: +1 WS, +1 A when fighting in ruins, buildings, and The Pit). (TC14)"
+        },
+        {
+          "id": "freeTheSlaves",
+          "name": "Free the Slaves!",
+          "effect": "The warband will never sell captured opponents to slavers. (TC14)"
+        },
+        {
+          "id": "inThePit",
+          "name": "In the Pit!",
+          "effect": "A captured opponent may be sent to fight in Cutthroat's Haven's pits against a Pit Fighter warband combatant, with escalating win/lose outcomes for XP, gold, equipment, and the captive's possible freedom (D6, 4+ freed). See full text for the complete resolution table. (TC14)"
+        }
+      ]
+    },
+    "sistersOfSigmar": {
+      "name": "Sisters of Sigmar's Skills",
+      "skills": [
+        {
+          "id": "signOfSigmar",
+          "name": "Sign of Sigmar",
+          "effect": "Possessed or Undead opponents lose their first attack against her in the first round of hand-to-hand combat (minimum 1 attack retained). (RB 83)"
+        },
+        {
+          "id": "protectionOfSigmar",
+          "name": "Protection of Sigmar",
+          "effect": "Any spell targeting her is nullified on a D6 roll of 4+ (and does not affect any other models either if nullified). (RB 83)"
+        },
+        {
+          "id": "utterDetermination",
+          "name": "Utter Determination",
+          "effect": "Matriarch only. May re-roll any failed Rout tests. (RB 83)"
+        },
+        {
+          "id": "righteousFury",
+          "name": "Righteous Fury",
+          "effect": "Hates all Skaven, Undead or Possessed warbands and models. Suggested Changes: may extend to other 'evil'/'neutral' warbands case-by-case. (RB 83)"
+        },
+        {
+          "id": "absoluteFaith",
+          "name": "Absolute Faith",
+          "effect": "May re-roll any Fear tests and need not test when fighting alone against several opponents. (RB 83)"
+        }
+      ]
+    },
+    "shadowWarriors": {
+      "name": "Shadow Warriors' Skills",
+      "skills": [
+        {
+          "id": "seeInShadows",
+          "name": "See in Shadows",
+          "effect": "May always roll to charge opponents he cannot see (instead of the normal 4\"), provided he has the movement to reach them. (TC10)"
+        },
+        {
+          "id": "hideInShadows",
+          "name": "Hide in Shadows",
+          "effect": "An enemy trying to detect him while Hidden must halve his Initiative before measuring distance. (TC10)"
+        },
+        {
+          "id": "sniper",
+          "name": "Sniper",
+          "effect": "If Hidden, may shoot or cast spells and remain Hidden. (TC10)"
+        },
+        {
+          "id": "powerfulBuildShadowWarrior",
+          "name": "Powerful Build",
+          "effect": "May choose skills from the Strength skills table. Not usable by Shadow Weavers; max two Elves in the warband with this skill at once. (TC10)"
+        },
+        {
+          "id": "masterOfRunes",
+          "name": "Master of Runes",
+          "effect": "Shadow Weavers only. +1 to dispel rolls when using Elven Runestones; may inscribe one warrior's gear so he may re-roll one failed armour save or Parry roll per battle (runes must be redone after each battle). (TC10)"
+        }
+      ]
+    },
+    "skaven": {
+      "name": "Skavens' Skills",
+      "skills": [
+        {
+          "id": "blackHunger",
+          "name": "Black Hunger",
+          "effect": "Declared at the start of the Skaven's turn: +1 Attack and +D3\" move for that turn, but suffers D3 S3 hits with no armour save at the end of the turn. (RB 93)"
+        },
+        {
+          "id": "tailFighting",
+          "name": "Tail Fighting",
+          "effect": "May wield a shield, knife, or sword with its tail, gaining an extra attack with that weapon or a +1 armour save bonus. (RB 93)"
+        },
+        {
+          "id": "wallRunner",
+          "name": "Wall Runner",
+          "effect": "No Initiative test needed to climb walls/sheer surfaces. Suggested Changes: may run/charge up walls, always striking last when doing so. (RB 93)"
+        },
+        {
+          "id": "infiltrationSkaven",
+          "name": "Infiltration",
+          "effect": "Always placed on the battlefield after the opposing warband, anywhere out of sight and more than 12\" from any enemy model. If both sides have infiltrators, lowest D6 sets up first. (RB 93)"
+        },
+        {
+          "id": "artOfSilentDeath",
+          "name": "Art of Silent Death",
+          "effect": "Fights bare-pawed without penalty, counting as two weapons (+1 attack); causes a critical hit on a to-wound roll of 5-6 instead of just 6. Stacks with Eshin Fighting Claws (+2 Attacks instead of +1). (RB 93)"
+        }
+      ]
+    },
+    "trollSlayers": {
+      "name": "Troll Slayers' Skills",
+      "skills": [
+        {
+          "id": "ferociousCharge",
+          "name": "Ferocious Charge",
+          "effect": "May double Attacks on the turn he charges, at -1 to hit that turn. (TC14)"
+        },
+        {
+          "id": "monsterSlayer",
+          "name": "Monster Slayer",
+          "effect": "Always wounds on a 4+ regardless of Toughness, unless his own (modified) Strength would need a lower roll. (TC14)"
+        },
+        {
+          "id": "berserkerTrollSlayer",
+          "name": "Berserker",
+          "effect": "+1 to close combat to-hit rolls on the turn he charges; not usable with Ferocious Charge. (TC14)"
+        }
+      ]
+    },
+    "vampires": {
+      "name": "Vampires' Skills",
+      "skills": [
+        {
+          "id": "transfixingGlare",
+          "name": "Transfixing Glare",
+          "effect": "Usable on a living, non-Immune-to-Psychology model in base contact at the start of the combat phase; victim must pass a Ld test on 2D6 or be transfixed (cannot attack, treated as Knocked Down when attacked). (TC11)"
+        },
+        {
+          "id": "mistForm",
+          "name": "Mist Form",
+          "effect": "Recovery-phase transformation: 2D6\" move, cannot attack/shoot/cast or benefit from armour; hit/wound rolls against the Vampire need a natural 6 (unmodifiable); injury rolls reduced by -2. Knocked Down reverts him to physical form immediately; may change back voluntarily in a later recovery phase. (TC11)"
+        },
+        {
+          "id": "ratswarmForm",
+          "name": "Ratswarm Form",
+          "effect": "Recovery-phase transformation (even while Knocked Down/Stunned, with normal stand-up penalties) to a rat-swarm profile (M6 WS3 BS0 S3 T3 W* I* A4 Ld*, * = as Vampire); no weapons/armour, cannot shoot/cast, fights unarmed without penalty, can pass through small gaps/holes. (TC11)"
+        },
+        {
+          "id": "batForm",
+          "name": "Bat Form",
+          "effect": "As Ratswarm Form's transformation rules, using profile M8 WS3 BS0 S3 T2 W* I* A1 Ld* (* = as Vampire); flies, ignores movement penalties, doubles move when running/charging (cannot 'run' as such); no weapons/armour, cannot shoot/cast, fights unarmed without penalty. (TC11)"
+        },
+        {
+          "id": "giantWolfForm",
+          "name": "Giant Wolf Form",
+          "effect": "As Ratswarm/Bat Form's transformation rules, using profile M9 WS4 BS0 S4 T3 W* I* A2 Ld* (* = as Vampire); no weapons/armour, cannot shoot/cast, fights unarmed without penalty. (TC11)"
+        }
+      ]
+    }
+  }
+}

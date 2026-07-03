@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03. Owner should cross-check against their own physical rulebook printing/errata. (Advance rolls, rulebook p.82). Henchmen never add more than +1 to any single characteristic and may not exceed racial maximums — re-roll an already-maxed characteristic result until an unincreased one comes up. All warriors in a Henchman group gain the same advance.",
+  "heroAdvanceTable": {
+    "diceType": "2D6",
+    "entries": [
+      {
+        "roll": "2",
+        "result": "New Skill. Select one of the Skill tables available to the Hero and pick a skill. If he is a wizard he may choose to randomly generate a new spell instead of a skill."
+      },
+      {
+        "roll": "3",
+        "result": "New Skill. Select one of the Skill tables available to the Hero and pick a skill. If he is a wizard he may choose to randomly generate a new spell instead of a skill."
+      },
+      {
+        "roll": "4",
+        "result": "New Skill. Select one of the Skill tables available to the Hero and pick a skill. If he is a wizard he may choose to randomly generate a new spell instead of a skill."
+      },
+      {
+        "roll": "5",
+        "result": "New Skill. Select one of the Skill tables available to the Hero and pick a skill. If he is a wizard he may choose to randomly generate a new spell instead of a skill."
+      },
+      {
+        "roll": "6",
+        "result": "Characteristic Increase. Roll again: 1-3 = +1 Strength; 4-6 = +1 Attack."
+      },
+      {
+        "roll": "7",
+        "result": "Characteristic Increase. Choose either +1 WS or +1 BS."
+      },
+      {
+        "roll": "8",
+        "result": "Characteristic Increase. Roll again: 1-3 = +1 Initiative; 4-6 = +1 Leadership."
+      },
+      {
+        "roll": "9",
+        "result": "Characteristic Increase. Roll again: 1-3 = +1 Wound; 4-6 = +1 Toughness."
+      },
+      {
+        "roll": "10",
+        "result": "New Skill. Select one of the Skill tables available to the Hero and pick a skill. If he is a wizard he may choose to randomly generate a new spell instead of a skill."
+      },
+      {
+        "roll": "11",
+        "result": "New Skill. Select one of the Skill tables available to the Hero and pick a skill. If he is a wizard he may choose to randomly generate a new spell instead of a skill."
+      },
+      {
+        "roll": "12",
+        "result": "New Skill. Select one of the Skill tables available to the Hero and pick a skill. If he is a wizard he may choose to randomly generate a new spell instead of a skill."
+      }
+    ]
+  },
+  "henchmenAdvanceTable": {
+    "diceType": "2D6",
+    "entries": [
+      {
+        "roll": "2",
+        "result": "Advance. +1 Initiative."
+      },
+      {
+        "roll": "3",
+        "result": "Advance. +1 Initiative."
+      },
+      {
+        "roll": "4",
+        "result": "Advance. +1 Initiative."
+      },
+      {
+        "roll": "5",
+        "result": "Advance. +1 Strength."
+      },
+      {
+        "roll": "6",
+        "result": "Advance. Choose either +1 BS or +1 WS."
+      },
+      {
+        "roll": "7",
+        "result": "Advance. Choose either +1 BS or +1 WS."
+      },
+      {
+        "roll": "8",
+        "result": "Advance. +1 Attack."
+      },
+      {
+        "roll": "9",
+        "result": "Advance. +1 Leadership."
+      },
+      {
+        "roll": "10",
+        "result": "The lad's got talent. One model in the group becomes a Hero (re-roll if already at the max number of Heroes). The new Hero keeps his Henchman type, starting XP, and characteristic increases; choose two Hero skill lists available in your warband for him to use. He immediately makes one roll on the Heroes Advance table. Remaining group members (if any) roll again for their own advance, re-rolling any 10-12 results."
+      },
+      {
+        "roll": "11",
+        "result": "The lad's got talent. One model in the group becomes a Hero (re-roll if already at the max number of Heroes). The new Hero keeps his Henchman type, starting XP, and characteristic increases; choose two Hero skill lists available in your warband for him to use. He immediately makes one roll on the Heroes Advance table. Remaining group members (if any) roll again for their own advance, re-rolling any 10-12 results."
+      },
+      {
+        "roll": "12",
+        "result": "The lad's got talent. One model in the group becomes a Hero (re-roll if already at the max number of Heroes). The new Hero keeps his Henchman type, starting XP, and characteristic increases; choose two Hero skill lists available in your warband for him to use. He immediately makes one roll on the Heroes Advance table. Remaining group members (if any) roll again for their own advance, re-rolling any 10-12 results."
+      }
+    ]
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "source": "Border Town Burning (unofficial Mordheim supplement), fetched from https://broheim.net/downloads/campaigns/bordertownburning/Border%20Town%20Burning.pdf on 2026-07-03 (Objectives chapter, book p.39-45 / Dramatis Personae chapter, book p.176-186). Owner should cross-check against their own BTB PDF/printing for errata. List is NOT exhaustive for the full BTB book — only the Dramatis Personae chapter's named/templated characters found in the fetched text extraction are included (Ippan Shu, Maglah Khan's Horde, Belandysh, and the Daemon Prince ascension template). TODO: verify vs the BTB book for any Dramatis Personae outside this chapter.",
+  "characters": [
+    {
+      "id": "ippanShu",
+      "name": "Grand Master Ippan Shu",
+      "hireFee": "75 gold crowns and 3 campaign points to hire",
+      "upkeep": "+2 campaign points",
+      "mayBeHiredBy": "Any warband which includes Humans or Elves, including Battle Monks, EXCLUDING Dark Elves, Outlaws and Bandits.",
+      "ratingBonus": "+110 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 7,
+        "BS": 7,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 6,
+        "A": 4,
+        "Ld": 10
+      },
+      "equipment": "An iron fan in one hand; fights unarmed with the other.",
+      "skills": [
+        "artOfSilentDeath",
+        "strikeToInjure",
+        "stepAside",
+        "mightyBlow",
+        "all Speed skills",
+        "all Battle Monk special skills except Warmonger"
+      ],
+      "specialRules": "Bare-handed Fighting: fights unarmed with no penalty, counting as having a second close combat weapon for +1 Attack. Iron Fan: +1 Initiative; parries not only blows but missile shots (parries a missile hit if he beats the to-hit roll; also has Dodge). Immune to Psychology: automatically passes all Leadership-based tests. With the Elegance of a Feather: may move up to half his total movement (6\") in any direction when running/charging, including off the ground (not just horizontally), combinable with Leap for up to 6+D6\"; must still finish movement on solid ground. Way of the Dragon: in the shooting phase, breathes fire using the flame template for an automatic S4 hit, plus a 4+ chance to set targets on fire; usable even while in close combat.",
+      "notes": "book p.176-177."
+    },
+    {
+      "id": "maglahKhansHorde",
+      "name": "Maglah Khan's Horde",
+      "hireFee": "80 gold crowns",
+      "upkeep": "+25 gold crowns",
+      "mayBeHiredBy": "Orcs & Goblins, Ogres, Chaos Dwarfs, Marauders of Chaos, Norse, Beastmen, Possessed and Mercenaries. NOTE: \"Ogres\" here plausibly includes Maneaters warbands — TODO verify this interpretation against the BTB Maneaters entry / errata, as the Maneaters warband PDF itself (Border Town Burning — Maneaters.pdf) does not mention Maglah Khan.",
+      "ratingBonus": "+60 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 5,
+        "BS": 5,
+        "S": 3,
+        "T": 3,
+        "W": 2,
+        "I": 4,
+        "A": 2,
+        "Ld": 7
+      },
+      "equipment": "Spear, sword, bow, shield, heavy armour and helmet. Rides a Giant Wolf (M9 WS3 BS0 S3 T3 W1 I4 A1 Ld4).",
+      "skills": [
+        "quickShot",
+        "eagleEyes",
+        "trickShooter",
+        "rideGiantWolf",
+        "horseArcher (treat as Giant Wolf Archer)"
+      ],
+      "specialRules": "Maglah's Boyz: cannot be hired alone — the warband must also hire 2-5 Hobgoblin Scout Hired Swords, all of whom (except one) leave if Maglah leaves. Hobgoblin leader: Maglah is the leader of all Hobgoblin Scouts in the warband; any within 6\" may use his Leadership for Ld tests (not the warband's own leader's Leadership).",
+      "notes": "book p.177-178."
+    },
+    {
+      "id": "belandysh",
+      "name": "Belandysh, Condemned Champion of Chen",
+      "hireFee": "90 gold crowns and 5 campaign points to hire",
+      "upkeep": "+30 gold crowns and +1 campaign point",
+      "mayBeHiredBy": "Marauders of Chaos, Beastmen, Norse and Possessed.",
+      "ratingBonus": "+130 points.",
+      "statLine": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipment": "The Broadsword of Damnation (a Chaos Artefact). Wears a Helmet and a Chaos Armour barely holding his mutated body together.",
+      "skills": [
+        "fearsome",
+        "strongman",
+        "chaosArmour",
+        "rideTolAgath"
+      ],
+      "specialRules": "Profile is variable (M4, WS/S/T/I roll D6 each, A rolls D3, Ld10) due to the Inconsistency special rule — re-rolled once per turn as needed; NOT a fixed stat line, left null here pending a proper representation in the app. Mount Tol'Agath acts as a Warhorse (M8 WS3 BS0 S-D6 T-D6 W1 I3 A1 Ld5) with the Battle Schooled rule, also subject to Inconsistency. Immune to psychology. Regeneration: on a D6 of 4+, ignores a wound taken (not wounds from fire/fire magic). Wrath of Tchar: if Belandysh is taken out of action in a battle where an enemy picks up the Broadsword of Damnation, he is pulled into the Realm of Chaos and cannot be hired again for the rest of the campaign.",
+      "notes": "book p.178. TODO: the app's NullableStatLine model assumes fixed numeric stats — Belandysh's Inconsistency mechanic (several characteristics re-rolled on D6/D3 every turn) doesn't fit that shape and needs a special-cased UI/data representation later."
+    },
+    {
+      "id": "daemonPrince",
+      "name": "Daemon Prince (Scion of Chaos ascension)",
+      "hireFee": "200 gold crowns and D6 campaign points to hire (his original warband is exempt from upkeep)",
+      "upkeep": "+50 gold crowns and +D3 campaign points",
+      "mayBeHiredBy": "Only warbands with the Scion of Chaos objective — and only after a warband's own leader has ascended into this role per the objective's 35 CP 'Daemon Prince' achievement (see btb/objectives.json, scionOfChaos).",
+      "ratingBonus": "Experience points + 75.",
+      "statLine": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipment": "The Broadsword of Damnation, Chaos Dragon Scale Armour, Ghartok's Skull, and the Liber Chaotica (all Chaos Artefacts), plus whatever equipment the ascending Hero already carried.",
+      "skills": [],
+      "specialRules": "This is a BLANK CHARACTER TEMPLATE in the source book (the printed page has underscored blanks for profile/equipment/skills, to be filled in with the ascended leader's own values) rather than a fixed named character — statLine, equipment and skills are intentionally left null/empty here. Leader: automatically becomes the leader of any warband he joins; any warrior within 6\" may use his Leadership. Mark of Chaos: has the Mark of Chaos as per the Marauders of Chaos warband. Immune to poison. Immune to psychology (auto-passes all Leadership/Rout tests). Cause Fear. Daemonic aura: 5+ armour save, negated by magic weapons/spells; his attacks count as magical. Flying: triples Movement when running, ignores terrain. Chosen Servant of Chaos: does not automatically drop the Chaos Artefacts when taken out of action — roll Serious Injuries immediately; if he dies, place markers for the artefacts instead.",
+      "notes": "book p.186."
+    }
+  ]
+}

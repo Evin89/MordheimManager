@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "source": "Border Town Burning (unofficial Mordheim supplement), fetched from https://broheim.net/downloads/campaigns/bordertownburning/Border%20Town%20Burning.pdf on 2026-07-03 (Objectives chapter, book p.39-45 / Dramatis Personae chapter, book p.176-186). Owner should cross-check against their own BTB PDF/printing for errata.",
+  "objectives": [
+    {
+      "id": "scionOfChaos",
+      "name": "The Scion of Chaos",
+      "description": "The darkest of tribes are seeking four artefacts of Chaos. If one Chieftain proves the more skilful leader in finding their whereabouts, then followers of Chaos shall flock to his banner. As the aspirant's warband grows to become a horde he shall wreak destruction and spread Chaos across the world. The Chieftain may even ascend to become Chosen of Chaos.",
+      "eligibleWarbands": "Marauders of Chaos, the Possessed, Beastmen Raiders and Norse Explorers.",
+      "noAllianceWith": "The Scourge of the Realm, The Celestial Protectorate.",
+      "progressRules": "+1 Playing a Scenario. +1 Winning a Scenario. +D6 Prophecy Fulfilled (per Chaos Artefact obtained, once each). -D3 Prophecy Foiled (per Chaos Artefact that falls to an enemy warband, once each). +1 Rival Out Of Action (for taking out of action the leader of a Scourge of the Realm warband, or the leader of another Scion of Chaos warband).",
+      "achievements": [
+        {
+          "cp": 5,
+          "name": "I am the Scion",
+          "effect": "The warband's leader hates every other leader with the same objective and must charge them when in reach, unless he can cast spells (may target them with a spell instead)."
+        },
+        {
+          "cp": 10,
+          "name": "Growing Horde",
+          "effect": "The warband's maximum number of warriors is increased by +2."
+        },
+        {
+          "cp": 15,
+          "name": "Growing Horde",
+          "effect": "The warband's maximum number of warriors is increased by +2."
+        },
+        {
+          "cp": 20,
+          "name": "Portents of Doom",
+          "effect": "If the warband includes a Seer or Shaman, they may play the 'The Horde approaches' special scenario instead of a scenario from the scenario table."
+        },
+        {
+          "cp": 25,
+          "name": "Growing Horde",
+          "effect": "The warband's maximum number of warriors is increased by +3."
+        },
+        {
+          "cp": 35,
+          "name": "Daemon Prince",
+          "effect": "As soon as the leader has gathered all four Chaos Artefacts he turns into a Daemon Prince (counts as a Dramatis Persona from now on, heals all previous permanent Serious Injuries, gets M8, +1 W, Flying, and Daemon rules; may gain a Mark of the Dark Gods if eligible). Keeps the Leader rule. If taken out of action he does not automatically drop the Artefacts — roll Serious Injuries immediately; if he dies, place markers for the artefacts."
+        },
+        {
+          "cp": 40,
+          "name": "Ascension!",
+          "effect": "If the warband is led by the Daemon Prince, it wins the campaign."
+        }
+      ],
+      "variantNotes": ""
+    },
+    {
+      "id": "scourgeOfTheRealm",
+      "name": "The Scourge of the Realm",
+      "description": "Rumours have spread that the hordes of Chaos are gathering to be led against Cathay by an aspiring Champion of Chaos — the fiercest and most skilful fighter in the Northern Wastes, said to best any man from the Old World.",
+      "eligibleWarbands": "Maneaters, Orcs & Goblins, Chaos Dwarfs, Dark Elves, Undead warbands and Skaven warbands.",
+      "noAllianceWith": "The Scion of Chaos.",
+      "progressRules": "+1 Playing a Scenario. +1 Winning a Scenario. +1 Traces to Chaos (on encountering a Marauder/Beastmen warband or non-player group, roll D6: 1-3 nothing, 4-5 leader is frenzied this battle, 6 warband gets +1 CP after the battle). +1 Accomplished Leader (when the leader's total Experience reaches 30/45/60/75/90, once each). +1 Scion Out Of Action (for taking out of action the leader of a Scion of Chaos warband).",
+      "achievements": [
+        {
+          "cp": 5,
+          "name": "I am the Scourge",
+          "effect": "The warband's leader hates every other leader with the Scion of Chaos objective and must charge them when in reach."
+        },
+        {
+          "cp": 10,
+          "name": "Remarkable Duellist",
+          "effect": "When using a Parry weapon, the leader parries successfully on an equal-or-higher roll than the opponent's to-hit roll, not just higher."
+        },
+        {
+          "cp": 15,
+          "name": "Irrepressible Hunger",
+          "effect": "Fighting more than one enemy at once, the leader gains one extra Attack per enemy model not knocked down/stunned (e.g. +3 Attacks vs three models); immune to All Alone tests while fighting Marauders/Beastmen. Must assign at least one Attack per enemy model engaged."
+        },
+        {
+          "cp": 20,
+          "name": "Furious Charge",
+          "effect": "The leader gets +1 to hit in the first turn of hand-to-hand combat when charging."
+        },
+        {
+          "cp": 25,
+          "name": "Furious Assault",
+          "effect": "The warband's Heroes get +1 to hit in the first turn of hand-to-hand combat when charging."
+        },
+        {
+          "cp": 35,
+          "name": "Infamy",
+          "effect": "The warband's Heroes each cause fear in enemy models."
+        },
+        {
+          "cp": 40,
+          "name": "Duel to the Death",
+          "effect": "Whenever the warband's leader and an enemy chieftain with the Scion of Chaos objective make base contact, the scenario ends and they fight a duel to the death instead (detailed resolution rules for injuries/escape apply). If the Scion of Chaos is killed, this warband wins the campaign; if the Scion wins the duel, his warband wins the current scenario and the loser must find a new leader to try again. If no Scion of Chaos warband is in the campaign, a Chaos Champion from the Bestiary is used instead once this achievement is reached and the champion survives a following battle."
+        }
+      ],
+      "variantNotes": ""
+    },
+    {
+      "id": "celestialProtectorate",
+      "name": "The Celestial Protectorate",
+      "description": "Superstitious elderly peasant folk of the borderlands tell of prophecies that a saviour shall rise against the tide of darkness, that foreigners shall come to the aid of civil border-dwelling folk, and that the forces of light can turn back the tide of darkness.",
+      "eligibleWarbands": "Battle Monks of Cathay, Shadow Warriors, Sisters of Sigmar, Witch Hunters, Maneaters, Pit Fighters, Dwarf warbands and Mercenary warbands.",
+      "noAllianceWith": "The Scion of Chaos.",
+      "progressRules": "+1 Playing a Scenario. +D3 Emissary's Report (after a won battle, if the Emissary was not taken out of action he may miss the next battle to report back for +D3 CP; may not search for rare items/Dramatis Personae that battle). +D6 Chaos Artefact Found (per artefact, once each). +1 Chieftain Out Of Action (Marauders/Beastmen/Norse leader). +D3 Dead Servant to Chaos (whenever a Hero of a Marauder/Beastman/Norse/Carnival of Chaos/Chaos Dwarf/Possessed warband taken out of action by this warband dies permanently after the battle).",
+      "achievements": [
+        {
+          "cp": 5,
+          "name": "Zealous Belief",
+          "effect": "The warband's leader hates every other leader with the Scion of Chaos or Scourge of the Realm objective and must charge them when in reach, unless able to cast spells (may target with a spell instead)."
+        },
+        {
+          "cp": 10,
+          "name": "Conclave",
+          "effect": "After every scenario fought in the Cathayan borderlands, the warband counts as one size category smaller than it actually is (represents grateful local support)."
+        },
+        {
+          "cp": 15,
+          "name": "Reinforcements",
+          "effect": "Whenever the warband loses an XP-earning Henchman to a Serious Injury caused by a Scion of Chaos warband member, gain one replacement Henchman of the same type, equipped the same, with no Experience."
+        },
+        {
+          "cp": 20,
+          "name": "Monastery Haven",
+          "effect": "If the warband includes at least one Cathayan native, a Hero may visit the monks to heal one permanent Serious Injury, missing the next D3+1 battles."
+        },
+        {
+          "cp": 25,
+          "name": "Divine Retribution",
+          "effect": "When playing the 'Siege!' scenario, the warband is supported by one Raging Peasant (Battle Monks of Cathay list) per three campaign points, potentially exceeding the warband's maximum size."
+        },
+        {
+          "cp": 35,
+          "name": "Ring of Impunity",
+          "effect": "The warband may hire Grand Master Ippan Shu for a hire fee of 1 campaign point instead of the normal fee."
+        },
+        {
+          "cp": 40,
+          "name": "Buried and Forgotten",
+          "effect": "If the 'Siege!' scenario has not yet been played (the Liber Chaotica artefact not yet assigned), the Celestial Protectorate is given the Liber Chaotica and a map to Ghartok's Tomb, unlocking the 'Ghartok's Tomb' scenario; winning it (per the modified win condition of bringing all four Chaos Artefacts inside the tomb unseen) wins the campaign."
+        }
+      ],
+      "variantNotes": ""
+    },
+    {
+      "id": "lureOfFortune",
+      "name": "The Lure of Fortune",
+      "description": "Black market traders moving 'hot' product, registered merchant houses boasting opulence in quantity, and cut-throat denizens who crawl from their smugglers' haunts in the dead of night to solicit the latest in contraband — all drawn to the profit that lies at the end of the Silk Road.",
+      "eligibleWarbands": "Merchant Caravans, Maneaters, Chaos Dwarfs (as \"The Black Dwarfs\" variant), Norse Explorers, Shadow Warriors, Dwarf warbands, Pirate warbands and Mercenary warbands.",
+      "noAllianceWith": "None.",
+      "progressRules": "+1 Playing a Scenario. +1 Winning a Scenario. +D6 Enterprise Expanded (per additional coach/wagon added to the land train during the campaign; replacements do not count). +1 Riches Accumulated (when stored Cathayan Silk items reach 3/6/9/12, once each). +D3 Chaos Artefact Found (per artefact, once each).",
+      "achievements": [
+        {
+          "cp": 5,
+          "name": "Land Train",
+          "effect": "If the warband maintains a Coachman, his upkeep is reduced by 1 gc per stored Cathayan Silk item. Otherwise a Hero is appointed driver and gains the Academic skill Skilled Driver."
+        },
+        {
+          "cp": 10,
+          "name": "Silk Trader",
+          "effect": "Cathayan Silk items are treated as a Common item and the Clothes' variable cost is ignored."
+        },
+        {
+          "cp": 15,
+          "name": "Famed Travellers",
+          "effect": "May pay a new Hired Sword's upkeep cost instead of the normal hiring fee (upkeep still paid as usual thereafter)."
+        },
+        {
+          "cp": 20,
+          "name": "Trading Post",
+          "effect": "Whenever the exploration dice score a five-of-a-kind, may replace it with '11111' (Abandoned Trading Post)."
+        },
+        {
+          "cp": 25,
+          "name": "Volume Discount",
+          "effect": "May purchase Cathayan Silk items at a discount of 1 gc for each piece of Clothes already in storage."
+        },
+        {
+          "cp": 35,
+          "name": "Trade Routes",
+          "effect": "In any scenario with no given warband set-up order, this player may choose where they are placed before any other player."
+        },
+        {
+          "cp": 40,
+          "name": "Journey Home",
+          "effect": "May choose to play the 'Journey Home' special scenario; winning it wins the entire campaign. Requires a wagon and 12 Cathayan Silks in storage (each Lesser Artefact counts as two silks, each Chaos Artefact as three)."
+        }
+      ],
+      "variantNotes": "The Black Dwarfs (Chaos Dwarf adaptation): replace Cathayan Silks with Captives and the required Opulent Coach with an Engine of Chaos; replace three achievements — 10 Slave Masters (Gnoblar fighters from Spoils of War may be treated as captives, imprisoned in the Engine of Chaos and unable to fight); 25 Curse of Stone (the Sorcerer suffers -1 Movement from the curse; a Chaos Engineer in the warband may buy a Mechanical Suit at a reduced 125 gc); 35 Turncoat (may hire any friendly Hired Sword currently with another warband, removing him from that warband's roster; if none is available, a non-friendly model may be chosen instead)."
+    },
+    {
+      "id": "silentThreat",
+      "name": "The Silent Threat",
+      "description": "While most warriors prove their might in open combat, a fiendish mastermind with little conscience finds other means to an end — eavesdropping, midnight murder, theft, and secret plotting in service of underground larceny and cultism.",
+      "eligibleWarbands": "Carnival of Chaos, The Possessed, Dark Elves, Skaven warbands, Undead warbands and Mercenary warbands.",
+      "noAllianceWith": "The Celestial Protectorate, The Damned Shall Burn!",
+      "progressRules": "+1 Playing a Scenario. +1 Winning a Scenario (unless the scenario was 'The Heist'). +D3 Winning 'The Heist' Scenario. +D3 Target Eliminated (an opposing Hero taken out of action with no allies within 6\"). +1 Poisoned Out Of Action (a Hero of any warband taken out of action via poisoned weapons, unless he dies). +D3 Death by Poison (instead of +1, if that poisoned Hero dies permanently after the battle).",
+      "achievements": [
+        {
+          "cp": 5,
+          "name": "Saboteurs",
+          "effect": "Black Lotus, Dark Venom, Spider Spittle and Manticore Spoor become Rare 5 for this warband; one Henchman group at a time may also be equipped with these poisons (one dose per model)."
+        },
+        {
+          "cp": 10,
+          "name": "Poisoners",
+          "effect": "20% discount (round down) on Black Lotus, Dark Venom, Spider Spittle and Manticore Spoor."
+        },
+        {
+          "cp": 15,
+          "name": "Burglary",
+          "effect": "May choose to play 'The Heist' scenario (as attacker or defender) instead of any regularly allowed scenario when picking a scenario."
+        },
+        {
+          "cp": 20,
+          "name": "Wanted!",
+          "effect": "Between battles, may pay 20 gc to put a bounty on an enemy Hero's head; any warband may add to the bounty; whoever takes that Hero out of action first collects it."
+        },
+        {
+          "cp": 25,
+          "name": "Alter Ego",
+          "effect": "A randomly selected non-leader Hero from a randomly selected warband is secretly working for this warband: added as a free (no upkeep) Hired Sword on this roster while remaining a Hero on his own warband's roster. Does not gain XP or become injured as the Hired Sword; changes to the original Hero mirror across; if killed, removed from both rosters. In battles against his original warband he acts only as that warband's Hero."
+        },
+        {
+          "cp": 35,
+          "name": "Assassination",
+          "effect": "Nominate a leader from any warband to be assassinated — removed from that warband's roster as if dead; that warband picks a new leader as usual. Only warbands with the Burglary achievement may earn this."
+        },
+        {
+          "cp": 40,
+          "name": "Triumphant Cabal",
+          "effect": "Wins the campaign if the warband has won 'The Heist' as defender against at least one warband of each objective (as many as the campaign's participants allow), including this one."
+        }
+      ],
+      "variantNotes": ""
+    },
+    {
+      "id": "damnedShallBurn",
+      "name": "The Damned Shall Burn!",
+      "description": "A fanatical group of Witch Hunters or similar zealots travel north to persecute heretics, doing battle with 'old night' itself to eradicate evildoers once and for all — human or supernatural.",
+      "eligibleWarbands": "Witch Hunters, Sisters of Sigmar, Amazons (as \"The Strangest Tribes\" variant) and Lizardmen (as \"The Strangest Tribes\" variant).",
+      "noAllianceWith": "All Chaos and Undead warbands.",
+      "progressRules": "+1 Playing a Scenario. +1 Winning a Scenario. +1 Chieftain Out Of Action (leader of a Chaos or Undead warband). +1 Slain Heretic (a Hero of any Chaos or Undead warband taken out of action by this warband who dies permanently after the battle). +1 Foiled Prophecy (per Chaos Artefact wrested from The Scion of Chaos, once each).",
+      "achievements": [
+        {
+          "cp": 5,
+          "name": "Vision",
+          "effect": "May re-roll one dice roll during a battle or during exploration."
+        },
+        {
+          "cp": 10,
+          "name": "Vision",
+          "effect": "May re-roll two dice rolls during a battle or during exploration."
+        },
+        {
+          "cp": 15,
+          "name": "Fearless of the Supernatural",
+          "effect": "All Heroes are immune to psychology when facing supernatural creatures of Chaos and the Undead."
+        },
+        {
+          "cp": 20,
+          "name": "Power of the Church",
+          "effect": "May hire 0-3 Warrior Priest of Sigmar Hired Swords (Town Cryer 28 p.20) for a hire fee and upkeep of 10 gc each."
+        },
+        {
+          "cp": 25,
+          "name": "Vision",
+          "effect": "May modify one dice roll by +1/-1 during a battle or during exploration."
+        },
+        {
+          "cp": 35,
+          "name": "Cleansing",
+          "effect": "Any heretical warband routed by this warband is eliminated from the campaign."
+        },
+        {
+          "cp": 40,
+          "name": "Eradication",
+          "effect": "If all heretical warbands have been eliminated from the campaign, this warband wins the campaign."
+        }
+      ],
+      "variantNotes": "The Strangest Tribes (Amazon/Lizardmen adaptation): Amazons replace all 'Slain Heretic' triggers with Northern tribesmen (Marauders of Chaos & Norse Explorers); Lizardmen replace them with Skaven and Dark Elves warbands. Replace two achievements — 15 Awesome Savagery (all Heroes are subject to frenzy when facing their natural foes in combat); 20 Feral Revolt (D3+1 wild animals join the warband, treated as War Dogs, not counted toward the warband's maximum size)."
+    }
+  ]
+}

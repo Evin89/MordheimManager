@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03. Owner should cross-check against their own physical rulebook printing/errata. (Selling wyrdstone table, rulebook p.101). Values are total gold crown profit after warband maintenance costs are deducted, looked up by number of shards sold in one post-battle sequence and the warband's current number of warriors (Hired Swords/special characters are not counted per the Hired Swords rules). Sisters of Sigmar/Skaven/Undead warbands treat this income abstractly (piety/warp tokens/favour) per rulebook p.101 but use the same numbers.",
+  "table": [
+    {
+      "shardsSold": "1",
+      "pricesByWarbandSize": {
+        "1-3": 45,
+        "4-6": 40,
+        "7-9": 35,
+        "10-12": 30,
+        "13-15": 30,
+        "16+": 25
+      }
+    },
+    {
+      "shardsSold": "2",
+      "pricesByWarbandSize": {
+        "1-3": 60,
+        "4-6": 55,
+        "7-9": 50,
+        "10-12": 45,
+        "13-15": 40,
+        "16+": 35
+      }
+    },
+    {
+      "shardsSold": "3",
+      "pricesByWarbandSize": {
+        "1-3": 75,
+        "4-6": 70,
+        "7-9": 65,
+        "10-12": 60,
+        "13-15": 55,
+        "16+": 50
+      }
+    },
+    {
+      "shardsSold": "4",
+      "pricesByWarbandSize": {
+        "1-3": 90,
+        "4-6": 80,
+        "7-9": 70,
+        "10-12": 65,
+        "13-15": 60,
+        "16+": 55
+      }
+    },
+    {
+      "shardsSold": "5",
+      "pricesByWarbandSize": {
+        "1-3": 110,
+        "4-6": 100,
+        "7-9": 90,
+        "10-12": 80,
+        "13-15": 70,
+        "16+": 65
+      }
+    },
+    {
+      "shardsSold": "6",
+      "pricesByWarbandSize": {
+        "1-3": 120,
+        "4-6": 110,
+        "7-9": 100,
+        "10-12": 90,
+        "13-15": 80,
+        "16+": 70
+      }
+    },
+    {
+      "shardsSold": "7",
+      "pricesByWarbandSize": {
+        "1-3": 145,
+        "4-6": 130,
+        "7-9": 120,
+        "10-12": 110,
+        "13-15": 100,
+        "16+": 90
+      }
+    },
+    {
+      "shardsSold": "8+",
+      "pricesByWarbandSize": {
+        "1-3": 155,
+        "4-6": 140,
+        "7-9": 130,
+        "10-12": 120,
+        "13-15": 110,
+        "16+": 100
+      }
+    }
+  ]
+}

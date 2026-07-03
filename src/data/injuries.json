@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03. Owner should cross-check against their own physical rulebook printing/errata. (Heroes' Serious Injuries chart, D66, rulebook p.80). Henchmen out of action instead use a simple D6 roll: 1-2 = removed from the roster permanently, 3-6 = fight next battle as normal (rulebook p.79) — this henchmen rule is not part of the D66 table above.",
+  "table": [
+    {
+      "roll": "11",
+      "name": "Dead",
+      "effect": "The warrior is dead and his body is abandoned in the dark alleys of Mordheim, never to be found again. All the weapons and equipment he carried are lost. Remove him from the warband's roster."
+    },
+    {
+      "roll": "12",
+      "name": "Dead",
+      "effect": "The warrior is dead and his body is abandoned in the dark alleys of Mordheim, never to be found again. All the weapons and equipment he carried are lost. Remove him from the warband's roster."
+    },
+    {
+      "roll": "13",
+      "name": "Dead",
+      "effect": "The warrior is dead and his body is abandoned in the dark alleys of Mordheim, never to be found again. All the weapons and equipment he carried are lost. Remove him from the warband's roster."
+    },
+    {
+      "roll": "14",
+      "name": "Dead",
+      "effect": "The warrior is dead and his body is abandoned in the dark alleys of Mordheim, never to be found again. All the weapons and equipment he carried are lost. Remove him from the warband's roster."
+    },
+    {
+      "roll": "15",
+      "name": "Dead",
+      "effect": "The warrior is dead and his body is abandoned in the dark alleys of Mordheim, never to be found again. All the weapons and equipment he carried are lost. Remove him from the warband's roster."
+    },
+    {
+      "roll": "16",
+      "name": "Multiple Injuries",
+      "effect": "The warrior is not dead but has suffered a lot of wounds. Roll D6 times on this table. Re-roll any 'Dead', 'Captured' and further 'Multiple Injuries' results."
+    },
+    {
+      "roll": "21",
+      "name": "Multiple Injuries",
+      "effect": "The warrior is not dead but has suffered a lot of wounds. Roll D6 times on this table. Re-roll any 'Dead', 'Captured' and further 'Multiple Injuries' results."
+    },
+    {
+      "roll": "22",
+      "name": "Leg Wound",
+      "effect": "The warrior's leg is broken. He suffers a -1 Movement characteristic penalty from now on."
+    },
+    {
+      "roll": "23",
+      "name": "Arm Wound",
+      "effect": "Roll again: 1 = Severe arm wound, the arm must be amputated and the warrior may only use a single one-handed weapon from now on. 2-6 = Light wound, the warrior must miss the next game."
+    },
+    {
+      "roll": "24",
+      "name": "Madness",
+      "effect": "Roll a D6. On a 1-3 the warrior suffers from stupidity; on 4-6 the warrior suffers from frenzy from now on (see the Psychology section for details)."
+    },
+    {
+      "roll": "25",
+      "name": "Smashed Leg",
+      "effect": "Roll again: 1 = The warrior may not run any more but he may still charge. 2-6 = The warrior misses the next game."
+    },
+    {
+      "roll": "26",
+      "name": "Chest Wound",
+      "effect": "The warrior has been badly wounded in the chest. He recovers but is weakened by the injury so his Toughness is reduced by -1."
+    },
+    {
+      "roll": "31",
+      "name": "Blinded in One Eye",
+      "effect": "The warrior survives but loses the sight in one eye; randomly determine which. A character who loses an eye has his Ballistic Skill reduced by -1. If subsequently blinded in his remaining good eye, he must retire from the warband."
+    },
+    {
+      "roll": "32",
+      "name": "Old Battle Wound",
+      "effect": "The warrior survives, but his wound will prevent him from fighting if you roll a 1 on a D6 at the start of any battle. Roll at the start of each battle from now on."
+    },
+    {
+      "roll": "33",
+      "name": "Nervous Condition",
+      "effect": "The warrior's nervous system has been damaged. His Initiative is permanently reduced by -1."
+    },
+    {
+      "roll": "34",
+      "name": "Hand Injury",
+      "effect": "The warrior's hand is badly injured. His Weapon Skill is permanently reduced by -1."
+    },
+    {
+      "roll": "35",
+      "name": "Deep Wound",
+      "effect": "The warrior has suffered a serious wound and must miss the next D3 games while recovering. He may do nothing at all while recovering."
+    },
+    {
+      "roll": "36",
+      "name": "Robbed",
+      "effect": "The warrior manages to escape, but all his weapons, armour and equipment are lost."
+    },
+    {
+      "roll": "41",
+      "name": "Full Recovery",
+      "effect": "The warrior has been knocked unconscious, or suffers a light wound from which he makes a full recovery."
+    },
+    {
+      "roll": "42",
+      "name": "Full Recovery",
+      "effect": "The warrior has been knocked unconscious, or suffers a light wound from which he makes a full recovery."
+    },
+    {
+      "roll": "43",
+      "name": "Full Recovery",
+      "effect": "The warrior has been knocked unconscious, or suffers a light wound from which he makes a full recovery."
+    },
+    {
+      "roll": "44",
+      "name": "Full Recovery",
+      "effect": "The warrior has been knocked unconscious, or suffers a light wound from which he makes a full recovery."
+    },
+    {
+      "roll": "45",
+      "name": "Full Recovery",
+      "effect": "The warrior has been knocked unconscious, or suffers a light wound from which he makes a full recovery."
+    },
+    {
+      "roll": "46",
+      "name": "Full Recovery",
+      "effect": "The warrior has been knocked unconscious, or suffers a light wound from which he makes a full recovery."
+    },
+    {
+      "roll": "51",
+      "name": "Full Recovery",
+      "effect": "The warrior has been knocked unconscious, or suffers a light wound from which he makes a full recovery."
+    },
+    {
+      "roll": "52",
+      "name": "Full Recovery",
+      "effect": "The warrior has been knocked unconscious, or suffers a light wound from which he makes a full recovery."
+    },
+    {
+      "roll": "53",
+      "name": "Full Recovery",
+      "effect": "The warrior has been knocked unconscious, or suffers a light wound from which he makes a full recovery."
+    },
+    {
+      "roll": "54",
+      "name": "Full Recovery",
+      "effect": "The warrior has been knocked unconscious, or suffers a light wound from which he makes a full recovery."
+    },
+    {
+      "roll": "55",
+      "name": "Full Recovery",
+      "effect": "The warrior has been knocked unconscious, or suffers a light wound from which he makes a full recovery."
+    },
+    {
+      "roll": "56",
+      "name": "Bitter Enmity",
+      "effect": "The warrior makes a full physical recovery, but is psychologically scarred. From now on he hates (roll a D6): 1-3 the individual who caused the injury (if a Henchman, hates the enemy leader instead); 4 the leader of the warband that caused the injury; 5 the entire warband responsible; 6 all warbands of that type."
+    },
+    {
+      "roll": "61",
+      "name": "Captured",
+      "effect": "The warrior regains consciousness held captive by the other warband. He may be ransomed at a price set by the captor or exchanged for a captive of theirs. Captives may be sold to slavers for D6x5 gc. Undead may kill their captive and gain a new Zombie. The Possessed may sacrifice the prisoner (leader gains +1 Experience). Exchanged/ransomed captives retain all equipment; sold/killed/zombified captives' equipment is retained by the captors."
+    },
+    {
+      "roll": "62",
+      "name": "Hardened",
+      "effect": "The warrior survives and becomes inured to the horrors of Mordheim. From now on he is immune to fear."
+    },
+    {
+      "roll": "63",
+      "name": "Hardened",
+      "effect": "The warrior survives and becomes inured to the horrors of Mordheim. From now on he is immune to fear."
+    },
+    {
+      "roll": "64",
+      "name": "Horrible Scars",
+      "effect": "The warrior causes fear from now on."
+    },
+    {
+      "roll": "65",
+      "name": "Sold to the Pits",
+      "effect": "The warrior wakes in the fighting pits of Cutthroat's Haven and must fight a Pit Fighter. Roll to see which side charges and fight as normal. If he loses, roll to see if he is dead or injured (D66 roll of 11-35); if not dead he is thrown out without armour/weapons and may rejoin his warband. If he wins he gains 50 gc, +2 Experience, and rejoins his warband with all his gear."
+    },
+    {
+      "roll": "66",
+      "name": "Survives Against the Odds",
+      "effect": "The warrior survives and rejoins his warband. He gains +1 Experience."
+    }
+  ]
+}

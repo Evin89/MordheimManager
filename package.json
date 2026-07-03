@@ -1,0 +1,42 @@
+{
+  "name": "mordheimmanager",
+  "version": "1.0.0",
+  "description": "A mobile campaign and warband manager for mordheim",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.2",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.9",
+    "vite-plugin-pwa": "^0.21.2"
+  },
+  "overrides": {
+    "workbox-build": "7.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Evin89/MordheimManager.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Evin89/MordheimManager/issues"
+  },
+  "homepage": "https://github.com/Evin89/MordheimManager#readme"
+}

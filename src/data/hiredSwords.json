@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules (Hired Swords / Dramatis Personae sections), fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03. Owner should cross-check against their own physical rulebook printing/errata. List is NOT exhaustive — only the Hired Swords whose full entries were captured from the fetched pages (106-109) are included. TODO: verify vs rulebook p.105-110 for any remaining Hired Swords (the section runs to at least p.110) before treating this as complete.",
+  "hiredSwords": [
+    {
+      "id": "pitFighter",
+      "name": "Pit Fighter",
+      "hireFee": 30,
+      "upkeep": 15,
+      "mayBeHiredBy": "Any warband apart from Undead and Skaven.",
+      "ratingBonus": "+22 points, plus 1 point per Experience point he has.",
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 4,
+        "A": 2,
+        "Ld": 7
+      },
+      "equipment": "Morning star, spiked gauntlet (counts as an additional hand weapon and a buckler — Heroes cannot learn to use the gauntlet itself) and helmet.",
+      "skillLists": [
+        "combat",
+        "speed",
+        "strength"
+      ],
+      "specialRules": "",
+      "source": "rulebook p.106"
+    },
+    {
+      "id": "ogreBodyguard",
+      "name": "Ogre Bodyguard",
+      "hireFee": 80,
+      "upkeep": 30,
+      "mayBeHiredBy": "Any warband except Skaven. Ogre (Maneaters) warbands may hire an Ogre Bodyguard even though they otherwise cannot hire Hired Swords (see the Cannibals special rule).",
+      "ratingBonus": "+25 points, plus 1 point per Experience point he has.",
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 2,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 3,
+        "A": 2,
+        "Ld": 7
+      },
+      "equipment": "Either two swords, axes or clubs (any mix), or a double-handed weapon (hiring player chooses). Wears light armour.",
+      "skillLists": [
+        "combat",
+        "strength"
+      ],
+      "specialRules": "Fear: causes fear. Large Target: counts as a Large Target for shooting purposes.",
+      "source": "rulebook p.106"
+    },
+    {
+      "id": "halflingScout",
+      "name": "Halfling Scout",
+      "hireFee": 15,
+      "upkeep": 5,
+      "mayBeHiredBy": "Any warband except Skaven, Undead and the Possessed.",
+      "ratingBonus": "+5 points, plus 1 point per Experience point he has.",
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 4,
+        "S": 2,
+        "T": 2,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipment": "Bow, dagger, and a cooking pot (counts as a helmet).",
+      "skillLists": [
+        "speed",
+        "shooting"
+      ],
+      "specialRules": "Cook: a warband with a Halfling Scout may increase its maximum warband size by +1 (does not increase the maximum number of Heroes).",
+      "source": "rulebook p.107"
+    },
+    {
+      "id": "warlock",
+      "name": "Warlock",
+      "hireFee": 30,
+      "upkeep": 15,
+      "mayBeHiredBy": "Any warband except Witch Hunters and Sisters of Sigmar.",
+      "ratingBonus": "+16 points, plus 1 point per Experience point he has.",
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipment": "A staff.",
+      "skillLists": [
+        "academic"
+      ],
+      "specialRules": "Wizard: has two spells generated at random from the Lesser Magic list. When gaining a new skill, may choose Academic skills or randomly determine a new Lesser Magic spell instead.",
+      "source": "rulebook p.107"
+    },
+    {
+      "id": "freelancer",
+      "name": "Freelancer",
+      "hireFee": 50,
+      "upkeep": 20,
+      "mayBeHiredBy": "Mercenaries and Witch Hunters.",
+      "ratingBonus": "+21 points, plus 1 point per Experience point he has.",
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipment": "Heavy armour, shield, lance and sword. Optionally rides a warhorse (M8 WS3 BS0 S3 T3 W1 I3 A1 Ld5) if using the mounted-models optional rules; mounted armour save 3+, on foot 4+.",
+      "skillLists": [
+        "combat",
+        "strength"
+      ],
+      "specialRules": "",
+      "source": "rulebook p.108"
+    },
+    {
+      "id": "elfRanger",
+      "name": "Elf Ranger",
+      "hireFee": 40,
+      "upkeep": 20,
+      "mayBeHiredBy": "Mercenaries and Witch Hunters. Warbands that include Dwarfs may still hire an Elf Ranger, but pay 40 gc upkeep instead of 20.",
+      "ratingBonus": "+12 points, plus 1 point per Experience point he has.",
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 5,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 6,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipment": "Elf bow, sword and Elven cloak.",
+      "skillLists": [
+        "shooting",
+        "speed"
+      ],
+      "specialRules": "Seeker: when rolling on the Exploration chart, may modify one dice by -1/+1. Excellent Sight: spots Hidden enemies at twice his Initiative value in inches. Elven skills (may choose instead of normal skills once earned through experience, not possessed at recruitment): Fey (hostile spells fail on the Elf on a D6 roll of 4+); Luck (once per game may re-roll any one of his own dice rolls).",
+      "source": "rulebook p.108"
+    },
+    {
+      "id": "dwarfTrollSlayer",
+      "name": "Dwarf Troll Slayer",
+      "hireFee": 25,
+      "upkeep": 10,
+      "mayBeHiredBy": "Mercenaries and Witch Hunters. Warbands that include Elves may still hire a Troll Slayer, but pay 20 gc upkeep instead of 10.",
+      "ratingBonus": "+12 points, plus 1 point per Experience point he has.",
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "equipment": "Two axes or a double-handed axe (hiring player chooses).",
+      "skillLists": [
+        "combat",
+        "strength"
+      ],
+      "specialRules": "Deathwish: immune to all psychology and never needs to test for fighting alone. Hard to Kill: only taken out of action on an Injury roll of 6 (instead of 5-6); treat a 5 as stunned. Hard Head: ignores special rules for maces, clubs, etc. Troll Slayer skills (may choose instead of normal skills): Ferocious Charge (double Attacks when charging, -1 to hit that turn); Monster Slayer (always wounds on 4+ regardless of Toughness, unless his own Strength would need a lower roll); Berserker (+1 to hit when charging).",
+      "source": "rulebook p.109"
+    }
+  ]
+}

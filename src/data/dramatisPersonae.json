@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules (Hired Swords / Dramatis Personae sections), fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03. Owner should cross-check against their own physical rulebook printing/errata. These are CORE RULEBOOK Dramatis Personae (distinct from the Border Town Burning-specific ones in /btb/dramatisPersonae.json). List is NOT exhaustive — the rulebook explicitly mentions further named characters (e.g. Dwarf gold hunters, Merchants' Guild Burgomeisters, Theodor the marksman of Hochland) whose full entries were not present on the fetched pages. TODO: verify vs rulebook p.111-115+ for the remaining characters.",
+  "characters": [
+    {
+      "id": "aenur",
+      "name": "Aenur, the Sword of Twilight",
+      "hireFee": 150,
+      "upkeep": null,
+      "mayBeHiredBy": "Any warband except Skaven, Undead and the Possessed.",
+      "ratingBonus": "+100 points.",
+      "statLine": {
+        "M": 5,
+        "WS": 8,
+        "BS": 4,
+        "S": 4,
+        "T": 3,
+        "W": 2,
+        "I": 7,
+        "A": 3,
+        "Ld": 8
+      },
+      "equipment": "Ithilmar armour, an Elven cloak, and an enormous sword known as Ienh-Khain (the Hand of Khaine).",
+      "skills": [
+        "strikeToInjure",
+        "expertSwordsman",
+        "stepAside",
+        "sprint",
+        "lightningReflexes",
+        "dodge",
+        "mightyBlow"
+      ],
+      "specialRules": "Invincible Swordsman: always hits opponents on a 2+ in hand-to-hand combat. Wanderer: only stays with a warband for the duration of one battle; a warband that used him last battle cannot seek him out again until they have fought at least one battle without him. Ienh-Khain: allows Aenur to parry, adds +1 to his Strength, and causes a critical hit on a to-wound roll of 5-6.",
+      "source": "rulebook p.112"
+    },
+    {
+      "id": "johannTheKnife",
+      "name": "Johann the Knife",
+      "hireFee": 70,
+      "upkeep": 30,
+      "mayBeHiredBy": "Any warband except Skaven, Undead and the Possessed.",
+      "ratingBonus": "+60 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 6,
+        "S": 4,
+        "T": 3,
+        "W": 2,
+        "I": 6,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipment": "Countless throwing knives and several long daggers (always counts as having two swords in close combat). Weapons are always coated with Black Lotus; may take Crimson Shade before a battle.",
+      "skills": [
+        "dodge",
+        "scaleSheerSurfaces",
+        "quickShot",
+        "eagleEyes",
+        "knifeFighter"
+      ],
+      "specialRules": "Hire fee may instead be paid with one portion of Crimson Shade (he is addicted to it). Knife Fighter Extraordinaire: unlike normal warriors, may combine Knife-Fighter and Quick Shot (throwing up to six knives in one turn if he does not move).",
+      "source": "rulebook p.113"
+    },
+    {
+      "id": "berthaBestraufrung",
+      "name": "Bertha Bestraufrung, High Matriarch of the Sisterhood",
+      "hireFee": 0,
+      "upkeep": null,
+      "mayBeHiredBy": "Sisters of Sigmar warbands only. No hire fee — instead, one or more Heroines must search for her after a battle (roll under Initiative), and she will only aid a warband whose enemy has a higher warband rating, per a lookup table (0-49 difference: will not aid; 50-99: 6+; 100-149: 5+; 150-199: 4+; 200+: 3+ on a D6 to agree). A request must be made fresh for each battle.",
+      "ratingBonus": "+105 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 5,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 4,
+        "A": 3,
+        "Ld": 10
+      },
+      "equipment": "Two Sigmarite warhammers, gromril armour, a vial of blessed water, and a holy relic.",
+      "skills": [
+        "mightyBlow",
+        "unstoppableCharge",
+        "righteousFury"
+      ],
+      "specialRules": "Knows all six Prayers of Sigmar. High Matriarch: automatically becomes the leader of any warband she joins. Sigmar's Handmaiden: +2 to all rolls to see whether her Prayers of Sigmar are granted.",
+      "source": "rulebook p.114"
+    },
+    {
+      "id": "veskit",
+      "name": "Veskit, High Executioner of Clan Eshin",
+      "hireFee": 80,
+      "upkeep": 35,
+      "mayBeHiredBy": "Skaven warbands only.",
+      "ratingBonus": "+70 points.",
+      "statLine": {
+        "M": 5,
+        "WS": 5,
+        "BS": 4,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 5,
+        "A": 4,
+        "Ld": 8
+      },
+      "equipment": "Eshin Fighting Claws (extra attack already included in his profile); each claw has a built-in warplock pistol, so Veskit can shoot every turn and fights in close combat at Strength 5 with a -3 armour save modifier (and can still parry twice).",
+      "skills": [],
+      "specialRules": "Unfeeling: immune to all psychology. No Pain: ignores Knocked Down and Stunned results on the Injury chart — must lose his last wound and be taken out of action to be removed from battle. Unblinking Eye: spots hidden enemies within twice his Initiative value in inches. Metallic Body: grants his high Toughness and a 3+ armour save.",
+      "source": "rulebook p.115"
+    }
+  ]
+}

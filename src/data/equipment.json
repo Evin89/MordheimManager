@@ -1,0 +1,471 @@
+{
+  "schemaVersion": 1,
+  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03. Owner should cross-check against their own physical rulebook printing/errata. (Price chart, rulebook p.104). This is the universal trading-post list available (subject to per-warband equipment-list and availability restrictions) across warbands; individual warband entries restrict which of these a given Hero/Henchman type may actually buy.",
+  "categories": [
+    "melee",
+    "missile",
+    "armour",
+    "misc"
+  ],
+  "common": [
+    {
+      "id": "axe",
+      "name": "Axe",
+      "category": "melee",
+      "cost": 5,
+      "notes": ""
+    },
+    {
+      "id": "clubMaceHammer",
+      "name": "Club, Mace or Hammer",
+      "category": "melee",
+      "cost": 3,
+      "notes": ""
+    },
+    {
+      "id": "dagger",
+      "name": "Dagger",
+      "category": "melee",
+      "cost": 2,
+      "notes": "First dagger is free for most warband types (see warband entry); 2 gc for additional/replacement daggers."
+    },
+    {
+      "id": "doubleHandedWeapon",
+      "name": "Double-Handed Weapon",
+      "category": "melee",
+      "cost": 15,
+      "notes": ""
+    },
+    {
+      "id": "flail",
+      "name": "Flail",
+      "category": "melee",
+      "cost": 15,
+      "notes": ""
+    },
+    {
+      "id": "halberd",
+      "name": "Halberd",
+      "category": "melee",
+      "cost": 10,
+      "notes": ""
+    },
+    {
+      "id": "morningStar",
+      "name": "Morning Star",
+      "category": "melee",
+      "cost": 15,
+      "notes": ""
+    },
+    {
+      "id": "spear",
+      "name": "Spear",
+      "category": "melee",
+      "cost": 10,
+      "notes": ""
+    },
+    {
+      "id": "sword",
+      "name": "Sword",
+      "category": "melee",
+      "cost": 10,
+      "notes": ""
+    },
+    {
+      "id": "bow",
+      "name": "Bow",
+      "category": "missile",
+      "cost": 10,
+      "notes": ""
+    },
+    {
+      "id": "crossbow",
+      "name": "Crossbow",
+      "category": "missile",
+      "cost": 25,
+      "notes": ""
+    },
+    {
+      "id": "longBow",
+      "name": "Long Bow",
+      "category": "missile",
+      "cost": 15,
+      "notes": ""
+    },
+    {
+      "id": "shortBow",
+      "name": "Short Bow",
+      "category": "missile",
+      "cost": 5,
+      "notes": ""
+    },
+    {
+      "id": "sling",
+      "name": "Sling",
+      "category": "missile",
+      "cost": 2,
+      "notes": ""
+    },
+    {
+      "id": "buckler",
+      "name": "Buckler",
+      "category": "armour",
+      "cost": 5,
+      "notes": ""
+    },
+    {
+      "id": "heavyArmour",
+      "name": "Heavy Armour",
+      "category": "armour",
+      "cost": 50,
+      "notes": ""
+    },
+    {
+      "id": "helmet",
+      "name": "Helmet",
+      "category": "armour",
+      "cost": 10,
+      "notes": ""
+    },
+    {
+      "id": "lightArmour",
+      "name": "Light Armour",
+      "category": "armour",
+      "cost": 20,
+      "notes": ""
+    },
+    {
+      "id": "shield",
+      "name": "Shield",
+      "category": "armour",
+      "cost": 5,
+      "notes": ""
+    },
+    {
+      "id": "garlic",
+      "name": "Garlic",
+      "category": "misc",
+      "cost": 1,
+      "notes": "May not be bought by Undead."
+    },
+    {
+      "id": "lantern",
+      "name": "Lantern",
+      "category": "misc",
+      "cost": 10,
+      "notes": ""
+    },
+    {
+      "id": "net",
+      "name": "Net",
+      "category": "misc",
+      "cost": 5,
+      "notes": ""
+    },
+    {
+      "id": "ropeAndHook",
+      "name": "Rope & Hook",
+      "category": "misc",
+      "cost": 5,
+      "notes": ""
+    }
+  ],
+  "rare": [
+    {
+      "id": "gromrilWeapon",
+      "name": "Gromril Weapon",
+      "category": "melee",
+      "rarity": 11,
+      "priceRange": "4x base weapon price",
+      "notes": ""
+    },
+    {
+      "id": "ithilmarWeapon",
+      "name": "Ithilmar Weapon",
+      "category": "melee",
+      "rarity": 9,
+      "priceRange": "3x base weapon price",
+      "notes": ""
+    },
+    {
+      "id": "lance",
+      "name": "Lance",
+      "category": "melee",
+      "rarity": 8,
+      "priceRange": "40 gc",
+      "notes": ""
+    },
+    {
+      "id": "blunderbuss",
+      "name": "Blunderbuss",
+      "category": "missile",
+      "rarity": 9,
+      "priceRange": "30 gc",
+      "notes": ""
+    },
+    {
+      "id": "crossbowPistol",
+      "name": "Crossbow Pistol",
+      "category": "missile",
+      "rarity": 9,
+      "priceRange": "35 gc",
+      "notes": ""
+    },
+    {
+      "id": "duellingPistol",
+      "name": "Duelling Pistol",
+      "category": "missile",
+      "rarity": 10,
+      "priceRange": "30 gc (60 gc for a brace)",
+      "notes": ""
+    },
+    {
+      "id": "elfBow",
+      "name": "Elf Bow",
+      "category": "missile",
+      "rarity": 12,
+      "priceRange": "35 + 3D6 gc",
+      "notes": ""
+    },
+    {
+      "id": "handgun",
+      "name": "Handgun",
+      "category": "missile",
+      "rarity": 8,
+      "priceRange": "35 gc",
+      "notes": ""
+    },
+    {
+      "id": "huntingRifle",
+      "name": "Hunting Rifle",
+      "category": "missile",
+      "rarity": 11,
+      "priceRange": "200 gc",
+      "notes": ""
+    },
+    {
+      "id": "pistol",
+      "name": "Pistol",
+      "category": "missile",
+      "rarity": 8,
+      "priceRange": "15 gc (30 gc for a brace)",
+      "notes": ""
+    },
+    {
+      "id": "repeaterCrossbow",
+      "name": "Repeater Crossbow",
+      "category": "missile",
+      "rarity": 8,
+      "priceRange": "40 gc",
+      "notes": ""
+    },
+    {
+      "id": "throwingKnivesStars",
+      "name": "Throwing Knives/Stars",
+      "category": "missile",
+      "rarity": 5,
+      "priceRange": "15 gc",
+      "notes": ""
+    },
+    {
+      "id": "barding",
+      "name": "Barding",
+      "category": "armour",
+      "rarity": 8,
+      "priceRange": "80 gc",
+      "notes": "Horse armour; +1 armour save, -1 Movement. Only a warhorse may wear barding."
+    },
+    {
+      "id": "gromrilArmour",
+      "name": "Gromril Armour",
+      "category": "armour",
+      "rarity": 11,
+      "priceRange": "150 gc",
+      "notes": ""
+    },
+    {
+      "id": "ithilmarArmour",
+      "name": "Ithilmar Armour",
+      "category": "armour",
+      "rarity": 11,
+      "priceRange": "90 gc",
+      "notes": ""
+    },
+    {
+      "id": "blackLotus",
+      "name": "Black Lotus",
+      "category": "misc",
+      "rarity": 9,
+      "priceRange": "10 + D6 gc",
+      "notes": "Not available to Witch Hunters, Warrior-Priests or Sisters of Sigmar. Rare 7 for Skaven."
+    },
+    {
+      "id": "blessedWater",
+      "name": "Blessed Water",
+      "category": "misc",
+      "rarity": 6,
+      "priceRange": "10 + 3D6 gc",
+      "notes": "Common for Warrior-Priests and Sisters of Sigmar. May not be bought by Undead."
+    },
+    {
+      "id": "bugmansAle",
+      "name": "Bugman's Ale",
+      "category": "misc",
+      "rarity": 9,
+      "priceRange": "50 + 3D6 gc",
+      "notes": ""
+    },
+    {
+      "id": "cathayanSilkClothes",
+      "name": "Cathayan Silk Clothes",
+      "category": "misc",
+      "rarity": 9,
+      "priceRange": "50 + 2D6 gc",
+      "notes": ""
+    },
+    {
+      "id": "crimsonShade",
+      "name": "Crimson Shade",
+      "category": "misc",
+      "rarity": 8,
+      "priceRange": "35 + D6 gc",
+      "notes": ""
+    },
+    {
+      "id": "darkVenom",
+      "name": "Dark Venom",
+      "category": "misc",
+      "rarity": 8,
+      "priceRange": "30 + 2D6 gc",
+      "notes": "Not available to Witch Hunters, Warrior-Priests, or Sisters of Sigmar."
+    },
+    {
+      "id": "elvenCloak",
+      "name": "Elven Cloak",
+      "category": "misc",
+      "rarity": 12,
+      "priceRange": "100 + D6x10 gc",
+      "notes": ""
+    },
+    {
+      "id": "halflingCookbook",
+      "name": "Halfling Cookbook",
+      "category": "misc",
+      "rarity": 7,
+      "priceRange": "30 + 3D6 gc",
+      "notes": ""
+    },
+    {
+      "id": "healingHerbs",
+      "name": "Healing Herbs",
+      "category": "misc",
+      "rarity": 8,
+      "priceRange": "20 + 2D6 gc",
+      "notes": ""
+    },
+    {
+      "id": "holyUnholyRelic",
+      "name": "Holy (Unholy) Relic",
+      "category": "misc",
+      "rarity": 8,
+      "priceRange": "15 + 3D6 gc",
+      "notes": "Rare 6 for Warrior-Priests and Sisters of Sigmar."
+    },
+    {
+      "id": "holyTome",
+      "name": "Holy Tome",
+      "category": "misc",
+      "rarity": 8,
+      "priceRange": "100 + D6x10 gc",
+      "notes": "Only available to Warrior-Priests and Sisters of Sigmar."
+    },
+    {
+      "id": "horse",
+      "name": "Horse",
+      "category": "misc",
+      "rarity": 8,
+      "priceRange": "40 gc",
+      "notes": "Only available to Humans."
+    },
+    {
+      "id": "huntingArrows",
+      "name": "Hunting Arrows",
+      "category": "misc",
+      "rarity": 8,
+      "priceRange": "25 + D6 gc",
+      "notes": ""
+    },
+    {
+      "id": "luckyCharm",
+      "name": "Lucky Charm",
+      "category": "misc",
+      "rarity": 6,
+      "priceRange": "10 gc",
+      "notes": ""
+    },
+    {
+      "id": "madCapMushrooms",
+      "name": "Mad Cap Mushrooms",
+      "category": "misc",
+      "rarity": 9,
+      "priceRange": "30 + 3D6 gc",
+      "notes": ""
+    },
+    {
+      "id": "mandrakeRoot",
+      "name": "Mandrake Root",
+      "category": "misc",
+      "rarity": 8,
+      "priceRange": "25 + D6 gc",
+      "notes": ""
+    },
+    {
+      "id": "mordheimMap",
+      "name": "Mordheim Map",
+      "category": "misc",
+      "rarity": 9,
+      "priceRange": "20 + 4D6 gc",
+      "notes": ""
+    },
+    {
+      "id": "superiorBlackpowder",
+      "name": "Superior Blackpowder",
+      "category": "misc",
+      "rarity": 11,
+      "priceRange": "30 gc",
+      "notes": ""
+    },
+    {
+      "id": "tearsOfShallaya",
+      "name": "Tears of Shallaya",
+      "category": "misc",
+      "rarity": 7,
+      "priceRange": "10 + 2D6 gc",
+      "notes": "Not available to Possessed or Undead."
+    },
+    {
+      "id": "tomeOfMagic",
+      "name": "Tome of Magic",
+      "category": "misc",
+      "rarity": 12,
+      "priceRange": "200 + D6x25 gc",
+      "notes": "Not available to Witch Hunters or Sisters of Sigmar."
+    },
+    {
+      "id": "warhorse",
+      "name": "Warhorse",
+      "category": "misc",
+      "rarity": 11,
+      "priceRange": "80 gc",
+      "notes": "Only available to Humans."
+    },
+    {
+      "id": "wardog",
+      "name": "Wardog",
+      "category": "misc",
+      "rarity": 10,
+      "priceRange": "25 + 2D6 gc",
+      "notes": "Not available to Skaven."
+    }
+  ]
+}

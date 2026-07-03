@@ -1,0 +1,198 @@
+{
+  "id": "maneaters",
+  "name": "Maneaters",
+  "source": "Border Town Burning — Maneaters warband list, fetched from https://www.broheim.net/downloads/warbands/supplement/btb/Maneaters.pdf on 2026-07-03. Owner should still cross-check against their own BTB PDF/printing for errata.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "captain",
+      "unitType": "Captain",
+      "maxCount": 1,
+      "cost": 145,
+      "startingXp": 20,
+      "skillLists": ["combat", "strength", "ogreSpecial"],
+      "statLine": { "M": 6, "WS": 4, "BS": 3, "S": 4, "T": 4, "W": 3, "I": 3, "A": 2, "Ld": 8 },
+      "statMaximums": { "M": 6, "WS": 6, "BS": 5, "S": 5, "T": 5, "W": 5, "I": 6, "A": 5, "Ld": 9 },
+      "equipmentOptions": ["ogreEquipmentList"],
+      "notes": "145 gc to hire. Leader: any warrior within 6\" of the Captain may use his Leadership when taking Ld tests. Large (causes fear, valid ranged target with +1 to hit even if not closest). Ogres never carry/use daggers — no free starting dagger. Only the Captain may buy the Cathayan longsword from the Ogre equipment list."
+    },
+    {
+      "id": "mountainGuide",
+      "unitType": "Mountain Guide",
+      "maxCount": 1,
+      "cost": 145,
+      "startingXp": 8,
+      "skillLists": ["combat", "strength", "ogreSpecial"],
+      "statLine": { "M": 6, "WS": 4, "BS": 3, "S": 4, "T": 4, "W": 3, "I": 3, "A": 2, "Ld": 8 },
+      "statMaximums": { "M": 6, "WS": 6, "BS": 5, "S": 5, "T": 5, "W": 5, "I": 6, "A": 5, "Ld": 9 },
+      "equipmentOptions": ["guideEquipmentList"],
+      "notes": "145 gc to hire. Uses the Guide equipment list, not the Ogre equipment list. Large. Ranger: if not taken out of action, roll two dice for Exploration and pick one (not a re-roll). Loner: never claims a Gnoblar, immune to All Alone tests, may never become warband leader. Required for the warband to be allowed to include Sabretusks (0-2 Sabretusks 'if it includes a Guide')."
+    },
+    {
+      "id": "youngblood",
+      "unitType": "Youngblood",
+      "maxCount": 3,
+      "cost": 45,
+      "startingXp": 0,
+      "skillLists": ["combat", "strength", "ogreSpecial"],
+      "statLine": { "M": 6, "WS": 2, "BS": 2, "S": 3, "T": 4, "W": 2, "I": 2, "A": 1, "Ld": 6 },
+      "statMaximums": { "M": 6, "WS": 6, "BS": 5, "S": 5, "T": 5, "W": 5, "I": 6, "A": 5, "Ld": 9 },
+      "equipmentOptions": ["ogreEquipmentList"],
+      "notes": "45 gc to hire. Explicitly exempt from Fear and Large (does not cause fear, not a Large target) — the only Hero-slot Ogre that is not Large. May not buy the Cathayan longsword (Captain only). The 'maneater' special skill (learn a Shooting/Academic skill) may not be taken by the Guide, implying it is intended for Captain/Youngblood."
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "bulls",
+      "unitType": "Bulls",
+      "cost": 140,
+      "isAnimal": false,
+      "isLargeCreature": true,
+      "maxCount": 2,
+      "statLine": { "M": 6, "WS": 3, "BS": 2, "S": 4, "T": 4, "W": 3, "I": 2, "A": 3, "Ld": 7 },
+      "statMaximums": { "M": 6, "WS": 6, "BS": 5, "S": 5, "T": 5, "W": 5, "I": 6, "A": 5, "Ld": 9 },
+      "equipmentOptions": ["ogreEquipmentList"],
+      "notes": "140 gc to hire, 0-2 per warband. Bull Charge: when charging may attempt a single attack at +1 to hit instead of normal attacks; on a hit the target is automatically knocked down. Large (full Ogre). No free dagger."
+    },
+    {
+      "id": "halfGrowns",
+      "unitType": "Half-growns",
+      "cost": 85,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 6, "WS": 3, "BS": 2, "S": 4, "T": 4, "W": 2, "I": 2, "A": 2, "Ld": 7 },
+      "statMaximums": { "M": 6, "WS": 6, "BS": 5, "S": 5, "T": 5, "W": 5, "I": 6, "A": 5, "Ld": 9 },
+      "equipmentOptions": ["ogreEquipmentList"],
+      "notes": "85 gc to hire, unlimited number allowed ('any number of Half-growns'). Explicitly exempt from Large, same as Youngbloods. No free dagger."
+    },
+    {
+      "id": "sabretusks",
+      "unitType": "Sabretusks",
+      "cost": 125,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": { "M": 8, "WS": 4, "BS": 0, "S": 4, "T": 4, "W": 2, "I": 4, "A": 3, "Ld": 4 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": [],
+      "notes": "125 gc to hire, 0-2 per warband, ONLY allowed if the warband includes a Mountain Guide. Weapons/Armour: none — fixed 'Tusks and primal ferocity'. Trained: uses the Mountain Guide's Leadership within 6\"; if the warband has no Guide, Sabretusks are caged and unusable until one is hired. Feral Instinct: must pass a Ld test at the start of the Ogre turn or the opponent controls it that turn (it may even charge its own warband). Ignored: does not count toward out-of-action totals for Rout tests. Fear: causes fear. TODO: verify vs Border Town Burning whether Sabretusks are treated as an 'animal' that cannot earn XP/advances — the source PDF gives them no starting XP value and no stat-maximum row, but does not explicitly state the animal-XP rule the way the core rulebook does for Warhounds/Dogs. isAnimal is currently set to true as the best guess; confirm before relying on it. statMaximums are not given in the source and are left null pending verification."
+    }
+  ],
+  "equipmentLists": {
+    "ogreEquipmentList": [
+      "cleaver",
+      "ogreClub",
+      "sword",
+      "spear",
+      "morningStar",
+      "doubleHandedWeapon",
+      "ironFist",
+      "cathayanLongsword",
+      "handHeldMortar",
+      "lightArmour",
+      "heavyArmour",
+      "helmet",
+      "gnoblarFighter",
+      "lookoutGnoblar",
+      "luckGnoblar",
+      "swordGnoblar"
+    ],
+    "guideEquipmentList": [
+      "cleaver",
+      "ogreClub",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "harpoonCrossbow",
+      "lightArmour",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "ogreClub",
+      "name": "Ogre club",
+      "category": "melee",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "Common (Ogres only)",
+      "rulesText": "Range: Close Combat; Strength: as user. Special rules — Concussion: a roll of 2-4 on the Injury table is treated as Stunned when this weapon is used. Crushing Attack: imposes -1 to enemy armour saves and the wielder's Strength counts as one higher for the defender's parry attempts; only applies when wielded two-handed."
+    },
+    {
+      "id": "ironFist",
+      "name": "Iron fist",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Common (Ogres only)",
+      "rulesText": "Range: Close Combat; Strength: as user. Special rules — Parry. Gloved: cannot hold another weapon (e.g. a double-handed weapon) in that hand; two iron fists means no other close combat weapons may be used. Dual-role: re-roll failed parry attempts if paired with a sword or another iron fist."
+    },
+    {
+      "id": "cathayanLongsword",
+      "name": "Cathayan longsword",
+      "category": "melee",
+      "cost": 75,
+      "rarity": null,
+      "restriction": "Captain only",
+      "rulesText": "TODO: verify vs Border Town Burning p.XX — cost (75 gc) and Captain-only restriction are confirmed from the Maneaters equipment list, but this document did not include the weapon's full profile/special rules text."
+    },
+    {
+      "id": "handHeldMortar",
+      "name": "Hand-held mortar",
+      "category": "missile",
+      "cost": null,
+      "rarity": 12,
+      "restriction": "Rare 12 (Ogres only)",
+      "rulesText": "Cost: 80 + 2D6 gc. Range: 24\"; Strength: 4. Special rules — Move or fire, Prepare shot, Scatter (misses land 2D6\" in a random direction), Experimental (subject to optional Blackpowder Weapons rules; anything but 'BOOM!' jams/empties the weapon), Explosive Radius (target and anything within 1.5\" of the final landing spot takes a single S4 hit)."
+    },
+    {
+      "id": "harpoonCrossbow",
+      "name": "Harpoon crossbow",
+      "category": "missile",
+      "cost": 50,
+      "rarity": 10,
+      "restriction": "Rare 10 (Ogres only, Guide equipment list)",
+      "rulesText": "Range: 30\"; Strength: 5. Special rules — Move or fire, Prepare shot."
+    },
+    {
+      "id": "lookoutGnoblar",
+      "name": "Lookout-Gnoblar",
+      "category": "misc",
+      "cost": 20,
+      "rarity": 8,
+      "restriction": "Rare 8 (Ogres only). Not a model — counts as equipment, does not occupy a base. Max 2 different Claimed Gnoblars per Ogre.",
+      "rulesText": "The owning Ogre gains the Dodge skill from the Speed skill list. If the Ogre is taken out of action, roll a D6 for each Claimed Gnoblar he owns: on a 1-2 it is dead and removed from his equipment."
+    },
+    {
+      "id": "luckGnoblar",
+      "name": "Luck-Gnoblar",
+      "category": "misc",
+      "cost": 25,
+      "rarity": 9,
+      "restriction": "Rare 9 (Ogres only). Not a model — counts as equipment, does not occupy a base. Max 2 different Claimed Gnoblars per Ogre.",
+      "rulesText": "The owning Ogre may re-roll one dice during the battle (never re-roll a re-roll). If the Ogre is taken out of action, roll a D6 for each Claimed Gnoblar he owns: on a 1-2 it is dead and removed from his equipment."
+    },
+    {
+      "id": "swordGnoblar",
+      "name": "Sword-Gnoblar",
+      "category": "misc",
+      "cost": 30,
+      "rarity": 10,
+      "restriction": "Rare 10 (Ogres only). Not a model — counts as equipment, does not occupy a base. Max 2 different Claimed Gnoblars per Ogre.",
+      "rulesText": "The owning Ogre gains one extra Strength 2 attack in close combat at the owning model's Weapon Skill, made against a model the Ogre is already directing attacks toward. If the Ogre is taken out of action, roll a D6 for each Claimed Gnoblar he owns: on a 1-2 it is dead and removed from his equipment."
+    },
+    {
+      "id": "gnoblarFighter",
+      "name": "Gnoblar Fighter",
+      "category": "misc",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "TODO: verify vs Border Town Burning p.XX — listed at 15 gc on the Ogre equipment list's Miscellaneous section but its rules text was not present on the fetched pages (only Lookout/Luck/Sword-Gnoblar rules text was given under 'Claimed Gnoblars').",
+      "rulesText": "TODO: verify vs Border Town Burning p.XX"
+    }
+  ],
+  "specialRules": "Fear: Ogres are large, threatening creatures that cause fear, with the exception of Youngbloods. | Large: except for Youngbloods and Half-growns, Ogres are huge and make tempting targets for archers — any model may shoot at them even if not the closest target, at +1 to hit. | Gluttony: each Ogre model counts as two models when selling wyrdstone or treasure. A model captured (Serious Injuries or Exploration) can instead be devoured, reducing the combined model count of your warband by one (two if the eaten captive is a Large Target); an Ogre always counts as at least one model no matter how much he eats. An Ogre Hero devouring captured models gains XP equal to the number of models consumed; any warband member or animal (including mounts) can be eaten this way and is removed from the roster immediately. | Slow Witted: Ogres only improve at half the normal rate — they need twice the usual XP to gain an advance. | Difficult Customers: Ogre Heroes suffer -1 when rolling to find Rare items that are not exclusively available to Ogres. | Cannibals: an Ogre warband may never hire Hired Swords except Halflings (Scout, Thief, etc.) and the Ogre Bodyguard (or unless stated otherwise), and may choose to devour a Hired Sword when his contract ends. | Minimum warband size is 3 models; maximum warband size is 12. | Characteristic maximums for all Ogre-kin (Captain, Mountain Guide, Youngblood, Bulls, Half-growns) are M6 WS6 BS5 S5 T5 W5 I6 A5 Ld9 — Sabretusks are not Ogres and have no stated maximum profile in this source. | Ogres never carry or fight with daggers; they receive no free starting dagger unlike other warbands' warriors."
+}

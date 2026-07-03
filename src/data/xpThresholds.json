@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules, rulebook p.81 (fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03) confirms the MECHANISM but not the numbers: 'The warband roster sheet shows how much experience a Hero or a Henchman group must accumulate before making a further roll. When the accumulated experience reaches a box that has thick borders, the warrior may make an Advance roll.' The official roster sheet (https://broheim.net/downloads/resources/Official%20Roster%20Sheet.pdf, fetched 2026-07-03) has an Experience track drawn as a row of small checkbox squares with certain squares rendered as filled/bold to mark the advance thresholds, but the fetched text extraction of that graphic could not reliably resolve which specific box positions are bold vs plain — transcribing exact XP numbers from that render risked being wrong, which is worse than leaving this as TODO. TODO: open the roster sheet PDF directly (or the physical rulebook) and count the bold-bordered box positions along the Hero and Henchman Experience tracks to get the real threshold numbers.",
+  "heroThresholds": [
+    { "xp": null, "label": "TODO: verify vs rulebook roster sheet (thick-bordered XP boxes)" }
+  ],
+  "henchmenThresholds": [
+    { "xp": null, "label": "TODO: verify vs rulebook roster sheet (thick-bordered XP boxes)" }
+  ]
+}
