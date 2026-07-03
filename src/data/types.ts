@@ -12,6 +12,8 @@ export type NullableStatLine = { [K in keyof StatLine]: number | null };
 export type HeroSlotDefinition = {
   id: string;
   unitType: string;
+  isLeader: boolean;
+  isLargeCreature: boolean;
   maxCount: number | null; // null = unlimited
   cost: number | null;
   startingXp: number | null;

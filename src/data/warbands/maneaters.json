@@ -9,6 +9,8 @@
     {
       "id": "captain",
       "unitType": "Captain",
+      "isLeader": true,
+      "isLargeCreature": true,
       "maxCount": 1,
       "cost": 145,
       "startingXp": 20,
@@ -21,6 +23,8 @@
     {
       "id": "mountainGuide",
       "unitType": "Mountain Guide",
+      "isLeader": false,
+      "isLargeCreature": true,
       "maxCount": 1,
       "cost": 145,
       "startingXp": 8,
@@ -33,6 +37,8 @@
     {
       "id": "youngblood",
       "unitType": "Youngblood",
+      "isLeader": false,
+      "isLargeCreature": false,
       "maxCount": 3,
       "cost": 45,
       "startingXp": 0,
