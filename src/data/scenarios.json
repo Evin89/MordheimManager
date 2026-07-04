@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules (Scenarios chapter, rulebook p.85-92), fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03. This only lists the Experience-award rules for each of the 9 core scenarios, not their full terrain/deployment/victory-condition text — the app only needs the XP bookkeeping. Border Town Burning's additional special scenarios are not included here (TODO if needed later).",
+  "universalAward": {
+    "id": "survives",
+    "label": "Survives",
+    "amount": "+1",
+    "note": "Every scenario awards this to a Hero or Henchman group that survives the battle, even if injured — as long as they live to fight again."
+  },
+  "scenarios": [
+    {
+      "id": "defendTheFind",
+      "name": "Defend the Find",
+      "awards": [
+        { "id": "winningLeader", "label": "Winning Leader", "amount": "+1", "note": "The leader of the winning warband." },
+        { "id": "perEnemyOutOfAction", "label": "Per Enemy Out of Action", "amount": "+1", "note": "Any Hero, for each enemy he puts out of action." }
+      ]
+    },
+    {
+      "id": "skirmish",
+      "name": "Skirmish",
+      "awards": [
+        { "id": "winningLeader", "label": "Winning Leader", "amount": "+1", "note": "The leader of the winning warband." },
+        { "id": "perEnemyOutOfAction", "label": "Per Enemy Out of Action", "amount": "+1", "note": "Any Hero, for each enemy he puts out of action." }
+      ]
+    },
+    {
+      "id": "wyrdstoneHunt",
+      "name": "Wyrdstone Hunt",
+      "awards": [
+        { "id": "winningLeader", "label": "Winning Leader", "amount": "+1", "note": "The leader of the winning warband." },
+        { "id": "perWyrdstoneCounter", "label": "Per Wyrdstone Counter", "amount": "+1", "note": "If carrying a Wyrdstone counter at the end of the battle." },
+        { "id": "perEnemyOutOfAction", "label": "Per Enemy Out of Action", "amount": "+1", "note": "Any Hero, for each enemy he puts out of action." }
+      ]
+    },
+    {
+      "id": "breakthrough",
+      "name": "Breakthrough",
+      "awards": [
+        { "id": "winningLeader", "label": "Winning Leader", "amount": "+1", "note": "The leader of the winning warband." },
+        { "id": "perEnemyOutOfAction", "label": "Per Enemy Out of Action", "amount": "+1", "note": "Any Hero, for each enemy he puts out of action." },
+        { "id": "breakingThrough", "label": "Breaking Through", "amount": "+1", "note": "Any warrior for breaking through enemy lines (whole group if a Henchman)." }
+      ]
+    },
+    {
+      "id": "streetFight",
+      "name": "Street Fight",
+      "awards": [
+        { "id": "winningLeader", "label": "Winning Leader", "amount": "+1", "note": "The leader of the winning warband." },
+        { "id": "perEnemyOutOfAction", "label": "Per Enemy Out of Action", "amount": "+1", "note": "Any Hero, for each enemy he puts out of action." },
+        { "id": "escaping", "label": "Escaping", "amount": "+1", "note": "The first Hero from either side (not both) who exits via the opposing table edge." }
+      ]
+    },
+    {
+      "id": "chanceEncounter",
+      "name": "Chance Encounter",
+      "awards": [
+        { "id": "winningLeader", "label": "Winning Leader", "amount": "+1", "note": "The leader of the winning warband." },
+        { "id": "perEnemyOutOfAction", "label": "Per Enemy Out of Action", "amount": "+1", "note": "Any Hero, for each enemy he puts out of action." }
+      ]
+    },
+    {
+      "id": "hiddenTreasure",
+      "name": "Hidden Treasure",
+      "awards": [
+        { "id": "winningLeader", "label": "Winning Leader", "amount": "+1", "note": "The leader of the winning warband." },
+        { "id": "perEnemyOutOfAction", "label": "Per Enemy Out of Action", "amount": "+1", "note": "Any Hero, for each enemy he puts out of action." },
+        { "id": "findingChest", "label": "Finding the Chest", "amount": "+2", "note": "The Hero who finds the treasure chest." }
+      ]
+    },
+    {
+      "id": "occupy",
+      "name": "Occupy",
+      "awards": [
+        { "id": "winningLeader", "label": "Winning Leader", "amount": "+1", "note": "The leader of the warband controlling the most buildings at the end (no bonus if tied)." },
+        { "id": "perEnemyOutOfAction", "label": "Per Enemy Out of Action", "amount": "+1", "note": "Any Hero, for each enemy he puts out of action." }
+      ]
+    },
+    {
+      "id": "surpriseAttack",
+      "name": "Surprise Attack",
+      "awards": [
+        { "id": "winningLeader", "label": "Winning Leader", "amount": "+1", "note": "The leader of the winning warband." },
+        { "id": "perEnemyOutOfAction", "label": "Per Enemy Out of Action", "amount": "+1", "note": "A Hero, for each enemy he puts out of action." }
+      ]
+    }
+  ]
+}

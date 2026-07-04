@@ -1,0 +1,345 @@
+{
+  "id": "cult-of-the-possessed",
+  "name": "Cult of the Possessed",
+  "source": "Mordheim rulebook Part 2 - Warbands, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%202%20-%20Warbands.pdf on 2026-07-03. Cross-check against your own rulebook/errata (2005 Errata + Annual) before relying on it.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "magister",
+      "unitType": "Magister",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 70,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "academic",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "possessedEquipmentList"
+      ],
+      "notes": "70 gc. Leader (6\"). Wizard: uses Chaos Rituals (see Magic)."
+    },
+    {
+      "id": "possessed",
+      "unitType": "The Possessed",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 90,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 4,
+        "A": 2,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "90 gc + cost of mutations, 0-2. Never uses weapons or armour. Causes fear. May start with one or more mutations (see exclusiveEquipment; first at listed price, each further mutation on the same model costs double). statMaximums null: fill from the Maximum Profile table."
+    },
+    {
+      "id": "mutants",
+      "unitType": "Mutants",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 25,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "possessedEquipmentList"
+      ],
+      "notes": "25 gc + cost of mutations, 0-2. MUST start with one or more mutations (first at listed price, each further mutation on the same model costs double)."
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "beastmen",
+      "unitType": "Beastmen (Gors)",
+      "cost": 45,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 2,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "darksoulsEquipmentList"
+      ],
+      "notes": "45 gc, 0-3. Uses the Darksouls equipment list. statMaximums null: fill Beastmen maximums from the Maximum Profile table."
+    },
+    {
+      "id": "darksouls",
+      "unitType": "Darksouls",
+      "cost": 35,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "darksoulsEquipmentList"
+      ],
+      "notes": "35 gc, 0-5. Crazed: know no fear and automatically pass any Leadership test they must take."
+    },
+    {
+      "id": "brethren",
+      "unitType": "Brethren",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "possessedEquipmentList"
+      ],
+      "notes": "25 gc, any number."
+    }
+  ],
+  "equipmentLists": {
+    "possessedEquipmentList": [
+      "dagger",
+      "mace",
+      "hammer",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "spear",
+      "bow",
+      "shortBow",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet"
+    ],
+    "darksoulsEquipmentList": [
+      "dagger",
+      "mace",
+      "hammer",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "flail",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "daemonSoul",
+      "name": "Daemon Soul",
+      "category": "mutation",
+      "cost": 20,
+      "rarity": null,
+      "restriction": "Mutation — Possessed or Mutant only, bought at recruitment. First at listed cost; each further mutation on the same model costs double.",
+      "rulesText": "A Daemon lives in the warrior's soul: 4+ save against the effects of spells or prayers."
+    },
+    {
+      "id": "greatClaw",
+      "name": "Great Claw",
+      "category": "mutation",
+      "cost": 50,
+      "rarity": null,
+      "restriction": "Mutation — Possessed or Mutant only, bought at recruitment. First at listed cost; each further mutation on the same model costs double.",
+      "rulesText": "One arm ends in a crab-like claw. No weapon in that arm, but +1 attack in close combat at +1 Strength."
+    },
+    {
+      "id": "clovenHoofs",
+      "name": "Cloven Hoofs",
+      "category": "mutation",
+      "cost": 40,
+      "rarity": null,
+      "restriction": "Mutation — Possessed or Mutant only, bought at recruitment. First at listed cost; each further mutation on the same model costs double.",
+      "rulesText": "+1 Movement."
+    },
+    {
+      "id": "tentacle",
+      "name": "Tentacle",
+      "category": "mutation",
+      "cost": 35,
+      "rarity": null,
+      "restriction": "Mutation — Possessed or Mutant only, bought at recruitment. First at listed cost; each further mutation on the same model costs double.",
+      "rulesText": "One arm ends in a tentacle. May grapple to reduce the opponent's attacks by -1 (min 1); the mutant chooses which attack is lost."
+    },
+    {
+      "id": "blackblood",
+      "name": "Blackblood",
+      "category": "mutation",
+      "cost": 30,
+      "rarity": null,
+      "restriction": "Mutation — Possessed or Mutant only, bought at recruitment. First at listed cost; each further mutation on the same model costs double.",
+      "rulesText": "If the model loses a wound in close combat, every model in base contact takes a Strength 3 hit (no criticals)."
+    },
+    {
+      "id": "spines",
+      "name": "Spines",
+      "category": "mutation",
+      "cost": 35,
+      "rarity": null,
+      "restriction": "Mutation — Possessed or Mutant only, bought at recruitment. First at listed cost; each further mutation on the same model costs double.",
+      "rulesText": "Any model in base contact takes an automatic Strength 1 hit at the start of each close combat phase (never criticals)."
+    },
+    {
+      "id": "scorpionTail",
+      "name": "Scorpion Tail",
+      "category": "mutation",
+      "cost": 40,
+      "rarity": null,
+      "restriction": "Mutation — Possessed or Mutant only, bought at recruitment. First at listed cost; each further mutation on the same model costs double.",
+      "rulesText": "Extra Strength 5 attack each close combat phase; reduced to Strength 2 vs models immune to poison."
+    },
+    {
+      "id": "extraArm",
+      "name": "Extra Arm",
+      "category": "mutation",
+      "cost": 40,
+      "rarity": null,
+      "restriction": "Mutation — Possessed or Mutant only, bought at recruitment. First at listed cost; each further mutation on the same model costs double.",
+      "rulesText": "May wield a single-handed weapon (+1 attack) or a shield/buckler in the extra arm. A Possessed gains the extra attack but still may not carry a weapon."
+    },
+    {
+      "id": "hideous",
+      "name": "Hideous",
+      "category": "mutation",
+      "cost": 40,
+      "rarity": null,
+      "restriction": "Mutation — Possessed or Mutant only, bought at recruitment. First at listed cost; each further mutation on the same model costs double.",
+      "rulesText": "The model causes fear."
+    }
+  ],
+  "specialRules": "Cult of the Possessed. Fear: The Possessed cause fear. Wizard: the Magister uses Chaos Rituals. Mutations may only be bought when a model is recruited (never later); the first mutation on a model is bought at its listed price and every subsequent mutation on that same model costs double. Min warband size 3, max 15. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
+}

@@ -1,0 +1,350 @@
+{
+  "id": "skaven",
+  "name": "Skaven (Clan Eshin)",
+  "source": "Mordheim rulebook Part 2 - Warbands, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%202%20-%20Warbands.pdf on 2026-07-03. Cross-check against your own rulebook/errata (2005 Errata + Annual) before relying on it.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 20,
+  "heroSlots": [
+    {
+      "id": "assassinAdept",
+      "unitType": "Assassin Adept",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "speed",
+        "skavenSpecial"
+      ],
+      "statLine": {
+        "M": 6,
+        "WS": 4,
+        "BS": 4,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "skavenHeroesEquipmentList"
+      ],
+      "notes": "60 gc. Leader (6\"). Perfect Killer: an extra -1 armour-save modifier to all wounds he inflicts (shooting and close combat). statMaximums null: fill Skaven maximums from the Maximum Profile table."
+    },
+    {
+      "id": "eshinSorcerer",
+      "unitType": "Eshin Sorcerer",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 45,
+      "startingXp": 8,
+      "skillLists": [
+        "academic",
+        "speed",
+        "skavenSpecial"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "skavenHeroesEquipmentList"
+      ],
+      "notes": "45 gc, 0-1. Wizard: uses the Magic of the Horned Rat (see Magic)."
+    },
+    {
+      "id": "blackSkaven",
+      "unitType": "Black Skaven",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 40,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "speed",
+        "skavenSpecial"
+      ],
+      "statLine": {
+        "M": 6,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "skavenHeroesEquipmentList"
+      ],
+      "notes": "40 gc, 0-2."
+    },
+    {
+      "id": "nightRunners",
+      "unitType": "Night Runners",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 20,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed"
+      ],
+      "statLine": {
+        "M": 6,
+        "WS": 2,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "skavenHenchmenEquipmentList"
+      ],
+      "notes": "20 gc, 0-2. Use the Skaven Henchmen equipment list."
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "verminkin",
+      "unitType": "Verminkin",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "skavenHenchmenEquipmentList"
+      ],
+      "notes": "20 gc, any number. statMaximums null: fill from the Maximum Profile table."
+    },
+    {
+      "id": "giantRats",
+      "unitType": "Giant Rats",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 6,
+        "WS": 2,
+        "BS": 0,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "15 gc, any number. Animals: do not gain experience. No weapons/armour."
+    },
+    {
+      "id": "ratOgre",
+      "unitType": "Rat Ogre",
+      "cost": 210,
+      "isAnimal": true,
+      "isLargeCreature": true,
+      "maxCount": 1,
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 3,
+        "S": 5,
+        "T": 5,
+        "W": 3,
+        "I": 4,
+        "A": 3,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "210 gc, 0-1. Fear. Stupidity unless a Skaven Hero is within 6\". Large Target. Does not gain experience. No weapons/armour. (isAnimal=true used as the 'no experience' flag.)"
+    }
+  ],
+  "equipmentLists": {
+    "skavenHeroesEquipmentList": [
+      "dagger",
+      "sword",
+      "flail",
+      "spear",
+      "halberd",
+      "weepingBlades",
+      "fightingClaws",
+      "sling",
+      "throwingStars",
+      "blowpipe",
+      "warplockPistol",
+      "lightArmour",
+      "buckler",
+      "helmet"
+    ],
+    "skavenHenchmenEquipmentList": [
+      "dagger",
+      "club",
+      "sword",
+      "spear",
+      "sling",
+      "lightArmour",
+      "shield",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "weepingBlades",
+      "name": "Weeping Blades",
+      "category": "melee",
+      "cost": 50,
+      "rarity": 9,
+      "restriction": "Rare 9, Skaven only (per pair)",
+      "rulesText": "Range: Close Combat; Strength: as user. Pair: +1 attack. Venomous: permanently coated in black lotus (no extra poison may be applied). Parry: may parry as a sword."
+    },
+    {
+      "id": "fightingClaws",
+      "name": "Fighting Claws",
+      "category": "melee",
+      "cost": 35,
+      "rarity": 7,
+      "restriction": "Rare 7, Skaven only (per pair)",
+      "rulesText": "Range: Close Combat; Strength: as user. Pair: +1 attack. Climb: +1 Initiative on Climbing tests. Parry: may parry and re-roll a failed attempt once (as sword+buckler). Cumbersome: no other weapons may be used the entire battle."
+    },
+    {
+      "id": "blowpipe",
+      "name": "Blowpipe",
+      "category": "missile",
+      "cost": 25,
+      "rarity": 7,
+      "restriction": "Rare 7, Skaven only",
+      "rulesText": "Range 8\"; Strength 1; +1 save modifier. Poison: a natural 6 to hit auto-wounds (as Black Lotus); cannot cause criticals; even models with no save get a 6+. Stealthy: may fire while hidden; target may take an Initiative test to spot the shooter."
+    },
+    {
+      "id": "warplockPistol",
+      "name": "Warplock pistol",
+      "category": "missile",
+      "cost": 35,
+      "rarity": 11,
+      "restriction": "Rare 11, Skaven only (70 gc for a brace)",
+      "rulesText": "Range 8\"; Strength 5; -3 save modifier. Fires every other turn."
+    },
+    {
+      "id": "throwingStars",
+      "name": "Throwing stars (shuriken)",
+      "category": "missile",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Skaven Heroes equipment list",
+      "rulesText": "TODO: verify profile/special rules vs rulebook."
+    }
+  ],
+  "specialRules": "Skaven (Clan Eshin). Skaven Heroes may use their own Special skill list instead of a standard one (skillLists id 'skavenSpecial'): Black Hunger (+1A and +D3\" move for the turn, then D3 S3 hits with no save); Tail Fighting (extra attack with shield/knife/sword via the tail, or +1 armour save); Wall Runner (no Initiative test to climb); Infiltration (deploy after the enemy, anywhere out of sight and >12\" from foes); Art of Silent Death (fight bare-pawed with no penalty as two weapons, +1A, and cause criticals on a to-wound 5-6; with Fighting Claws gives +2A). Highest warband cap in the core game: max 20 models. Min warband size 3. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
+}

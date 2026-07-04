@@ -122,6 +122,7 @@ export type BattleResult = 'win' | 'loss' | 'draw';
 
 export type BattleRecord = {
   id: string;
+  warbandId: string; // which of the user's warbands this record belongs to
   date: string;
   scenario: string;
   opponents: string[]; // names/warband types

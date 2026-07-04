@@ -1,0 +1,247 @@
+{
+  "id": "undead",
+  "name": "The Undead",
+  "source": "Mordheim rulebook Part 2 - Warbands, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%202%20-%20Warbands.pdf on 2026-07-03. Cross-check against your own rulebook/errata (2005 Errata + Annual) before relying on it.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "vampire",
+      "unitType": "Vampire",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 110,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "academic",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 6,
+        "WS": 4,
+        "BS": 4,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 5,
+        "A": 2,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "undeadEquipmentList"
+      ],
+      "notes": "110 gc. Leader (6\"). Causes fear. Immune to Psychology (never leaves combat). Immune to Poison. No Pain: treats 'stunned' as 'knocked down'. statMaximums null: fill Vampire maximums from the Maximum Profile table."
+    },
+    {
+      "id": "necromancer",
+      "unitType": "Necromancer",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 35,
+      "startingXp": 8,
+      "skillLists": [
+        "academic",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "undeadEquipmentList"
+      ],
+      "notes": "35 gc, 0-1. Wizard: uses Necromantic magic (see Magic)."
+    },
+    {
+      "id": "dregs",
+      "unitType": "Dregs",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "cost": 20,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "undeadEquipmentList"
+      ],
+      "notes": "20 gc, 0-3."
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "ghouls",
+      "unitType": "Ghouls",
+      "cost": 40,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 3,
+        "A": 2,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "40 gc, any number (bought 1-5). Cause fear. Never carry equipment (bare teeth and claws). These henchmen DO gain experience. statMaximums null: fill from the Maximum Profile table."
+    },
+    {
+      "id": "zombies",
+      "unitType": "Zombies",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 0,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 1,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "15 gc, any number. Cause fear. May not run (may charge). Immune to Psychology (never leave combat). Immune to Poison. No Pain. No Brain: never gain experience. (isAnimal=true is used here as the 'does not gain experience' flag.)"
+    },
+    {
+      "id": "direWolves",
+      "unitType": "Dire Wolves",
+      "cost": 50,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 9,
+        "WS": 3,
+        "BS": 0,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "50 gc, 0-5. Charge: 2 attacks on the turn they charge. May not run (may charge). Cause fear. Immune to Psychology/Poison. No Pain. Unliving: never gain experience. (isAnimal=true used as the 'no experience' flag.)"
+    }
+  ],
+  "equipmentLists": {
+    "undeadEquipmentList": [
+      "dagger",
+      "mace",
+      "hammer",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "spear",
+      "halberd",
+      "bow",
+      "shortBow",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [],
+  "specialRules": "The Undead. Vampire is the mandatory leader (no more, no less). Many models cause fear and are immune to psychology/poison with No Pain (stunned counts as knocked down). Zombies and Dire Wolves do not gain experience; Ghouls do. Min warband size 3, max 15. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
+}

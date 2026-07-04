@@ -48,6 +48,8 @@ export default function RosterScreen() {
   const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
   const saveWarband = useAppStore((state) => state.saveWarband);
   const deleteWarband = useAppStore((state) => state.deleteWarband);
+  const lastBattleSnapshot = useAppStore((state) => state.lastBattleSnapshot);
+  const undoLastBattle = useAppStore((state) => state.undoLastBattle);
 
   if (!warband) {
     return <Navigate to="/warbands" replace />;
@@ -58,6 +60,12 @@ export default function RosterScreen() {
     if (window.confirm(strings.roster.deleteWarbandConfirm(warband.name))) {
       deleteWarband(warband.id);
       navigate('/warbands', { replace: true });
+    }
+  }
+
+  function handleUndo() {
+    if (window.confirm(strings.postBattle.undoConfirm)) {
+      undoLastBattle();
     }
   }
 
@@ -83,6 +91,23 @@ export default function RosterScreen() {
             />
           </div>
         </section>
+
+        <Link
+          to={`/warbands/${warband.id}/post-battle`}
+          className="block text-center w-full min-h-[48px] leading-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
+        >
+          {strings.postBattle.startButton}
+        </Link>
+
+        {lastBattleSnapshot?.warbandId === warband.id && (
+          <button
+            type="button"
+            onClick={handleUndo}
+            className="w-full min-h-[48px] rounded-md border border-ink-700 text-bone-200 font-semibold hover:bg-ink-800 transition-colors"
+          >
+            {strings.postBattle.undoLastBattle}
+          </button>
+        )}
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">

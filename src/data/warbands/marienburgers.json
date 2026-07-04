@@ -1,0 +1,296 @@
+{
+  "id": "marienburgers",
+  "name": "Marienburg Mercenaries",
+  "source": "Mordheim rulebook Part 2 - Warbands, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%202%20-%20Warbands.pdf on 2026-07-03. Cross-check against your own rulebook/errata (2005 Errata + Annual) before relying on it. Mercenary variants (Reikland/Middenheim/Marienburg) share the same recruitment list and profiles; only the special rules (and Middenheim's S4 heroes / Reikland's +1 BS Marksmen) differ.",
+  "startingGold": 600,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "captain",
+      "unitType": "Mercenary Captain",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "mercenaryEquipmentList"
+      ],
+      "notes": "60 gc. Leader: warriors within 6\" (12\" for Reikland) may use his Leadership."
+    },
+    {
+      "id": "champion",
+      "unitType": "Champion",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 35,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "mercenaryEquipmentList"
+      ],
+      "notes": "35 gc, 0-2."
+    },
+    {
+      "id": "youngblood",
+      "unitType": "Youngblood",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 15,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "mercenaryEquipmentList"
+      ],
+      "notes": "15 gc, 0-2."
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "warriors",
+      "unitType": "Warriors",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "mercenaryEquipmentList"
+      ],
+      "notes": "25 gc, any number. Core fighters of the warband."
+    },
+    {
+      "id": "marksmen",
+      "unitType": "Marksmen",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 7,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "marksmanEquipmentList"
+      ],
+      "notes": "25 gc, 0-7. Use the Marksman equipment list."
+    },
+    {
+      "id": "swordsmen",
+      "unitType": "Swordsmen",
+      "cost": 35,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "mercenaryEquipmentList"
+      ],
+      "notes": "35 gc, 0-5. Expert Swordsmen: may re-roll failed hits when charging, but only when armed with a normal sword (not double-handed swords or other weapons)."
+    }
+  ],
+  "equipmentLists": {
+    "mercenaryEquipmentList": [
+      "dagger",
+      "mace",
+      "hammer",
+      "axe",
+      "sword",
+      "morningStar",
+      "doubleHandedWeapon",
+      "spear",
+      "halberd",
+      "crossbow",
+      "pistol",
+      "duellingPistol",
+      "bow",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet"
+    ],
+    "marksmanEquipmentList": [
+      "dagger",
+      "mace",
+      "hammer",
+      "axe",
+      "sword",
+      "crossbow",
+      "pistol",
+      "bow",
+      "longBow",
+      "blunderbuss",
+      "handgun",
+      "huntingRifle",
+      "lightArmour",
+      "shield",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "huntingRifle",
+      "name": "Hunting rifle",
+      "category": "missile",
+      "cost": 200,
+      "rarity": null,
+      "restriction": "Marksman equipment list only",
+      "rulesText": "TODO: verify profile/special rules vs rulebook (Move or fire; prepare shot)."
+    },
+    {
+      "id": "duellingPistol",
+      "name": "Duelling pistol",
+      "category": "missile",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "Mercenary equipment list (50 gc for a brace)",
+      "rulesText": "TODO: verify profile/special rules vs rulebook."
+    }
+  ],
+  "specialRules": "Marienburg Mercenaries. Wealth: start a campaign with an extra 100 gc (600 total; in a one-off game, +20% gc when recruiting). Merchant contacts: +1 bonus when attempting to find rare items. Min warband size 3, max 15. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
+}

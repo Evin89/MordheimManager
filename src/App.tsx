@@ -12,6 +12,8 @@ import AddHeroScreen from './screens/AddHeroScreen';
 import AddHenchmenScreen from './screens/AddHenchmenScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import PlaceholderScreen from './screens/PlaceholderScreen';
+import PostBattlePickerScreen from './screens/PostBattlePickerScreen';
+import PostBattleWizard from './screens/postBattle/PostBattleWizard';
 
 export default function App() {
   const load = useAppStore((state) => state.load);
@@ -45,7 +47,8 @@ export default function App() {
             element={<ModelDetailScreen kind="hiredSword" />}
           />
           <Route path="/warbands/:warbandId/henchmen/:groupId" element={<HenchmenDetailScreen />} />
-          <Route path="/post-battle" element={<PlaceholderScreen title={strings.nav.postBattle} />} />
+          <Route path="/warbands/:warbandId/post-battle" element={<PostBattleWizard />} />
+          <Route path="/post-battle" element={<PostBattlePickerScreen />} />
           <Route path="/trading" element={<PlaceholderScreen title={strings.nav.trading} />} />
           <Route path="/campaign" element={<PlaceholderScreen title={strings.nav.campaign} />} />
           <Route path="/settings" element={<SettingsScreen />} />

@@ -1,0 +1,269 @@
+{
+  "id": "sisters-of-sigmar",
+  "name": "Sisters of Sigmar",
+  "source": "Mordheim rulebook Part 2 - Warbands, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%202%20-%20Warbands.pdf on 2026-07-03. Cross-check against your own rulebook/errata (2005 Errata + Annual) before relying on it.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "matriarch",
+      "unitType": "Sigmarite Matriarch",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 70,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "academic",
+        "strength",
+        "speed",
+        "sistersSpecial"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "sistersEquipmentList"
+      ],
+      "notes": "70 gc (dowry). Leader (6\"). Prayers of Sigmar (see Magic). May carry two Sigmarite warhammers."
+    },
+    {
+      "id": "sisterSuperior",
+      "unitType": "Sister Superior",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "cost": 35,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "academic",
+        "strength",
+        "speed",
+        "sistersSpecial"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "sistersEquipmentList"
+      ],
+      "notes": "35 gc (dowry), 0-3. May carry two Sigmarite warhammers."
+    },
+    {
+      "id": "augur",
+      "unitType": "Augur",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 25,
+      "startingXp": 0,
+      "skillLists": [
+        "academic",
+        "speed",
+        "sistersSpecial"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "sistersEquipmentList"
+      ],
+      "notes": "25 gc (dowry), 0-1. Never wears armour. Blessed Sight: re-roll any failed characteristic test and any to-hit roll (must accept the second result); if not taken out of action, roll two Exploration dice and pick one."
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "novices",
+      "unitType": "Novices",
+      "cost": 15,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 10,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "sistersEquipmentList"
+      ],
+      "notes": "15 gc (dowry), 0-10."
+    },
+    {
+      "id": "sisters",
+      "unitType": "Sigmarite Sisters",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "sistersEquipmentList"
+      ],
+      "notes": "25 gc (dowry), any number."
+    }
+  ],
+  "equipmentLists": {
+    "sistersEquipmentList": [
+      "dagger",
+      "mace",
+      "hammer",
+      "sigmariteWarhammer",
+      "flail",
+      "steelWhip",
+      "doubleHandedWeapon",
+      "sling",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "sigmariteWarhammer",
+      "name": "Sigmarite warhammer",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Common (Sisters of Sigmar only)",
+      "rulesText": "Range: Close Combat; Strength: as user +1. Concussion: a 2-4 on the Injury table is treated as Stunned. Holy Weapon: +1 to wound vs Possessed or Undead (still need a natural 6 before modifiers for a critical). Only Matriarchs and Sister Superiors may carry two."
+    },
+    {
+      "id": "steelWhip",
+      "name": "Steel whip",
+      "category": "melee",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "Common (Sisters of Sigmar only)",
+      "rulesText": "Range: Close Combat; Strength: as user. Cannot be parried (target may not parry with sword or buckler). Whipcrack: +1A when charging (added after other modifiers) and +1A when charged (usable only against the charger, strikes first); max +1A even if charged by several. Two whips: +1A for the extra hand weapon but only the first whip grants the whipcrack +1A."
+    },
+    {
+      "id": "holyTome",
+      "name": "Holy tome",
+      "category": "misc",
+      "cost": 120,
+      "rarity": null,
+      "restriction": "Miscellaneous (Heroines only)",
+      "rulesText": "TODO: verify rules vs rulebook — not present in the fetched pages."
+    },
+    {
+      "id": "blessedWater",
+      "name": "Blessed water",
+      "category": "misc",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "Miscellaneous (Heroines only)",
+      "rulesText": "TODO: verify rules vs rulebook — not present in the fetched pages."
+    },
+    {
+      "id": "holyRelic",
+      "name": "Holy relic",
+      "category": "misc",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Miscellaneous (Heroines only)",
+      "rulesText": "TODO: verify rules vs rulebook — not present in the fetched pages."
+    }
+  ],
+  "specialRules": "Sisters of Sigmar. The Sisters use their own Special skill list instead of one of the standard lists (skillLists id 'sistersSpecial'): Sign of Sigmar (Possessed/Undead lose their first attack in the first round of close combat, min 1); Protection of Sigmar (any spell affecting her is nullified on 4+, and then affects no one); Utter Determination (Matriarch only — re-roll failed Rout tests); Righteous Fury (hates all Skaven, Undead or Possessed warbands and every model in them); Absolute Faith (re-roll Fear tests; no test when fighting alone against several opponents). They never wear... they use only the weapons on their equipment list (blunt weapons, warhammer, whip, sling — no bladed weapons). Min warband size 3, max 15. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
+}

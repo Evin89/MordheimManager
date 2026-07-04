@@ -1,5 +1,5 @@
 import { CAMPAIGN_SCHEMA_VERSION, Campaign, WARBAND_SCHEMA_VERSION, Warband } from '../types';
-import { CAMPAIGN_KEY, WARBAND_INDEX_KEY, warbandKey } from './keys';
+import { CAMPAIGN_KEY, LAST_BATTLE_SNAPSHOT_KEY, WARBAND_INDEX_KEY, warbandKey } from './keys';
 import { migrateCampaign, migrateWarband } from './migrations';
 
 function readIndex(): string[] {
@@ -74,6 +74,32 @@ export function saveCampaign(campaign: Campaign): void {
 
 export function clearCampaign(): void {
   localStorage.removeItem(CAMPAIGN_KEY);
+}
+
+export type LastBattleSnapshot = {
+  warbandId: string;
+  warband: Warband;
+  campaign: Campaign | null;
+};
+
+/** A single-level undo point captured right before a post-battle sequence is committed. */
+export function saveLastBattleSnapshot(snapshot: LastBattleSnapshot): void {
+  localStorage.setItem(LAST_BATTLE_SNAPSHOT_KEY, JSON.stringify(snapshot));
+}
+
+export function loadLastBattleSnapshot(): LastBattleSnapshot | null {
+  const raw = localStorage.getItem(LAST_BATTLE_SNAPSHOT_KEY);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as LastBattleSnapshot;
+  } catch (err) {
+    console.error('Failed to load last battle snapshot:', err);
+    return null;
+  }
+}
+
+export function clearLastBattleSnapshot(): void {
+  localStorage.removeItem(LAST_BATTLE_SNAPSHOT_KEY);
 }
 
 export type ExportedData = {

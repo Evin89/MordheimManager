@@ -212,6 +212,26 @@ export type DramatisPersonaeData = {
   characters: DramatisPersonaDefinition[];
 };
 
+export type ScenarioAward = {
+  id: string;
+  label: string; // e.g. "Winning Leader"
+  amount: string; // free text since some are dice-based, e.g. "+2" or "+D3"
+  note: string;
+};
+
+export type ScenarioDefinition = {
+  id: string;
+  name: string;
+  awards: ScenarioAward[];
+};
+
+export type ScenariosData = {
+  schemaVersion: number;
+  source: string;
+  universalAward: ScenarioAward; // the +1 Survives rule, common to every scenario
+  scenarios: ScenarioDefinition[];
+};
+
 export type BtbObjectiveAchievement = {
   cp: number; // campaign points threshold (thick-bordered box)
   name: string;
