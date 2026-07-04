@@ -11,3 +11,8 @@ export function getUniqueInjuries(): InjuryTableEntry[] {
   }
   return Array.from(seen.values());
 }
+
+/** Looks up the table row for a rolled D66 key, e.g. "24" for tens=2, units=4. */
+export function getInjuryByRoll(key: string): InjuryTableEntry | undefined {
+  return injuriesData.table.find((entry) => entry.roll === key);
+}

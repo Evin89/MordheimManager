@@ -2,8 +2,20 @@ import { useState } from 'react';
 import { strings } from '../../strings';
 import { getSkillList } from '../../lib/skillLookup';
 import { STAT_KEYS } from '../../lib/statLine';
+import { roll2D6, rollD6 } from '../../lib/dice';
+import { parseAdvanceResult } from '../../lib/advanceLookup';
+import advancesData from '../../data/advances.json';
+import { AdvanceTableEntry } from '../../data/types';
 import { StatLine } from '../../types';
 import { StatIncreases, StepProps } from './types';
+
+type LastAdvanceRoll = {
+  total: number;
+  resultText: string;
+  subRoll?: number;
+  pendingChoice?: (keyof StatLine)[];
+  special?: boolean;
+};
 
 type AdvanceRecorderProps = {
   statMaximums?: StatLine;
@@ -13,6 +25,7 @@ type AdvanceRecorderProps = {
   newSkills?: string[];
   onAddStat: (key: keyof StatLine) => void;
   onAddSkill: (skillName: string) => void;
+  advanceEntries: AdvanceTableEntry[];
 };
 
 function AdvanceRecorder({
@@ -23,10 +36,12 @@ function AdvanceRecorder({
   newSkills,
   onAddStat,
   onAddSkill,
+  advanceEntries,
 }: AdvanceRecorderProps) {
   const [open, setOpen] = useState<'stat' | 'skill' | null>(null);
   const [skillListId, setSkillListId] = useState('');
   const [skillName, setSkillName] = useState('');
+  const [lastRoll, setLastRoll] = useState<LastAdvanceRoll | null>(null);
 
   const stagedTags = [
     ...Object.entries(statIncreases).flatMap(([key, amount]) => Array(amount ?? 0).fill(`+1 ${key}`)),
@@ -37,6 +52,30 @@ function AdvanceRecorder({
     .map((id) => ({ id, list: getSkillList(id) }))
     .filter((entry): entry is { id: string; list: NonNullable<ReturnType<typeof getSkillList>> } => !!entry.list);
   const chosenSkillList = skillListId ? getSkillList(skillListId) : undefined;
+
+  function rollAdvance() {
+    const { total } = roll2D6();
+    const entry = advanceEntries.find((e) => Number(e.roll) === total);
+    if (!entry) return;
+    const parsed = parseAdvanceResult(entry.result);
+
+    if (parsed.kind === 'fixedStat') {
+      onAddStat(parsed.stat);
+      setLastRoll({ total, resultText: entry.result });
+    } else if (parsed.kind === 'rollAgain') {
+      const subRoll = rollD6();
+      const match = parsed.ranges.find((r) => subRoll >= r.lo && subRoll <= r.hi);
+      if (match) onAddStat(match.stat);
+      setLastRoll({ total, resultText: entry.result, subRoll });
+    } else if (parsed.kind === 'choice') {
+      setLastRoll({ total, resultText: entry.result, pendingChoice: parsed.options });
+    } else if (parsed.kind === 'skill') {
+      setLastRoll({ total, resultText: entry.result });
+      setOpen('skill');
+    } else {
+      setLastRoll({ total, resultText: entry.result, special: true });
+    }
+  }
 
   return (
     <div className="space-y-2">
@@ -49,6 +88,49 @@ function AdvanceRecorder({
           ))}
         </div>
       )}
+
+      <button
+        type="button"
+        onClick={rollAdvance}
+        className="w-full min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm"
+      >
+        {strings.postBattle.advances.rollButton}
+      </button>
+
+      {lastRoll && (
+        <div className="space-y-2 rounded-md bg-ink-800 border border-ink-700 p-3">
+          <p className="text-bone-300 text-xs">{strings.postBattle.advances.rollResultLabel(lastRoll.total)}</p>
+          <p className="text-bone-200 text-sm">{lastRoll.resultText}</p>
+          {lastRoll.subRoll !== undefined && (
+            <p className="text-bone-300 text-xs">{strings.postBattle.advances.subRollLabel(lastRoll.subRoll)}</p>
+          )}
+          {lastRoll.special && (
+            <p className="text-ember-400 text-xs">{strings.postBattle.advances.specialResultHint}</p>
+          )}
+          {lastRoll.pendingChoice && (
+            <>
+              <p className="text-bone-300 text-xs">{strings.postBattle.advances.chooseOnePrompt}</p>
+              <div className="flex gap-2">
+                {lastRoll.pendingChoice.map((stat) => (
+                  <button
+                    key={stat}
+                    type="button"
+                    onClick={() => {
+                      onAddStat(stat);
+                      setLastRoll(null);
+                    }}
+                    className="flex-1 min-h-[40px] rounded-md border border-ink-700 text-bone-100 font-semibold text-sm"
+                  >
+                    +1 {stat}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
+      <p className="text-bone-300 text-xs pt-1">{strings.postBattle.advances.manualEntryLabel}</p>
 
       {open === null && (
         <div className="flex gap-2">
@@ -137,6 +219,7 @@ function AdvanceRecorder({
                 setSkillListId('');
                 setSkillName('');
                 setOpen(null);
+                setLastRoll(null);
               }}
               className="flex-1 min-h-[36px] rounded-md bg-ember-500 disabled:opacity-40 text-ink-950 font-semibold text-sm"
             >
@@ -181,6 +264,7 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               skillLists={hero.skillLists}
               statIncreases={state.statIncreases}
               newSkills={state.newSkills}
+              advanceEntries={advancesData.heroAdvanceTable.entries}
               onAddStat={(key) =>
                 updateDraft((current) => {
                   const s = current.heroes[hero.id];
@@ -214,6 +298,7 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
             <AdvanceRecorder
               currentStats={group.stats}
               statIncreases={state.statIncreases}
+              advanceEntries={advancesData.henchmenAdvanceTable.entries}
               onAddStat={(key) =>
                 updateDraft((current) => {
                   const s = current.henchmenGroups[group.id];
@@ -245,6 +330,7 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               skillLists={sword.skillLists}
               statIncreases={state.statIncreases}
               newSkills={state.newSkills}
+              advanceEntries={advancesData.heroAdvanceTable.entries}
               onAddStat={(key) =>
                 updateDraft((current) => {
                   const s = current.hiredSwords[sword.id];

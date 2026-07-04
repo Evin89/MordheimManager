@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { strings } from '../strings';
 import { getWarbandDefinition } from '../data/warbandRegistry';
+import { roll2D6 } from '../lib/dice';
 import {
   ResolvedEquipmentItem,
   getUniversalCommonItems,
@@ -22,6 +23,15 @@ function RareItemRow({
   const [rolling, setRolling] = useState(false);
   const [found, setFound] = useState(false);
   const [price, setPrice] = useState(0);
+  const [lastAutoRoll, setLastAutoRoll] = useState<{ total: number; found: boolean } | null>(null);
+
+  function autoRoll() {
+    if (item.rarity === null) return;
+    const { total } = roll2D6();
+    const success = total >= item.rarity;
+    setLastAutoRoll({ total, found: success });
+    setFound(success);
+  }
 
   return (
     <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
@@ -44,6 +54,7 @@ function RareItemRow({
               setRolling(true);
               setFound(false);
               setPrice(parseBasePrice(item.priceRange));
+              setLastAutoRoll(null);
             }}
             className="min-h-[40px] px-3 rounded-md border border-ink-700 text-bone-200 text-sm font-semibold shrink-0"
           >
@@ -54,14 +65,29 @@ function RareItemRow({
 
       {item.notes && <p className="text-bone-300 text-xs">{item.notes}</p>}
 
+      {rolling && lastAutoRoll && (
+        <p className="text-bone-300 text-xs">
+          {strings.trading.autoRollResultLabel(lastAutoRoll.total, lastAutoRoll.found)}
+        </p>
+      )}
+
       {rolling && !found && (
         <div className="space-y-2 rounded-md bg-ink-800 border border-ink-700 p-3">
           <p className="text-bone-300 text-sm">{strings.trading.rollHint}</p>
+          {item.rarity !== null && (
+            <button
+              type="button"
+              onClick={autoRoll}
+              className="w-full min-h-[40px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm"
+            >
+              {strings.trading.autoRollButton}
+            </button>
+          )}
           <div className="flex gap-2">
             <button
               type="button"
               onClick={() => setFound(true)}
-              className="flex-1 min-h-[40px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm"
+              className="flex-1 min-h-[40px] rounded-md border border-ink-700 text-bone-200 text-sm font-semibold"
             >
               {strings.trading.foundButton}
             </button>
