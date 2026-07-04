@@ -90,10 +90,17 @@ export type EquipmentData = {
   rare: RareEquipmentEntry[];
 };
 
+export type SkillPrerequisite = {
+  text: string; // always shown, human-readable — may describe conditions we can't verify (e.g. "Spellcasters only")
+  requiresLeader?: boolean; // hard-checkable against Hero.isLeader
+  excludedWarbandTypes?: string[]; // hard-checkable against Warband.warbandType
+};
+
 export type SkillEntry = {
   id: string;
   name: string;
   effect: string;
+  prerequisite?: SkillPrerequisite;
 };
 
 export type SkillList = {

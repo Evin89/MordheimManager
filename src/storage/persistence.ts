@@ -1,5 +1,5 @@
 import { CAMPAIGN_SCHEMA_VERSION, Campaign, WARBAND_SCHEMA_VERSION, Warband } from '../types';
-import { CAMPAIGN_KEY, LAST_BATTLE_SNAPSHOT_KEY, WARBAND_INDEX_KEY, warbandKey } from './keys';
+import { CAMPAIGN_KEY, LAST_BATTLE_SNAPSHOT_KEY, WARBAND_INDEX_KEY, battleSessionKey, warbandKey } from './keys';
 import { migrateCampaign, migrateWarband } from './migrations';
 
 function readIndex(): string[] {
@@ -100,6 +100,47 @@ export function loadLastBattleSnapshot(): LastBattleSnapshot | null {
 
 export function clearLastBattleSnapshot(): void {
   localStorage.removeItem(LAST_BATTLE_SNAPSHOT_KEY);
+}
+
+export type BattleEvent = {
+  id: string;
+  turn: number;
+  text: string;
+};
+
+/**
+ * A single warband's in-progress battle: set up before the game (scenario, opponent),
+ * tracked during the game (turn counter, event log), then folded into the Post-Battle
+ * Wizard's draft and discarded once that battle is committed. Not schema-versioned like
+ * Warband/Campaign — it's disposable table-side scratch data, not campaign history.
+ */
+export type BattleSession = {
+  warbandId: string;
+  scenario: string;
+  opponentWarbandId: string | null; // set when the opponent is also tracked in this app (same-device play)
+  opponentName: string; // free text, used when opponentWarbandId is null
+  turn: number;
+  events: BattleEvent[];
+  notes: string;
+};
+
+export function loadBattleSession(warbandId: string): BattleSession | null {
+  const raw = localStorage.getItem(battleSessionKey(warbandId));
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as BattleSession;
+  } catch (err) {
+    console.error(`Failed to load battle session for "${warbandId}":`, err);
+    return null;
+  }
+}
+
+export function saveBattleSession(session: BattleSession): void {
+  localStorage.setItem(battleSessionKey(session.warbandId), JSON.stringify(session));
+}
+
+export function clearBattleSession(warbandId: string): void {
+  localStorage.removeItem(battleSessionKey(warbandId));
 }
 
 export type ExportedData = {

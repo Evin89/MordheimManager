@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { strings } from '../../strings';
-import { getSkillList } from '../../lib/skillLookup';
+import SkillPicker from '../../components/SkillPicker';
 import { STAT_KEYS } from '../../lib/statLine';
 import { roll2D6, rollD6 } from '../../lib/dice';
 import { parseAdvanceResult } from '../../lib/advanceLookup';
@@ -21,6 +21,9 @@ type AdvanceRecorderProps = {
   statMaximums?: StatLine;
   currentStats: StatLine;
   skillLists?: string[];
+  knownSkills: string[];
+  warbandType: string;
+  isLeader: boolean;
   statIncreases: StatIncreases;
   newSkills?: string[];
   onAddStat: (key: keyof StatLine) => void;
@@ -32,6 +35,9 @@ function AdvanceRecorder({
   statMaximums,
   currentStats,
   skillLists,
+  knownSkills,
+  warbandType,
+  isLeader,
   statIncreases,
   newSkills,
   onAddStat,
@@ -39,19 +45,12 @@ function AdvanceRecorder({
   advanceEntries,
 }: AdvanceRecorderProps) {
   const [open, setOpen] = useState<'stat' | 'skill' | null>(null);
-  const [skillListId, setSkillListId] = useState('');
-  const [skillName, setSkillName] = useState('');
   const [lastRoll, setLastRoll] = useState<LastAdvanceRoll | null>(null);
 
   const stagedTags = [
     ...Object.entries(statIncreases).flatMap(([key, amount]) => Array(amount ?? 0).fill(`+1 ${key}`)),
     ...(newSkills ?? []),
   ];
-
-  const availableSkillLists = (skillLists ?? [])
-    .map((id) => ({ id, list: getSkillList(id) }))
-    .filter((entry): entry is { id: string; list: NonNullable<ReturnType<typeof getSkillList>> } => !!entry.list);
-  const chosenSkillList = skillListId ? getSkillList(skillListId) : undefined;
 
   function rollAdvance() {
     const { total } = roll2D6();
@@ -184,55 +183,20 @@ function AdvanceRecorder({
 
       {open === 'skill' && (
         <div className="space-y-2 rounded-md bg-ink-800 border border-ink-700 p-3">
-          <select
-            value={skillListId}
-            onChange={(e) => setSkillListId(e.target.value)}
-            className="w-full min-h-[40px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 text-sm"
-          >
-            <option value="">—</option>
-            {availableSkillLists.map(({ id, list }) => (
-              <option key={id} value={id}>
-                {list.name}
-              </option>
-            ))}
-          </select>
-          {chosenSkillList && (
-            <select
-              value={skillName}
-              onChange={(e) => setSkillName(e.target.value)}
-              className="w-full min-h-[40px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 text-sm"
-            >
-              <option value="">—</option>
-              {chosenSkillList.skills.map((skill) => (
-                <option key={skill.id} value={skill.name}>
-                  {skill.name}
-                </option>
-              ))}
-            </select>
-          )}
-          <div className="flex gap-2">
-            <button
-              type="button"
-              disabled={!skillName.trim()}
-              onClick={() => {
-                onAddSkill(skillName.trim());
-                setSkillListId('');
-                setSkillName('');
-                setOpen(null);
-                setLastRoll(null);
-              }}
-              className="flex-1 min-h-[36px] rounded-md bg-ember-500 disabled:opacity-40 text-ink-950 font-semibold text-sm"
-            >
-              {strings.common.add}
-            </button>
-            <button
-              type="button"
-              onClick={() => setOpen(null)}
-              className="flex-1 min-h-[36px] text-bone-300 text-sm"
-            >
-              {strings.common.cancel}
-            </button>
-          </div>
+          <SkillPicker
+            skillLists={skillLists ?? []}
+            knownSkills={[...knownSkills, ...(newSkills ?? [])]}
+            warbandType={warbandType}
+            isLeader={isLeader}
+            onAdd={(skillName) => {
+              onAddSkill(skillName);
+              setOpen(null);
+              setLastRoll(null);
+            }}
+          />
+          <button type="button" onClick={() => setOpen(null)} className="w-full min-h-[36px] text-bone-300 text-sm">
+            {strings.common.cancel}
+          </button>
         </div>
       )}
     </div>
@@ -262,6 +226,9 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               statMaximums={hero.statMaximums}
               currentStats={hero.stats}
               skillLists={hero.skillLists}
+              knownSkills={hero.skills}
+              warbandType={warband.warbandType}
+              isLeader={hero.isLeader}
               statIncreases={state.statIncreases}
               newSkills={state.newSkills}
               advanceEntries={advancesData.heroAdvanceTable.entries}
@@ -297,6 +264,9 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
             </p>
             <AdvanceRecorder
               currentStats={group.stats}
+              knownSkills={[]}
+              warbandType={warband.warbandType}
+              isLeader={false}
               statIncreases={state.statIncreases}
               advanceEntries={advancesData.henchmenAdvanceTable.entries}
               onAddStat={(key) =>
@@ -328,6 +298,9 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               statMaximums={sword.statMaximums}
               currentStats={sword.stats}
               skillLists={sword.skillLists}
+              knownSkills={sword.skills}
+              warbandType={warband.warbandType}
+              isLeader={sword.isLeader}
               statIncreases={state.statIncreases}
               newSkills={state.newSkills}
               advanceEntries={advancesData.heroAdvanceTable.entries}

@@ -93,10 +93,10 @@ export default function RosterScreen() {
         </section>
 
         <Link
-          to={`/warbands/${warband.id}/post-battle`}
+          to={`/warbands/${warband.id}/pre-battle`}
           className="block text-center w-full min-h-[48px] leading-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
         >
-          {strings.postBattle.startButton}
+          {strings.battle.startBattleButton}
         </Link>
 
         <Link
@@ -104,6 +104,13 @@ export default function RosterScreen() {
           className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
         >
           {strings.roster.visitTrading}
+        </Link>
+
+        <Link
+          to={`/warbands/${warband.id}/post-battle`}
+          className="block text-center w-full min-h-[40px] leading-[40px] text-bone-300 text-sm"
+        >
+          {strings.postBattle.startButton}
         </Link>
 
         {lastBattleSnapshot?.warbandId === warband.id && (

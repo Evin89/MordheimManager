@@ -4,6 +4,7 @@ import BackHeader from '../../components/BackHeader';
 import { strings } from '../../strings';
 import { useAppStore } from '../../store/useAppStore';
 import { generateId } from '../../lib/id';
+import { clearBattleSession, loadBattleSession } from '../../storage/persistence';
 import { CAMPAIGN_SCHEMA_VERSION, Campaign } from '../../types';
 import { applyDraftToWarband, createInitialDraft } from './draftHelpers';
 import { PostBattleDraft, WIZARD_STEPS } from './types';
@@ -31,11 +32,26 @@ export default function PostBattleWizard() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
   const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
+  const warbands = useAppStore((state) => state.warbands);
   const campaign = useAppStore((state) => state.campaign);
   const commitBattle = useAppStore((state) => state.commitBattle);
 
   const [stepIndex, setStepIndex] = useState(0);
-  const [draft, setDraft] = useState<PostBattleDraft | null>(() => (warband ? createInitialDraft(warband) : null));
+  const [draft, setDraft] = useState<PostBattleDraft | null>(() => {
+    if (!warband) return null;
+    const base = createInitialDraft(warband);
+    const session = loadBattleSession(warband.id);
+    if (!session) return base;
+
+    const opponentWarband = session.opponentWarbandId
+      ? warbands.find((w) => w.id === session.opponentWarbandId)
+      : undefined;
+    const opponents = opponentWarband?.name || session.opponentName || base.opponents;
+    const eventNotes = session.events.map((e) => `Turn ${e.turn}: ${e.text}`).join('\n');
+    const notes = [session.notes, eventNotes].filter(Boolean).join('\n\n') || base.notes;
+
+    return { ...base, scenario: session.scenario || base.scenario, opponents, notes };
+  });
 
   if (!warband || !draft) return <Navigate to="/warbands" replace />;
 
@@ -73,6 +89,7 @@ export default function PostBattleWizard() {
           notes: '',
         };
     commitBattle(updatedWarband, updatedCampaign);
+    clearBattleSession(warband.id);
     navigate(`/warbands/${warband.id}`, { replace: true });
   }
 

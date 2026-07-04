@@ -88,12 +88,21 @@
         {
           "id": "battleTongue",
           "name": "Battle Tongue",
-          "effect": "Leader only. Increases the range of his Leader ability by 6\". Undead leaders may not use this skill. (RB 123)"
+          "effect": "Leader only. Increases the range of his Leader ability by 6\". Undead leaders may not use this skill. (RB 123)",
+          "prerequisite": {
+            "text": "Leader only. Undead leaders may not use this skill.",
+            "requiresLeader": true,
+            "excludedWarbandTypes": ["undead"]
+          }
         },
         {
           "id": "sorcery",
           "name": "Sorcery",
-          "effect": "Heroes capable of casting spells only. +1 to rolls to see whether a spell is cast successfully. Sisters of Sigmar and Warrior-Priests may not use this skill. (RB 123)"
+          "effect": "Heroes capable of casting spells only. +1 to rolls to see whether a spell is cast successfully. Sisters of Sigmar and Warrior-Priests may not use this skill. (RB 123)",
+          "prerequisite": {
+            "text": "Heroes capable of casting spells only.",
+            "excludedWarbandTypes": ["sisters-of-sigmar"]
+          }
         },
         {
           "id": "streetwise",
@@ -108,7 +117,11 @@
         {
           "id": "arcaneLore",
           "name": "Arcane Lore",
-          "effect": "Witch Hunters, Sisters of Sigmar and Warrior-Priests may not have this skill. A warrior with this skill may learn Lesser Magic if he owns a Tome of Magic. (RB 123)"
+          "effect": "Witch Hunters, Sisters of Sigmar and Warrior-Priests may not have this skill. A warrior with this skill may learn Lesser Magic if he owns a Tome of Magic. (RB 123)",
+          "prerequisite": {
+            "text": "Witch Hunters, Sisters of Sigmar and Warrior-Priests may not have this skill.",
+            "excludedWarbandTypes": ["witch-hunters", "sisters-of-sigmar"]
+          }
         },
         {
           "id": "wyrdstoneHunter",
@@ -118,37 +131,61 @@
         {
           "id": "warriorWizard",
           "name": "Warrior Wizard",
-          "effect": "Spellcasters only. Allows the wizard to wear armour and cast spells. (RB 123)"
+          "effect": "Spellcasters only. Allows the wizard to wear armour and cast spells. (RB 123)",
+          "prerequisite": {
+            "text": "Spellcasters only."
+          }
         },
         {
           "id": "scribe",
           "name": "Scribe",
-          "effect": "Any warrior able to cast spells or use prayers may take this. Allows making a scroll before battle inscribed with one known spell/prayer, usable just before casting it for +2 to the difficulty roll; the scroll crumbles after use and cannot be saved between battles. (TC7)"
+          "effect": "Any warrior able to cast spells or use prayers may take this. Allows making a scroll before battle inscribed with one known spell/prayer, usable just before casting it for +2 to the difficulty roll; the scroll crumbles after use and cannot be saved between battles. (TC7)",
+          "prerequisite": {
+            "text": "Any warrior able to cast spells or use prayers."
+          }
         },
         {
           "id": "mindFocus",
           "name": "Mind Focus",
-          "effect": "Spellcasters/prayer users only. May re-roll one dice roll used in the difficulty roll when using a spell or prayer. (TC7)"
+          "effect": "Spellcasters/prayer users only. May re-roll one dice roll used in the difficulty roll when using a spell or prayer. (TC7)",
+          "prerequisite": {
+            "text": "Spellcasters/prayer users only."
+          }
         },
         {
           "id": "tactician",
           "name": "Tactician",
-          "effect": "Warband leader only. May reposition his warriors after the opponent has set up, and may advance them up to 12\" onto the board instead of 8\". (TC7)"
+          "effect": "Warband leader only. May reposition his warriors after the opponent has set up, and may advance them up to 12\" onto the board instead of 8\". (TC7)",
+          "prerequisite": {
+            "text": "Warband leader only.",
+            "requiresLeader": true
+          }
         },
         {
           "id": "hunch",
           "name": "Hunch",
-          "effect": "Warband leader only. May position up to 3 of his XP-earning men in any ruined building on the board at least 12\" from an enemy model and not in the enemy deployment zone. (TC7)"
+          "effect": "Warband leader only. May position up to 3 of his XP-earning men in any ruined building on the board at least 12\" from an enemy model and not in the enemy deployment zone. (TC7)",
+          "prerequisite": {
+            "text": "Warband leader only.",
+            "requiresLeader": true
+          }
         },
         {
           "id": "magicalAptitude",
           "name": "Magical Aptitude",
-          "effect": "Spellcasters only (not Sisters of Sigmar or Warrior Priests). May attempt to cast two spells per turn if not in hand-to-hand combat; after the first, take a Toughness test — pass to attempt a second (even the same spell); fail and roll on the injury table immediately with no saves, treating out of action as stunned. (TC7)"
+          "effect": "Spellcasters only (not Sisters of Sigmar or Warrior Priests). May attempt to cast two spells per turn if not in hand-to-hand combat; after the first, take a Toughness test — pass to attempt a second (even the same spell); fail and roll on the injury table immediately with no saves, treating out of action as stunned. (TC7)",
+          "prerequisite": {
+            "text": "Spellcasters only.",
+            "excludedWarbandTypes": ["sisters-of-sigmar"]
+          }
         },
         {
           "id": "driveChariot",
           "name": "Drive Chariot",
-          "effect": "Required to drive a chariot effectively in combat; a charioteer without this skill cannot charge. (TC18)"
+          "effect": "Required to drive a chariot effectively in combat; a charioteer without this skill cannot charge. (TC18)",
+          "prerequisite": {
+            "text": "Requires a chariot to drive."
+          }
         }
       ]
     },
@@ -255,12 +292,20 @@
         {
           "id": "dogOfWar",
           "name": "Dog of War",
-          "effect": "The warband may hire Hired Swords available to Mercenaries. Only the leader may take this skill; if he dies, all Hired Swords are removed from the warband."
+          "effect": "The warband may hire Hired Swords available to Mercenaries. Only the leader may take this skill; if he dies, all Hired Swords are removed from the warband.",
+          "prerequisite": {
+            "text": "Only the leader may take this skill.",
+            "requiresLeader": true
+          }
         },
         {
           "id": "bellowingRoar",
           "name": "Bellowing Roar",
-          "effect": "Warband leader only. Allows a re-roll of the first failed Rout test."
+          "effect": "Warband leader only. Allows a re-roll of the first failed Rout test.",
+          "prerequisite": {
+            "text": "Warband leader only.",
+            "requiresLeader": true
+          }
         }
       ]
     },
@@ -280,7 +325,11 @@
         {
           "id": "determinedAzmodan",
           "name": "Determined",
-          "effect": "Leader only. The warband may re-roll their first failed Rout test, unless the leader is out of action. (New — by Azmodan)"
+          "effect": "Leader only. The warband may re-roll their first failed Rout test, unless the leader is out of action. (New — by Azmodan)",
+          "prerequisite": {
+            "text": "Leader only.",
+            "requiresLeader": true
+          }
         },
         {
           "id": "bullsChargeAzmodan",
@@ -585,7 +634,11 @@
         {
           "id": "bloodOath",
           "name": "Blood Oath",
-          "effect": "Warband leader only. May re-roll a single Rout test once per game. (A02 13)"
+          "effect": "Warband leader only. May re-roll a single Rout test once per game. (A02 13)",
+          "prerequisite": {
+            "text": "Warband leader only.",
+            "requiresLeader": true
+          }
         }
       ]
     },

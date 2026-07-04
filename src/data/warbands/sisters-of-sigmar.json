@@ -19,7 +19,7 @@
         "academic",
         "strength",
         "speed",
-        "sistersSpecial"
+        "sistersOfSigmar"
       ],
       "statLine": {
         "M": 4,
@@ -61,7 +61,7 @@
         "academic",
         "strength",
         "speed",
-        "sistersSpecial"
+        "sistersOfSigmar"
       ],
       "statLine": {
         "M": 4,
@@ -101,7 +101,7 @@
       "skillLists": [
         "academic",
         "speed",
-        "sistersSpecial"
+        "sistersOfSigmar"
       ],
       "statLine": {
         "M": 4,
@@ -265,5 +265,5 @@
       "rulesText": "TODO: verify rules vs rulebook — not present in the fetched pages."
     }
   ],
-  "specialRules": "Sisters of Sigmar. The Sisters use their own Special skill list instead of one of the standard lists (skillLists id 'sistersSpecial'): Sign of Sigmar (Possessed/Undead lose their first attack in the first round of close combat, min 1); Protection of Sigmar (any spell affecting her is nullified on 4+, and then affects no one); Utter Determination (Matriarch only — re-roll failed Rout tests); Righteous Fury (hates all Skaven, Undead or Possessed warbands and every model in them); Absolute Faith (re-roll Fear tests; no test when fighting alone against several opponents). They never wear... they use only the weapons on their equipment list (blunt weapons, warhammer, whip, sling — no bladed weapons). Min warband size 3, max 15. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
+  "specialRules": "Sisters of Sigmar. The Sisters use their own Special skill list instead of one of the standard lists (skillLists id 'sistersOfSigmar'): Sign of Sigmar (Possessed/Undead lose their first attack in the first round of close combat, min 1); Protection of Sigmar (any spell affecting her is nullified on 4+, and then affects no one); Utter Determination (Matriarch only — re-roll failed Rout tests); Righteous Fury (hates all Skaven, Undead or Possessed warbands and every model in them); Absolute Faith (re-roll Fear tests; no test when fighting alone against several opponents). They never wear... they use only the weapons on their equipment list (blunt weapons, warhammer, whip, sling — no bladed weapons). Min warband size 3, max 15. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
 }

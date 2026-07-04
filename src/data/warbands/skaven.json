@@ -19,7 +19,7 @@
         "shooting",
         "strength",
         "speed",
-        "skavenSpecial"
+        "skaven"
       ],
       "statLine": {
         "M": 6,
@@ -59,7 +59,7 @@
       "skillLists": [
         "academic",
         "speed",
-        "skavenSpecial"
+        "skaven"
       ],
       "statLine": {
         "M": 5,
@@ -101,7 +101,7 @@
         "shooting",
         "strength",
         "speed",
-        "skavenSpecial"
+        "skaven"
       ],
       "statLine": {
         "M": 6,
@@ -346,5 +346,5 @@
       "rulesText": "TODO: verify profile/special rules vs rulebook."
     }
   ],
-  "specialRules": "Skaven (Clan Eshin). Skaven Heroes may use their own Special skill list instead of a standard one (skillLists id 'skavenSpecial'): Black Hunger (+1A and +D3\" move for the turn, then D3 S3 hits with no save); Tail Fighting (extra attack with shield/knife/sword via the tail, or +1 armour save); Wall Runner (no Initiative test to climb); Infiltration (deploy after the enemy, anywhere out of sight and >12\" from foes); Art of Silent Death (fight bare-pawed with no penalty as two weapons, +1A, and cause criticals on a to-wound 5-6; with Fighting Claws gives +2A). Highest warband cap in the core game: max 20 models. Min warband size 3. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
+  "specialRules": "Skaven (Clan Eshin). Skaven Heroes may use their own Special skill list instead of a standard one (skillLists id 'skaven'): Black Hunger (+1A and +D3\" move for the turn, then D3 S3 hits with no save); Tail Fighting (extra attack with shield/knife/sword via the tail, or +1 armour save); Wall Runner (no Initiative test to climb); Infiltration (deploy after the enemy, anywhere out of sight and >12\" from foes); Art of Silent Death (fight bare-pawed with no penalty as two weapons, +1A, and cause criticals on a to-wound 5-6; with Fighting Claws gives +2A). Highest warband cap in the core game: max 20 models. Min warband size 3. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
 }

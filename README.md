@@ -15,6 +15,8 @@ This is under active development. Current state, milestone by milestone:
 - ✅ **Trading Post** — buy Common and Rare equipment (including warband-exclusive items) against the warband's gold, sell items back from the treasury. Rare purchases can be auto-rolled (2D6 against the item's Rare number) or resolved by hand for warband-specific modifiers. Equipment can also be bought directly from a Hero/Hired Sword or Henchmen Group's detail screen, equipping it on that model/group in one step instead of routing through the treasury.
 - ✅ **Campaign Log** — start/rename a campaign and toggle Border Town Burning; a chronological, expandable log of every battle committed via the Post-Battle Wizard; a per-warband BTB objective tracker (pick an objective, free-text Campaign Points/progress notes, completed flag) shown when the campaign uses BTB.
 - ✅ **Home** — a dashboard tab (first in the bottom nav, the app's `/` route) summarizing the active campaign, all warbands at a glance, and quick links into Post-Battle/Trading/Campaign. With six tabs now in the bottom nav, Settings collapses to an icon-only cog on narrow screens (label returns at wider viewports) to keep the other labels from crowding each other.
+- ✅ **Pre-Battle & During-Battle** — the Battle tab now starts with setup (pick or randomly roll a scenario, note the opponent by name or by picking another warband stored in the app, pre-battle notes) before the fight, then a live tracker during it (turn counter, a timestamped event log, and a read-only quick-reference roster — stats, equipment, skills — for your own warband or the selected opponent's). Both screens persist through a reload so an accidental refresh at the table doesn't lose the game state. Finishing flows straight into the Post-Battle Wizard, which prefills the scenario/opponent from what was set up.
+- ✅ **Skills system** — the 5 core skill lists (Combat, Shooting, Academic, Strength, Speed) plus each warband's unique list are wired into a shared skill picker used by both the model detail screens and the Post-Battle Wizard's Advances step. It hard-blocks skills a Hero already knows or definitely isn't eligible for (leader-only, excluded warband types) and surfaces prerequisites it can't verify (e.g. "Spellcasters only") as a warning instead of guessing.
 
 ## Tech stack
 
@@ -41,13 +43,16 @@ npm run preview   # serve the production build locally
 src/
   data/            Static game-content data (warbands, equipment, skills, injuries,
                     advances, wyrdstone prices, Hired Swords, BTB objectives, ...)
-  storage/         localStorage persistence layer (schemaVersion, migrations, export/import)
+  storage/         localStorage persistence layer (schemaVersion, migrations, export/import,
+                    plus the ephemeral per-warband Pre/During-Battle session)
   store/           Zustand store wiring the persistence layer to the UI
   lib/             Pure helper logic (warband rating, stat lines, wyrdstone pricing, equipment lookup,
-                    dice rolling, advance table parsing, ...)
+                    dice rolling, advance table parsing, skill prerequisite checking, ...)
   components/      Shared UI, including EquipmentShop (the Common/Rare buy flow used by
-                    both the Trading Post and the model/henchmen detail screens)
-  screens/         Route-level screens (Warbands, roster, hero/henchmen detail, Trading Post, Settings, ...)
+                    both the Trading Post and the model/henchmen detail screens) and
+                    SkillPicker (used by both the model detail screens and the Post-Battle Wizard)
+  screens/         Route-level screens (Warbands, roster, hero/henchmen detail, Pre/During-Battle,
+                    Trading Post, Settings, ...)
   screens/postBattle/  The Post-Battle Wizard and its 8 step components
   types.ts         User data model (Warband, Hero, HenchmenGroup, HiredSword, Campaign, ...)
 ```
@@ -62,6 +67,7 @@ Static game-content files under `src/data/` are sourced from the official Mordhe
 
 - `xpThresholds.json` still needs the exact XP-per-advance numbers transcribed from a physical/PDF roster sheet — you still have to check your own roster sheet for who's crossed a threshold, though rolling for the advance itself is now automated.
 - A handful of individual items/skills/Hired Swords are flagged incomplete in their respective files.
+- The 5 core skill lists (`skills.json`) and their prerequisites were cross-checked directly against the rulebook's Campaigns chapter. A data bug from an earlier pass was also fixed: Sisters of Sigmar's and Skaven's unique skill lists were referenced by the wrong id from their warband files, so those lists were silently missing from the app — this is now corrected.
 
 If you own the books, please cross-check anything you rely on for a real campaign, and treat the `TODO` markers as a to-do list.
 

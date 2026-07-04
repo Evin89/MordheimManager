@@ -13,6 +13,8 @@ import AddHeroScreen from './screens/AddHeroScreen';
 import AddHenchmenScreen from './screens/AddHenchmenScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import WarbandPickerScreen from './screens/WarbandPickerScreen';
+import PreBattleScreen from './screens/PreBattleScreen';
+import DuringBattleScreen from './screens/DuringBattleScreen';
 import PostBattleWizard from './screens/postBattle/PostBattleWizard';
 import TradingPostScreen from './screens/TradingPostScreen';
 import CampaignScreen from './screens/CampaignScreen';
@@ -49,16 +51,18 @@ export default function App() {
             element={<ModelDetailScreen kind="hiredSword" />}
           />
           <Route path="/warbands/:warbandId/henchmen/:groupId" element={<HenchmenDetailScreen />} />
+          <Route path="/warbands/:warbandId/pre-battle" element={<PreBattleScreen />} />
+          <Route path="/warbands/:warbandId/during-battle" element={<DuringBattleScreen />} />
           <Route path="/warbands/:warbandId/post-battle" element={<PostBattleWizard />} />
           <Route path="/warbands/:warbandId/trading" element={<TradingPostScreen />} />
           <Route
             path="/post-battle"
             element={
               <WarbandPickerScreen
-                title={strings.postBattle.pickWarbandTitle}
-                prompt={strings.postBattle.pickWarbandPrompt}
-                emptyMessage={strings.postBattle.noWarbands}
-                destination={(id) => `/warbands/${id}/post-battle`}
+                title={strings.battle.pickWarbandTitle}
+                prompt={strings.battle.pickWarbandPrompt}
+                emptyMessage={strings.battle.noWarbands}
+                destination={(id) => `/warbands/${id}/pre-battle`}
               />
             }
           />

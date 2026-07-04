@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import EquipmentShop from '../components/EquipmentShop';
+import SkillPicker from '../components/SkillPicker';
 import { strings } from '../strings';
 import { useAppStore } from '../store/useAppStore';
 import { generateId } from '../lib/id';
-import { getSkillList } from '../lib/skillLookup';
 import { getUniqueInjuries } from '../lib/injuryLookup';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { STAT_KEYS } from '../lib/statLine';
@@ -26,8 +26,6 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const saveWarband = useAppStore((state) => state.saveWarband);
 
   const [advanceMode, setAdvanceMode] = useState<'stat' | 'skill' | null>(null);
-  const [advanceSkillListId, setAdvanceSkillListId] = useState('');
-  const [advanceSkillName, setAdvanceSkillName] = useState('');
   const [addingInjury, setAddingInjury] = useState(false);
   const [injuryChoice, setInjuryChoice] = useState('custom');
   const [customInjuryName, setCustomInjuryName] = useState('');
@@ -61,15 +59,13 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     setAdvanceMode(null);
   }
 
-  function applySkillAdvance() {
-    if (!model || !advanceSkillName.trim()) return;
+  function applySkillAdvance(skillName: string) {
+    if (!model) return;
     updateModel({
-      skills: [...model.skills, advanceSkillName.trim()],
-      advances: [...model.advances, { id: generateId(), type: 'skill', detail: advanceSkillName.trim() }],
+      skills: [...model.skills, skillName],
+      advances: [...model.advances, { id: generateId(), type: 'skill', detail: skillName }],
     });
     setAdvanceMode(null);
-    setAdvanceSkillListId('');
-    setAdvanceSkillName('');
   }
 
   function addInjury() {
@@ -140,11 +136,6 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     }
   }
 
-  const availableSkillLists = model.skillLists
-    .map((id) => ({ id, list: getSkillList(id) }))
-    .filter((entry): entry is { id: string; list: NonNullable<ReturnType<typeof getSkillList>> } => !!entry.list);
-
-  const chosenSkillList = advanceSkillListId ? getSkillList(advanceSkillListId) : undefined;
   const unitTypeLabel = 'unitType' in model ? model.unitType : model.type;
 
   return (
@@ -291,56 +282,13 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
               )}
 
               {advanceMode === 'skill' && (
-                <div className="space-y-3">
-                  <div className="space-y-1">
-                    <label className="text-bone-300 text-sm" htmlFor="advance-skill-list">
-                      {strings.modelDetail.pickSkillList}
-                    </label>
-                    <select
-                      id="advance-skill-list"
-                      value={advanceSkillListId}
-                      onChange={(e) => setAdvanceSkillListId(e.target.value)}
-                      className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
-                    >
-                      <option value="">—</option>
-                      {availableSkillLists.map(({ id, list }) => (
-                        <option key={id} value={id}>
-                          {list.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {chosenSkillList && (
-                    <div className="space-y-1">
-                      <label className="text-bone-300 text-sm" htmlFor="advance-skill-name">
-                        {strings.modelDetail.pickSkillName}
-                      </label>
-                      <select
-                        id="advance-skill-name"
-                        value={advanceSkillName}
-                        onChange={(e) => setAdvanceSkillName(e.target.value)}
-                        className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
-                      >
-                        <option value="">—</option>
-                        {chosenSkillList.skills.map((skill) => (
-                          <option key={skill.id} value={skill.name}>
-                            {skill.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-
-                  <button
-                    type="button"
-                    onClick={applySkillAdvance}
-                    disabled={!advanceSkillName.trim()}
-                    className="w-full min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 disabled:opacity-40 text-ink-950 font-semibold"
-                  >
-                    {strings.common.add}
-                  </button>
-                </div>
+                <SkillPicker
+                  skillLists={model.skillLists}
+                  knownSkills={model.skills}
+                  warbandType={warband.warbandType}
+                  isLeader={model.isLeader}
+                  onAdd={applySkillAdvance}
+                />
               )}
 
               <button
