@@ -12,8 +12,9 @@ import AddHeroScreen from './screens/AddHeroScreen';
 import AddHenchmenScreen from './screens/AddHenchmenScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import PlaceholderScreen from './screens/PlaceholderScreen';
-import PostBattlePickerScreen from './screens/PostBattlePickerScreen';
+import WarbandPickerScreen from './screens/WarbandPickerScreen';
 import PostBattleWizard from './screens/postBattle/PostBattleWizard';
+import TradingPostScreen from './screens/TradingPostScreen';
 
 export default function App() {
   const load = useAppStore((state) => state.load);
@@ -48,8 +49,29 @@ export default function App() {
           />
           <Route path="/warbands/:warbandId/henchmen/:groupId" element={<HenchmenDetailScreen />} />
           <Route path="/warbands/:warbandId/post-battle" element={<PostBattleWizard />} />
-          <Route path="/post-battle" element={<PostBattlePickerScreen />} />
-          <Route path="/trading" element={<PlaceholderScreen title={strings.nav.trading} />} />
+          <Route path="/warbands/:warbandId/trading" element={<TradingPostScreen />} />
+          <Route
+            path="/post-battle"
+            element={
+              <WarbandPickerScreen
+                title={strings.postBattle.pickWarbandTitle}
+                prompt={strings.postBattle.pickWarbandPrompt}
+                emptyMessage={strings.postBattle.noWarbands}
+                destination={(id) => `/warbands/${id}/post-battle`}
+              />
+            }
+          />
+          <Route
+            path="/trading"
+            element={
+              <WarbandPickerScreen
+                title={strings.trading.pickWarbandTitle}
+                prompt={strings.trading.pickWarbandPrompt}
+                emptyMessage={strings.trading.noWarbands}
+                destination={(id) => `/warbands/${id}/trading`}
+              />
+            }
+          />
           <Route path="/campaign" element={<PlaceholderScreen title={strings.nav.campaign} />} />
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="*" element={<Navigate to="/warbands" replace />} />

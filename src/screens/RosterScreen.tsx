@@ -99,6 +99,13 @@ export default function RosterScreen() {
           {strings.postBattle.startButton}
         </Link>
 
+        <Link
+          to={`/warbands/${warband.id}/trading`}
+          className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
+        >
+          {strings.roster.visitTrading}
+        </Link>
+
         {lastBattleSnapshot?.warbandId === warband.id && (
           <button
             type="button"
