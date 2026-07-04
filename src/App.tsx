@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
 import { strings } from './strings';
 import { useAppStore } from './store/useAppStore';
+import HomeScreen from './screens/HomeScreen';
 import WarbandListScreen from './screens/WarbandListScreen';
 import NewWarbandScreen from './screens/NewWarbandScreen';
 import RosterScreen from './screens/RosterScreen';
@@ -36,7 +37,7 @@ export default function App() {
     <BrowserRouter>
       <div className="min-h-full pb-[56px]">
         <Routes>
-          <Route path="/" element={<Navigate to="/warbands" replace />} />
+          <Route path="/" element={<HomeScreen />} />
           <Route path="/warbands" element={<WarbandListScreen />} />
           <Route path="/warbands/new" element={<NewWarbandScreen />} />
           <Route path="/warbands/:warbandId" element={<RosterScreen />} />
@@ -74,7 +75,7 @@ export default function App() {
           />
           <Route path="/campaign" element={<CampaignScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
-          <Route path="*" element={<Navigate to="/warbands" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <BottomNav />
       </div>
