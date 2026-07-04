@@ -13,7 +13,7 @@ This is under active development. Current state, milestone by milestone:
 - ✅ **Warbands** — create a warband from any of 9 warband types, manage its roster (Heroes, Henchmen Groups, Hired Swords), edit stats/XP/skills/injuries/equipment, move gear to and from the treasury.
 - ✅ **Post-Battle Wizard** — the 8-step guided sequence (battle info → injuries → experience → advances → dead models → income → upkeep → confirm) with a staged diff summary and single-level undo.
 - ✅ **Trading Post** — buy Common and Rare equipment (including warband-exclusive items) against the warband's gold, sell items back from the treasury. Rare purchases walk through the roll-then-price flow rather than assuming a fixed price. Equipment can also be bought directly from a Hero/Hired Sword or Henchmen Group's detail screen, equipping it on that model/group in one step instead of routing through the treasury.
-- ⏳ **Campaign Log** — battle history is recorded by the Post-Battle Wizard, but there's no dedicated screen to browse it yet (placeholder tab).
+- ✅ **Campaign Log** — start/rename a campaign and toggle Border Town Burning; a chronological, expandable log of every battle committed via the Post-Battle Wizard; a per-warband BTB objective tracker (pick an objective, free-text Campaign Points/progress notes, completed flag) shown when the campaign uses BTB.
 
 ## Tech stack
 

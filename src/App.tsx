@@ -11,10 +11,10 @@ import HenchmenDetailScreen from './screens/HenchmenDetailScreen';
 import AddHeroScreen from './screens/AddHeroScreen';
 import AddHenchmenScreen from './screens/AddHenchmenScreen';
 import SettingsScreen from './screens/SettingsScreen';
-import PlaceholderScreen from './screens/PlaceholderScreen';
 import WarbandPickerScreen from './screens/WarbandPickerScreen';
 import PostBattleWizard from './screens/postBattle/PostBattleWizard';
 import TradingPostScreen from './screens/TradingPostScreen';
+import CampaignScreen from './screens/CampaignScreen';
 
 export default function App() {
   const load = useAppStore((state) => state.load);
@@ -72,7 +72,7 @@ export default function App() {
               />
             }
           />
-          <Route path="/campaign" element={<PlaceholderScreen title={strings.nav.campaign} />} />
+          <Route path="/campaign" element={<CampaignScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="*" element={<Navigate to="/warbands" replace />} />
         </Routes>
