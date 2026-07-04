@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import EquipmentShop from '../components/EquipmentShop';
 import { strings } from '../strings';
 import { useAppStore } from '../store/useAppStore';
 import { generateId } from '../lib/id';
 import { getSkillList } from '../lib/skillLookup';
 import { getUniqueInjuries } from '../lib/injuryLookup';
+import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { STAT_KEYS } from '../lib/statLine';
-import { Hero, HiredSword, ModelStatus, StatLine } from '../types';
+import { EquipmentItem, Hero, HiredSword, ModelStatus, StatLine } from '../types';
 
 type EditableModel = Hero | HiredSword;
 
@@ -30,6 +32,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const [injuryChoice, setInjuryChoice] = useState('custom');
   const [customInjuryName, setCustomInjuryName] = useState('');
   const [customInjuryEffect, setCustomInjuryEffect] = useState('');
+  const [shoppingOpen, setShoppingOpen] = useState(false);
 
   if (!warband) return <Navigate to="/warbands" replace />;
 
@@ -109,6 +112,24 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
       [listKey]: updatedList,
       treasury: warband.treasury.filter((e) => e.id !== itemId),
     });
+  }
+
+  function buyForModel(item: ResolvedEquipmentItem, price: number) {
+    if (!warband || !model) return;
+    if (price > warband.gold) {
+      if (!window.confirm(strings.trading.insufficientGoldConfirm(price, warband.gold))) return;
+    }
+    const newItem: EquipmentItem = {
+      id: generateId(),
+      name: item.name,
+      category: item.category,
+      cost: price,
+      notes: item.restriction || undefined,
+    };
+    const updatedList = list.map((m) =>
+      m.id === model.id ? { ...m, equipment: [...m.equipment, newItem] } : m,
+    );
+    saveWarband({ ...warband, [listKey]: updatedList, gold: warband.gold - price });
   }
 
   function handleDelete() {
@@ -422,7 +443,16 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.modelDetail.equipmentSection}</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-bone-100 font-semibold">{strings.modelDetail.equipmentSection}</h2>
+            <button
+              type="button"
+              onClick={() => setShoppingOpen((v) => !v)}
+              className="text-ember-400 text-sm font-semibold shrink-0"
+            >
+              {shoppingOpen ? strings.modelDetail.hideShop : strings.modelDetail.buyEquipment}
+            </button>
+          </div>
           {model.equipment.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noEquipment}</p>}
           <div className="space-y-2">
             {model.equipment.map((item) => (
@@ -438,6 +468,15 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
               </div>
             ))}
           </div>
+
+          {shoppingOpen && (
+            <div className="space-y-3 rounded-lg border border-ink-800 p-3">
+              <p className="text-ember-400 font-semibold text-sm">
+                {strings.modelDetail.shopGoldLabel}: {warband.gold} {strings.common.gold}
+              </p>
+              <EquipmentShop warband={warband} onPurchase={buyForModel} />
+            </div>
+          )}
 
           <h3 className="text-bone-200 text-sm font-semibold pt-2">{strings.modelDetail.treasurySection}</h3>
           {warband.treasury.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noTreasury}</p>}

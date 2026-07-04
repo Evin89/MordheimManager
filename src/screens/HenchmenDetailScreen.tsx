@@ -1,17 +1,21 @@
+import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
+import EquipmentShop from '../components/EquipmentShop';
 import { strings } from '../strings';
 import { useAppStore } from '../store/useAppStore';
 import { generateId } from '../lib/id';
+import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { STAT_KEYS } from '../lib/statLine';
-import { HenchmenGroup, StatLine } from '../types';
+import { EquipmentItem, HenchmenGroup, StatLine } from '../types';
 
 export default function HenchmenDetailScreen() {
   const { warbandId, groupId } = useParams<{ warbandId: string; groupId: string }>();
   const navigate = useNavigate();
   const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
   const saveWarband = useAppStore((state) => state.saveWarband);
+  const [shoppingOpen, setShoppingOpen] = useState(false);
 
   if (!warband) return <Navigate to="/warbands" replace />;
 
@@ -55,6 +59,24 @@ export default function HenchmenDetailScreen() {
       g.id === group.id ? { ...g, equipment: [...g.equipment, item] } : g,
     );
     saveWarband({ ...warband, henchmenGroups: updated, treasury: warband.treasury.filter((e) => e.id !== itemId) });
+  }
+
+  function buyForGroup(item: ResolvedEquipmentItem, price: number) {
+    if (!warband || !group) return;
+    if (price > warband.gold) {
+      if (!window.confirm(strings.trading.insufficientGoldConfirm(price, warband.gold))) return;
+    }
+    const newItem: EquipmentItem = {
+      id: generateId(),
+      name: item.name,
+      category: item.category,
+      cost: price,
+      notes: item.restriction || undefined,
+    };
+    const updated = warband.henchmenGroups.map((g) =>
+      g.id === group.id ? { ...g, equipment: [...g.equipment, newItem] } : g,
+    );
+    saveWarband({ ...warband, henchmenGroups: updated, gold: warband.gold - price });
   }
 
   function handleDelete() {
@@ -151,7 +173,16 @@ export default function HenchmenDetailScreen() {
         )}
 
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.modelDetail.equipmentSection}</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-bone-100 font-semibold">{strings.modelDetail.equipmentSection}</h2>
+            <button
+              type="button"
+              onClick={() => setShoppingOpen((v) => !v)}
+              className="text-ember-400 text-sm font-semibold shrink-0"
+            >
+              {shoppingOpen ? strings.modelDetail.hideShop : strings.modelDetail.buyEquipment}
+            </button>
+          </div>
           {group.equipment.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noEquipment}</p>}
           <div className="space-y-2">
             {group.equipment.map((item) => (
@@ -167,6 +198,15 @@ export default function HenchmenDetailScreen() {
               </div>
             ))}
           </div>
+
+          {shoppingOpen && (
+            <div className="space-y-3 rounded-lg border border-ink-800 p-3">
+              <p className="text-ember-400 font-semibold text-sm">
+                {strings.modelDetail.shopGoldLabel}: {warband.gold} {strings.common.gold}
+              </p>
+              <EquipmentShop warband={warband} onPurchase={buyForGroup} />
+            </div>
+          )}
 
           <h3 className="text-bone-200 text-sm font-semibold pt-2">{strings.modelDetail.treasurySection}</h3>
           {warband.treasury.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noTreasury}</p>}

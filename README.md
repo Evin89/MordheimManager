@@ -12,7 +12,7 @@ This is under active development. Current state, milestone by milestone:
 - ✅ **Game data** — warband definitions, equipment, skills, injuries, advance tables, wyrdstone prices, Hired Swords, Dramatis Personae, and BTB campaign objectives, sourced from the core rulebook and Border Town Burning supplement (see [Game data & verification](#game-data--verification) below).
 - ✅ **Warbands** — create a warband from any of 9 warband types, manage its roster (Heroes, Henchmen Groups, Hired Swords), edit stats/XP/skills/injuries/equipment, move gear to and from the treasury.
 - ✅ **Post-Battle Wizard** — the 8-step guided sequence (battle info → injuries → experience → advances → dead models → income → upkeep → confirm) with a staged diff summary and single-level undo.
-- ⏳ **Trading Post** — not yet built (placeholder tab).
+- ✅ **Trading Post** — buy Common and Rare equipment (including warband-exclusive items) against the warband's gold, sell items back from the treasury. Rare purchases walk through the roll-then-price flow rather than assuming a fixed price. Equipment can also be bought directly from a Hero/Hired Sword or Henchmen Group's detail screen, equipping it on that model/group in one step instead of routing through the treasury.
 - ⏳ **Campaign Log** — battle history is recorded by the Post-Battle Wizard, but there's no dedicated screen to browse it yet (placeholder tab).
 
 ## Tech stack
@@ -42,8 +42,10 @@ src/
                     advances, wyrdstone prices, Hired Swords, BTB objectives, ...)
   storage/         localStorage persistence layer (schemaVersion, migrations, export/import)
   store/           Zustand store wiring the persistence layer to the UI
-  lib/             Pure helper logic (warband rating, stat lines, wyrdstone pricing, ...)
-  screens/         Route-level screens (Warbands, roster, hero/henchmen detail, Settings, ...)
+  lib/             Pure helper logic (warband rating, stat lines, wyrdstone pricing, equipment lookup, ...)
+  components/      Shared UI, including EquipmentShop (the Common/Rare buy flow used by
+                    both the Trading Post and the model/henchmen detail screens)
+  screens/         Route-level screens (Warbands, roster, hero/henchmen detail, Trading Post, Settings, ...)
   screens/postBattle/  The Post-Battle Wizard and its 8 step components
   types.ts         User data model (Warband, Hero, HenchmenGroup, HiredSword, Campaign, ...)
 ```
