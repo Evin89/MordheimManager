@@ -19,12 +19,31 @@ function SettingsIcon({ className }: { className?: string }) {
   );
 }
 
+function RulesIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+    </svg>
+  );
+}
+
 const TABS: { to: string; label: string; end?: boolean; icon?: typeof SettingsIcon }[] = [
   { to: '/', label: strings.nav.home, end: true },
   { to: '/warbands', label: strings.nav.warbands },
   { to: '/post-battle', label: strings.nav.postBattle },
   { to: '/trading', label: strings.nav.trading },
   { to: '/campaign', label: strings.nav.campaign },
+  { to: '/rules', label: strings.nav.rules, icon: RulesIcon },
   { to: '/settings', label: strings.nav.settings, icon: SettingsIcon },
 ];
 

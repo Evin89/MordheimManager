@@ -1,0 +1,538 @@
+{
+  "schemaVersion": 1,
+  "source": "Hand-authored summaries. Post-Battle Sequence, Warband Rating, Death of a Warrior/Leader, Disbanding, Exploration & Wyrdstone, and Trading/Hired Sword entries are paraphrased from the Mordheim core rulebook, Part 3 - Campaigns & Optional Rules, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-04 (page numbers cited per-entry). The Characteristics entries are paraphrased from the core rulebook's Characteristics chapter, provided directly by the owner on 2026-07-05 (no page number given). Combat, shooting, and psychology procedures are still a known gap — those live elsewhere in Part 1 (Warbands) / Part 2 (Rules of Play), which haven't been sourced yet. Owner should cross-check against their own physical rulebook printing.",
+  "categories": [
+    {
+      "id": "core",
+      "name": "Core Rules",
+      "description": "Movement, combat, shooting, close combat, and psychology — the tabletop rules used during a battle."
+    },
+    {
+      "id": "postBattle",
+      "name": "Post-Battle Sequence",
+      "description": "What happens between games: injuries, experience, advances, exploration, wyrdstone, and warband rating."
+    },
+    {
+      "id": "trading",
+      "name": "Trading & Rare Items",
+      "description": "Buying and selling equipment, recruiting warriors and Hired Swords, and the rare item availability roll."
+    },
+    {
+      "id": "skills",
+      "name": "Skills",
+      "description": "The Combat, Shooting, Academic, Strength, and Speed skill lists, plus each warband's unique skills."
+    },
+    {
+      "id": "injuries",
+      "name": "Injuries",
+      "description": "The Serious Injury table rolled for warriors taken out of action."
+    },
+    {
+      "id": "scenarios",
+      "name": "Scenarios",
+      "description": "The core scenarios and the Experience they award."
+    },
+    {
+      "id": "warbandSpecial",
+      "name": "Warband-Specific Rules",
+      "description": "Special rules unique to each of the 9 playable warband types."
+    },
+    {
+      "id": "btb",
+      "name": "Border Town Burning",
+      "description": "Campaign objectives and Dramatis Personae from the Border Town Burning supplement."
+    }
+  ],
+  "entries": [
+    {
+      "id": "core-not-yet-available",
+      "title": "Spell Lists — Not Yet Available",
+      "category": "core",
+      "source": "N/A",
+      "body": "Characteristics, the Turn sequence, Movement, Shooting, Close Combat, Leadership & Psychology, and the Magic casting mechanic + wizard-to-lore allocation table are all covered. The remaining gap is the actual spell lists themselves — the specific spells, difficulty scores, and effects for each of the ~35 lores (Lesser Magic, Necromancy, Prayers of Sigmar, Waaaagh! Magic, etc.) haven't been provided yet.\n\nThe Strength-vs-Toughness \"roll to wound\" chart is also still missing (only its header was pasted in) — it's marked as a TODO on the relevant entries rather than guessed.\n\nFull scenario terrain/deployment/victory-condition text is a separate known gap — see the note on each entry in the Scenarios category.",
+      "relatedIds": ["turn-sequence", "magic-overview"]
+    },
+    {
+      "id": "magic-overview",
+      "title": "Magic Overview",
+      "category": "core",
+      "source": "Mordheim core rulebook, Magic chapter (provided by owner)",
+      "body": "Magic in Mordheim originates from Chaos and is illegal, punishable by death — wizards are persecuted, reclusive, and often more than a little unhinged. Priests draw on divine power instead; Sigmar's priesthood is the most common, given his standing as the Empire's patron god.\n\nEach wizard type in the game draws from a specific lore of magic tied to their warband (see \"Wizard Spell Lists by Warband\"). A wizard starts with one randomly rolled spell and may learn more over the campaign.",
+      "relatedIds": ["casting-spells", "wizard-spell-lists-by-warband"]
+    },
+    {
+      "id": "casting-spells",
+      "title": "Casting Spells",
+      "category": "core",
+      "source": "Mordheim core rulebook, Magic chapter (provided by owner)",
+      "body": "Spells are cast in the shooting phase (even while in hand-to-hand combat). To cast, roll 2D6 and score equal to or greater than the spell's Difficulty — fail, and the wizard can't cast at all that turn. A wizard may cast only one spell per turn, can't also use a missile weapon that turn, but can still run.\n\nWizards can't cast while wearing armour or carrying a shield/buckler — the sole exception is the Prayers of Sigmar, which Sisters of Sigmar and Warrior Priests may use even in armour.\n\nEach wizard starts with one random spell (roll a D6 on their lore's chart); rolling a duplicate means re-rolling or instead lowering that spell's Difficulty by 1.",
+      "relatedIds": ["spell-damage", "magic-overview"]
+    },
+    {
+      "id": "spell-damage",
+      "title": "Spell Damage",
+      "category": "core",
+      "source": "Mordheim core rulebook, Magic chapter (provided by owner)",
+      "body": "Direct-damage spells resolve like shooting or close combat damage, but never cause critical hits. Targets always get their normal armour save against spell damage unless the spell specifically says otherwise.",
+      "relatedIds": ["rolling-to-wound", "armour-saves"]
+    },
+    {
+      "id": "wizard-spell-lists-by-warband",
+      "title": "Wizard Spell Lists by Warband",
+      "category": "core",
+      "source": "Mordheim core rulebook + supplements, Magic chapter (provided by owner)",
+      "body": "Which lore of magic each wizard type uses (the specific spells within each lore aren't transcribed yet — see the gap note on \"Spell Lists — Not Yet Available\"):\n\nAmazons (Lustria) Serpent Priestess — Amazon Rituals\nAmazons (Mordheim) Priestess — Amazon Rituals\nArabian Tomb Raiders Mystic — Arabian Elemental Magic\nBeastmen Raiders Beastmen Shaman — Chaos Rituals\nBlack Dwarfs Sorcerer — Rituals of Hashut\nBretonnian Chapel Guard Damsel — Lady's Prayers\nCarnival of Chaos Carnival Master — Nurgle Rituals\nCult of the Possessed Magister — Chaos Rituals\nDark Elves Dark Elf Sorceress — Dark Elf Magic\nDark Emissary — Lore of Darkness\nElf Mage — Spells of the Djed'hi\nForest Goblins Shaman — Forest Goblin Magic\nHorned Hunters Priest of Taal — Prayers of Taal\nKhar-mel The Djinn — Arabian Elemental Magic\nLizardmen Skink Priest — Lizardman Magic\nMarauders of Chaos Seer (Mark of Chaos Undivided) — Chaos Rituals\nMarauders of Chaos Seer (Mark of Onogal the Crow) — Onogal Rituals\nMarauders of Chaos Seer (Mark of Shornaal the Serpent) — Shornaal Rituals\nMarauders of Chaos Seer (Mark of Tchar the Eagle) — Tchar Rituals\nNight Goblins (Web) Shaman — Goblin Magic\nNight Goblins Shaman — Waaaagh! Magic\nNorse Shaman — Norse Runes\nOrc Mob Shaman — Waaaagh! Magic\nOstlanders Priest of Taal — Prayers of Taal\nPriest Of Morr — Funerary Rites\nShadow Warriors Shadow Weaver — Shadow Warrior Magic\nSisters of Sigmar Sigmarite Matriarch — Prayers of Sigmar\nSkaven of Clan Pestilens Sorcerer — Magic of the Horned Rat\nSkaven Sorcerer — Magic of the Horned Rat\nThe Restless Dead Liche — Necromancy (The Restless Dead)\nThe Restless Dead Necromancer — Necromancy (The Restless Dead)\nThe Sons of Hashut Apprentice Sorcerer — Chaos Dwarfs Magic\nTomb Guardians Liche Priest — Mortuary Cult Scrolls\nTruthsayer — Lore of Light\nUndead Necromancer — Necromancy\nWarlock — Lesser Magic\nWitch — Charms & Hexes\nWitch Hunters Warrior-Priest — Prayers of Sigmar\nWolf Priest of Ulric — Prayers of Ulric",
+      "relatedIds": ["magic-overview", "casting-spells"]
+    },
+    {
+      "id": "characteristics-overview",
+      "title": "Characteristics",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "Every warrior has nine characteristics, each usually valued 1-10: Movement, Weapon Skill, Ballistic Skill, Strength, Toughness, Wounds, Initiative, Attacks, and Leadership. Higher is always better. Skills (learned through battle experience) are a separate system layered on top of these — see the Skills category.\n\nA warrior's full set of characteristic values is called his characteristics profile.",
+      "relatedIds": [
+        "char-movement",
+        "char-weapon-skill",
+        "char-ballistic-skill",
+        "char-strength",
+        "char-toughness",
+        "char-wounds",
+        "char-initiative",
+        "char-attacks",
+        "char-leadership",
+        "char-profiles",
+        "char-zero-level",
+        "char-tests"
+      ]
+    },
+    {
+      "id": "char-movement",
+      "title": "Movement (M)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "How far the model can move in a turn under normal conditions. A typical Human has M4; a nimble Skaven has M5."
+    },
+    {
+      "id": "char-weapon-skill",
+      "title": "Weapon Skill (WS)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "Close combat ability — the higher the WS, the more likely the warrior is to hit an opponent in hand-to-hand fighting. A deadly swordsman has a much higher WS than a lowly acolyte."
+    },
+    {
+      "id": "char-ballistic-skill",
+      "title": "Ballistic Skill (BS)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "How good a shot the warrior is — determines the chance to hit when shooting a bow, pistol, etc. A normal Human has BS3; an experienced marksman might have BS4, 5, or higher."
+    },
+    {
+      "id": "char-strength",
+      "title": "Strength (S)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "How hard the warrior hits, especially in hand-to-hand combat. S3 is about average."
+    },
+    {
+      "id": "char-toughness",
+      "title": "Toughness (T)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "How hard the warrior is to wound or kill. T3 is average; a gnarled veteran might have T4."
+    },
+    {
+      "id": "char-wounds",
+      "title": "Wounds (W)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "How many times the model can be wounded before it's taken out of action. Most warriors have W1; veterans or large creatures like Ogres may have more."
+    },
+    {
+      "id": "char-initiative",
+      "title": "Initiative (I)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "How fast and nimble the warrior is. Determines attacking order in hand-to-hand combat, and matters a lot when climbing or moving through Mordheim's ruins.",
+      "relatedIds": ["char-tests"]
+    },
+    {
+      "id": "char-attacks",
+      "title": "Attacks (A)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "How many blows the model can make in hand-to-hand combat per turn. Most warriors have A1; powerful fighters may have more."
+    },
+    {
+      "id": "char-leadership",
+      "title": "Leadership (Ld)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "Raw courage, self-control, and charisma — how likely the warrior is to stay steadfast in combat rather than flee. A cowardly Skaven might have Ld5; a cool Elf could have Ld8 or higher.",
+      "relatedIds": ["char-leadership-tests"]
+    },
+    {
+      "id": "char-zero-level",
+      "title": "Zero-Level Characteristics",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "A characteristic of '0' means no ability at all in that field — commonly BS0 for creatures that can't use missile weapons, but any characteristic can be 0.\n\nA model with WS0 can't defend itself in hand-to-hand combat at all: any blow struck against it automatically hits."
+    },
+    {
+      "id": "char-profiles",
+      "title": "Characteristic Profiles",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "A model's characteristic values are written as a chart called a characteristics profile, e.g.:\n\nDieter Stahl — M4 WS3 BS3 S3 T3 W1 I3 A1 Ld7\n\nAs warriors fight more battles, their characteristics may increase — this app's warband roster and Post-Battle Wizard track those changes for you."
+    },
+    {
+      "id": "char-tests",
+      "title": "Characteristic Tests",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "To pass a test on a characteristic, roll a D6 and score equal to or lower than that characteristic's value. A roll of 6 always fails, regardless of the value.\n\nExample: Dieter Stahl (Initiative 3) jumps down from a 3\" wall and must take an Initiative test. He succeeds on a 1, 2, or 3, and fails (falling down) on a 4, 5, or 6.",
+      "relatedIds": ["char-leadership-tests"]
+    },
+    {
+      "id": "char-leadership-tests",
+      "title": "Leadership Tests",
+      "category": "core",
+      "source": "Mordheim core rulebook, Characteristics chapter (provided by owner)",
+      "body": "Leadership tests work differently from other characteristic tests: roll 2D6 and add them together. If the total is equal to or less than the model's Leadership, the test is passed.\n\nExample: Dieter's Leadership is 7, so he needs to roll 7 or less on 2D6 to pass.",
+      "relatedIds": ["char-tests", "char-leadership"]
+    },
+    {
+      "id": "post-battle-sequence",
+      "title": "The Post-Battle Sequence",
+      "category": "postBattle",
+      "source": "Mordheim rulebook, Campaigns, p.78",
+      "body": "After a battle, work through this sequence. Try to do the first three steps right after the battle while both players can witness each other's dice rolls; the rest can wait.\n\n1. Injuries — roll for every warrior taken out of action.\n2. Allocate Experience — Heroes and Henchmen groups gain XP for surviving, winning, and scenario-specific awards.\n3. Roll on the Exploration chart for wyrdstone.\n4. Sell Wyrdstone — only once per post-battle sequence.\n5. Check available veterans — roll to see how much Experience worth of new hires is available (you don't have to hire).\n6. Make rarity rolls and buy rare items.\n7. Look for Dramatis Personae, if you want to hire any.\n8. Hire new recruits and buy common items.\n9. Reallocate equipment between models.\n10. Update your warband rating.\n\nThe app's Post-Battle Wizard walks through most of this (injuries, experience, advances, income, upkeep) in one guided flow.",
+      "relatedIds": ["warband-rating", "exploration-wyrdstone", "trading-overview", "death-of-a-warrior"]
+    },
+    {
+      "id": "warband-rating",
+      "title": "Warband Rating",
+      "category": "postBattle",
+      "source": "Mordheim rulebook, Campaigns, p.78",
+      "body": "A warband's rating is the number of warriors in it, multiplied by 5, plus its accumulated Experience.\n\nLarge creatures (such as Rat Ogres or Ogre Bodyguards) are worth a flat 20 points instead, plus the number of Experience points they've accumulated.\n\nThe rating changes after every game as warriors gain Experience, die, or are recruited — it's recalculated automatically in this app on the Roster and Warbands screens."
+    },
+    {
+      "id": "death-of-a-warrior",
+      "title": "Death of a Warrior",
+      "category": "postBattle",
+      "source": "Mordheim rulebook, Campaigns, p.79",
+      "body": "When a warrior (Hero or Henchman) is killed, all his weapons and equipment are lost with him. It is not possible to reallocate a dead warrior's gear once he's dead — decide before removing him from the roster whether any of it should go to the treasury instead, per your group's house rules."
+    },
+    {
+      "id": "death-of-a-leader",
+      "title": "Death of a Leader",
+      "category": "postBattle",
+      "source": "Mordheim rulebook, Campaigns, p.79",
+      "body": "If the warband's leader is slain, the Hero with the next-highest Leadership takes command, gaining the Leader ability (he keeps his original skill list, but can use the leader's equipment list). If several Heroes are eligible, the one with the most Experience becomes leader; on a tie, roll a D6. You may not hire a replacement leader.\n\nUndead: if the Vampire dies, the warband's Necromancer must take over, or the warband collapses if there isn't one. A new Vampire can be bought after the next game, at which point the Necromancer steps down and loses the Leader skill.\n\nSisters of Sigmar, Possessed, and Carnival of Chaos: the new leader may choose a prayer/spell from the appropriate list instead of rolling on the Advance table, the first time they're eligible for an advance."
+    },
+    {
+      "id": "disbanding-a-warband",
+      "title": "Disbanding a Warband",
+      "category": "postBattle",
+      "source": "Mordheim rulebook, Campaigns, p.79",
+      "body": "You may disband a warband at the end of any game and start a new one — everyone and everything it had is lost. You can also dismiss any single warrior at any time without disbanding the whole warband."
+    },
+    {
+      "id": "exploration-wyrdstone",
+      "title": "Exploration & Wyrdstone",
+      "category": "postBattle",
+      "source": "Mordheim rulebook, Income, p.93",
+      "body": "After a battle, roll 1D6 for each surviving Hero (not ones taken out of action), plus one extra die if you won, plus any dice granted by skills or equipment — but pick a maximum of six dice even if more are available. Henchmen don't roll individually; their contribution is folded into the Heroes' rolls.\n\nAdd the chosen dice together and look up the total on the Exploration chart to see how many wyrdstone shards were found.\n\nIf two or more of the dice show the same number (doubles, triples, etc.), you've also found an unusual location or encounter — look that up separately on the Exploration chart (using the highest/most-numerous match if there's more than one).",
+      "relatedIds": ["post-battle-sequence", "skill-academic-wyrdstoneHunter"]
+    },
+    {
+      "id": "trading-overview",
+      "title": "Trading Overview",
+      "category": "trading",
+      "source": "Mordheim rulebook, Trading, p.101-102",
+      "body": "Trade items split into Common (fixed price, always available, buy as many as you want) and Rare (limited availability, price can vary, and you have to roll to see if you can get one at all — see \"Buying Rare Items\").\n\nCash comes from selling wyrdstone and treasure found during Exploration, and is spent from the warband's shared treasury on new equipment, recruiting warriors, or Hired Sword fees/upkeep.\n\nNew recruits joining after the campaign has started can only buy Common items freely; they may only receive Rare items already sitting in the warband's stash.",
+      "relatedIds": ["buying-rare-items", "selling-equipment", "hired-swords-recruiting"]
+    },
+    {
+      "id": "new-recruits-henchmen-groups",
+      "title": "Adding Recruits to Existing Henchmen Groups",
+      "category": "trading",
+      "source": "Mordheim rulebook, Trading, p.101",
+      "body": "To add a new recruit to an existing Henchman group, roll 2D6 between battles — this is the total combined Experience of warriors currently willing to join. You can add as many new warriors as you like as long as their combined starting Experience doesn't exceed the roll (excess is wasted).\n\nYou must pay for their weapons/armour as normal, plus an extra 2 gold crowns per Experience point they bring in. New Henchmen must be equipped the same way as existing members of the group."
+    },
+    {
+      "id": "buying-rare-items",
+      "title": "Buying Rare Items",
+      "category": "trading",
+      "source": "Mordheim rulebook, Trading, p.102",
+      "body": "Rare items show an availability like \"Rare 9\". Whenever a Hero looks for a rare item, roll 2D6 (plus any modifiers) — on a result equal to or greater than the Rare number, the item is available and can be bought. You get one such roll per Hero who's looking (Heroes taken out of action last battle can't look), and only one item per successful roll.\n\nThe app's Trading Post and equipment-shop screens can roll this for you (2D6 vs. the item's Rare number) or let you enter a result you rolled physically.",
+      "relatedIds": ["trading-overview", "skill-academic-streetwise"]
+    },
+    {
+      "id": "selling-equipment",
+      "title": "Selling Equipment",
+      "category": "trading",
+      "source": "Mordheim rulebook, Trading, p.103",
+      "body": "Warriors can sell equipment for half its listed price, rounded down. Rare items with a variable price (e.g. \"35 + 3D6 gc\") only refund half of the fixed base cost, not any of the variable dice portion.\n\nAlternatively, equipment can be hoarded on the roster for later use, or swapped between warriors in the same warband (never between different warbands).",
+      "relatedIds": ["skill-academic-haggle"]
+    },
+    {
+      "id": "hired-swords-recruiting",
+      "title": "Hired Swords: Recruiting & Upkeep",
+      "category": "trading",
+      "source": "Mordheim rulebook, Hired Swords, p.105",
+      "body": "Hired Swords are mercenaries who don't belong to a warband. Hiring one costs a one-time hire fee; after every battle they fight (including the first), you must pay their upkeep to keep them, or they leave (taking all their earned Experience with them, even if you re-hire the same type later).\n\nHired Swords don't count toward the warband's maximum model/Hero count and don't affect wyrdstone income, but they do count for Rout tests while fighting. You can only have one of each Hired Sword type at a time, and can't buy or sell their equipment.",
+      "relatedIds": ["hired-swords-injuries"]
+    },
+    {
+      "id": "hired-swords-injuries",
+      "title": "Hired Swords: Injuries & Experience",
+      "category": "trading",
+      "source": "Mordheim rulebook, Hired Swords, p.105",
+      "body": "If a Hired Sword is taken out of action, roll like a Henchman: 1-2 = Lost, 3-6 = Survives.\n\nHired Swords earn Experience exactly like Henchmen, but when they get enough for an advance, roll on the Heroes Advance table instead of the Henchmen one.",
+      "relatedIds": ["hired-swords-recruiting"]
+    },
+    {
+      "id": "serious-injuries-how-to-roll",
+      "title": "Serious Injuries: How to Roll",
+      "category": "injuries",
+      "source": "Mordheim rulebook, Serious Injuries, p.79-80",
+      "body": "When a Hero is taken out of action, roll a D66 — roll one D6 for the tens digit and a second D6 for the units digit (so a 2 then a 4 reads as \"24\") — and look up the result on the Serious Injury table. This app's Post-Battle Wizard has a Roll D66 button that does this and looks up the result for you.\n\nHenchmen and Hired Swords use a simpler rule instead: roll a single D6 — on a 1-2 they're lost for good, on a 3-6 they're fine and fight next battle as normal.\n\nA \"Multiple Injuries\" result means the warrior isn't dead but has suffered several wounds — keep rolling on the table, re-rolling any further Dead, Captured, or Multiple Injuries results.",
+      "relatedIds": ["post-battle-sequence", "hired-swords-injuries"]
+    },
+    {
+      "id": "turn-sequence",
+      "title": "The Turn & Turn Sequence",
+      "category": "core",
+      "source": "Mordheim core rulebook, The Turn chapter (provided by owner)",
+      "body": "Players alternate whole turns, like chess or draughts. On your turn you can move, shoot, and fight in hand-to-hand combat; then it's your opponent's turn.\n\nEach turn has four phases, always in this order:\n\n1. Recovery — rally fleeing models, recover from being knocked down/stunned.\n2. Movement — move your warriors.\n3. Shooting — shoot with any warriors able to.\n4. Hand-to-hand combat — everyone in combat fights, regardless of whose turn it is.",
+      "relatedIds": ["recovery-phase", "movement-order", "shooting-overview", "close-combat-basics"]
+    },
+    {
+      "id": "recovery-phase",
+      "title": "Recovery Phase",
+      "category": "core",
+      "source": "Mordheim core rulebook, The Turn chapter (provided by owner)",
+      "body": "Rally test: roll 2D6 for each fleeing model. Score equal to or under its Leadership and it rallies (turn it to face any direction; it can't move or shoot this turn, but can still cast spells). Fail, and it keeps fleeing toward the nearest table edge. A model can't rally if the closest model to it is an enemy.\n\nAlso during this phase: stunned models become knocked down instead, and knocked down models may stand up.",
+      "relatedIds": ["wounds-injuries-in-game"]
+    },
+    {
+      "id": "movement-order",
+      "title": "Movement Order",
+      "category": "core",
+      "source": "Mordheim core rulebook, Movement chapter (provided by owner)",
+      "body": "Within the movement phase, resolve moves in this order:\n\n1. Charges — declare and move all charges before anything else.\n2. Compulsory moves — e.g. a fleeing warrior's forced run away from the enemy.\n3. Remaining moves — everything else, in any order you like.",
+      "relatedIds": ["charging", "running"]
+    },
+    {
+      "id": "running",
+      "title": "Running",
+      "category": "core",
+      "source": "Mordheim core rulebook, Movement chapter (provided by owner)",
+      "body": "A model may run instead of its normal move to go double distance (e.g. 8\" instead of 4\"). Running isn't the same as charging — it doesn't let you engage the enemy.\n\nYou can only run if no enemy model is within 8\" of you at the start of the turn (fleeing/stunned/knocked down/hidden models don't count) — check this after charges are declared. A model that runs can't shoot that turn, but can still cast spells."
+    },
+    {
+      "id": "charging",
+      "title": "Charging",
+      "category": "core",
+      "source": "Mordheim core rulebook, Movement chapter (provided by owner)",
+      "body": "To attack in hand-to-hand combat, declare a charge at the start of the movement phase (before moving anything else) and name the target — no need to pre-measure. You must have an unobstructed line to the target; charging something within 4\" that you can't see requires a passed Initiative test to detect it first.\n\nA charge moves at double your Movement rate, ending in base-to-base contact. An unengaged enemy within 2\" of the charge route may attempt to intercept instead (only one interceptor per charger; a fear-causing interceptor forces the original charger to test for fear, but the original charger still counts as \"the charger\" for combat purposes).\n\nIf you miscalculate and can't reach, that's a failed charge — the model just moves its normal distance and can't shoot that turn (it can still cast spells). A charging model always strikes first in the first round of the resulting combat. You can charge into contact with more than one enemy model if your move allows it.",
+      "relatedIds": ["hiding", "fear", "close-combat-basics"]
+    },
+    {
+      "id": "hiding",
+      "title": "Hiding",
+      "category": "core",
+      "source": "Mordheim core rulebook, Movement chapter (provided by owner)",
+      "body": "A model can hide if it ends its move somewhere it could plausibly conceal itself (behind a low wall, column, etc.) — declare it and mark it with a Hidden counter. A model that ran, fled, was stunned, or charged this turn cannot hide.\n\nA hidden model can't be seen, shot at, or charged, and can stay hidden across turns (even while moving) as long as it stays concealed. It can't shoot or cast spells without giving away its position — doing so, or moving into the open, ends the hiding.\n\nEnemies automatically spot a hidden model within their own Initiative value in inches, regardless of cover."
+    },
+    {
+      "id": "terrain",
+      "title": "Terrain: Open, Difficult & Very Difficult Ground",
+      "category": "core",
+      "source": "Mordheim core rulebook, Movement chapter (provided by owner)",
+      "body": "Open ground (floors, overhangs, ladders, ropes, doors/hatches) doesn't slow movement at all, even while charging.\n\nDifficult ground (steep slopes, bushes, angled roofs) halves movement.\n\nVery difficult ground (narrow crawlholes through rubble) reduces movement to a quarter.\n\nWalls/barriers under 1\" tall can be leapt over for free, with no effect on movement.",
+      "relatedIds": ["climbing", "falling-jumping"]
+    },
+    {
+      "id": "climbing",
+      "title": "Climbing",
+      "category": "core",
+      "source": "Mordheim core rulebook, Movement chapter (provided by owner)",
+      "body": "Any model except animals can climb walls/fences it's touching at the start of its movement phase, up to its full Movement rate in that phase (no running while climbing; leftover movement can still be used normally). If the height to climb exceeds the model's move, it simply can't climb it.\n\nClimbing requires an Initiative test. Failing while climbing up means no movement that turn; failing while climbing down means falling from the starting point of the climb.",
+      "relatedIds": ["falling-jumping"]
+    },
+    {
+      "id": "falling-jumping",
+      "title": "Jumping, Diving Charges & Falling",
+      "category": "core",
+      "source": "Mordheim core rulebook, Movement chapter (provided by owner)",
+      "body": "Jumping down: a model may jump down up to 6\" during its movement phase (doesn't use up its Movement allowance). Take an Initiative test per full 2\" jumped — fail any and the model falls and stops moving for the turn; pass all and it continues moving normally.\n\nDiving charge: if an enemy is within 2\" of where you'd land from a jump, you may charge it that way. Same Initiative tests as jumping down (max 6\"); succeed and you get +1 Strength and +1 to hit in the following hand-to-hand combat phase; fail and you fall instead (see below) and can't charge.\n\nJumping over gaps (up to 3\"): deduct the distance from your movement (can't pre-measure). Not enough movement left to cover it means an automatic fall; enough movement means you need a passed Initiative test or you fall. Can still shoot afterward if you didn't run.\n\nFalling: a model that falls takes D3 hits at a Strength equal to the height fallen in inches, no armour saves, never a critical hit. It can't move further or hide that turn even if unhurt. A model knocked down or stunned within 1\" of a roof/building edge must pass an Initiative test or slip off and fall.",
+      "relatedIds": ["climbing", "wounds-injuries-in-game"]
+    },
+    {
+      "id": "shooting-overview",
+      "title": "Shooting Overview",
+      "category": "core",
+      "source": "Mordheim core rulebook, Shooting chapter (provided by owner)",
+      "body": "Each model may shoot once per shooting phase with one weapon, if it can see a target and isn't in hand-to-hand combat, didn't run or fail a charge this turn, didn't rally this turn, and isn't stunned/knocked down. Models see all around (360°) and can turn freely before firing without that counting as movement.\n\nYou must target the closest enemy unless a more distant one is easier to hit (e.g. the closer one is in cover) or the closer ones are stunned/knocked down. You can always choose to shoot a Large Target regardless of distance. You cannot shoot models engaged in hand-to-hand combat.",
+      "relatedIds": ["cover", "hit-modifiers", "hitting-target-shooting", "range-elevated"]
+    },
+    {
+      "id": "cover",
+      "title": "Cover",
+      "category": "core",
+      "source": "Mordheim core rulebook, Shooting chapter (provided by owner)",
+      "body": "If any part of the target is hidden by scenery or another model, it's in cover and the shot suffers a -1 To Hit penalty. If a shot misses by exactly 1 and the target had the cover modifier, the shot strikes the cover instead of the target."
+    },
+    {
+      "id": "range-elevated",
+      "title": "Range & Shooting from an Elevated Position",
+      "category": "core",
+      "source": "Mordheim core rulebook, Shooting chapter (provided by owner)",
+      "body": "Each missile weapon has a maximum range (see its own entry). A target beyond that range is an automatic miss.\n\nA shooter more than 2\" above the table (e.g. an upper floor) may freely pick any target it can see — except that it must shoot at enemies sharing its own building/line of sight first, if there are any, since they're the more immediate threat."
+    },
+    {
+      "id": "hitting-target-shooting",
+      "title": "Hitting the Target (Shooting)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Shooting chapter (provided by owner)",
+      "body": "Roll a D6; the minimum roll needed to hit depends on the shooter's Ballistic Skill:\n\nBS 1 → need 6. BS 2 → need 5. BS 3 → need 4. BS 4 → need 3. BS 5 → need 2. BS 6 → need 1. BS 7 → need 0 (i.e. always hits, subject to modifiers). BS 8 → need -1. BS 9 → need -2. BS 10 → need -3.\n\nApply Hit Modifiers after finding the base number needed.",
+      "relatedIds": ["hit-modifiers", "rolling-to-wound"]
+    },
+    {
+      "id": "hit-modifiers",
+      "title": "Hit Modifiers (Shooting)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Shooting chapter (provided by owner)",
+      "body": "-1 — target is in cover (any part obscured by scenery or another model).\n-1 — long range (target is more than half the weapon's maximum range away).\n-1 — the shooter moved at all this turn (other than standing up or turning to face the target).\n+1 — target is a Large Target, or its body is over 2\" tall/wide (most buildings)."
+    },
+    {
+      "id": "rolling-to-wound",
+      "title": "Rolling to Wound",
+      "category": "core",
+      "source": "Mordheim core rulebook, Shooting & Close Combat chapters (provided by owner)",
+      "body": "After a hit (shooting or hand-to-hand), compare the attacker's Strength (or the weapon's Strength, for shooting) against the target's Toughness on the wound chart to see if a wound is caused — a dash means no chance of wounding at all.\n\nTODO: the actual Strength-vs-Toughness wound chart wasn't included in the source text pasted into this app (only the \"wound chart\" header came through) — don't guess these numbers, check your physical rulebook.",
+      "relatedIds": ["critical-hits", "armour-saves"]
+    },
+    {
+      "id": "critical-hits",
+      "title": "Critical Hits",
+      "category": "core",
+      "source": "Mordheim core rulebook, Shooting & Close Combat chapters (provided by owner)",
+      "body": "Rolling a natural 6 to wound (shooting or close combat) causes a critical hit — roll a D6:\n\n1-2 — Vital part: wound doubled to 2, armour save still applies (roll it before doubling).\n3-4 — Exposed spot: wound doubled to 2, ignores all armour saves.\n5-6 — Master strike: wound doubled to 2, ignores all armour saves, +2 to any Injury roll.\n\nAn attacker who needs a 6 to wound in the first place can never score a critical hit. Each warrior can only cause one critical hit per hand-to-hand combat phase, even with multiple attacks — the first wounding 6 rolled is the one that counts.",
+      "relatedIds": ["rolling-to-wound", "armour-saves"]
+    },
+    {
+      "id": "armour-saves",
+      "title": "Armour Saves",
+      "category": "core",
+      "source": "Mordheim core rulebook, Shooting & Close Combat chapters (provided by owner)",
+      "body": "When a wound is suffered, roll a D6 against the armour worn: Light armour saves on a 6, Heavy armour on a 5+, Gromril armour on a 4+. A shield adds +1 to any of these (a shield with no armour saves on a 6).\n\nSave modifiers by the attacking weapon's Strength: 1-3 none, 4 → -1, 5 → -2, 6 → -3, 7 → -4, 8 → -5, 9+ → -6. Some weapons modify this further beyond raw Strength — check the weapon's own entry.\n\nExample: heavy armour + shield = 4+ save; hit by a Strength 4 crossbow (-1) → saves on 5+.",
+      "relatedIds": ["ward-saves", "rolling-to-wound"]
+    },
+    {
+      "id": "ward-saves",
+      "title": "Ward Saves",
+      "category": "core",
+      "source": "Mordheim core rulebook, Shooting & Close Combat chapters (provided by owner) — this rule is copied from the 6th-edition Warhammer Fantasy rulebook; Mordheim itself (5th edition) predates Ward saves, but later warbands published in the 6th-edition era use them.",
+      "body": "A Ward save represents magical/divine protection, distinct from an armour save — it's never modified by Strength, and applies even when a hit ignores all armour saves. A model can only attempt one Ward save per wound suffered.\n\nIf a model has both an armour save and a Ward save, it must try the armour save first; only if that fails may it then try the Ward save. If a model somehow has two Ward saves, use the better one — never both."
+    },
+    {
+      "id": "wounds-injuries-in-game",
+      "title": "Wounds & In-Game Injuries (Knocked Down, Stunned, Out of Action)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Wounds & Injuries chapter (provided by owner)",
+      "body": "Most warriors have 1 Wound; losing a wound with more than 1 remaining just ticks it down and the fight continues. When Wounds hit zero, the attacker rolls a D6 (once per wound suffered that turn, taking the highest result):\n\n1-2 — Knocked down: place the model face-up. It may crawl 2\" (if not adjacent to an active enemy) but can't fight, shoot, or cast. It can stand up next turn (moving at half rate that turn, striking last if still in combat) — a further wound while at zero Wounds triggers a fresh roll on this table.\n\n3-4 — Stunned: place the model face-down. It can do nothing; flip it to knocked-down status in a later Recovery phase.\n5-6 — Out of action: remove the model from the table immediately. Resolved after the battle via the Serious Injury roll.\n\nAttacking a knocked-down enemy in combat auto-hits, and failing the armour save means an automatic Out of Action (it can't parry). A stunned enemy is automatically taken Out of Action if any enemy can attack it in combat. A model can't both knock down/stun AND finish off the same enemy with its own single combat phase — that takes a second attacker.",
+      "relatedIds": ["serious-injuries-how-to-roll", "falling-jumping"]
+    },
+    {
+      "id": "close-combat-basics",
+      "title": "Close Combat: Who Fights & Who Strikes First",
+      "category": "core",
+      "source": "Mordheim core rulebook, Close Combat chapter (provided by owner)",
+      "body": "Models with touching bases are in hand-to-hand combat (only reachable by charging). Every model in combat fights during the hand-to-hand phase regardless of whose turn it is, including from the side or rear; models in combat don't shoot.\n\nStrike order is by descending Initiative (a dice-off breaks ties). A model that stood up this turn (from knocked-down) always strikes last. \"Strike first\" (from charging, or certain skills/equipment/spells) overrides this — multiple \"strike first\" models still order themselves by Initiative among each other, then everyone else follows in Initiative order.\n\nA model touching more than one enemy chooses which to attack, and can split multiple Attacks between them if declared before rolling to hit. A warrior dual-wielding one-handed weapons gets +1 Attack (applied after other modifiers like frenzy); with two different weapon types, choose which weapon makes which attacks.",
+      "relatedIds": ["hitting-enemy-close-combat", "parry"]
+    },
+    {
+      "id": "hitting-enemy-close-combat",
+      "title": "Hitting the Enemy (Close Combat)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Close Combat chapter (provided by owner)",
+      "body": "Roll a D6 per Attack. The roll needed depends on comparing the attacker's Weapon Skill to the defender's: a higher attacker WS needs a lower roll, a higher defender WS needs a higher roll, versus the baseline of 4+ when WS is equal.",
+      "relatedIds": ["rolling-to-wound", "parry"]
+    },
+    {
+      "id": "parry",
+      "title": "Parry",
+      "category": "core",
+      "source": "Mordheim core rulebook, Close Combat chapter (provided by owner)",
+      "body": "A buckler or sword lets you try to parry one hit per hand-to-hand combat phase: roll a D6 higher than the opponent's To Hit roll to negate it (a 6 To Hit can never be parried). If several hits land, you must beat the highest; if fighting several opponents, you may only parry the attacker with the highest Initiative.\n\nHaving both a buckler and a sword lets you re-roll one failed parry. Two swords still only grants one parry attempt. You can never parry an attack from a weapon with double or more your own Strength."
+    },
+    {
+      "id": "moving-breaking-from-combat",
+      "title": "Moving & Breaking From Combat",
+      "category": "core",
+      "source": "Mordheim core rulebook, Close Combat chapter (provided by owner)",
+      "body": "Models in hand-to-hand combat can't voluntarily move away — they fight until one side is taken out of action, or one side breaks. The one exception: if all your opponents in a combat are knocked down or stunned, you may move (or even charge someone else) instead.\n\nBreaking from combat happens when a warrior fails a psychology test while fighting (see Leadership & Psychology) — he turns and runs, and every opponent gets one automatic, immediately-resolved hit against him as he flees.",
+      "relatedIds": ["all-alone", "rout-tests"]
+    },
+    {
+      "id": "rout-tests",
+      "title": "Rout Tests",
+      "category": "core",
+      "source": "Mordheim core rulebook, Leadership & Psychology chapter (provided by owner)",
+      "body": "At the start of your turn, if a quarter (25%) or more of your warband is Out of Action, you must take a Rout test: roll 2D6 against the warband leader's Leadership (or the highest Leadership among remaining non-stunned, non-OOA fighters if the leader himself is down). Even psychology-immune warbands like Undead must test.\n\nFailing ends the game immediately — your warband loses and retreats. You may also voluntarily Rout at the start of any of your own turns once you've become eligible to test (i.e. once 25%+ are OOA).",
+      "relatedIds": ["leaders-leadership-bubble"]
+    },
+    {
+      "id": "leaders-leadership-bubble",
+      "title": "Leaders & the Leadership Bubble",
+      "category": "core",
+      "source": "Mordheim core rulebook, Leadership & Psychology chapter (provided by owner)",
+      "body": "A warrior within 6\" of his warband's leader may use the leader's Leadership value for his own Leadership tests. The leader can't grant this if he's himself knocked down, stunned, or fleeing."
+    },
+    {
+      "id": "all-alone",
+      "title": "All Alone",
+      "category": "core",
+      "source": "Mordheim core rulebook, Leadership & Psychology chapter (provided by owner)",
+      "body": "A warrior fighting alone against 2+ opponents, with no friendly (active) model within 6\", must test Leadership on 2D6 at the end of the combat phase. Fail, and he breaks and flees — each opponent gets one automatic hit as he turns to run, then he runs 2D6\" away.\n\nEach of his following turns he re-tests: pass and he stops (but can only cast spells that turn); fail (or get charged) and he runs another 2D6\" toward the table edge, leaving play if he reaches it first."
+    },
+    {
+      "id": "fear",
+      "title": "Fear",
+      "category": "core",
+      "source": "Mordheim core rulebook, Leadership & Psychology chapter (provided by owner)",
+      "body": "Test Leadership when (a) charged by something that causes fear, or (b) wishing to charge something that causes fear yourself. Fear-causing models are themselves immune to these tests.\n\nFailing (a) means the model can still fight, but only hits on a natural 6 that round. Failing (b) means the charge doesn't happen — treat it as a failed charge, staying put for the turn.",
+      "relatedIds": ["frenzy", "charging"]
+    },
+    {
+      "id": "frenzy",
+      "title": "Frenzy",
+      "category": "core",
+      "source": "Mordheim core rulebook, Leadership & Psychology chapter (provided by owner)",
+      "body": "A frenzied model must charge any enemy within charge range — no choice in the matter. While frenzied it fights with double Attacks (the +1 for dual-wielding is added after doubling, not doubled itself) and is immune to all other psychology as long as it stays within charge range of an enemy.\n\nBeing knocked down or stunned ends the frenzy for the rest of the battle."
+    },
+    {
+      "id": "hatred",
+      "title": "Hatred",
+      "category": "core",
+      "source": "Mordheim core rulebook, Leadership & Psychology chapter (provided by owner)",
+      "body": "Fighting a hated enemy in close combat lets you re-roll misses in the first round of that combat only — after that, fight normally for the rest of it."
+    },
+    {
+      "id": "stupidity",
+      "title": "Stupidity",
+      "category": "core",
+      "source": "Mordheim core rulebook, Leadership & Psychology chapter (provided by owner)",
+      "body": "At the start of its turn, a stupid model tests Leadership on 2D6. Pass, and it acts normally. Fail, and until its next test it can't fight in combat or cast spells (opponents still roll to hit it normally); if it's not already in combat, roll a D6: 1-3 it shambles forward at half speed (stopping 1\" short of any enemy, won't shoot), 4-6 it just stands there doing nothing."
+    },
+    {
+      "id": "animosity",
+      "title": "Animosity (Orcs & Goblins)",
+      "category": "core",
+      "source": "Mordheim core rulebook, Leadership & Psychology chapter (provided by owner)",
+      "body": "At the start of the Orc player's turn, roll a D6 for each Orc/Goblin Henchman not already in combat; on a 1, roll again on this chart:\n\n1 — \"I 'Erd Dat!\": charges and fights the nearest friendly Orc/Goblin if in reach (separating after one round), or takes a shot at one if armed with a missile weapon and none are in reach, otherwise treat as result 2-5. No other actions that turn.\n2-5 — \"Wud Yoo Say?\": spends the turn hurling insults at the nearest friendly Orc/Goblin — no other actions besides defending itself if attacked.\n6 — \"I'll Show Yer!\": must move (or charge, if in range) toward the nearest enemy model as fast as possible — this is in addition to its normal move, so it may move twice this turn."
+    }
+  ]
+}

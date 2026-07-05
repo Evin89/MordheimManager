@@ -281,3 +281,35 @@ export type BtbDramatisPersonaeData = {
   source: string;
   characters: BtbDramatisPersonaEntry[];
 };
+
+export type RulesCategoryId =
+  | 'core'
+  | 'postBattle'
+  | 'trading'
+  | 'skills'
+  | 'injuries'
+  | 'scenarios'
+  | 'warbandSpecial'
+  | 'btb';
+
+export type RulesCategoryDef = {
+  id: RulesCategoryId;
+  name: string;
+  description: string;
+};
+
+export type RuleEntry = {
+  id: string;
+  title: string;
+  category: RulesCategoryId;
+  source: string;
+  body: string; // plain-text paragraphs, separated by blank lines
+  relatedIds?: string[]; // ids of other RuleEntry objects
+};
+
+export type RulesData = {
+  schemaVersion: number;
+  source: string;
+  categories: RulesCategoryDef[];
+  entries: RuleEntry[]; // hand-authored entries only — see lib/rulesIndex.ts for the full merged set
+};

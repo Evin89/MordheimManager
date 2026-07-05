@@ -11,6 +11,7 @@ export const strings = {
     postBattle: 'Battle',
     trading: 'Trading',
     campaign: 'Campaign',
+    rules: 'Rules',
     settings: 'Settings',
   },
   common: {
@@ -34,6 +35,16 @@ export const strings = {
     noWarbandsCta: 'Create your first warband to get started.',
     quickActionsSection: 'Quick Actions',
     viewCampaignLog: 'View Campaign Log',
+  },
+  rules: {
+    title: 'Rules Reference',
+    searchPlaceholder: 'Search rules…',
+    allCategories: 'All',
+    noResults: 'No rules match your search.',
+    noEntriesInCategory: 'No entries in this category yet.',
+    sourceLabel: 'Source',
+    relatedSection: 'Related rules',
+    resultCount: (n: number) => `${n} result${n === 1 ? '' : 's'}`,
   },
   settings: {
     title: 'Settings',
