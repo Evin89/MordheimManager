@@ -292,5 +292,6 @@
       "rulesText": "TODO: verify profile/special rules vs rulebook."
     }
   ],
-  "specialRules": "Marienburg Mercenaries. Wealth: start a campaign with an extra 100 gc (600 total; in a one-off game, +20% gc when recruiting). Merchant contacts: +1 bonus when attempting to find rare items. Min warband size 3, max 15. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
+  "specialRules": "Marienburg Mercenaries. Wealth: start a campaign with an extra 100 gc (600 total; in a one-off game, +20% gc when recruiting). Merchant contacts: +1 bonus when attempting to find rare items. Min warband size 3, max 15. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction.",
+  "rareItemRollBonus": 1
 }

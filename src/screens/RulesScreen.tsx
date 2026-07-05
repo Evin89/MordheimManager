@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import RuleEntryList from '../components/RuleEntryList';
 import { strings } from '../strings';
 import { RuleSearchResult, getAllRuleEntries, getEntriesByCategory, getRulesCategories, searchRules } from '../lib/rulesIndex';
 import { RulesCategoryId } from '../data/types';
@@ -106,21 +107,7 @@ export default function RulesScreen() {
             ))}
           </>
         ) : (
-          <>
-            {browsedEntries.length === 0 && (
-              <p className="text-bone-300 text-sm">{strings.rules.noEntriesInCategory}</p>
-            )}
-            {browsedEntries.map((entry) => (
-              <Link
-                key={entry.id}
-                to={`/rules/${entry.id}`}
-                className="block rounded-lg bg-ink-900 border border-ink-800 p-4 hover:border-ink-700 transition-colors"
-              >
-                <p className="text-bone-100 font-semibold">{entry.title}</p>
-                <p className="text-bone-300 text-sm mt-1">{firstLine(entry.body)}</p>
-              </Link>
-            ))}
-          </>
+          <RuleEntryList entries={browsedEntries} emptyMessage={strings.rules.noEntriesInCategory} />
         )}
       </main>
     </div>

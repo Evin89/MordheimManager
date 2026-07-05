@@ -8,6 +8,7 @@ import { useAppStore } from '../store/useAppStore';
 import { generateId } from '../lib/id';
 import { getUniqueInjuries } from '../lib/injuryLookup';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
+import { hasFoughtFirstBattle } from '../lib/battleHistory';
 import { STAT_KEYS } from '../lib/statLine';
 import { EquipmentItem, Hero, HiredSword, ModelStatus, StatLine } from '../types';
 
@@ -24,6 +25,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const navigate = useNavigate();
   const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
   const saveWarband = useAppStore((state) => state.saveWarband);
+  const campaign = useAppStore((state) => state.campaign);
 
   const [advanceMode, setAdvanceMode] = useState<'stat' | 'skill' | null>(null);
   const [addingInjury, setAddingInjury] = useState(false);
@@ -422,7 +424,11 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
               <p className="text-ember-400 font-semibold text-sm">
                 {strings.modelDetail.shopGoldLabel}: {warband.gold} {strings.common.gold}
               </p>
-              <EquipmentShop warband={warband} onPurchase={buyForModel} />
+              <EquipmentShop
+                warband={warband}
+                onPurchase={buyForModel}
+                skipRarityRoll={!hasFoughtFirstBattle(warband.id, campaign)}
+              />
             </div>
           )}
 

@@ -34,6 +34,11 @@ const SKILL_CROSS_LINKS: Record<string, string[]> = {
   haggle: ['selling-equipment'],
 };
 
+// Warbands sourced from the Border Town Burning supplement rather than the core
+// rulebook's Warbands chapter (currently just Maneaters) — grouped into the BTB
+// chapter instead of "Warbands".
+const BTB_WARBAND_IDS = new Set(['maneaters']);
+
 function skillEntries(): RuleEntry[] {
   const entries: RuleEntry[] = [];
   for (const [key, list] of Object.entries(typedSkills.lists)) {
@@ -42,6 +47,7 @@ function skillEntries(): RuleEntry[] {
         id: `skill-${key}-${skill.id}`,
         title: skill.name,
         category: 'skills',
+        chapter: 'Skills',
         source: `${list.name} skill list — ${typedSkills.source}`,
         body: skill.prerequisite ? `${skill.effect}\n\nPrerequisite: ${skill.prerequisite.text}` : skill.effect,
         relatedIds: SKILL_CROSS_LINKS[skill.id],
@@ -54,6 +60,7 @@ function skillEntries(): RuleEntry[] {
         id: `skill-${slugify(list.name)}-${skill.id}`,
         title: skill.name,
         category: 'skills',
+        chapter: 'Skills',
         source: list.name,
         body: skill.prerequisite ? `${skill.effect}\n\nPrerequisite: ${skill.prerequisite.text}` : skill.effect,
       });
@@ -67,6 +74,7 @@ function injuryEntries(): RuleEntry[] {
     id: `injury-${slugify(injury.name)}`,
     title: injury.name,
     category: 'injuries',
+    chapter: 'Serious Injuries',
     source: injuriesData.source,
     body: injury.effect,
   }));
@@ -77,6 +85,7 @@ function scenarioEntries(): RuleEntry[] {
     id: `scenario-${s.id}`,
     title: s.name,
     category: 'scenarios',
+    chapter: 'Scenarios',
     source: typedScenarios.source,
     body: [
       "This app only tracks this scenario's Experience awards, not its full terrain/deployment/victory-condition text.",
@@ -90,7 +99,8 @@ function warbandSpecialEntries(): RuleEntry[] {
   return warbandDefinitions.map((w) => ({
     id: `warband-${w.id}`,
     title: w.name,
-    category: 'warbandSpecial',
+    category: BTB_WARBAND_IDS.has(w.id) ? 'btb' : 'warbandSpecial',
+    chapter: BTB_WARBAND_IDS.has(w.id) ? 'Border Town Burning' : 'Warbands',
     source: w.source,
     body: w.specialRules || 'No special rules recorded for this warband.',
   }));
@@ -101,6 +111,7 @@ function btbObjectiveEntries(): RuleEntry[] {
     id: `btb-objective-${o.id}`,
     title: o.name,
     category: 'btb',
+    chapter: 'Border Town Burning',
     source: typedBtbObjectives.source,
     body: [
       o.description,
@@ -122,6 +133,7 @@ function btbDramatisPersonaEntries(): RuleEntry[] {
     id: `btb-persona-${c.id}`,
     title: c.name,
     category: 'btb',
+    chapter: 'Border Town Burning',
     source: typedBtbDramatisPersonae.source,
     body: [
       `Hire fee: ${c.hireFee} — Upkeep: ${c.upkeep}`,
@@ -137,6 +149,13 @@ function btbDramatisPersonaEntries(): RuleEntry[] {
   }));
 }
 
+const CHAPTER_ORDER = typedRules.chapterOrder;
+
+function chapterRank(chapter: string): number {
+  const index = CHAPTER_ORDER.indexOf(chapter);
+  return index === -1 ? CHAPTER_ORDER.length : index;
+}
+
 const allEntries: RuleEntry[] = [
   ...typedRules.entries,
   ...skillEntries(),
@@ -145,7 +164,7 @@ const allEntries: RuleEntry[] = [
   ...warbandSpecialEntries(),
   ...btbObjectiveEntries(),
   ...btbDramatisPersonaEntries(),
-];
+].sort((a, b) => chapterRank(a.chapter) - chapterRank(b.chapter));
 
 const entriesById = new Map(allEntries.map((entry) => [entry.id, entry]));
 
@@ -155,6 +174,30 @@ export function getRulesCategories(): RulesCategoryDef[] {
 
 export function getAllRuleEntries(): RuleEntry[] {
   return allEntries;
+}
+
+function getEntriesByChapters(chapters: string[]): RuleEntry[] {
+  const set = new Set(chapters);
+  return allEntries.filter((entry) => set.has(entry.chapter));
+}
+
+// Chapter groupings mirrored into their most relevant app tab, so e.g. the Warbands
+// tab can show "how to build a warband" rules right next to the warbands themselves,
+// without duplicating the underlying entries — the Rules tab still has everything too.
+export function getWarbandsTabRuleEntries(): RuleEntry[] {
+  return getEntriesByChapters(['Warbands']);
+}
+
+export function getTradingTabRuleEntries(): RuleEntry[] {
+  return getEntriesByChapters(['Trading', 'Hired Swords']);
+}
+
+export function getCampaignTabRuleEntries(): RuleEntry[] {
+  return getEntriesByChapters(['Campaigns', 'Serious Injuries', 'Experience', 'Income', 'Border Town Burning']);
+}
+
+export function getSkillsTabRuleEntries(): RuleEntry[] {
+  return getEntriesByChapters(['Skills']);
 }
 
 export function getRuleEntry(id: string): RuleEntry | undefined {

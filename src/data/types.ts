@@ -63,6 +63,10 @@ export type WarbandDefinition = {
   // Equipment only this warband may buy (per the source material).
   exclusiveEquipment: WarbandExclusiveEquipmentEntry[];
   specialRules: string;
+  // Flat modifier applied to the 2D6 roll when trying to locate a Rare item
+  // (e.g. Marienburg's "+1 when attempting to find rare items"). Omitted/0 for
+  // warbands with no such bonus.
+  rareItemRollBonus?: number;
 };
 
 export type EquipmentTableEntry = {
@@ -302,6 +306,10 @@ export type RuleEntry = {
   id: string;
   title: string;
   category: RulesCategoryId;
+  // Rulebook chapter this entry belongs to (e.g. "Movement", "Trading"), used to
+  // group and order entries the way the rulebook itself presents them — see
+  // CHAPTER_ORDER in lib/rulesIndex.ts.
+  chapter: string;
   source: string;
   body: string; // plain-text paragraphs, separated by blank lines
   relatedIds?: string[]; // ids of other RuleEntry objects
@@ -312,4 +320,7 @@ export type RulesData = {
   source: string;
   categories: RulesCategoryDef[];
   entries: RuleEntry[]; // hand-authored entries only — see lib/rulesIndex.ts for the full merged set
+  // Canonical chapter order (matching the rulebook's own structure) used to sort
+  // every entry, including ones generated at runtime from other data files.
+  chapterOrder: string[];
 };

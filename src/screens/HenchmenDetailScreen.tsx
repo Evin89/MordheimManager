@@ -7,6 +7,7 @@ import { strings } from '../strings';
 import { useAppStore } from '../store/useAppStore';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
+import { hasFoughtFirstBattle } from '../lib/battleHistory';
 import { STAT_KEYS } from '../lib/statLine';
 import { EquipmentItem, HenchmenGroup, StatLine } from '../types';
 
@@ -15,6 +16,7 @@ export default function HenchmenDetailScreen() {
   const navigate = useNavigate();
   const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
   const saveWarband = useAppStore((state) => state.saveWarband);
+  const campaign = useAppStore((state) => state.campaign);
   const [shoppingOpen, setShoppingOpen] = useState(false);
 
   if (!warband) return <Navigate to="/warbands" replace />;
@@ -204,7 +206,11 @@ export default function HenchmenDetailScreen() {
               <p className="text-ember-400 font-semibold text-sm">
                 {strings.modelDetail.shopGoldLabel}: {warband.gold} {strings.common.gold}
               </p>
-              <EquipmentShop warband={warband} onPurchase={buyForGroup} />
+              <EquipmentShop
+                warband={warband}
+                onPurchase={buyForGroup}
+                skipRarityRoll={!hasFoughtFirstBattle(warband.id, campaign)}
+              />
             </div>
           )}
 

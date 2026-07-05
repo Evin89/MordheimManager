@@ -2,11 +2,16 @@ import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import EquipmentShop from '../components/EquipmentShop';
+import RuleEntryList from '../components/RuleEntryList';
 import { strings } from '../strings';
 import { useAppStore } from '../store/useAppStore';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
+import { hasFoughtFirstBattle } from '../lib/battleHistory';
+import { getTradingTabRuleEntries } from '../lib/rulesIndex';
 import { EquipmentItem, Warband } from '../types';
+
+type Tab = 'shop' | 'rules';
 
 function TreasuryRow({
   item,
@@ -78,6 +83,9 @@ export default function TradingPostScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
   const saveWarband = useAppStore((state) => state.saveWarband);
+  const campaign = useAppStore((state) => state.campaign);
+  const [tab, setTab] = useState<Tab>('shop');
+  const ruleEntries = getTradingTabRuleEntries();
 
   if (!warband) return <Navigate to="/warbands" replace />;
 
@@ -113,30 +121,61 @@ export default function TradingPostScreen() {
     <div className="min-h-full flex flex-col">
       <BackHeader title={strings.nav.trading} subtitle={warband.name} />
 
-      <main className="flex-1 px-4 py-6 space-y-6">
-        <div className="rounded-lg bg-ink-900 border border-ink-800 p-4">
-          <p className="text-ember-400 font-semibold text-lg">
-            {strings.trading.goldLabel}: {warband.gold} {strings.common.gold}
-          </p>
-        </div>
+      <div className="px-4 pt-4 flex gap-2">
+        <button
+          type="button"
+          onClick={() => setTab('shop')}
+          className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
+            tab === 'shop' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+          }`}
+        >
+          {strings.trading.shopTab}
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab('rules')}
+          className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
+            tab === 'rules' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+          }`}
+        >
+          {strings.trading.rulesTab}
+        </button>
+      </div>
 
-        <EquipmentShop warband={warband} onPurchase={buyItem} />
+      <main className="flex-1 px-4 py-4 space-y-6">
+        {tab === 'shop' ? (
+          <>
+            <div className="rounded-lg bg-ink-900 border border-ink-800 p-4">
+              <p className="text-ember-400 font-semibold text-lg">
+                {strings.trading.goldLabel}: {warband.gold} {strings.common.gold}
+              </p>
+            </div>
 
-        <section className="space-y-2">
-          <h2 className="text-bone-100 font-semibold">{strings.trading.treasurySection}</h2>
-          {warband.treasury.length === 0 ? (
-            <p className="text-bone-300 text-sm">{strings.trading.treasuryEmpty}</p>
-          ) : (
-            <>
-              <p className="text-bone-300 text-xs">{strings.trading.treasuryHint}</p>
-              <div className="space-y-2">
-                {warband.treasury.map((item) => (
-                  <TreasuryRow key={item.id} item={item} onSell={sellItem} />
-                ))}
-              </div>
-            </>
-          )}
-        </section>
+            <EquipmentShop
+              warband={warband}
+              onPurchase={buyItem}
+              skipRarityRoll={!hasFoughtFirstBattle(warband.id, campaign)}
+            />
+
+            <section className="space-y-2">
+              <h2 className="text-bone-100 font-semibold">{strings.trading.treasurySection}</h2>
+              {warband.treasury.length === 0 ? (
+                <p className="text-bone-300 text-sm">{strings.trading.treasuryEmpty}</p>
+              ) : (
+                <>
+                  <p className="text-bone-300 text-xs">{strings.trading.treasuryHint}</p>
+                  <div className="space-y-2">
+                    {warband.treasury.map((item) => (
+                      <TreasuryRow key={item.id} item={item} onSell={sellItem} />
+                    ))}
+                  </div>
+                </>
+              )}
+            </section>
+          </>
+        ) : (
+          <RuleEntryList entries={ruleEntries} emptyMessage={strings.rules.noEntriesInCategory} />
+        )}
       </main>
     </div>
   );

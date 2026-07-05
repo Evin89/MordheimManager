@@ -11,10 +11,11 @@ export default function RuleDetailScreen() {
 
   const category = getRulesCategories().find((c) => c.id === entry.category);
   const related = (entry.relatedIds ?? []).map((id) => getRuleEntry(id)).filter((e): e is NonNullable<typeof e> => !!e);
+  const subtitle = category && category.name !== entry.chapter ? `${category.name} · ${entry.chapter}` : entry.chapter;
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={entry.title} subtitle={category?.name} />
+      <BackHeader title={entry.title} subtitle={subtitle} />
 
       <main className="flex-1 px-4 py-6 space-y-4">
         <div className="space-y-3">

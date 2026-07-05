@@ -11,6 +11,7 @@ export const strings = {
     postBattle: 'Battle',
     trading: 'Trading',
     campaign: 'Campaign',
+    skills: 'Skills',
     rules: 'Rules',
     settings: 'Settings',
   },
@@ -35,6 +36,10 @@ export const strings = {
     noWarbandsCta: 'Create your first warband to get started.',
     quickActionsSection: 'Quick Actions',
     viewCampaignLog: 'View Campaign Log',
+  },
+  skills: {
+    title: 'Skills',
+    emptyMessage: 'No skills found.',
   },
   rules: {
     title: 'Rules Reference',
@@ -62,6 +67,8 @@ export const strings = {
     ratingLabel: 'Rating',
     goldLabel: 'Gold',
     shardsLabel: 'Shards',
+    myWarbandsTab: 'My Warbands',
+    rulesTab: 'Warband Rules',
   },
   newWarband: {
     title: 'New Warband',
@@ -277,6 +284,8 @@ export const strings = {
     pickWarbandTitle: 'Trading Post',
     pickWarbandPrompt: 'Which warband is shopping?',
     noWarbands: 'Create a warband first.',
+    shopTab: 'Shop',
+    rulesTab: 'Trading Rules',
     goldLabel: 'Gold',
     commonTab: 'Common',
     rareTab: 'Rare',
@@ -287,9 +296,16 @@ export const strings = {
     rollHint: 'This item is found on a result of the Rare number shown, or higher. Roll for me, or roll 2D6 (plus any modifiers) yourself and report the result.',
     rollButton: 'Roll for this item',
     autoRollButton: 'Roll 2D6 for me',
-    autoRollResultLabel: (total: number, found: boolean) => `Rolled ${total}: ${found ? 'Found it!' : "Didn't find it"}`,
+    autoRollResultLabel: (total: number, found: boolean, bonus: number) =>
+      bonus
+        ? `Rolled ${total} + ${bonus} = ${total + bonus}: ${found ? 'Found it!' : "Didn't find it"}`
+        : `Rolled ${total}: ${found ? 'Found it!' : "Didn't find it"}`,
     foundButton: 'Found it',
     notFoundButton: "Didn't find it",
+    buyRareNoRollButton: 'Buy (no roll needed)',
+    preFirstBattleHint:
+      "This warband hasn't fought its first battle yet — per the rulebook, rare items can be bought freely while first assembling a warband. Rolling to find rare items only applies once the campaign is underway.",
+    rollBonusHint: (bonus: number) => `Add this warband's +${bonus} bonus before comparing to the Rare number.`,
     priceLabel: 'Price to pay (fill in after rolling any variable dice)',
     confirmPurchase: 'Confirm Purchase',
     treasurySection: 'Treasury',
@@ -302,6 +318,8 @@ export const strings = {
   },
   campaign: {
     title: 'Campaign',
+    logTab: 'Log',
+    rulesTab: 'Campaign Rules',
     startTitle: 'Start a Campaign',
     startHint: "Set this up once — you can change it later. Battles you commit from the Post-Battle Sequence will log here automatically.",
     nameLabel: 'Campaign name',

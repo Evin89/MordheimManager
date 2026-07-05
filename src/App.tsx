@@ -18,6 +18,7 @@ import DuringBattleScreen from './screens/DuringBattleScreen';
 import PostBattleWizard from './screens/postBattle/PostBattleWizard';
 import TradingPostScreen from './screens/TradingPostScreen';
 import CampaignScreen from './screens/CampaignScreen';
+import SkillsScreen from './screens/SkillsScreen';
 import RulesScreen from './screens/RulesScreen';
 import RuleDetailScreen from './screens/RuleDetailScreen';
 
@@ -80,6 +81,7 @@ export default function App() {
             }
           />
           <Route path="/campaign" element={<CampaignScreen />} />
+          <Route path="/skills" element={<SkillsScreen />} />
           <Route path="/rules" element={<RulesScreen />} />
           <Route path="/rules/:ruleId" element={<RuleDetailScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />

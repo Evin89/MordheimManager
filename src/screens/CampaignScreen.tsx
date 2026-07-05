@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import RuleEntryList from '../components/RuleEntryList';
 import { strings } from '../strings';
 import { useAppStore } from '../store/useAppStore';
 import { generateId } from '../lib/id';
+import { getCampaignTabRuleEntries } from '../lib/rulesIndex';
 import objectivesData from '../data/btb/objectives.json';
 import { BtbObjectivesData } from '../data/types';
 import { BattleRecord, BtbObjective, CAMPAIGN_SCHEMA_VERSION, Campaign, Warband } from '../types';
+
+type Tab = 'log' | 'rules';
 
 const objectives = (objectivesData as BtbObjectivesData).objectives;
 
@@ -144,6 +148,8 @@ export default function CampaignScreen() {
   const warbands = useAppStore((state) => state.warbands);
   const saveCampaign = useAppStore((state) => state.saveCampaign);
   const saveWarband = useAppStore((state) => state.saveWarband);
+  const [tab, setTab] = useState<Tab>('log');
+  const ruleEntries = getCampaignTabRuleEntries();
 
   const [draftName, setDraftName] = useState('My Campaign');
   const [draftUsesBtb, setDraftUsesBtb] = useState(false);
@@ -170,8 +176,31 @@ export default function CampaignScreen() {
         <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{strings.campaign.title}</h1>
       </header>
 
-      <main className="flex-1 px-4 py-6 space-y-6">
-        {!campaign ? (
+      <div className="px-4 pt-4 flex gap-2">
+        <button
+          type="button"
+          onClick={() => setTab('log')}
+          className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
+            tab === 'log' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+          }`}
+        >
+          {strings.campaign.logTab}
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab('rules')}
+          className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
+            tab === 'rules' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+          }`}
+        >
+          {strings.campaign.rulesTab}
+        </button>
+      </div>
+
+      <main className="flex-1 px-4 py-4 space-y-6">
+        {tab === 'rules' ? (
+          <RuleEntryList entries={ruleEntries} emptyMessage={strings.rules.noEntriesInCategory} />
+        ) : !campaign ? (
           <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
             <h2 className="text-bone-100 font-semibold">{strings.campaign.startTitle}</h2>
             <p className="text-bone-300 text-sm">{strings.campaign.startHint}</p>

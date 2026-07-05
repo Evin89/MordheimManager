@@ -37,12 +37,30 @@ function RulesIcon({ className }: { className?: string }) {
   );
 }
 
+function SkillsIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  );
+}
+
 const TABS: { to: string; label: string; end?: boolean; icon?: typeof SettingsIcon }[] = [
   { to: '/', label: strings.nav.home, end: true },
   { to: '/warbands', label: strings.nav.warbands },
   { to: '/post-battle', label: strings.nav.postBattle },
   { to: '/trading', label: strings.nav.trading },
   { to: '/campaign', label: strings.nav.campaign },
+  { to: '/skills', label: strings.nav.skills, icon: SkillsIcon },
   { to: '/rules', label: strings.nav.rules, icon: RulesIcon },
   { to: '/settings', label: strings.nav.settings, icon: SettingsIcon },
 ];

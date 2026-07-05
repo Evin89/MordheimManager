@@ -16,9 +16,13 @@ type Tab = 'common' | 'rare';
 function RareItemRow({
   item,
   onBuy,
+  skipRoll,
+  rollBonus,
 }: {
   item: ResolvedEquipmentItem;
   onBuy: (item: ResolvedEquipmentItem, price: number) => void;
+  skipRoll: boolean;
+  rollBonus: number;
 }) {
   const [rolling, setRolling] = useState(false);
   const [found, setFound] = useState(false);
@@ -28,7 +32,7 @@ function RareItemRow({
   function autoRoll() {
     if (item.rarity === null) return;
     const { total } = roll2D6();
-    const success = total >= item.rarity;
+    const success = total + rollBonus >= item.rarity;
     setLastAutoRoll({ total, found: success });
     setFound(success);
   }
@@ -52,13 +56,13 @@ function RareItemRow({
             type="button"
             onClick={() => {
               setRolling(true);
-              setFound(false);
+              setFound(skipRoll);
               setPrice(parseBasePrice(item.priceRange));
               setLastAutoRoll(null);
             }}
             className="min-h-[40px] px-3 rounded-md border border-ink-700 text-bone-200 text-sm font-semibold shrink-0"
           >
-            {strings.trading.rollButton}
+            {skipRoll ? strings.trading.buyRareNoRollButton : strings.trading.rollButton}
           </button>
         )}
       </div>
@@ -67,13 +71,14 @@ function RareItemRow({
 
       {rolling && lastAutoRoll && (
         <p className="text-bone-300 text-xs">
-          {strings.trading.autoRollResultLabel(lastAutoRoll.total, lastAutoRoll.found)}
+          {strings.trading.autoRollResultLabel(lastAutoRoll.total, lastAutoRoll.found, rollBonus)}
         </p>
       )}
 
       {rolling && !found && (
         <div className="space-y-2 rounded-md bg-ink-800 border border-ink-700 p-3">
           <p className="text-bone-300 text-sm">{strings.trading.rollHint}</p>
+          {rollBonus > 0 && <p className="text-ember-400 text-xs">{strings.trading.rollBonusHint(rollBonus)}</p>}
           {item.rarity !== null && (
             <button
               type="button"
@@ -143,16 +148,19 @@ function RareItemRow({
 type EquipmentShopProps = {
   warband: Warband;
   onPurchase: (item: ResolvedEquipmentItem, price: number) => void;
+  /** True while the warband hasn't fought its first battle yet — rare items can be bought without rolling. */
+  skipRarityRoll?: boolean;
 };
 
 /** The buy-side of the Trading Post (Common + Rare tabs), reusable anywhere a warband can spend gold on gear. */
-export default function EquipmentShop({ warband, onPurchase }: EquipmentShopProps) {
+export default function EquipmentShop({ warband, onPurchase, skipRarityRoll = false }: EquipmentShopProps) {
   const [tab, setTab] = useState<Tab>('common');
 
   const definition = getWarbandDefinition(warband.warbandType);
   const exclusiveItems = definition ? getWarbandExclusiveItems(definition) : [];
   const commonItems = [...getUniversalCommonItems(), ...exclusiveItems.filter((i) => !i.isRare)];
   const rareItems = [...getUniversalRareItems(), ...exclusiveItems.filter((i) => i.isRare)];
+  const rollBonus = definition?.rareItemRollBonus ?? 0;
 
   return (
     <div className="space-y-4">
@@ -209,8 +217,9 @@ export default function EquipmentShop({ warband, onPurchase }: EquipmentShopProp
 
       {tab === 'rare' && (
         <div className="space-y-2">
+          {skipRarityRoll && <p className="text-bone-300 text-xs">{strings.trading.preFirstBattleHint}</p>}
           {rareItems.map((item) => (
-            <RareItemRow key={item.id} item={item} onBuy={onPurchase} />
+            <RareItemRow key={item.id} item={item} onBuy={onPurchase} skipRoll={skipRarityRoll} rollBonus={rollBonus} />
           ))}
         </div>
       )}
