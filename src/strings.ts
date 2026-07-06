@@ -6,6 +6,7 @@ export const strings = {
   appName: 'Mordheim Campaign Manager',
   tagline: 'Offline warband & campaign bookkeeping',
   nav: {
+    appShort: 'Mordheim',
     home: 'Home',
     warbands: 'Warbands',
     postBattle: 'Battle',

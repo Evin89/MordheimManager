@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
+import SideNav from './components/SideNav';
 import { strings } from './strings';
 import { useAppStore } from './store/useAppStore';
 import HomeScreen from './screens/HomeScreen';
@@ -41,8 +42,11 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-full pb-[56px]">
-        <Routes>
+      <div className="min-h-full md:flex md:items-start">
+        <SideNav />
+        <div className="flex-1 min-w-0 pb-[56px] md:pb-0">
+          <div className="mx-auto w-full max-w-4xl">
+            <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/warbands" element={<WarbandListScreen />} />
           <Route path="/warbands/new" element={<NewWarbandScreen />} />
@@ -88,7 +92,9 @@ export default function App() {
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="/settings/changelog" element={<ChangelogScreen />} />
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            </Routes>
+          </div>
+        </div>
         <BottomNav />
       </div>
     </BrowserRouter>
