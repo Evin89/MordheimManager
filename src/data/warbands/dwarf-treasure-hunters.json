@@ -1,0 +1,106 @@
+{
+  "id": "dwarf-treasure-hunters",
+  "name": "Dwarf Treasure Hunters",
+  "source": "The New Mordheimer, https://mordheimer.net/docs/warbands/grade-1a-warbands/dwarf-treasure-hunters (fetched 2026-07-06). Grade 1a warband, author Mark Havener. Cited source: Town Cryer #4, revised in the Mordheim Annual 2002. Owner should cross-check against their own copy of that supplement/annual.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "dwarfNoble",
+      "unitType": "Dwarf Noble",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 85,
+      "startingXp": 20,
+      "skillLists": ["combat", "shooting", "strength", "dwarves"],
+      "statLine": { "M": 3, "WS": 5, "BS": 4, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 9 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["dwarfWarriorEquipmentList"],
+      "notes": "85 gc. Leader: any warrior within 6\" may use his Leadership instead of their own. statMaximums null: Dwarfs are not Human — fill from the Dwarf Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "dwarfEngineer",
+      "unitType": "Dwarf Engineer",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 50,
+      "startingXp": 10,
+      "skillLists": ["combat", "shooting", "dwarves"],
+      "statLine": { "M": 3, "WS": 4, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 9 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["dwarfThundererEquipmentList"],
+      "notes": "50 gc, 0-1. Expert Weaponsmith: while he takes part in a battle, missile weapons bought from the warband's basic equipment lists get +3\" range for pistols and +6\" for crossbows/handguns (applies even if he's not yet entered play or has already been taken Out of Action that battle; no effect on Hired Sword equipment). statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "trollSlayers",
+      "unitType": "Dwarf Troll Slayers",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 50,
+      "startingXp": 8,
+      "skillLists": ["combat", "strength", "dwarves", "trollSlayers"],
+      "statLine": { "M": 3, "WS": 4, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 9 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["dwarfWarriorEquipmentList"],
+      "notes": "50 gc, 0-2. May be equipped with weapons (not missile weapons) from the Dwarf Warrior equipment list, and may never wear any armour. Deathwish: immune to all psychology, never needs to test for fighting alone. Slayer Skills: may pick from the Troll Slayer skill list as well as their normal lists. statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced."
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "dwarfClansmen",
+      "unitType": "Dwarf Clansmen",
+      "cost": 40,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 3, "WS": 4, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 9 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["dwarfWarriorEquipmentList"],
+      "notes": "40 gc, any number. statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "dwarfThunderers",
+      "unitType": "Dwarf Thunderers",
+      "cost": 40,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": { "M": 3, "WS": 4, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 9 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["dwarfThundererEquipmentList"],
+      "notes": "40 gc, 0-5. statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "beardlings",
+      "unitType": "Beardlings",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 3, "WS": 3, "BS": 2, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 8 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["dwarfWarriorEquipmentList"],
+      "notes": "25 gc, any number. Young Dwarfs seeking their fortune. statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced."
+    }
+  ],
+  "equipmentLists": {
+    "dwarfWarriorEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "dwarfAxe", "doubleHandedWeapon", "spear", "halberd", "pistol", "lightArmour", "heavyArmour", "gromrilArmour", "shield", "helmet"],
+    "dwarfThundererEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "pistol", "crossbow", "handgun", "lightArmour", "heavyArmour", "shield", "helmet"]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "dwarfAxe",
+      "name": "Dwarf Axe",
+      "category": "melee",
+      "cost": 15,
+      "rarity": 8,
+      "restriction": "Dwarf warbands only — included in the warband's own recruitment list at listed cost (no roll needed at recruitment); a Rare 8 roll is only needed when buying one later via the Trading Post.",
+      "rulesText": "Close combat, Strength as user. Cutting Edge: an extra -1 armour save modifier (e.g. a Strength 4 user gets -2 total). Parry: the wielder may attempt to parry one blow per combat phase — roll a D6 higher than the opponent's highest to-hit roll to negate it (never against an attack from double-or-more the wielder's own Strength). Two Dwarf axes (or a Dwarf axe + another Parry weapon) still only parries once, but may re-roll a failed parry."
+    }
+  ],
+  "specialRules": "Dwarf Nobles fallen on hard times — a hold overrun, a disgrace suffered — gather kin and friends to go treasure hunting rather than wallow, and the greatest hoard in the Known World is rumoured to lie in Mordheim. All Dwarfs: Hard to Kill (only taken Out of Action on a roll of 6 on the Injury chart, not 5-6 — treat 1-2 as Knocked Down, 3-5 as Stunned, 6 as Out of Action). Hard Head: ignore special rules for maces, clubs, etc. Armour: never suffer movement penalties for wearing armour. Hate Orcs and Goblins (see Psychology). Grudgebearers: may never include any Elven Hired Sword or Dramatis Personae. Incomparable Miners: +1 to the number of wyrdstone shards found when checking the Exploration chart."
+}

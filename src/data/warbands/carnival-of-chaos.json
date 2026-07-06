@@ -1,0 +1,163 @@
+{
+  "id": "carnival-of-chaos",
+  "name": "Carnival of Chaos",
+  "source": "The New Mordheimer, https://mordheimer.net/docs/warbands/grade-1a-warbands/carnival-of-chaos (fetched 2026-07-06). Grade 1a warband. Cited source: Empire in Flames (PDF). Owner should cross-check against their own copy of that supplement.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "carnivalMaster",
+      "unitType": "Carnival Master",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 70,
+      "startingXp": 20,
+      "skillLists": ["combat", "shooting", "academic", "strength", "speed"],
+      "statLine": { "M": 4, "WS": 4, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 8 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["carnivalEquipmentList"],
+      "notes": "70 gc. Leader (6\"). Wizard: uses Nurgle Rituals (see Magic)."
+    },
+    {
+      "id": "brutes",
+      "unitType": "Brutes",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 60,
+      "startingXp": 8,
+      "skillLists": ["combat", "strength", "speed"],
+      "statLine": { "M": 4, "WS": 4, "BS": 0, "S": 4, "T": 4, "W": 1, "I": 2, "A": 2, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["bruteEquipmentList"],
+      "notes": "60 gc, 0-2. Nurgle-bolstered strongmen. Unnatural Strength: starts the game already knowing the Strongman skill (Strength list)."
+    },
+    {
+      "id": "taintedOnes",
+      "unitType": "Tainted Ones",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 25,
+      "startingXp": 0,
+      "skillLists": ["combat", "speed"],
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["carnivalEquipmentList"],
+      "notes": "25 gc + cost of Blessings, 0-2. Nurgle's Blessings: must start play with one or more Blessings of Nurgle, bought only at recruitment (see the warband's exclusive equipment) — first Blessing at listed cost, further ones on the same model cost double."
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "plagueBearers",
+      "unitType": "Plague Bearers",
+      "cost": 50,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 4, "T": 4, "W": 1, "I": 4, "A": 2, "Ld": 10 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": [],
+      "notes": "50 gc, 0-2. No weapons/armour — fights with filth-encrusted claws. Cloud of Flies: opponents in close combat suffer -1 to hit. Stream of Corruption: a 6\" range shooting attack at Strength 3, no armour saves. Demonic: never gains Experience. Immune to Poison. Immune to Psychology (auto-passes Leadership-based tests). Cause Fear. Daemonic Aura: 5+ Armour save, modified by Strength as normal, negated by magic weapons/spells (attacks are also magical). Daemonic Instability: if taken Out of Action, banished (destroyed, no injury roll) on a D6 of 1-3; if the warband routs, must pass a Leadership test or be destroyed. statMaximums null: Daemons have no Human Maximum Profile."
+    },
+    {
+      "id": "nurglings",
+      "unitType": "Nurglings",
+      "cost": 15,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 4, "WS": 3, "BS": 0, "S": 3, "T": 2, "W": 1, "I": 3, "A": 1, "Ld": 10 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": [],
+      "notes": "15 gc. Swarm: unlike other Henchmen groups, may have more than 5 Nurglings in the group. No weapons/armour. Cloud of Flies, Demonic (never gains Experience), Immune to Poison, Immune to Psychology, Daemonic Aura (5+ save, negated by magic), Daemonic Instability — same as Plague Bearers. statMaximums null: Daemons have no Human Maximum Profile."
+    },
+    {
+      "id": "brethren",
+      "unitType": "Brethren",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["carnivalEquipmentList"],
+      "notes": "25 gc, any number. Rank-and-file Nurgle devotees."
+    },
+    {
+      "id": "plagueCart",
+      "unitType": "Plague Cart",
+      "cost": 120,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": [],
+      "notes": "120 gc, 0-1. TODO/unmodeled: the Plague Cart is a special \"wagon\" unit the source page splits into four separate sub-profiles rather than one M/WS/BS/S/T/W/I/A/Ld line, and refers to a separate 'wagons' mechanic page (movement, being destroyed piece-by-piece, etc.) that wasn't fetched — this app's data model only supports one stat line per unit, so statLine/statMaximums are left null rather than force-fit or guessed. Source profiles as given: Cart — W4; Wheel — W1; Horse — M8, S3, T3, W1, I3; Guardian — WS3, S3, T3, I3, A1 (the part that actually fights; no weapons/armour, no penalty for fighting unarmed). Rating impact not stated on the source page — TODO: verify whether it counts as a Large Creature (+20 flat) or a normal model (+5) for warband rating. Special rules: Plague Cart increases the warband's maximum warriors by +2, and lets Plague Bearers/Nurglings re-roll Instability Leadership tests and get +1 on Injury tests if taken Out of Action. Guardian is bonded to the cart (can never dismount/leave, can't be injured unless the Cart itself is destroyed, never gains Experience, its attacks cause Nurgle's Rot), and is Immune to Psychology (as is the Plague Cart itself)."
+    }
+  ],
+  "equipmentLists": {
+    "carnivalEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "morningStar", "doubleHandedWeapon", "spear", "halberd", "shortBow", "bow", "pistol", "lightArmour", "heavyArmour", "shield", "helmet"],
+    "bruteEquipmentList": ["doubleHandedWeapon", "flail"]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "streamOfCorruptionBlessing",
+      "name": "Blessing of Nurgle: Stream of Corruption",
+      "category": "mutation",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "Blessing of Nurgle — Tainted Ones only, bought at recruitment. First Blessing at listed cost; further Blessings on the same model cost double.",
+      "rulesText": "May spew forth a stream of maggots, entrails and filth: a shooting attack with a 6\" range, resolved at Strength 3, no armour saves."
+    },
+    {
+      "id": "nurglesRotBlessing",
+      "name": "Blessing of Nurgle: Nurgle's Rot",
+      "category": "mutation",
+      "cost": 50,
+      "rarity": null,
+      "restriction": "Blessing of Nurgle — Tainted Ones only, bought at recruitment. First Blessing at listed cost; further Blessings on the same model cost double.",
+      "rulesText": "Infected with Nurgle's Rot and immune to all poisons. If the Tainted One scores a to-wound roll of 6 in close combat, the target contracts the Rot (living targets only — Undead/Daemons/Possessed are immune). From then on, before each battle the infected model tests Toughness or permanently loses 1 Toughness (dying and being removed from the roster if it reaches 0); rolling a 6 on that test also passes the Rot to a random warband member."
+    },
+    {
+      "id": "cloudOfFliesBlessing",
+      "name": "Blessing of Nurgle: Cloud of Flies",
+      "category": "mutation",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "Blessing of Nurgle — Tainted Ones only, bought at recruitment. First Blessing at listed cost; further Blessings on the same model cost double.",
+      "rulesText": "Surrounded by a buzzing cloud of flies — the Tainted One's close combat opponent suffers -1 to hit."
+    },
+    {
+      "id": "bloatedFoulnessBlessing",
+      "name": "Blessing of Nurgle: Bloated Foulness",
+      "category": "mutation",
+      "cost": 40,
+      "rarity": null,
+      "restriction": "Blessing of Nurgle — Tainted Ones only, bought at recruitment. First Blessing at listed cost; further Blessings on the same model cost double.",
+      "rulesText": "+1 Wound and +1 Toughness, but -1 Movement."
+    },
+    {
+      "id": "markOfNurgleBlessing",
+      "name": "Blessing of Nurgle: Mark of Nurgle",
+      "category": "mutation",
+      "cost": 35,
+      "rarity": null,
+      "restriction": "Blessing of Nurgle — Tainted Ones only, bought at recruitment. First Blessing at listed cost; further Blessings on the same model cost double.",
+      "rulesText": "+1 Wound and immune to all poisons."
+    },
+    {
+      "id": "hideousBlessing",
+      "name": "Blessing of Nurgle: Hideous",
+      "category": "mutation",
+      "cost": 40,
+      "rarity": null,
+      "restriction": "Blessing of Nurgle — Tainted Ones only, bought at recruitment. First Blessing at listed cost; further Blessings on the same model cost double.",
+      "rulesText": "Causes Fear."
+    }
+  ],
+  "specialRules": "Once wandering gypsy players and thespians, the Carnival of Chaos are now cavorting daemon-worshippers of Nurgle, the Lord of Decay — colourful travelling entertainers by day, plague-bringing horrors by the 'Dance of Death' finale. Dangerous to Know: a Carnival of Chaos warband may never hire any Hired Sword. Tainted: counts as Possessed for purposes of Exploration and Serious Injuries."
+}

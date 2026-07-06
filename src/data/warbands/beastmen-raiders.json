@@ -1,0 +1,122 @@
+{
+  "id": "beastmen-raiders",
+  "name": "Beastmen Raiders",
+  "source": "The New Mordheimer, https://mordheimer.net/docs/warbands/grade-1a-warbands/beastmen-raiders (fetched 2026-07-06). Grade 1a warband. Cited source: Empire in Flames (PDF). Owner should cross-check against their own copy of that supplement.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "beastmenChieftain",
+      "unitType": "Beastmen Chieftain",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 65,
+      "startingXp": 20,
+      "skillLists": ["combat", "strength", "speed", "beastmenRaiders"],
+      "statLine": { "M": 5, "WS": 4, "BS": 3, "S": 4, "T": 4, "W": 1, "I": 4, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["beastmenEquipmentList"],
+      "notes": "65 gc. Leader: any warrior within 6\" may use his Leadership for Leadership tests. statMaximums null: Beastmen are not Human — fill from the Beastman Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "beastmenShaman",
+      "unitType": "Beastmen Shaman",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 45,
+      "startingXp": 11,
+      "skillLists": ["combat", "speed", "beastmenRaiders"],
+      "statLine": { "M": 5, "WS": 4, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 3, "A": 1, "Ld": 6 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["beastmenEquipmentList"],
+      "notes": "45 gc, 0-1. May be equipped with weapons from the Beastmen Equipment list, but never armour. Wizard: uses Chaos Rituals (see Magic). statMaximums null: fill from the Beastman Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "bestigors",
+      "unitType": "Bestigors",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 45,
+      "startingXp": 8,
+      "skillLists": ["combat", "strength", "beastmenRaiders"],
+      "statLine": { "M": 5, "WS": 4, "BS": 3, "S": 4, "T": 4, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["beastmenEquipmentList"],
+      "notes": "45 gc, 0-2. The largest, most brutish rank-and-file Beastmen. statMaximums null: fill from the Beastman Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "centigors",
+      "unitType": "Centigors",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 80,
+      "startingXp": 8,
+      "skillLists": ["combat", "strength", "beastmenRaiders"],
+      "statLine": { "M": 8, "WS": 4, "BS": 3, "S": 4, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["beastmenEquipmentList"],
+      "notes": "80 gc, 0-1. A quoted 1(2) Attacks — 1 base, 2 while also using Trample (see Special Rules). Drunken: roll 1D6 at the start of each of the Centigor's turns — on a 1, test for Stupidity that turn; on a 6, subject to Frenzy that turn; while subject to either, immune to all other psychology. Woodland Dwelling: no movement penalty in wooded terrain. Trample: an additional attack (using hooves/bulk) that gets no weapon bonuses or penalties. statMaximums null: fill from the Beastman Maximum Profile table if/when sourced."
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "ungor",
+      "unitType": "Ungor",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 5, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 6 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["ungorEquipmentList"],
+      "notes": "25 gc, any number. Lowest of the Low: an Ungor may never become a Hero — re-roll any \"The lad's got talent\" result for this group. statMaximums null: fill from the Beastman Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "gor",
+      "unitType": "Gor",
+      "cost": 35,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": { "M": 5, "WS": 4, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 3, "A": 1, "Ld": 6 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["beastmenEquipmentList"],
+      "notes": "35 gc, 0-5. statMaximums null: fill from the Beastman Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "warhoundsOfChaos",
+      "unitType": "Warhounds of Chaos",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": { "M": 7, "WS": 4, "BS": 0, "S": 4, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 5 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": [],
+      "notes": "15 gc, 0-5. No weapons/armour — fangs and temper only, no penalty for fighting unarmed. Animal: never gains Experience."
+    },
+    {
+      "id": "minotaur",
+      "unitType": "Minotaur",
+      "cost": 200,
+      "isAnimal": false,
+      "isLargeCreature": true,
+      "maxCount": 1,
+      "statLine": { "M": 6, "WS": 4, "BS": 3, "S": 4, "T": 4, "W": 3, "I": 4, "A": 3, "Ld": 8 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["beastmenEquipmentList"],
+      "notes": "200 gc, 0-1. Fear: causes fear. Bloodgreed: if it single-handedly takes every opponent it fought out of action in a combat phase, becomes Frenzied on a D6 roll of 4+. Animal: may gain Experience but may never become a Hero. Large Target as defined in the shooting rules. statMaximums null: fill from the Beastman Maximum Profile table if/when sourced."
+    }
+  ],
+  "equipmentLists": {
+    "beastmenEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "halberd", "doubleHandedWeapon", "lightArmour", "heavyArmour", "shield", "helmet"],
+    "ungorEquipmentList": ["dagger", "clubMaceHammer", "axe", "spear", "shield"]
+  },
+  "exclusiveEquipment": [],
+  "specialRules": "Beastmen are Children of Chaos and Old Night, crossbreeds of man and beast (mainly Ungor and the larger Bestigor) that raid Mordheim from hidden Herdstones in the surrounding forests, drawn by the wyrdstone meteorite's holy significance to their kind. Animals: a Beastmen warband may never hire any Hired Sword, unless a specific Hired Sword entry says otherwise. The Mutant skill (see the Beastmen Raiders skill list) lets a Beastman buy a single mutation — use the same Mutations list documented under Cult of the Possessed's warband entry, since it's the same underlying rules system (not duplicated here)."
+}

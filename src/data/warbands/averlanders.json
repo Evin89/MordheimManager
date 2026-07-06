@@ -1,0 +1,111 @@
+{
+  "id": "averlanders",
+  "name": "Averlander Mercenaries",
+  "source": "The New Mordheimer, https://mordheimer.net/docs/warbands/grade-1a-warbands/averlander (fetched 2026-07-06). Grade 1a warband. Cited source: Town Cryer #10, revised in the Mordheim Annual 2002. Owner should cross-check against their own copy of that supplement/annual.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "captain",
+      "unitType": "Captain",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": ["combat", "shooting", "academic", "strength", "speed"],
+      "statLine": { "M": 4, "WS": 4, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 8 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["mountainguardEquipmentList"],
+      "notes": "60 gc. Leader: any warrior within 6\" may use his Leadership for Leadership tests."
+    },
+    {
+      "id": "sergeant",
+      "unitType": "Sergeant",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 35,
+      "startingXp": 8,
+      "skillLists": ["combat", "strength", "speed"],
+      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["mountainguardEquipmentList"],
+      "notes": "35 gc, 0-1."
+    },
+    {
+      "id": "bergjaeger",
+      "unitType": "Bergjaeger",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 35,
+      "startingXp": 4,
+      "skillLists": ["shooting", "speed"],
+      "statLine": { "M": 4, "WS": 2, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["scoutEquipmentList"],
+      "notes": "35 gc, 0-2. Set Traps: if he does nothing else in a turn, may place a trap marker in base contact. Any model (friend or foe) moving within 2\" of the marker risks triggering it — roll a D6, on a 3+ it triggers, dealing a Strength 4 hit (the Bergjaeger never triggers his own traps); if it didn't wound or didn't trigger, the model finishes its move, otherwise it's placed Knocked Down or Stunned 2\" from the marker. The marker is removed either way."
+    },
+    {
+      "id": "youngblood",
+      "unitType": "Youngblood",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 15,
+      "startingXp": 0,
+      "skillLists": ["combat", "shooting", "speed"],
+      "statLine": { "M": 4, "WS": 2, "BS": 2, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 6 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["mountainguardEquipmentList"],
+      "notes": "15 gc, 0-1."
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "mountainguard",
+      "unitType": "Mountainguard",
+      "cost": 30,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["mountainguardEquipmentList"],
+      "notes": "30 gc, any number. The famed garrison of the Black Fire Pass."
+    },
+    {
+      "id": "marksmen",
+      "unitType": "Marksmen",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["marksmanEquipmentList"],
+      "notes": "25 gc, any number."
+    },
+    {
+      "id": "halflingScouts",
+      "unitType": "Halfling Scouts",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": { "M": 4, "WS": 2, "BS": 4, "S": 2, "T": 2, "W": 1, "I": 4, "A": 1, "Ld": 8 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["scoutEquipmentList"],
+      "notes": "20 gc, 0-3. statMaximums null: Halflings are not Human — fill from the Halfling Maximum Profile table if/when sourced. Promotion: if promoted to Hero via \"The lad's got talent\", may not choose Strength skills as one of his two skill lists."
+    }
+  ],
+  "equipmentLists": {
+    "scoutEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "bow", "longBow", "lightArmour", "buckler", "helmet", "huntingArrows"],
+    "marksmanEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "crossbow", "pistol", "bow", "longBow", "blunderbuss", "handgun", "huntingRifle", "lightArmour", "buckler", "helmet"],
+    "mountainguardEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "spear", "halberd", "morningStar", "doubleHandedWeapon", "pistol", "duellingPistol", "crossbow", "bow", "lightArmour", "heavyArmour", "shield", "buckler", "helmet"]
+  },
+  "exclusiveEquipment": [],
+  "specialRules": "Averland lies in the south of the Empire around the Black Fire Pass, a vital and dangerous trade route through the World's Edge and Black Mountains. Averlander mercenary bands are drawn from the Mountainguard that hold the pass, supplemented by expert Marksmen, Bergjaeger trappers/scouts, and the occasional Halfling Scout from the neighbouring Moot. No warband-wide special rule beyond the standard recruitment restrictions (see hero/henchmen entries for unit-specific rules: Bergjaeger Set Traps; Halfling Scout Promotion restriction)."
+}
