@@ -70,7 +70,7 @@ All data lives in the browser's `localStorage` — nothing is sent anywhere. Use
 
 Static game-content files under `src/data/` are sourced from the official Mordheim rulebook and the Border Town Burning supplement (via broheim.net's hosted rulebook/BTB PDFs), with the source and page/URL cited in each file's `source` field. Where a value couldn't be confidently verified, it's marked `"TODO: verify vs rulebook p.XX"` rather than guessed — a wrong Strength value is worse than a blank one. Notably:
 
-- `xpThresholds.json` still needs the exact XP-per-advance numbers transcribed from a physical/PDF roster sheet — you still have to check your own roster sheet for who's crossed a threshold, though rolling for the advance itself is now automated.
+- `xpThresholds.json` now holds the verified advance thresholds — Heroes at 2, 4, 6, 8, 11, 14, 17, 20, 24, 28, 32, 36, 41, 46, 51, 57, 63, 69, 76, 83, 90 and Henchmen at 2, 5, 9, 14 — read directly off the official roster sheet's Experience track (the sheet was rasterised and the thick-bordered advance boxes counted by border ink density). The hero/henchmen detail screens now show how much XP remains until the next advance.
 - A handful of individual items/skills/Hired Swords are flagged incomplete in their respective files.
 - The 5 core skill lists (`skills.json`) and their prerequisites were cross-checked directly against the rulebook's Campaigns chapter. A data bug from an earlier pass was also fixed: Sisters of Sigmar's and Skaven's unique skill lists were referenced by the wrong id from their warband files, so those lists were silently missing from the app — this is now corrected.
 

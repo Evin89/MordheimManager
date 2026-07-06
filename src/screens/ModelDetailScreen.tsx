@@ -9,6 +9,7 @@ import { generateId } from '../lib/id';
 import { getUniqueInjuries } from '../lib/injuryLookup';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
+import { getAdvanceProgress } from '../lib/xpThresholds';
 import { STAT_KEYS } from '../lib/statLine';
 import { EquipmentItem, Hero, HiredSword, ModelStatus, StatLine } from '../types';
 
@@ -225,6 +226,20 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
               +
             </button>
           </div>
+
+          {(() => {
+            const progress = getAdvanceProgress(model.xp, 'hero');
+            if (progress.atThreshold)
+              return <p className="text-ember-400 text-sm font-semibold text-center">{strings.modelDetail.xpAtAdvance}</p>;
+            if (progress.maxed) return <p className="text-bone-300 text-sm text-center">{strings.modelDetail.xpMaxed}</p>;
+            if (progress.xpToNext !== null && progress.nextThreshold !== null)
+              return (
+                <p className="text-bone-300 text-sm text-center">
+                  {strings.modelDetail.xpToNextAdvance(progress.xpToNext, progress.nextThreshold)}
+                </p>
+              );
+            return null;
+          })()}
 
           {advanceMode === null && (
             <button

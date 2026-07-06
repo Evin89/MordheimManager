@@ -8,6 +8,7 @@ import { useAppStore } from '../store/useAppStore';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
+import { getAdvanceProgress } from '../lib/xpThresholds';
 import { STAT_KEYS } from '../lib/statLine';
 import { EquipmentItem, HenchmenGroup, StatLine } from '../types';
 
@@ -155,6 +156,22 @@ export default function HenchmenDetailScreen() {
                 +
               </button>
             </div>
+            {(() => {
+              const progress = getAdvanceProgress(group.xp, 'henchmen');
+              if (progress.atThreshold)
+                return (
+                  <p className="text-ember-400 text-sm font-semibold text-center">{strings.modelDetail.xpAtAdvance}</p>
+                );
+              if (progress.maxed)
+                return <p className="text-bone-300 text-sm text-center">{strings.modelDetail.xpMaxed}</p>;
+              if (progress.xpToNext !== null && progress.nextThreshold !== null)
+                return (
+                  <p className="text-bone-300 text-sm text-center">
+                    {strings.modelDetail.xpToNextAdvance(progress.xpToNext, progress.nextThreshold)}
+                  </p>
+                );
+              return null;
+            })()}
             <p className="text-bone-300 text-xs">
               Henchmen advances are always a +1 characteristic increase (never more than +1 per stat, per the
               rulebook) — tap a characteristic below when the group earns an advance.

@@ -125,6 +125,10 @@ export const strings = {
     atMax: 'At racial max',
     xpSection: 'Experience',
     xpTotal: 'Total XP',
+    xpToNextAdvance: (remaining: number, threshold: number) =>
+      `${remaining} XP to next advance (at ${threshold})`,
+    xpAtAdvance: 'Ready for an advance!',
+    xpMaxed: 'Maximum advances reached.',
     recordAdvance: 'Record Advance',
     advanceTypeStat: 'Characteristic Increase',
     advanceTypeSkill: 'New Skill',

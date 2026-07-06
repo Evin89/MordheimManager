@@ -1,10 +1,108 @@
 {
   "schemaVersion": 1,
-  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules, rulebook p.81 (fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03) confirms the MECHANISM but not the numbers: 'The warband roster sheet shows how much experience a Hero or a Henchman group must accumulate before making a further roll. When the accumulated experience reaches a box that has thick borders, the warrior may make an Advance roll.' The official roster sheet (https://broheim.net/downloads/resources/Official%20Roster%20Sheet.pdf, fetched 2026-07-03) has an Experience track drawn as a row of small checkbox squares with certain squares rendered as filled/bold to mark the advance thresholds, but the fetched text extraction of that graphic could not reliably resolve which specific box positions are bold vs plain — transcribing exact XP numbers from that render risked being wrong, which is worse than leaving this as TODO. TODO: open the roster sheet PDF directly (or the physical rulebook) and count the bold-bordered box positions along the Hero and Henchman Experience tracks to get the real threshold numbers.",
+  "source": "Verified against the official Mordheim roster sheet (https://broheim.net/downloads/resources/Official%20Roster%20Sheet.pdf, fetched 2026-07-06), which was rasterised to an image and the Experience tracks read directly: the thick-bordered boxes marking advance thresholds were counted by their border ink density. The advance mechanic is stated in the core rulebook, Part 3 - Campaigns & Optional Rules, p.81: 'When the accumulated experience reaches a box that has thick borders, the warrior may make an Advance roll.' Hero track = 90 boxes across 3 rows; Henchman track = 14 boxes. These match the widely-reproduced community advance tables.",
   "heroThresholds": [
-    { "xp": null, "label": "TODO: verify vs rulebook roster sheet (thick-bordered XP boxes)" }
+    {
+      "xp": 2,
+      "label": "1st Advance"
+    },
+    {
+      "xp": 4,
+      "label": "2nd Advance"
+    },
+    {
+      "xp": 6,
+      "label": "3rd Advance"
+    },
+    {
+      "xp": 8,
+      "label": "4th Advance"
+    },
+    {
+      "xp": 11,
+      "label": "5th Advance"
+    },
+    {
+      "xp": 14,
+      "label": "6th Advance"
+    },
+    {
+      "xp": 17,
+      "label": "7th Advance"
+    },
+    {
+      "xp": 20,
+      "label": "8th Advance"
+    },
+    {
+      "xp": 24,
+      "label": "9th Advance"
+    },
+    {
+      "xp": 28,
+      "label": "10th Advance"
+    },
+    {
+      "xp": 32,
+      "label": "11th Advance"
+    },
+    {
+      "xp": 36,
+      "label": "12th Advance"
+    },
+    {
+      "xp": 41,
+      "label": "13th Advance"
+    },
+    {
+      "xp": 46,
+      "label": "14th Advance"
+    },
+    {
+      "xp": 51,
+      "label": "15th Advance"
+    },
+    {
+      "xp": 57,
+      "label": "16th Advance"
+    },
+    {
+      "xp": 63,
+      "label": "17th Advance"
+    },
+    {
+      "xp": 69,
+      "label": "18th Advance"
+    },
+    {
+      "xp": 76,
+      "label": "19th Advance"
+    },
+    {
+      "xp": 83,
+      "label": "20th Advance"
+    },
+    {
+      "xp": 90,
+      "label": "21st Advance"
+    }
   ],
   "henchmenThresholds": [
-    { "xp": null, "label": "TODO: verify vs rulebook roster sheet (thick-bordered XP boxes)" }
+    {
+      "xp": 2,
+      "label": "1st Advance"
+    },
+    {
+      "xp": 5,
+      "label": "2nd Advance"
+    },
+    {
+      "xp": 9,
+      "label": "3rd Advance"
+    },
+    {
+      "xp": 14,
+      "label": "4th Advance"
+    }
   ]
 }
