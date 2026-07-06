@@ -54,12 +54,110 @@ function SkillsIcon({ className }: { className?: string }) {
   );
 }
 
+function HomeIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M3 10.5 12 3l9 7.5" />
+      <path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5" />
+    </svg>
+  );
+}
+
+function BattleIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M5 19 19 5" />
+      <path d="M16 5h3v3" />
+      <path d="M8 19H5v-3" />
+      <path d="M19 19 5 5" />
+      <path d="M8 5H5v3" />
+      <path d="M16 19h3v-3" />
+    </svg>
+  );
+}
+
+function WarbandIcon({ className }: { className?: string }) {
+  const body = 'M-4 6h8l1 4h-2.5v6h-1.5v-5h-1.5v5h-1.5v-6H-5Z';
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" className={className} aria-hidden="true">
+      <g transform="translate(6,1) scale(0.5)">
+        <circle cx="0" cy="2" r="2" />
+        <path d={body} />
+      </g>
+      <g transform="translate(18,1) scale(0.5)">
+        <circle cx="0" cy="2" r="2" />
+        <path d={body} />
+      </g>
+      <g transform="translate(12,6) scale(0.72)">
+        <circle cx="0" cy="2" r="2" />
+        <path d={body} />
+      </g>
+    </svg>
+  );
+}
+
+function TradingIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="7" cy="12" r="4.5" />
+      <path d="M7 10v4" />
+      <path d="M12 8h9M18 5l3 3-3 3" />
+      <path d="M12 16h9M18 13l3 3-3 3" />
+    </svg>
+  );
+}
+
+function CampaignIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M2 6c1.5 1.5 2.5-1.5 4 0s2.5 1.5 4 0 2.5 1.5 4 0 2.5 1.5 4 0 1.5-1.5 4 0v14c-2.5-1.5-2.5 1.5-4 0s-2.5 1.5-4 0-2.5 1.5-4 0-2.5 1.5-4 0-1.5 1.5-4 0Z" />
+      <path d="M9 6.5v13M15 6v13" />
+    </svg>
+  );
+}
+
 const TABS: { to: string; label: string; end?: boolean; icon?: typeof SettingsIcon }[] = [
-  { to: '/', label: strings.nav.home, end: true },
-  { to: '/warbands', label: strings.nav.warbands },
-  { to: '/post-battle', label: strings.nav.postBattle },
-  { to: '/trading', label: strings.nav.trading },
-  { to: '/campaign', label: strings.nav.campaign },
+  { to: '/', label: strings.nav.home, end: true, icon: HomeIcon },
+  { to: '/warbands', label: strings.nav.warbands, icon: WarbandIcon },
+  { to: '/post-battle', label: strings.nav.postBattle, icon: BattleIcon },
+  { to: '/trading', label: strings.nav.trading, icon: TradingIcon },
+  { to: '/campaign', label: strings.nav.campaign, icon: CampaignIcon },
   { to: '/skills', label: strings.nav.skills, icon: SkillsIcon },
   { to: '/rules', label: strings.nav.rules, icon: RulesIcon },
   { to: '/settings', label: strings.nav.settings, icon: SettingsIcon },
