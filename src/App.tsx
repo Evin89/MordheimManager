@@ -12,6 +12,7 @@ import HenchmenDetailScreen from './screens/HenchmenDetailScreen';
 import AddHeroScreen from './screens/AddHeroScreen';
 import AddHenchmenScreen from './screens/AddHenchmenScreen';
 import SettingsScreen from './screens/SettingsScreen';
+import ChangelogScreen from './screens/ChangelogScreen';
 import WarbandPickerScreen from './screens/WarbandPickerScreen';
 import PreBattleScreen from './screens/PreBattleScreen';
 import DuringBattleScreen from './screens/DuringBattleScreen';
@@ -85,6 +86,7 @@ export default function App() {
           <Route path="/rules" element={<RulesScreen />} />
           <Route path="/rules/:ruleId" element={<RuleDetailScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
+          <Route path="/settings/changelog" element={<ChangelogScreen />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <BottomNav />

@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { strings } from '../strings';
 import { useAppStore } from '../store/useAppStore';
 import { ImportValidationError, downloadExport, parseImportFile } from '../storage/persistence';
@@ -62,6 +63,16 @@ export default function SettingsScreen() {
             />
           </div>
           {importMessage && <p className="text-sm text-bone-300">{importMessage}</p>}
+        </section>
+
+        <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+          <h2 className="text-bone-100 font-semibold">{strings.settings.aboutSection}</h2>
+          <Link
+            to="/settings/changelog"
+            className="block text-ember-400 font-semibold"
+          >
+            {strings.settings.changelogLink}
+          </Link>
         </section>
       </main>
     </div>

@@ -1,0 +1,57 @@
+[
+  {
+    "date": "2026-07-05",
+    "title": "Weapons, Armour & More Rules",
+    "description": "Added the Weapons & Armour and Miscellaneous Equipment chapters to the Rules Reference, plus the Underdog experience bonus table. Fixed every rule's page citation to match the real rulebook, and reordered everything to follow its actual chapter structure. Warbands, Trading, and Campaign each got a \"Rules\" toggle showing just what's relevant there, and a new Skills tab lists every skill."
+  },
+  {
+    "date": "2026-07-05",
+    "title": "Rules Reference & Offline Verification",
+    "description": "Added a full searchable, offline Rules Reference covering Characteristics, Movement, Shooting, Close Combat, Leadership & Psychology, Magic, the Post-Battle Sequence, Trading, Skills, Injuries, Scenarios, warband-specific rules, and Border Town Burning. Verified the app genuinely works with no network connection once it's been opened once, and polished the \"Add to Home Screen\" experience on iOS."
+  },
+  {
+    "date": "2026-07-04",
+    "title": "Pre-Battle, During-Battle & a Real Skills System",
+    "description": "Added a Pre-Battle setup step (pick or randomly roll a scenario, note your opponent) and a During-Battle tracker (turn counter, event log, quick roster reference for either side). Built a proper skills system with prerequisite checking, wired into both the roster screens and the Post-Battle Wizard."
+  },
+  {
+    "date": "2026-07-04",
+    "title": "Dice Rolls for Post-Battle & Trading",
+    "description": "Added real roll buttons for Serious Injuries, Henchmen casualties, Hired Sword fate, Advances, and Rare item purchases — no more needing physical dice for the app to track."
+  },
+  {
+    "date": "2026-07-04",
+    "title": "Home Dashboard",
+    "description": "Added a Home tab summarizing your campaign and all your warbands at a glance, and cleaned up the bottom navigation so it stops crowding as more tabs get added."
+  },
+  {
+    "date": "2026-07-04",
+    "title": "Campaign Log",
+    "description": "Added a screen to track your campaign's battle history and, if you're using Border Town Burning, each warband's chosen objective and progress."
+  },
+  {
+    "date": "2026-07-04",
+    "title": "Direct Equipment Purchases",
+    "description": "You can now buy equipment straight from a Hero, Hired Sword, or Henchmen Group's own detail screen, instead of always routing through the Trading Post."
+  },
+  {
+    "date": "2026-07-04",
+    "title": "Trading Post",
+    "description": "Added buying Common and Rare equipment (including the Rare item availability roll) and selling gear back from the treasury."
+  },
+  {
+    "date": "2026-07-04",
+    "title": "Post-Battle Wizard",
+    "description": "Added the guided 8-step post-battle sequence — injuries, experience, advances, dead models, income, upkeep — with a staged summary and undo, plus all 9 playable warband types."
+  },
+  {
+    "date": "2026-07-03",
+    "title": "Warband Roster Management",
+    "description": "Added the ability to create a warband and manage its roster: Heroes, Henchmen Groups, and Hired Swords, with stats, XP, skills, and injuries."
+  },
+  {
+    "date": "2026-07-03",
+    "title": "First Release",
+    "description": "Scaffolded the app and populated the core game data: warbands, equipment, skills, injuries, and advance tables, sourced from the rulebook."
+  }
+]

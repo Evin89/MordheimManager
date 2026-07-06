@@ -59,6 +59,11 @@ export const strings = {
     importOverwriteWarning: 'Importing will overwrite all warbands and campaign data currently stored on this device. This cannot be undone. Continue?',
     importSuccess: 'Import complete.',
     importError: (message: string) => `Import failed: ${message}`,
+    aboutSection: 'About',
+    changelogLink: "What's New (Changelog)",
+  },
+  changelog: {
+    title: "What's New",
   },
   warbandList: {
     title: 'Warbands',
