@@ -1,5 +1,35 @@
 [
   {
+    "date": "2026-07-27",
+    "title": "The Rules Are Free to Browse",
+    "description": "You no longer need an account to read the rules. The home page, the full Rules Reference, and every skill list are open to everyone, so you can look something up at the table without signing in. An account is still needed for your own warbands, battles, trading, and campaign log."
+  },
+  {
+    "date": "2026-07-27",
+    "title": "Accounts & Multi-Device Sync",
+    "description": "Your warbands now live in an online database behind an email-and-password account instead of being stored in one browser. The same campaign follows you between phone, tablet, and desktop, and clearing your browser no longer wipes everything. Heads-up: warbands you created before this change were stored only on your device and don't carry over automatically — if you still have them in the old browser, export a backup from Settings first, then import it once you've signed in. The app now needs an internet connection to show or change your data."
+  },
+  {
+    "date": "2026-07-06",
+    "title": "Five More Warbands",
+    "description": "Added Averlanders, Beastmen Raiders, Carnival of Chaos, Dwarf Treasure Hunters, and Kislevites, bringing the roster to 14 warbands. Each comes with its full hero and henchmen list, equipment options, and special rules."
+  },
+  {
+    "date": "2026-07-06",
+    "title": "Built for Tablet & Desktop",
+    "description": "On a bigger screen the app now uses a left sidebar instead of the bottom tab bar, and keeps the content in a comfortable reading column rather than stretching across the whole window. Phones are unchanged."
+  },
+  {
+    "date": "2026-07-06",
+    "title": "See When a Warrior Earns an Advance",
+    "description": "Hero and henchmen screens now show how much Experience is left until the next advance, and say \"Ready for an advance!\" when one is due. The thresholds were read straight off the official roster sheet's Experience track."
+  },
+  {
+    "date": "2026-07-06",
+    "title": "Clearer Navigation",
+    "description": "The bottom tabs now use icons — a home, three warriors for Warbands, crossed swords for Battle, a coin for Trading, and a map for Campaign — so the labels stop crowding each other on narrow phones."
+  },
+  {
     "date": "2026-07-05",
     "title": "Weapons, Armour & More Rules",
     "description": "Added the Weapons & Armour and Miscellaneous Equipment chapters to the Rules Reference, plus the Underdog experience bonus table. Fixed every rule's page citation to match the real rulebook, and reordered everything to follow its actual chapter structure. Warbands, Trading, and Campaign each got a \"Rules\" toggle showing just what's relevant there, and a new Skills tab lists every skill."
