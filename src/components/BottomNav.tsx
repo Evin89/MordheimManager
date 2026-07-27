@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import AuthNavButton from './AuthNavButton';
 import { NAV_ITEMS } from './navItems';
 
 export default function BottomNav() {
@@ -22,6 +23,7 @@ export default function BottomNav() {
           </NavLink>
         );
       })}
+      <AuthNavButton variant="bar" />
     </nav>
   );
 }

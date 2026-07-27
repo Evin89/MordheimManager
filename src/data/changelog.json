@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-07-27",
+    "title": "Sign In From the Menu, and Reset a Forgotten Password",
+    "description": "The navigation now has a Sign in / Sign out button, so you don't have to dig through Settings to switch accounts. Forgotten your password? There's a link on the sign-in screen — enter your email and we'll send you a link to set a new one. The separate Skills tab is gone, but nothing was lost: all 133 skills are still in the Rules Reference under Skills, grouped by list."
+  },
+  {
+    "date": "2026-07-27",
     "title": "The Rules Are Free to Browse",
     "description": "You no longer need an account to read the rules. The home page, the full Rules Reference, and every skill list are open to everyone, so you can look something up at the table without signing in. An account is still needed for your own warbands, battles, trading, and campaign log."
   },

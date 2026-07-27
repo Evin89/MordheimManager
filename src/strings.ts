@@ -12,9 +12,10 @@ export const strings = {
     postBattle: 'Battle',
     trading: 'Trading',
     campaign: 'Campaign',
-    skills: 'Skills',
     rules: 'Rules',
     settings: 'Settings',
+    signIn: 'Sign in',
+    signOut: 'Sign out',
   },
   common: {
     save: 'Save',
@@ -47,11 +48,6 @@ export const strings = {
     signInButton: 'Sign in',
     createAccountButton: 'Create an account',
     browseRules: 'Browse the Rules Reference',
-    browseSkills: 'Browse Skills',
-  },
-  skills: {
-    title: 'Skills',
-    emptyMessage: 'No skills found.',
   },
   rules: {
     title: 'Rules Reference',
@@ -97,6 +93,27 @@ export const strings = {
     registerLink: 'Create one',
     loginLink: 'Sign in',
     connectionRequired: 'Mordheim Manager needs a live connection to Supabase — there is no offline mode.',
+    forgotPasswordLink: 'Forgot your password?',
+    forgotTitle: 'Reset your password',
+    forgotIntro: "Enter the email you signed up with and we'll send you a link to set a new password.",
+    forgotButton: 'Send reset link',
+    forgotSubmitting: 'Sending…',
+    // Deliberately the same whether or not the address exists, so this can't be
+    // used to probe which emails have accounts.
+    forgotSent:
+      "If an account exists for that address, a reset link is on its way. Check your inbox — and your spam folder if it doesn't turn up.",
+    backToLogin: 'Back to sign in',
+    resetTitle: 'Choose a new password',
+    resetIntro: 'Enter a new password for your account.',
+    newPasswordLabel: 'New password',
+    confirmPasswordLabel: 'Confirm new password',
+    resetButton: 'Update password',
+    resetSubmitting: 'Updating…',
+    resetSuccess: 'Password updated. You are now signed in.',
+    resetMismatch: 'Those passwords do not match.',
+    resetTooShort: 'Password must be at least 6 characters.',
+    resetNoSession:
+      'This reset link is invalid or has expired. Request a new one from the sign-in screen.',
   },
   connection: {
     lost: "Connection to Supabase failed — your last change may not have saved. Check your connection and retry.",

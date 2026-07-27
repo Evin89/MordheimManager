@@ -44,12 +44,6 @@ function SignedOutHome() {
             >
               {strings.home.browseRules}
             </Link>
-            <Link
-              to="/skills"
-              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
-            >
-              {strings.home.browseSkills}
-            </Link>
           </div>
         </section>
       </main>

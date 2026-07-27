@@ -23,7 +23,8 @@ import DuringBattleScreen from './screens/DuringBattleScreen';
 import PostBattleWizard from './screens/postBattle/PostBattleWizard';
 import TradingPostScreen from './screens/TradingPostScreen';
 import CampaignScreen from './screens/CampaignScreen';
-import SkillsScreen from './screens/SkillsScreen';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import RulesScreen from './screens/RulesScreen';
 import RuleDetailScreen from './screens/RuleDetailScreen';
 
@@ -51,7 +52,6 @@ function AppShell() {
           <Routes>
             {/* --- Public: static reference content --- */}
             <Route path="/" element={<HomeScreen />} />
-            <Route path="/skills" element={<SkillsScreen />} />
             <Route path="/rules" element={<RulesScreen />} />
             <Route path="/rules/:ruleId" element={<RuleDetailScreen />} />
             <Route path="/settings" element={<SettingsScreen />} />
@@ -113,6 +113,8 @@ export default function App() {
         {/* Auth screens render outside the app shell — no nav on the sign-in flow. */}
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+        <Route path="/reset-password" element={<ResetPasswordScreen />} />
         <Route path="*" element={<AppShell />} />
       </Routes>
     </BrowserRouter>

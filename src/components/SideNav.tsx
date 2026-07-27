@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import AuthNavButton from './AuthNavButton';
 import { strings } from '../strings';
 import { NAV_ITEMS } from './navItems';
 
@@ -40,6 +41,12 @@ export default function SideNav() {
           );
         })}
       </nav>
+
+      {/* Pinned to the bottom of the rail, away from the navigation links —
+          signing out is an action, not another place to go. */}
+      <div className="shrink-0 border-t border-ink-800 py-2">
+        <AuthNavButton variant="rail" />
+      </div>
     </aside>
   );
 }

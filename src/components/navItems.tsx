@@ -64,14 +64,6 @@ function CampaignIcon({ className }: IconProps) {
   );
 }
 
-function SkillsIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-    </svg>
-  );
-}
-
 function RulesIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
@@ -90,6 +82,28 @@ function SettingsIcon({ className }: IconProps) {
   );
 }
 
+/** Arrow pointing into a door — "sign in". */
+export function SignInIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+      <path d="M10 17l5-5-5-5" />
+      <path d="M15 12H3" />
+    </svg>
+  );
+}
+
+/** Same door, arrow pointing out — "sign out". */
+export function SignOutIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4" />
+      <path d="M16 17l5-5-5-5" />
+      <path d="M21 12H9" />
+    </svg>
+  );
+}
+
 export type NavItem = {
   to: string;
   label: string;
@@ -103,7 +117,6 @@ export const NAV_ITEMS: NavItem[] = [
   { to: '/post-battle', label: strings.nav.postBattle, Icon: BattleIcon },
   { to: '/trading', label: strings.nav.trading, Icon: TradingIcon },
   { to: '/campaign', label: strings.nav.campaign, Icon: CampaignIcon },
-  { to: '/skills', label: strings.nav.skills, Icon: SkillsIcon },
   { to: '/rules', label: strings.nav.rules, Icon: RulesIcon },
   { to: '/settings', label: strings.nav.settings, Icon: SettingsIcon },
 ];

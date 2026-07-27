@@ -202,10 +202,6 @@ export function getCampaignTabRuleEntries(): RuleEntry[] {
   return getEntriesByChapters(['Campaigns', 'Serious Injuries', 'Experience', 'Income', 'Border Town Burning']);
 }
 
-export function getSkillsTabRuleEntries(): RuleEntry[] {
-  return getEntriesByChapters(['Skills']);
-}
-
 export function getRuleEntry(id: string): RuleEntry | undefined {
   return entriesById.get(id);
 }

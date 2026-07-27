@@ -75,6 +75,12 @@ export default function LoginScreen() {
           </button>
         </form>
 
+        <p className="text-center text-sm">
+          <Link to="/forgot-password" className="text-ember-400 font-semibold">
+            {strings.auth.forgotPasswordLink}
+          </Link>
+        </p>
+
         <p className="text-center text-sm text-bone-400">
           {strings.auth.noAccountPrompt}{' '}
           <Link to="/register" className="text-ember-400 font-semibold">
