@@ -1,6 +1,7 @@
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
+import WarbandSharingCard from '../components/WarbandSharingCard';
 import { strings } from '../strings';
 import {
   useCanUndoLastBattle,
@@ -187,6 +188,8 @@ export default function RosterScreen() {
             ))}
           </div>
         </section>
+
+        <WarbandSharingCard warbandId={warband.id} />
 
         <button
           type="button"

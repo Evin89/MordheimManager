@@ -1,6 +1,6 @@
 import { supabase } from '../lib/supabaseClient';
 import { computeWarbandRating } from '../lib/rating';
-import { Warband } from '../types';
+import { StandingsRow, Warband, WarbandVisibility } from '../types';
 import { ConcurrencyError, PGRST_NO_ROWS } from './errors';
 
 type WarbandRow = {
@@ -9,7 +9,7 @@ type WarbandRow = {
   campaign_id: string | null;
   name: string;
   warband_type: string;
-  visibility: 'public' | 'private';
+  visibility: WarbandVisibility;
   data: Warband;
   rating: number;
   previous_data: Warband | null;
@@ -22,10 +22,20 @@ export type WarbandRecord = {
   warband: Warband;
   updatedAt: string;
   hasSnapshot: boolean;
+  /** Campaign this warband is entered in, or null when it's a standalone warband. */
+  campaignId: string | null;
+  /** Governs reads from *outside* the campaign only — campaign-mates always see it. */
+  visibility: WarbandVisibility;
 };
 
 function toRecord(row: WarbandRow): WarbandRecord {
-  return { warband: row.data, updatedAt: row.updated_at, hasSnapshot: row.previous_data !== null };
+  return {
+    warband: row.data,
+    updatedAt: row.updated_at,
+    hasSnapshot: row.previous_data !== null,
+    campaignId: row.campaign_id,
+    visibility: row.visibility,
+  };
 }
 
 export async function fetchWarbands(ownerId: string): Promise<WarbandRecord[]> {
@@ -148,4 +158,97 @@ export async function undoLastBattle(id: string, ownerId: string): Promise<Warba
 export async function deleteWarband(id: string, ownerId: string): Promise<void> {
   const { error } = await supabase.from('warbands').delete().eq('id', id).eq('owner_id', ownerId);
   if (error) throw error;
+}
+
+/**
+ * Enters a warband into a campaign, or withdraws it with `null`.
+ *
+ * Doesn't touch `updated_at`, so this deliberately sits outside the optimistic
+ * concurrency check that guards roster edits — entering a campaign isn't a
+ * change to the warband's game state and shouldn't collide with one.
+ *
+ * The database rejects a campaign the owner isn't a member of (see the
+ * `warbands_update_own` WITH CHECK in 0002), so this can't be used to push a
+ * warband into someone else's standings.
+ */
+export async function setWarbandCampaign(
+  id: string,
+  ownerId: string,
+  campaignId: string | null,
+): Promise<void> {
+  const { error } = await supabase
+    .from('warbands')
+    .update({ campaign_id: campaignId })
+    .eq('id', id)
+    .eq('owner_id', ownerId);
+  if (error) throw error;
+}
+
+export async function setWarbandVisibility(
+  id: string,
+  ownerId: string,
+  visibility: WarbandVisibility,
+): Promise<void> {
+  const { error } = await supabase
+    .from('warbands')
+    .update({ visibility })
+    .eq('id', id)
+    .eq('owner_id', ownerId);
+  if (error) throw error;
+}
+
+type StandingsWarbandRow = {
+  id: string;
+  owner_id: string;
+  name: string;
+  warband_type: string;
+  rating: number;
+  profiles: { display_name: string } | null;
+};
+
+/**
+ * Standings for a campaign: every linked warband, whatever its own visibility
+ * (per spec 8.3, visibility never hides a warband from its own campaign).
+ *
+ * Win/loss/draw counts come from the caller's battle records rather than a
+ * second query — the campaign's battle log is already loaded on this screen,
+ * and every battle carries the `warbandId` it belongs to.
+ */
+export async function fetchCampaignStandings(
+  campaignId: string,
+  results: { warbandId: string; result: 'win' | 'loss' | 'draw' }[],
+): Promise<StandingsRow[]> {
+  const { data, error } = await supabase
+    .from('warbands')
+    .select('id, owner_id, name, warband_type, rating, profiles (display_name)')
+    .eq('campaign_id', campaignId)
+    .order('rating', { ascending: false });
+  if (error) throw error;
+
+  return (data as unknown as StandingsWarbandRow[]).map((row) => {
+    const mine = results.filter((r) => r.warbandId === row.id);
+    return {
+      warbandId: row.id,
+      warbandName: row.name,
+      warbandType: row.warband_type,
+      ownerId: row.owner_id,
+      playerName: row.profiles?.display_name || '',
+      rating: row.rating,
+      wins: mine.filter((r) => r.result === 'win').length,
+      losses: mine.filter((r) => r.result === 'loss').length,
+      draws: mine.filter((r) => r.result === 'draw').length,
+    };
+  });
+}
+
+/**
+ * One campaign-mate's roster, read-only. Relies entirely on the `warbands_select`
+ * policy to decide whether this is allowed — there is no client-side check here,
+ * because a client-side check wouldn't be a security boundary. Returns null when
+ * RLS filters the row out.
+ */
+export async function fetchSharedWarband(id: string): Promise<Warband | null> {
+  const { data, error } = await supabase.from('warbands').select('data').eq('id', id).maybeSingle();
+  if (error) throw error;
+  return data ? (data as { data: Warband }).data : null;
 }

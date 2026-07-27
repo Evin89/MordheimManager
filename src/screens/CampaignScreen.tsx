@@ -1,20 +1,29 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import RuleEntryList from '../components/RuleEntryList';
 import { strings } from '../strings';
+import { useAuth } from '../auth/AuthProvider';
 import {
   useBattlesQuery,
+  useCampaignMembersQuery,
   useCreateCampaignMutation,
+  useJoinCampaignMutation,
   useMyCampaignQuery,
+  useMyCampaignsQuery,
+  useRegenerateJoinCodeMutation,
+  useRemoveMemberMutation,
   useSaveCampaignMutation,
+  useSetActiveCampaign,
+  useStandingsQuery,
 } from '../hooks/useCampaign';
 import { useObjectiveQuery, useSaveObjectiveMutation } from '../hooks/useObjective';
 import { useWarbandList } from '../hooks/useWarbands';
 import { getCampaignTabRuleEntries } from '../lib/rulesIndex';
 import objectivesData from '../data/btb/objectives.json';
 import { BtbObjectivesData } from '../data/types';
-import { BattleRecord, BtbObjective, Warband } from '../types';
+import { BattleRecord, BtbObjective, Campaign, StandingsRow, Warband } from '../types';
 
-type Tab = 'log' | 'rules';
+type Tab = 'log' | 'standings' | 'players' | 'rules';
 
 /** The editable part of an objective — the row's id/warbandId are set server-side. */
 type ObjectiveFields = Omit<BtbObjective, 'id' | 'warbandId'>;
@@ -32,6 +41,13 @@ const RESULT_CLASSES: Record<BattleRecord['result'], string> = {
   loss: 'border-blood-600 text-blood-500',
   draw: 'border-ink-700 text-bone-300',
 };
+
+const TABS: { id: Tab; label: string }[] = [
+  { id: 'log', label: strings.campaign.logTab },
+  { id: 'standings', label: strings.campaign.standingsTab },
+  { id: 'players', label: strings.campaign.membersTab },
+  { id: 'rules', label: strings.campaign.rulesTab },
+];
 
 function BattleRow({ battle, warbandName }: { battle: BattleRecord; warbandName: string }) {
   const [expanded, setExpanded] = useState(false);
@@ -158,24 +174,276 @@ function ObjectiveCard({ warband }: { warband: Warband }) {
   );
 }
 
-export default function CampaignScreen() {
-  const { data: campaign } = useMyCampaignQuery();
-  const { data: battles } = useBattlesQuery(campaign?.id);
-  const warbands = useWarbandList();
+/**
+ * Entering a code someone shared with you.
+ *
+ * Appears both in the no-campaign entry state and on the Players tab: a player
+ * who already has a campaign of their own (the post-battle wizard creates one
+ * automatically on the first committed battle) still needs somewhere to paste a
+ * code, and gating this behind "has no campaign" would lock most users out of
+ * ever joining one.
+ */
+function JoinCampaignForm({ title }: { title: string }) {
+  const joinCampaign = useJoinCampaignMutation();
+  const [code, setCode] = useState('');
+  const [joinError, setJoinError] = useState<string | null>(null);
+  const [joining, setJoining] = useState(false);
+
+  async function handleJoin() {
+    setJoining(true);
+    setJoinError(null);
+    const error = await joinCampaign(code);
+    setJoining(false);
+    if (error) setJoinError(error);
+    else setCode('');
+  }
+
+  return (
+    <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+      <h2 className="text-bone-100 font-semibold">{title}</h2>
+      <p className="text-bone-300 text-sm">{strings.campaign.joinHint}</p>
+      <div className="space-y-1">
+        <label className="text-bone-300 text-sm">{strings.campaign.joinCodeLabel}</label>
+        <input
+          type="text"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          placeholder={strings.campaign.joinCodePlaceholder}
+          autoCapitalize="characters"
+          autoCorrect="off"
+          spellCheck={false}
+          className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 font-mono tracking-widest uppercase focus:outline-none focus:border-ember-500"
+        />
+      </div>
+      {joinError && <p className="text-sm text-red-400">{joinError}</p>}
+      <button
+        type="button"
+        onClick={handleJoin}
+        disabled={joining || !code.trim()}
+        className="w-full min-h-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 disabled:opacity-50 transition-colors"
+      >
+        {strings.campaign.joinButton}
+      </button>
+    </section>
+  );
+}
+
+/** First-run state: no campaign yet, so offer both ways in. */
+function CampaignEntry() {
   const createCampaign = useCreateCampaignMutation();
+  const [draftName, setDraftName] = useState('My Campaign');
+  const [draftUsesBtb, setDraftUsesBtb] = useState(false);
+
+  return (
+    <>
+      <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+        <h2 className="text-bone-100 font-semibold">{strings.campaign.startTitle}</h2>
+        <p className="text-bone-300 text-sm">{strings.campaign.startHint}</p>
+        <div className="space-y-1">
+          <label className="text-bone-300 text-sm">{strings.campaign.nameLabel}</label>
+          <input
+            type="text"
+            value={draftName}
+            onChange={(e) => setDraftName(e.target.value)}
+            placeholder={strings.campaign.namePlaceholder}
+            className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
+          />
+        </div>
+        <label className="flex items-center gap-2 text-bone-200 text-sm">
+          <input
+            type="checkbox"
+            checked={draftUsesBtb}
+            onChange={(e) => setDraftUsesBtb(e.target.checked)}
+            className="h-4 w-4"
+          />
+          {strings.campaign.usesBtbLabel}
+        </label>
+        <button
+          type="button"
+          onClick={() => createCampaign(draftName.trim() || 'My Campaign', draftUsesBtb)}
+          className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
+        >
+          {strings.campaign.startButton}
+        </button>
+      </section>
+
+      <div className="flex items-center gap-3">
+        <div className="flex-1 h-px bg-ink-800" />
+        <span className="text-bone-400 text-xs uppercase tracking-wide">{strings.campaign.orDivider}</span>
+        <div className="flex-1 h-px bg-ink-800" />
+      </div>
+
+      <JoinCampaignForm title={strings.campaign.joinTitle} />
+    </>
+  );
+}
+
+function JoinCodeCard({ campaign, isLeader }: { campaign: Campaign; isLeader: boolean }) {
+  const regenerate = useRegenerateJoinCodeMutation();
+  const [copied, setCopied] = useState(false);
+
+  async function copy() {
+    if (!campaign.joinCode) return;
+    try {
+      await navigator.clipboard.writeText(campaign.joinCode);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Clipboard access can be denied; the code is on screen to read anyway.
+    }
+  }
+
+  return (
+    <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+      <h2 className="text-bone-100 font-semibold">{strings.campaign.shareCodeSection}</h2>
+      <p className="text-bone-300 text-sm">{strings.campaign.shareCodeHint}</p>
+      <div className="flex items-center gap-2 flex-wrap">
+        <code className="flex-1 min-w-[8rem] min-h-[48px] leading-[48px] text-center rounded-md bg-ink-800 border border-ink-700 text-ember-400 font-mono text-lg tracking-widest">
+          {campaign.joinCode ?? strings.campaign.noCodeYet}
+        </code>
+        <button
+          type="button"
+          onClick={copy}
+          disabled={!campaign.joinCode}
+          className="min-h-[48px] px-4 rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 disabled:opacity-50 transition-colors"
+        >
+          {copied ? strings.campaign.codeCopied : strings.campaign.copyCode}
+        </button>
+      </div>
+      {isLeader && (
+        <button
+          type="button"
+          onClick={() => {
+            if (window.confirm(strings.campaign.regenerateConfirm)) regenerate(campaign.id);
+          }}
+          className="text-ember-400 text-sm font-semibold"
+        >
+          {strings.campaign.regenerateCode}
+        </button>
+      )}
+    </section>
+  );
+}
+
+function StandingsTable({ rows }: { rows: StandingsRow[] }) {
+  if (rows.length === 0) {
+    return <p className="text-bone-300 text-sm">{strings.campaign.noStandings}</p>;
+  }
+
+  return (
+    // Six-ish columns of data don't fit a 375px phone; let the table scroll
+    // inside its own box rather than making the whole page scroll sideways.
+    <div className="overflow-x-auto -mx-4 px-4">
+      <table className="w-full min-w-[30rem] text-sm border-collapse">
+        <thead>
+          <tr className="text-bone-400 text-xs uppercase tracking-wide">
+            <th className="text-left font-semibold py-2 pr-3">{strings.campaign.standingsWarband}</th>
+            <th className="text-left font-semibold py-2 pr-3">{strings.campaign.standingsPlayer}</th>
+            <th className="text-right font-semibold py-2 pr-3">{strings.campaign.standingsRating}</th>
+            <th className="text-right font-semibold py-2">{strings.campaign.standingsRecord}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.warbandId} className="border-t border-ink-800">
+              <td className="py-3 pr-3">
+                <Link to={`/campaign/warbands/${row.warbandId}`} className="text-ember-400 font-semibold">
+                  {row.warbandName}
+                </Link>
+                <span className="block text-bone-400 text-xs">{row.warbandType}</span>
+              </td>
+              <td className="py-3 pr-3 text-bone-200">{row.playerName || strings.campaign.unnamedPlayer}</td>
+              <td className="py-3 pr-3 text-right text-bone-100 font-semibold">{row.rating}</td>
+              <td className="py-3 text-right text-bone-300 tabular-nums">
+                {row.wins}/{row.losses}/{row.draws}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boolean }) {
+  const { user } = useAuth();
+  const { data: members } = useCampaignMembersQuery(campaign.id);
+  const removeMember = useRemoveMemberMutation(campaign.id);
+
+  return (
+    <section className="space-y-3">
+      <h2 className="text-bone-100 font-semibold">{strings.campaign.membersSection}</h2>
+      <div className="space-y-2">
+        {(members ?? []).map((member) => {
+          const isMe = member.userId === user?.id;
+          return (
+            <div
+              key={member.userId}
+              className="rounded-lg bg-ink-900 border border-ink-800 p-4 flex items-center justify-between gap-3"
+            >
+              <div className="min-w-0">
+                <p className="text-bone-100 font-semibold truncate">
+                  {member.displayName || strings.campaign.unnamedPlayer}{' '}
+                  {isMe && <span className="text-bone-400 font-normal">{strings.campaign.youSuffix}</span>}
+                </p>
+                <p className="text-bone-400 text-xs">
+                  {member.role === 'campaign_leader' ? strings.campaign.roleLeader : strings.campaign.rolePlayer}
+                </p>
+              </div>
+              {isMe ? (
+                // Leaving is always yours to do; removing others is the leader's.
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (window.confirm(strings.campaign.leaveConfirm)) removeMember(member.userId);
+                  }}
+                  className="shrink-0 text-blood-500 text-sm font-semibold"
+                >
+                  {strings.campaign.leaveCampaign}
+                </button>
+              ) : (
+                isLeader && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const name = member.displayName || strings.campaign.unnamedPlayer;
+                      if (window.confirm(strings.campaign.removeMemberConfirm(name))) removeMember(member.userId);
+                    }}
+                    className="shrink-0 text-blood-500 text-sm font-semibold"
+                  >
+                    {strings.campaign.removeMember}
+                  </button>
+                )
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+export default function CampaignScreen() {
+  const { user } = useAuth();
+  const { data: campaigns } = useMyCampaignsQuery();
+  const { data: campaign } = useMyCampaignQuery();
+  const setActiveCampaign = useSetActiveCampaign();
+  const { data: battles } = useBattlesQuery(campaign?.id);
+  const { data: standings } = useStandingsQuery(campaign?.id, battles);
+  const { data: members } = useCampaignMembersQuery(campaign?.id);
+  const warbands = useWarbandList();
   const saveCampaign = useSaveCampaignMutation();
   const [tab, setTab] = useState<Tab>('log');
   const ruleEntries = getCampaignTabRuleEntries();
 
-  const [draftName, setDraftName] = useState('My Campaign');
-  const [draftUsesBtb, setDraftUsesBtb] = useState(false);
-
-  function startCampaign() {
-    createCampaign(draftName.trim() || 'My Campaign', draftUsesBtb);
-  }
+  const isLeader = (members ?? []).some((m) => m.userId === user?.id && m.role === 'campaign_leader');
 
   function warbandName(id: string): string {
-    return warbands.find((w) => w.id === id)?.name ?? strings.campaign.unknownWarband;
+    return (
+      warbands.find((w) => w.id === id)?.name ??
+      standings?.find((s) => s.warbandId === id)?.warbandName ??
+      strings.campaign.unknownWarband
+    );
   }
 
   return (
@@ -185,120 +453,126 @@ export default function CampaignScreen() {
       </header>
 
       <div className="px-4 pt-4 flex gap-2">
-        <button
-          type="button"
-          onClick={() => setTab('log')}
-          className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-            tab === 'log' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
-          }`}
-        >
-          {strings.campaign.logTab}
-        </button>
-        <button
-          type="button"
-          onClick={() => setTab('rules')}
-          className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-            tab === 'rules' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
-          }`}
-        >
-          {strings.campaign.rulesTab}
-        </button>
+        {TABS.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            onClick={() => setTab(t.id)}
+            className={`flex-1 min-h-[40px] rounded-md border text-xs sm:text-sm font-semibold px-1 ${
+              tab === t.id ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
       </div>
 
       <main className="flex-1 px-4 py-4 space-y-6">
         {tab === 'rules' ? (
           <RuleEntryList entries={ruleEntries} emptyMessage={strings.rules.noEntriesInCategory} />
         ) : !campaign ? (
-          <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-            <h2 className="text-bone-100 font-semibold">{strings.campaign.startTitle}</h2>
-            <p className="text-bone-300 text-sm">{strings.campaign.startHint}</p>
-            <div className="space-y-1">
-              <label className="text-bone-300 text-sm">{strings.campaign.nameLabel}</label>
-              <input
-                type="text"
-                value={draftName}
-                onChange={(e) => setDraftName(e.target.value)}
-                placeholder={strings.campaign.namePlaceholder}
-                className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
-              />
-            </div>
-            <label className="flex items-center gap-2 text-bone-200 text-sm">
-              <input
-                type="checkbox"
-                checked={draftUsesBtb}
-                onChange={(e) => setDraftUsesBtb(e.target.checked)}
-                className="h-4 w-4"
-              />
-              {strings.campaign.usesBtbLabel}
-            </label>
-            <button
-              type="button"
-              onClick={startCampaign}
-              className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
-            >
-              {strings.campaign.startButton}
-            </button>
-          </section>
+          <CampaignEntry />
         ) : (
           <>
-            <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+            {/* Only worth the space once there's actually a choice to make. */}
+            {(campaigns?.length ?? 0) > 1 && (
               <div className="space-y-1">
-                <label className="text-bone-300 text-sm">{strings.campaign.nameLabel}</label>
-                <input
-                  type="text"
-                  value={campaign.name}
-                  onChange={(e) => saveCampaign({ ...campaign, name: e.target.value })}
-                  className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
-                />
+                <label className="text-bone-300 text-sm">{strings.campaign.switchCampaignLabel}</label>
+                <select
+                  value={campaign.id}
+                  onChange={(e) => setActiveCampaign(e.target.value)}
+                  className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
+                >
+                  {(campaigns ?? []).map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <label className="flex items-center gap-2 text-bone-200 text-sm">
-                <input
-                  type="checkbox"
-                  checked={campaign.usesBTB}
-                  onChange={(e) => saveCampaign({ ...campaign, usesBTB: e.target.checked })}
-                  className="h-4 w-4"
-                />
-                {strings.campaign.usesBtbLabel}
-              </label>
-              <div className="space-y-1">
-                <label className="text-bone-300 text-sm">{strings.campaign.notesLabel}</label>
-                <textarea
-                  value={campaign.notes}
-                  onChange={(e) => saveCampaign({ ...campaign, notes: e.target.value })}
-                  className="w-full min-h-[70px] rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100 focus:outline-none focus:border-ember-500"
-                />
-              </div>
-            </section>
+            )}
 
-            <section className="space-y-3">
-              <h2 className="text-bone-100 font-semibold">{strings.campaign.battleLogSection}</h2>
-              {(battles?.length ?? 0) === 0 ? (
-                <p className="text-bone-300 text-sm">{strings.campaign.noBattles}</p>
-              ) : (
-                <div className="space-y-2">
-                  {[...(battles ?? [])]
-                    .reverse()
-                    .map((battle) => (
-                      <BattleRow key={battle.id} battle={battle} warbandName={warbandName(battle.warbandId)} />
-                    ))}
-                </div>
-              )}
-            </section>
-
-            {campaign.usesBTB && (
-              <section className="space-y-3">
-                <h2 className="text-bone-100 font-semibold">{strings.campaign.btbSection}</h2>
-                <p className="text-bone-300 text-xs">{strings.campaign.btbHint}</p>
-                {warbands.length === 0 ? (
-                  <p className="text-bone-300 text-sm">{strings.trading.noWarbands}</p>
-                ) : (
-                  <div className="space-y-2">
-                    {warbands.map((warband) => (
-                      <ObjectiveCard key={warband.id} warband={warband} />
-                    ))}
+            {tab === 'log' && (
+              <>
+                <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+                  <div className="space-y-1">
+                    <label className="text-bone-300 text-sm">{strings.campaign.nameLabel}</label>
+                    <input
+                      type="text"
+                      value={campaign.name}
+                      disabled={!isLeader}
+                      onChange={(e) => saveCampaign({ ...campaign, name: e.target.value })}
+                      className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 disabled:opacity-60 focus:outline-none focus:border-ember-500"
+                    />
                   </div>
+                  <label className="flex items-center gap-2 text-bone-200 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={campaign.usesBTB}
+                      disabled={!isLeader}
+                      onChange={(e) => saveCampaign({ ...campaign, usesBTB: e.target.checked })}
+                      className="h-4 w-4"
+                    />
+                    {strings.campaign.usesBtbLabel}
+                  </label>
+                  <div className="space-y-1">
+                    <label className="text-bone-300 text-sm">{strings.campaign.notesLabel}</label>
+                    <textarea
+                      value={campaign.notes}
+                      disabled={!isLeader}
+                      onChange={(e) => saveCampaign({ ...campaign, notes: e.target.value })}
+                      className="w-full min-h-[70px] rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100 disabled:opacity-60 focus:outline-none focus:border-ember-500"
+                    />
+                  </div>
+                  {!isLeader && <p className="text-bone-400 text-xs">{strings.campaign.leaderOnlyHint}</p>}
+                </section>
+
+                <section className="space-y-3">
+                  <h2 className="text-bone-100 font-semibold">{strings.campaign.battleLogSection}</h2>
+                  {(battles?.length ?? 0) === 0 ? (
+                    <p className="text-bone-300 text-sm">{strings.campaign.noBattles}</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {[...(battles ?? [])].reverse().map((battle) => (
+                        <BattleRow key={battle.id} battle={battle} warbandName={warbandName(battle.warbandId)} />
+                      ))}
+                    </div>
+                  )}
+                </section>
+
+                {campaign.usesBTB && (
+                  <section className="space-y-3">
+                    <h2 className="text-bone-100 font-semibold">{strings.campaign.btbSection}</h2>
+                    <p className="text-bone-300 text-xs">{strings.campaign.btbHint}</p>
+                    {warbands.length === 0 ? (
+                      <p className="text-bone-300 text-sm">{strings.trading.noWarbands}</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {warbands.map((warband) => (
+                          <ObjectiveCard key={warband.id} warband={warband} />
+                        ))}
+                      </div>
+                    )}
+                  </section>
                 )}
+              </>
+            )}
+
+            {tab === 'standings' && (
+              <section className="space-y-3">
+                <h2 className="text-bone-100 font-semibold">{strings.campaign.standingsSection}</h2>
+                <StandingsTable rows={standings ?? []} />
               </section>
+            )}
+
+            {tab === 'players' && (
+              <>
+                <JoinCodeCard campaign={campaign} isLeader={isLeader} />
+                <MembersList campaign={campaign} isLeader={isLeader} />
+                {/* Joining a second campaign has to be reachable from here —
+                    the create-or-join entry state is gone once you have one. */}
+                <JoinCampaignForm title={strings.campaign.joinAnotherTitle} />
+              </>
             )}
           </>
         )}

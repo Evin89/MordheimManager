@@ -2,11 +2,19 @@
 // (spec section 2/8.4) — this module only reads/writes it in bulk for
 // export/import, it never caches anything client-side itself.
 
-import { createCampaign, fetchMyCampaign, updateCampaign } from '../api/campaign';
+import { createCampaign, fetchMyCampaigns, updateCampaign } from '../api/campaign';
 import { fetchBattles, insertBattle } from '../api/battles';
 import { fetchWarbands, insertWarband, updateWarband } from '../api/warbands';
+import { pickActiveCampaign } from '../lib/activeCampaign';
 import { migrateWarband } from './migrations';
 import { BattleRecord, Campaign, Warband } from '../types';
+
+/** A backup covers the campaign the app is currently in, not every campaign the
+ * user belongs to — exporting someone else's shared campaign into your personal
+ * backup file isn't what "back up my data" means. */
+async function activeCampaign(userId: string): Promise<Campaign | null> {
+  return pickActiveCampaign(await fetchMyCampaigns(userId));
+}
 
 export type ExportedData = {
   exportedAt: string;
@@ -18,7 +26,7 @@ export type ExportedData = {
 };
 
 export async function exportAllData(userId: string): Promise<ExportedData> {
-  const [records, campaign] = await Promise.all([fetchWarbands(userId), fetchMyCampaign(userId)]);
+  const [records, campaign] = await Promise.all([fetchWarbands(userId), activeCampaign(userId)]);
   const battles = campaign ? await fetchBattles(campaign.id) : [];
 
   return {
@@ -115,7 +123,7 @@ export async function importAllData(userId: string, data: ExportedData): Promise
     }
   }
 
-  let campaign: Campaign | null = await fetchMyCampaign(userId);
+  let campaign: Campaign | null = await activeCampaign(userId);
   if (data.campaignName) {
     campaign = campaign
       ? await updateCampaign({ ...campaign, name: data.campaignName, usesBTB: data.usesBTB, notes: data.campaignNotes })

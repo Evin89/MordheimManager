@@ -4,13 +4,16 @@ import {
   WarbandRecord,
   commitBattleUpdate,
   deleteWarband as deleteWarbandApi,
+  fetchSharedWarband,
   fetchWarbands,
   insertWarband,
+  setWarbandCampaign,
+  setWarbandVisibility,
   undoLastBattle as undoLastBattleApi,
   updateWarband,
 } from '../api/warbands';
 import { ConcurrencyError } from '../api/errors';
-import { Warband } from '../types';
+import { Warband, WarbandVisibility } from '../types';
 import { strings } from '../strings';
 
 function warbandsKey(userId: string | undefined) {
@@ -120,6 +123,56 @@ export function useCommitBattleWarbandMutation() {
     },
   });
   return mutation.mutateAsync;
+}
+
+/** The sharing settings for one warband — which campaign it's entered in, and
+ * who outside that campaign may read it. */
+export function useWarbandSharing(id: string | undefined) {
+  const { data } = useWarbandsQuery();
+  const record = data?.find((r) => r.warband.id === id);
+  return { campaignId: record?.campaignId ?? null, visibility: record?.visibility ?? 'private' };
+}
+
+export function useSetWarbandCampaignMutation() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: ({ warbandId, campaignId }: { warbandId: string; campaignId: string | null }) =>
+      setWarbandCampaign(warbandId, user!.id, campaignId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: warbandsKey(user?.id) });
+      // The standings list is exactly "warbands linked to this campaign".
+      queryClient.invalidateQueries({ queryKey: ['standings'] });
+    },
+    onError: () => window.alert(strings.connection.lost),
+  });
+  return (warbandId: string, campaignId: string | null) => mutation.mutate({ warbandId, campaignId });
+}
+
+export function useSetWarbandVisibilityMutation() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: ({ warbandId, visibility }: { warbandId: string; visibility: WarbandVisibility }) =>
+      setWarbandVisibility(warbandId, user!.id, visibility),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: warbandsKey(user?.id) }),
+    onError: () => window.alert(strings.connection.lost),
+  });
+  return (warbandId: string, visibility: WarbandVisibility) => mutation.mutate({ warbandId, visibility });
+}
+
+/**
+ * Another player's roster, read-only. Separate from `useWarbandsQuery` (which
+ * is scoped to `owner_id = me`) because this row is reachable only through the
+ * campaign-membership branch of the RLS select policy. A null result means the
+ * database declined to return it — treat that as "not visible", not an error.
+ */
+export function useSharedWarbandQuery(id: string | undefined) {
+  return useQuery({
+    queryKey: ['sharedWarband', id],
+    queryFn: () => fetchSharedWarband(id!),
+    enabled: !!id,
+  });
 }
 
 export function useUndoLastBattleMutation() {

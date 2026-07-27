@@ -23,6 +23,7 @@ import DuringBattleScreen from './screens/DuringBattleScreen';
 import PostBattleWizard from './screens/postBattle/PostBattleWizard';
 import TradingPostScreen from './screens/TradingPostScreen';
 import CampaignScreen from './screens/CampaignScreen';
+import SharedWarbandScreen from './screens/SharedWarbandScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import RulesScreen from './screens/RulesScreen';
@@ -96,6 +97,7 @@ function AppShell() {
               )}
             />
             <Route path="/campaign" element={guarded(<CampaignScreen />)} />
+            <Route path="/campaign/warbands/:warbandId" element={guarded(<SharedWarbandScreen />)} />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

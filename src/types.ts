@@ -140,6 +140,10 @@ export type BattleRecord = {
 
 export type CampaignVisibility = 'public' | 'private';
 
+/** Same two values as CampaignVisibility, but a distinct name because it
+ * answers a different question: who outside the campaign may read this roster. */
+export type WarbandVisibility = 'public' | 'private';
+
 export type Campaign = {
   id: string;
   name: string; // e.g. "Border Town Burning 2026"
@@ -148,4 +152,33 @@ export type Campaign = {
   joinCode: string | null;
   createdBy: string; // user id
   notes: string;
+};
+
+/** The leader manages the campaign; everyone else plays in it. Held on the
+ * membership row rather than the campaign, so leadership is grantable. */
+export type CampaignRole = 'campaign_leader' | 'player';
+
+export type CampaignMember = {
+  userId: string;
+  role: CampaignRole;
+  joinedAt: string;
+  displayName: string;
+};
+
+/**
+ * One row of the standings table. Assembled from the warbands linked to a
+ * campaign plus that campaign's battle log — deliberately *not* the full
+ * Warband blob, since this is what other players are allowed to see at a
+ * glance. Their detailed roster is fetched separately and read-only.
+ */
+export type StandingsRow = {
+  warbandId: string;
+  warbandName: string;
+  warbandType: string;
+  ownerId: string;
+  playerName: string;
+  rating: number;
+  wins: number;
+  losses: number;
+  draws: number;
 };

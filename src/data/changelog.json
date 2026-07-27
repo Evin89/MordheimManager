@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-07-27",
+    "title": "Play a Campaign Together",
+    "description": "Campaigns can now have more than one player. Start one and you get a join code like MRDH-7F2K to share — anyone who enters it joins your campaign, and you can issue a fresh code at any time to stop further joins. Enter a warband from its roster screen and it appears in the Standings table alongside everyone else's, with ratings and win/loss records, and you can open any campaign-mate's roster to see their warriors, gear, and skills. Your Border Town Burning objectives stay secret — nobody else can see them, even for a warband you've shared. Paste a code under Campaign, then Players."
+  },
+  {
+    "date": "2026-07-27",
     "title": "Sign In From the Menu, and Reset a Forgotten Password",
     "description": "The navigation now has a Sign in / Sign out button, so you don't have to dig through Settings to switch accounts. Forgotten your password? There's a link on the sign-in screen — enter your email and we'll send you a link to set a new one. The separate Skills tab is gone, but nothing was lost: all 133 skills are still in the Rules Reference under Skills, grouped by list."
   },
