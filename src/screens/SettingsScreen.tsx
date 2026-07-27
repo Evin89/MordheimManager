@@ -51,44 +51,63 @@ export default function SettingsScreen() {
       </header>
 
       <main className="flex-1 px-4 py-6 space-y-6">
+        {/* Export/import move real rows in and out of the account, so they only
+            make sense (and only work) when signed in. */}
         <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
           <h2 className="text-bone-100 font-semibold">{strings.settings.dataSection}</h2>
-          <div className="flex flex-col gap-3">
-            <button
-              type="button"
-              onClick={handleExport}
-              className="min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 active:bg-ember-600 text-ink-950 font-semibold px-4 transition-colors"
-            >
-              {strings.settings.exportButton}
-            </button>
-            <button
-              type="button"
-              onClick={handleImportClick}
-              className="min-h-[48px] rounded-md border border-ink-700 hover:bg-ink-800 text-bone-100 font-semibold px-4 transition-colors"
-            >
-              {strings.settings.importButton}
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="application/json"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-          </div>
-          {importMessage && <p className="text-sm text-bone-300">{importMessage}</p>}
+          {user ? (
+            <>
+              <div className="flex flex-col gap-3">
+                <button
+                  type="button"
+                  onClick={handleExport}
+                  className="min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 active:bg-ember-600 text-ink-950 font-semibold px-4 transition-colors"
+                >
+                  {strings.settings.exportButton}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleImportClick}
+                  className="min-h-[48px] rounded-md border border-ink-700 hover:bg-ink-800 text-bone-100 font-semibold px-4 transition-colors"
+                >
+                  {strings.settings.importButton}
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="application/json"
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
+              </div>
+              {importMessage && <p className="text-sm text-bone-300">{importMessage}</p>}
+            </>
+          ) : (
+            <p className="text-bone-300 text-sm">{strings.settings.signedOutHint}</p>
+          )}
         </section>
 
         <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
           <h2 className="text-bone-100 font-semibold">{strings.settings.accountSection}</h2>
-          {user?.email && <p className="text-bone-300 text-sm">{strings.settings.signedInAs(user.email)}</p>}
-          <button
-            type="button"
-            onClick={() => signOut()}
-            className="min-h-[48px] w-full rounded-md border border-blood-600 text-blood-500 font-semibold px-4 hover:bg-blood-600 hover:text-bone-100 transition-colors"
-          >
-            {strings.settings.signOutButton}
-          </button>
+          {user ? (
+            <>
+              {user.email && <p className="text-bone-300 text-sm">{strings.settings.signedInAs(user.email)}</p>}
+              <button
+                type="button"
+                onClick={() => signOut()}
+                className="min-h-[48px] w-full rounded-md border border-blood-600 text-blood-500 font-semibold px-4 hover:bg-blood-600 hover:text-bone-100 transition-colors"
+              >
+                {strings.settings.signOutButton}
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="block text-center min-h-[48px] leading-[48px] w-full rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold px-4 transition-colors"
+            >
+              {strings.settings.signInButton}
+            </Link>
+          )}
         </section>
 
         <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">

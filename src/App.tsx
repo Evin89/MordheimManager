@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
 import SideNav from './components/SideNav';
@@ -26,7 +27,20 @@ import SkillsScreen from './screens/SkillsScreen';
 import RulesScreen from './screens/RulesScreen';
 import RuleDetailScreen from './screens/RuleDetailScreen';
 
-/** The signed-in app shell: navigation plus the routed screen content. */
+/** Wraps a route element in the auth gate, redirecting to /login when signed out. */
+function guarded(element: ReactElement) {
+  return <RequireAuth>{element}</RequireAuth>;
+}
+
+/**
+ * The app shell: navigation plus the routed screen content.
+ *
+ * Reference content (Home, Rules, Skills, changelog) is public — it's static
+ * game data that needs no account, and keeping it open means the rules are
+ * usable at the table by anyone. Everything that reads or writes *your* data
+ * (warbands, battles, trading, campaign, data export/import) sits behind
+ * `guarded`, since those rows are owned by a user and RLS-scoped.
+ */
 function AppShell() {
   return (
     <div className="min-h-full md:flex md:items-start">
@@ -35,51 +49,55 @@ function AppShell() {
         <ConnectionBanner />
         <div className="mx-auto w-full max-w-4xl">
           <Routes>
-          <Route path="/" element={<HomeScreen />} />
-          <Route path="/warbands" element={<WarbandListScreen />} />
-          <Route path="/warbands/new" element={<NewWarbandScreen />} />
-          <Route path="/warbands/:warbandId" element={<RosterScreen />} />
-          <Route path="/warbands/:warbandId/add-hero" element={<AddHeroScreen />} />
-          <Route path="/warbands/:warbandId/add-henchmen" element={<AddHenchmenScreen />} />
-          <Route path="/warbands/:warbandId/hero/:modelId" element={<ModelDetailScreen kind="hero" />} />
-          <Route
-            path="/warbands/:warbandId/hired-sword/:modelId"
-            element={<ModelDetailScreen kind="hiredSword" />}
-          />
-          <Route path="/warbands/:warbandId/henchmen/:groupId" element={<HenchmenDetailScreen />} />
-          <Route path="/warbands/:warbandId/pre-battle" element={<PreBattleScreen />} />
-          <Route path="/warbands/:warbandId/during-battle" element={<DuringBattleScreen />} />
-          <Route path="/warbands/:warbandId/post-battle" element={<PostBattleWizard />} />
-          <Route path="/warbands/:warbandId/trading" element={<TradingPostScreen />} />
-          <Route
-            path="/post-battle"
-            element={
-              <WarbandPickerScreen
-                title={strings.battle.pickWarbandTitle}
-                prompt={strings.battle.pickWarbandPrompt}
-                emptyMessage={strings.battle.noWarbands}
-                destination={(id) => `/warbands/${id}/pre-battle`}
-              />
-            }
-          />
-          <Route
-            path="/trading"
-            element={
-              <WarbandPickerScreen
-                title={strings.trading.pickWarbandTitle}
-                prompt={strings.trading.pickWarbandPrompt}
-                emptyMessage={strings.trading.noWarbands}
-                destination={(id) => `/warbands/${id}/trading`}
-              />
-            }
-          />
-          <Route path="/campaign" element={<CampaignScreen />} />
-          <Route path="/skills" element={<SkillsScreen />} />
-          <Route path="/rules" element={<RulesScreen />} />
-          <Route path="/rules/:ruleId" element={<RuleDetailScreen />} />
-          <Route path="/settings" element={<SettingsScreen />} />
-          <Route path="/settings/changelog" element={<ChangelogScreen />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+            {/* --- Public: static reference content --- */}
+            <Route path="/" element={<HomeScreen />} />
+            <Route path="/skills" element={<SkillsScreen />} />
+            <Route path="/rules" element={<RulesScreen />} />
+            <Route path="/rules/:ruleId" element={<RuleDetailScreen />} />
+            <Route path="/settings" element={<SettingsScreen />} />
+            <Route path="/settings/changelog" element={<ChangelogScreen />} />
+
+            {/* --- Requires an account: your warbands, battles and campaign --- */}
+            <Route path="/warbands" element={guarded(<WarbandListScreen />)} />
+            <Route path="/warbands/new" element={guarded(<NewWarbandScreen />)} />
+            <Route path="/warbands/:warbandId" element={guarded(<RosterScreen />)} />
+            <Route path="/warbands/:warbandId/add-hero" element={guarded(<AddHeroScreen />)} />
+            <Route path="/warbands/:warbandId/add-henchmen" element={guarded(<AddHenchmenScreen />)} />
+            <Route path="/warbands/:warbandId/hero/:modelId" element={guarded(<ModelDetailScreen kind="hero" />)} />
+            <Route
+              path="/warbands/:warbandId/hired-sword/:modelId"
+              element={guarded(<ModelDetailScreen kind="hiredSword" />)}
+            />
+            <Route path="/warbands/:warbandId/henchmen/:groupId" element={guarded(<HenchmenDetailScreen />)} />
+            <Route path="/warbands/:warbandId/pre-battle" element={guarded(<PreBattleScreen />)} />
+            <Route path="/warbands/:warbandId/during-battle" element={guarded(<DuringBattleScreen />)} />
+            <Route path="/warbands/:warbandId/post-battle" element={guarded(<PostBattleWizard />)} />
+            <Route path="/warbands/:warbandId/trading" element={guarded(<TradingPostScreen />)} />
+            <Route
+              path="/post-battle"
+              element={guarded(
+                <WarbandPickerScreen
+                  title={strings.battle.pickWarbandTitle}
+                  prompt={strings.battle.pickWarbandPrompt}
+                  emptyMessage={strings.battle.noWarbands}
+                  destination={(id) => `/warbands/${id}/pre-battle`}
+                />,
+              )}
+            />
+            <Route
+              path="/trading"
+              element={guarded(
+                <WarbandPickerScreen
+                  title={strings.trading.pickWarbandTitle}
+                  prompt={strings.trading.pickWarbandPrompt}
+                  emptyMessage={strings.trading.noWarbands}
+                  destination={(id) => `/warbands/${id}/trading`}
+                />,
+              )}
+            />
+            <Route path="/campaign" element={guarded(<CampaignScreen />)} />
+
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
       </div>
@@ -92,17 +110,10 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Auth screens render outside the app shell — no nav until signed in. */}
+        {/* Auth screens render outside the app shell — no nav on the sign-in flow. */}
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
-        <Route
-          path="*"
-          element={
-            <RequireAuth>
-              <AppShell />
-            </RequireAuth>
-          }
-        />
+        <Route path="*" element={<AppShell />} />
       </Routes>
     </BrowserRouter>
   );

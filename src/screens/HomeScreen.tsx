@@ -1,13 +1,79 @@
 import { Link } from 'react-router-dom';
 import { strings } from '../strings';
+import { useAuth } from '../auth/AuthProvider';
 import { useWarbandList } from '../hooks/useWarbands';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { computeWarbandRating } from '../lib/rating';
 
+/** Landing view for visitors without an account: the rules are open to everyone,
+ * so point at them rather than showing empty warband/campaign shells. */
+function SignedOutHome() {
+  return (
+    <div className="min-h-full flex flex-col">
+      <header className="px-4 pt-6 pb-4 border-b border-ink-800">
+        <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{strings.appName}</h1>
+        <p className="text-bone-300 text-sm mt-1">{strings.tagline}</p>
+      </header>
+
+      <main className="flex-1 px-4 py-6 space-y-6">
+        <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+          <h2 className="text-bone-100 font-semibold">{strings.home.signedOutTitle}</h2>
+          <p className="text-bone-300 text-sm">{strings.home.signedOutBody}</p>
+          <div className="flex flex-col gap-2 pt-1">
+            <Link
+              to="/login"
+              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
+            >
+              {strings.home.signInButton}
+            </Link>
+            <Link
+              to="/register"
+              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
+            >
+              {strings.home.createAccountButton}
+            </Link>
+          </div>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-bone-100 font-semibold">{strings.nav.rules}</h2>
+          <div className="space-y-2">
+            <Link
+              to="/rules"
+              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
+            >
+              {strings.home.browseRules}
+            </Link>
+            <Link
+              to="/skills"
+              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
+            >
+              {strings.home.browseSkills}
+            </Link>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
 export default function HomeScreen() {
+  const { user, loading } = useAuth();
   const warbands = useWarbandList();
   const { data: campaign } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
+
+  // Wait for the session check before choosing a view, so a signed-in user
+  // reloading the page doesn't flash the signed-out landing first.
+  if (loading) {
+    return (
+      <div className="min-h-full flex items-center justify-center">
+        <p className="text-bone-300">{strings.common.loading}</p>
+      </div>
+    );
+  }
+
+  if (!user) return <SignedOutHome />;
 
   return (
     <div className="min-h-full flex flex-col">

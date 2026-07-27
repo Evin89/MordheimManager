@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
+import { strings } from '../strings';
 
 export default function RequireAuth({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
@@ -9,7 +10,7 @@ export default function RequireAuth({ children }: { children: ReactNode }) {
   if (loading) {
     return (
       <div className="min-h-full flex items-center justify-center">
-        <p className="text-bone-300">Loading…</p>
+        <p className="text-bone-300">{strings.common.loading}</p>
       </div>
     );
   }

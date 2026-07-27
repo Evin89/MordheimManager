@@ -24,10 +24,11 @@ export const strings = {
     add: 'Add',
     gold: 'gc',
     dismiss: 'Dismiss',
+    loading: 'Loading…',
   },
   home: {
     title: 'Home',
-    warbandCount: (n: number) => `${n} warband${n === 1 ? '' : 's'} stored on this device`,
+    warbandCount: (n: number) => `${n} warband${n === 1 ? '' : 's'} in your account`,
     noCampaign: 'No campaign started yet',
     campaignSection: 'Campaign',
     startCampaignCta: 'Set up a campaign to start logging battles.',
@@ -38,6 +39,15 @@ export const strings = {
     noWarbandsCta: 'Create your first warband to get started.',
     quickActionsSection: 'Quick Actions',
     viewCampaignLog: 'View Campaign Log',
+    // Signed-out landing: the rules reference is fully usable without an account,
+    // only warband/campaign data needs one.
+    signedOutTitle: 'Browse the rules, or sign in to manage your warbands',
+    signedOutBody:
+      'The full Mordheim rules reference and every skill list are free to browse — no account needed. Sign in to create warbands, run the post-battle sequence, and track a campaign.',
+    signInButton: 'Sign in',
+    createAccountButton: 'Create an account',
+    browseRules: 'Browse the Rules Reference',
+    browseSkills: 'Browse Skills',
   },
   skills: {
     title: 'Skills',
@@ -66,6 +76,8 @@ export const strings = {
     accountSection: 'Account',
     signedInAs: (email: string) => `Signed in as ${email}`,
     signOutButton: 'Sign out',
+    signedOutHint: 'Sign in to export or import your warband and campaign data.',
+    signInButton: 'Sign in',
   },
   changelog: {
     title: "What's New",
