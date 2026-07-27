@@ -3,8 +3,10 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import EquipmentShop from '../components/EquipmentShop';
 import SkillPicker from '../components/SkillPicker';
+import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { strings } from '../strings';
-import { useAppStore } from '../store/useAppStore';
+import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
+import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { getUniqueInjuries } from '../lib/injuryLookup';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
@@ -24,9 +26,10 @@ const STATUS_OPTIONS: ModelStatus[] = ['active', 'missNextGame', 'dead', 'captur
 export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const { warbandId, modelId } = useParams<{ warbandId: string; modelId: string }>();
   const navigate = useNavigate();
-  const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
-  const saveWarband = useAppStore((state) => state.saveWarband);
-  const campaign = useAppStore((state) => state.campaign);
+  const warband = useWarband(warbandId);
+  const saveWarband = useSaveWarbandMutation();
+  const { data: campaign } = useMyCampaignQuery();
+  const { data: battles } = useBattlesQuery(campaign?.id);
 
   const [advanceMode, setAdvanceMode] = useState<'stat' | 'skill' | null>(null);
   const [addingInjury, setAddingInjury] = useState(false);
@@ -179,32 +182,35 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
         <section className="space-y-3">
           <h2 className="text-bone-100 font-semibold">{strings.modelDetail.statsSection}</h2>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-9 gap-1">
             {STAT_KEYS.map((key) => {
               const atMax = model.stats[key] >= model.statMaximums[key];
               return (
                 <div
                   key={key}
-                  className={`rounded-md border p-2 text-center ${
+                  title={atMax ? `${key}: ${strings.modelDetail.atMax}` : undefined}
+                  className={`rounded-md border px-0.5 py-1 text-center ${
                     atMax ? 'border-ember-500 bg-ink-900' : 'border-ink-700 bg-ink-900'
                   }`}
                 >
-                  <p className="text-bone-300 text-xs uppercase">{key}</p>
+                  <p className="text-bone-300 text-[10px] uppercase">{key}</p>
                   <input
                     type="number"
                     inputMode="numeric"
                     value={model.stats[key]}
                     onChange={(e) => updateStat(key, Number(e.target.value))}
-                    className="w-full bg-transparent text-center text-bone-100 text-lg font-semibold focus:outline-none"
+                    className="w-full bg-transparent text-center text-bone-100 text-base font-semibold focus:outline-none"
                   />
-                  <p className="text-bone-300 text-[10px]">
+                  <p className={`text-[9px] ${atMax ? 'text-ember-400' : 'text-bone-300'}`}>
                     max {model.statMaximums[key]}
-                    {atMax && <span className="text-ember-400"> · {strings.modelDetail.atMax}</span>}
                   </p>
                 </div>
               );
             })}
           </div>
+          <p className="text-bone-300 text-[10px]">
+            <span className="text-ember-400">■</span> {strings.modelDetail.atMax}
+          </p>
         </section>
 
         <section className="space-y-3">
@@ -421,16 +427,19 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           {model.equipment.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noEquipment}</p>}
           <div className="space-y-2">
             {model.equipment.map((item) => (
-              <div key={item.id} className="flex items-center justify-between gap-3 rounded-md bg-ink-900 border border-ink-800 p-3">
-                <p className="text-bone-100">{item.name}</p>
-                <button
-                  type="button"
-                  onClick={() => moveToTreasury(item.id)}
-                  className="text-ember-400 text-sm font-semibold shrink-0"
-                >
-                  {strings.modelDetail.moveToTreasury}
-                </button>
-              </div>
+              <WeaponRulesDisclosure
+                key={item.id}
+                name={item.name}
+                action={
+                  <button
+                    type="button"
+                    onClick={() => moveToTreasury(item.id)}
+                    className="text-ember-400 text-sm font-semibold shrink-0"
+                  >
+                    {strings.modelDetail.moveToTreasury}
+                  </button>
+                }
+              />
             ))}
           </div>
 
@@ -442,7 +451,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
               <EquipmentShop
                 warband={warband}
                 onPurchase={buyForModel}
-                skipRarityRoll={!hasFoughtFirstBattle(warband.id, campaign)}
+                skipRarityRoll={!hasFoughtFirstBattle(warband.id, battles)}
               />
             </div>
           )}
@@ -451,16 +460,19 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           {warband.treasury.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noTreasury}</p>}
           <div className="space-y-2">
             {warband.treasury.map((item) => (
-              <div key={item.id} className="flex items-center justify-between gap-3 rounded-md bg-ink-900 border border-ink-800 p-3">
-                <p className="text-bone-100">{item.name}</p>
-                <button
-                  type="button"
-                  onClick={() => assignFromTreasury(item.id)}
-                  className="text-ember-400 text-sm font-semibold shrink-0"
-                >
-                  {strings.modelDetail.assignToModel}
-                </button>
-              </div>
+              <WeaponRulesDisclosure
+                key={item.id}
+                name={item.name}
+                action={
+                  <button
+                    type="button"
+                    onClick={() => assignFromTreasury(item.id)}
+                    className="text-ember-400 text-sm font-semibold shrink-0"
+                  >
+                    {strings.modelDetail.assignToModel}
+                  </button>
+                }
+              />
             ))}
           </div>
         </section>

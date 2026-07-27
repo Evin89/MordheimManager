@@ -1,164 +1,38 @@
-import { CAMPAIGN_SCHEMA_VERSION, Campaign, WARBAND_SCHEMA_VERSION, Warband } from '../types';
-import { CAMPAIGN_KEY, LAST_BATTLE_SNAPSHOT_KEY, WARBAND_INDEX_KEY, battleSessionKey, warbandKey } from './keys';
-import { migrateCampaign, migrateWarband } from './migrations';
+// Manual JSON backup (spec section 4.6). Supabase is the sole source of truth
+// (spec section 2/8.4) — this module only reads/writes it in bulk for
+// export/import, it never caches anything client-side itself.
 
-function readIndex(): string[] {
-  const raw = localStorage.getItem(WARBAND_INDEX_KEY);
-  if (!raw) return [];
-  try {
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === 'string') : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeIndex(ids: string[]): void {
-  localStorage.setItem(WARBAND_INDEX_KEY, JSON.stringify(ids));
-}
-
-export function listWarbandIds(): string[] {
-  return readIndex();
-}
-
-export function loadWarband(id: string): Warband | null {
-  const raw = localStorage.getItem(warbandKey(id));
-  if (!raw) return null;
-  try {
-    return migrateWarband(JSON.parse(raw));
-  } catch (err) {
-    console.error(`Failed to load warband "${id}":`, err);
-    return null;
-  }
-}
-
-export function loadAllWarbands(): Warband[] {
-  const warbands: Warband[] = [];
-  for (const id of readIndex()) {
-    const warband = loadWarband(id);
-    if (warband) warbands.push(warband);
-  }
-  return warbands;
-}
-
-export function saveWarband(warband: Warband): void {
-  const toSave: Warband = { ...warband, schemaVersion: WARBAND_SCHEMA_VERSION };
-  localStorage.setItem(warbandKey(warband.id), JSON.stringify(toSave));
-
-  const ids = readIndex();
-  if (!ids.includes(warband.id)) {
-    writeIndex([...ids, warband.id]);
-  }
-}
-
-export function deleteWarband(id: string): void {
-  localStorage.removeItem(warbandKey(id));
-  writeIndex(readIndex().filter((existing) => existing !== id));
-}
-
-export function loadCampaign(): Campaign | null {
-  const raw = localStorage.getItem(CAMPAIGN_KEY);
-  if (!raw) return null;
-  try {
-    return migrateCampaign(JSON.parse(raw));
-  } catch (err) {
-    console.error('Failed to load campaign:', err);
-    return null;
-  }
-}
-
-export function saveCampaign(campaign: Campaign): void {
-  const toSave: Campaign = { ...campaign, schemaVersion: CAMPAIGN_SCHEMA_VERSION };
-  localStorage.setItem(CAMPAIGN_KEY, JSON.stringify(toSave));
-}
-
-export function clearCampaign(): void {
-  localStorage.removeItem(CAMPAIGN_KEY);
-}
-
-export type LastBattleSnapshot = {
-  warbandId: string;
-  warband: Warband;
-  campaign: Campaign | null;
-};
-
-/** A single-level undo point captured right before a post-battle sequence is committed. */
-export function saveLastBattleSnapshot(snapshot: LastBattleSnapshot): void {
-  localStorage.setItem(LAST_BATTLE_SNAPSHOT_KEY, JSON.stringify(snapshot));
-}
-
-export function loadLastBattleSnapshot(): LastBattleSnapshot | null {
-  const raw = localStorage.getItem(LAST_BATTLE_SNAPSHOT_KEY);
-  if (!raw) return null;
-  try {
-    return JSON.parse(raw) as LastBattleSnapshot;
-  } catch (err) {
-    console.error('Failed to load last battle snapshot:', err);
-    return null;
-  }
-}
-
-export function clearLastBattleSnapshot(): void {
-  localStorage.removeItem(LAST_BATTLE_SNAPSHOT_KEY);
-}
-
-export type BattleEvent = {
-  id: string;
-  turn: number;
-  text: string;
-};
-
-/**
- * A single warband's in-progress battle: set up before the game (scenario, opponent),
- * tracked during the game (turn counter, event log), then folded into the Post-Battle
- * Wizard's draft and discarded once that battle is committed. Not schema-versioned like
- * Warband/Campaign — it's disposable table-side scratch data, not campaign history.
- */
-export type BattleSession = {
-  warbandId: string;
-  scenario: string;
-  opponentWarbandId: string | null; // set when the opponent is also tracked in this app (same-device play)
-  opponentName: string; // free text, used when opponentWarbandId is null
-  turn: number;
-  events: BattleEvent[];
-  notes: string;
-};
-
-export function loadBattleSession(warbandId: string): BattleSession | null {
-  const raw = localStorage.getItem(battleSessionKey(warbandId));
-  if (!raw) return null;
-  try {
-    return JSON.parse(raw) as BattleSession;
-  } catch (err) {
-    console.error(`Failed to load battle session for "${warbandId}":`, err);
-    return null;
-  }
-}
-
-export function saveBattleSession(session: BattleSession): void {
-  localStorage.setItem(battleSessionKey(session.warbandId), JSON.stringify(session));
-}
-
-export function clearBattleSession(warbandId: string): void {
-  localStorage.removeItem(battleSessionKey(warbandId));
-}
+import { createCampaign, fetchMyCampaign, updateCampaign } from '../api/campaign';
+import { fetchBattles, insertBattle } from '../api/battles';
+import { fetchWarbands, insertWarband, updateWarband } from '../api/warbands';
+import { migrateWarband } from './migrations';
+import { BattleRecord, Campaign, Warband } from '../types';
 
 export type ExportedData = {
   exportedAt: string;
   warbands: Warband[];
-  campaign: Campaign | null;
+  campaignName: string | null;
+  usesBTB: boolean;
+  campaignNotes: string;
+  battles: BattleRecord[];
 };
 
-export function exportAllData(): ExportedData {
+export async function exportAllData(userId: string): Promise<ExportedData> {
+  const [records, campaign] = await Promise.all([fetchWarbands(userId), fetchMyCampaign(userId)]);
+  const battles = campaign ? await fetchBattles(campaign.id) : [];
+
   return {
     exportedAt: new Date().toISOString(),
-    warbands: loadAllWarbands(),
-    campaign: loadCampaign(),
+    warbands: records.map((r) => r.warband),
+    campaignName: campaign?.name ?? null,
+    usesBTB: campaign?.usesBTB ?? false,
+    campaignNotes: campaign?.notes ?? '',
+    battles,
   };
 }
 
-export function downloadExport(): void {
-  const data = exportAllData();
+export async function downloadExport(userId: string): Promise<void> {
+  const data = await exportAllData(userId);
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -170,7 +44,7 @@ export function downloadExport(): void {
 
 export class ImportValidationError extends Error {}
 
-/** Parses and validates an export file. Does not touch storage. */
+/** Parses and validates an export file. Does not touch Supabase. */
 export function parseImportFile(raw: string): ExportedData {
   let parsed: unknown;
   try {
@@ -189,38 +63,72 @@ export function parseImportFile(raw: string): ExportedData {
   }
 
   let warbands: Warband[];
-  let campaign: Campaign | null;
   try {
     warbands = data.warbands.map((w) => migrateWarband(w));
-    campaign = data.campaign ? migrateCampaign(data.campaign) : null;
   } catch (err) {
-    throw new ImportValidationError(err instanceof Error ? err.message : 'Export contains invalid data.');
+    throw new ImportValidationError(err instanceof Error ? err.message : 'Export contains invalid warband data.');
   }
+
+  // Pre-v2 exports nested battles inside a `campaign` blob instead of a flat array.
+  const legacyCampaign = data.campaign as Record<string, unknown> | undefined;
+  const battles = Array.isArray(data.battles)
+    ? (data.battles as BattleRecord[])
+    : Array.isArray(legacyCampaign?.battles)
+      ? (legacyCampaign!.battles as BattleRecord[])
+      : [];
 
   return {
     exportedAt: typeof data.exportedAt === 'string' ? data.exportedAt : new Date().toISOString(),
     warbands,
-    campaign,
+    campaignName:
+      typeof data.campaignName === 'string'
+        ? data.campaignName
+        : typeof legacyCampaign?.name === 'string'
+          ? (legacyCampaign.name as string)
+          : null,
+    usesBTB:
+      typeof data.usesBTB === 'boolean' ? data.usesBTB : typeof legacyCampaign?.usesBTB === 'boolean' ? (legacyCampaign.usesBTB as boolean) : false,
+    campaignNotes:
+      typeof data.campaignNotes === 'string'
+        ? data.campaignNotes
+        : typeof legacyCampaign?.notes === 'string'
+          ? (legacyCampaign.notes as string)
+          : '',
+    battles,
   };
 }
 
 /**
- * Overwrites all locally stored data with the given export.
+ * Overwrites all of the current user's Supabase data with the given export.
  * Callers must confirm this destructive action with the user first.
  */
-export function importAllData(data: ExportedData): void {
-  for (const id of readIndex()) {
-    localStorage.removeItem(warbandKey(id));
-  }
+export async function importAllData(userId: string, data: ExportedData): Promise<void> {
+  const existing = await fetchWarbands(userId);
+  const existingIds = new Set(existing.map((r) => r.warband.id));
 
-  writeIndex(data.warbands.map((w) => w.id));
   for (const warband of data.warbands) {
-    localStorage.setItem(warbandKey(warband.id), JSON.stringify(warband));
+    if (existingIds.has(warband.id)) {
+      const record = existing.find((r) => r.warband.id === warband.id)!;
+      await updateWarband(warband.id, userId, warband, record.updatedAt);
+    } else {
+      await insertWarband(userId, warband);
+    }
   }
 
-  if (data.campaign) {
-    saveCampaign(data.campaign);
-  } else {
-    clearCampaign();
+  let campaign: Campaign | null = await fetchMyCampaign(userId);
+  if (data.campaignName) {
+    campaign = campaign
+      ? await updateCampaign({ ...campaign, name: data.campaignName, usesBTB: data.usesBTB, notes: data.campaignNotes })
+      : await createCampaign(data.campaignName, data.usesBTB);
+  }
+
+  if (campaign) {
+    const existingBattles = await fetchBattles(campaign.id);
+    const existingBattleIds = new Set(existingBattles.map((b) => b.id));
+    for (const battle of data.battles) {
+      if (!existingBattleIds.has(battle.id)) {
+        await insertBattle(campaign.id, userId, battle);
+      }
+    }
   }
 }

@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { strings } from '../strings';
-import { useAppStore } from '../store/useAppStore';
+import { BattleSession, useAppStore } from '../store/useAppStore';
+import { useWarbandList } from '../hooks/useWarbands';
 import { generateId } from '../lib/id';
 import { STAT_KEYS } from '../lib/statLine';
-import { BattleSession, loadBattleSession, saveBattleSession } from '../storage/persistence';
 import { EquipmentItem, StatLine, Warband } from '../types';
 
 function defaultSession(warbandId: string): BattleSession {
@@ -54,9 +55,15 @@ function RosterCard({
           </div>
         ))}
       </div>
-      <p className="text-bone-300 text-xs">
-        {equipment.length > 0 ? equipment.map((e) => e.name).join(', ') : strings.battle.duringBattle.noEquipment}
-      </p>
+      {equipment.length > 0 ? (
+        <div className="space-y-0.5">
+          {equipment.map((e) => (
+            <WeaponRulesDisclosure key={e.id} name={e.name} compact />
+          ))}
+        </div>
+      ) : (
+        <p className="text-bone-300 text-xs">{strings.battle.duringBattle.noEquipment}</p>
+      )}
       {skills !== undefined && (
         <p className="text-bone-300 text-xs">
           {skills.length > 0 ? skills.join(', ') : strings.battle.duringBattle.noSkills}
@@ -108,22 +115,25 @@ function RosterReference({ warband }: { warband: Warband }) {
 export default function DuringBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
-  const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
+  const warbands = useWarbandList();
+  const warband = warbands.find((w) => w.id === warbandId);
+  const storedSession = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
+  const setStoredSession = useAppStore((state) => state.setBattleSession);
 
-  const [session, setSession] = useState<BattleSession>(() =>
-    warbandId ? loadBattleSession(warbandId) ?? defaultSession(warbandId) : defaultSession(''),
+  const [session, setSession] = useState<BattleSession>(
+    () => storedSession ?? defaultSession(warbandId ?? ''),
   );
   const [newEventText, setNewEventText] = useState('');
   const [viewSide, setViewSide] = useState<'mine' | 'opponent'>('mine');
 
-  const opponentWarband = useAppStore((state) => state.warbands.find((w) => w.id === session.opponentWarbandId));
+  const opponentWarband = warbands.find((w) => w.id === session.opponentWarbandId);
 
   if (!warband) return <Navigate to="/warbands" replace />;
 
   function updateSession(patch: Partial<BattleSession>) {
     const updated = { ...session, ...patch };
     setSession(updated);
-    saveBattleSession(updated);
+    setStoredSession(updated);
   }
 
   function addEvent() {

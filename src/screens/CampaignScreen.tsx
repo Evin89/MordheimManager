@@ -1,14 +1,23 @@
 import { useState } from 'react';
 import RuleEntryList from '../components/RuleEntryList';
 import { strings } from '../strings';
-import { useAppStore } from '../store/useAppStore';
-import { generateId } from '../lib/id';
+import {
+  useBattlesQuery,
+  useCreateCampaignMutation,
+  useMyCampaignQuery,
+  useSaveCampaignMutation,
+} from '../hooks/useCampaign';
+import { useObjectiveQuery, useSaveObjectiveMutation } from '../hooks/useObjective';
+import { useWarbandList } from '../hooks/useWarbands';
 import { getCampaignTabRuleEntries } from '../lib/rulesIndex';
 import objectivesData from '../data/btb/objectives.json';
 import { BtbObjectivesData } from '../data/types';
-import { BattleRecord, BtbObjective, CAMPAIGN_SCHEMA_VERSION, Campaign, Warband } from '../types';
+import { BattleRecord, BtbObjective, Warband } from '../types';
 
 type Tab = 'log' | 'rules';
+
+/** The editable part of an objective — the row's id/warbandId are set server-side. */
+type ObjectiveFields = Omit<BtbObjective, 'id' | 'warbandId'>;
 
 const objectives = (objectivesData as BtbObjectivesData).objectives;
 
@@ -79,13 +88,19 @@ function BattleRow({ battle, warbandName }: { battle: BattleRecord; warbandName:
   );
 }
 
-function ObjectiveCard({ warband, onSave }: { warband: Warband; onSave: (patch: BtbObjective | undefined) => void }) {
-  const current = warband.btbObjective;
+/** BTB objectives are secret by the rules, so they live in their own owner-only
+ * table rather than inside the (shareable) warband blob — each card owns its
+ * own query/mutation for the warband it belongs to. */
+function ObjectiveCard({ warband }: { warband: Warband }) {
+  const { data: current } = useObjectiveQuery(warband.id);
+  const saveObjective = useSaveObjectiveMutation(warband.id);
   const chosen = current ? objectives.find((o) => o.name === current.name) : undefined;
 
-  function updateField(patch: Partial<BtbObjective>) {
-    const base: BtbObjective = current ?? { name: '', progress: '', completed: false };
-    onSave({ ...base, ...patch });
+  function updateField(patch: Partial<ObjectiveFields>) {
+    const base: ObjectiveFields = current
+      ? { name: current.name, progress: current.progress, completed: current.completed }
+      : { name: '', progress: '', completed: false };
+    saveObjective({ ...base, ...patch });
   }
 
   return (
@@ -99,7 +114,7 @@ function ObjectiveCard({ warband, onSave }: { warband: Warband; onSave: (patch: 
           onChange={(e) => {
             const name = e.target.value;
             if (!name) {
-              onSave(undefined);
+              saveObjective(undefined);
               return;
             }
             updateField({ name });
@@ -144,10 +159,11 @@ function ObjectiveCard({ warband, onSave }: { warband: Warband; onSave: (patch: 
 }
 
 export default function CampaignScreen() {
-  const campaign = useAppStore((state) => state.campaign);
-  const warbands = useAppStore((state) => state.warbands);
-  const saveCampaign = useAppStore((state) => state.saveCampaign);
-  const saveWarband = useAppStore((state) => state.saveWarband);
+  const { data: campaign } = useMyCampaignQuery();
+  const { data: battles } = useBattlesQuery(campaign?.id);
+  const warbands = useWarbandList();
+  const createCampaign = useCreateCampaignMutation();
+  const saveCampaign = useSaveCampaignMutation();
   const [tab, setTab] = useState<Tab>('log');
   const ruleEntries = getCampaignTabRuleEntries();
 
@@ -155,15 +171,7 @@ export default function CampaignScreen() {
   const [draftUsesBtb, setDraftUsesBtb] = useState(false);
 
   function startCampaign() {
-    const newCampaign: Campaign = {
-      id: generateId(),
-      schemaVersion: CAMPAIGN_SCHEMA_VERSION,
-      name: draftName.trim() || 'My Campaign',
-      usesBTB: draftUsesBtb,
-      battles: [],
-      notes: '',
-    };
-    saveCampaign(newCampaign);
+    createCampaign(draftName.trim() || 'My Campaign', draftUsesBtb);
   }
 
   function warbandName(id: string): string {
@@ -264,11 +272,11 @@ export default function CampaignScreen() {
 
             <section className="space-y-3">
               <h2 className="text-bone-100 font-semibold">{strings.campaign.battleLogSection}</h2>
-              {campaign.battles.length === 0 ? (
+              {(battles?.length ?? 0) === 0 ? (
                 <p className="text-bone-300 text-sm">{strings.campaign.noBattles}</p>
               ) : (
                 <div className="space-y-2">
-                  {[...campaign.battles]
+                  {[...(battles ?? [])]
                     .reverse()
                     .map((battle) => (
                       <BattleRow key={battle.id} battle={battle} warbandName={warbandName(battle.warbandId)} />
@@ -286,11 +294,7 @@ export default function CampaignScreen() {
                 ) : (
                   <div className="space-y-2">
                     {warbands.map((warband) => (
-                      <ObjectiveCard
-                        key={warband.id}
-                        warband={warband}
-                        onSave={(btbObjective) => saveWarband({ ...warband, btbObjective })}
-                      />
+                      <ObjectiveCard key={warband.id} warband={warband} />
                     ))}
                   </div>
                 )}

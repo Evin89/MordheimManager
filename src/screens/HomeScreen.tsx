@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import { strings } from '../strings';
-import { useAppStore } from '../store/useAppStore';
+import { useWarbandList } from '../hooks/useWarbands';
+import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { computeWarbandRating } from '../lib/rating';
 
 export default function HomeScreen() {
-  const warbands = useAppStore((state) => state.warbands);
-  const campaign = useAppStore((state) => state.campaign);
+  const warbands = useWarbandList();
+  const { data: campaign } = useMyCampaignQuery();
+  const { data: battles } = useBattlesQuery(campaign?.id);
 
   return (
     <div className="min-h-full flex flex-col">
@@ -27,7 +29,7 @@ export default function HomeScreen() {
                   </span>
                 )}
               </div>
-              <p className="text-bone-300 text-sm">{strings.home.battleCount(campaign.battles.length)}</p>
+              <p className="text-bone-300 text-sm">{strings.home.battleCount(battles?.length ?? 0)}</p>
             </>
           ) : (
             <p className="text-bone-300 text-sm">{strings.home.startCampaignCta}</p>

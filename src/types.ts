@@ -95,7 +95,12 @@ export type HiredSword = {
   notes: string;
 };
 
+// Stored in its own `objectives` table (owner-only RLS), never inside the
+// Warband blob below — a campaign-mate who can read a shared warband must
+// never be able to see its BTB objective, which is secret by the rules.
 export type BtbObjective = {
+  id: string;
+  warbandId: string;
   name: string;
   progress: string; // free text / counters
   completed: boolean;
@@ -114,7 +119,6 @@ export type Warband = {
   heroes: Hero[];
   henchmenGroups: HenchmenGroup[];
   hiredSwords: HiredSword[];
-  btbObjective?: BtbObjective;
   notes: string;
 };
 
@@ -134,13 +138,14 @@ export type BattleRecord = {
   notes: string;
 };
 
-export const CAMPAIGN_SCHEMA_VERSION = 1;
+export type CampaignVisibility = 'public' | 'private';
 
 export type Campaign = {
   id: string;
-  schemaVersion: number;
   name: string; // e.g. "Border Town Burning 2026"
   usesBTB: boolean;
-  battles: BattleRecord[];
+  visibility: CampaignVisibility;
+  joinCode: string | null;
+  createdBy: string; // user id
   notes: string;
 };

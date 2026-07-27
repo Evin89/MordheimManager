@@ -2,15 +2,15 @@ import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import { strings } from '../strings';
-import { useAppStore } from '../store/useAppStore';
+import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
 import { getWarbandDefinition } from '../data/warbandRegistry';
 import { createHenchmenGroupFromType } from '../lib/warbandFactory';
 
 export default function AddHenchmenScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
-  const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
-  const saveWarband = useAppStore((state) => state.saveWarband);
+  const warband = useWarband(warbandId);
+  const saveWarband = useSaveWarbandMutation();
 
   const definition = warband ? getWarbandDefinition(warband.warbandType) : undefined;
   const [typeId, setTypeId] = useState(definition?.henchmenTypes[0]?.id ?? '');

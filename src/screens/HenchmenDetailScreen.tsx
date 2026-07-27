@@ -3,8 +3,10 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
 import EquipmentShop from '../components/EquipmentShop';
+import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { strings } from '../strings';
-import { useAppStore } from '../store/useAppStore';
+import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
+import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
@@ -15,9 +17,10 @@ import { EquipmentItem, HenchmenGroup, StatLine } from '../types';
 export default function HenchmenDetailScreen() {
   const { warbandId, groupId } = useParams<{ warbandId: string; groupId: string }>();
   const navigate = useNavigate();
-  const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
-  const saveWarband = useAppStore((state) => state.saveWarband);
-  const campaign = useAppStore((state) => state.campaign);
+  const warband = useWarband(warbandId);
+  const saveWarband = useSaveWarbandMutation();
+  const { data: campaign } = useMyCampaignQuery();
+  const { data: battles } = useBattlesQuery(campaign?.id);
   const [shoppingOpen, setShoppingOpen] = useState(false);
 
   if (!warband) return <Navigate to="/warbands" replace />;
@@ -120,16 +123,16 @@ export default function HenchmenDetailScreen() {
           <p className="text-bone-300 text-xs">
             {group.isAnimal ? 'Animal — does not gain Experience.' : 'Shared by the whole group.'}
           </p>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-9 gap-1">
             {STAT_KEYS.map((key) => (
-              <div key={key} className="rounded-md border border-ink-700 bg-ink-900 p-2 text-center">
-                <p className="text-bone-300 text-xs uppercase">{key}</p>
+              <div key={key} className="rounded-md border border-ink-700 bg-ink-900 px-0.5 py-1 text-center">
+                <p className="text-bone-300 text-[10px] uppercase">{key}</p>
                 <input
                   type="number"
                   inputMode="numeric"
                   value={group.stats[key]}
                   onChange={(e) => updateStat(key, Number(e.target.value))}
-                  className="w-full bg-transparent text-center text-bone-100 text-lg font-semibold focus:outline-none"
+                  className="w-full bg-transparent text-center text-bone-100 text-base font-semibold focus:outline-none"
                 />
               </div>
             ))}
@@ -205,16 +208,19 @@ export default function HenchmenDetailScreen() {
           {group.equipment.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noEquipment}</p>}
           <div className="space-y-2">
             {group.equipment.map((item) => (
-              <div key={item.id} className="flex items-center justify-between gap-3 rounded-md bg-ink-900 border border-ink-800 p-3">
-                <p className="text-bone-100">{item.name}</p>
-                <button
-                  type="button"
-                  onClick={() => moveToTreasury(item.id)}
-                  className="text-ember-400 text-sm font-semibold shrink-0"
-                >
-                  {strings.modelDetail.moveToTreasury}
-                </button>
-              </div>
+              <WeaponRulesDisclosure
+                key={item.id}
+                name={item.name}
+                action={
+                  <button
+                    type="button"
+                    onClick={() => moveToTreasury(item.id)}
+                    className="text-ember-400 text-sm font-semibold shrink-0"
+                  >
+                    {strings.modelDetail.moveToTreasury}
+                  </button>
+                }
+              />
             ))}
           </div>
 
@@ -226,7 +232,7 @@ export default function HenchmenDetailScreen() {
               <EquipmentShop
                 warband={warband}
                 onPurchase={buyForGroup}
-                skipRarityRoll={!hasFoughtFirstBattle(warband.id, campaign)}
+                skipRarityRoll={!hasFoughtFirstBattle(warband.id, battles)}
               />
             </div>
           )}
@@ -235,16 +241,19 @@ export default function HenchmenDetailScreen() {
           {warband.treasury.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noTreasury}</p>}
           <div className="space-y-2">
             {warband.treasury.map((item) => (
-              <div key={item.id} className="flex items-center justify-between gap-3 rounded-md bg-ink-900 border border-ink-800 p-3">
-                <p className="text-bone-100">{item.name}</p>
-                <button
-                  type="button"
-                  onClick={() => assignFromTreasury(item.id)}
-                  className="text-ember-400 text-sm font-semibold shrink-0"
-                >
-                  {strings.modelDetail.assignToModel}
-                </button>
-              </div>
+              <WeaponRulesDisclosure
+                key={item.id}
+                name={item.name}
+                action={
+                  <button
+                    type="button"
+                    onClick={() => assignFromTreasury(item.id)}
+                    className="text-ember-400 text-sm font-semibold shrink-0"
+                  >
+                    {strings.modelDetail.assignToModel}
+                  </button>
+                }
+              />
             ))}
           </div>
         </section>

@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import RuleEntryList from '../components/RuleEntryList';
 import { strings } from '../strings';
-import { useAppStore } from '../store/useAppStore';
+import { useWarbandList } from '../hooks/useWarbands';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandsTabRuleEntries } from '../lib/rulesIndex';
 
 type Tab = 'warbands' | 'rules';
 
 export default function WarbandListScreen() {
-  const warbands = useAppStore((state) => state.warbands);
+  const warbands = useWarbandList();
   const [tab, setTab] = useState<Tab>('warbands');
   const ruleEntries = getWarbandsTabRuleEntries();
 

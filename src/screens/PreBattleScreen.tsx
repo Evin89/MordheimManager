@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import { strings } from '../strings';
-import { useAppStore } from '../store/useAppStore';
-import { BattleSession, loadBattleSession, saveBattleSession } from '../storage/persistence';
+import { BattleSession, useAppStore } from '../store/useAppStore';
+import { useWarbandList } from '../hooks/useWarbands';
 import scenariosData from '../data/scenarios.json';
 
 function defaultSession(warbandId: string): BattleSession {
@@ -21,11 +21,14 @@ function defaultSession(warbandId: string): BattleSession {
 export default function PreBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
-  const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
-  const otherWarbands = useAppStore((state) => state.warbands.filter((w) => w.id !== warbandId));
+  const warbands = useWarbandList();
+  const warband = warbands.find((w) => w.id === warbandId);
+  const otherWarbands = warbands.filter((w) => w.id !== warbandId);
+  const storedSession = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
+  const setStoredSession = useAppStore((state) => state.setBattleSession);
 
-  const [session, setSession] = useState<BattleSession>(() =>
-    warbandId ? loadBattleSession(warbandId) ?? defaultSession(warbandId) : defaultSession(''),
+  const [session, setSession] = useState<BattleSession>(
+    () => storedSession ?? defaultSession(warbandId ?? ''),
   );
   const [lastRandomRoll, setLastRandomRoll] = useState<string | null>(null);
 
@@ -34,7 +37,7 @@ export default function PreBattleScreen() {
   function updateSession(patch: Partial<BattleSession>) {
     const updated = { ...session, ...patch };
     setSession(updated);
-    saveBattleSession(updated);
+    setStoredSession(updated);
   }
 
   function rollRandomScenario() {

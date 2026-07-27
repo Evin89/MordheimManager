@@ -6,3 +6,7 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 dev-dist
+
+# Supabase CLI local state (per-machine, not for version control)
+supabase/.temp/
+supabase/.branches/

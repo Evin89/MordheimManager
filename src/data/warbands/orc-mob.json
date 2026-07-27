@@ -1,0 +1,127 @@
+{
+  "id": "orc-mob",
+  "name": "Orc Mob",
+  "source": "The New Mordheimer, https://mordheimer.net/docs/warbands/grade-1a-warbands/orc-mob (fetched 2026-07-06). Grade 1a warband, author Mark Havener. Cited source: Town Cryer #6, revised in the Mordheim Annual 2002. Owner should cross-check against their own copy of that supplement/annual.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 20,
+  "heroSlots": [
+    {
+      "id": "orcBoss",
+      "unitType": "Orc Boss",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 80,
+      "startingXp": 20,
+      "skillLists": ["combat", "shooting", "strength", "speed", "orcsAndGoblinsHordes"],
+      "statLine": { "M": 4, "WS": 4, "BS": 4, "S": 4, "T": 4, "W": 1, "I": 3, "A": 1, "Ld": 8 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["orcEquipmentList"],
+      "notes": "80 gc. Leader: any warrior within 6\" may use his Leadership for Leadership tests. statMaximums null: Orcs are not Human — fill from the Orc Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "orcShaman",
+      "unitType": "Orc Shaman",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 40,
+      "startingXp": 10,
+      "skillLists": ["strength", "orcsAndGoblinsHordes"],
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["orcEquipmentList"],
+      "notes": "40 gc, 0-1. May be armed with weapons from the Orc Equipment list, but never armour. Wizard: uses Waaagh! Magic (see Magic). statMaximums null: fill from the Orc Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "orcBigUns",
+      "unitType": "Orc Big 'Uns",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 40,
+      "startingXp": 15,
+      "skillLists": ["combat", "shooting", "strength", "orcsAndGoblinsHordes"],
+      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["orcEquipmentList"],
+      "notes": "40 gc, 0-2. The Boss's enforcers — if the Boss falls, the Big 'Uns decide on a new leader (usually through personal combat). statMaximums null: fill from the Orc Maximum Profile table if/when sourced."
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "orcBoyz",
+      "unitType": "Orc Boyz",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["orcEquipmentList"],
+      "notes": "25 gc, any number. Animosity: subject to the Animosity rules (see the warband's special rules / Leadership & Psychology). statMaximums null: fill from the Orc Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "goblinWarriors",
+      "unitType": "Goblin Warriors",
+      "cost": 15,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 4, "WS": 2, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 5 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["goblinEquipmentList"],
+      "notes": "15 gc, any number — but never more than two Goblins for each Orc in the warband (counting Orc Heroes); the app doesn't enforce this ratio, so check it when recruiting. Animosity: subject to Animosity, but on a result of 1 will never charge an Orc Henchman (still shoots as normal). Not Orcs: each Goblin taken out of action counts as only half a model when checking whether the warband must take a Rout test. Runts: if the group rolls \"The lad's got talent\", the would-be Hero is immediately killed by his Orc overlords — remove one model instead of promoting. statMaximums null: fill from the Goblin Maximum Profile table if/when sourced."
+    },
+    {
+      "id": "caveSquigs",
+      "unitType": "Cave Squigs",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": { "M": null, "WS": 4, "BS": 0, "S": 4, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 5 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": [],
+      "notes": "15 gc, 0-5 — and never more Cave Squigs than Goblin Warriors in the warband (not enforced by the app; check when recruiting). No weapons or armour, ever — big gob and brutality. Movement: M is null because Squigs have no fixed Move — they bounce 2D6\" each Movement phase, never run, never declare charges (contacting an enemy with the 2D6\" move counts as charging for the following combat round). Minderz: each Squig must stay within 6\" of a Goblin Warrior — if not at the start of its Movement phase it goes wild, moving 2D6\" in a random direction each phase (fighting anything it contacts, friend or foe) for the rest of the game. Not Orcs: counts as half a model for Rout-test thresholds. Animals: never gains Experience."
+    },
+    {
+      "id": "troll",
+      "unitType": "Troll",
+      "cost": 200,
+      "isAnimal": true,
+      "isLargeCreature": true,
+      "maxCount": 1,
+      "statLine": { "M": 6, "WS": 3, "BS": 1, "S": 5, "T": 4, "W": 3, "I": 1, "A": 3, "Ld": 4 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": [],
+      "notes": "200 gc, 0-1. May never be given weapons or armour (often carries a big club anyway). Fear: causes fear. Stupidity. Regeneration: whenever it suffers a wound, roll a D6 — on 4+ the wound is ignored; doesn't work against fire or fire-based magic; never rolls for Injury after a battle. Dumb Monster: too stupid to learn — never gains Experience. Always Hungry: 15 gc upkeep after every game, or sacrifice two Goblin Warriors/Cave Squigs to feed it instead; unpaid, the Troll wanders off (remove it). Vomit Attack: instead of its normal attacks, a single automatic hit at Strength 5 that ignores armour saves. Large Target as defined in the shooting rules."
+    }
+  ],
+  "equipmentLists": {
+    "orcEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "spear", "halberd", "doubleHandedWeapon", "morningStar", "bow", "crossbow", "lightArmour", "shield", "helmet"],
+    "goblinEquipmentList": ["dagger", "clubMaceHammer", "sword", "spear", "ballAndChain", "shortBow", "shield", "helmet", "squigProdder", "madCapMushrooms"]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "ballAndChain",
+      "name": "Ball & Chain",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Goblin equipment list (Orc Mob warbands).",
+      "rulesText": "The whirling ball & chain of a Goblin Fanatic (usually combined with Mad Cap Mushrooms). TODO: the full rules text isn't included on the fetched source page — check the Mordheim Annual 2002 / Town Cryer #6 before using it in a real game."
+    },
+    {
+      "id": "squigProdder",
+      "name": "Squig Prodder",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Goblin equipment list (Orc Mob warbands).",
+      "rulesText": "A long prodding spear used by Goblin herders to keep Cave Squigs in line. TODO: the full rules text isn't included on the fetched source page — check the Mordheim Annual 2002 / Town Cryer #6 before using it in a real game."
+    }
+  ],
+  "specialRules": "Orcs enjoy fighting and looting more than anything else, and Mordheim offers an aspiring Warboss endless supplies of both — ideally taken off other warbands rather than dug up. Distasteful Company: many Hired Swords refuse to work for Orcs — an Orc Mob may only hire Pit Fighters, Ogre Bodyguards, or Warlocks. Animosity: at the start of the Orc player's turn, roll a D6 for each Orc or Goblin Henchman not in hand-to-hand combat — on a 1 the warrior takes offence; roll again: 1 = \"I 'Erd Dat!\" (charges/shoots the nearest friendly Orc or Goblin Henchman as per the full Animosity rules), 2-5 = \"Wud Yoo Say?\" (spends the turn hurling insults, does nothing else), 6 = \"I'll Show Yer!\" (must move at full speed toward the nearest enemy, in addition to its normal move). See the full Animosity entry in the Rules Reference (Leadership & Psychology). Note the source's Goblin list prices Mad Cap Mushrooms at 25 gc at recruitment (the general rare-trade price is 30 + 3D6 gc)."
+}

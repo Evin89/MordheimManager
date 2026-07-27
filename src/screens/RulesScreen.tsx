@@ -107,7 +107,11 @@ export default function RulesScreen() {
             ))}
           </>
         ) : (
-          <RuleEntryList entries={browsedEntries} emptyMessage={strings.rules.noEntriesInCategory} />
+          <RuleEntryList
+            entries={browsedEntries}
+            emptyMessage={strings.rules.noEntriesInCategory}
+            inlineExpandChapters={['Weapons & Armour', 'Miscellaneous Equipment']}
+          />
         )}
       </main>
     </div>

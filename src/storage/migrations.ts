@@ -1,17 +1,15 @@
-import { CAMPAIGN_SCHEMA_VERSION, Campaign, WARBAND_SCHEMA_VERSION, Warband } from '../types';
+import { WARBAND_SCHEMA_VERSION, Warband } from '../types';
 
 // Migration steps are keyed by the version they migrate *from*.
 // Add a new entry (e.g. `1: (data) => ({ ...data, newField: default }))`)
-// whenever WARBAND_SCHEMA_VERSION / CAMPAIGN_SCHEMA_VERSION is bumped.
+// whenever WARBAND_SCHEMA_VERSION is bumped. This applies to the `data` jsonb
+// blob stored per warband row in Supabase — Campaign is a plain relational
+// row now (see types.ts) and no longer needs blob migration.
 
 type RawRecord = Record<string, unknown>;
 type Migration = (data: RawRecord) => RawRecord;
 
 const warbandMigrations: Record<number, Migration> = {
-  0: (data) => ({ ...data }),
-};
-
-const campaignMigrations: Record<number, Migration> = {
   0: (data) => ({ ...data }),
 };
 
@@ -41,11 +39,4 @@ export function migrateWarband(raw: unknown): Warband {
     throw new Error('Warband data is not an object');
   }
   return runMigrations(raw as RawRecord, WARBAND_SCHEMA_VERSION, warbandMigrations, 'warband') as unknown as Warband;
-}
-
-export function migrateCampaign(raw: unknown): Campaign {
-  if (typeof raw !== 'object' || raw === null) {
-    throw new Error('Campaign data is not an object');
-  }
-  return runMigrations(raw as RawRecord, CAMPAIGN_SCHEMA_VERSION, campaignMigrations, 'campaign') as unknown as Campaign;
 }

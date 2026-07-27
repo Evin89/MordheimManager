@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
 import SideNav from './components/SideNav';
+import ConnectionBanner from './components/ConnectionBanner';
+import RequireAuth from './auth/RequireAuth';
 import { strings } from './strings';
-import { useAppStore } from './store/useAppStore';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import WarbandListScreen from './screens/WarbandListScreen';
 import NewWarbandScreen from './screens/NewWarbandScreen';
@@ -24,29 +26,15 @@ import SkillsScreen from './screens/SkillsScreen';
 import RulesScreen from './screens/RulesScreen';
 import RuleDetailScreen from './screens/RuleDetailScreen';
 
-export default function App() {
-  const load = useAppStore((state) => state.load);
-  const loaded = useAppStore((state) => state.loaded);
-
-  useEffect(() => {
-    load();
-  }, [load]);
-
-  if (!loaded) {
-    return (
-      <div className="min-h-full flex items-center justify-center">
-        <p className="text-bone-300">Loading…</p>
-      </div>
-    );
-  }
-
+/** The signed-in app shell: navigation plus the routed screen content. */
+function AppShell() {
   return (
-    <BrowserRouter>
-      <div className="min-h-full md:flex md:items-start">
-        <SideNav />
-        <div className="flex-1 min-w-0 pb-[56px] md:pb-0">
-          <div className="mx-auto w-full max-w-4xl">
-            <Routes>
+    <div className="min-h-full md:flex md:items-start">
+      <SideNav />
+      <div className="flex-1 min-w-0 pb-[56px] md:pb-0">
+        <ConnectionBanner />
+        <div className="mx-auto w-full max-w-4xl">
+          <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/warbands" element={<WarbandListScreen />} />
           <Route path="/warbands/new" element={<NewWarbandScreen />} />
@@ -92,11 +80,30 @@ export default function App() {
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="/settings/changelog" element={<ChangelogScreen />} />
           <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </div>
+          </Routes>
         </div>
-        <BottomNav />
       </div>
+      <BottomNav />
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Auth screens render outside the app shell — no nav until signed in. */}
+        <Route path="/login" element={<LoginScreen />} />
+        <Route path="/register" element={<RegisterScreen />} />
+        <Route
+          path="*"
+          element={
+            <RequireAuth>
+              <AppShell />
+            </RequireAuth>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 }

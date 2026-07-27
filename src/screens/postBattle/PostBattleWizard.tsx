@@ -3,9 +3,8 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../../components/BackHeader';
 import { strings } from '../../strings';
 import { useAppStore } from '../../store/useAppStore';
-import { generateId } from '../../lib/id';
-import { clearBattleSession, loadBattleSession } from '../../storage/persistence';
-import { CAMPAIGN_SCHEMA_VERSION, Campaign } from '../../types';
+import { useCommitBattleWarbandMutation, useWarbandList } from '../../hooks/useWarbands';
+import { useLogBattleMutation } from '../../hooks/useCampaign';
 import { applyDraftToWarband, createInitialDraft } from './draftHelpers';
 import { PostBattleDraft, WIZARD_STEPS } from './types';
 import StepBattleInfo from './StepBattleInfo';
@@ -31,16 +30,18 @@ const STEP_COMPONENTS = [
 export default function PostBattleWizard() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
-  const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
-  const warbands = useAppStore((state) => state.warbands);
-  const campaign = useAppStore((state) => state.campaign);
-  const commitBattle = useAppStore((state) => state.commitBattle);
+  const warbands = useWarbandList();
+  const warband = warbands.find((w) => w.id === warbandId);
+  const commitBattleWarband = useCommitBattleWarbandMutation();
+  const logBattle = useLogBattleMutation();
+  const session = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
+  const clearBattleSession = useAppStore((state) => state.clearBattleSession);
 
   const [stepIndex, setStepIndex] = useState(0);
+  const [committing, setCommitting] = useState(false);
   const [draft, setDraft] = useState<PostBattleDraft | null>(() => {
     if (!warband) return null;
     const base = createInitialDraft(warband);
-    const session = loadBattleSession(warband.id);
     if (!session) return base;
 
     const opponentWarband = session.opponentWarbandId
@@ -75,22 +76,21 @@ export default function PostBattleWizard() {
     setStepIndex((i) => Math.min(i + 1, WIZARD_STEPS.length - 1));
   }
 
-  function handleCommit() {
-    if (!warband || !draft) return;
+  async function handleCommit() {
+    if (!warband || !draft || committing) return;
     const { warband: updatedWarband, battleRecord } = applyDraftToWarband(warband, draft);
-    const updatedCampaign: Campaign = campaign
-      ? { ...campaign, battles: [...campaign.battles, battleRecord] }
-      : {
-          id: generateId(),
-          schemaVersion: CAMPAIGN_SCHEMA_VERSION,
-          name: 'My Campaign',
-          usesBTB: false,
-          battles: [battleRecord],
-          notes: '',
-        };
-    commitBattle(updatedWarband, updatedCampaign);
-    clearBattleSession(warband.id);
-    navigate(`/warbands/${warband.id}`, { replace: true });
+    setCommitting(true);
+    try {
+      // Save the warband first: it stores the pre-battle snapshot that "undo last
+      // battle" relies on. Logging the battle second means a failure there leaves
+      // an undoable warband rather than a battle with no matching roster change.
+      await commitBattleWarband({ previous: warband, next: updatedWarband });
+      await logBattle(battleRecord);
+      clearBattleSession(warband.id);
+      navigate(`/warbands/${warband.id}`, { replace: true });
+    } finally {
+      setCommitting(false);
+    }
   }
 
   const StepComponent = STEP_COMPONENTS[stepIndex];
@@ -121,7 +121,8 @@ export default function PostBattleWizard() {
             <button
               type="button"
               onClick={handleCommit}
-              className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
+              disabled={committing}
+              className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 disabled:opacity-50 text-ink-950 font-semibold transition-colors"
             >
               {strings.postBattle.commitBattle}
             </button>

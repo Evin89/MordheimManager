@@ -310,7 +310,8 @@
       ]
     },
     "ogreSpecialAzmodan": {
-      "name": "Ogres' Special Skills (unofficial Azmodan Ogre warband list — NOT the Border Town Burning Maneaters list; kept for reference only, do not merge with ogreSpecial)",
+      "name": "Ogres' Special Skills (Azmodan variant)",
+      "maintainerNote": "Unofficial Azmodan Ogre warband list — NOT the Border Town Burning Maneaters list; kept for reference only, do not merge with ogreSpecial.",
       "skills": [
         {
           "id": "beenThereLearnedThat",

@@ -1,11 +1,13 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { strings } from '../strings';
-import { useAppStore } from '../store/useAppStore';
-import { ImportValidationError, downloadExport, parseImportFile } from '../storage/persistence';
+import { useAuth } from '../auth/AuthProvider';
+import { ImportValidationError, downloadExport, importAllData, parseImportFile } from '../storage/persistence';
 
 export default function SettingsScreen() {
-  const importAll = useAppStore((state) => state.importAll);
+  const { user, signOut } = useAuth();
+  const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [importMessage, setImportMessage] = useState<string | null>(null);
 
@@ -13,16 +15,28 @@ export default function SettingsScreen() {
     fileInputRef.current?.click();
   }
 
+  async function handleExport() {
+    if (!user) return;
+    try {
+      await downloadExport(user.id);
+    } catch {
+      setImportMessage(strings.connection.lost);
+    }
+  }
+
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     event.target.value = '';
-    if (!file) return;
+    if (!file || !user) return;
 
     try {
       const text = await file.text();
       const data = parseImportFile(text);
       if (!window.confirm(strings.settings.importOverwriteWarning)) return;
-      importAll(data);
+      await importAllData(user.id, data);
+      // Import replaces server-side rows wholesale, so drop every cached query
+      // rather than trying to patch individual entries.
+      await queryClient.invalidateQueries();
       setImportMessage(strings.settings.importSuccess);
     } catch (err) {
       const message = err instanceof ImportValidationError ? err.message : 'Unexpected error reading file.';
@@ -42,7 +56,7 @@ export default function SettingsScreen() {
           <div className="flex flex-col gap-3">
             <button
               type="button"
-              onClick={downloadExport}
+              onClick={handleExport}
               className="min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 active:bg-ember-600 text-ink-950 font-semibold px-4 transition-colors"
             >
               {strings.settings.exportButton}
@@ -63,6 +77,18 @@ export default function SettingsScreen() {
             />
           </div>
           {importMessage && <p className="text-sm text-bone-300">{importMessage}</p>}
+        </section>
+
+        <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+          <h2 className="text-bone-100 font-semibold">{strings.settings.accountSection}</h2>
+          {user?.email && <p className="text-bone-300 text-sm">{strings.settings.signedInAs(user.email)}</p>}
+          <button
+            type="button"
+            onClick={() => signOut()}
+            className="min-h-[48px] w-full rounded-md border border-blood-600 text-blood-500 font-semibold px-4 hover:bg-blood-600 hover:text-bone-100 transition-colors"
+          >
+            {strings.settings.signOutButton}
+          </button>
         </section>
 
         <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">

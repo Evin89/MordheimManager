@@ -2,7 +2,13 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
 import { strings } from '../strings';
-import { useAppStore } from '../store/useAppStore';
+import {
+  useCanUndoLastBattle,
+  useDeleteWarbandMutation,
+  useSaveWarbandMutation,
+  useUndoLastBattleMutation,
+  useWarband,
+} from '../hooks/useWarbands';
 import { computeWarbandRating } from '../lib/rating';
 import { Hero, HiredSword, ModelStatus } from '../types';
 
@@ -45,11 +51,11 @@ function ModelRow({ to, model }: { to: string; model: Hero | HiredSword }) {
 export default function RosterScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
-  const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
-  const saveWarband = useAppStore((state) => state.saveWarband);
-  const deleteWarband = useAppStore((state) => state.deleteWarband);
-  const lastBattleSnapshot = useAppStore((state) => state.lastBattleSnapshot);
-  const undoLastBattle = useAppStore((state) => state.undoLastBattle);
+  const warband = useWarband(warbandId);
+  const saveWarband = useSaveWarbandMutation();
+  const deleteWarband = useDeleteWarbandMutation();
+  const canUndo = useCanUndoLastBattle(warbandId);
+  const undoLastBattle = useUndoLastBattleMutation();
 
   if (!warband) {
     return <Navigate to="/warbands" replace />;
@@ -64,8 +70,9 @@ export default function RosterScreen() {
   }
 
   function handleUndo() {
+    if (!warband) return;
     if (window.confirm(strings.postBattle.undoConfirm)) {
-      undoLastBattle();
+      undoLastBattle(warband.id);
     }
   }
 
@@ -113,7 +120,7 @@ export default function RosterScreen() {
           {strings.postBattle.startButton}
         </Link>
 
-        {lastBattleSnapshot?.warbandId === warband.id && (
+        {canUndo && (
           <button
             type="button"
             onClick={handleUndo}

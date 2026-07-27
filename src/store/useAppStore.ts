@@ -1,102 +1,46 @@
 import { create } from 'zustand';
-import { Campaign, Warband } from '../types';
-import {
-  ExportedData,
-  LastBattleSnapshot,
-  clearCampaign,
-  clearLastBattleSnapshot,
-  deleteWarband as deleteWarbandFromStorage,
-  loadAllWarbands,
-  loadCampaign,
-  loadLastBattleSnapshot,
-  saveCampaign as saveCampaignToStorage,
-  saveLastBattleSnapshot,
-  saveWarband as saveWarbandToStorage,
-  importAllData,
-} from '../storage/persistence';
+
+// Transient, in-memory-only UI state — never persisted client-side (spec section 2:
+// "No persistence middleware — nothing is durably stored client-side"). Warbands,
+// campaign, and battle history are server state now, fetched via TanStack Query
+// hooks in src/hooks. This store only holds scratch state for an in-progress,
+// not-yet-committed table-side session: if the tab closes, it's gone, matching the
+// wizard's own "nothing is committed until step 8" rule (spec section 4.3).
+
+export type BattleEvent = {
+  id: string;
+  turn: number;
+  text: string;
+};
+
+export type BattleSession = {
+  warbandId: string;
+  scenario: string;
+  opponentWarbandId: string | null;
+  opponentName: string;
+  turn: number;
+  events: BattleEvent[];
+  notes: string;
+};
 
 type AppState = {
-  warbands: Warband[];
-  campaign: Campaign | null;
-  loaded: boolean;
-  lastBattleSnapshot: LastBattleSnapshot | null;
-  load: () => void;
-  saveWarband: (warband: Warband) => void;
-  deleteWarband: (id: string) => void;
-  saveCampaign: (campaign: Campaign) => void;
-  importAll: (data: ExportedData) => void;
-  /** Commits a post-battle sequence atomically: stores an undo snapshot, then saves the updated warband + campaign in one go. */
-  commitBattle: (warband: Warband, campaign: Campaign) => void;
-  undoLastBattle: () => void;
+  battleSessions: Record<string, BattleSession>;
+  getBattleSession: (warbandId: string) => BattleSession | undefined;
+  setBattleSession: (session: BattleSession) => void;
+  clearBattleSession: (warbandId: string) => void;
 };
 
 export const useAppStore = create<AppState>((set, get) => ({
-  warbands: [],
-  campaign: null,
-  loaded: false,
-  lastBattleSnapshot: null,
+  battleSessions: {},
 
-  load: () => {
-    set({
-      warbands: loadAllWarbands(),
-      campaign: loadCampaign(),
-      lastBattleSnapshot: loadLastBattleSnapshot(),
-      loaded: true,
-    });
-  },
+  getBattleSession: (warbandId) => get().battleSessions[warbandId],
 
-  saveWarband: (warband) => {
-    saveWarbandToStorage(warband);
+  setBattleSession: (session) =>
+    set((state) => ({ battleSessions: { ...state.battleSessions, [session.warbandId]: session } })),
+
+  clearBattleSession: (warbandId) =>
     set((state) => {
-      const others = state.warbands.filter((w) => w.id !== warband.id);
-      return { warbands: [...others, warband] };
-    });
-  },
-
-  deleteWarband: (id) => {
-    deleteWarbandFromStorage(id);
-    set((state) => ({ warbands: state.warbands.filter((w) => w.id !== id) }));
-  },
-
-  saveCampaign: (campaign) => {
-    saveCampaignToStorage(campaign);
-    set({ campaign });
-  },
-
-  importAll: (data) => {
-    importAllData(data);
-    set({ warbands: data.warbands, campaign: data.campaign });
-  },
-
-  commitBattle: (warband, campaign) => {
-    const state = get();
-    const preBattleWarband = state.warbands.find((w) => w.id === warband.id);
-    if (preBattleWarband) {
-      saveLastBattleSnapshot({ warbandId: warband.id, warband: preBattleWarband, campaign: state.campaign });
-    }
-    saveWarbandToStorage(warband);
-    saveCampaignToStorage(campaign);
-    set({
-      warbands: [...state.warbands.filter((w) => w.id !== warband.id), warband],
-      campaign,
-      lastBattleSnapshot: loadLastBattleSnapshot(),
-    });
-  },
-
-  undoLastBattle: () => {
-    const snapshot = loadLastBattleSnapshot();
-    if (!snapshot) return;
-    saveWarbandToStorage(snapshot.warband);
-    if (snapshot.campaign) {
-      saveCampaignToStorage(snapshot.campaign);
-    } else {
-      clearCampaign();
-    }
-    clearLastBattleSnapshot();
-    set((state) => ({
-      warbands: [...state.warbands.filter((w) => w.id !== snapshot.warbandId), snapshot.warband],
-      campaign: snapshot.campaign,
-      lastBattleSnapshot: null,
-    }));
-  },
+      const { [warbandId]: _removed, ...rest } = state.battleSessions;
+      return { battleSessions: rest };
+    }),
 }));

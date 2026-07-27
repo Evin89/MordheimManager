@@ -4,27 +4,37 @@ import BackHeader from '../components/BackHeader';
 import { strings } from '../strings';
 import { warbandDefinitions } from '../data/warbandRegistry';
 import { createWarband } from '../lib/warbandFactory';
-import { useAppStore } from '../store/useAppStore';
+import { useCreateWarbandMutation } from '../hooks/useWarbands';
 
 export default function NewWarbandScreen() {
   const navigate = useNavigate();
-  const saveWarband = useAppStore((state) => state.saveWarband);
+  const createWarbandOnServer = useCreateWarbandMutation();
   const [name, setName] = useState('');
   const [typeId, setTypeId] = useState(warbandDefinitions[0]?.id ?? '');
   const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
 
   const definition = warbandDefinitions.find((def) => def.id === typeId);
 
-  function handleCreate() {
+  async function handleCreate() {
     if (!name.trim()) {
       setError(strings.newWarband.nameRequired);
       return;
     }
-    if (!definition) return;
+    if (!definition || saving) return;
 
     const warband = createWarband(definition, name.trim());
-    saveWarband(warband);
-    navigate(`/warbands/${warband.id}`, { replace: true });
+    setSaving(true);
+    try {
+      // Only navigate once the insert succeeded — the roster screen reads from
+      // the server, so routing early would land on a "warband not found" redirect.
+      await createWarbandOnServer(warband);
+      navigate(`/warbands/${warband.id}`, { replace: true });
+    } catch {
+      setError(strings.connection.lost);
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (

@@ -1,7 +1,9 @@
 import { Link, Navigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import WeaponProfileView from '../components/WeaponProfileView';
 import { strings } from '../strings';
 import { getRuleEntry, getRulesCategories } from '../lib/rulesIndex';
+import { getCostForRuleId } from '../lib/weaponRules';
 
 export default function RuleDetailScreen() {
   const { ruleId } = useParams<{ ruleId: string }>();
@@ -18,13 +20,17 @@ export default function RuleDetailScreen() {
       <BackHeader title={entry.title} subtitle={subtitle} />
 
       <main className="flex-1 px-4 py-6 space-y-4">
-        <div className="space-y-3">
-          {entry.body.split('\n\n').map((paragraph, i) => (
-            <p key={i} className="text-bone-200 text-sm whitespace-pre-line leading-relaxed">
-              {paragraph}
-            </p>
-          ))}
-        </div>
+        {entry.weapon ? (
+          <WeaponProfileView profile={entry.weapon} {...getCostForRuleId(entry.id)} />
+        ) : (
+          <div className="space-y-3">
+            {entry.body.split('\n\n').map((paragraph, i) => (
+              <p key={i} className="text-bone-200 text-sm whitespace-pre-line leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        )}
 
         <p className="text-bone-300 text-xs">
           {strings.rules.sourceLabel}: {entry.source}

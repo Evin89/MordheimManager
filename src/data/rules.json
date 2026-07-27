@@ -735,7 +735,21 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.40",
-      "body": "A warrior with no weapon fights bare-handed: Strength as user minus 1, and only ever 1 Attack, regardless of his Attacks characteristic. Any enemy wounded by an unarmed hit gets a +1 bonus to his armour save (or a 6+ save if he has none)."
+      "body": "Range: Close Combat\nStrength: As user -1\n\nSpecial Rules\nUnarmed: A warrior fighting bare-handed only ever gets 1 Attack, regardless of his Attacks characteristic.\n+1 Enemy armour save: An enemy wounded by an unarmed hit gets a +1 bonus to his armour save (or a 6+ save if he has none).",
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user -1",
+        "specialRules": [
+          {
+            "name": "Unarmed",
+            "text": "A warrior fighting bare-handed only ever gets 1 Attack, regardless of his Attacks characteristic."
+          },
+          {
+            "name": "+1 Enemy armour save",
+            "text": "An enemy wounded by an unarmed hit gets a +1 bonus to his armour save (or a 6+ save if he has none)."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-dagger",
@@ -743,7 +757,18 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.40",
-      "body": "Every warrior's free starting weapon. Strength as user. Like an unarmed attack, an enemy wounded by a dagger gets a +1 armour save bonus (6+ if he has no armour)."
+      "body": "Every warrior's free starting weapon.\n\nRange: Close Combat\nStrength: As user\n\nSpecial Rules\n+1 Enemy armour save: An enemy wounded by a dagger gets a +1 armour save bonus (6+ if he has no armour).",
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user",
+        "notes": "Every warrior's free starting weapon.",
+        "specialRules": [
+          {
+            "name": "+1 Enemy armour save",
+            "text": "An enemy wounded by a dagger gets a +1 armour save bonus (6+ if he has no armour)."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-hammer-club-mace",
@@ -751,10 +776,20 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.40",
-      "body": "Strength as user. Concussion: when rolling this model's in-game injury result (see \"Wounds & In-Game Injuries\"), a roll of 2-4 counts as Stunned instead of the normal 1-2 Knocked Down / 3-4 Stunned split — only a roll of 1 is Knocked Down.",
+      "body": "Range: Close Combat\nStrength: As user\n\nSpecial Rules\nConcussion: When rolling the in-game injury result for a model wounded by this weapon (see \"Wounds & In-Game Injuries\"), a roll of 2-4 counts as Stunned — only a roll of 1 is Knocked Down.",
       "relatedIds": [
         "wounds-injuries-in-game"
-      ]
+      ],
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user",
+        "specialRules": [
+          {
+            "name": "Concussion",
+            "text": "When rolling the in-game injury result for a model wounded by this weapon (see \"Wounds & In-Game Injuries\"), a roll of 2-4 counts as Stunned — only a roll of 1 is Knocked Down."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-axe",
@@ -762,10 +797,20 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.41",
-      "body": "Strength as user. Cutting Edge: an extra -1 armour save modifier on top of the normal Strength-based one.",
+      "body": "Range: Close Combat\nStrength: As user\n\nSpecial Rules\nCutting Edge: An axe has an extra save modifier of -1, so a model with Strength 4 using an axe has a -2 save modifier when he hits an opponent in hand-to-hand combat.",
       "relatedIds": [
         "armour-save-types"
-      ]
+      ],
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user",
+        "specialRules": [
+          {
+            "name": "Cutting Edge",
+            "text": "An axe has an extra save modifier of -1, so a model with Strength 4 using an axe has a -2 save modifier when he hits an opponent in hand-to-hand combat."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-sword",
@@ -773,10 +818,20 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.41",
-      "body": "Strength as user. Parry: when hit, roll a D6 — beat the attacker's highest To Hit roll and the blow is discarded. One parry per combat round. Can't parry an attack from a weapon with double or more the parrier's own Strength.",
+      "body": "Range: Close Combat\nStrength: As user\n\nSpecial Rules\nParry: When hit, roll a D6 — beat the attacker's highest To Hit roll and the blow is discarded. One parry per combat round. Can't parry an attack made with double or more the parrier's own Strength.",
       "relatedIds": [
         "parry"
-      ]
+      ],
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user",
+        "specialRules": [
+          {
+            "name": "Parry",
+            "text": "When hit, roll a D6 — beat the attacker's highest To Hit roll and the blow is discarded. One parry per combat round. Can't parry an attack made with double or more the parrier's own Strength."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-flail",
@@ -784,7 +839,21 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.41",
-      "body": "Two-handed weapon, Strength as user +2 — but the bonus only applies in the first turn of each combat (Heavy). Can't be combined with a shield/buckler/second weapon, though a shield still grants its usual bonus against shooting."
+      "body": "Range: Close Combat\nStrength: As user +2\n\nSpecial Rules\nHeavy: The +2 Strength bonus applies only in the first turn of each hand-to-hand combat.\nTwo-handed: Can't be combined with a shield, buckler, or second weapon, though a shield still grants its usual bonus against shooting.",
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user +2",
+        "specialRules": [
+          {
+            "name": "Heavy",
+            "text": "The +2 Strength bonus applies only in the first turn of each hand-to-hand combat."
+          },
+          {
+            "name": "Two-handed",
+            "text": "Can't be combined with a shield, buckler, or second weapon, though a shield still grants its usual bonus against shooting."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-morning-star",
@@ -792,7 +861,21 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.41",
-      "body": "Strength as user +1, but only in the first turn of each combat (Heavy). Difficult to use: no second weapon or buckler in the other hand, though a shield is still fine."
+      "body": "Range: Close Combat\nStrength: As user +1\n\nSpecial Rules\nHeavy: The +1 Strength bonus applies only in the first turn of each hand-to-hand combat.\nDifficult to use: No second weapon or buckler in the other hand; a shield is still fine.",
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user +1",
+        "specialRules": [
+          {
+            "name": "Heavy",
+            "text": "The +1 Strength bonus applies only in the first turn of each hand-to-hand combat."
+          },
+          {
+            "name": "Difficult to use",
+            "text": "No second weapon or buckler in the other hand; a shield is still fine."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-halberd",
@@ -800,7 +883,17 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.42",
-      "body": "Strength as user +1. Two-handed: no shield/buckler/second weapon, though a shield still grants its usual bonus against shooting."
+      "body": "Range: Close Combat\nStrength: As user +1\n\nSpecial Rules\nTwo-handed: No shield, buckler, or second weapon, though a shield still grants its usual bonus against shooting.",
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user +1",
+        "specialRules": [
+          {
+            "name": "Two-handed",
+            "text": "No shield, buckler, or second weapon, though a shield still grants its usual bonus against shooting."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-spear",
@@ -808,7 +901,25 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.42",
-      "body": "Strength as user. Strikes first in the first turn of each combat. Unwieldy: only a shield or buckler in the other hand, no second weapon. Mounted (optional rules): +1 Strength on the turn it charges."
+      "body": "Range: Close Combat\nStrength: As user\n\nSpecial Rules\nStrike first: Strikes first in the first turn of each hand-to-hand combat.\nUnwieldy: Only a shield or buckler may be used in the other hand, never a second weapon.\nCavalry bonus: Mounted (optional rules): +1 Strength on the turn the model charges.",
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user",
+        "specialRules": [
+          {
+            "name": "Strike first",
+            "text": "Strikes first in the first turn of each hand-to-hand combat."
+          },
+          {
+            "name": "Unwieldy",
+            "text": "Only a shield or buckler may be used in the other hand, never a second weapon."
+          },
+          {
+            "name": "Cavalry bonus",
+            "text": "Mounted (optional rules): +1 Strength on the turn the model charges."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-lance",
@@ -816,7 +927,21 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.42",
-      "body": "Strength as user +2. Can only be used while mounted (optional rules). Grants a further +2 Strength on the turn the model charges."
+      "body": "Range: Close Combat\nStrength: As user +2\n\nSpecial Rules\nCavalry weapon: Can only be used while mounted (optional rules).\nCharge: Grants a further +2 Strength on the turn the model charges.",
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user +2",
+        "specialRules": [
+          {
+            "name": "Cavalry weapon",
+            "text": "Can only be used while mounted (optional rules)."
+          },
+          {
+            "name": "Charge",
+            "text": "Grants a further +2 Strength on the turn the model charges."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-double-handed",
@@ -824,7 +949,21 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.43",
-      "body": "Strength as user +2. Two-handed: no shield/buckler/second weapon (a shield still helps against shooting). Always strikes last, even when charging."
+      "body": "Range: Close Combat\nStrength: As user +2\n\nSpecial Rules\nTwo-handed: No shield, buckler, or second weapon (a shield still helps against shooting).\nStrike last: Always strikes last, even when charging.",
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user +2",
+        "specialRules": [
+          {
+            "name": "Two-handed",
+            "text": "No shield, buckler, or second weapon (a shield still helps against shooting)."
+          },
+          {
+            "name": "Strike last",
+            "text": "Always strikes last, even when charging."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-gromril",
@@ -832,10 +971,21 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.43",
-      "body": "Any close combat weapon reforged from gromril gets an extra -1 armour save modifier, and costs 4x the price of a normal weapon of its type.",
+      "body": "Any close combat weapon can be reforged from gromril, at 4x the price of a normal weapon of its type.\n\nRange: Close Combat\nStrength: As user\n\nSpecial Rules\nSave modifier: A gromril weapon has an extra -1 armour save modifier.",
       "relatedIds": [
         "buying-rare-items"
-      ]
+      ],
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user",
+        "notes": "Any close combat weapon can be reforged from gromril, at 4x the price of a normal weapon of its type.",
+        "specialRules": [
+          {
+            "name": "Save modifier",
+            "text": "A gromril weapon has an extra -1 armour save modifier."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-ithilmar",
@@ -843,10 +993,21 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.43",
-      "body": "Any close combat weapon made of ithilmar grants +1 Initiative in hand-to-hand combat, and costs 3x the price of a normal weapon of its type.",
+      "body": "Any close combat weapon can be made of ithilmar, at 3x the price of a normal weapon of its type.\n\nRange: Close Combat\nStrength: As user\n\nSpecial Rules\n+1 Initiative: Grants +1 Initiative in hand-to-hand combat.",
       "relatedIds": [
         "buying-rare-items"
-      ]
+      ],
+      "weapon": {
+        "range": "Close Combat",
+        "strength": "As user",
+        "notes": "Any close combat weapon can be made of ithilmar, at 3x the price of a normal weapon of its type.",
+        "specialRules": [
+          {
+            "name": "+1 Initiative",
+            "text": "Grants +1 Initiative in hand-to-hand combat."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-short-bow",
@@ -854,7 +1015,12 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.43",
-      "body": "Range 16\"; Strength 3; no special rules."
+      "body": "Range: 16\"\nStrength: 3\n\nNo special rules.",
+      "weapon": {
+        "range": "16\"",
+        "strength": "3",
+        "specialRules": []
+      }
     },
     {
       "id": "weapon-bow",
@@ -862,7 +1028,12 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.44",
-      "body": "Range 24\"; Strength 3; no special rules."
+      "body": "Range: 24\"\nStrength: 3\n\nNo special rules.",
+      "weapon": {
+        "range": "24\"",
+        "strength": "3",
+        "specialRules": []
+      }
     },
     {
       "id": "weapon-long-bow",
@@ -870,7 +1041,12 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.44",
-      "body": "Range 30\"; Strength 3; no special rules."
+      "body": "Range: 30\"\nStrength: 3\n\nNo special rules.",
+      "weapon": {
+        "range": "30\"",
+        "strength": "3",
+        "specialRules": []
+      }
     },
     {
       "id": "weapon-elf-bow",
@@ -878,7 +1054,17 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.44",
-      "body": "Range 36\"; Strength 3; -1 armour save modifier."
+      "body": "Range: 36\"\nStrength: 3\n\nSpecial Rules\nSave modifier: An elf bow has a -1 armour save modifier.",
+      "weapon": {
+        "range": "36\"",
+        "strength": "3",
+        "specialRules": [
+          {
+            "name": "Save modifier",
+            "text": "An elf bow has a -1 armour save modifier."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-crossbow",
@@ -886,7 +1072,17 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.44",
-      "body": "Range 30\"; Strength 4. Move or Fire: can't move and shoot the same turn (pivoting on the spot or standing up doesn't count as moving)."
+      "body": "Range: 30\"\nStrength: 4\n\nSpecial Rules\nMove or Fire: Can't move and shoot the same turn (pivoting on the spot or standing up doesn't count as moving).",
+      "weapon": {
+        "range": "30\"",
+        "strength": "4",
+        "specialRules": [
+          {
+            "name": "Move or Fire",
+            "text": "Can't move and shoot the same turn (pivoting on the spot or standing up doesn't count as moving)."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-sling",
@@ -894,7 +1090,17 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.45",
-      "body": "Range 18\"; Strength 3. May fire twice in the shooting phase if it didn't move that turn, but only within half range (9\"), and each shot suffers an extra -1 to hit."
+      "body": "Range: 18\"\nStrength: 3\n\nSpecial Rules\nFire twice at half range: May fire twice in the shooting phase if the model didn't move that turn, but only within half range (9\"), and each shot suffers an extra -1 to hit.",
+      "weapon": {
+        "range": "18\"",
+        "strength": "3",
+        "specialRules": [
+          {
+            "name": "Fire twice at half range",
+            "text": "May fire twice in the shooting phase if the model didn't move that turn, but only within half range (9\"), and each shot suffers an extra -1 to hit."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-throwing-star",
@@ -902,7 +1108,17 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.45",
-      "body": "Range 6\"; Strength as user. Thrown weapon: no penalty for range or for moving beforehand, but can't be used in hand-to-hand combat."
+      "body": "Range: 6\"\nStrength: As user\n\nSpecial Rules\nThrown weapon: No penalty for range or for moving beforehand, but can't be used in hand-to-hand combat.",
+      "weapon": {
+        "range": "6\"",
+        "strength": "As user",
+        "specialRules": [
+          {
+            "name": "Thrown weapon",
+            "text": "No penalty for range or for moving beforehand, but can't be used in hand-to-hand combat."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-repeater-crossbow",
@@ -910,7 +1126,17 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.46",
-      "body": "Range 24\"; Strength 3. May fire twice per turn, with an extra -1 to hit on each shot."
+      "body": "Range: 24\"\nStrength: 3\n\nSpecial Rules\nFire twice: May fire twice per turn, with an extra -1 to hit on each shot.",
+      "weapon": {
+        "range": "24\"",
+        "strength": "3",
+        "specialRules": [
+          {
+            "name": "Fire twice",
+            "text": "May fire twice per turn, with an extra -1 to hit on each shot."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-crossbow-pistol",
@@ -918,7 +1144,17 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.46",
-      "body": "Range 10\"; Strength 4. May also be fired once in the first round of a hand-to-hand combat — resolved before any blows are struck, at an extra -2 to hit, in addition to the model's normal close combat attacks."
+      "body": "Range: 10\"\nStrength: 4\n\nSpecial Rules\nShoot in combat: May also be fired once in the first round of a hand-to-hand combat — resolved before any blows are struck, at an extra -2 to hit, in addition to the model's normal close combat attacks.",
+      "weapon": {
+        "range": "10\"",
+        "strength": "4",
+        "specialRules": [
+          {
+            "name": "Shoot in combat",
+            "text": "May also be fired once in the first round of a hand-to-hand combat — resolved before any blows are struck, at an extra -2 to hit, in addition to the model's normal close combat attacks."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-pistol",
@@ -926,7 +1162,25 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.46",
-      "body": "Range 6\"; Strength 4. Prepare Shot: takes a full turn to reload, so fires only every other turn (every turn if carrying a brace of two). Save modifier: wounds it causes get an extra -2 armour save penalty. Hand-to-hand: can also fight in close combat for +1 Attack (Strength 4, -2 save, once per combat; a brace grants 2 such attacks in the first turn) — resolved with the model's Weapon Skill like a normal attack, and can be parried."
+      "body": "Range: 6\"\nStrength: 4\n\nSpecial Rules\nPrepare Shot: Takes a full turn to reload, so fires only every other turn (every turn if carrying a brace of two).\nSave modifier: Wounds it causes get an extra -2 armour save penalty.\nHand-to-hand: Can also fight in close combat for +1 Attack (Strength 4, -2 save, once per combat; a brace grants 2 such attacks in the first turn) — resolved with the model's Weapon Skill like a normal attack, and can be parried.",
+      "weapon": {
+        "range": "6\"",
+        "strength": "4",
+        "specialRules": [
+          {
+            "name": "Prepare Shot",
+            "text": "Takes a full turn to reload, so fires only every other turn (every turn if carrying a brace of two)."
+          },
+          {
+            "name": "Save modifier",
+            "text": "Wounds it causes get an extra -2 armour save penalty."
+          },
+          {
+            "name": "Hand-to-hand",
+            "text": "Can also fight in close combat for +1 Attack (Strength 4, -2 save, once per combat; a brace grants 2 such attacks in the first turn) — resolved with the model's Weapon Skill like a normal attack, and can be parried."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-duelling-pistol",
@@ -934,10 +1188,32 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.47",
-      "body": "Range 10\"; Strength 4. Same Prepare Shot / save modifier / hand-to-hand rules as a Pistol, plus Accuracy: +1 to hit on every shot and close-combat attack it makes.",
+      "body": "Range: 10\"\nStrength: 4\n\nSpecial Rules\nPrepare Shot: Takes a full turn to reload, so fires only every other turn (every turn if carrying a brace of two).\nSave modifier: Wounds it causes get an extra -2 armour save penalty.\nHand-to-hand: Can also fight in close combat for +1 Attack (Strength 4, -2 save, once per combat; a brace grants 2 such attacks in the first turn) — resolved with the model's Weapon Skill like a normal attack, and can be parried.\nAccuracy: +1 to hit on every shot and close-combat attack it makes.",
       "relatedIds": [
         "weapon-pistol"
-      ]
+      ],
+      "weapon": {
+        "range": "10\"",
+        "strength": "4",
+        "specialRules": [
+          {
+            "name": "Prepare Shot",
+            "text": "Takes a full turn to reload, so fires only every other turn (every turn if carrying a brace of two)."
+          },
+          {
+            "name": "Save modifier",
+            "text": "Wounds it causes get an extra -2 armour save penalty."
+          },
+          {
+            "name": "Hand-to-hand",
+            "text": "Can also fight in close combat for +1 Attack (Strength 4, -2 save, once per combat; a brace grants 2 such attacks in the first turn) — resolved with the model's Weapon Skill like a normal attack, and can be parried."
+          },
+          {
+            "name": "Accuracy",
+            "text": "+1 to hit on every shot and close-combat attack it makes."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-blunderbuss",
@@ -945,7 +1221,21 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.47",
-      "body": "Fires along a 16\"-long, 1\"-wide straight line in any direction — everything caught in it takes a Strength 3 hit. Fire Once: can only be fired once per battle."
+      "body": "Range: Special\nStrength: 3\n\nSpecial Rules\nShot: Fires along a 16\"-long, 1\"-wide straight line in any direction — every model caught in the line takes a Strength 3 hit.\nFire Once: Can only be fired once per battle.",
+      "weapon": {
+        "range": "Special",
+        "strength": "3",
+        "specialRules": [
+          {
+            "name": "Shot",
+            "text": "Fires along a 16\"-long, 1\"-wide straight line in any direction — every model caught in the line takes a Strength 3 hit."
+          },
+          {
+            "name": "Fire Once",
+            "text": "Can only be fired once per battle."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-handgun",
@@ -953,7 +1243,25 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.48",
-      "body": "Range 24\"; Strength 4. Move or Fire (can't move and shoot the same turn); reloads every other turn; wounds get an extra -2 armour save penalty."
+      "body": "Range: 24\"\nStrength: 4\n\nSpecial Rules\nMove or Fire: Can't move and shoot the same turn.\nPrepare Shot: Takes a full turn to reload, so fires only every other turn.\nSave modifier: Wounds it causes get an extra -2 armour save penalty.",
+      "weapon": {
+        "range": "24\"",
+        "strength": "4",
+        "specialRules": [
+          {
+            "name": "Move or Fire",
+            "text": "Can't move and shoot the same turn."
+          },
+          {
+            "name": "Prepare Shot",
+            "text": "Takes a full turn to reload, so fires only every other turn."
+          },
+          {
+            "name": "Save modifier",
+            "text": "Wounds it causes get an extra -2 armour save penalty."
+          }
+        ]
+      }
     },
     {
       "id": "weapon-hochland-rifle",
@@ -961,7 +1269,29 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.48",
-      "body": "Range 48\"; Strength 4. Move or Fire; reloads every other turn; Pick Target (may target any visible enemy, not just the closest); wounds get an extra -2 armour save penalty."
+      "body": "Range: 48\"\nStrength: 4\n\nSpecial Rules\nMove or Fire: Can't move and shoot the same turn.\nPrepare Shot: Takes a full turn to reload, so fires only every other turn.\nPick Target: May target any visible enemy, not just the closest one.\nSave modifier: Wounds it causes get an extra -2 armour save penalty.",
+      "weapon": {
+        "range": "48\"",
+        "strength": "4",
+        "specialRules": [
+          {
+            "name": "Move or Fire",
+            "text": "Can't move and shoot the same turn."
+          },
+          {
+            "name": "Prepare Shot",
+            "text": "Takes a full turn to reload, so fires only every other turn."
+          },
+          {
+            "name": "Pick Target",
+            "text": "May target any visible enemy, not just the closest one."
+          },
+          {
+            "name": "Save modifier",
+            "text": "Wounds it causes get an extra -2 armour save penalty."
+          }
+        ]
+      }
     },
     {
       "id": "armour-save-types",
@@ -969,11 +1299,43 @@
       "category": "core",
       "chapter": "Weapons & Armour",
       "source": "Mordheim Rulebook (Complete Edition), fetched from https://broheim.net/downloads/rules/Mordheim%20Rulebook%20Complete%20Editable.pdf on 2026-07-06, p.49",
-      "body": "Light armour: 6+ save. Heavy armour: 5+ save, but -1 Movement if also carrying a shield. Shield: 6+ save on its own, or +1 to another armour save if combined with one. Buckler: no save bonus by itself, but parries the first hit of each combat round like a sword (roll higher than the attacker's To Hit roll). Helmet: 4+ save to downgrade a Stunned result to Knocked Down instead. Ithilmar armour: 5+ save with no Movement penalty even alongside a shield. Gromril armour: 4+ save with no Movement penalty even alongside a shield.",
+      "body": "Special Rules\nLight armour: 6+ save.\nHeavy armour: 5+ save, but -1 Movement if also carrying a shield.\nShield: 6+ save on its own, or +1 to another armour save if combined with one.\nBuckler: No save bonus by itself, but parries the first hit of each combat round like a sword (roll higher than the attacker's To Hit roll).\nHelmet: 4+ save to downgrade a Stunned result to Knocked Down instead.\nIthilmar armour: 5+ save with no Movement penalty even alongside a shield.\nGromril armour: 4+ save with no Movement penalty even alongside a shield.",
       "relatedIds": [
         "armour-saves",
         "parry"
-      ]
+      ],
+      "weapon": {
+        "specialRules": [
+          {
+            "name": "Light armour",
+            "text": "6+ save."
+          },
+          {
+            "name": "Heavy armour",
+            "text": "5+ save, but -1 Movement if also carrying a shield."
+          },
+          {
+            "name": "Shield",
+            "text": "6+ save on its own, or +1 to another armour save if combined with one."
+          },
+          {
+            "name": "Buckler",
+            "text": "No save bonus by itself, but parries the first hit of each combat round like a sword (roll higher than the attacker's To Hit roll)."
+          },
+          {
+            "name": "Helmet",
+            "text": "4+ save to downgrade a Stunned result to Knocked Down instead."
+          },
+          {
+            "name": "Ithilmar armour",
+            "text": "5+ save with no Movement penalty even alongside a shield."
+          },
+          {
+            "name": "Gromril armour",
+            "text": "4+ save with no Movement penalty even alongside a shield."
+          }
+        ]
+      }
     },
     {
       "id": "equip-poisons-drugs",

@@ -4,7 +4,8 @@ import BackHeader from '../components/BackHeader';
 import EquipmentShop from '../components/EquipmentShop';
 import RuleEntryList from '../components/RuleEntryList';
 import { strings } from '../strings';
-import { useAppStore } from '../store/useAppStore';
+import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
+import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
@@ -81,9 +82,10 @@ function TreasuryRow({
 
 export default function TradingPostScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
-  const warband = useAppStore((state) => state.warbands.find((w) => w.id === warbandId));
-  const saveWarband = useAppStore((state) => state.saveWarband);
-  const campaign = useAppStore((state) => state.campaign);
+  const warband = useWarband(warbandId);
+  const saveWarband = useSaveWarbandMutation();
+  const { data: campaign } = useMyCampaignQuery();
+  const { data: battles } = useBattlesQuery(campaign?.id);
   const [tab, setTab] = useState<Tab>('shop');
   const ruleEntries = getTradingTabRuleEntries();
 
@@ -154,7 +156,7 @@ export default function TradingPostScreen() {
             <EquipmentShop
               warband={warband}
               onPurchase={buyItem}
-              skipRarityRoll={!hasFoughtFirstBattle(warband.id, campaign)}
+              skipRarityRoll={!hasFoughtFirstBattle(warband.id, battles)}
             />
 
             <section className="space-y-2">

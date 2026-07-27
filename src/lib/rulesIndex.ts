@@ -41,6 +41,8 @@ const BTB_WARBAND_IDS = new Set(['maneaters']);
 
 function skillEntries(): RuleEntry[] {
   const entries: RuleEntry[] = [];
+  // Core lists first, in the rulebook's canonical order (Combat, Shooting,
+  // Academic, Strength, Speed)...
   for (const [key, list] of Object.entries(typedSkills.lists)) {
     for (const skill of list.skills) {
       entries.push({
@@ -48,19 +50,23 @@ function skillEntries(): RuleEntry[] {
         title: skill.name,
         category: 'skills',
         chapter: 'Skills',
+        subChapter: list.name,
         source: `${list.name} skill list — ${typedSkills.source}`,
         body: skill.prerequisite ? `${skill.effect}\n\nPrerequisite: ${skill.prerequisite.text}` : skill.effect,
         relatedIds: SKILL_CROSS_LINKS[skill.id],
       });
     }
   }
-  for (const list of Object.values(typedSkills.warbandSpecific)) {
+  // ...then the warband-specific lists, alphabetically by list name.
+  const warbandLists = Object.values(typedSkills.warbandSpecific).sort((a, b) => a.name.localeCompare(b.name));
+  for (const list of warbandLists) {
     for (const skill of list.skills) {
       entries.push({
         id: `skill-${slugify(list.name)}-${skill.id}`,
         title: skill.name,
         category: 'skills',
         chapter: 'Skills',
+        subChapter: list.name,
         source: list.name,
         body: skill.prerequisite ? `${skill.effect}\n\nPrerequisite: ${skill.prerequisite.text}` : skill.effect,
       });

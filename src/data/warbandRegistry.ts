@@ -13,6 +13,8 @@ import beastmenRaiders from './warbands/beastmen-raiders.json';
 import carnivalOfChaos from './warbands/carnival-of-chaos.json';
 import dwarfTreasureHunters from './warbands/dwarf-treasure-hunters.json';
 import kislevites from './warbands/kislevites.json';
+import orcMob from './warbands/orc-mob.json';
+import ostlanders from './warbands/ostlanders.json';
 
 // Every playable warband definition, keyed by id. Add new warbands here as
 // their data files are populated.
@@ -31,6 +33,8 @@ export const warbandDefinitions: WarbandDefinition[] = [
   carnivalOfChaos,
   dwarfTreasureHunters,
   kislevites,
+  orcMob,
+  ostlanders,
 ] as WarbandDefinition[];
 
 export function getWarbandDefinition(id: string): WarbandDefinition | undefined {

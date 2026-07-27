@@ -302,6 +302,16 @@ export type RulesCategoryDef = {
   description: string;
 };
 
+// Structured weapon/armour stat block, rendered in the rulebook's own layout
+// (Range / Strength / SPECIAL RULES with bold names). Entries carrying this
+// still keep a plain-text `body` derived from it, for search and fallbacks.
+export type WeaponProfile = {
+  range?: string; // e.g. "Close Combat", "24\""
+  strength?: string; // e.g. "As user", "4", "As user +1"
+  notes?: string; // short italic note (e.g. "Every warrior's free starting weapon.")
+  specialRules: { name: string; text: string }[];
+};
+
 export type RuleEntry = {
   id: string;
   title: string;
@@ -310,8 +320,12 @@ export type RuleEntry = {
   // group and order entries the way the rulebook itself presents them — see
   // CHAPTER_ORDER in lib/rulesIndex.ts.
   chapter: string;
+  // Optional grouping heading within a chapter (e.g. the skill list a skill
+  // belongs to: "Combat", "Skavens' Skills"), rendered as a sub-heading.
+  subChapter?: string;
   source: string;
   body: string; // plain-text paragraphs, separated by blank lines
+  weapon?: WeaponProfile;
   relatedIds?: string[]; // ids of other RuleEntry objects
 };
 

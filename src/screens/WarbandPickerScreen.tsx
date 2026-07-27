@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useAppStore } from '../store/useAppStore';
+import { useWarbandList } from '../hooks/useWarbands';
 
 type WarbandPickerScreenProps = {
   title: string;
@@ -9,7 +9,7 @@ type WarbandPickerScreenProps = {
 };
 
 export default function WarbandPickerScreen({ title, prompt, emptyMessage, destination }: WarbandPickerScreenProps) {
-  const warbands = useAppStore((state) => state.warbands);
+  const warbands = useWarbandList();
 
   return (
     <div className="min-h-full flex flex-col">
