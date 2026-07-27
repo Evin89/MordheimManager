@@ -1,8 +1,8 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { strings } from '../strings';
-import { useSharedWarbandQuery } from '../hooks/useWarbands';
+import { useSharedWarbandQuery, useWarband } from '../hooks/useWarbands';
 import { computeWarbandRating } from '../lib/rating';
 import { STAT_KEYS } from '../lib/statLine';
 import { EquipmentItem, Injury, StatLine } from '../types';
@@ -82,6 +82,9 @@ function SharedModelCard({
 export default function SharedWarbandScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const { data: warband, isLoading } = useSharedWarbandQuery(warbandId);
+  // The standings table links every warband here, including your own — so this
+  // screen has to know when it's showing you back to yourself.
+  const isMine = useWarband(warbandId) !== undefined;
 
   if (isLoading) {
     return (
@@ -119,7 +122,14 @@ export default function SharedWarbandScreen() {
           <p className="text-bone-300 text-sm">
             {warband.gold} {strings.common.gold} · {warband.wyrdstoneShards} shards
           </p>
-          <p className="text-bone-400 text-xs pt-1">{strings.campaign.sharedRosterReadOnly}</p>
+          <p className="text-bone-400 text-xs pt-1">
+            {isMine ? strings.campaign.sharedRosterOwnHint : strings.campaign.sharedRosterReadOnly}
+          </p>
+          {isMine && (
+            <Link to={`/warbands/${warband.id}`} className="inline-block text-ember-400 text-sm font-semibold pt-1">
+              {strings.campaign.sharedRosterEditMine}
+            </Link>
+          )}
         </section>
 
         {warband.heroes.length > 0 && (

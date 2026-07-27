@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import RuleEntryList from '../components/RuleEntryList';
+import InviteShareButtons from '../components/InviteShareButtons';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
 import {
@@ -310,6 +311,10 @@ function JoinCodeCard({ campaign, isLeader }: { campaign: Campaign; isLeader: bo
           {copied ? strings.campaign.codeCopied : strings.campaign.copyCode}
         </button>
       </div>
+      {campaign.joinCode && (
+        <InviteShareButtons campaignName={campaign.name} joinCode={campaign.joinCode} />
+      )}
+
       {isLeader && (
         <button
           type="button"

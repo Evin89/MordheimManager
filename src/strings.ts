@@ -438,6 +438,15 @@ export const strings = {
     shareCodeHint: 'Share this code so others can join. Anyone with it can enter the campaign.',
     copyCode: 'Copy',
     codeCopied: 'Copied',
+    shareWhatsApp: 'WhatsApp',
+    shareDiscord: 'Copy for Discord',
+    shareDiscordCopied: 'Copied — paste it',
+    inviteMessage: (campaignName: string, code: string, url: string) =>
+      `Join my Mordheim campaign "${campaignName}" — join code ${code}. Sign up at ${url}, then go to Campaign › Players and paste the code.`,
+    // Backticks render the code as inline code in Discord, so it stays legible
+    // and survives being read off a phone.
+    inviteMessageDiscord: (campaignName: string, code: string, url: string) =>
+      `Join my Mordheim campaign **${campaignName}** — join code \`${code}\`\nSign up at ${url}, then go to Campaign › Players and paste the code.`,
     regenerateCode: 'New code',
     regenerateConfirm: 'Issue a new join code? The old one will stop working immediately.',
     leaderOnlyHint: 'Only the campaign leader can change these.',
@@ -473,6 +482,8 @@ export const strings = {
     // --- Read-only roster of another player's warband ---
     sharedRosterTitle: 'Shared Roster',
     sharedRosterReadOnly: "Read-only — this is another player's warband.",
+    sharedRosterOwnHint: 'This is how the rest of the campaign sees your warband.',
+    sharedRosterEditMine: 'Open the full roster',
     sharedRosterUnavailable: "You can't view this warband. It may be private, or you may have left the campaign.",
     sharedHeroes: 'Heroes',
     sharedHenchmen: 'Henchmen',
