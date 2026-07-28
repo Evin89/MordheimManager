@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-07-28",
+    "title": "Buying Things Actually Works Now",
+    "description": "Buying two items in a row could fail with a false \"changed elsewhere\" warning, and only the first purchase would stick. Saves are now queued so a run of purchases, stat edits, or gold changes all land in order. Number fields across the app — henchmen group size, sell and purchase prices, characteristics, wyrdstone, casualty counts — can now be cleared and typed into properly instead of snapping back to a minimum the moment you empty them. The Standings table also lists every player in the campaign, including the leader and anyone who hasn't entered a warband yet."
+  },
+  {
     "date": "2026-07-27",
     "title": "Play a Campaign Together",
     "description": "Campaigns can now have more than one player. Start one and you get a join code like MRDH-7F2K to share — send it straight to WhatsApp, or copy a ready-to-paste message for Discord. Anyone who enters it joins your campaign, and you can issue a fresh code at any time to stop further joins. Enter a warband from its roster screen and it appears in the Standings table alongside everyone else's, with ratings and win/loss records, and you can open any campaign-mate's roster to see their warriors, gear, and skills. Your Border Town Burning objectives stay secret — nobody else can see them, even for a warband you've shared. Paste a code under Campaign, then Players."

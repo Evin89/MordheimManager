@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
+import NumberInput from '../components/NumberInput';
 import EquipmentShop from '../components/EquipmentShop';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { strings } from '../strings';
@@ -127,11 +128,10 @@ export default function HenchmenDetailScreen() {
             {STAT_KEYS.map((key) => (
               <div key={key} className="rounded-md border border-ink-700 bg-ink-900 px-0.5 py-1 text-center">
                 <p className="text-bone-300 text-[10px] uppercase">{key}</p>
-                <input
-                  type="number"
-                  inputMode="numeric"
+                <NumberInput
+                  ariaLabel={key}
                   value={group.stats[key]}
-                  onChange={(e) => updateStat(key, Number(e.target.value))}
+                  onChange={(next) => updateStat(key, next)}
                   className="w-full bg-transparent text-center text-bone-100 text-base font-semibold focus:outline-none"
                 />
               </div>

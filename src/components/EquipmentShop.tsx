@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { strings } from '../strings';
 import { getWarbandDefinition } from '../data/warbandRegistry';
 import { roll2D6 } from '../lib/dice';
+import NumberInput from './NumberInput';
 import WeaponRulesDisclosure from './WeaponRulesDisclosure';
 import { getWeaponRuleById } from '../lib/weaponRules';
 import {
@@ -120,12 +121,9 @@ function RareItemRow({
         <div className="space-y-2 rounded-md bg-ink-800 border border-ink-700 p-3">
           <label className="flex flex-col gap-1">
             <span className="text-bone-300 text-xs">{strings.trading.priceLabel}</span>
-            <input
-              type="number"
-              inputMode="numeric"
-              min={0}
+            <NumberInput
               value={price}
-              onChange={(e) => setPrice(Math.max(0, Number(e.target.value)))}
+              onChange={setPrice}
               className="min-h-[44px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100"
             />
           </label>

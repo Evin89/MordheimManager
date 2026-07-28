@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import NumberInput from '../components/NumberInput';
 import EquipmentShop from '../components/EquipmentShop';
 import SkillPicker from '../components/SkillPicker';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
@@ -194,11 +195,10 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                   }`}
                 >
                   <p className="text-bone-300 text-[10px] uppercase">{key}</p>
-                  <input
-                    type="number"
-                    inputMode="numeric"
+                  <NumberInput
+                    ariaLabel={key}
                     value={model.stats[key]}
-                    onChange={(e) => updateStat(key, Number(e.target.value))}
+                    onChange={(next) => updateStat(key, next)}
                     className="w-full bg-transparent text-center text-bone-100 text-base font-semibold focus:outline-none"
                   />
                   <p className={`text-[9px] ${atMax ? 'text-ember-400' : 'text-bone-300'}`}>

@@ -462,7 +462,8 @@ export const strings = {
     leaveConfirm:
       'Leave this campaign? Your warbands are withdrawn from its standings — they stay yours, and you can rejoin with the code.',
     standingsSection: 'Standings',
-    noStandings: 'No warbands entered yet. Enter one from its roster screen.',
+    noStandings: 'No players yet.',
+    noWarbandEntered: 'No warband entered',
     standingsWarband: 'Warband',
     standingsPlayer: 'Player',
     standingsRating: 'Rating',

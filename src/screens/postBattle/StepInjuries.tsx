@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import NumberInput from '../../components/NumberInput';
 import { strings } from '../../strings';
 import { getInjuryByRoll, getUniqueInjuries } from '../../lib/injuryLookup';
 import { rollD6, rollD66 } from '../../lib/dice';
@@ -148,14 +149,11 @@ function HenchmenInjuryCard({
       <div className="grid grid-cols-2 gap-3">
         <label className="flex flex-col gap-1">
           <span className="text-bone-300 text-xs uppercase">{strings.postBattle.injuries.henchmenOutOfAction}</span>
-          <input
-            type="number"
-            inputMode="numeric"
+          <NumberInput
             min={0}
             max={group.count}
             value={state.outOfActionCount}
-            onChange={(e) => {
-              const outOfActionCount = Math.max(0, Math.min(group.count, Number(e.target.value)));
+            onChange={(outOfActionCount) => {
               setLastRolls(null);
               onUpdate({ outOfActionCount, diedCount: Math.min(state.diedCount, outOfActionCount) });
             }}
@@ -164,15 +162,13 @@ function HenchmenInjuryCard({
         </label>
         <label className="flex flex-col gap-1">
           <span className="text-bone-300 text-xs uppercase">{strings.postBattle.injuries.henchmenDied}</span>
-          <input
-            type="number"
-            inputMode="numeric"
+          <NumberInput
             min={0}
             max={state.outOfActionCount}
             value={state.diedCount}
-            onChange={(e) => {
+            onChange={(diedCount) => {
               setLastRolls(null);
-              onUpdate({ diedCount: Math.max(0, Math.min(state.outOfActionCount, Number(e.target.value))) });
+              onUpdate({ diedCount });
             }}
             className="min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
           />

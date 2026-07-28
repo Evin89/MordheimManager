@@ -166,18 +166,25 @@ export type CampaignMember = {
 };
 
 /**
- * One row of the standings table. Assembled from the warbands linked to a
- * campaign plus that campaign's battle log — deliberately *not* the full
- * Warband blob, since this is what other players are allowed to see at a
- * glance. Their detailed roster is fetched separately and read-only.
+ * One row of the standings table.
+ *
+ * Driven by campaign *membership*, not by warbands: everyone who joined shows
+ * up, including the leader and including players who haven't entered a warband
+ * yet — those are the people you most need to see, since the table is how you
+ * find out who's actually in the campaign. A player with no warband entered has
+ * null in the warband fields rather than being omitted.
+ *
+ * Deliberately not the full Warband blob: this is the at-a-glance view other
+ * players are allowed to see. The detailed roster is fetched separately.
  */
 export type StandingsRow = {
-  warbandId: string;
-  warbandName: string;
-  warbandType: string;
   ownerId: string;
   playerName: string;
-  rating: number;
+  role: CampaignRole;
+  warbandId: string | null;
+  warbandName: string | null;
+  warbandType: string | null;
+  rating: number | null;
   wins: number;
   losses: number;
   draws: number;

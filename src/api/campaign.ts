@@ -1,5 +1,6 @@
 import { supabase } from '../lib/supabaseClient';
-import { Campaign, CampaignMember, CampaignRole, CampaignVisibility } from '../types';
+import { CampaignWarbandRow, fetchCampaignWarbands } from './warbands';
+import { Campaign, CampaignMember, CampaignRole, CampaignVisibility, StandingsRow } from '../types';
 
 type CampaignRow = {
   id: string;
@@ -109,6 +110,89 @@ export async function fetchCampaignMembers(campaignId: string): Promise<Campaign
     joinedAt: row.joined_at,
     displayName: row.profiles?.display_name || '',
   }));
+}
+
+/**
+ * Standings, built from the member list outwards.
+ *
+ * Listing warbands and reading the player off each one seems natural but drops
+ * anyone who hasn't entered a warband — most often the leader, who tends to set
+ * the campaign up before building a roster, and so appeared nowhere in their own
+ * campaign. Starting from membership means every player is present, with their
+ * warband attached when they have one.
+ *
+ * Win/loss/draw counts come from the caller's battle records rather than a
+ * second query — the campaign's battle log is already loaded on this screen,
+ * and every battle carries the `warbandId` it belongs to.
+ */
+export async function fetchCampaignStandings(
+  campaignId: string,
+  results: { warbandId: string; result: 'win' | 'loss' | 'draw' }[],
+): Promise<StandingsRow[]> {
+  const [members, warbands] = await Promise.all([
+    fetchCampaignMembers(campaignId),
+    fetchCampaignWarbands(campaignId),
+  ]);
+  return buildStandingsRows(members, warbands, results);
+}
+
+/** The assembly and ordering rules, separated from the fetching so they can be
+ * exercised directly. See {@link fetchCampaignStandings} for the why. */
+export function buildStandingsRows(
+  members: CampaignMember[],
+  warbands: CampaignWarbandRow[],
+  results: { warbandId: string; result: 'win' | 'loss' | 'draw' }[],
+): StandingsRow[] {
+  const record = (warbandId: string) => {
+    const mine = results.filter((r) => r.warbandId === warbandId);
+    return {
+      wins: mine.filter((r) => r.result === 'win').length,
+      losses: mine.filter((r) => r.result === 'loss').length,
+      draws: mine.filter((r) => r.result === 'draw').length,
+    };
+  };
+
+  const rows: StandingsRow[] = [];
+  for (const member of members) {
+    const theirs = warbands.filter((w) => w.ownerId === member.userId);
+    if (theirs.length === 0) {
+      rows.push({
+        ownerId: member.userId,
+        playerName: member.displayName,
+        role: member.role,
+        warbandId: null,
+        warbandName: null,
+        warbandType: null,
+        rating: null,
+        wins: 0,
+        losses: 0,
+        draws: 0,
+      });
+      continue;
+    }
+    // Nothing stops a player entering two warbands, so give each its own row
+    // rather than silently showing only the first.
+    for (const warband of theirs) {
+      rows.push({
+        ownerId: member.userId,
+        playerName: member.displayName,
+        role: member.role,
+        warbandId: warband.id,
+        warbandName: warband.name,
+        warbandType: warband.warbandType,
+        rating: warband.rating,
+        ...record(warband.id),
+      });
+    }
+  }
+
+  // Highest rating first; players yet to enter a warband sit at the bottom.
+  return rows.sort((a, b) => {
+    if (a.rating === null && b.rating === null) return a.playerName.localeCompare(b.playerName);
+    if (a.rating === null) return 1;
+    if (b.rating === null) return -1;
+    return b.rating - a.rating;
+  });
 }
 
 /**

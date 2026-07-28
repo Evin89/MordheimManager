@@ -57,6 +57,35 @@ function useRecordLookup() {
   };
 }
 
+/**
+ * Serialises saves per warband.
+ *
+ * Every write carries the `updated_at` the client last saw, and the server
+ * rejects it if that no longer matches — the guard against two devices
+ * clobbering each other. But two saves from *this* tab overlapping look
+ * identical to the server: buy an item, buy another before the first response
+ * lands, and the second still holds the pre-purchase timestamp, so it's refused
+ * and the user is told their warband "was changed elsewhere" when nothing of
+ * the sort happened. Typing into a stat field is worse, since that fires a save
+ * per keystroke.
+ *
+ * Queueing keeps the concurrency check meaningful for the case it exists for
+ * (a genuinely concurrent editor) without it misfiring on ordinary use.
+ */
+const saveQueues = new Map<string, Promise<unknown>>();
+
+function enqueueSave<T>(warbandId: string, task: () => Promise<T>): Promise<T> {
+  const previous = saveQueues.get(warbandId) ?? Promise.resolve();
+  // A failed save must not wedge the queue, so swallow the rejection here —
+  // the caller still receives it through the returned promise.
+  const next = previous.then(task, task);
+  saveQueues.set(
+    warbandId,
+    next.catch(() => undefined),
+  );
+  return next;
+}
+
 export function useCreateWarbandMutation() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -67,19 +96,42 @@ export function useCreateWarbandMutation() {
   return mutation.mutateAsync;
 }
 
+/**
+ * Writes a saved record straight into the cache instead of only invalidating.
+ *
+ * Invalidation refetches asynchronously, which leaves a window where the cache
+ * still holds the pre-save `updated_at` — long enough for the next save to pick
+ * it up and be rejected. Seeding the returned record closes that window; the
+ * background refetch still runs and reconciles anything else that changed.
+ */
+function useApplyRecord() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  return (record: WarbandRecord) => {
+    queryClient.setQueryData<WarbandRecord[]>(warbandsKey(user?.id), (previous) =>
+      previous?.map((r) => (r.warband.id === record.warband.id ? record : r)),
+    );
+    queryClient.invalidateQueries({ queryKey: warbandsKey(user?.id) });
+  };
+}
+
 /** Matches the old store's `saveWarband(warband)` signature — looks up the current
  * `updated_at` from cache itself so call sites don't need to track it. */
 export function useSaveWarbandMutation() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const getRecord = useRecordLookup();
+  const applyRecord = useApplyRecord();
   const mutation = useMutation({
-    mutationFn: async (warband: Warband) => {
-      const record = getRecord(warband.id);
-      if (!record) throw new Error(`Unknown warband "${warband.id}"`);
-      return updateWarband(warband.id, user!.id, warband, record.updatedAt);
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: warbandsKey(user?.id) }),
+    mutationFn: (warband: Warband) =>
+      // Read the record *inside* the queued task: by the time this runs, the
+      // previous save has written its fresh `updated_at` into the cache.
+      enqueueSave(warband.id, () => {
+        const record = getRecord(warband.id);
+        if (!record) throw new Error(`Unknown warband "${warband.id}"`);
+        return updateWarband(warband.id, user!.id, warband, record.updatedAt);
+      }),
+    onSuccess: applyRecord,
     onError: (err) => {
       if (err instanceof ConcurrencyError) {
         window.alert(err.message);
@@ -106,13 +158,17 @@ export function useCommitBattleWarbandMutation() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const getRecord = useRecordLookup();
+  const applyRecord = useApplyRecord();
   const mutation = useMutation({
-    mutationFn: async ({ previous, next }: { previous: Warband; next: Warband }) => {
-      const record = getRecord(previous.id);
-      if (!record) throw new Error(`Unknown warband "${previous.id}"`);
-      return commitBattleUpdate(previous.id, user!.id, previous, next, record.updatedAt);
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: warbandsKey(user?.id) }),
+    mutationFn: ({ previous, next }: { previous: Warband; next: Warband }) =>
+      // Queued behind any in-flight roster edit, so committing a battle right
+      // after a last-minute equipment change doesn't race it.
+      enqueueSave(previous.id, () => {
+        const record = getRecord(previous.id);
+        if (!record) throw new Error(`Unknown warband "${previous.id}"`);
+        return commitBattleUpdate(previous.id, user!.id, previous, next, record.updatedAt);
+      }),
+    onSuccess: applyRecord,
     onError: (err) => {
       if (err instanceof ConcurrencyError) {
         window.alert(err.message);
@@ -179,7 +235,9 @@ export function useUndoLastBattleMutation() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (warbandId: string) => undoLastBattleApi(warbandId, user!.id),
+    // Queued too: undo rewrites `data` wholesale, so it must not interleave
+    // with a roster edit the user made just before hitting it.
+    mutationFn: (warbandId: string) => enqueueSave(warbandId, () => undoLastBattleApi(warbandId, user!.id)),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: warbandsKey(user?.id) }),
     onError: () => window.alert(strings.connection.lost),
   });

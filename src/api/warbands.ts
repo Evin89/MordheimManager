@@ -1,6 +1,6 @@
 import { supabase } from '../lib/supabaseClient';
 import { computeWarbandRating } from '../lib/rating';
-import { StandingsRow, Warband, WarbandVisibility } from '../types';
+import { Warband, WarbandVisibility } from '../types';
 import { ConcurrencyError, PGRST_NO_ROWS } from './errors';
 
 type WarbandRow = {
@@ -197,48 +197,35 @@ export async function setWarbandVisibility(
   if (error) throw error;
 }
 
-type StandingsWarbandRow = {
+export type CampaignWarbandRow = {
   id: string;
-  owner_id: string;
+  ownerId: string;
   name: string;
-  warband_type: string;
+  warbandType: string;
   rating: number;
-  profiles: { display_name: string } | null;
 };
 
 /**
- * Standings for a campaign: every linked warband, whatever its own visibility
- * (per spec 8.3, visibility never hides a warband from its own campaign).
- *
- * Win/loss/draw counts come from the caller's battle records rather than a
- * second query — the campaign's battle log is already loaded on this screen,
- * and every battle carries the `warbandId` it belongs to.
+ * Every warband entered in a campaign, whatever its own visibility — per spec
+ * 8.3, visibility never hides a warband from its own campaign.
  */
-export async function fetchCampaignStandings(
-  campaignId: string,
-  results: { warbandId: string; result: 'win' | 'loss' | 'draw' }[],
-): Promise<StandingsRow[]> {
+export async function fetchCampaignWarbands(campaignId: string): Promise<CampaignWarbandRow[]> {
   const { data, error } = await supabase
     .from('warbands')
-    .select('id, owner_id, name, warband_type, rating, profiles (display_name)')
+    .select('id, owner_id, name, warband_type, rating')
     .eq('campaign_id', campaignId)
     .order('rating', { ascending: false });
   if (error) throw error;
 
-  return (data as unknown as StandingsWarbandRow[]).map((row) => {
-    const mine = results.filter((r) => r.warbandId === row.id);
-    return {
-      warbandId: row.id,
-      warbandName: row.name,
-      warbandType: row.warband_type,
+  return (data as { id: string; owner_id: string; name: string; warband_type: string; rating: number }[]).map(
+    (row) => ({
+      id: row.id,
       ownerId: row.owner_id,
-      playerName: row.profiles?.display_name || '',
+      name: row.name,
+      warbandType: row.warband_type,
       rating: row.rating,
-      wins: mine.filter((r) => r.result === 'win').length,
-      losses: mine.filter((r) => r.result === 'loss').length,
-      draws: mine.filter((r) => r.result === 'draw').length,
-    };
-  });
+    }),
+  );
 }
 
 /**

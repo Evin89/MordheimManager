@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import NumberInput from '../components/NumberInput';
 import { strings } from '../strings';
 import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
 import { getWarbandDefinition } from '../data/warbandRegistry';
@@ -154,13 +155,11 @@ export default function AddHenchmenScreen() {
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="count">
             {strings.addHenchmen.countLabel}
           </label>
-          <input
+          <NumberInput
             id="count"
-            type="number"
-            inputMode="numeric"
             min={1}
             value={count}
-            onChange={(e) => setCount(Math.max(1, Number(e.target.value)))}
+            onChange={setCount}
             className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
           />
         </div>

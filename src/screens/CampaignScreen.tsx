@@ -350,17 +350,30 @@ function StandingsTable({ rows }: { rows: StandingsRow[] }) {
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.warbandId} className="border-t border-ink-800">
+            <tr key={`${row.ownerId}:${row.warbandId ?? 'none'}`} className="border-t border-ink-800">
               <td className="py-3 pr-3">
-                <Link to={`/campaign/warbands/${row.warbandId}`} className="text-ember-400 font-semibold">
-                  {row.warbandName}
-                </Link>
-                <span className="block text-bone-400 text-xs">{row.warbandType}</span>
+                {row.warbandId ? (
+                  <>
+                    <Link to={`/campaign/warbands/${row.warbandId}`} className="text-ember-400 font-semibold">
+                      {row.warbandName}
+                    </Link>
+                    <span className="block text-bone-400 text-xs">{row.warbandType}</span>
+                  </>
+                ) : (
+                  <span className="text-bone-400 italic">{strings.campaign.noWarbandEntered}</span>
+                )}
               </td>
-              <td className="py-3 pr-3 text-bone-200">{row.playerName || strings.campaign.unnamedPlayer}</td>
-              <td className="py-3 pr-3 text-right text-bone-100 font-semibold">{row.rating}</td>
+              <td className="py-3 pr-3 text-bone-200">
+                {row.playerName || strings.campaign.unnamedPlayer}
+                {row.role === 'campaign_leader' && (
+                  <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded bg-ink-800 border border-ink-700 text-bone-300 align-middle">
+                    {strings.campaign.roleLeader}
+                  </span>
+                )}
+              </td>
+              <td className="py-3 pr-3 text-right text-bone-100 font-semibold">{row.rating ?? '—'}</td>
               <td className="py-3 text-right text-bone-300 tabular-nums">
-                {row.wins}/{row.losses}/{row.draws}
+                {row.warbandId ? `${row.wins}/${row.losses}/${row.draws}` : '—'}
               </td>
             </tr>
           ))}

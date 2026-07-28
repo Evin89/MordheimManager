@@ -3,6 +3,7 @@ import { useAuth } from '../auth/AuthProvider';
 import {
   createCampaign,
   fetchCampaignMembers,
+  fetchCampaignStandings,
   fetchMyCampaigns,
   joinCampaignByCode,
   regenerateJoinCode,
@@ -10,7 +11,6 @@ import {
   updateCampaign,
 } from '../api/campaign';
 import { fetchBattles, insertBattle } from '../api/battles';
-import { fetchCampaignStandings } from '../api/warbands';
 import { pickActiveCampaign, writeActiveCampaignId } from '../lib/activeCampaign';
 import { Campaign, BattleRecord } from '../types';
 import { strings } from '../strings';

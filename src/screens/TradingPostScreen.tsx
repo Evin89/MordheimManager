@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import EquipmentShop from '../components/EquipmentShop';
+import NumberInput from '../components/NumberInput';
 import RuleEntryList from '../components/RuleEntryList';
 import { strings } from '../strings';
 import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
@@ -46,12 +47,9 @@ function TreasuryRow({
         <div className="flex items-end gap-2">
           <label className="flex flex-col gap-1 flex-1">
             <span className="text-bone-300 text-xs">{strings.trading.sellPriceLabel}</span>
-            <input
-              type="number"
-              inputMode="numeric"
-              min={0}
+            <NumberInput
               value={price}
-              onChange={(e) => setPrice(Math.max(0, Number(e.target.value)))}
+              onChange={setPrice}
               className="min-h-[40px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
             />
           </label>
