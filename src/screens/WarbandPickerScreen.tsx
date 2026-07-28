@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useWarbandList } from '../hooks/useWarbands';
+import { getWarbandTypeName } from '../data/warbandRegistry';
 
 type WarbandPickerScreenProps = {
   title: string;
@@ -30,7 +31,7 @@ export default function WarbandPickerScreen({ title, prompt, emptyMessage, desti
                 className="block rounded-lg bg-ink-900 border border-ink-800 p-4 hover:border-ink-700 transition-colors"
               >
                 <p className="text-bone-100 font-semibold">{warband.name}</p>
-                <p className="text-bone-300 text-sm">{warband.warbandType}</p>
+                <p className="text-bone-300 text-sm">{getWarbandTypeName(warband.warbandType)}</p>
               </Link>
             ))}
           </>

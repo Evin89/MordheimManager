@@ -166,6 +166,20 @@ export type CampaignMember = {
 };
 
 /**
+ * A warband in the public gallery. Summary only — the owner chose to let others
+ * look, which is not the same as handing over the full blob to every client, so
+ * the roster itself is fetched separately and read-only when actually opened.
+ */
+export type PublicWarbandRow = {
+  id: string;
+  ownerId: string;
+  name: string;
+  warbandType: string;
+  playerName: string;
+  rating: number;
+};
+
+/**
  * One row of the standings table.
  *
  * Driven by campaign *membership*, not by warbands: everyone who joined shows

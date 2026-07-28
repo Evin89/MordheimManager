@@ -4,6 +4,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { useWarbandList } from '../hooks/useWarbands';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { computeWarbandRating } from '../lib/rating';
+import { getWarbandTypeName } from '../data/warbandRegistry';
 
 /** Landing view for visitors without an account: the rules are open to everyone,
  * so point at them rather than showing empty warband/campaign shells. */
@@ -54,7 +55,7 @@ function SignedOutHome() {
 export default function HomeScreen() {
   const { user, loading } = useAuth();
   const warbands = useWarbandList();
-  const { data: campaign } = useMyCampaignQuery();
+  const { data: campaign, isLoading: campaignLoading } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
 
   // Wait for the session check before choosing a view, so a signed-in user
@@ -91,6 +92,11 @@ export default function HomeScreen() {
               </div>
               <p className="text-bone-300 text-sm">{strings.home.battleCount(battles?.length ?? 0)}</p>
             </>
+          ) : campaignLoading ? (
+            // Distinct from "no campaign": on a cold load the query is still in
+            // flight, and telling a player who *has* a campaign to go set one up
+            // is worse than showing nothing for a moment.
+            <p className="text-bone-300 text-sm">{strings.common.loading}</p>
           ) : (
             <p className="text-bone-300 text-sm">{strings.home.startCampaignCta}</p>
           )}
@@ -124,7 +130,7 @@ export default function HomeScreen() {
                   <div className="flex items-center justify-between gap-3">
                     <div className="min-w-0">
                       <p className="text-bone-100 font-semibold truncate">{warband.name}</p>
-                      <p className="text-bone-300 text-sm truncate">{warband.warbandType}</p>
+                      <p className="text-bone-300 text-sm truncate">{getWarbandTypeName(warband.warbandType)}</p>
                     </div>
                     <div className="text-right shrink-0">
                       <p className="text-ember-400 font-semibold">

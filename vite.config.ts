@@ -11,7 +11,7 @@ export default defineConfig({
       manifest: {
         name: 'Mordheim Campaign Manager',
         short_name: 'Mordheim',
-        description: 'Offline warband and campaign manager for Mordheim, including Border Town Burning.',
+        description: 'Warband and campaign manager for Mordheim, including Border Town Burning.',
         start_url: '/',
         display: 'standalone',
         background_color: '#0b0a09',

@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import PublicWarbandBrowser from '../components/PublicWarbandBrowser';
 import RuleEntryList from '../components/RuleEntryList';
 import { strings } from '../strings';
 import { useWarbandList } from '../hooks/useWarbands';
 import { computeWarbandRating } from '../lib/rating';
+import { getWarbandTypeName } from '../data/warbandRegistry';
 import { getWarbandsTabRuleEntries } from '../lib/rulesIndex';
 
-type Tab = 'warbands' | 'rules';
+type Tab = 'warbands' | 'public' | 'rules';
+
+const TABS: { id: Tab; label: string }[] = [
+  { id: 'warbands', label: strings.warbandList.myWarbandsTab },
+  { id: 'public', label: strings.warbandList.publicTab },
+  { id: 'rules', label: strings.warbandList.rulesTab },
+];
 
 export default function WarbandListScreen() {
   const warbands = useWarbandList();
@@ -28,28 +36,24 @@ export default function WarbandListScreen() {
       </header>
 
       <div className="px-4 pt-4 flex gap-2">
-        <button
-          type="button"
-          onClick={() => setTab('warbands')}
-          className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-            tab === 'warbands' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
-          }`}
-        >
-          {strings.warbandList.myWarbandsTab}
-        </button>
-        <button
-          type="button"
-          onClick={() => setTab('rules')}
-          className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-            tab === 'rules' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
-          }`}
-        >
-          {strings.warbandList.rulesTab}
-        </button>
+        {TABS.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            onClick={() => setTab(t.id)}
+            className={`flex-1 min-h-[40px] rounded-md border text-xs sm:text-sm font-semibold px-1 ${
+              tab === t.id ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
       </div>
 
       <main className="flex-1 px-4 py-4 space-y-3">
-        {tab === 'warbands' ? (
+        {tab === 'public' ? (
+          <PublicWarbandBrowser />
+        ) : tab === 'warbands' ? (
           <>
             {warbands.length === 0 && <p className="text-bone-300">{strings.warbandList.empty}</p>}
 
@@ -62,7 +66,7 @@ export default function WarbandListScreen() {
                 <div className="flex items-center justify-between gap-3">
                   <div className="min-w-0">
                     <p className="text-bone-100 font-semibold truncate">{warband.name}</p>
-                    <p className="text-bone-300 text-sm truncate">{warband.warbandType}</p>
+                    <p className="text-bone-300 text-sm truncate">{getWarbandTypeName(warband.warbandType)}</p>
                   </div>
                   <div className="text-right shrink-0">
                     <p className="text-ember-400 font-semibold">

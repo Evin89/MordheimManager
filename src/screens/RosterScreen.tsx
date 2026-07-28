@@ -11,6 +11,7 @@ import {
   useWarband,
 } from '../hooks/useWarbands';
 import { computeWarbandRating } from '../lib/rating';
+import { getWarbandTypeName } from '../data/warbandRegistry';
 import { Hero, HiredSword, ModelStatus } from '../types';
 
 const STATUS_BADGE: Partial<Record<ModelStatus, string>> = {
@@ -79,7 +80,7 @@ export default function RosterScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={warband.name} subtitle={warband.warbandType} />
+      <BackHeader title={warband.name} subtitle={getWarbandTypeName(warband.warbandType)} />
 
       <main className="flex-1 px-4 py-6 space-y-6">
         <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-4">

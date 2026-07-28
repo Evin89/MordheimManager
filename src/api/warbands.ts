@@ -1,6 +1,6 @@
 import { supabase } from '../lib/supabaseClient';
 import { computeWarbandRating } from '../lib/rating';
-import { Warband, WarbandVisibility } from '../types';
+import { PublicWarbandRow, Warband, WarbandVisibility } from '../types';
 import { ConcurrencyError, PGRST_NO_ROWS } from './errors';
 
 type WarbandRow = {
@@ -226,6 +226,48 @@ export async function fetchCampaignWarbands(campaignId: string): Promise<Campaig
       rating: row.rating,
     }),
   );
+}
+
+/** How many public warbands the browse screen pulls at once. Well beyond what
+ * this app will realistically hold, but bounded so the list can't grow without
+ * limit if it ever is. */
+const PUBLIC_WARBAND_LIMIT = 200;
+
+/**
+ * Every warband its owner has marked public.
+ *
+ * The `visibility = 'public'` filter is a *narrowing*, not the access control —
+ * RLS would also return your own private warbands and your campaign-mates'
+ * rosters on this table, and this screen is specifically the public gallery, so
+ * it asks for exactly that. Reading still requires a session; there is no
+ * signed-out browsing of other people's warbands.
+ */
+export async function fetchPublicWarbands(): Promise<PublicWarbandRow[]> {
+  const { data, error } = await supabase
+    .from('warbands')
+    .select('id, owner_id, name, warband_type, rating, profiles (display_name)')
+    .eq('visibility', 'public')
+    .order('rating', { ascending: false })
+    .limit(PUBLIC_WARBAND_LIMIT);
+  if (error) throw error;
+
+  return (
+    data as unknown as {
+      id: string;
+      owner_id: string;
+      name: string;
+      warband_type: string;
+      rating: number;
+      profiles: { display_name: string } | null;
+    }[]
+  ).map((row) => ({
+    id: row.id,
+    ownerId: row.owner_id,
+    name: row.name,
+    warbandType: row.warband_type,
+    playerName: row.profiles?.display_name || '',
+    rating: row.rating,
+  }));
 }
 
 /**

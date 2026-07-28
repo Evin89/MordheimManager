@@ -4,7 +4,7 @@
 
 export const strings = {
   appName: 'Mordheim Campaign Manager',
-  tagline: 'Offline warband & campaign bookkeeping',
+  tagline: 'Warband & campaign bookkeeping',
   nav: {
     appShort: 'Mordheim',
     home: 'Home',
@@ -137,8 +137,16 @@ export const strings = {
     ratingLabel: 'Rating',
     goldLabel: 'Gold',
     shardsLabel: 'Shards',
-    myWarbandsTab: 'My Warbands',
-    rulesTab: 'Warband Rules',
+    myWarbandsTab: 'Mine',
+    publicTab: 'Public',
+    rulesTab: 'Rules',
+    publicIntro: 'Warbands other players have chosen to share. Tap one to read its roster.',
+    publicSearchPlaceholder: 'Search by warband, player or type',
+    publicTypeFilter: 'Filter by warband type',
+    publicAllTypes: 'All types',
+    publicEmpty: "No public warbands yet. Set one of yours to public from its roster screen and it'll show up here.",
+    publicNoMatches: 'Nothing matches that search.',
+    publicCount: (n: number) => `${n} warband${n === 1 ? '' : 's'}`,
   },
   newWarband: {
     title: 'New Warband',

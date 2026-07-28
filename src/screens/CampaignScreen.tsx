@@ -18,6 +18,7 @@ import {
   useStandingsQuery,
 } from '../hooks/useCampaign';
 import { useObjectiveQuery, useSaveObjectiveMutation } from '../hooks/useObjective';
+import { getWarbandTypeName } from '../data/warbandRegistry';
 import { useWarbandList } from '../hooks/useWarbands';
 import { getCampaignTabRuleEntries } from '../lib/rulesIndex';
 import objectivesData from '../data/btb/objectives.json';
@@ -354,10 +355,12 @@ function StandingsTable({ rows }: { rows: StandingsRow[] }) {
               <td className="py-3 pr-3">
                 {row.warbandId ? (
                   <>
-                    <Link to={`/campaign/warbands/${row.warbandId}`} className="text-ember-400 font-semibold">
+                    <Link to={`/rosters/${row.warbandId}`} className="text-ember-400 font-semibold">
                       {row.warbandName}
                     </Link>
-                    <span className="block text-bone-400 text-xs">{row.warbandType}</span>
+                    <span className="block text-bone-400 text-xs">
+                      {row.warbandType ? getWarbandTypeName(row.warbandType) : ''}
+                    </span>
                   </>
                 ) : (
                   <span className="text-bone-400 italic">{strings.campaign.noWarbandEntered}</span>

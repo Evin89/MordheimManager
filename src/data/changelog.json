@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-07-28",
+    "title": "Browse Other Players' Warbands",
+    "description": "Warbands you mark public now have somewhere to be seen. The Warbands tab has a Public view listing every shared warband with its player, type and rating — search by any of those, filter by warband type, and tap through to a read-only roster. Mark your own warband public from its roster screen, under Campaign & Sharing. Warband types also now read properly everywhere: \"Cult of the Possessed\" instead of \"cult-of-the-possessed\"."
+  },
+  {
+    "date": "2026-07-28",
     "title": "Buying Things Actually Works Now",
     "description": "Buying two items in a row could fail with a false \"changed elsewhere\" warning, and only the first purchase would stick. Saves are now queued so a run of purchases, stat edits, or gold changes all land in order. Number fields across the app — henchmen group size, sell and purchase prices, characteristics, wyrdstone, casualty counts — can now be cleared and typed into properly instead of snapping back to a minimum the moment you empty them. The Standings table also lists every player in the campaign, including the leader and anyone who hasn't entered a warband yet."
   },

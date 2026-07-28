@@ -97,6 +97,10 @@ function AppShell() {
               )}
             />
             <Route path="/campaign" element={guarded(<CampaignScreen />)} />
+            {/* Someone else's roster, read-only. Reached from campaign standings
+                and from the public gallery, hence the neutral path. */}
+            <Route path="/rosters/:warbandId" element={guarded(<SharedWarbandScreen />)} />
+            {/* Where standings used to link; kept so older in-app links still land. */}
             <Route path="/campaign/warbands/:warbandId" element={guarded(<SharedWarbandScreen />)} />
 
             <Route path="*" element={<Navigate to="/" replace />} />

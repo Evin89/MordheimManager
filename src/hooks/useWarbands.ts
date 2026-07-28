@@ -4,6 +4,7 @@ import {
   WarbandRecord,
   commitBattleUpdate,
   deleteWarband as deleteWarbandApi,
+  fetchPublicWarbands,
   fetchSharedWarband,
   fetchWarbands,
   insertWarband,
@@ -223,6 +224,16 @@ export function useSetWarbandVisibilityMutation() {
  * campaign-membership branch of the RLS select policy. A null result means the
  * database declined to return it — treat that as "not visible", not an error.
  */
+/** The public gallery. Not keyed by user — the same list for everyone signed in. */
+export function usePublicWarbandsQuery() {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ['publicWarbands'],
+    queryFn: fetchPublicWarbands,
+    enabled: !!user,
+  });
+}
+
 export function useSharedWarbandQuery(id: string | undefined) {
   return useQuery({
     queryKey: ['sharedWarband', id],

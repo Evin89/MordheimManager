@@ -40,3 +40,15 @@ export const warbandDefinitions: WarbandDefinition[] = [
 export function getWarbandDefinition(id: string): WarbandDefinition | undefined {
   return warbandDefinitions.find((def) => def.id === id);
 }
+
+/**
+ * Display name for a stored `warbandType`.
+ *
+ * Warbands store the definition's slug (`cult-of-the-possessed`), which several
+ * screens were rendering straight to the user. Falls back to the raw value so an
+ * unrecognised type — a hand-edited import, or a definition removed later — still
+ * shows something rather than blanking out.
+ */
+export function getWarbandTypeName(id: string): string {
+  return getWarbandDefinition(id)?.name ?? id;
+}
