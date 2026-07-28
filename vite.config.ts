@@ -6,7 +6,19 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      // Installability only — no service worker, so no precache (spec §2).
+      //
+      // Precaching an app shell made sense when warbands lived in
+      // localStorage. Since the move to Supabase every screen that shows your
+      // data needs the network anyway, so the cache bought nothing and cost
+      // real confusion: a deploy would land on Netlify while the old bundle
+      // kept being served from `workbox-precache-v2`, making a correct release
+      // look broken until the user cleared site data. `injectRegister: null`
+      // stops the registration script being emitted; `selfDestroying` ships a
+      // worker whose only job is to unregister itself and delete its caches,
+      // which is what frees the browsers that already have one installed.
+      selfDestroying: true,
+      injectRegister: null,
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
         name: 'Mordheim Campaign Manager',
@@ -34,9 +46,6 @@ export default defineConfig({
             purpose: 'maskable',
           },
         ],
-      },
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
       },
     }),
   ],

@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-07-28",
+    "title": "Updates Arrive Straight Away",
+    "description": "The app used to keep a copy of itself on your device, which meant a new version could sit there unnoticed while the old one kept loading — you'd have had to clear your browser data to see changes. That copy is gone, so you always get the current version. Adding the app to your home screen still works exactly as before. The app has needed an internet connection since accounts arrived, so there was nothing to gain by keeping it."
+  },
+  {
+    "date": "2026-07-28",
     "title": "Browse Other Players' Warbands",
     "description": "Warbands you mark public now have somewhere to be seen. The Warbands tab has a Public view listing every shared warband with its player, type and rating — search by any of those, filter by warband type, and tap through to a read-only roster. Mark your own warband public from its roster screen, under Campaign & Sharing. Warband types also now read properly everywhere: \"Cult of the Possessed\" instead of \"cult-of-the-possessed\"."
   },

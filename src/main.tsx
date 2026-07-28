@@ -3,8 +3,12 @@ import ReactDOM from 'react-dom/client';
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './auth/AuthProvider';
 import { useConnectionStatus } from './store/useConnectionStatus';
+import { clearLegacyServiceWorker } from './lib/clearLegacyServiceWorker';
 import App from './App';
 import './index.css';
+
+// Fire and forget — nothing in the app waits on it.
+void clearLegacyServiceWorker();
 
 function reportConnectionError(error: unknown) {
   const message = error instanceof Error ? error.message : 'Unknown error';
