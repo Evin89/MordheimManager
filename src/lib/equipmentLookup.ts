@@ -23,7 +23,9 @@ function fromExclusive(id: string, definition: WarbandDefinition): ResolvedEquip
     category: item.category,
     isRare: item.rarity !== null,
     cost: item.cost,
-    priceRange: item.cost !== null ? `${item.cost} gc` : null,
+    // An explicit priceRange wins: it's the only way to express a dice-based
+    // price, which by definition has no fixed `cost` to derive from.
+    priceRange: item.priceRange ?? (item.cost !== null ? `${item.cost} gc` : null),
     rarity: item.rarity,
     notes: item.rulesText,
     restriction: item.restriction,

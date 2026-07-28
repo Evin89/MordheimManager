@@ -42,6 +42,10 @@ export type WarbandExclusiveEquipmentEntry = {
   name: string;
   category: 'melee' | 'missile' | 'armour' | 'misc';
   cost: number | null;
+  // Dice-based prices ("80 + 2D6 gc") have no single `cost`, so they're carried
+  // as display text instead; the shop parses the fixed part out to prefill the
+  // buy field and the player adds their roll. Omit when `cost` is set.
+  priceRange?: string | null;
   rarity: number | null; // null = Common (not Rare) for this warband
   restriction: string; // e.g. "Captain only", free text
   rulesText: string;

@@ -150,6 +150,7 @@
       "name": "Hand-held mortar",
       "category": "missile",
       "cost": null,
+      "priceRange": "80 + 2D6 gc",
       "rarity": 12,
       "restriction": "Rare 12 (Ogres only)",
       "rulesText": "Cost: 80 + 2D6 gc. Range: 24\"; Strength: 4. Special rules — Move or fire, Prepare shot, Scatter (misses land 2D6\" in a random direction), Experimental (subject to optional Blackpowder Weapons rules; anything but 'BOOM!' jams/empties the weapon), Explosive Radius (target and anything within 1.5\" of the final landing spot takes a single S4 hit)."
