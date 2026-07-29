@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-07-29",
+    "title": "Save When You're Ready, and Rules That Work Offline",
+    "description": "Editing a characteristic used to save on every keystroke — one write per digit, with no way to change your mind. Typed fields on the roster, hero, henchmen and campaign screens are now yours until you press Save, with a bar that appears only when something is pending and a Discard next to it. Buying, recruiting, selling and deleting still take effect straight away, because those already are the decision. The rules are also readable without a connection now: once you've opened the app on a device, the full Rules Reference stays available at the table even with no signal. A new version still takes effect the moment you're back online — the old problem of a stale app sticking around cannot happen again."
+  },
+  {
+    "date": "2026-07-29",
     "title": "Laid Out Like the Book",
     "description": "The Trading Post and your treasury now group gear the way the price chart does — Hand-to-hand Combat Weapons, Missile Weapons, Armour, Miscellaneous — instead of one long list. Henchmen are listed out individually under their group, so four Swordsmen read as four models rather than a multiplier, and their Experience now says \"each\" because that is how it works. The Rules Reference opens as a chapter list you can expand and collapse, with the number of entries in each; searching still shows a flat list of matches. The Exploration chart is in there too — all 30 results, the wyrdstone shards table and the magical artefacts table."
   },

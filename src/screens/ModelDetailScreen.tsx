@@ -5,8 +5,10 @@ import NumberInput from '../components/NumberInput';
 import EquipmentShop from '../components/EquipmentShop';
 import SkillPicker from '../components/SkillPicker';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
+import SaveBar from '../components/SaveBar';
 import { strings } from '../strings';
-import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
+import { useWarband } from '../hooks/useWarbands';
+import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { getUniqueInjuries } from '../lib/injuryLookup';
@@ -14,7 +16,7 @@ import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
 import { getAdvanceProgress } from '../lib/xpThresholds';
 import { STAT_KEYS } from '../lib/statLine';
-import { EquipmentItem, Hero, HiredSword, ModelStatus, StatLine } from '../types';
+import { EquipmentItem, Hero, HiredSword, ModelStatus, StatLine, Warband } from '../types';
 
 type EditableModel = Hero | HiredSword;
 
@@ -28,7 +30,8 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const { warbandId, modelId } = useParams<{ warbandId: string; modelId: string }>();
   const navigate = useNavigate();
   const warband = useWarband(warbandId);
-  const saveWarband = useSaveWarbandMutation();
+  const { draft, update, dirty, save, saveNow, discard } = useWarbandDraft(warband);
+  useUnsavedChangesWarning(dirty);
   const { data: campaign } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
 
@@ -39,17 +42,31 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const [customInjuryEffect, setCustomInjuryEffect] = useState('');
   const [shoppingOpen, setShoppingOpen] = useState(false);
 
-  if (!warband) return <Navigate to="/warbands" replace />;
+  if (!warband || !draft) return <Navigate to="/warbands" replace />;
 
   const listKey = kind === 'hero' ? 'heroes' : 'hiredSwords';
-  const list = warband[listKey] as EditableModel[];
+  // Render from the draft so typed edits appear immediately; `warband` is only
+  // the last saved copy.
+  const list = draft[listKey] as EditableModel[];
   const model = list.find((m) => m.id === modelId);
-  if (!model) return <Navigate to={`/warbands/${warband.id}`} replace />;
+  if (!model) return <Navigate to={`/warbands/${draft.id}`} replace />;
 
+  function modelPatch(patch: Partial<EditableModel>) {
+    return (current: Warband) => ({
+      [listKey]: (current[listKey] as EditableModel[]).map((m) =>
+        m.id === modelId ? ({ ...m, ...patch } as EditableModel) : m,
+      ),
+    });
+  }
+
+  /** Typed fields — held locally until the user saves. */
   function updateModel(patch: Partial<EditableModel>) {
-    if (!warband || !model) return;
-    const updatedList = list.map((m) => (m.id === model.id ? ({ ...m, ...patch } as EditableModel) : m));
-    saveWarband({ ...warband, [listKey]: updatedList });
+    update(modelPatch(patch));
+  }
+
+  /** Deliberate actions (advances, injuries, gear) — written straight away. */
+  function commitModel(patch: Partial<EditableModel>) {
+    saveNow(modelPatch(patch));
   }
 
   function updateStat(key: keyof StatLine, value: number) {
@@ -59,7 +76,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
   function applyStatAdvance(key: keyof StatLine) {
     if (!model) return;
-    updateModel({
+    commitModel({
       stats: { ...model.stats, [key]: model.stats[key] + 1 },
       advances: [...model.advances, { id: generateId(), type: 'stat', detail: `+1 ${key}` }],
     });
@@ -68,7 +85,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
   function applySkillAdvance(skillName: string) {
     if (!model) return;
-    updateModel({
+    commitModel({
       skills: [...model.skills, skillName],
       advances: [...model.advances, { id: generateId(), type: 'skill', detail: skillName }],
     });
@@ -83,7 +100,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     const effect = picked ? picked.effect : customInjuryEffect.trim();
     if (!name) return;
 
-    updateModel({
+    commitModel({
       injuries: [
         ...model.injuries,
         { id: generateId(), name, effect, dateAcquired: new Date().toISOString().slice(0, 10) },
@@ -96,31 +113,33 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   }
 
   function moveToTreasury(itemId: string) {
-    if (!warband || !model) return;
+    if (!model) return;
     const item = model.equipment.find((e) => e.id === itemId);
     if (!item) return;
-    const updatedList = list.map((m) =>
-      m.id === model.id ? { ...m, equipment: m.equipment.filter((e) => e.id !== itemId) } : m,
-    );
-    saveWarband({ ...warband, [listKey]: updatedList, treasury: [...warband.treasury, item] });
+    saveNow((current: Warband) => ({
+      [listKey]: (current[listKey] as EditableModel[]).map((m) =>
+        m.id === modelId ? { ...m, equipment: m.equipment.filter((e: EquipmentItem) => e.id !== itemId) } : m,
+      ),
+      treasury: [...current.treasury, item],
+    }));
   }
 
   function assignFromTreasury(itemId: string) {
-    if (!warband || !model) return;
-    const item = warband.treasury.find((e) => e.id === itemId);
+    if (!draft || !model) return;
+    const item = draft.treasury.find((e) => e.id === itemId);
     if (!item) return;
-    const updatedList = list.map((m) => (m.id === model.id ? { ...m, equipment: [...m.equipment, item] } : m));
-    saveWarband({
-      ...warband,
-      [listKey]: updatedList,
-      treasury: warband.treasury.filter((e) => e.id !== itemId),
-    });
+    saveNow((current: Warband) => ({
+      [listKey]: (current[listKey] as EditableModel[]).map((m) =>
+        m.id === modelId ? { ...m, equipment: [...m.equipment, item] } : m,
+      ),
+      treasury: current.treasury.filter((e: EquipmentItem) => e.id !== itemId),
+    }));
   }
 
   function buyForModel(item: ResolvedEquipmentItem, price: number) {
-    if (!warband || !model) return;
-    if (price > warband.gold) {
-      if (!window.confirm(strings.trading.insufficientGoldConfirm(price, warband.gold))) return;
+    if (!draft || !model) return;
+    if (price > draft.gold) {
+      if (!window.confirm(strings.trading.insufficientGoldConfirm(price, draft.gold))) return;
     }
     const newItem: EquipmentItem = {
       id: generateId(),
@@ -129,17 +148,21 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
       cost: price,
       notes: item.restriction || undefined,
     };
-    const updatedList = list.map((m) =>
-      m.id === model.id ? { ...m, equipment: [...m.equipment, newItem] } : m,
-    );
-    saveWarband({ ...warband, [listKey]: updatedList, gold: warband.gold - price });
+    saveNow((current: Warband) => ({
+      [listKey]: (current[listKey] as EditableModel[]).map((m) =>
+        m.id === modelId ? { ...m, equipment: [...m.equipment, newItem] } : m,
+      ),
+      gold: current.gold - price,
+    }));
   }
 
   function handleDelete() {
-    if (!warband || !model) return;
+    if (!draft || !model) return;
     if (window.confirm(strings.modelDetail.deleteModelConfirm(model.name))) {
-      saveWarband({ ...warband, [listKey]: list.filter((m) => m.id !== model.id) });
-      navigate(`/warbands/${warband.id}`, { replace: true });
+      saveNow((current: Warband) => ({
+        [listKey]: (current[listKey] as EditableModel[]).filter((m) => m.id !== modelId),
+      }));
+      navigate(`/warbands/${draft.id}`, { replace: true });
     }
   }
 
@@ -308,7 +331,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                 <SkillPicker
                   skillLists={model.skillLists}
                   knownSkills={model.skills}
-                  warbandType={warband.warbandType}
+                  warbandType={draft.warbandType}
                   isLeader={model.isLeader}
                   onAdd={applySkillAdvance}
                 />
@@ -446,20 +469,20 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           {shoppingOpen && (
             <div className="space-y-3 rounded-lg border border-ink-800 p-3">
               <p className="text-ember-400 font-semibold text-sm">
-                {strings.modelDetail.shopGoldLabel}: {warband.gold} {strings.common.gold}
+                {strings.modelDetail.shopGoldLabel}: {draft.gold} {strings.common.gold}
               </p>
               <EquipmentShop
                 warband={warband}
                 onPurchase={buyForModel}
-                skipRarityRoll={!hasFoughtFirstBattle(warband.id, battles)}
+                skipRarityRoll={!hasFoughtFirstBattle(draft.id, battles)}
               />
             </div>
           )}
 
           <h3 className="text-bone-200 text-sm font-semibold pt-2">{strings.modelDetail.treasurySection}</h3>
-          {warband.treasury.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noTreasury}</p>}
+          {draft.treasury.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noTreasury}</p>}
           <div className="space-y-2">
-            {warband.treasury.map((item) => (
+            {draft.treasury.map((item: EquipmentItem) => (
               <WeaponRulesDisclosure
                 key={item.id}
                 name={item.name}
@@ -496,6 +519,8 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
         >
           {strings.modelDetail.deleteModel}
         </button>
+
+        <SaveBar dirty={dirty} onSave={save} onDiscard={discard} />
       </main>
     </div>
   );

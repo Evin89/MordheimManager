@@ -5,34 +5,48 @@ import InlineNumberField from '../components/InlineNumberField';
 import NumberInput from '../components/NumberInput';
 import EquipmentShop from '../components/EquipmentShop';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
+import SaveBar from '../components/SaveBar';
 import { strings } from '../strings';
-import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
+import { useWarband } from '../hooks/useWarbands';
+import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
 import { getAdvanceProgress } from '../lib/xpThresholds';
 import { STAT_KEYS } from '../lib/statLine';
-import { EquipmentItem, HenchmenGroup, StatLine } from '../types';
+import { EquipmentItem, HenchmenGroup, StatLine, Warband } from '../types';
 
 export default function HenchmenDetailScreen() {
   const { warbandId, groupId } = useParams<{ warbandId: string; groupId: string }>();
   const navigate = useNavigate();
   const warband = useWarband(warbandId);
-  const saveWarband = useSaveWarbandMutation();
+  const { draft, update, dirty, save, saveNow, discard } = useWarbandDraft(warband);
+  useUnsavedChangesWarning(dirty);
   const { data: campaign } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
   const [shoppingOpen, setShoppingOpen] = useState(false);
 
-  if (!warband) return <Navigate to="/warbands" replace />;
+  if (!warband || !draft) return <Navigate to="/warbands" replace />;
 
-  const group = warband.henchmenGroups.find((g) => g.id === groupId);
-  if (!group) return <Navigate to={`/warbands/${warband.id}`} replace />;
+  // Render from the draft so typed edits show immediately.
+  const group = draft.henchmenGroups.find((g) => g.id === groupId);
+  if (!group) return <Navigate to={`/warbands/${draft.id}`} replace />;
 
+  function groupPatch(patch: Partial<HenchmenGroup>) {
+    return (current: Warband) => ({
+      henchmenGroups: current.henchmenGroups.map((g) => (g.id === groupId ? { ...g, ...patch } : g)),
+    });
+  }
+
+  /** Typed fields — held until the user saves. */
   function updateGroup(patch: Partial<HenchmenGroup>) {
-    if (!warband || !group) return;
-    const updated = warband.henchmenGroups.map((g) => (g.id === group.id ? { ...g, ...patch } : g));
-    saveWarband({ ...warband, henchmenGroups: updated });
+    update(groupPatch(patch));
+  }
+
+  /** Deliberate actions — written straight away. */
+  function commitGroup(patch: Partial<HenchmenGroup>) {
+    saveNow(groupPatch(patch));
   }
 
   function updateStat(key: keyof StatLine, value: number) {
@@ -42,36 +56,40 @@ export default function HenchmenDetailScreen() {
 
   function applyStatAdvance(key: keyof StatLine) {
     if (!group) return;
-    updateGroup({
+    commitGroup({
       stats: { ...group.stats, [key]: group.stats[key] + 1 },
       advances: [...group.advances, { id: generateId(), type: 'stat', detail: `+1 ${key}` }],
     });
   }
 
   function moveToTreasury(itemId: string) {
-    if (!warband || !group) return;
+    if (!group) return;
     const item = group.equipment.find((e) => e.id === itemId);
     if (!item) return;
-    const updated = warband.henchmenGroups.map((g) =>
-      g.id === group.id ? { ...g, equipment: g.equipment.filter((e) => e.id !== itemId) } : g,
-    );
-    saveWarband({ ...warband, henchmenGroups: updated, treasury: [...warband.treasury, item] });
+    saveNow((current: Warband) => ({
+      henchmenGroups: current.henchmenGroups.map((g) =>
+        g.id === groupId ? { ...g, equipment: g.equipment.filter((e) => e.id !== itemId) } : g,
+      ),
+      treasury: [...current.treasury, item],
+    }));
   }
 
   function assignFromTreasury(itemId: string) {
-    if (!warband || !group) return;
-    const item = warband.treasury.find((e) => e.id === itemId);
+    if (!draft || !group) return;
+    const item = draft.treasury.find((e) => e.id === itemId);
     if (!item) return;
-    const updated = warband.henchmenGroups.map((g) =>
-      g.id === group.id ? { ...g, equipment: [...g.equipment, item] } : g,
-    );
-    saveWarband({ ...warband, henchmenGroups: updated, treasury: warband.treasury.filter((e) => e.id !== itemId) });
+    saveNow((current: Warband) => ({
+      henchmenGroups: current.henchmenGroups.map((g) =>
+        g.id === groupId ? { ...g, equipment: [...g.equipment, item] } : g,
+      ),
+      treasury: current.treasury.filter((e) => e.id !== itemId),
+    }));
   }
 
   function buyForGroup(item: ResolvedEquipmentItem, price: number) {
-    if (!warband || !group) return;
-    if (price > warband.gold) {
-      if (!window.confirm(strings.trading.insufficientGoldConfirm(price, warband.gold))) return;
+    if (!draft || !group) return;
+    if (price > draft.gold) {
+      if (!window.confirm(strings.trading.insufficientGoldConfirm(price, draft.gold))) return;
     }
     const newItem: EquipmentItem = {
       id: generateId(),
@@ -80,17 +98,21 @@ export default function HenchmenDetailScreen() {
       cost: price,
       notes: item.restriction || undefined,
     };
-    const updated = warband.henchmenGroups.map((g) =>
-      g.id === group.id ? { ...g, equipment: [...g.equipment, newItem] } : g,
-    );
-    saveWarband({ ...warband, henchmenGroups: updated, gold: warband.gold - price });
+    saveNow((current: Warband) => ({
+      henchmenGroups: current.henchmenGroups.map((g) =>
+        g.id === groupId ? { ...g, equipment: [...g.equipment, newItem] } : g,
+      ),
+      gold: current.gold - price,
+    }));
   }
 
   function handleDelete() {
-    if (!warband || !group) return;
+    if (!draft || !group) return;
     if (window.confirm(strings.modelDetail.deleteModelConfirm(group.groupName))) {
-      saveWarband({ ...warband, henchmenGroups: warband.henchmenGroups.filter((g) => g.id !== group.id) });
-      navigate(`/warbands/${warband.id}`, { replace: true });
+      saveNow((current: Warband) => ({
+        henchmenGroups: current.henchmenGroups.filter((g) => g.id !== groupId),
+      }));
+      navigate(`/warbands/${draft.id}`, { replace: true });
     }
   }
 
@@ -227,20 +249,20 @@ export default function HenchmenDetailScreen() {
           {shoppingOpen && (
             <div className="space-y-3 rounded-lg border border-ink-800 p-3">
               <p className="text-ember-400 font-semibold text-sm">
-                {strings.modelDetail.shopGoldLabel}: {warband.gold} {strings.common.gold}
+                {strings.modelDetail.shopGoldLabel}: {draft.gold} {strings.common.gold}
               </p>
               <EquipmentShop
-                warband={warband}
+                warband={draft}
                 onPurchase={buyForGroup}
-                skipRarityRoll={!hasFoughtFirstBattle(warband.id, battles)}
+                skipRarityRoll={!hasFoughtFirstBattle(draft.id, battles)}
               />
             </div>
           )}
 
           <h3 className="text-bone-200 text-sm font-semibold pt-2">{strings.modelDetail.treasurySection}</h3>
-          {warband.treasury.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noTreasury}</p>}
+          {draft.treasury.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noTreasury}</p>}
           <div className="space-y-2">
-            {warband.treasury.map((item) => (
+            {draft.treasury.map((item) => (
               <WeaponRulesDisclosure
                 key={item.id}
                 name={item.name}
@@ -277,6 +299,8 @@ export default function HenchmenDetailScreen() {
         >
           {strings.modelDetail.deleteModel}
         </button>
+
+        <SaveBar dirty={dirty} onSave={save} onDiscard={discard} />
       </main>
     </div>
   );

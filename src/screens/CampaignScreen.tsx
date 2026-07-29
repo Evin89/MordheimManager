@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import InviteShareButtons from '../components/InviteShareButtons';
+import SaveBar from '../components/SaveBar';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
 import {
@@ -508,6 +509,21 @@ export default function CampaignScreen() {
   const { data: members } = useCampaignMembersQuery(campaign?.id);
   const warbands = useWarbandList();
   const saveCampaign = useSaveCampaignMutation();
+  // Same reasoning as the warband screens: the name and notes are typed, so
+  // they're drafted rather than written per keystroke.
+  const [campaignEdits, setCampaignEdits] = useState<Partial<Campaign> | null>(null);
+  const campaignDraft = campaign ? { ...campaign, ...campaignEdits } : null;
+  const campaignDirty = campaignEdits !== null;
+  function updateCampaignDraft(patch: Partial<Campaign>) {
+    setCampaignEdits((current) => ({ ...current, ...patch }));
+  }
+  function saveCampaignDraft() {
+    if (campaignDraft) saveCampaign(campaignDraft);
+    setCampaignEdits(null);
+  }
+  function discardCampaignDraft() {
+    setCampaignEdits(null);
+  }
   const [tab, setTab] = useState<Tab>('log');
 
   const isLeader = (members ?? []).some((m) => m.userId === user?.id && m.role === 'campaign_leader');
@@ -576,18 +592,18 @@ export default function CampaignScreen() {
                     <label className="text-bone-300 text-sm">{strings.campaign.nameLabel}</label>
                     <input
                       type="text"
-                      value={campaign.name}
+                      value={campaignDraft!.name}
                       disabled={!isLeader}
-                      onChange={(e) => saveCampaign({ ...campaign, name: e.target.value })}
+                      onChange={(e) => updateCampaignDraft({ name: e.target.value })}
                       className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 disabled:opacity-60 focus:outline-none focus:border-ember-500"
                     />
                   </div>
                   <label className="flex items-center gap-2 text-bone-200 text-sm">
                     <input
                       type="checkbox"
-                      checked={campaign.usesBTB}
+                      checked={campaignDraft!.usesBTB}
                       disabled={!isLeader}
-                      onChange={(e) => saveCampaign({ ...campaign, usesBTB: e.target.checked })}
+                      onChange={(e) => updateCampaignDraft({ usesBTB: e.target.checked })}
                       className="h-4 w-4"
                     />
                     {strings.campaign.usesBtbLabel}
@@ -595,13 +611,20 @@ export default function CampaignScreen() {
                   <div className="space-y-1">
                     <label className="text-bone-300 text-sm">{strings.campaign.notesLabel}</label>
                     <textarea
-                      value={campaign.notes}
+                      value={campaignDraft!.notes}
                       disabled={!isLeader}
-                      onChange={(e) => saveCampaign({ ...campaign, notes: e.target.value })}
+                      onChange={(e) => updateCampaignDraft({ notes: e.target.value })}
                       className="w-full min-h-[70px] rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100 disabled:opacity-60 focus:outline-none focus:border-ember-500"
                     />
                   </div>
                   {!isLeader && <p className="text-bone-400 text-xs">{strings.campaign.leaderOnlyHint}</p>}
+                  {isLeader && (
+                    <SaveBar
+                      dirty={campaignDirty}
+                      onSave={saveCampaignDraft}
+                      onDiscard={discardCampaignDraft}
+                    />
+                  )}
                 </section>
 
                 <section className="space-y-3">

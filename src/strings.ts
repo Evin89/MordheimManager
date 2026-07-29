@@ -26,6 +26,8 @@ export const strings = {
     gold: 'gc',
     dismiss: 'Dismiss',
     loading: 'Loading…',
+    unsavedChanges: 'Unsaved changes',
+    discard: 'Discard',
   },
   home: {
     title: 'Home',

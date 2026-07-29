@@ -2,14 +2,15 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
 import WarbandSharingCard from '../components/WarbandSharingCard';
+import SaveBar from '../components/SaveBar';
 import { strings } from '../strings';
 import {
   useCanUndoLastBattle,
   useDeleteWarbandMutation,
-  useSaveWarbandMutation,
   useUndoLastBattleMutation,
   useWarband,
 } from '../hooks/useWarbands';
+import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { HenchmenGroup, Hero, HiredSword, ModelStatus } from '../types';
@@ -93,12 +94,15 @@ export default function RosterScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
   const warband = useWarband(warbandId);
-  const saveWarband = useSaveWarbandMutation();
   const deleteWarband = useDeleteWarbandMutation();
   const canUndo = useCanUndoLastBattle(warbandId);
   const undoLastBattle = useUndoLastBattleMutation();
+  // Treasury figures are typed, so they're drafted and saved on request. The
+  // roster's own actions (recruit, trade, delete) still write immediately.
+  const { draft, update, dirty, save, discard } = useWarbandDraft(warband);
+  useUnsavedChangesWarning(dirty);
 
-  if (!warband) {
+  if (!warband || !draft) {
     return <Navigate to="/warbands" replace />;
   }
 
@@ -124,18 +128,18 @@ export default function RosterScreen() {
       <main className="flex-1 px-4 py-6 space-y-6">
         <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-4">
           <p className="text-ember-400 font-semibold">
-            {strings.roster.ratingLabel}: {computeWarbandRating(warband)}
+            {strings.roster.ratingLabel}: {computeWarbandRating(draft)}
           </p>
           <div className="grid grid-cols-2 gap-3">
             <InlineNumberField
               label={strings.roster.goldLabel}
-              value={warband.gold}
-              onCommit={(gold) => saveWarband({ ...warband, gold })}
+              value={draft.gold}
+              onCommit={(gold) => update({ gold })}
             />
             <InlineNumberField
               label={strings.roster.shardsLabel}
-              value={warband.wyrdstoneShards}
-              onCommit={(wyrdstoneShards) => saveWarband({ ...warband, wyrdstoneShards })}
+              value={draft.wyrdstoneShards}
+              onCommit={(wyrdstoneShards) => update({ wyrdstoneShards })}
             />
           </div>
         </section>
@@ -229,6 +233,8 @@ export default function RosterScreen() {
         >
           {strings.roster.deleteWarband}
         </button>
+
+        <SaveBar dirty={dirty} onSave={save} onDiscard={discard} />
       </main>
     </div>
   );
