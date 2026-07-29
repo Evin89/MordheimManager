@@ -10,7 +10,7 @@ import {
   removeCampaignMember,
   updateCampaign,
 } from '../api/campaign';
-import { fetchBattles, insertBattle } from '../api/battles';
+import { fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
 import { pickActiveCampaign, writeActiveCampaignId } from '../lib/activeCampaign';
 import { Campaign, BattleRecord } from '../types';
 import { strings } from '../strings';
@@ -21,6 +21,10 @@ function campaignsKey(userId: string | undefined) {
 
 function battlesKey(campaignId: string | undefined) {
   return ['battles', campaignId] as const;
+}
+
+function personalBattlesKey(userId: string | undefined) {
+  return ['personalBattles', userId] as const;
 }
 
 function membersKey(campaignId: string | undefined) {
@@ -167,9 +171,15 @@ export function useStandingsQuery(campaignId: string | undefined, battles: Battl
 }
 
 /**
- * Post-battle wizard commit: ensures the player has a campaign to log into
- * (creating a default one on first use, same fallback the old local-only
- * Campaign singleton had), then records the BattleRecord.
+ * Post-battle wizard commit.
+ *
+ * Files the battle against the active campaign when there is one, and against
+ * no campaign at all when there isn't. It used to silently create a campaign
+ * called "My Campaign" on first commit, because `battles` had nowhere to put a
+ * row otherwise — which meant every player ended up with a campaign they never
+ * started, and starting a real one felt like it had already happened. Playing a
+ * one-off game outside a campaign is a legitimate thing to do, so that's now
+ * what it records.
  */
 export function useLogBattleMutation() {
   const { user } = useAuth();
@@ -180,18 +190,27 @@ export function useLogBattleMutation() {
       if (campaigns === undefined) {
         campaigns = await fetchMyCampaigns(user!.id);
       }
-      let campaign = pickActiveCampaign(campaigns);
-      if (!campaign) {
-        campaign = await createCampaign('My Campaign', false);
-        writeActiveCampaignId(campaign.id);
-      }
-      const inserted = await insertBattle(campaign.id, user!.id, battle);
-      return { battle: inserted, campaignId: campaign.id };
+      const campaign = pickActiveCampaign(campaigns);
+      const inserted = await insertBattle(campaign?.id ?? null, user!.id, battle);
+      return { battle: inserted, campaignId: campaign?.id ?? null };
     },
     onSuccess: ({ campaignId }) => {
       queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });
-      queryClient.invalidateQueries({ queryKey: battlesKey(campaignId) });
+      queryClient.invalidateQueries({
+        queryKey: campaignId ? battlesKey(campaignId) : personalBattlesKey(user?.id),
+      });
     },
   });
   return async (battle: BattleRecord) => (await mutation.mutateAsync(battle)).battle;
+}
+
+/** Battles fought outside any campaign, so the post-battle history isn't lost
+ * for players who haven't started one. */
+export function usePersonalBattlesQuery() {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: personalBattlesKey(user?.id),
+    queryFn: () => fetchPersonalBattles(user!.id),
+    enabled: !!user,
+  });
 }

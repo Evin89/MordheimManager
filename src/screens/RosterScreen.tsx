@@ -179,7 +179,12 @@ export default function RosterScreen() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.roster.hiredSwordsSection}</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-bone-100 font-semibold">{strings.roster.hiredSwordsSection}</h2>
+            <Link to={`/warbands/${warband.id}/add-hired-sword`} className="text-ember-400 text-sm font-semibold">
+              {strings.roster.addHiredSword}
+            </Link>
+          </div>
           {warband.hiredSwords.length === 0 && (
             <p className="text-bone-300 text-sm">{strings.roster.noHiredSwords}</p>
           )}

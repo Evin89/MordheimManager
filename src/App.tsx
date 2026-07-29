@@ -15,6 +15,7 @@ import ModelDetailScreen from './screens/ModelDetailScreen';
 import HenchmenDetailScreen from './screens/HenchmenDetailScreen';
 import AddHeroScreen from './screens/AddHeroScreen';
 import AddHenchmenScreen from './screens/AddHenchmenScreen';
+import AddHiredSwordScreen from './screens/AddHiredSwordScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ChangelogScreen from './screens/ChangelogScreen';
 import WarbandPickerScreen from './screens/WarbandPickerScreen';
@@ -24,6 +25,7 @@ import PostBattleWizard from './screens/postBattle/PostBattleWizard';
 import TradingPostScreen from './screens/TradingPostScreen';
 import CampaignScreen from './screens/CampaignScreen';
 import SharedWarbandScreen from './screens/SharedWarbandScreen';
+import GalleryScreen from './screens/GalleryScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import RulesScreen from './screens/RulesScreen';
@@ -57,6 +59,12 @@ function AppShell() {
             <Route path="/rules/:ruleId" element={<RuleDetailScreen />} />
             <Route path="/settings" element={<SettingsScreen />} />
             <Route path="/settings/changelog" element={<ChangelogScreen />} />
+            {/* Warbands their owners chose to publish, plus the read-only roster
+                behind each one. Public by design — an opted-in roster you can't
+                show to someone without an account isn't really shared. The
+                database enforces this independently (migration 0004). */}
+            <Route path="/gallery" element={<GalleryScreen />} />
+            <Route path="/rosters/:warbandId" element={<SharedWarbandScreen />} />
 
             {/* --- Requires an account: your warbands, battles and campaign --- */}
             <Route path="/warbands" element={guarded(<WarbandListScreen />)} />
@@ -64,6 +72,7 @@ function AppShell() {
             <Route path="/warbands/:warbandId" element={guarded(<RosterScreen />)} />
             <Route path="/warbands/:warbandId/add-hero" element={guarded(<AddHeroScreen />)} />
             <Route path="/warbands/:warbandId/add-henchmen" element={guarded(<AddHenchmenScreen />)} />
+            <Route path="/warbands/:warbandId/add-hired-sword" element={guarded(<AddHiredSwordScreen />)} />
             <Route path="/warbands/:warbandId/hero/:modelId" element={guarded(<ModelDetailScreen kind="hero" />)} />
             <Route
               path="/warbands/:warbandId/hired-sword/:modelId"
@@ -97,9 +106,6 @@ function AppShell() {
               )}
             />
             <Route path="/campaign" element={guarded(<CampaignScreen />)} />
-            {/* Someone else's roster, read-only. Reached from campaign standings
-                and from the public gallery, hence the neutral path. */}
-            <Route path="/rosters/:warbandId" element={guarded(<SharedWarbandScreen />)} />
             {/* Where standings used to link; kept so older in-app links still land. */}
             <Route path="/campaign/warbands/:warbandId" element={guarded(<SharedWarbandScreen />)} />
 

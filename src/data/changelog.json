@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-07-29",
+    "title": "Recruiting Follows the Rules (and Costs Gold)",
+    "description": "Heroes and henchmen now cost gold when you recruit them, and the warband's maximum size is respected — a henchmen group could previously be sized straight past it. Units you've filled up are greyed out instead of silently accepting more. Hired Swords can finally be hired, with their fee, upkeep, stats and special rules shown before you commit, and they correctly don't take up a warband slot. Every warrior now starts with the free dagger the rules give them, and each unit arrives carrying its own special rules from the book — Leader, Large, Ranger and the rest — instead of a blank card. Warbands are listed A–Z with their source and grade. One rating bug fixed: a henchmen group's Experience counted once for the whole group instead of once per model, so five veterans with 4 XP each scored 29 instead of 45."
+  },
+  {
+    "date": "2026-07-29",
+    "title": "Browse Public Warbands Without an Account",
+    "description": "Warbands that players have marked public can now be viewed by anyone, no sign-in needed — so you can send someone a link to your roster and they can actually read it. Find them under \"Browse Public Warbands\" on the home page. Campaigns changed too: the join-code field is always visible now instead of hidden away, so joining a second campaign is straightforward, and the app no longer invents a campaign called \"My Campaign\" behind your back the first time you finish a battle. Battles fought outside a campaign are kept as your own."
+  },
+  {
     "date": "2026-07-28",
     "title": "Updates Arrive Straight Away",
     "description": "The app used to keep a copy of itself on your device, which meant a new version could sit there unnoticed while the old one kept loading — you'd have had to clear your browser data to see changes. That copy is gone, so you always get the current version. Adding the app to your home screen still works exactly as before. The app has needed an internet connection since accounts arrived, so there was nothing to gain by keeping it."

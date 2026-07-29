@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import RuleEntryList from '../components/RuleEntryList';
 import InviteShareButtons from '../components/InviteShareButtons';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
@@ -14,18 +13,18 @@ import {
   useRegenerateJoinCodeMutation,
   useRemoveMemberMutation,
   useSaveCampaignMutation,
+  usePersonalBattlesQuery,
   useSetActiveCampaign,
   useStandingsQuery,
 } from '../hooks/useCampaign';
 import { useObjectiveQuery, useSaveObjectiveMutation } from '../hooks/useObjective';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { useWarbandList } from '../hooks/useWarbands';
-import { getCampaignTabRuleEntries } from '../lib/rulesIndex';
 import objectivesData from '../data/btb/objectives.json';
 import { BtbObjectivesData } from '../data/types';
 import { BattleRecord, BtbObjective, Campaign, StandingsRow, Warband } from '../types';
 
-type Tab = 'log' | 'standings' | 'players' | 'rules';
+type Tab = 'log' | 'standings' | 'players';
 
 /** The editable part of an objective — the row's id/warbandId are set server-side. */
 type ObjectiveFields = Omit<BtbObjective, 'id' | 'warbandId'>;
@@ -44,11 +43,12 @@ const RESULT_CLASSES: Record<BattleRecord['result'], string> = {
   draw: 'border-ink-700 text-bone-300',
 };
 
+// No Rules tab: the campaign rules are in the Rules Reference, and duplicating
+// an entry point here pushed the tabs that do something into a cramped row.
 const TABS: { id: Tab; label: string }[] = [
   { id: 'log', label: strings.campaign.logTab },
   { id: 'standings', label: strings.campaign.standingsTab },
   { id: 'players', label: strings.campaign.membersTab },
-  { id: 'rules', label: strings.campaign.rulesTab },
 ];
 
 function BattleRow({ battle, warbandName }: { battle: BattleRecord; warbandName: string }) {
@@ -185,7 +185,7 @@ function ObjectiveCard({ warband }: { warband: Warband }) {
  * code, and gating this behind "has no campaign" would lock most users out of
  * ever joining one.
  */
-function JoinCampaignForm({ title }: { title: string }) {
+function JoinCampaignForm({ title, compact = false }: { title: string; compact?: boolean }) {
   const joinCampaign = useJoinCampaignMutation();
   const [code, setCode] = useState('');
   const [joinError, setJoinError] = useState<string | null>(null);
@@ -200,32 +200,65 @@ function JoinCampaignForm({ title }: { title: string }) {
     else setCode('');
   }
 
+  const field = (
+    <input
+      type="text"
+      value={code}
+      onChange={(e) => setCode(e.target.value)}
+      placeholder={strings.campaign.joinCodePlaceholder}
+      aria-label={strings.campaign.joinCodeLabel}
+      autoCapitalize="characters"
+      autoCorrect="off"
+      spellCheck={false}
+      className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 font-mono tracking-widest uppercase focus:outline-none focus:border-ember-500"
+    />
+  );
+
+  const submit = (
+    <button
+      type="button"
+      onClick={handleJoin}
+      disabled={joining || !code.trim()}
+      className="min-h-[48px] px-4 rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 disabled:opacity-50 transition-colors shrink-0"
+    >
+      {strings.campaign.joinButton}
+    </button>
+  );
+
+  // Compact: one row above the tabs, so it's visible without hunting for it but
+  // doesn't compete with the campaign you're actually looking at.
+  if (compact) {
+    return (
+      <section className="space-y-2">
+        <label className="block text-bone-300 text-sm">{title}</label>
+        <div className="flex gap-2">
+          {field}
+          {submit}
+        </div>
+        {joinError && <p className="text-sm text-red-400">{joinError}</p>}
+      </section>
+    );
+  }
+
   return (
     <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
       <h2 className="text-bone-100 font-semibold">{title}</h2>
       <p className="text-bone-300 text-sm">{strings.campaign.joinHint}</p>
       <div className="space-y-1">
         <label className="text-bone-300 text-sm">{strings.campaign.joinCodeLabel}</label>
-        <input
-          type="text"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          placeholder={strings.campaign.joinCodePlaceholder}
-          autoCapitalize="characters"
-          autoCorrect="off"
-          spellCheck={false}
-          className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 font-mono tracking-widest uppercase focus:outline-none focus:border-ember-500"
-        />
+        {field}
       </div>
       {joinError && <p className="text-sm text-red-400">{joinError}</p>}
-      <button
-        type="button"
-        onClick={handleJoin}
-        disabled={joining || !code.trim()}
-        className="w-full min-h-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 disabled:opacity-50 transition-colors"
-      >
-        {strings.campaign.joinButton}
-      </button>
+      <div className="flex">
+        <button
+          type="button"
+          onClick={handleJoin}
+          disabled={joining || !code.trim()}
+          className="w-full min-h-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 disabled:opacity-50 transition-colors"
+        >
+          {strings.campaign.joinButton}
+        </button>
+      </div>
     </section>
   );
 }
@@ -233,8 +266,14 @@ function JoinCampaignForm({ title }: { title: string }) {
 /** First-run state: no campaign yet, so offer both ways in. */
 function CampaignEntry() {
   const createCampaign = useCreateCampaignMutation();
+  const warbands = useWarbandList();
+  const { data: personalBattles } = usePersonalBattlesQuery();
   const [draftName, setDraftName] = useState('My Campaign');
   const [draftUsesBtb, setDraftUsesBtb] = useState(false);
+
+  function warbandName(id: string): string {
+    return warbands.find((w) => w.id === id)?.name ?? strings.campaign.unknownWarband;
+  }
 
   return (
     <>
@@ -276,6 +315,21 @@ function CampaignEntry() {
       </div>
 
       <JoinCampaignForm title={strings.campaign.joinTitle} />
+
+      {/* Battles fought without a campaign still happened. They used to force a
+          campaign into existence just to have somewhere to go; now they're
+          listed here so the history is still reachable. */}
+      {(personalBattles?.length ?? 0) > 0 && (
+        <section className="space-y-3">
+          <h2 className="text-bone-100 font-semibold">{strings.campaign.personalBattlesSection}</h2>
+          <p className="text-bone-300 text-xs">{strings.campaign.personalBattlesHint}</p>
+          <div className="space-y-2">
+            {[...(personalBattles ?? [])].reverse().map((battle) => (
+              <BattleRow key={battle.id} battle={battle} warbandName={warbandName(battle.warbandId)} />
+            ))}
+          </div>
+        </section>
+      )}
     </>
   );
 }
@@ -455,7 +509,6 @@ export default function CampaignScreen() {
   const warbands = useWarbandList();
   const saveCampaign = useSaveCampaignMutation();
   const [tab, setTab] = useState<Tab>('log');
-  const ruleEntries = getCampaignTabRuleEntries();
 
   const isLeader = (members ?? []).some((m) => m.userId === user?.id && m.role === 'campaign_leader');
 
@@ -489,9 +542,7 @@ export default function CampaignScreen() {
       </div>
 
       <main className="flex-1 px-4 py-4 space-y-6">
-        {tab === 'rules' ? (
-          <RuleEntryList entries={ruleEntries} emptyMessage={strings.rules.noEntriesInCategory} />
-        ) : !campaign ? (
+        {!campaign ? (
           <CampaignEntry />
         ) : (
           <>
@@ -512,6 +563,11 @@ export default function CampaignScreen() {
                 </select>
               </div>
             )}
+
+            {/* Always on screen, not buried under a tab: in the user test nobody
+                found the join field once they already had a campaign, which read
+                as "you can only be in one". */}
+            <JoinCampaignForm title={strings.campaign.joinAnotherTitle} compact />
 
             {tab === 'log' && (
               <>
@@ -590,9 +646,6 @@ export default function CampaignScreen() {
               <>
                 <JoinCodeCard campaign={campaign} isLeader={isLeader} />
                 <MembersList campaign={campaign} isLeader={isLeader} />
-                {/* Joining a second campaign has to be reachable from here —
-                    the create-or-join entry state is gone once you have one. */}
-                <JoinCampaignForm title={strings.campaign.joinAnotherTitle} />
               </>
             )}
           </>

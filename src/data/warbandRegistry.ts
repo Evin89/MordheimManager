@@ -52,3 +52,38 @@ export function getWarbandDefinition(id: string): WarbandDefinition | undefined 
 export function getWarbandTypeName(id: string): string {
   return getWarbandDefinition(id)?.name ?? id;
 }
+
+export type WarbandProvenance = {
+  /** Where the list comes from, e.g. "Core rulebook". */
+  source: string;
+  /** Fan-supplement grade where the source states one, else null. */
+  grade: string | null;
+};
+
+/**
+ * Short provenance label for a warband list.
+ *
+ * Derived from the `source` field each data file already carries rather than a
+ * new hand-maintained column — the citation is the authority, so reading it
+ * keeps the label honest and means a corrected source can't drift out of sync
+ * with a separately stored grade. Unrecognised sources fall back to the raw
+ * text's first clause rather than guessing.
+ */
+export function getWarbandProvenance(definition: WarbandDefinition): WarbandProvenance {
+  const raw = definition.source ?? '';
+  const grade = /grade[-\s]?1a/i.test(raw) ? 'Grade 1a' : null;
+
+  let source: string;
+  if (/border town burning/i.test(raw)) source = 'Border Town Burning';
+  else if (/mordheim rulebook/i.test(raw)) source = 'Core rulebook';
+  else if (/new mordheimer/i.test(raw)) source = 'The New Mordheimer';
+  else source = raw.split(/[,—]/)[0]?.trim() || 'Unknown source';
+
+  return { source, grade };
+}
+
+/** Warbands A–Z. The declaration order above follows the order the data files
+ * were written, which is meaningless to someone picking from a list. */
+export const warbandDefinitionsByName: WarbandDefinition[] = [...warbandDefinitions].sort((a, b) =>
+  a.name.localeCompare(b.name),
+);

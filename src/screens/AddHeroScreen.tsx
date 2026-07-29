@@ -5,6 +5,7 @@ import { strings } from '../strings';
 import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
 import { getWarbandDefinition } from '../data/warbandRegistry';
 import { createHeroFromSlot } from '../lib/warbandFactory';
+import { remainingHeroSlots, remainingWarbandCapacity } from '../lib/warbandLimits';
 
 export default function AddHeroScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
@@ -21,22 +22,38 @@ export default function AddHeroScreen() {
   if (!definition) return <Navigate to={`/warbands/${warband.id}`} replace />;
 
   const slot = definition.heroSlots.find((s) => s.id === slotId);
+  const cost = slot?.cost ?? 0;
+  const capacity = remainingWarbandCapacity(warband, definition);
+  const slotsLeft = slot ? remainingHeroSlots(warband, slot) : null;
+  const atSlotLimit = slotsLeft === 0;
+  const atSizeLimit = capacity === 0;
+  const canAfford = cost <= warband.gold;
 
   function handleAdd() {
     if (!name.trim()) {
       setError(strings.newWarband.nameRequired);
       return;
     }
-    if (!slot || !warband) return;
+    if (!slot || !warband || !definition) return;
 
-    const currentCount = warband.heroes.filter((h) => h.unitType === slot.unitType).length;
-    if (slot.maxCount !== null && currentCount >= slot.maxCount) {
-      const proceed = window.confirm(strings.roster.slotLimitWarning(slot.unitType, slot.maxCount));
-      if (!proceed) return;
+    // Both limits are rulebook limits rather than app invariants, and groups do
+    // bend them by agreement, so these confirm rather than refuse.
+    if (atSlotLimit && slot.maxCount !== null) {
+      if (!window.confirm(strings.roster.slotLimitWarning(slot.unitType, slot.maxCount))) return;
+    }
+    if (atSizeLimit && definition.maxWarbandSize !== null) {
+      if (!window.confirm(strings.roster.warbandSizeWarning(definition.maxWarbandSize))) return;
+    }
+    if (!canAfford) {
+      if (!window.confirm(strings.trading.insufficientGoldConfirm(cost, warband.gold))) return;
     }
 
     const hero = createHeroFromSlot(slot, name.trim());
-    saveWarband({ ...warband, heroes: [...warband.heroes, hero] });
+    saveWarband({
+      ...warband,
+      gold: warband.gold - cost,
+      heroes: [...warband.heroes, hero],
+    });
     navigate(`/warbands/${warband.id}`, { replace: true });
   }
 
@@ -55,16 +72,32 @@ export default function AddHeroScreen() {
             onChange={(e) => setSlotId(e.target.value)}
             className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
           >
-            {definition.heroSlots.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.unitType} ({s.cost ?? '?'} {strings.common.gold})
-              </option>
-            ))}
+            {definition.heroSlots.map((s) => {
+              const left = remainingHeroSlots(warband!, s);
+              return (
+                // Kept selectable but visibly spent, so you can still see the
+                // unit exists and what it costs — a silently missing option
+                // reads as a bug.
+                <option key={s.id} value={s.id} disabled={left === 0}>
+                  {s.unitType} ({s.cost ?? '?'} {strings.common.gold})
+                  {left === 0 ? ` — ${strings.roster.slotFull}` : ''}
+                </option>
+              );
+            })}
           </select>
           {slot && (
             <p className="text-bone-300 text-sm">
-              Max in warband: {slot.maxCount ?? 'unlimited'} · Starting XP: {slot.startingXp ?? 0}
+              {slotsLeft === null
+                ? strings.roster.slotsUnlimited
+                : strings.roster.slotsRemaining(slotsLeft, slot.maxCount ?? 0)}{' '}
+              · {strings.roster.startingXpLabel(slot.startingXp ?? 0)}
             </p>
+          )}
+          <p className={`text-sm ${canAfford ? 'text-bone-300' : 'text-blood-500'}`}>
+            {strings.roster.costVsTreasury(cost, warband.gold)}
+          </p>
+          {atSizeLimit && definition.maxWarbandSize !== null && (
+            <p className="text-blood-500 text-sm">{strings.roster.atMaxSize(definition.maxWarbandSize)}</p>
           )}
         </div>
 

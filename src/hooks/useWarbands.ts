@@ -225,12 +225,12 @@ export function useSetWarbandVisibilityMutation() {
  * database declined to return it — treat that as "not visible", not an error.
  */
 /** The public gallery. Not keyed by user — the same list for everyone signed in. */
+/** Deliberately not gated on `user`: the gallery is readable signed out, which
+ * the database enforces via the anon select policy on public warbands (0004). */
 export function usePublicWarbandsQuery() {
-  const { user } = useAuth();
   return useQuery({
     queryKey: ['publicWarbands'],
     queryFn: fetchPublicWarbands,
-    enabled: !!user,
   });
 }
 

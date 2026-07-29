@@ -1,7 +1,47 @@
-import { HenchmenTypeDefinition, HeroSlotDefinition, WarbandDefinition } from '../data/types';
+import { HenchmenTypeDefinition, HeroSlotDefinition, HiredSwordDefinition, WarbandDefinition } from '../data/types';
 import { generateId } from './id';
 import { resolveStatLine } from './statLine';
-import { Hero, HenchmenGroup, Warband, WARBAND_SCHEMA_VERSION } from '../types';
+import { EquipmentItem, Hero, HenchmenGroup, HiredSword, Warband, WARBAND_SCHEMA_VERSION } from '../types';
+
+/**
+ * Every warrior carries a dagger.
+ *
+ * A core-rulebook freebie ("all warriors are assumed to have a dagger in
+ * addition to any other equipment"), which is why it costs nothing and is
+ * handed out at creation rather than bought. It's a real equipment entry so it
+ * shows on the model and can be seen in the shop's sell list at 0 gc — the
+ * alternative, special-casing an invisible weapon, hides a thing that matters
+ * in close combat.
+ */
+export function createFreeDagger(): EquipmentItem {
+  return {
+    id: generateId(),
+    name: 'Dagger',
+    category: 'melee',
+    cost: 0,
+    notes: 'Free — every warrior carries one (rulebook, Equipment).',
+  };
+}
+
+/**
+ * Carries the unit's own rules text onto the model.
+ *
+ * Each hero slot and henchman type already stores the book's entry for that
+ * unit — "Leader: any warrior within 6\" may use his Leadership", "Large",
+ * "Ranger: roll two dice for Exploration" — but creating a model dropped it, so
+ * abilities a warrior has from the moment you recruit him were nowhere on his
+ * card. The text is kept verbatim rather than parsed into structured skills:
+ * it's prose in the source, and splitting it would mean deciding which phrases
+ * are skills, which are one-off rules, and which are just the hire cost.
+ */
+function composeModelNotes(sourceNotes: string, statsWarning: boolean): string {
+  const parts: string[] = [];
+  if (sourceNotes?.trim()) parts.push(sourceNotes.trim());
+  if (statsWarning) {
+    parts.push('Some stats were not verified in the warband data (defaulted to 0) — check against the rulebook.');
+  }
+  return parts.join('\n\n');
+}
 
 export function createHeroFromSlot(slot: HeroSlotDefinition, name: string): Hero {
   const { stats, hadMissingStats } = resolveStatLine(slot.statLine);
@@ -21,9 +61,9 @@ export function createHeroFromSlot(slot: HeroSlotDefinition, name: string): Hero
     skillLists: slot.skillLists,
     skills: [],
     injuries: [],
-    equipment: [],
+    equipment: [createFreeDagger()],
     status: 'active',
-    notes: hadMissingStats || maxesMissing ? 'Some stats were not verified in the warband data (defaulted to 0) — check against the rulebook.' : '',
+    notes: composeModelNotes(slot.notes, hadMissingStats || maxesMissing),
   };
 }
 
@@ -44,8 +84,60 @@ export function createHenchmenGroupFromType(
     stats,
     xp: 0,
     advances: [],
-    equipment: [],
-    notes: hadMissingStats ? 'Some stats were not verified in the warband data (defaulted to 0) — check against the rulebook.' : '',
+    equipment: [createFreeDagger()],
+    notes: composeModelNotes(type.notes, hadMissingStats),
+  };
+}
+
+/**
+ * Hires a Hired Sword onto the roster.
+ *
+ * `countsTowardMax` is false by the rules: Hired Swords are paid help, not
+ * members of the warband, so they don't occupy one of its slots — see
+ * `countTowardWarbandSize`, which honours the same distinction.
+ *
+ * Their starting gear is free text in the data ("Morning star, spiked gauntlet
+ * … and helmet"), because the rulebook writes it as prose rather than a list of
+ * priced items. It's carried into `notes` verbatim instead of being split into
+ * equipment entries, since splitting it would mean guessing at which catalogue
+ * item each phrase refers to.
+ */
+export function createHiredSwordFromDefinition(
+  definition: HiredSwordDefinition,
+  name: string,
+): HiredSword {
+  const { stats, hadMissingStats } = resolveStatLine(definition.statLine);
+  const notes = [
+    definition.equipment ? `Equipment: ${definition.equipment}` : '',
+    definition.specialRules ? `Special rules: ${definition.specialRules}` : '',
+    definition.ratingBonus ? `Rating: ${definition.ratingBonus}` : '',
+    hadMissingStats ? 'Some stats were not verified in the source data (defaulted to 0).' : '',
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  return {
+    id: generateId(),
+    name,
+    type: definition.name,
+    hireFee: definition.hireFee ?? 0,
+    upkeep: definition.upkeep ?? 0,
+    isLeader: false,
+    isLargeCreature: false,
+    countsTowardMax: false,
+    stats,
+    // The source lists no separate maximums for Hired Swords, so their starting
+    // line doubles as the ceiling rather than inventing one.
+    statMaximums: stats,
+    xp: 0,
+    startingXp: 0,
+    advances: [],
+    skillLists: definition.skillLists,
+    skills: [],
+    injuries: [],
+    equipment: [createFreeDagger()],
+    status: 'active',
+    notes,
   };
 }
 

@@ -19,7 +19,26 @@ export async function fetchBattles(campaignId: string): Promise<BattleRecord[]> 
   return (data as BattleRow[]).map((row) => row.data);
 }
 
-export async function insertBattle(campaignId: string, reportedBy: string, battle: BattleRecord): Promise<BattleRecord> {
+/** Battles the user fought outside any campaign. Personal by definition — RLS
+ * only returns campaign-less rows to whoever reported them. */
+export async function fetchPersonalBattles(userId: string): Promise<BattleRecord[]> {
+  const { data, error } = await supabase
+    .from('battles')
+    .select('*')
+    .is('campaign_id', null)
+    .eq('reported_by', userId)
+    .order('created_at', { ascending: true });
+  if (error) throw error;
+  return (data as BattleRow[]).map((row) => row.data);
+}
+
+/** `campaignId` is null for a one-off battle outside a campaign — the app no
+ * longer invents a campaign just to have somewhere to file the record. */
+export async function insertBattle(
+  campaignId: string | null,
+  reportedBy: string,
+  battle: BattleRecord,
+): Promise<BattleRecord> {
   const { data, error } = await supabase
     .from('battles')
     .insert({ id: battle.id, campaign_id: campaignId, reported_by: reportedBy, data: battle })

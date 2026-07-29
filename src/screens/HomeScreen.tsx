@@ -37,13 +37,19 @@ function SignedOutHome() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.nav.rules}</h2>
+          <h2 className="text-bone-100 font-semibold">{strings.home.noAccountNeeded}</h2>
           <div className="space-y-2">
             <Link
               to="/rules"
               className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
             >
               {strings.home.browseRules}
+            </Link>
+            <Link
+              to="/gallery"
+              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
+            >
+              {strings.home.browseGallery}
             </Link>
           </div>
         </section>

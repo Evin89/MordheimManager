@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import { strings } from '../strings';
-import { warbandDefinitions } from '../data/warbandRegistry';
+import { getWarbandProvenance, warbandDefinitionsByName } from '../data/warbandRegistry';
 import { createWarband } from '../lib/warbandFactory';
 import { useCreateWarbandMutation } from '../hooks/useWarbands';
 
@@ -10,11 +10,11 @@ export default function NewWarbandScreen() {
   const navigate = useNavigate();
   const createWarbandOnServer = useCreateWarbandMutation();
   const [name, setName] = useState('');
-  const [typeId, setTypeId] = useState(warbandDefinitions[0]?.id ?? '');
+  const [typeId, setTypeId] = useState(warbandDefinitionsByName[0]?.id ?? '');
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
-  const definition = warbandDefinitions.find((def) => def.id === typeId);
+  const definition = warbandDefinitionsByName.find((def) => def.id === typeId);
 
   async function handleCreate() {
     if (!name.trim()) {
@@ -70,16 +70,28 @@ export default function NewWarbandScreen() {
             onChange={(e) => setTypeId(e.target.value)}
             className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
           >
-            {warbandDefinitions.map((def) => (
-              <option key={def.id} value={def.id}>
-                {def.name}
-              </option>
-            ))}
+            {warbandDefinitionsByName.map((def) => {
+              const { source, grade } = getWarbandProvenance(def);
+              return (
+                <option key={def.id} value={def.id}>
+                  {def.name} — {grade ? `${source}, ${grade}` : source}
+                </option>
+              );
+            })}
           </select>
           {definition && (
-            <p className="text-bone-300 text-sm">
-              Starting gold: {definition.startingGold ?? '?'} {strings.common.gold} · Max size: {definition.maxWarbandSize ?? '?'}
-            </p>
+            <>
+              <p className="text-bone-300 text-sm">
+                Starting gold: {definition.startingGold ?? '?'} {strings.common.gold} · Max size:{' '}
+                {definition.maxWarbandSize ?? '?'}
+              </p>
+              <p className="text-bone-400 text-xs">
+                {(() => {
+                  const { source, grade } = getWarbandProvenance(definition);
+                  return grade ? `${source} · ${grade}` : source;
+                })()}
+              </p>
+            </>
           )}
         </div>
 

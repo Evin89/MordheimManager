@@ -20,7 +20,11 @@ export function computeWarbandRating(warband: Warband): number {
   }
 
   for (const group of warband.henchmenGroups) {
-    rating += (group.isLargeCreature ? 20 : 5) * group.count + group.xp;
+    // `group.xp` is the Experience of *each* member — a Henchmen group advances
+    // together and every model in it carries the same value — so it counts once
+    // per model, exactly like the 5-per-model part. Counting it once for the
+    // whole group understated a group of five veterans by four times their XP.
+    rating += ((group.isLargeCreature ? 20 : 5) + group.xp) * group.count;
   }
 
   for (const sword of warband.hiredSwords) {
