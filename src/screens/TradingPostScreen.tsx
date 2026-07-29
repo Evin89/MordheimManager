@@ -9,6 +9,7 @@ import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
+import { EQUIPMENT_CATEGORY_LABELS, groupByCategory } from '../lib/equipmentCategories';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
 import { getTradingTabRuleEntries } from '../lib/rulesIndex';
 import { EquipmentItem, Warband } from '../types';
@@ -164,11 +165,16 @@ export default function TradingPostScreen() {
               ) : (
                 <>
                   <p className="text-bone-300 text-xs">{strings.trading.treasuryHint}</p>
-                  <div className="space-y-2">
-                    {warband.treasury.map((item) => (
-                      <TreasuryRow key={item.id} item={item} onSell={sellItem} />
-                    ))}
-                  </div>
+                  {groupByCategory(warband.treasury).map(({ category, items }) => (
+                    <div key={category} className="space-y-2">
+                      <h3 className="text-ember-400 text-xs font-semibold uppercase tracking-wide pt-2">
+                        {EQUIPMENT_CATEGORY_LABELS[category]}
+                      </h3>
+                      {items.map((item) => (
+                        <TreasuryRow key={item.id} item={item} onSell={sellItem} />
+                      ))}
+                    </div>
+                  ))}
                 </>
               )}
             </section>

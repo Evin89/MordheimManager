@@ -1,6 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { strings } from '../strings';
+import DisclosureChevron from './DisclosureChevron';
 import WeaponProfileView from './WeaponProfileView';
 import { WeaponRule, getWeaponRuleByName } from '../lib/weaponRules';
 
@@ -46,7 +47,9 @@ export default function WeaponRulesDisclosure({ name, rule, toggleLabel, subtitl
             className="flex items-center gap-2 min-w-0 text-left"
             aria-expanded={open}
           >
-            <span className={`text-ember-400 text-[10px] transition-transform ${open ? 'rotate-90' : ''}`}>▶</span>
+            <span className="text-ember-400">
+              <DisclosureChevron open={open} className="h-3 w-3" />
+            </span>
             <span className="min-w-0">
               <span className={nameClass}>{headerLabel}</span>
               {subtitle && <span className="block text-bone-300 text-xs">{subtitle}</span>}

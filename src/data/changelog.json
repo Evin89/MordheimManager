@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-07-29",
+    "title": "Laid Out Like the Book",
+    "description": "The Trading Post and your treasury now group gear the way the price chart does — Hand-to-hand Combat Weapons, Missile Weapons, Armour, Miscellaneous — instead of one long list. Henchmen are listed out individually under their group, so four Swordsmen read as four models rather than a multiplier, and their Experience now says \"each\" because that is how it works. The Rules Reference opens as a chapter list you can expand and collapse, with the number of entries in each; searching still shows a flat list of matches. The Exploration chart is in there too — all 30 results, the wyrdstone shards table and the magical artefacts table."
+  },
+  {
+    "date": "2026-07-29",
+    "title": "Pick Your Opponent From the Campaign",
+    "description": "Before a battle you can now choose any warband entered in your campaign as the opponent, not just your own, and their roster is available for reference during the game. Casualties are the big one: tap a Hero out of action, or count how many of a henchmen group went down, and those numbers are waiting for you in the post-battle Injuries step instead of being re-entered from memory afterwards. Stepping the turn counter back now asks first."
+  },
+  {
+    "date": "2026-07-29",
     "title": "Advances Follow the Experience Track",
     "description": "The post-battle Advances step used to offer an advance to anyone who gained a single point of Experience, which is why it handed out far more than a campaign should. It now counts how many Experience boxes a warrior actually crossed, and each card says how many advances are still to record. Characteristics at their racial maximum can no longer be raised — the old warning triangle looked serious but applied the increase anyway — and rolling one that's already maxed now tells you to roll again, as the rulebook says. Made a mistake? Every recorded advance can be tapped away, instead of restarting the whole wizard. Dead warriors no longer collect Experience or advances, and \"That Lad's Got Talent\" can finally be recorded: the promoted henchman leaves his group and joins your Heroes with his characteristics and Experience intact."
   },

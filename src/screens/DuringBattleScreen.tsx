@@ -3,22 +3,76 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { strings } from '../strings';
-import { BattleSession, useAppStore } from '../store/useAppStore';
-import { useWarbandList } from '../hooks/useWarbands';
+import {
+  BattleSession,
+  OutOfActionTally,
+  defaultBattleSession,
+  useAppStore,
+} from '../store/useAppStore';
+import { useSharedWarbandQuery, useWarbandList } from '../hooks/useWarbands';
 import { generateId } from '../lib/id';
 import { STAT_KEYS } from '../lib/statLine';
 import { EquipmentItem, StatLine, Warband } from '../types';
 
-function defaultSession(warbandId: string): BattleSession {
-  return {
-    warbandId,
-    scenario: '',
-    opponentWarbandId: null,
-    opponentName: '',
-    turn: 1,
-    events: [],
-    notes: '',
-  };
+/** Marks a single model down, or counts how many of a group went down. */
+type OutOfActionControl =
+  | { kind: 'single'; active: boolean; onToggle: () => void }
+  | { kind: 'group'; downed: number; total: number; onChange: (downed: number) => void };
+
+function OutOfActionButtons({ control }: { control: OutOfActionControl }) {
+  if (control.kind === 'single') {
+    return (
+      <button
+        type="button"
+        onClick={control.onToggle}
+        aria-pressed={control.active}
+        className={`w-full min-h-[44px] rounded-md border text-sm font-semibold transition-colors ${
+          control.active
+            ? 'bg-blood-600 border-blood-600 text-bone-100'
+            : 'border-ink-700 text-bone-200 hover:bg-ink-800'
+        }`}
+      >
+        {control.active
+          ? strings.battle.duringBattle.outOfActionMarked
+          : strings.battle.duringBattle.markOutOfAction}
+      </button>
+    );
+  }
+
+  // Stepper rather than a text field: this gets tapped mid-game, often
+  // one-handed, and the range is tiny.
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-bone-300 text-xs uppercase tracking-wide flex-1">
+        {strings.battle.duringBattle.outOfActionCount}
+      </span>
+      <button
+        type="button"
+        onClick={() => control.onChange(Math.max(0, control.downed - 1))}
+        disabled={control.downed <= 0}
+        aria-label={strings.battle.duringBattle.oneFewerDown}
+        className="min-h-[44px] min-w-[44px] rounded-md border border-ink-700 text-bone-100 font-bold disabled:opacity-40"
+      >
+        −
+      </button>
+      <span
+        className={`min-w-[3.5rem] text-center font-semibold ${
+          control.downed > 0 ? 'text-blood-500' : 'text-bone-100'
+        }`}
+      >
+        {control.downed}/{control.total}
+      </span>
+      <button
+        type="button"
+        onClick={() => control.onChange(Math.min(control.total, control.downed + 1))}
+        disabled={control.downed >= control.total}
+        aria-label={strings.battle.duringBattle.oneMoreDown}
+        className="min-h-[44px] min-w-[44px] rounded-md border border-ink-700 text-bone-100 font-bold disabled:opacity-40"
+      >
+        +
+      </button>
+    </div>
+  );
 }
 
 function RosterCard({
@@ -28,6 +82,7 @@ function RosterCard({
   equipment,
   skills,
   detailLink,
+  outOfAction,
 }: {
   name: string;
   subtitle: string;
@@ -35,9 +90,18 @@ function RosterCard({
   equipment: EquipmentItem[];
   skills?: string[];
   detailLink: string;
+  outOfAction?: OutOfActionControl;
 }) {
+  const anyDown =
+    outOfAction &&
+    (outOfAction.kind === 'single' ? outOfAction.active : outOfAction.downed > 0);
+
   return (
-    <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
+    <div
+      className={`rounded-lg bg-ink-900 border p-4 space-y-2 transition-colors ${
+        anyDown ? 'border-blood-600' : 'border-ink-800'
+      }`}
+    >
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="text-bone-100 font-semibold truncate">{name}</p>
@@ -69,11 +133,48 @@ function RosterCard({
           {skills.length > 0 ? skills.join(', ') : strings.battle.duringBattle.noSkills}
         </p>
       )}
+      {outOfAction && (
+        <div className="pt-1 border-t border-ink-800">
+          <OutOfActionButtons control={outOfAction} />
+        </div>
+      )}
     </div>
   );
 }
 
-function RosterReference({ warband }: { warband: Warband }) {
+/**
+ * The quick-reference roster.
+ *
+ * `tally` is only supplied for your own warband: marking models down is your
+ * own bookkeeping, and the opponent's roster here is a read-only reference you
+ * happen to be able to see. Passing it also switches the cards from plain
+ * reference to interactive.
+ */
+function RosterReference({
+  warband,
+  tally,
+  onTallyChange,
+}: {
+  warband: Warband;
+  tally?: OutOfActionTally;
+  onTallyChange?: (next: OutOfActionTally) => void;
+}) {
+  const interactive = tally !== undefined && onTallyChange !== undefined;
+
+  function toggleId(key: 'heroIds' | 'hiredSwordIds', id: string) {
+    if (!tally || !onTallyChange) return;
+    const current = tally[key];
+    onTallyChange({
+      ...tally,
+      [key]: current.includes(id) ? current.filter((x) => x !== id) : [...current, id],
+    });
+  }
+
+  function setGroupCount(groupId: string, downed: number) {
+    if (!tally || !onTallyChange) return;
+    onTallyChange({ ...tally, henchmenCounts: { ...tally.henchmenCounts, [groupId]: downed } });
+  }
+
   return (
     <div className="space-y-2">
       {warband.heroes.map((hero) => (
@@ -85,6 +186,15 @@ function RosterReference({ warband }: { warband: Warband }) {
           equipment={hero.equipment}
           skills={hero.skills}
           detailLink={`/warbands/${warband.id}/hero/${hero.id}`}
+          outOfAction={
+            interactive
+              ? {
+                  kind: 'single',
+                  active: tally!.heroIds.includes(hero.id),
+                  onToggle: () => toggleId('heroIds', hero.id),
+                }
+              : undefined
+          }
         />
       ))}
       {warband.henchmenGroups.map((group) => (
@@ -95,6 +205,16 @@ function RosterReference({ warband }: { warband: Warband }) {
           stats={group.stats}
           equipment={group.equipment}
           detailLink={`/warbands/${warband.id}/henchmen/${group.id}`}
+          outOfAction={
+            interactive
+              ? {
+                  kind: 'group',
+                  downed: Math.min(tally!.henchmenCounts[group.id] ?? 0, group.count),
+                  total: group.count,
+                  onChange: (downed) => setGroupCount(group.id, downed),
+                }
+              : undefined
+          }
         />
       ))}
       {warband.hiredSwords.map((sword) => (
@@ -106,6 +226,15 @@ function RosterReference({ warband }: { warband: Warband }) {
           equipment={sword.equipment}
           skills={sword.skills}
           detailLink={`/warbands/${warband.id}/hired-sword/${sword.id}`}
+          outOfAction={
+            interactive
+              ? {
+                  kind: 'single',
+                  active: tally!.hiredSwordIds.includes(sword.id),
+                  onToggle: () => toggleId('hiredSwordIds', sword.id),
+                }
+              : undefined
+          }
         />
       ))}
     </div>
@@ -121,12 +250,20 @@ export default function DuringBattleScreen() {
   const setStoredSession = useAppStore((state) => state.setBattleSession);
 
   const [session, setSession] = useState<BattleSession>(
-    () => storedSession ?? defaultSession(warbandId ?? ''),
+    () => storedSession ?? defaultBattleSession(warbandId ?? ''),
   );
   const [newEventText, setNewEventText] = useState('');
   const [viewSide, setViewSide] = useState<'mine' | 'opponent'>('mine');
 
-  const opponentWarband = warbands.find((w) => w.id === session.opponentWarbandId);
+  const ownOpponent = warbands.find((w) => w.id === session.opponentWarbandId);
+  // A campaign opponent belongs to another player, so it isn't in `warbands`
+  // (that query is scoped to `owner_id = me`). Fetch it through the shared
+  // read-only path, which RLS allows for campaign-mates. Skipped when the
+  // opponent is one of my own.
+  const { data: sharedOpponent } = useSharedWarbandQuery(
+    ownOpponent ? undefined : (session.opponentWarbandId ?? undefined),
+  );
+  const opponentWarband = ownOpponent ?? sharedOpponent ?? undefined;
 
   if (!warband) return <Navigate to="/warbands" replace />;
 
@@ -159,8 +296,17 @@ export default function DuringBattleScreen() {
           <div className="flex items-center justify-center gap-4">
             <button
               type="button"
-              onClick={() => updateSession({ turn: Math.max(1, session.turn - 1) })}
-              className="min-h-[48px] min-w-[48px] rounded-md border border-ink-700 text-bone-100 text-xl font-bold"
+              // Confirmed because it's destructive in practice: the turn counter
+              // is the one number nobody can reconstruct, and the button sits a
+              // thumb's width from "+".
+              onClick={() => {
+                if (session.turn <= 1) return;
+                if (window.confirm(strings.battle.duringBattle.turnBackConfirm(session.turn - 1))) {
+                  updateSession({ turn: session.turn - 1 });
+                }
+              }}
+              disabled={session.turn <= 1}
+              className="min-h-[48px] min-w-[48px] rounded-md border border-ink-700 text-bone-100 text-xl font-bold disabled:opacity-40"
             >
               −
             </button>
@@ -250,7 +396,15 @@ export default function DuringBattleScreen() {
               </div>
             )}
           </div>
-          <RosterReference warband={displayedWarband} />
+          {viewSide === 'mine' ? (
+            <RosterReference
+              warband={warband}
+              tally={session.outOfAction}
+              onTallyChange={(outOfAction) => updateSession({ outOfAction })}
+            />
+          ) : (
+            <RosterReference warband={displayedWarband} />
+          )}
         </section>
 
         <button

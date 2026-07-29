@@ -647,6 +647,9 @@
       "body": "After a battle, roll 1D6 for each surviving Hero (not ones taken out of action), plus one extra die if you won, plus any dice granted by skills or equipment — but pick a maximum of six dice even if more are available. Henchmen don't roll individually; their contribution is folded into the Heroes' rolls.\n\nAdd the chosen dice together and look up the total on the Exploration chart to see how many wyrdstone shards were found.\n\nIf two or more of the dice show the same number (doubles, triples, etc.), you've also found an unusual location or encounter — look that up separately on the Exploration chart (using the highest/most-numerous match if there's more than one).",
       "relatedIds": [
         "post-battle-sequence",
+        "exploration-procedure",
+        "exploration-shards-found",
+        "exploration-magical-artefacts",
         "skill-academic-wyrdstoneHunter"
       ]
     },

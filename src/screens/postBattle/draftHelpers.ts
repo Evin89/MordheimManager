@@ -1,6 +1,7 @@
 import { generateId } from '../../lib/id';
 import { getWyrdstoneSellPrice } from '../../lib/wyrdstonePricing';
 import { countModels } from '../../lib/rating';
+import { OutOfActionTally } from '../../store/useAppStore';
 import { BattleRecord, HenchmenGroup, Hero, HiredSword, StatLine, Warband } from '../../types';
 import { HenchmenBattleState, HeroBattleState, HiredSwordBattleState, PostBattleDraft, StatIncreases } from './types';
 
@@ -10,6 +11,61 @@ function todayIso(): string {
 
 function emptyStatIncreases(): StatIncreases {
   return {};
+}
+
+/**
+ * Fills the Injuries step from what was marked during the battle.
+ *
+ * Casualties were previously re-entered from memory after the game, which is
+ * exactly when memory is worst. Only the out-of-action flags are carried: who
+ * *died* is a post-battle roll, so `diedCount` stays at zero and the player
+ * still works through the injury table.
+ *
+ * Everything is re-derived against the current warband rather than trusted:
+ * ids that no longer exist are dropped, and group counts are clamped, so a
+ * roster edited between the battle and the wizard can't seed nonsense.
+ */
+export function seedCasualties(
+  warband: Warband,
+  base: PostBattleDraft,
+  tally: OutOfActionTally,
+): Pick<PostBattleDraft, 'heroes' | 'henchmenGroups' | 'hiredSwords'> {
+  const heroes = { ...base.heroes };
+  for (const hero of warband.heroes) {
+    if (tally.heroIds.includes(hero.id) && heroes[hero.id]) {
+      heroes[hero.id] = { ...heroes[hero.id], outOfAction: true };
+    }
+  }
+
+  const hiredSwords = { ...base.hiredSwords };
+  for (const sword of warband.hiredSwords) {
+    if (tally.hiredSwordIds.includes(sword.id) && hiredSwords[sword.id]) {
+      hiredSwords[sword.id] = { ...hiredSwords[sword.id], outOfAction: true };
+    }
+  }
+
+  const henchmenGroups = { ...base.henchmenGroups };
+  for (const group of warband.henchmenGroups) {
+    const downed = tally.henchmenCounts[group.id];
+    if (downed === undefined || !henchmenGroups[group.id]) continue;
+    henchmenGroups[group.id] = {
+      ...henchmenGroups[group.id],
+      outOfActionCount: Math.max(0, Math.min(group.count, downed)),
+    };
+  }
+
+  return { heroes, henchmenGroups, hiredSwords };
+}
+
+/** True when anything was marked during the battle — the Injuries step says so
+ * rather than letting prefilled numbers look like they appeared by themselves. */
+export function hasCarriedCasualties(tally: OutOfActionTally | undefined): boolean {
+  if (!tally) return false;
+  return (
+    tally.heroIds.length > 0 ||
+    tally.hiredSwordIds.length > 0 ||
+    Object.values(tally.henchmenCounts).some((n) => n > 0)
+  );
 }
 
 export function createInitialDraft(warband: Warband): PostBattleDraft {

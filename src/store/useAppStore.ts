@@ -13,6 +13,26 @@ export type BattleEvent = {
   text: string;
 };
 
+/**
+ * Who went out of action, recorded as it happens at the table.
+ *
+ * Heroes and Hired Swords are single models, so it's a set of ids. A henchmen
+ * group is N models behind one entry, so what matters is *how many* of them
+ * went down — there are no per-member records to point at. The post-battle
+ * Injuries step wants exactly these two shapes, which is why they're stored
+ * this way rather than as one flat list.
+ */
+export type OutOfActionTally = {
+  heroIds: string[];
+  hiredSwordIds: string[];
+  /** Group id → number of members taken out of action. */
+  henchmenCounts: Record<string, number>;
+};
+
+export function emptyOutOfAction(): OutOfActionTally {
+  return { heroIds: [], hiredSwordIds: [], henchmenCounts: {} };
+}
+
 export type BattleSession = {
   warbandId: string;
   scenario: string;
@@ -21,7 +41,23 @@ export type BattleSession = {
   turn: number;
   events: BattleEvent[];
   notes: string;
+  outOfAction: OutOfActionTally;
 };
+
+/** The starting state for a table-side session. Lives here because both battle
+ * screens create one and they must not drift apart. */
+export function defaultBattleSession(warbandId: string): BattleSession {
+  return {
+    warbandId,
+    scenario: '',
+    opponentWarbandId: null,
+    opponentName: '',
+    turn: 1,
+    events: [],
+    notes: '',
+    outOfAction: emptyOutOfAction(),
+  };
+}
 
 type AppState = {
   battleSessions: Record<string, BattleSession>;

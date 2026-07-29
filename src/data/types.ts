@@ -290,6 +290,60 @@ export type BtbDramatisPersonaeData = {
   characters: BtbDramatisPersonaEntry[];
 };
 
+/** How many matching dice a result on the Exploration chart needs. */
+export type ExplorationMultipleKind = 'double' | 'triple' | 'fourOfAKind' | 'fiveOfAKind' | 'sixOfAKind';
+
+/** A nested D6 roll that decides what a location yields (e.g. the Smithy's weapon table). */
+export type ExplorationSubTable = {
+  dice: string; // always "D6" in the core rules, kept explicit for future supplements
+  entries: { roll: string; result: string }[];
+};
+
+/** Loot rolled for item-by-item rather than once (Hidden Treasure, Slaughtered Warband). */
+export type ExplorationItemChecklist = {
+  dice: string;
+  entries: { item: string; required: string }[]; // required is "4+", "Auto", etc.
+};
+
+export type ExplorationResult = {
+  id: string;
+  kind: ExplorationMultipleKind;
+  face: number; // the repeated dice face, 1-6
+  count: number; // how many of that face are needed, 2-6
+  combination: string; // display form, e.g. "5 5 5"
+  name: string;
+  flavour: string;
+  effect: string; // the outcome for a warband with no variant of its own
+  subTable?: ExplorationSubTable;
+  itemChecklist?: ExplorationItemChecklist;
+  // Warbands that resolve this location differently, keyed by warband definition id.
+  warbandVariants?: { warbands: string[]; effect: string }[];
+};
+
+export type ExplorationData = {
+  schemaVersion: number;
+  source: string;
+  procedure: {
+    summary: string;
+    steps: string[];
+    maxDiceKept: number;
+    multiplesTieBreakers: string[];
+    notes: string[];
+    example: string;
+  };
+  shardsFound: {
+    description: string;
+    // max is null on the open-ended top row ("36+").
+    table: { diceTotal: string; min: number; max: number | null; shards: number }[];
+  };
+  explorationChart: ExplorationResult[];
+  magicalArtefacts: {
+    description: string;
+    dice: string;
+    entries: { roll: string; name: string; flavour: string; effect: string }[];
+  };
+};
+
 export type RulesCategoryId =
   | 'core'
   | 'postBattle'

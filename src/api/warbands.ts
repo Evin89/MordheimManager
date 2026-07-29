@@ -203,6 +203,18 @@ export type CampaignWarbandRow = {
   name: string;
   warbandType: string;
   rating: number;
+  /** Owner's display name — the pre-battle opponent picker needs to say whose
+   * warband it is, since two players can field the same warband type. */
+  playerName: string;
+};
+
+type CampaignWarbandQueryRow = {
+  id: string;
+  owner_id: string;
+  name: string;
+  warband_type: string;
+  rating: number;
+  profiles: { display_name: string } | null;
 };
 
 /**
@@ -212,20 +224,19 @@ export type CampaignWarbandRow = {
 export async function fetchCampaignWarbands(campaignId: string): Promise<CampaignWarbandRow[]> {
   const { data, error } = await supabase
     .from('warbands')
-    .select('id, owner_id, name, warband_type, rating')
+    .select('id, owner_id, name, warband_type, rating, profiles (display_name)')
     .eq('campaign_id', campaignId)
     .order('rating', { ascending: false });
   if (error) throw error;
 
-  return (data as { id: string; owner_id: string; name: string; warband_type: string; rating: number }[]).map(
-    (row) => ({
-      id: row.id,
-      ownerId: row.owner_id,
-      name: row.name,
-      warbandType: row.warband_type,
-      rating: row.rating,
-    }),
-  );
+  return (data as unknown as CampaignWarbandQueryRow[]).map((row) => ({
+    id: row.id,
+    ownerId: row.owner_id,
+    name: row.name,
+    warbandType: row.warband_type,
+    rating: row.rating,
+    playerName: row.profiles?.display_name || '',
+  }));
 }
 
 /** How many public warbands the browse screen pulls at once. Well beyond what

@@ -25,6 +25,8 @@ function SharedModelCard({
   skills,
   injuries,
   xp,
+  members,
+  memberLabel,
 }: {
   name: string;
   subtitle: string;
@@ -33,6 +35,9 @@ function SharedModelCard({
   skills?: string[];
   injuries?: Injury[];
   xp: number;
+  /** Henchmen only: how many models stand behind this one card. */
+  members?: number;
+  memberLabel?: string;
 }) {
   return (
     <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
@@ -75,6 +80,19 @@ function SharedModelCard({
           <span className="text-bone-200 font-semibold">{strings.campaign.sharedInjuriesLabel}: </span>
           {injuries.map((i) => i.name).join(', ')}
         </p>
+      )}
+
+      {/* The models behind the group, so a shared roster reads as bodies on the
+          table rather than a multiplier. */}
+      {members !== undefined && members > 0 && (
+        <ul className="pt-1 border-t border-ink-800/60 space-y-1">
+          {Array.from({ length: members }, (_, i) => (
+            <li key={i} className="flex items-center gap-2 text-bone-300 text-xs pt-1">
+              <span className="text-bone-400 tabular-nums w-5 shrink-0">{i + 1}.</span>
+              <span className="truncate">{memberLabel}</span>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
@@ -165,6 +183,8 @@ export default function SharedWarbandScreen() {
                   stats={group.stats}
                   equipment={group.equipment}
                   xp={group.xp}
+                  members={group.count}
+                  memberLabel={group.unitType}
                 />
               ))}
             </div>

@@ -5,7 +5,7 @@ import { strings } from '../../strings';
 import { useAppStore } from '../../store/useAppStore';
 import { useCommitBattleWarbandMutation, useWarbandList } from '../../hooks/useWarbands';
 import { useLogBattleMutation } from '../../hooks/useCampaign';
-import { applyDraftToWarband, createInitialDraft } from './draftHelpers';
+import { applyDraftToWarband, createInitialDraft, seedCasualties } from './draftHelpers';
 import { PostBattleDraft, WIZARD_STEPS } from './types';
 import StepBattleInfo from './StepBattleInfo';
 import StepInjuries from './StepInjuries';
@@ -51,7 +51,13 @@ export default function PostBattleWizard() {
     const eventNotes = session.events.map((e) => `Turn ${e.turn}: ${e.text}`).join('\n');
     const notes = [session.notes, eventNotes].filter(Boolean).join('\n\n') || base.notes;
 
-    return { ...base, scenario: session.scenario || base.scenario, opponents, notes };
+    return {
+      ...base,
+      scenario: session.scenario || base.scenario,
+      opponents,
+      notes,
+      ...seedCasualties(warband, base, session.outOfAction),
+    };
   });
 
   if (!warband || !draft) return <Navigate to="/warbands" replace />;

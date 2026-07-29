@@ -2,21 +2,10 @@ import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import { strings } from '../strings';
-import { BattleSession, useAppStore } from '../store/useAppStore';
+import { BattleSession, defaultBattleSession, useAppStore } from '../store/useAppStore';
 import { useWarbandList } from '../hooks/useWarbands';
+import { useCampaignWarbandsQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import scenariosData from '../data/scenarios.json';
-
-function defaultSession(warbandId: string): BattleSession {
-  return {
-    warbandId,
-    scenario: '',
-    opponentWarbandId: null,
-    opponentName: '',
-    turn: 1,
-    events: [],
-    notes: '',
-  };
-}
 
 export default function PreBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
@@ -24,11 +13,17 @@ export default function PreBattleScreen() {
   const warbands = useWarbandList();
   const warband = warbands.find((w) => w.id === warbandId);
   const otherWarbands = warbands.filter((w) => w.id !== warbandId);
+  const { data: campaign } = useMyCampaignQuery();
+  const { data: campaignWarbands } = useCampaignWarbandsQuery(campaign?.id);
+  // Everything in the campaign that isn't already offered above: this warband,
+  // and any of the player's own, which are listed in their own group.
+  const ownIds = new Set(warbands.map((w) => w.id));
+  const campaignOpponents = (campaignWarbands ?? []).filter((w) => !ownIds.has(w.id));
   const storedSession = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
   const setStoredSession = useAppStore((state) => state.setBattleSession);
 
   const [session, setSession] = useState<BattleSession>(
-    () => storedSession ?? defaultSession(warbandId ?? ''),
+    () => storedSession ?? defaultBattleSession(warbandId ?? ''),
   );
   const [lastRandomRoll, setLastRandomRoll] = useState<string | null>(null);
 
@@ -82,6 +77,9 @@ export default function PreBattleScreen() {
           {lastRandomRoll && (
             <p className="text-bone-300 text-xs">{strings.battle.preBattle.randomRollResultLabel(lastRandomRoll)}</p>
           )}
+          {/* The data cites the chapter, not a page per scenario, so this points
+              at the range rather than inventing a precise number. */}
+          <p className="text-bone-400 text-xs">{strings.battle.preBattle.scenarioPageHint}</p>
         </section>
 
         <section className="space-y-2">
@@ -103,16 +101,42 @@ export default function PreBattleScreen() {
           <select
             id="opponent-warband"
             value={session.opponentWarbandId ?? ''}
-            onChange={(e) => updateSession({ opponentWarbandId: e.target.value || null })}
+            onChange={(e) => {
+              const id = e.target.value || null;
+              // Picking a known warband fills the free-text name too, so the
+              // battle log reads sensibly without retyping it.
+              const picked =
+                otherWarbands.find((w) => w.id === id) ?? campaignOpponents.find((w) => w.id === id);
+              updateSession({
+                opponentWarbandId: id,
+                opponentName: picked ? picked.name : session.opponentName,
+              });
+            }}
             className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
           >
             <option value="">{strings.battle.preBattle.opponentWarbandNone}</option>
-            {otherWarbands.map((w) => (
-              <option key={w.id} value={w.id}>
-                {w.name}
-              </option>
-            ))}
+            {otherWarbands.length > 0 && (
+              <optgroup label={strings.battle.preBattle.opponentGroupMine}>
+                {otherWarbands.map((w) => (
+                  <option key={w.id} value={w.id}>
+                    {w.name}
+                  </option>
+                ))}
+              </optgroup>
+            )}
+            {campaignOpponents.length > 0 && (
+              <optgroup label={strings.battle.preBattle.opponentGroupCampaign}>
+                {campaignOpponents.map((w) => (
+                  <option key={w.id} value={w.id}>
+                    {w.name} — {w.playerName || strings.campaign.unnamedPlayer}
+                  </option>
+                ))}
+              </optgroup>
+            )}
           </select>
+          {campaign && campaignOpponents.length === 0 && (
+            <p className="text-bone-400 text-xs">{strings.battle.preBattle.noCampaignOpponents}</p>
+          )}
         </section>
 
         <section className="space-y-2">

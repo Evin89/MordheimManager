@@ -4,6 +4,7 @@ import { getWarbandDefinition } from '../data/warbandRegistry';
 import { roll2D6 } from '../lib/dice';
 import NumberInput from './NumberInput';
 import WeaponRulesDisclosure from './WeaponRulesDisclosure';
+import { EQUIPMENT_CATEGORY_LABELS, groupByCategory } from '../lib/equipmentCategories';
 import { getWeaponRuleById } from '../lib/weaponRules';
 import {
   ResolvedEquipmentItem,
@@ -192,48 +193,70 @@ export default function EquipmentShop({ warband, onPurchase, skipRarityRoll = fa
         </button>
       </div>
 
-      {tab === 'common' && (
-        <div className="space-y-2">
-          {commonItems.map((item) => {
-            const rule = getWeaponRuleById(item.id);
-            return (
-              <div key={item.id} className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="text-bone-100 font-semibold truncate">{item.name}</p>
-                    <p className="text-bone-300 text-sm">
-                      {item.cost ?? '?'} {strings.common.gold}
-                    </p>
-                    {item.restriction && (
-                      <span className="inline-block mt-1 text-xs px-2 py-0.5 rounded bg-ink-800 border border-ink-700 text-bone-300">
-                        {item.restriction}
-                      </span>
-                    )}
+      {tab === 'common' &&
+        groupByCategory(commonItems).map(({ category, items }) => (
+          <div key={category} className="space-y-2">
+            <h3 className="text-ember-400 text-xs font-semibold uppercase tracking-wide pt-2">
+              {EQUIPMENT_CATEGORY_LABELS[category]}
+            </h3>
+            {items.map((item) => {
+              const rule = getWeaponRuleById(item.id);
+              return (
+                <div key={item.id} className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-bone-100 font-semibold truncate">{item.name}</p>
+                      <p className="text-bone-300 text-sm">
+                        {item.cost ?? '?'} {strings.common.gold}
+                      </p>
+                      {item.restriction && (
+                        <span className="inline-block mt-1 text-xs px-2 py-0.5 rounded bg-ink-800 border border-ink-700 text-bone-300">
+                          {item.restriction}
+                        </span>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => onPurchase(item, item.cost ?? 0)}
+                      className="min-h-[40px] px-3 rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm shrink-0"
+                    >
+                      {strings.trading.buyButton(item.cost ?? 0)}
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => onPurchase(item, item.cost ?? 0)}
-                    className="min-h-[40px] px-3 rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm shrink-0"
-                  >
-                    {strings.trading.buyButton(item.cost ?? 0)}
-                  </button>
+                  {rule && (
+                    <WeaponRulesDisclosure
+                      name={item.name}
+                      rule={rule}
+                      toggleLabel={strings.weaponRules.toggle}
+                      compact
+                    />
+                  )}
                 </div>
-                {rule && (
-                  <WeaponRulesDisclosure name={item.name} rule={rule} toggleLabel={strings.weaponRules.toggle} compact />
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
+              );
+            })}
+          </div>
+        ))}
 
       {tab === 'rare' && (
-        <div className="space-y-2">
+        <>
           {skipRarityRoll && <p className="text-bone-300 text-xs">{strings.trading.preFirstBattleHint}</p>}
-          {rareItems.map((item) => (
-            <RareItemRow key={item.id} item={item} onBuy={onPurchase} skipRoll={skipRarityRoll} rollBonus={rollBonus} />
+          {groupByCategory(rareItems).map(({ category, items }) => (
+            <div key={category} className="space-y-2">
+              <h3 className="text-ember-400 text-xs font-semibold uppercase tracking-wide pt-2">
+                {EQUIPMENT_CATEGORY_LABELS[category]}
+              </h3>
+              {items.map((item) => (
+                <RareItemRow
+                  key={item.id}
+                  item={item}
+                  onBuy={onPurchase}
+                  skipRoll={skipRarityRoll}
+                  rollBonus={rollBonus}
+                />
+              ))}
+            </div>
           ))}
-        </div>
+        </>
       )}
     </div>
   );

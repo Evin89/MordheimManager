@@ -11,6 +11,7 @@ import {
   updateCampaign,
 } from '../api/campaign';
 import { fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
+import { fetchCampaignWarbands } from '../api/warbands';
 import { pickActiveCampaign, writeActiveCampaignId } from '../lib/activeCampaign';
 import { Campaign, BattleRecord } from '../types';
 import { strings } from '../strings';
@@ -146,6 +147,21 @@ export function useRemoveMemberMutation(campaignId: string | undefined) {
     onError: () => window.alert(strings.connection.lost),
   });
   return (userId: string) => mutation.mutate(userId);
+}
+
+/**
+ * Every warband entered in the campaign, for picking an opponent.
+ *
+ * Separate from `useWarbandsQuery`, which is scoped to warbands you own — the
+ * whole point here is the *other* players' rosters, which are reachable only
+ * through the campaign-membership branch of the RLS select policy.
+ */
+export function useCampaignWarbandsQuery(campaignId: string | undefined) {
+  return useQuery({
+    queryKey: ['campaignWarbands', campaignId],
+    queryFn: () => fetchCampaignWarbands(campaignId!),
+    enabled: !!campaignId,
+  });
 }
 
 export function useBattlesQuery(campaignId: string | undefined) {

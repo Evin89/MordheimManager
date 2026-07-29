@@ -12,7 +12,7 @@ import {
 } from '../hooks/useWarbands';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
-import { Hero, HiredSword, ModelStatus } from '../types';
+import { HenchmenGroup, Hero, HiredSword, ModelStatus } from '../types';
 
 const STATUS_BADGE: Partial<Record<ModelStatus, string>> = {
   missNextGame: strings.roster.missNextGameBadge,
@@ -47,6 +47,45 @@ function ModelRow({ to, model }: { to: string; model: Hero | HiredSword }) {
         </div>
       </div>
     </Link>
+  );
+}
+
+/**
+ * A henchmen group, with its members listed out beneath it.
+ *
+ * The rules treat a group as one entity — shared characteristics, one
+ * Experience total, everyone advances together — so the data holds a count
+ * rather than N records. But "4x Swordsman" on a card doesn't read like four
+ * bodies on the table, which is what you're actually counting when you deploy
+ * or work out who's left. The members are therefore listed individually, while
+ * anything you can *edit* stays on the group.
+ */
+function HenchmenGroupCard({ warbandId, group }: { warbandId: string; group: HenchmenGroup }) {
+  return (
+    <div className="rounded-lg bg-ink-900 border border-ink-800 hover:border-ink-700 transition-colors">
+      <Link to={`/warbands/${warbandId}/henchmen/${group.id}`} className="block p-4">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-bone-100 font-semibold truncate">{group.groupName}</p>
+            <p className="text-bone-300 text-sm truncate">
+              {group.count}x {group.unitType}
+            </p>
+          </div>
+          <p className="text-bone-300 text-sm shrink-0">{strings.roster.xpEach(group.xp)}</p>
+        </div>
+      </Link>
+
+      {group.count > 0 && (
+        <ul className="px-4 pb-3 pt-0 space-y-1 border-t border-ink-800/60 mt-1">
+          {Array.from({ length: group.count }, (_, i) => (
+            <li key={i} className="flex items-center gap-2 text-bone-300 text-sm pt-1">
+              <span className="text-bone-400 text-xs tabular-nums w-5 shrink-0">{i + 1}.</span>
+              <span className="truncate">{group.unitType}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
 
@@ -159,21 +198,7 @@ export default function RosterScreen() {
           )}
           <div className="space-y-2">
             {warband.henchmenGroups.map((group) => (
-              <Link
-                key={group.id}
-                to={`/warbands/${warband.id}/henchmen/${group.id}`}
-                className="block rounded-lg bg-ink-900 border border-ink-800 p-4 hover:border-ink-700 transition-colors"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="text-bone-100 font-semibold truncate">{group.groupName}</p>
-                    <p className="text-bone-300 text-sm truncate">
-                      {group.count}x {group.unitType}
-                    </p>
-                  </div>
-                  <p className="text-bone-300 text-sm shrink-0">{group.xp} XP</p>
-                </div>
-              </Link>
+              <HenchmenGroupCard key={group.id} warbandId={warband.id} group={group} />
             ))}
           </div>
         </section>

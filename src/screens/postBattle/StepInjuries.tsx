@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import NumberInput from '../../components/NumberInput';
+import { useAppStore } from '../../store/useAppStore';
+import { hasCarriedCasualties } from './draftHelpers';
 import { strings } from '../../strings';
 import { getInjuryByRoll, getUniqueInjuries } from '../../lib/injuryLookup';
 import { rollD6, rollD66 } from '../../lib/dice';
@@ -278,9 +280,17 @@ export default function StepInjuries({ warband, draft, updateDraft }: StepProps)
   const participatingSwords = warband.hiredSwords.filter((s) => draft.hiredSwords[s.id]);
   const nothingToShow =
     participatingHeroes.length === 0 && warband.henchmenGroups.length === 0 && participatingSwords.length === 0;
+  const session = useAppStore((state) => state.battleSessions[warband.id]);
+  const carriedOver = hasCarriedCasualties(session?.outOfAction);
 
   return (
     <div className="space-y-6">
+      {carriedOver && (
+        <p className="text-bone-200 text-sm rounded-md bg-ink-900 border border-ink-800 p-3">
+          {strings.battle.duringBattle.carriedOverNotice}
+        </p>
+      )}
+
       {nothingToShow && <p className="text-bone-300 text-sm">{strings.postBattle.injuries.none}</p>}
 
       {participatingHeroes.map((hero) => (

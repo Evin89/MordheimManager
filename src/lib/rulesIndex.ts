@@ -2,13 +2,17 @@ import rulesData from '../data/rules.json';
 import skillsData from '../data/skills.json';
 import injuriesData from '../data/injuries.json';
 import scenariosData from '../data/scenarios.json';
+import explorationData from '../data/exploration.json';
 import btbObjectivesData from '../data/btb/objectives.json';
 import btbDramatisPersonaeData from '../data/btb/dramatisPersonae.json';
-import { warbandDefinitions } from '../data/warbandRegistry';
+import { warbandDefinitions, getWarbandTypeName } from '../data/warbandRegistry';
 import { getUniqueInjuries } from './injuryLookup';
 import {
   BtbDramatisPersonaeData,
   BtbObjectivesData,
+  ExplorationData,
+  ExplorationMultipleKind,
+  ExplorationResult,
   RuleEntry,
   RulesCategoryDef,
   RulesCategoryId,
@@ -20,6 +24,7 @@ import {
 const typedRules = rulesData as RulesData;
 const typedSkills = skillsData as unknown as SkillsData;
 const typedScenarios = scenariosData as ScenariosData;
+const typedExploration = explorationData as ExplorationData;
 const typedBtbObjectives = btbObjectivesData as BtbObjectivesData;
 const typedBtbDramatisPersonae = btbDramatisPersonaeData as BtbDramatisPersonaeData;
 
@@ -101,6 +106,129 @@ function scenarioEntries(): RuleEntry[] {
   }));
 }
 
+// Sub-headings the 30 Exploration chart results are grouped under, in the order the
+// rulebook presents them.
+const EXPLORATION_KIND_LABELS: Record<ExplorationMultipleKind, string> = {
+  double: 'Exploration Chart: Doubles',
+  triple: 'Exploration Chart: Triples',
+  fourOfAKind: 'Exploration Chart: Four of a Kind',
+  fiveOfAKind: 'Exploration Chart: Five of a Kind',
+  sixOfAKind: 'Exploration Chart: Six of a Kind',
+};
+const EXPLORATION_KIND_ORDER: ExplorationMultipleKind[] = [
+  'double',
+  'triple',
+  'fourOfAKind',
+  'fiveOfAKind',
+  'sixOfAKind',
+];
+
+function explorationResultBody(result: ExplorationResult): string {
+  const sections = [result.flavour, result.effect];
+
+  if (result.subTable) {
+    sections.push(
+      [
+        `Roll a ${result.subTable.dice}:`,
+        ...result.subTable.entries.map((e) => `${e.roll} — ${e.result}`),
+      ].join('\n'),
+    );
+  }
+
+  if (result.itemChecklist) {
+    sections.push(
+      [
+        `Roll a ${result.itemChecklist.dice} for each item:`,
+        ...result.itemChecklist.entries.map((e) => `${e.required} — ${e.item}`),
+      ].join('\n'),
+    );
+  }
+
+  for (const variant of result.warbandVariants ?? []) {
+    const names = variant.warbands.map(getWarbandTypeName).join(', ');
+    sections.push(`${names}: ${variant.effect}`);
+  }
+
+  return sections.filter(Boolean).join('\n\n');
+}
+
+function explorationEntries(): RuleEntry[] {
+  const { procedure, shardsFound, explorationChart, magicalArtefacts, source } = typedExploration;
+  const base = { category: 'postBattle' as const, chapter: 'Income', source };
+
+  const entries: RuleEntry[] = [
+    {
+      ...base,
+      id: 'exploration-procedure',
+      title: 'Exploration Procedure',
+      subChapter: 'Exploration',
+      body: [
+        procedure.summary,
+        procedure.steps.map((step, i) => `${i + 1}. ${step}`).join('\n'),
+        `Rolling multiples:\n${procedure.multiplesTieBreakers.map((t) => `• ${t}`).join('\n')}`,
+        `Notes:\n${procedure.notes.map((n) => `• ${n}`).join('\n')}`,
+        `Example: ${procedure.example}`,
+      ].join('\n\n'),
+      relatedIds: ['exploration-wyrdstone', 'exploration-shards-found'],
+    },
+    {
+      ...base,
+      id: 'exploration-shards-found',
+      title: 'Number of Wyrdstone Shards Found',
+      subChapter: 'Exploration',
+      body: [
+        shardsFound.description,
+        shardsFound.table
+          .map((row) => `${row.diceTotal} — ${row.shards} shard${row.shards === 1 ? '' : 's'}`)
+          .join('\n'),
+      ].join('\n\n'),
+      relatedIds: ['exploration-procedure', 'exploration-wyrdstone'],
+    },
+  ];
+
+  for (const kind of EXPLORATION_KIND_ORDER) {
+    for (const result of explorationChart.filter((r) => r.kind === kind)) {
+      const body = explorationResultBody(result);
+      entries.push({
+        ...base,
+        id: `exploration-${result.id}`,
+        title: `${result.name} (${result.combination})`,
+        subChapter: EXPLORATION_KIND_LABELS[kind],
+        body,
+        // The Noble's Villa and Hidden Treasure send you to the artefacts table.
+        relatedIds: /magical artefact/i.test(body)
+          ? ['exploration-procedure', 'exploration-magical-artefacts']
+          : ['exploration-procedure'],
+      });
+    }
+  }
+
+  entries.push({
+    ...base,
+    id: 'exploration-magical-artefacts',
+    title: 'Magical Artefacts',
+    subChapter: 'Magical Artefacts',
+    body: [
+      magicalArtefacts.description,
+      magicalArtefacts.entries.map((a) => `${a.roll} — ${a.name}`).join('\n'),
+    ].join('\n\n'),
+    relatedIds: magicalArtefacts.entries.map((a) => `exploration-artefact-${slugify(a.name)}`),
+  });
+
+  for (const artefact of magicalArtefacts.entries) {
+    entries.push({
+      ...base,
+      id: `exploration-artefact-${slugify(artefact.name)}`,
+      title: artefact.name,
+      subChapter: 'Magical Artefacts',
+      body: [artefact.flavour, artefact.effect].join('\n\n'),
+      relatedIds: ['exploration-magical-artefacts'],
+    });
+  }
+
+  return entries;
+}
+
 function warbandSpecialEntries(): RuleEntry[] {
   return warbandDefinitions.map((w) => ({
     id: `warband-${w.id}`,
@@ -167,6 +295,7 @@ const allEntries: RuleEntry[] = [
   ...skillEntries(),
   ...injuryEntries(),
   ...scenarioEntries(),
+  ...explorationEntries(),
   ...warbandSpecialEntries(),
   ...btbObjectiveEntries(),
   ...btbDramatisPersonaEntries(),

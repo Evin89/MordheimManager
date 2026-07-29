@@ -111,6 +111,9 @@ export default function RulesScreen() {
             entries={browsedEntries}
             emptyMessage={strings.rules.noEntriesInCategory}
             inlineExpandChapters={['Weapons & Armour', 'Miscellaneous Equipment']}
+            // Browsing only. Search renders its own flat result list, where
+            // collapsing chapters would hide the very matches you asked for.
+            collapsible
           />
         )}
       </main>
