@@ -25,6 +25,9 @@ export type HenchmenBattleState = {
   equipmentFateForDead: 'treasury' | 'lost';
   deleteGroupIfEmpty: boolean;
   statIncreases: StatIncreases;
+  /** "That Lad's Got Talent": one member of the group becomes a Hero. Recorded
+   * during the wizard and resolved on commit. */
+  ladsGotTalent: boolean;
 };
 
 export type HiredSwordBattleState = {

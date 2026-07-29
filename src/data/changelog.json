@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-07-29",
+    "title": "Advances Follow the Experience Track",
+    "description": "The post-battle Advances step used to offer an advance to anyone who gained a single point of Experience, which is why it handed out far more than a campaign should. It now counts how many Experience boxes a warrior actually crossed, and each card says how many advances are still to record. Characteristics at their racial maximum can no longer be raised — the old warning triangle looked serious but applied the increase anyway — and rolling one that's already maxed now tells you to roll again, as the rulebook says. Made a mistake? Every recorded advance can be tapped away, instead of restarting the whole wizard. Dead warriors no longer collect Experience or advances, and \"That Lad's Got Talent\" can finally be recorded: the promoted henchman leaves his group and joins your Heroes with his characteristics and Experience intact."
+  },
+  {
+    "date": "2026-07-29",
     "title": "Recruiting Follows the Rules (and Costs Gold)",
     "description": "Heroes and henchmen now cost gold when you recruit them, and the warband's maximum size is respected — a henchmen group could previously be sized straight past it. Units you've filled up are greyed out instead of silently accepting more. Hired Swords can finally be hired, with their fee, upkeep, stats and special rules shown before you commit, and they correctly don't take up a warband slot. Every warrior now starts with the free dagger the rules give them, and each unit arrives carrying its own special rules from the book — Leader, Large, Ranger and the rest — instead of a blank card. Warbands are listed A–Z with their source and grade. One rating bug fixed: a henchmen group's Experience counted once for the whole group instead of once per model, so five veterans with 4 XP each scored 29 instead of 45."
   },

@@ -7,6 +7,11 @@ function parseAwardAmount(amount: string): number {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
+/** Members of a Henchmen group still standing after this battle's casualties. */
+function group_survivors(count: number, diedCount: number): number {
+  return Math.max(0, count - diedCount);
+}
+
 type XpCardProps = {
   title: string;
   subtitle: string;
@@ -124,7 +129,10 @@ export default function StepExperience({ warband, draft, updateDraft }: StepProp
       <p className="text-bone-300 text-sm">{strings.postBattle.experience.quickAwards}: tap to add XP. Every button can be tapped more than once (e.g. two enemies taken out of action).</p>
 
       {warband.heroes
-        .filter((h) => draft.heroes[h.id]?.participated)
+        // A hero killed in the Injuries step earns nothing from this battle —
+        // the wizard used to keep offering him XP, and any awarded was then
+        // quietly discarded when he was removed.
+        .filter((h) => draft.heroes[h.id]?.participated && draft.heroes[h.id]?.resultingStatus !== 'dead')
         .map((hero) => {
           const state = draft.heroes[hero.id];
           return (
@@ -141,15 +149,18 @@ export default function StepExperience({ warband, draft, updateDraft }: StepProp
         })}
 
       {warband.henchmenGroups
-        .filter((g) => !g.isAnimal)
+        // Animals never gain Experience; a group wiped out this battle has
+        // nobody left to gain any.
+        .filter((g) => !g.isAnimal && group_survivors(g.count, draft.henchmenGroups[g.id]?.diedCount ?? 0) > 0)
         .map((group) => {
           const state = draft.henchmenGroups[group.id];
           if (!state) return null;
+          const survivors = group_survivors(group.count, state.diedCount);
           return (
             <XpCard
               key={group.id}
               title={group.groupName}
-              subtitle={`${group.count}x ${group.unitType} (shared)`}
+              subtitle={`${survivors}x ${group.unitType} (shared)`}
               xpAwarded={state.xpAwarded}
               onDelta={(delta) => groupDelta(group.id, delta)}
               scenarioAwards={scenarioAwards}
@@ -159,7 +170,11 @@ export default function StepExperience({ warband, draft, updateDraft }: StepProp
         })}
 
       {warband.hiredSwords
-        .filter((s) => draft.hiredSwords[s.id]?.participated)
+        .filter(
+          (s) =>
+            draft.hiredSwords[s.id]?.participated &&
+            draft.hiredSwords[s.id]?.removalReason !== 'diedInBattle',
+        )
         .map((sword) => {
           const state = draft.hiredSwords[sword.id];
           return (

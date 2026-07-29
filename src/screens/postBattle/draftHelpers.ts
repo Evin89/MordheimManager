@@ -37,6 +37,7 @@ export function createInitialDraft(warband: Warband): PostBattleDraft {
       equipmentFateForDead: 'treasury',
       deleteGroupIfEmpty: true,
       statIncreases: emptyStatIncreases(),
+      ladsGotTalent: false,
     };
   }
 
@@ -158,6 +159,8 @@ export function applyDraftToWarband(
 
   // Henchmen groups
   const henchmenGroups: HenchmenGroup[] = [];
+  /** Filled by "That Lad's Got Talent" results; appended to `heroes` below. */
+  const promotedHeroes: Hero[] = [];
   for (const group of warband.henchmenGroups) {
     const state = draft.henchmenGroups[group.id];
     if (!state) {
@@ -185,11 +188,42 @@ export function applyDraftToWarband(
       }
     }
 
+    const groupXp = group.isAnimal ? group.xp : group.xp + state.xpAwarded;
+    const groupStats = applyStatIncreases(group.stats, state.statIncreases);
+
+    // "That Lad's Got Talent": one member leaves the group and joins the
+    // Heroes, keeping the characteristics and Experience he had as a Henchman.
+    // Which skill lists he may use varies by warband and isn't stated on the
+    // group, so that's left for the player to set rather than guessed at.
+    if (state.ladsGotTalent && newCount > 0) {
+      promotedHeroes.push({
+        id: generateId(),
+        name: `${group.unitType} (promoted)`,
+        unitType: group.unitType,
+        isLeader: false,
+        isLargeCreature: group.isLargeCreature,
+        stats: groupStats,
+        statMaximums: groupStats,
+        xp: groupXp,
+        startingXp: groupXp,
+        advances: [],
+        skillLists: [],
+        skills: [],
+        injuries: [],
+        equipment: [],
+        status: 'active',
+        notes:
+          `Promoted from ${group.groupName} by "That Lad's Got Talent" after ${draft.scenario || 'a battle'}. ` +
+          'Set his skill lists and starting equipment — the rulebook decides these per warband.',
+      });
+    }
+
     henchmenGroups.push({
       ...group,
-      count: newCount,
-      xp: group.isAnimal ? group.xp : group.xp + state.xpAwarded,
-      stats: applyStatIncreases(group.stats, state.statIncreases),
+      // The promoted lad is no longer part of the group.
+      count: state.ladsGotTalent ? Math.max(0, newCount - 1) : newCount,
+      xp: groupXp,
+      stats: groupStats,
       advances,
     });
   }
@@ -231,13 +265,17 @@ export function applyDraftToWarband(
     });
   }
 
-  const modelCountAfter = countModels({ ...warband, heroes, henchmenGroups, hiredSwords });
+  // Promotions join the Heroes; the total model count is unchanged, since each
+  // promoted lad left his group in the same step.
+  const allHeroes = [...heroes, ...promotedHeroes];
+
+  const modelCountAfter = countModels({ ...warband, heroes: allHeroes, henchmenGroups, hiredSwords });
   const sellProfit = getWyrdstoneSellPrice(draft.wyrdstoneSold, modelCountAfter);
   const goldChange = sellProfit - upkeepPaid;
 
   const updatedWarband: Warband = {
     ...warband,
-    heroes,
+    heroes: allHeroes,
     henchmenGroups,
     hiredSwords,
     treasury,

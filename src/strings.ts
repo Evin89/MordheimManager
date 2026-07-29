@@ -347,9 +347,19 @@ export const strings = {
     },
     advances: {
       title: 'Resolve Advances',
-      unknownThresholds: "This app doesn't yet have the exact XP thresholds from your roster sheet — check your sheet for who's crossed a thick-bordered box, then record their advance here.",
+      thresholdsIntro:
+        'Only warriors who crossed an Experience box this battle appear here, and each gets exactly the advances they earned.',
       currentXp: 'Current XP',
-      noneEligible: 'No one gained XP this battle.',
+      noneEligible: 'Nobody crossed an Experience box this battle, so there are no advances to record.',
+      recordedOf: (recorded: number, due: number) =>
+        recorded >= due ? `${due} of ${due} advances recorded` : `${recorded} of ${due} advances recorded`,
+      removeHint: 'Tap to remove',
+      statsAtMax: (stats: string) => `Already at racial maximum: ${stats}.`,
+      allStatsMaxed: 'Every characteristic is at its racial maximum — only a new skill can be taken.',
+      statAtMaxTitle: (stat: string) => `${stat} is already at its racial maximum.`,
+      rerollNeeded: (stat: string) =>
+        `${stat} is already at its maximum — roll again for a characteristic that can still be raised.`,
+      ladsGotTalent: "That Lad's Got Talent",
       rollButton: 'Roll 2D6',
       rollResultLabel: (total: number) => `Rolled ${total} (2D6):`,
       subRollLabel: (roll: number) => `Roll again (D6): ${roll}`,
