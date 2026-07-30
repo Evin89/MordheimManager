@@ -11,7 +11,34 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Mordheim" />
+    <!-- Spec §5.2. Preconnect first: these are render-blocking for every
+         heading, and `display=swap` means a slow fetch shows fallback text
+         rather than nothing. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+Sans:wght@400;500;700&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Pirata+One&display=swap"
+      rel="stylesheet"
+    />
     <title>Mordheim Campaign Manager</title>
+    <script>
+      // Runs before the first paint so a parchment user never sees a flash of
+      // the dark theme. Deliberately duplicates the key from src/lib/theme.ts:
+      // pulling in a module here would defeat the point by deferring it.
+      (function () {
+        try {
+          var t = localStorage.getItem('mordheim.theme');
+          if (t !== 'grimdark' && t !== 'parchment') t = 'grimdark';
+          document.documentElement.setAttribute('data-theme', t);
+          if (t === 'grimdark') document.documentElement.classList.add('dark');
+          else document.documentElement.classList.remove('dark');
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', t === 'parchment' ? '#e9e0cc' : '#0b0a09');
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'grimdark');
+        }
+      })();
+    </script>
   </head>
   <body class="bg-ink-950 text-bone-100">
     <div id="root"></div>

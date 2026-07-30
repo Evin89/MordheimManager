@@ -17,6 +17,7 @@ import AddHeroScreen from './screens/AddHeroScreen';
 import AddHenchmenScreen from './screens/AddHenchmenScreen';
 import AddHiredSwordScreen from './screens/AddHiredSwordScreen';
 import SettingsScreen from './screens/SettingsScreen';
+import DesignSandboxScreen from './screens/DesignSandboxScreen';
 import ChangelogScreen from './screens/ChangelogScreen';
 import WarbandPickerScreen from './screens/WarbandPickerScreen';
 import PreBattleScreen from './screens/PreBattleScreen';
@@ -127,6 +128,8 @@ export default function App() {
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
         <Route path="/reset-password" element={<ResetPasswordScreen />} />
+        {/* Design workbench for spec §5 — not linked from the nav. */}
+        <Route path="/design" element={<DesignSandboxScreen />} />
         <Route path="*" element={<AppShell />} />
       </Routes>
     </BrowserRouter>

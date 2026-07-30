@@ -3,7 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import { strings } from '../strings';
 import { BattleSession, defaultBattleSession, useAppStore } from '../store/useAppStore';
-import { useWarbandList } from '../hooks/useWarbands';
+import { useWarbandList, useWarbandLookup } from '../hooks/useWarbands';
 import { useCampaignWarbandsQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import scenariosData from '../data/scenarios.json';
 
@@ -11,7 +11,7 @@ export default function PreBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
   const warbands = useWarbandList();
-  const warband = warbands.find((w) => w.id === warbandId);
+  const { warband, loading } = useWarbandLookup(warbandId);
   const otherWarbands = warbands.filter((w) => w.id !== warbandId);
   const { data: campaign } = useMyCampaignQuery();
   const { data: campaignWarbands } = useCampaignWarbandsQuery(campaign?.id);
@@ -27,6 +27,13 @@ export default function PreBattleScreen() {
   );
   const [lastRandomRoll, setLastRandomRoll] = useState<string | null>(null);
 
+  if (loading) {
+    return (
+      <div className="min-h-full flex items-center justify-center">
+        <p className="text-ink-faded">{strings.common.loading}</p>
+      </div>
+    );
+  }
   if (!warband) return <Navigate to="/warbands" replace />;
 
   function updateSession(patch: Partial<BattleSession>) {

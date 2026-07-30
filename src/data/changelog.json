@@ -1,8 +1,23 @@
 [
   {
+    "date": "2026-07-30",
+    "title": "The Rulebook Look",
+    "description": "The app now comes in two looks, switchable under Settings. Rulebook is the new one: aged parchment, heavy black ink, blackletter titles and the blood red of the 1999 book. Grimdark, the black-and-orange theme, is unchanged and still there. The centrepiece is the profile block — every statline is now the rulebook's own M WS BS S T W I A Ld table, framed in ink, wherever it appears: rosters, model pages, the battle reference and shared warbands. The numbers line up in proper columns and can be typed into directly on detail screens, with racial maximums on the row beneath."
+  },
+  {
+    "date": "2026-07-30",
+    "title": "Opening a Warband by Link No Longer Bounces",
+    "description": "Refreshing a roster page, bookmarking one, or following a link straight into a warband threw you back to the warband list. The app couldn't tell \"this warband doesn't exist\" from \"we haven't loaded it yet\", so it gave up a fraction of a second too early. Every screen behind a warband — roster, models, henchmen, trading, both battle screens, the post-battle sequence and the recruit pages — now waits for the answer."
+  },
+  {
     "date": "2026-07-29",
     "title": "Explore Mordheim From the Wizard",
     "description": "The Income step no longer asks how much wyrdstone you found — it rolls for it. The app counts the dice you're owed (one per Hero who came through without going out of action, plus one for a win) and you can add more for skills or equipment. Rolled real dice at the table? Tap any die and set it to what you actually threw; the same works for an Elf Ranger's +1/-1 or a re-roll. Roll more than six and you choose which six count. Doubles and up are looked up for you, including the ones your warband resolves differently — Skaven sell the Straggler, Witch Hunters seal the Graveyard rather than loot it. Gold and shards are added straight to the warband. Anything the app can't do for you, like gaining a Zombie or a wardog, is written into the battle notes, and results that matter next game are added to your warband's notes."
+  },
+  {
+    "date": "2026-07-29",
+    "title": "A Rulebook Theme, and a New Icon",
+    "description": "Settings now has an Appearance section with two looks. Grimdark is the dark one you already know. Rulebook turns the whole app into aged paper and black ink with a serif face, closer to reading the printed book — handy under bright light, where a dark screen is hardest to read. Your choice is remembered per device, so your phone at the game store and your laptop at home can differ. The app also has a proper icon now when you add it to your home screen."
   },
   {
     "date": "2026-07-29",

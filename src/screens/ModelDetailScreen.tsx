@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
-import NumberInput from '../components/NumberInput';
+import ProfileBlock from '../components/ProfileBlock';
+import { STAT_KEYS } from '../lib/statLine';
 import EquipmentShop from '../components/EquipmentShop';
 import SkillPicker from '../components/SkillPicker';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import SaveBar from '../components/SaveBar';
 import { strings } from '../strings';
-import { useWarband } from '../hooks/useWarbands';
+import { useWarbandLookup } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
@@ -15,7 +16,6 @@ import { getUniqueInjuries } from '../lib/injuryLookup';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
 import { getAdvanceProgress } from '../lib/xpThresholds';
-import { STAT_KEYS } from '../lib/statLine';
 import { EquipmentItem, Hero, HiredSword, ModelStatus, StatLine, Warband } from '../types';
 
 type EditableModel = Hero | HiredSword;
@@ -29,7 +29,7 @@ const STATUS_OPTIONS: ModelStatus[] = ['active', 'missNextGame', 'dead', 'captur
 export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const { warbandId, modelId } = useParams<{ warbandId: string; modelId: string }>();
   const navigate = useNavigate();
-  const warband = useWarband(warbandId);
+  const { warband, loading } = useWarbandLookup(warbandId);
   const { draft, update, dirty, save, saveNow, discard } = useWarbandDraft(warband);
   useUnsavedChangesWarning(dirty);
   const { data: campaign } = useMyCampaignQuery();
@@ -42,6 +42,13 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const [customInjuryEffect, setCustomInjuryEffect] = useState('');
   const [shoppingOpen, setShoppingOpen] = useState(false);
 
+  if (loading) {
+    return (
+      <div className="min-h-full flex items-center justify-center">
+        <p className="text-ink-faded">{strings.common.loading}</p>
+      </div>
+    );
+  }
   if (!warband || !draft) return <Navigate to="/warbands" replace />;
 
   const listKey = kind === 'hero' ? 'heroes' : 'hiredSwords';
@@ -206,34 +213,13 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
         <section className="space-y-3">
           <h2 className="text-bone-100 font-semibold">{strings.modelDetail.statsSection}</h2>
-          <div className="grid grid-cols-9 gap-1">
-            {STAT_KEYS.map((key) => {
-              const atMax = model.stats[key] >= model.statMaximums[key];
-              return (
-                <div
-                  key={key}
-                  title={atMax ? `${key}: ${strings.modelDetail.atMax}` : undefined}
-                  className={`rounded-md border px-0.5 py-1 text-center ${
-                    atMax ? 'border-ember-500 bg-ink-900' : 'border-ink-700 bg-ink-900'
-                  }`}
-                >
-                  <p className="text-bone-300 text-[10px] uppercase">{key}</p>
-                  <NumberInput
-                    ariaLabel={key}
-                    value={model.stats[key]}
-                    onChange={(next) => updateStat(key, next)}
-                    className="w-full bg-transparent text-center text-bone-100 text-base font-semibold focus:outline-none"
-                  />
-                  <p className={`text-[9px] ${atMax ? 'text-ember-400' : 'text-bone-300'}`}>
-                    max {model.statMaximums[key]}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-          <p className="text-bone-300 text-[10px]">
-            <span className="text-ember-400">■</span> {strings.modelDetail.atMax}
-          </p>
+          <ProfileBlock
+            stats={model.stats}
+            maximums={model.statMaximums}
+            onStatChange={updateStat}
+            showMaximums
+          />
+          <p className="text-ink-faded text-xs">{strings.modelDetail.atMaxLegend}</p>
         </section>
 
         <section className="space-y-3">

@@ -5,7 +5,7 @@ import EquipmentShop from '../components/EquipmentShop';
 import NumberInput from '../components/NumberInput';
 import RuleEntryList from '../components/RuleEntryList';
 import { strings } from '../strings';
-import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
+import { useSaveWarbandMutation, useWarbandLookup } from '../hooks/useWarbands';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
@@ -81,13 +81,20 @@ function TreasuryRow({
 
 export default function TradingPostScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
-  const warband = useWarband(warbandId);
+  const { warband, loading } = useWarbandLookup(warbandId);
   const saveWarband = useSaveWarbandMutation();
   const { data: campaign } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
   const [tab, setTab] = useState<Tab>('shop');
   const ruleEntries = getTradingTabRuleEntries();
 
+  if (loading) {
+    return (
+      <div className="min-h-full flex items-center justify-center">
+        <p className="text-ink-faded">{strings.common.loading}</p>
+      </div>
+    );
+  }
   if (!warband) return <Navigate to="/warbands" replace />;
 
   function buyItem(item: ResolvedEquipmentItem, price: number) {

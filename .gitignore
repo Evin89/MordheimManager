@@ -10,3 +10,8 @@ dev-dist
 # Supabase CLI local state (per-machine, not for version control)
 supabase/.temp/
 supabase/.branches/
+
+# Data exports from Settings → Your Data. These hold real warband and campaign
+# rows, and anything under public/ is copied verbatim into the deployed site —
+# a backup saved there would be downloadable by anyone who guessed the URL.
+mordheim-backup-*.json

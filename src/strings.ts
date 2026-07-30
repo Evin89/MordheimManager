@@ -65,6 +65,15 @@ export const strings = {
   },
   settings: {
     title: 'Settings',
+    appearanceSection: 'Appearance',
+    themeNames: {
+      grimdark: 'Grimdark',
+      parchment: 'Rulebook',
+    },
+    themeHints: {
+      grimdark: 'Dark stone and ember. Easy on the eyes in a dim room.',
+      parchment: 'Aged paper and black ink, like the printed book.',
+    },
     dataSection: 'Your Data',
     exportButton: 'Export all data (.json)',
     importButton: 'Import data from file',
@@ -228,6 +237,7 @@ export const strings = {
   modelDetail: {
     statsSection: 'Characteristics',
     atMax: 'At racial max',
+    atMaxLegend: 'Bold values sit at the racial maximum; the lower row is that maximum.',
     xpSection: 'Experience',
     xpTotal: 'Total XP',
     xpToNextAdvance: (remaining: number, threshold: number) =>

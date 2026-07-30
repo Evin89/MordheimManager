@@ -1,11 +1,14 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import ThemeToggle from '../components/ThemeToggle';
+import { useTheme } from '../hooks/useTheme';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
 import { ImportValidationError, downloadExport, importAllData, parseImportFile } from '../storage/persistence';
 
 export default function SettingsScreen() {
+  const [theme, setTheme] = useTheme();
   const { user, signOut } = useAuth();
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -51,6 +54,16 @@ export default function SettingsScreen() {
       </header>
 
       <main className="flex-1 px-4 py-6 space-y-6">
+        {/* Above the account sections deliberately: it works signed out, and
+            it's the one setting someone might want before anything else. */}
+        <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+          <h2 className="text-bone-100 font-semibold">{strings.settings.appearanceSection}</h2>
+          <ThemeToggle theme={theme} onChange={setTheme} />
+          {/* One line describing the *selected* theme, rather than a caption
+              under each option — the slider already shows both. */}
+          <p className="text-bone-300 text-sm">{strings.settings.themeHints[theme]}</p>
+        </section>
+
         {/* Export/import move real rows in and out of the account, so they only
             make sense (and only work) when signed in. */}
         <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">

@@ -1,11 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import ProfileBlock from '../components/ProfileBlock';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { strings } from '../strings';
 import { useSharedWarbandQuery, useWarband } from '../hooks/useWarbands';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
-import { STAT_KEYS } from '../lib/statLine';
 import { EquipmentItem, Injury, StatLine } from '../types';
 
 /**
@@ -49,14 +49,7 @@ function SharedModelCard({
         <p className="text-bone-300 text-sm shrink-0">{xp} XP</p>
       </div>
 
-      <div className="grid grid-cols-9 gap-1 text-center">
-        {STAT_KEYS.map((key) => (
-          <div key={key}>
-            <p className="text-bone-300 text-[10px] uppercase">{key}</p>
-            <p className="text-bone-100 text-sm font-semibold">{stats[key]}</p>
-          </div>
-        ))}
-      </div>
+      <ProfileBlock stats={stats} />
 
       {equipment.length > 0 ? (
         <div className="space-y-0.5">

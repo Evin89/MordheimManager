@@ -8,7 +8,7 @@ import {
   useCanUndoLastBattle,
   useDeleteWarbandMutation,
   useUndoLastBattleMutation,
-  useWarband,
+  useWarbandLookup,
 } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
 import { computeWarbandRating } from '../lib/rating';
@@ -93,7 +93,7 @@ function HenchmenGroupCard({ warbandId, group }: { warbandId: string; group: Hen
 export default function RosterScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
-  const warband = useWarband(warbandId);
+  const { warband, loading } = useWarbandLookup(warbandId);
   const deleteWarband = useDeleteWarbandMutation();
   const canUndo = useCanUndoLastBattle(warbandId);
   const undoLastBattle = useUndoLastBattleMutation();
@@ -102,6 +102,13 @@ export default function RosterScreen() {
   const { draft, update, dirty, save, discard } = useWarbandDraft(warband);
   useUnsavedChangesWarning(dirty);
 
+  if (loading) {
+    return (
+      <div className="min-h-full flex items-center justify-center">
+        <p className="text-ink-faded">{strings.common.loading}</p>
+      </div>
+    );
+  }
   if (!warband || !draft) {
     return <Navigate to="/warbands" replace />;
   }

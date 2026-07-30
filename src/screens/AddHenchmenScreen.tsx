@@ -3,7 +3,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import NumberInput from '../components/NumberInput';
 import { strings } from '../strings';
-import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
+import { useSaveWarbandMutation, useWarbandLookup } from '../hooks/useWarbands';
 import { getWarbandDefinition } from '../data/warbandRegistry';
 import { createHenchmenGroupFromType } from '../lib/warbandFactory';
 import {
@@ -15,7 +15,7 @@ import {
 export default function AddHenchmenScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
-  const warband = useWarband(warbandId);
+  const { warband, loading } = useWarbandLookup(warbandId);
   const saveWarband = useSaveWarbandMutation();
 
   const definition = warband ? getWarbandDefinition(warband.warbandType) : undefined;
@@ -26,6 +26,13 @@ export default function AddHenchmenScreen() {
   const [count, setCount] = useState(1);
   const [error, setError] = useState<string | null>(null);
 
+  if (loading) {
+    return (
+      <div className="min-h-full flex items-center justify-center">
+        <p className="text-ink-faded">{strings.common.loading}</p>
+      </div>
+    );
+  }
   if (!warband) return <Navigate to="/warbands" replace />;
   if (!definition) return <Navigate to={`/warbands/${warband.id}`} replace />;
 

@@ -2,8 +2,161 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * A theme is just one set of these variables. Every Tailwind colour utility
+ * resolves through them (see tailwind.config.js), so no component knows which
+ * theme is active. Values are space-separated RGB channels because that's the
+ * form `rgb(... / <alpha-value>)` needs for opacity modifiers to keep working.
+ */
+
+/* Grimdark — the default. Near-black stone, bone text, ember accent. */
+:root,
+[data-theme='grimdark'] {
+  --color-ink-950: 11 10 9;
+  --color-ink-900: 20 18 16;
+  --color-ink-800: 31 28 25;
+  --color-ink-700: 43 39 36;
+
+  --color-bone-100: 242 234 217;
+  --color-bone-200: 230 217 191;
+  --color-bone-300: 216 198 161;
+  --color-bone-400: 168 152 122;
+
+  --color-ember-400: 242 117 26;
+  --color-ember-500: 220 92 14;
+  --color-ember-600: 182 72 10;
+
+  --color-blood-500: 159 29 29;
+  --color-blood-600: 127 23 23;
+
+  /*
+   * Spec §5.1 roles under Grimdark. The names are the spec's; what they *mean*
+   * is the role, so `parchment` is "the page" and `ink` is "text on it" even
+   * though here that is bone on near-black. Values reuse this theme's existing
+   * palette so the black/orange look is unchanged.
+   */
+  --color-parchment: 11 10 9;
+  --color-parchment-raised: 20 18 16;
+  --color-ink: 242 234 217;
+  --color-ink-faded: 168 152 122;
+  --color-accent: 220 92 14; /* ember — this theme's stand-in for blood */
+  /* Text laid on the accent. Ember is a light orange, so this must be dark:
+     white on it is 3.76:1 and fails AA, while near-black is 8.9:1. */
+  --color-on-accent: 11 10 9;
+  --color-verdigris: 94 122 99; /* lifted off §5's value so it reads on black */
+}
+
+/*
+ * Rulebook (spec §5) — aged parchment, heavy woodcut ink, blood red.
+ *
+ * The §5.1 tokens below are the literal hexes from the spec. The numbered
+ * legacy tokens are derived from them so that screens not yet migrated still
+ * land inside this palette instead of showing yesterday's near-miss paper:
+ * `ink-950`/`900` take the two parchment surfaces, `bone-*` walk down from ink
+ * to ink-faded, and the ember accent becomes blood, since §5 spends its colour
+ * on one accent only.
+ *
+ * Measured, not assumed (WCAG AA needs 4.5:1 for normal text):
+ *   ink on parchment          12.80:1
+ *   white on blood            10.35:1
+ *   ink on parchment-raised   14.15:1
+ *   blood on parchment         7.73:1
+ *   ink-faded on parchment     4.96:1
+ */
+[data-theme='parchment'] {
+  /* §5.1, verbatim */
+  --color-parchment: 232 222 196;
+  --color-parchment-raised: 241 233 210;
+  --color-ink: 34 26 18;
+  --color-ink-faded: 106 90 68;
+  --color-accent: 122 30 26;
+  --color-verdigris: 74 93 78;
+  /* Blood is dark, so paper-white sits on it (10.35:1). */
+  --color-on-accent: 255 255 255;
+
+  /* Legacy roles, derived from the above */
+  --color-ink-950: 232 222 196;
+  --color-ink-900: 241 233 210;
+  --color-ink-800: 199 185 155;
+  --color-ink-700: 168 152 119;
+
+  --color-bone-100: 34 26 18;
+  --color-bone-200: 58 47 36;
+  --color-bone-300: 90 76 60;
+  --color-bone-400: 106 90 68;
+
+  --color-ember-400: 122 30 26;
+  --color-ember-500: 122 30 26;
+  --color-ember-600: 92 22 19;
+
+  --color-blood-500: 143 32 32;
+  --color-blood-600: 109 22 22;
+}
+
 html,
 body,
 #root {
   height: 100%;
+}
+
+/*
+ * Spec §5.2, applied as a base layer so every screen inherits the type system
+ * at once rather than each of the fifty-odd files opting in. Per-screen classes
+ * still override where a specific element needs a different role.
+ *
+ * Both themes get this: fonts are not colours, and two parallel type systems
+ * would double the work for no gain. Alegreya is a screen-optimised book serif,
+ * so it carries the dark theme too.
+ */
+@layer base {
+  body {
+    font-family: Alegreya, Georgia, 'Times New Roman', serif;
+  }
+
+  /*
+   * Blackletter is confined to screen titles. Every h1 in the app is set at
+   * text-2xl (24px), which is exactly the §5.2 floor — so the guard is that
+   * h1 is the *only* selector here, never h2 or smaller.
+   */
+  h1 {
+    font-family: 'Pirata One', Georgia, serif;
+    letter-spacing: 0.04em;
+    font-weight: 400;
+  }
+
+  /* Section headings, warband and unit names: the rough antique serif that
+     carries the rulebook feel where blackletter would stop being readable. */
+  h2,
+  h3,
+  h4 {
+    font-family: 'IM Fell English', Georgia, serif;
+  }
+
+  /* UI chrome. Sans for anything the user operates rather than reads. */
+  button,
+  label,
+  input,
+  select,
+  textarea,
+  th {
+    font-family: 'Alegreya Sans', system-ui, sans-serif;
+  }
+
+  /* §5.2: numeric data always aligns. */
+  input[type='number'],
+  td,
+  th {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+}
+
+/* §5.4 — honour the OS setting, and keep motion slight regardless. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

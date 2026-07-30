@@ -41,6 +41,28 @@ export function useWarband(id: string | undefined): Warband | undefined {
   return data?.find((r) => r.warband.id === id)?.warband;
 }
 
+/**
+ * A warband plus whether we simply don't know yet.
+ *
+ * `useWarband` alone can't tell "this warband doesn't exist" from "the query
+ * hasn't answered", and every detail screen treated the second as the first —
+ * so opening a roster by URL, refreshing one, or following a link into a
+ * warband bounced straight back to the list before the data arrived. Screens
+ * must wait on `loading` before deciding a warband is missing.
+ */
+export function useWarbandLookup(id: string | undefined): {
+  warband: Warband | undefined;
+  loading: boolean;
+} {
+  const { data, isPending } = useWarbandsQuery();
+  return {
+    warband: data?.find((r) => r.warband.id === id)?.warband,
+    // `enabled: !!user` keeps the query pending while the session is being
+    // restored, which is exactly when we must not redirect either.
+    loading: isPending,
+  };
+}
+
 /** True when this warband has a stored pre-battle snapshot, i.e. the last
  * committed battle can still be undone (replaces the old single-slot
  * `lastBattleSnapshot`, which is now per-warband and server-side). */

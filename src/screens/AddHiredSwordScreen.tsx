@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import ProfileBlock from '../components/ProfileBlock';
 import { strings } from '../strings';
-import { useSaveWarbandMutation, useWarband } from '../hooks/useWarbands';
+import { useSaveWarbandMutation, useWarbandLookup } from '../hooks/useWarbands';
 import { createHiredSwordFromDefinition } from '../lib/warbandFactory';
-import { STAT_KEYS } from '../lib/statLine';
 import { resolveStatLine } from '../lib/statLine';
 import hiredSwordsData from '../data/hiredSwords.json';
 import { HiredSwordsData } from '../data/types';
@@ -14,13 +14,20 @@ const hiredSwords = (hiredSwordsData as HiredSwordsData).hiredSwords;
 export default function AddHiredSwordScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
-  const warband = useWarband(warbandId);
+  const { warband, loading } = useWarbandLookup(warbandId);
   const saveWarband = useSaveWarbandMutation();
 
   const [definitionId, setDefinitionId] = useState(hiredSwords[0]?.id ?? '');
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
 
+  if (loading) {
+    return (
+      <div className="min-h-full flex items-center justify-center">
+        <p className="text-ink-faded">{strings.common.loading}</p>
+      </div>
+    );
+  }
   if (!warband) return <Navigate to="/warbands" replace />;
 
   const definition = hiredSwords.find((h) => h.id === definitionId);
@@ -83,14 +90,7 @@ export default function AddHiredSwordScreen() {
             <p className="text-bone-100 font-semibold">{definition.name}</p>
 
             {stats && (
-              <div className="grid grid-cols-9 gap-1 text-center">
-                {STAT_KEYS.map((key) => (
-                  <div key={key}>
-                    <p className="text-bone-300 text-[10px] uppercase">{key}</p>
-                    <p className="text-bone-100 text-sm font-semibold">{stats[key]}</p>
-                  </div>
-                ))}
-              </div>
+              <ProfileBlock stats={stats} />
             )}
 
             <p className="text-bone-300 text-sm">
