@@ -110,7 +110,10 @@ export default function ProfileBlock({
                         value={value}
                         min={0}
                         onChange={(next) => onStatChange!(key, next)}
-                        className={`w-full bg-transparent text-center focus:outline-none focus:ring-1 focus:ring-blood ${
+                        // min-h keeps the tap target usable one-handed at the
+                        // table; §5.4 asks for size, and a 15px-tall cell was
+                        // the hardest thing in the app to hit.
+                        className={`w-full min-h-[44px] bg-transparent text-center focus:outline-none focus:ring-1 focus:ring-blood ${
                           atMax ? 'font-bold' : ''
                         }`}
                       />

@@ -42,7 +42,7 @@ export default function AuthNavButton({ variant }: { variant: 'bar' | 'rail' }) 
         type="button"
         onClick={handleClick}
         title={label}
-        className="flex-1 min-w-0 min-h-[56px] flex items-center justify-center text-center text-[11px] font-semibold leading-tight px-0.5 truncate transition-colors border-l border-ink-800 text-bone-300 hover:text-bone-100"
+        className="flex-1 min-w-0 min-h-[56px] flex items-center justify-center text-center text-xs font-semibold leading-tight px-0.5 truncate transition-colors border-l border-ink-800 text-bone-300 hover:text-bone-100"
       >
         <Icon className="h-5 w-5 sm:hidden" />
         <span className="sr-only sm:not-sr-only">{label}</span>

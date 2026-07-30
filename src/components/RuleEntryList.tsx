@@ -142,13 +142,13 @@ export default function RuleEntryList({
                 <span className="text-ember-400">
                   <DisclosureChevron open={open} />
                 </span>
-                <span className="text-ember-400 text-xs font-semibold uppercase tracking-wide flex-1">
+                <span className="inline-flex items-center min-h-[44px] text-ember-400 text-xs font-semibold uppercase tracking-wide flex-1">
                   {chapter.name}
                 </span>
                 <span className="text-bone-400 text-xs tabular-nums">{chapter.entries.length}</span>
               </button>
             ) : (
-              <h3 className="text-ember-400 text-xs font-semibold uppercase tracking-wide pt-3 pb-1">
+              <h3 className="inline-flex items-center min-h-[44px] text-ember-400 text-xs font-semibold uppercase tracking-wide pt-3 pb-1">
                 {chapter.name}
               </h3>
             )}

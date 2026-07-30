@@ -21,7 +21,7 @@ export default function BackHeader({ title, subtitle, onBack }: BackHeaderProps)
         ←
       </button>
       <div className="min-w-0">
-        <h1 className="text-xl font-bold text-bone-100 tracking-wide truncate">{title}</h1>
+        <h1 className="text-2xl font-bold text-bone-100 tracking-wide truncate">{title}</h1>
         {subtitle && <p className="text-bone-300 text-sm mt-0.5 truncate">{subtitle}</p>}
       </div>
     </header>

@@ -117,7 +117,7 @@ export default function HomeScreen() {
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-bone-100 font-semibold">{strings.home.warbandsSection}</h2>
-            <Link to="/warbands/new" className="text-ember-400 text-sm font-semibold">
+            <Link to="/warbands/new" className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
               {strings.warbandList.newWarband}
             </Link>
           </div>

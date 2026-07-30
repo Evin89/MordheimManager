@@ -162,12 +162,12 @@ function ObjectiveCard({ warband }: { warband: Warband }) {
               className="w-full min-h-[60px] rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100"
             />
           </div>
-          <label className="flex items-center gap-2 text-bone-200 text-sm">
+          <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm">
             <input
               type="checkbox"
               checked={current.completed}
               onChange={(e) => updateField({ completed: e.target.checked })}
-              className="h-4 w-4"
+              className="h-5 w-5 shrink-0"
             />
             {strings.campaign.completedLabel}
           </label>
@@ -291,12 +291,12 @@ function CampaignEntry() {
             className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
           />
         </div>
-        <label className="flex items-center gap-2 text-bone-200 text-sm">
+        <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm">
           <input
             type="checkbox"
             checked={draftUsesBtb}
             onChange={(e) => setDraftUsesBtb(e.target.checked)}
-            className="h-4 w-4"
+            className="h-5 w-5 shrink-0"
           />
           {strings.campaign.usesBtbLabel}
         </label>
@@ -377,7 +377,7 @@ function JoinCodeCard({ campaign, isLeader }: { campaign: Campaign; isLeader: bo
           onClick={() => {
             if (window.confirm(strings.campaign.regenerateConfirm)) regenerate(campaign.id);
           }}
-          className="text-ember-400 text-sm font-semibold"
+          className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
         >
           {strings.campaign.regenerateCode}
         </button>
@@ -424,7 +424,7 @@ function StandingsTable({ rows }: { rows: StandingsRow[] }) {
               <td className="py-3 pr-3 text-bone-200">
                 {row.playerName || strings.campaign.unnamedPlayer}
                 {row.role === 'campaign_leader' && (
-                  <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded bg-ink-800 border border-ink-700 text-bone-300 align-middle">
+                  <span className="ml-2 text-xs font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded bg-ink-800 border border-ink-700 text-bone-300 align-middle">
                     {strings.campaign.roleLeader}
                   </span>
                 )}
@@ -598,13 +598,13 @@ export default function CampaignScreen() {
                       className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 disabled:opacity-60 focus:outline-none focus:border-ember-500"
                     />
                   </div>
-                  <label className="flex items-center gap-2 text-bone-200 text-sm">
+                  <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm">
                     <input
                       type="checkbox"
                       checked={campaignDraft!.usesBTB}
                       disabled={!isLeader}
                       onChange={(e) => updateCampaignDraft({ usesBTB: e.target.checked })}
-                      className="h-4 w-4"
+                      className="h-5 w-5 shrink-0"
                     />
                     {strings.campaign.usesBtbLabel}
                   </label>

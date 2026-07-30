@@ -180,7 +180,7 @@ export default function HenchmenDetailScreen() {
               const progress = getAdvanceProgress(group.xp, 'henchmen');
               if (progress.atThreshold)
                 return (
-                  <p className="text-ember-400 text-sm font-semibold text-center">{strings.modelDetail.xpAtAdvance}</p>
+                  <p className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold text-center">{strings.modelDetail.xpAtAdvance}</p>
                 );
               if (progress.maxed)
                 return <p className="text-bone-300 text-sm text-center">{strings.modelDetail.xpMaxed}</p>;
@@ -217,7 +217,7 @@ export default function HenchmenDetailScreen() {
             <button
               type="button"
               onClick={() => setShoppingOpen((v) => !v)}
-              className="text-ember-400 text-sm font-semibold shrink-0"
+              className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold shrink-0"
             >
               {shoppingOpen ? strings.modelDetail.hideShop : strings.modelDetail.buyEquipment}
             </button>
@@ -232,7 +232,7 @@ export default function HenchmenDetailScreen() {
                   <button
                     type="button"
                     onClick={() => moveToTreasury(item.id)}
-                    className="text-ember-400 text-sm font-semibold shrink-0"
+                    className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold shrink-0"
                   >
                     {strings.modelDetail.moveToTreasury}
                   </button>
@@ -265,7 +265,7 @@ export default function HenchmenDetailScreen() {
                   <button
                     type="button"
                     onClick={() => assignFromTreasury(item.id)}
-                    className="text-ember-400 text-sm font-semibold shrink-0"
+                    className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold shrink-0"
                   >
                     {strings.modelDetail.assignToModel}
                   </button>

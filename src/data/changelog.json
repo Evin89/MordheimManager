@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-07-30",
+    "title": "Easier to Hit, Easier to Read",
+    "description": "A pass over every screen for the things that matter with a phone in one hand at a cluttered table. The characteristic boxes on a warrior's page were only 15 pixels tall — the single hardest thing in the app to tap — and are now full-height fields. The same goes for \"Move to treasury\", the weapon rule expanders, the checkboxes and the changelog link, all of which were too small to hit reliably. Screen titles are back at their proper size, and the smallest text anywhere in the app is now 12 pixels."
+  },
+  {
+    "date": "2026-07-30",
     "title": "The Rulebook Look",
     "description": "The app now comes in two looks, switchable under Settings. Rulebook is the new one: aged parchment, heavy black ink, blackletter titles and the blood red of the 1999 book. Grimdark, the black-and-orange theme, is unchanged and still there. The centrepiece is the profile block — every statline is now the rulebook's own M WS BS S T W I A Ld table, framed in ink, wherever it appears: rosters, model pages, the battle reference and shared warbands. The numbers line up in proper columns and can be typed into directly on detail screens, with racial maximums on the row beneath."
   },

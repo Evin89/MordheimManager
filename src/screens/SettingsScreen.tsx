@@ -127,7 +127,7 @@ export default function SettingsScreen() {
           <h2 className="text-bone-100 font-semibold">{strings.settings.aboutSection}</h2>
           <Link
             to="/settings/changelog"
-            className="block text-ember-400 font-semibold"
+            className="inline-flex items-center min-h-[44px] text-ember-400 font-semibold"
           >
             {strings.settings.changelogLink}
           </Link>

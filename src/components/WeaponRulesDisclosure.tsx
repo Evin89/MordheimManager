@@ -44,7 +44,9 @@ export default function WeaponRulesDisclosure({ name, rule, toggleLabel, subtitl
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-2 min-w-0 text-left"
+            // §5.4: this is a tap target, not just a label — the row was 24px
+            // tall, which is hard to hit with a thumb over a crowded table.
+            className="flex items-center gap-2 min-w-0 min-h-[44px] text-left"
             aria-expanded={open}
           >
             <span className="text-ember-400">

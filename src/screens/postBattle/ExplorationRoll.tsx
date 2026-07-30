@@ -158,7 +158,7 @@ export default function ExplorationRoll({ warband, draft, updateDraft }: StepPro
                     <button
                       type="button"
                       onClick={() => handleToggleKept(index)}
-                      className={`text-[10px] font-semibold uppercase tracking-wide px-1 ${
+                      className={`text-xs font-semibold uppercase tracking-wide px-1 ${
                         isKept ? 'text-ember-400' : 'text-bone-400'
                       }`}
                     >

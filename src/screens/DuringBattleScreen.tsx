@@ -107,7 +107,7 @@ function RosterCard({
           <p className="text-bone-100 font-semibold truncate">{name}</p>
           <p className="text-bone-300 text-sm truncate">{subtitle}</p>
         </div>
-        <Link to={detailLink} className="text-ember-400 text-xs font-semibold shrink-0">
+        <Link to={detailLink} className="inline-flex items-center min-h-[44px] text-ember-400 text-xs font-semibold shrink-0">
           {strings.battle.duringBattle.viewFullDetails}
         </Link>
       </div>
@@ -358,7 +358,7 @@ export default function DuringBattleScreen() {
                   <button
                     type="button"
                     onClick={() => removeEvent(event.id)}
-                    className="text-blood-500 text-xs font-semibold shrink-0"
+                    className="inline-flex items-center min-h-[44px] text-blood-500 text-xs font-semibold shrink-0"
                   >
                     {strings.battle.duringBattle.removeEvent}
                   </button>

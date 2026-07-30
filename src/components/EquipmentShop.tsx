@@ -196,7 +196,7 @@ export default function EquipmentShop({ warband, onPurchase, skipRarityRoll = fa
       {tab === 'common' &&
         groupByCategory(commonItems).map(({ category, items }) => (
           <div key={category} className="space-y-2">
-            <h3 className="text-ember-400 text-xs font-semibold uppercase tracking-wide pt-2">
+            <h3 className="inline-flex items-center min-h-[44px] text-ember-400 text-xs font-semibold uppercase tracking-wide pt-2">
               {EQUIPMENT_CATEGORY_LABELS[category]}
             </h3>
             {items.map((item) => {
@@ -242,7 +242,7 @@ export default function EquipmentShop({ warband, onPurchase, skipRarityRoll = fa
           {skipRarityRoll && <p className="text-bone-300 text-xs">{strings.trading.preFirstBattleHint}</p>}
           {groupByCategory(rareItems).map(({ category, items }) => (
             <div key={category} className="space-y-2">
-              <h3 className="text-ember-400 text-xs font-semibold uppercase tracking-wide pt-2">
+              <h3 className="inline-flex items-center min-h-[44px] text-ember-400 text-xs font-semibold uppercase tracking-wide pt-2">
                 {EQUIPMENT_CATEGORY_LABELS[category]}
               </h3>
               {items.map((item) => (

@@ -185,7 +185,7 @@ export default function RosterScreen() {
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-bone-100 font-semibold">{strings.roster.heroesSection}</h2>
-            <Link to={`/warbands/${warband.id}/add-hero`} className="text-ember-400 text-sm font-semibold">
+            <Link to={`/warbands/${warband.id}/add-hero`} className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
               {strings.roster.addHero}
             </Link>
           </div>
@@ -200,7 +200,7 @@ export default function RosterScreen() {
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-bone-100 font-semibold">{strings.roster.henchmenSection}</h2>
-            <Link to={`/warbands/${warband.id}/add-henchmen`} className="text-ember-400 text-sm font-semibold">
+            <Link to={`/warbands/${warband.id}/add-henchmen`} className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
               {strings.roster.addHenchmen}
             </Link>
           </div>
@@ -217,7 +217,7 @@ export default function RosterScreen() {
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-bone-100 font-semibold">{strings.roster.hiredSwordsSection}</h2>
-            <Link to={`/warbands/${warband.id}/add-hired-sword`} className="text-ember-400 text-sm font-semibold">
+            <Link to={`/warbands/${warband.id}/add-hired-sword`} className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
               {strings.roster.addHiredSword}
             </Link>
           </div>

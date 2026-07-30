@@ -13,7 +13,7 @@ export default function BottomNav() {
             to={tab.to}
             end={tab.end}
             className={({ isActive }) =>
-              `flex-1 min-w-0 min-h-[56px] flex items-center justify-center text-center text-[11px] font-semibold leading-tight px-0.5 truncate transition-colors ${
+              `flex-1 min-w-0 min-h-[56px] flex items-center justify-center text-center text-xs font-semibold leading-tight px-0.5 truncate transition-colors ${
                 i > 0 ? 'border-l border-ink-800' : ''
               } ${isActive ? 'text-ember-400' : 'text-bone-300 hover:text-bone-100'}`
             }
