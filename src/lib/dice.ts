@@ -19,3 +19,33 @@ export function roll2D6(): D2D6Roll {
   const d2 = rollD6();
   return { d1, d2, total: d1 + d2 };
 }
+
+export type DiceExpressionRoll = { rolls: number[]; total: number };
+
+const DICE_EXPRESSION = /^(\d*)D(\d+)(?:x(\d+))?(?:\+(\d+))?$/i;
+
+/**
+ * Rolls a rulebook dice expression: `D6`, `2D6`, `D3`, `D6+1`, `D6x10`, `2D6x5`, `5D6x5`.
+ *
+ * The multiplier applies to the summed dice, not to each die — "2D6x5 gc" in the
+ * Exploration chart means roll two dice, add them, multiply by five, which is a very
+ * different distribution from rolling two D30s. Returns the individual dice alongside
+ * the total so the UI can show its working rather than an unexplained number.
+ *
+ * Throws on an unparseable expression: these come from our own data files, so a typo
+ * is a bug to surface at the point of use, not a silent zero in someone's treasury.
+ */
+export function rollDiceExpression(expression: string): DiceExpressionRoll {
+  const match = DICE_EXPRESSION.exec(expression.trim());
+  if (!match) throw new Error(`Unrecognised dice expression: "${expression}"`);
+
+  const [, countRaw, sidesRaw, multiplierRaw, bonusRaw] = match;
+  const count = countRaw ? Number(countRaw) : 1;
+  const sides = Number(sidesRaw);
+
+  const rolls = Array.from({ length: count }, () => Math.floor(Math.random() * sides) + 1);
+  const sum = rolls.reduce((acc, n) => acc + n, 0);
+  const total = sum * (multiplierRaw ? Number(multiplierRaw) : 1) + (bonusRaw ? Number(bonusRaw) : 0);
+
+  return { rolls, total };
+}

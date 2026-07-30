@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-07-29",
+    "title": "Explore Mordheim From the Wizard",
+    "description": "The Income step no longer asks how much wyrdstone you found — it rolls for it. The app counts the dice you're owed (one per Hero who came through without going out of action, plus one for a win) and you can add more for skills or equipment. Rolled real dice at the table? Tap any die and set it to what you actually threw; the same works for an Elf Ranger's +1/-1 or a re-roll. Roll more than six and you choose which six count. Doubles and up are looked up for you, including the ones your warband resolves differently — Skaven sell the Straggler, Witch Hunters seal the Graveyard rather than loot it. Gold and shards are added straight to the warband. Anything the app can't do for you, like gaining a Zombie or a wardog, is written into the battle notes, and results that matter next game are added to your warband's notes."
+  },
+  {
+    "date": "2026-07-29",
     "title": "Save When You're Ready, and Rules That Work Offline",
     "description": "Editing a characteristic used to save on every keystroke — one write per digit, with no way to change your mind. Typed fields on the roster, hero, henchmen and campaign screens are now yours until you press Save, with a bar that appears only when something is pending and a Discard next to it. Buying, recruiting, selling and deleting still take effect straight away, because those already are the decision. The rules are also readable without a connection now: once you've opened the app on a device, the full Rules Reference stays available at the table even with no signal. A new version still takes effect the moment you're back online — the old problem of a stale app sticking around cannot happen again."
   },

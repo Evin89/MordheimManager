@@ -47,7 +47,8 @@
       "combination": "1 1",
       "name": "Well",
       "flavour": "The public wells, of which there were several in Mordheim, were covered by rooves raised up on pillars and adorned with carvings and fountains. The city was proud of its water system. Unfortunately, like all the other wells, this one is in a parlous state and undoubtedly polluted with wyrdstone.",
-      "effect": "Choose one of your Heroes and roll a D6. If the result is equal to or lower than his Toughness, he finds one shard of wyrdstone at the bottom of the well. If he fails, the Hero swallows tainted water and must miss the next game through sickness."
+      "effect": "Choose one of your Heroes and roll a D6. If the result is equal to or lower than his Toughness, he finds one shard of wyrdstone at the bottom of the well. If he fails, the Hero swallows tainted water and must miss the next game through sickness.",
+      "persistent": true
     },
     {
       "id": "shop",
@@ -57,7 +58,8 @@
       "combination": "2 2",
       "name": "Shop",
       "flavour": "The Merchants Guild shop has been thoroughly ransacked. Even so, there are still items scattered around the single, long room, mingled in with the rubble. Some are useful, such as cast iron pots and pans and rolls of fine cloth. All manner of smaller items are lying about - the sort of frippery which no longer has a use in a devastated city with few inhabitants.",
-      "effect": "After a thorough search you find loot worth D6 gc. If you roll a 1 you will also find a Lucky Charm."
+      "effect": "After a thorough search you find loot worth D6 gc. If you roll a 1 you will also find a Lucky Charm.",
+      "autoYield": { "gold": "D6" }
     },
     {
       "id": "corpse",
@@ -71,7 +73,7 @@
       "subTable": {
         "dice": "D6",
         "entries": [
-          { "roll": "1-2", "result": "D6 gc" },
+          { "roll": "1-2", "result": "D6 gc", "autoYield": { "gold": "D6" } },
           { "roll": "3", "result": "Dagger" },
           { "roll": "4", "result": "Axe" },
           { "roll": "5", "result": "Sword" },
@@ -88,10 +90,21 @@
       "name": "Straggler",
       "flavour": "Your warband encounters one of the survivors of Mordheim, who has lost his sanity along with all his worldly possessions.",
       "effect": "Any warband other than those listed below can interrogate the man and gain insight into the city. Next time you roll on the Exploration chart, roll one dice more than is usually allowed, and discard any one dice. (For example, if you have three Heroes, roll four dice and pick any three.)",
+      "persistent": true,
       "warbandVariants": [
-        { "warbands": ["skaven"], "effect": "Skaven warbands can sell the straggler to agents of Clan Eshin (who will use the man for food or slavery) and gain 2D6 gc." },
-        { "warbands": ["cult-of-the-possessed"], "effect": "Possessed warbands can sacrifice the unfortunate individual for the glory of the Chaos gods. The leader of the warband gains +1 Experience." },
-        { "warbands": ["undead"], "effect": "Undead warbands can kill the man and gain a Zombie for no cost." }
+        {
+          "warbands": ["skaven"],
+          "effect": "Skaven warbands can sell the straggler to agents of Clan Eshin (who will use the man for food or slavery) and gain 2D6 gc.",
+          "autoYield": { "gold": "2D6" }
+        },
+        {
+          "warbands": ["cult-of-the-possessed"],
+          "effect": "Possessed warbands can sacrifice the unfortunate individual for the glory of the Chaos gods. The leader of the warband gains +1 Experience."
+        },
+        {
+          "warbands": ["undead"],
+          "effect": "Undead warbands can kill the man and gain a Zombie for no cost."
+        }
       ]
     },
     {
@@ -107,7 +120,7 @@
         "dice": "D6",
         "entries": [
           { "roll": "1-2", "result": "Mordheim Map (see Equipment)" },
-          { "roll": "3-4", "result": "A purse with 2D6 gc" },
+          { "roll": "3-4", "result": "A purse with 2D6 gc", "autoYield": { "gold": "2D6" } },
           { "roll": "5-6", "result": "Jewelled sword and dagger. These can be kept or sold at twice the value of a normal sword and dagger. Note that the normal selling price is half the actual cost, so the jewelled sword sells for 10 gc, for instance." }
         ]
       }
@@ -120,7 +133,8 @@
       "combination": "6 6",
       "name": "Ruined Hovels",
       "flavour": "The street consists of ruined hovels, which are leaning over at alarming angles. Not much worth looting here.",
-      "effect": "You find loot worth D6 gc amidst the ruins."
+      "effect": "You find loot worth D6 gc amidst the ruins.",
+      "autoYield": { "gold": "D6" }
     },
     {
       "id": "tavern",
@@ -152,7 +166,7 @@
           { "roll": "3", "result": "Flail" },
           { "roll": "4", "result": "D3 Halberds" },
           { "roll": "5", "result": "Lance" },
-          { "roll": "6", "result": "2D6 gc worth of metal (add the value to your treasury)" }
+          { "roll": "6", "result": "2D6 gc worth of metal (add the value to your treasury)", "autoYield": { "gold": "2D6" } }
         ]
       }
     },
@@ -165,10 +179,21 @@
       "name": "Prisoners",
       "flavour": "A muffled sound comes from one of the buildings. Inside you find a group of finely dressed people who have been locked in a cellar. Perhaps they are prisoners taken by cultists, ready to be sacrificed during Geheimnisnacht.",
       "effect": "Warbands other than those listed below can escort the prisoners out of the city. For their trouble they are rewarded with 2D6 gc. In addition, one of the prisoners decides he wishes to join the warband. If you can afford to equip the new recruit with weapons and armour, you may add a new Henchman to any of your human Henchman groups (with the same stats as the rest of the group, even if they have already accumulated experience).",
+      "autoYield": { "gold": "2D6" },
       "warbandVariants": [
-        { "warbands": ["cult-of-the-possessed"], "effect": "Possessed warbands can sacrifice the victims (undoubtedly finishing the job of the captors). They gain D3 Experience which is distributed amongst the Heroes of the warband." },
-        { "warbands": ["undead"], "effect": "Undead warbands can callously kill the prisoners and gain D3 Zombies at no cost." },
-        { "warbands": ["skaven"], "effect": "Skaven can sell the prisoners into slavery for 3D6 gc." }
+        {
+          "warbands": ["cult-of-the-possessed"],
+          "effect": "Possessed warbands can sacrifice the victims (undoubtedly finishing the job of the captors). They gain D3 Experience which is distributed amongst the Heroes of the warband."
+        },
+        {
+          "warbands": ["undead"],
+          "effect": "Undead warbands can callously kill the prisoners and gain D3 Zombies at no cost."
+        },
+        {
+          "warbands": ["skaven"],
+          "effect": "Skaven can sell the prisoners into slavery for 3D6 gc.",
+          "autoYield": { "gold": "3D6" }
+        }
       ]
     },
     {
@@ -199,7 +224,8 @@
       "combination": "5 5 5",
       "name": "Market Hall",
       "flavour": "The market hall was raised up on pillars, with the timbered corn exchange above the open market place. The upper storey has been badly damaged, but the covered market still offers a good deal of shelter. The remains of the last market day are still lying around on the cobbles. Most of this is broken pottery and iron pots.",
-      "effect": "You find several items worth 2D6 gc in total."
+      "effect": "You find several items worth 2D6 gc in total.",
+      "autoYield": { "gold": "2D6" }
     },
     {
       "id": "returning-a-favour",
@@ -209,7 +235,8 @@
       "combination": "6 6 6",
       "name": "Returning a Favour",
       "flavour": "As you are returning to your encampment, you meet one of your old acquaintances. He has come to repay an old favour or debt.",
-      "effect": "You gain the services of any one Hired Sword (choose from those available to your warband) for the duration of the next battle, free of charge. After the battle he will depart, or you may continue to pay for his upkeep as normal. See the Hired Swords section."
+      "effect": "You gain the services of any one Hired Sword (choose from those available to your warband) for the duration of the next battle, free of charge. After the battle he will depart, or you may continue to pay for his upkeep as normal. See the Hired Swords section.",
+      "persistent": true
     },
     {
       "id": "gunsmith",
@@ -241,8 +268,14 @@
       "name": "Shrine",
       "flavour": "Your warband stumbles across a ruined shrine, which is so badly damaged that it is difficult to tell which god was once worshipped within its walls. A few images remain on the painted plaster walls but they have been defaced by heretics. Fragments of smashed statues lie among the ruins. Some items appear to be covered in gold leaf, most of which has been torn off.",
       "effect": "Your warband may strip the shrine and gain 3D6 gc worth of loot.",
+      "autoYield": { "gold": "3D6" },
       "warbandVariants": [
-        { "warbands": ["sisters-of-sigmar", "witch-hunters"], "effect": "Sisters of Sigmar or Witch Hunter warbands may instead save some of the shrine's holy relics. They gain 3D6 gc from their patrons, and a blessing from the gods: one of their weapons (chosen by the player) is now blessed and will always wound any Undead or Possessed model on a to wound roll of 2+." }
+        {
+          "warbands": ["sisters-of-sigmar", "witch-hunters"],
+          "effect": "Sisters of Sigmar or Witch Hunter warbands may instead save some of the shrine's holy relics. They gain 3D6 gc from their patrons, and a blessing from the gods: one of their weapons (chosen by the player) is now blessed and will always wound any Undead or Possessed model on a to wound roll of 2+.",
+          "autoYield": { "gold": "3D6" },
+          "persistent": true
+        }
       ]
     },
     {
@@ -253,7 +286,8 @@
       "combination": "3 3 3 3",
       "name": "Townhouse",
       "flavour": "This three-storey house was once part of a tenement block overlooking a narrow alleyway. The street is now in ruins, but this house remains largely intact. Exploring it you find that the garret leans over so far that you can step out of the window into the attic of the house opposite.",
-      "effect": "Your warband finds 3D6 gc worth of loot."
+      "effect": "Your warband finds 3D6 gc worth of loot.",
+      "autoYield": { "gold": "3D6" }
     },
     {
       "id": "armourer",
@@ -284,8 +318,13 @@
       "name": "Graveyard",
       "flavour": "You find an old graveyard, crammed with sepulchres that are overgrown with ivy. The monuments to the dead are grotesque and decorated with sculpted gargoyles. The ironwork has been ripped from some of the tombs, and stones have toppled off. It looks as if some of the crypts have already been broken into by tomb robbers.",
       "effect": "Any warband apart from Witch Hunters and Sisters of Sigmar may loot the crypts and graves and gains D6x10 gc worth of loot. If you loot the graveyard, the next time you play against Sisters of Sigmar or Witch Hunters the entire enemy warband will hate all the models in your warband. Make a note of this on your warband roster sheet.",
+      "autoYield": { "gold": "D6x10" },
+      "persistent": true,
       "warbandVariants": [
-        { "warbands": ["witch-hunters", "sisters-of-sigmar"], "effect": "Witch Hunters and Sisters of Sigmar may seal the graves instead. They are rewarded for their piety by D6 Experience points distributed amongst the Heroes of the warband." }
+        {
+          "warbands": ["witch-hunters", "sisters-of-sigmar"],
+          "effect": "Witch Hunters and Sisters of Sigmar may seal the graves instead. They are rewarded for their piety by D6 Experience points distributed amongst the Heroes of the warband."
+        }
       ]
     },
     {
@@ -296,7 +335,8 @@
       "combination": "6 6 6 6",
       "name": "Catacombs",
       "flavour": "You find an entrance to the catacombs and tunnels below Mordheim.",
-      "effect": "You can use the new tunnels you found in the next battle you play. Position up to three fighters (not Rat Ogres or the Possessed) anywhere on the battlefield at ground level. They are set up at the end of the player's first turn and cannot be placed within 8\" of any enemy models. This represents the warriors making their way through the tunnels, infiltrating enemy lines and emerging suddenly from below ground."
+      "effect": "You can use the new tunnels you found in the next battle you play. Position up to three fighters (not Rat Ogres or the Possessed) anywhere on the battlefield at ground level. They are set up at the end of the player's first turn and cannot be placed within 8\" of any enemy models. This represents the warriors making their way through the tunnels, infiltrating enemy lines and emerging suddenly from below ground.",
+      "persistent": true
     },
     {
       "id": "moneylenders-house",
@@ -306,7 +346,8 @@
       "combination": "1 1 1 1 1",
       "name": "Moneylender's House",
       "flavour": "A grand mansion, that is strongly built from stone, has survived the cataclysm remarkably well. A carved coat of arms adorns the lintel above the doorway although it has been defaced by raiders and the symbols are now unrecognisable. The door itself has been smashed open with axes and hangs open on its hinges.",
-      "effect": "Inside, hidden amongst the debris, you find D6x10 gc to add to your treasury."
+      "effect": "Inside, hidden amongst the debris, you find D6x10 gc to add to your treasury.",
+      "autoYield": { "gold": "D6x10" }
     },
     {
       "id": "alchemists-laboratory",
@@ -316,7 +357,9 @@
       "combination": "2 2 2 2 2",
       "name": "Alchemist's Laboratory",
       "flavour": "A narrow stairway leads down into a crypt-like dwelling which was once an alchemist's workshop. The sign still hangs from one hinge above the entrance. It looks as if this was a very old building which has remained in use for centuries although it did not survive the comet's destruction too well. The stone floor has strange symbols on it and there are charts and astrological symbols painted onto the walls.",
-      "effect": "In the ruins you find loot worth 3D6 gc and a battered old notebook. One of your Heroes may study the Alchemist's notebook, and the extra wisdom he gains will enable him to choose from Academic skills whenever he gains a new skill, in addition to those skills normally available to him."
+      "effect": "In the ruins you find loot worth 3D6 gc and a battered old notebook. One of your Heroes may study the Alchemist's notebook, and the extra wisdom he gains will enable him to choose from Academic skills whenever he gains a new skill, in addition to those skills normally available to him.",
+      "autoYield": { "gold": "3D6" },
+      "persistent": true
     },
     {
       "id": "jewelsmith",
@@ -327,6 +370,7 @@
       "name": "Jewelsmith",
       "flavour": "The houses in the jewellers' quarter have all been well and truly looted long ago. Even the rubble has been picked over many times for fragments of gold and gems. But still, some small but valuable items may have been overlooked.",
       "effect": "Roll a D6 to see what you find. If your warband does not sell the gems, one of your Heroes may keep them and display them proudly. He gains +1 to the rolls for locating rare items as merchants flock to such an obviously wealthy warrior.",
+      "persistent": true,
       "subTable": {
         "dice": "D6",
         "entries": [
@@ -345,7 +389,8 @@
       "combination": "4 4 4 4 4",
       "name": "Merchant's House",
       "flavour": "The merchant's house stands by the waterfront. It has a vaulted stone undercroft which is still stacked with barrels and bales of cloth. The foodstuffs have been looted or eaten long ago and huge rats infest the rotting bales. Up the stairs are the dwelling quarters, solidly built of timber, although badly damaged you think you can still get up to them but you'll need to tread with care!",
-      "effect": "Inside you find several valuable objects which can be sold for 2D6x5 gc. If you roll a double, instead of finding money you find the symbol of the Order of Freetraders. A Hero in possession of this gains the Haggle skill."
+      "effect": "Inside you find several valuable objects which can be sold for 2D6x5 gc. If you roll a double, instead of finding money you find the symbol of the Order of Freetraders. A Hero in possession of this gains the Haggle skill.",
+      "persistent": true
     },
     {
       "id": "shattered-building",
@@ -355,7 +400,8 @@
       "combination": "5 5 5 5 5",
       "name": "Shattered Building",
       "flavour": "The comet destroyed this building almost completely, making it unsafe for all but the most daring to explore. But places such as this are the best for searching for wyrdstone shards.",
-      "effect": "You find D3 shards of wyrdstone amongst the ruins. In addition take a Leadership test against the warband leader's Leadership value. If passed, a wardog that was guarding the building joins the warband."
+      "effect": "You find D3 shards of wyrdstone amongst the ruins. In addition take a Leadership test against the warband leader's Leadership value. If passed, a wardog that was guarding the building joins the warband.",
+      "autoYield": { "shards": "D3" }
     },
     {
       "id": "entrance-to-the-catacombs",
@@ -365,7 +411,8 @@
       "combination": "6 6 6 6 6",
       "name": "Entrance to the Catacombs",
       "flavour": "You find a well-hidden entrance to the dark catacombs which extend for miles beneath the city of Mordheim. Although the entrance looks foreboding the tunnels will take hours off your searches of the city.",
-      "effect": "You can use these tunnels to explore Mordheim more efficiently. From now on, you may re-roll one dice when you roll on the Exploration chart. Make a note of this in your warband's roster sheet. Second and subsequent catacomb entrances you find do not grant you any additional re-rolls, although you may find further re-rolls from other sources."
+      "effect": "You can use these tunnels to explore Mordheim more efficiently. From now on, you may re-roll one dice when you roll on the Exploration chart. Make a note of this in your warband's roster sheet. Second and subsequent catacomb entrances you find do not grant you any additional re-rolls, although you may find further re-rolls from other sources.",
+      "persistent": true
     },
     {
       "id": "the-pit",
@@ -390,7 +437,7 @@
         "dice": "D6",
         "entries": [
           { "item": "D3 Pieces of wyrdstone", "required": "4+" },
-          { "item": "5D6x5 gc", "required": "Auto" },
+          { "item": "5D6x5 gc", "required": "Auto", "autoYield": { "gold": "5D6x5" } },
           { "item": "Holy Relic", "required": "5+" },
           { "item": "Suit of Heavy Armour", "required": "5+" },
           { "item": "D3 Gems worth 10 gc each", "required": "4+" },
@@ -433,7 +480,7 @@
       "itemChecklist": {
         "dice": "D6",
         "entries": [
-          { "item": "3D6x5 gc", "required": "Auto" },
+          { "item": "3D6x5 gc", "required": "Auto", "autoYield": { "gold": "3D6x5" } },
           { "item": "D3 Suits of Light Armour", "required": "4+" },
           { "item": "Suit of Heavy Armour", "required": "5+" },
           { "item": "D6 Daggers", "required": "Auto" },
@@ -454,7 +501,8 @@
       "combination": "5 5 5 5 5 5",
       "name": "Fighting Arena",
       "flavour": "During better times, Mordheim was famous for its duellists and pit fighters. You have found one of the areas used to train these warriors. The place is filled with training equipment and practice weapons.",
-      "effect": "You find a training manual, which you can either sell for 100 gc or let one of your Heroes read. The extra knowledge your Hero gleans from reading the manual entitles him to choose from Combat skills whenever he gains a new skill, and his WS may now be increased by an extra point above his normal racial maximum (for example, a Human who has the book would now have a maximum Weapon Skill of 7)."
+      "effect": "You find a training manual, which you can either sell for 100 gc or let one of your Heroes read. The extra knowledge your Hero gleans from reading the manual entitles him to choose from Combat skills whenever he gains a new skill, and his WS may now be increased by an extra point above his normal racial maximum (for example, a Human who has the book would now have a maximum Weapon Skill of 7).",
+      "persistent": true
     },
     {
       "id": "nobles-villa",
@@ -468,7 +516,7 @@
       "subTable": {
         "dice": "D6",
         "entries": [
-          { "roll": "1-2", "result": "D6x10 gc worth of items and money to add to your treasury" },
+          { "roll": "1-2", "result": "D6x10 gc worth of items and money to add to your treasury", "autoYield": { "gold": "D6x10" } },
           { "roll": "3-4", "result": "D6 vials of Crimson Shade" },
           { "roll": "5-6", "result": "A hidden magical artefact carefully concealed in a hidden cellar or behind a secret door. Roll on the Magical Artefacts table." }
         ]

@@ -41,6 +41,28 @@ export type HiredSwordBattleState = {
   newSkills: string[];
 };
 
+/**
+ * The post-battle Exploration roll. `dice` holds every die rolled or typed in; only
+ * the first six count (`MAX_DICE_KEPT`), which is why `keptIndices` exists rather than
+ * simply truncating — the player chooses which six when skills or equipment granted
+ * extras. `resolved` is filled once the player accepts the location, so re-rolling the
+ * dice can't silently double the gold already staged.
+ */
+export type ExplorationState = {
+  dice: number[];
+  keptIndices: number[];
+  resolved: {
+    resultId: string;
+    subRoll: number | null;
+    gold: number;
+    shards: number;
+    /** Full outcome text, recorded in the battle notes. */
+    note: string;
+    /** Set when the outcome carries into later games; copied to the warband's notes. */
+    persistentNote: string | null;
+  } | null;
+};
+
 export type PostBattleDraft = {
   scenario: string;
   opponents: string;
@@ -53,6 +75,7 @@ export type PostBattleDraft = {
   hiredSwords: Record<string, HiredSwordBattleState>;
   wyrdstoneFound: number;
   wyrdstoneSold: number;
+  exploration: ExplorationState;
 };
 
 export type DraftPatch = Partial<PostBattleDraft> | ((current: PostBattleDraft) => Partial<PostBattleDraft>);

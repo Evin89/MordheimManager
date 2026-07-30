@@ -12,7 +12,8 @@ export default function StepUpkeep({ warband, draft, updateDraft }: StepProps) {
 
   const modelCountAfter = countModels(previewWarbandAfterDeaths(warband, draft));
   const sellPrice = getWyrdstoneSellPrice(draft.wyrdstoneSold, modelCountAfter);
-  const goldAvailable = warband.gold + sellPrice;
+  // Exploration loot counts toward upkeep — it's in the treasury before the men are paid.
+  const goldAvailable = warband.gold + sellPrice + (draft.exploration.resolved?.gold ?? 0);
   const totalUpkeepDue = survivingSwords.reduce((sum, s) => {
     const state = draft.hiredSwords[s.id];
     return state?.payUpkeep ? sum + s.upkeep : sum;

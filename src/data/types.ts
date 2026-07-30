@@ -293,16 +293,28 @@ export type BtbDramatisPersonaeData = {
 /** How many matching dice a result on the Exploration chart needs. */
 export type ExplorationMultipleKind = 'double' | 'triple' | 'fourOfAKind' | 'fiveOfAKind' | 'sixOfAKind';
 
+/**
+ * The part of a result the app can apply on its own: pure gold and/or wyrdstone,
+ * as a dice expression (see `rollDiceExpression`). Absent wherever the outcome is
+ * an item, a model, a skill, or conditional on a test — those are reported as text
+ * for the player to apply by hand, since the app cannot model them faithfully.
+ */
+export type ExplorationYield = {
+  gold?: string; // e.g. "D6", "2D6", "D6x10", "5D6x5"
+  shards?: string; // e.g. "D3"
+};
+
 /** A nested D6 roll that decides what a location yields (e.g. the Smithy's weapon table). */
 export type ExplorationSubTable = {
   dice: string; // always "D6" in the core rules, kept explicit for future supplements
-  entries: { roll: string; result: string }[];
+  entries: { roll: string; result: string; autoYield?: ExplorationYield }[];
 };
 
 /** Loot rolled for item-by-item rather than once (Hidden Treasure, Slaughtered Warband). */
 export type ExplorationItemChecklist = {
   dice: string;
-  entries: { item: string; required: string }[]; // required is "4+", "Auto", etc.
+  // required is "4+", "Auto", etc.
+  entries: { item: string; required: string; autoYield?: ExplorationYield }[];
 };
 
 export type ExplorationResult = {
@@ -314,10 +326,20 @@ export type ExplorationResult = {
   name: string;
   flavour: string;
   effect: string; // the outcome for a warband with no variant of its own
+  autoYield?: ExplorationYield;
+  /** True when the effect carries into later games (a re-roll from now on, a skill
+   * list unlocked, an enemy warband that now hates you) rather than being spent on
+   * this post-battle sequence. Those are copied into the warband's own notes. */
+  persistent?: boolean;
   subTable?: ExplorationSubTable;
   itemChecklist?: ExplorationItemChecklist;
   // Warbands that resolve this location differently, keyed by warband definition id.
-  warbandVariants?: { warbands: string[]; effect: string }[];
+  warbandVariants?: {
+    warbands: string[];
+    effect: string;
+    autoYield?: ExplorationYield;
+    persistent?: boolean;
+  }[];
 };
 
 export type ExplorationData = {

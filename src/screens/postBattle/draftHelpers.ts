@@ -124,6 +124,7 @@ export function createInitialDraft(warband: Warband): PostBattleDraft {
     hiredSwords,
     wyrdstoneFound: 0,
     wyrdstoneSold: 0,
+    exploration: { dice: [], keptIndices: [], resolved: null },
   };
 }
 
@@ -327,7 +328,14 @@ export function applyDraftToWarband(
 
   const modelCountAfter = countModels({ ...warband, heroes: allHeroes, henchmenGroups, hiredSwords });
   const sellProfit = getWyrdstoneSellPrice(draft.wyrdstoneSold, modelCountAfter);
-  const goldChange = sellProfit - upkeepPaid;
+  const explorationGold = draft.exploration.resolved?.gold ?? 0;
+  const goldChange = sellProfit - upkeepPaid + explorationGold;
+
+  // A location whose effect outlasts this battle is written into the warband's own
+  // notes, since there is nowhere else for it to live — the app doesn't model a
+  // standing exploration re-roll or an enemy warband that now hates you.
+  const persistentNote = draft.exploration.resolved?.persistentNote;
+  const notes = persistentNote ? [warband.notes, persistentNote].filter(Boolean).join('\n') : warband.notes;
 
   const updatedWarband: Warband = {
     ...warband,
@@ -335,6 +343,7 @@ export function applyDraftToWarband(
     henchmenGroups,
     hiredSwords,
     treasury,
+    notes,
     gold: warband.gold + goldChange,
     wyrdstoneShards: warband.wyrdstoneShards + draft.wyrdstoneFound - draft.wyrdstoneSold,
   };
@@ -358,7 +367,7 @@ export function applyDraftToWarband(
     wyrdstoneFound: draft.wyrdstoneFound,
     goldChange,
     casualtiesSummary: casualtiesParts.join(' · ') || 'No casualties',
-    notes: draft.notes,
+    notes: [draft.notes, draft.exploration.resolved?.note].filter(Boolean).join('\n'),
   };
 
   return { warband: updatedWarband, battleRecord };
@@ -437,6 +446,13 @@ export function buildDiffSummary(warband: Warband, draft: PostBattleDraft): stri
     const advanceTags = [...statIncreaseTags(state.statIncreases), ...state.newSkills];
     if (advanceTags.length > 0) lines.push(`${sword.name} advances: ${advanceTags.join(', ')}.`);
     if (state.payUpkeep) lines.push(`Pay ${sword.upkeep} gc upkeep to ${sword.name}.`);
+  }
+
+  const explored = draft.exploration.resolved;
+  if (explored) {
+    lines.push(explored.note);
+    if (explored.gold > 0) lines.push(`Exploration loot: +${explored.gold} gc.`);
+    if (explored.persistentNote) lines.push(`Added to the warband's notes: ${explored.persistentNote}`);
   }
 
   if (draft.wyrdstoneFound > 0) lines.push(`+${draft.wyrdstoneFound} wyrdstone shard${draft.wyrdstoneFound === 1 ? '' : 's'} found.`);

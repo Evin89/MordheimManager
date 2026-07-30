@@ -1,4 +1,5 @@
 import NumberInput from '../../components/NumberInput';
+import ExplorationRoll from './ExplorationRoll';
 import { strings } from '../../strings';
 import { getWyrdstoneSellPrice } from '../../lib/wyrdstonePricing';
 import { countModels } from '../../lib/rating';
@@ -12,6 +13,7 @@ export default function StepIncome({ warband, draft, updateDraft }: StepProps) {
 
   return (
     <div className="space-y-6">
+      <ExplorationRoll warband={warband} draft={draft} updateDraft={updateDraft} />
       <div className="space-y-2">
         <label className="block text-bone-200 text-sm font-semibold" htmlFor="wyrdstone-found">
           {strings.postBattle.income.wyrdstoneFoundLabel}
