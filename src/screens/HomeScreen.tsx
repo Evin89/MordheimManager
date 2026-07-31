@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import AppBanner from '../components/AppBanner';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
 import { useWarbandList } from '../hooks/useWarbands';
@@ -12,8 +13,7 @@ function SignedOutHome() {
   return (
     <div className="min-h-full flex flex-col">
       <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-        <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{strings.appName}</h1>
-        <p className="text-bone-300 text-sm mt-1">{strings.tagline}</p>
+        <AppBanner />
       </header>
 
       <main className="flex-1 px-4 py-6 space-y-6">
@@ -79,8 +79,7 @@ export default function HomeScreen() {
   return (
     <div className="min-h-full flex flex-col">
       <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-        <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{strings.appName}</h1>
-        <p className="text-bone-300 text-sm mt-1">{strings.tagline}</p>
+        <AppBanner />
       </header>
 
       <main className="flex-1 px-4 py-6 space-y-6">
