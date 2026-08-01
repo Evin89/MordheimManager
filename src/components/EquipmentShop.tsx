@@ -3,6 +3,7 @@ import { strings } from '../strings';
 import { getWarbandDefinition } from '../data/warbandRegistry';
 import { roll2D6 } from '../lib/dice';
 import NumberInput from './NumberInput';
+import { BuyerKind, allowedEquipmentIds, eligibleItems } from '../lib/equipmentEligibility';
 import WeaponRulesDisclosure from './WeaponRulesDisclosure';
 import { EQUIPMENT_CATEGORY_LABELS, groupByCategory } from '../lib/equipmentCategories';
 import { getWeaponRuleById } from '../lib/weaponRules';
@@ -158,16 +159,46 @@ type EquipmentShopProps = {
   onPurchase: (item: ResolvedEquipmentItem, price: number) => void;
   /** True while the warband hasn't fought its first battle yet — rare items can be bought without rolling. */
   skipRarityRoll?: boolean;
+  /**
+   * Who the gear is for. Drives the Miscellaneous "Heroes only" rule and the
+   * warband locks — see lib/equipmentEligibility. Defaults to `treasury`, the
+   * Trading Post case, where nothing is barred from being bought.
+   */
+  buyer?: BuyerKind;
+  /** The unit being equipped, so its own equipment list and skills can be applied. */
+  unitType?: string;
+  skills?: string[];
 };
 
 /** The buy-side of the Trading Post (Common + Rare tabs), reusable anywhere a warband can spend gold on gear. */
-export default function EquipmentShop({ warband, onPurchase, skipRarityRoll = false }: EquipmentShopProps) {
+export default function EquipmentShop({
+  warband,
+  onPurchase,
+  skipRarityRoll = false,
+  buyer = 'treasury',
+  unitType,
+  skills,
+}: EquipmentShopProps) {
   const [tab, setTab] = useState<Tab>('common');
 
   const definition = getWarbandDefinition(warband.warbandType);
   const exclusiveItems = definition ? getWarbandExclusiveItems(definition) : [];
-  const commonItems = [...getUniversalCommonItems(), ...exclusiveItems.filter((i) => !i.isRare)];
-  const rareItems = [...getUniversalRareItems(), ...exclusiveItems.filter((i) => i.isRare)];
+  // Only apply the unit's own list when we know which unit we're arming; the
+  // Trading Post buys into the treasury and has no unit in hand.
+  const context = {
+    buyer,
+    warbandType: warband.warbandType,
+    allowedIds: unitType ? allowedEquipmentIds(definition, unitType) : null,
+    skills,
+  };
+  const commonItems = eligibleItems(
+    [...getUniversalCommonItems(), ...exclusiveItems.filter((i) => !i.isRare)],
+    context,
+  );
+  const rareItems = eligibleItems(
+    [...getUniversalRareItems(), ...exclusiveItems.filter((i) => i.isRare)],
+    context,
+  );
   const rollBonus = definition?.rareItemRollBonus ?? 0;
 
   return (

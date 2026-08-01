@@ -15,3 +15,9 @@ supabase/.branches/
 # rows, and anything under public/ is copied verbatim into the deployed site —
 # a backup saved there would be downloadable by anyone who guessed the URL.
 mordheim-backup-*.json
+
+# Design sources. Anything under public/ is copied verbatim into the deployed
+# site, so working files belong in design/ — see design/ for the icon and
+# banner originals.
+public/**/*.ai
+public/**/*.psd

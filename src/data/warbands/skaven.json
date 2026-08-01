@@ -46,7 +46,17 @@
       "equipmentOptions": [
         "skavenHeroesEquipmentList"
       ],
-      "notes": "60 gc. Leader (6\"). Perfect Killer: an extra -1 armour-save modifier to all wounds he inflicts (shooting and close combat). statMaximums null: fill Skaven maximums from the Maximum Profile table."
+      "notes": "statMaximums null: fill Skaven maximums from the Maximum Profile table.",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Leader (6\")."
+        },
+        {
+          "name": "Perfect Killer",
+          "description": "an extra -1 armour-save modifier to all wounds he inflicts (shooting and close combat)."
+        }
+      ]
     },
     {
       "id": "eshinSorcerer",
@@ -86,7 +96,13 @@
       "equipmentOptions": [
         "skavenHeroesEquipmentList"
       ],
-      "notes": "45 gc, 0-1. Wizard: uses the Magic of the Horned Rat (see Magic)."
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Wizard",
+          "description": "uses the Magic of the Horned Rat (see Magic)."
+        }
+      ]
     },
     {
       "id": "blackSkaven",
@@ -128,7 +144,8 @@
       "equipmentOptions": [
         "skavenHeroesEquipmentList"
       ],
-      "notes": "40 gc, 0-2."
+      "notes": "",
+      "specialRules": []
     },
     {
       "id": "nightRunners",
@@ -168,7 +185,8 @@
       "equipmentOptions": [
         "skavenHenchmenEquipmentList"
       ],
-      "notes": "20 gc, 0-2. Use the Skaven Henchmen equipment list."
+      "notes": "Use the Skaven Henchmen equipment list.",
+      "specialRules": []
     }
   ],
   "henchmenTypes": [
@@ -204,7 +222,8 @@
       "equipmentOptions": [
         "skavenHenchmenEquipmentList"
       ],
-      "notes": "20 gc, any number. statMaximums null: fill from the Maximum Profile table."
+      "notes": "statMaximums null: fill from the Maximum Profile table.",
+      "specialRules": []
     },
     {
       "id": "giantRats",
@@ -236,7 +255,13 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "15 gc, any number. Animals: do not gain experience. No weapons/armour."
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Animals",
+          "description": "do not gain experience. No weapons/armour."
+        }
+      ]
     },
     {
       "id": "ratOgre",
@@ -268,7 +293,21 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "210 gc, 0-1. Fear. Stupidity unless a Skaven Hero is within 6\". Large Target. Does not gain experience. No weapons/armour. (isAnimal=true used as the 'no experience' flag.)"
+      "notes": "Does not gain experience. No weapons/armour. (isAnimal=true used as the 'no experience' flag.)",
+      "specialRules": [
+        {
+          "name": "Fear",
+          "description": "Fear."
+        },
+        {
+          "name": "Stupidity",
+          "description": "Stupidity unless a Skaven Hero is within 6\"."
+        },
+        {
+          "name": "Large Target",
+          "description": "Large Target."
+        }
+      ]
     }
   ],
   "equipmentLists": {

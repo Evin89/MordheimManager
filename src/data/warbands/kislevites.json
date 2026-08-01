@@ -14,11 +14,49 @@
       "maxCount": 1,
       "cost": 60,
       "startingXp": 20,
-      "skillLists": ["combat", "shooting", "academic", "strength", "speed"],
-      "statLine": { "M": 4, "WS": 4, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 8 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["kislevWarriorEquipmentList"],
-      "notes": "60 gc. Leader (6\"). Inheritance: at warband creation only, may buy one item from the Kislevite Warrior equipment list at half price (an ancestral heirloom). If that specific item is ever lost (e.g. a \"Robbed\" Serious Injury result), it must be replaced at 150% of its normal price as soon as possible, or the Captain suffers -1 to all tests and to-hit rolls until it's replaced."
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "kislevWarriorEquipmentList"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Leader (6\")."
+        },
+        {
+          "name": "Inheritance",
+          "description": "at warband creation only, may buy one item from the Kislevite Warrior equipment list at half price (an ancestral heirloom). If that specific item is ever lost (e.g. a \"Robbed\" Serious Injury result), it must be replaced at 150% of its normal price as soon as possible, or the Captain suffers -1 to all tests and to-hit rolls until it's replaced."
+        }
+      ]
     },
     {
       "id": "esaul",
@@ -28,11 +66,38 @@
       "maxCount": 1,
       "cost": 35,
       "startingXp": 8,
-      "skillLists": ["combat", "shooting", "speed"],
-      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["kislevWarriorEquipmentList"],
-      "notes": "35 gc, 0-1. Cossack honorific meaning \"Best Warrior\", given to a veteran fighter."
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "kislevWarriorEquipmentList"
+      ],
+      "notes": "Cossack honorific meaning \"Best Warrior\", given to a veteran fighter.",
+      "specialRules": []
     },
     {
       "id": "bearTamer",
@@ -42,11 +107,43 @@
       "maxCount": 1,
       "cost": 35,
       "startingXp": 8,
-      "skillLists": ["combat", "strength", "speed"],
-      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 4, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["kislevWarriorEquipmentList"],
-      "notes": "35 gc, 0-1. Bear Handler: a warband including a Bear Tamer may recruit a Trained Bear henchman; the Bear auto-passes Stupidity tests while within 6\" of the Tamer (even if the Tamer is Knocked Down/Stunned)."
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "kislevWarriorEquipmentList"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Bear Handler",
+          "description": "a warband including a Bear Tamer may recruit a Trained Bear henchman; the Bear auto-passes Stupidity tests while within 6\" of the Tamer (even if the Tamer is Knocked Down/Stunned)."
+        }
+      ]
     },
     {
       "id": "youths",
@@ -56,11 +153,38 @@
       "maxCount": 2,
       "cost": 15,
       "startingXp": 0,
-      "skillLists": ["combat", "strength", "speed"],
-      "statLine": { "M": 4, "WS": 2, "BS": 2, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 6 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["kislevWarriorEquipmentList"],
-      "notes": "15 gc, 0-2."
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "kislevWarriorEquipmentList"
+      ],
+      "notes": "",
+      "specialRules": []
     }
   ],
   "henchmenTypes": [
@@ -71,10 +195,33 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
-      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["kislevWarriorEquipmentList"],
-      "notes": "25 gc, any number. Gospodar tribesfolk, the bulk of Kislev's population."
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "kislevWarriorEquipmentList"
+      ],
+      "notes": "Gospodar tribesfolk, the bulk of Kislev's population.",
+      "specialRules": []
     },
     {
       "id": "cossacks",
@@ -83,10 +230,38 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
-      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["kislevWarriorEquipmentList"],
-      "notes": "30 gc, any number. Hate Chaos: subject to Hatred against any warband the group would apply the warband's Ancient Enemies rule to."
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "kislevWarriorEquipmentList"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Hate Chaos",
+          "description": "subject to Hatred against any warband the group would apply the warband's Ancient Enemies rule to."
+        }
+      ]
     },
     {
       "id": "streltsi",
@@ -95,10 +270,38 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 3,
-      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["streltsiEquipmentList"],
-      "notes": "25 gc, 0-3. The only Kislevite troops trained to use handguns. Gun-Rest: a Streltsi armed with both halberd and handgun gets +1 to hit with the handgun as long as he didn't move that turn (even via a skill that would otherwise let him move and shoot)."
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "streltsiEquipmentList"
+      ],
+      "notes": "The only Kislevite troops trained to use handguns.",
+      "specialRules": [
+        {
+          "name": "Gun-Rest",
+          "description": "a Streltsi armed with both halberd and handgun gets +1 to hit with the handgun as long as he didn't move that turn (even via a skill that would otherwise let him move and shoot)."
+        }
+      ]
     },
     {
       "id": "trainedBear",
@@ -107,15 +310,98 @@
       "isAnimal": true,
       "isLargeCreature": false,
       "maxCount": 1,
-      "statLine": { "M": 6, "WS": 3, "BS": 0, "S": 5, "T": 5, "W": 2, "I": 2, "A": 2, "Ld": 6 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 0,
+        "S": 5,
+        "T": 5,
+        "W": 2,
+        "I": 2,
+        "A": 2,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
       "equipmentOptions": [],
-      "notes": "125 gc, 0-1. Requires a Bear Tamer in the warband to recruit; may not take part in any battle the Bear Tamer doesn't, and if the warband has no Bear Tamer at all the Bear must stay behind at camp. No weapons/armour beyond claws and teeth. Trained: subject to Stupidity, but doesn't test while within 6\" of the Bear Tamer; only ever uses the Bear Tamer's Leadership (within 6\"), never the warband leader's. Fearsome: causes Fear. Bear Hug: if both of the Bear's attacks hit the same enemy in one round, may instead make a single Bear Hug attack — both players roll a D6 + their model's Strength; if the Bear's total is equal or higher, the enemy takes one automatic wound with no armour save, otherwise the enemy breaks free and takes no damage. Fiercely Loyal: as long as the Bear isn't taken Out of Action, the Bear Tamer ignores \"Sold to the Pits\", \"Robbed\", and \"Captured\" results on the Serious Injury table (treat as \"Full Recovery\" instead). Animal: never gains Experience. Large Target as defined in the shooting rules. statMaximums null: animals have no Human Maximum Profile."
+      "notes": "Requires a Bear Tamer in the warband to recruit; may not take part in any battle the Bear Tamer doesn't, and if the warband has no Bear Tamer at all the Bear must stay behind at camp. No weapons/armour beyond claws and teeth. statMaximums null: animals have no Human Maximum Profile.",
+      "specialRules": [
+        {
+          "name": "Trained",
+          "description": "subject to Stupidity, but doesn't test while within 6\" of the Bear Tamer; only ever uses the Bear Tamer's Leadership (within 6\"), never the warband leader's."
+        },
+        {
+          "name": "Fearsome",
+          "description": "causes Fear."
+        },
+        {
+          "name": "Bear Hug",
+          "description": "if both of the Bear's attacks hit the same enemy in one round, may instead make a single Bear Hug attack — both players roll a D6 + their model's Strength; if the Bear's total is equal or higher, the enemy takes one automatic wound with no armour save, otherwise the enemy breaks free and takes no damage."
+        },
+        {
+          "name": "Fiercely Loyal",
+          "description": "as long as the Bear isn't taken Out of Action, the Bear Tamer ignores \"Sold to the Pits\", \"Robbed\", and \"Captured\" results on the Serious Injury table (treat as \"Full Recovery\" instead)."
+        },
+        {
+          "name": "Animal",
+          "description": "never gains Experience."
+        },
+        {
+          "name": "Large Target",
+          "description": "Large Target as defined in the shooting rules."
+        }
+      ]
     }
   ],
   "equipmentLists": {
-    "kislevWarriorEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "morningStar", "doubleHandedWeapon", "spear", "halberd", "throwingKnivesStars", "shortBow", "bow", "crossbow", "pistol", "duellingPistol", "lightArmour", "heavyArmour", "shield", "buckler", "helmet"],
-    "streltsiEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "morningStar", "doubleHandedWeapon", "spear", "halberd", "bow", "crossbow", "pistol", "duellingPistol", "handgun", "lightArmour", "shield", "helmet"]
+    "kislevWarriorEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "morningStar",
+      "doubleHandedWeapon",
+      "spear",
+      "halberd",
+      "throwingKnivesStars",
+      "shortBow",
+      "bow",
+      "crossbow",
+      "pistol",
+      "duellingPistol",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet"
+    ],
+    "streltsiEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "morningStar",
+      "doubleHandedWeapon",
+      "spear",
+      "halberd",
+      "bow",
+      "crossbow",
+      "pistol",
+      "duellingPistol",
+      "handgun",
+      "lightArmour",
+      "shield",
+      "helmet"
+    ]
   },
   "exclusiveEquipment": [
     {

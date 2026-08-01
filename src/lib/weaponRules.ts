@@ -1,5 +1,6 @@
 import rulesData from '../data/rules.json';
 import equipmentData from '../data/equipment.json';
+import { warbandDefinitions } from '../data/warbandRegistry';
 import { strings } from '../strings';
 import { RulesData, WeaponProfile } from '../data/types';
 
@@ -53,7 +54,10 @@ const EQUIPMENT_ID_TO_RULE_ID: Record<string, string> = {
 };
 
 export type WeaponRule = {
-  ruleId: string;
+  /** Absent for warband-exclusive gear, whose rules live in the warband file
+   * rather than as an entry in the Rules Reference — there is nothing to link
+   * through to, so the disclosure omits the link. */
+  ruleId?: string;
   title: string;
   body: string;
   profile?: WeaponProfile;
@@ -75,9 +79,45 @@ for (const item of [...equipmentData.common, ...equipmentData.rare]) {
 const commonById = new Map(equipmentData.common.map((i) => [i.id, i]));
 const rareById = new Map(equipmentData.rare.map((i) => [i.id, i]));
 
+/**
+ * Warband-exclusive gear, keyed by id and by display name.
+ *
+ * These items carry their own `rulesText` in the warband file and have no entry
+ * in rules.json, so the id->rule mapping above can never match them. Without
+ * this index the Ogre club, the hand-held mortar, the harpoon crossbow and
+ * every other exclusive weapon rendered as a plain row with its rules — already
+ * present in the data — permanently hidden.
+ */
+type ExclusiveEntry = { name: string; rulesText: string; restriction: string; cost: number | null; priceRange?: string | null; rarity: number | null };
+const exclusiveById = new Map<string, ExclusiveEntry>();
+const exclusiveByName = new Map<string, ExclusiveEntry>();
+for (const definition of warbandDefinitions) {
+  for (const item of definition.exclusiveEquipment) {
+    exclusiveById.set(item.id, item as ExclusiveEntry);
+    exclusiveByName.set(item.name.trim().toLowerCase(), item as ExclusiveEntry);
+  }
+}
+
+/** A rule assembled from a warband file's own text, when there is no shared entry. */
+function exclusiveRule(item: ExclusiveEntry): WeaponRule | undefined {
+  const body = item.rulesText?.trim();
+  // A "TODO: verify..." placeholder is not rules text; showing it would present
+  // a gap in the data as though it were the item's rules.
+  if (!body || /^TODO/i.test(body)) return undefined;
+  return {
+    title: item.name,
+    body,
+    cost: item.priceRange ?? (item.cost != null ? `${item.cost} gc` : undefined),
+    availability: item.rarity != null ? strings.weaponRules.availabilityRare(item.rarity) : undefined,
+  };
+}
+
 function ruleForEquipmentId(equipmentId: string): WeaponRule | undefined {
   const ruleId = EQUIPMENT_ID_TO_RULE_ID[equipmentId];
-  if (!ruleId) return undefined;
+  if (!ruleId) {
+    const exclusive = exclusiveById.get(equipmentId);
+    return exclusive ? exclusiveRule(exclusive) : undefined;
+  }
   const entry = ruleEntryById.get(ruleId);
   if (!entry) return undefined;
 
@@ -103,8 +143,13 @@ export function getWeaponRuleById(equipmentId: string): WeaponRule | undefined {
 
 /** Rules for an item known only by its display name (e.g. gear equipped on a model). */
 export function getWeaponRuleByName(name: string): WeaponRule | undefined {
-  const equipmentId = nameToEquipmentId.get(name.trim().toLowerCase());
-  return equipmentId ? ruleForEquipmentId(equipmentId) : undefined;
+  const key = name.trim().toLowerCase();
+  const equipmentId = nameToEquipmentId.get(key);
+  if (equipmentId) return ruleForEquipmentId(equipmentId);
+  // Gear stored on a model keeps its display name only, so exclusive items have
+  // to be findable that way too.
+  const exclusive = exclusiveByName.get(key);
+  return exclusive ? exclusiveRule(exclusive) : undefined;
 }
 
 /**

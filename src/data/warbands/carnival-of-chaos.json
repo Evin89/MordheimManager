@@ -14,11 +14,49 @@
       "maxCount": 1,
       "cost": 70,
       "startingXp": 20,
-      "skillLists": ["combat", "shooting", "academic", "strength", "speed"],
-      "statLine": { "M": 4, "WS": 4, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 8 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["carnivalEquipmentList"],
-      "notes": "70 gc. Leader (6\"). Wizard: uses Nurgle Rituals (see Magic)."
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "carnivalEquipmentList"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Leader (6\")."
+        },
+        {
+          "name": "Wizard",
+          "description": "uses Nurgle Rituals (see Magic)."
+        }
+      ]
     },
     {
       "id": "brutes",
@@ -28,11 +66,43 @@
       "maxCount": 2,
       "cost": 60,
       "startingXp": 8,
-      "skillLists": ["combat", "strength", "speed"],
-      "statLine": { "M": 4, "WS": 4, "BS": 0, "S": 4, "T": 4, "W": 1, "I": 2, "A": 2, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["bruteEquipmentList"],
-      "notes": "60 gc, 0-2. Nurgle-bolstered strongmen. Unnatural Strength: starts the game already knowing the Strongman skill (Strength list)."
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 2,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "bruteEquipmentList"
+      ],
+      "notes": "Nurgle-bolstered strongmen.",
+      "specialRules": [
+        {
+          "name": "Unnatural Strength",
+          "description": "starts the game already knowing the Strongman skill (Strength list)."
+        }
+      ]
     },
     {
       "id": "taintedOnes",
@@ -42,11 +112,42 @@
       "maxCount": 2,
       "cost": 25,
       "startingXp": 0,
-      "skillLists": ["combat", "speed"],
-      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["carnivalEquipmentList"],
-      "notes": "25 gc + cost of Blessings, 0-2. Nurgle's Blessings: must start play with one or more Blessings of Nurgle, bought only at recruitment (see the warband's exclusive equipment) — first Blessing at listed cost, further ones on the same model cost double."
+      "skillLists": [
+        "combat",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "carnivalEquipmentList"
+      ],
+      "notes": "+ cost of Blessings, 0-2.",
+      "specialRules": [
+        {
+          "name": "Nurgle's Blessings",
+          "description": "must start play with one or more Blessings of Nurgle, bought only at recruitment (see the warband's exclusive equipment) — first Blessing at listed cost, further ones on the same model cost double."
+        }
+      ]
     }
   ],
   "henchmenTypes": [
@@ -57,10 +158,56 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 2,
-      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 4, "T": 4, "W": 1, "I": 4, "A": 2, "Ld": 10 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 4,
+        "A": 2,
+        "Ld": 10
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
       "equipmentOptions": [],
-      "notes": "50 gc, 0-2. No weapons/armour — fights with filth-encrusted claws. Cloud of Flies: opponents in close combat suffer -1 to hit. Stream of Corruption: a 6\" range shooting attack at Strength 3, no armour saves. Demonic: never gains Experience. Immune to Poison. Immune to Psychology (auto-passes Leadership-based tests). Cause Fear. Daemonic Aura: 5+ Armour save, modified by Strength as normal, negated by magic weapons/spells (attacks are also magical). Daemonic Instability: if taken Out of Action, banished (destroyed, no injury roll) on a D6 of 1-3; if the warband routs, must pass a Leadership test or be destroyed. statMaximums null: Daemons have no Human Maximum Profile."
+      "notes": "No weapons/armour — fights with filth-encrusted claws. Cause Fear. statMaximums null: Daemons have no Human Maximum Profile.",
+      "specialRules": [
+        {
+          "name": "Cloud of Flies",
+          "description": "opponents in close combat suffer -1 to hit."
+        },
+        {
+          "name": "Stream of Corruption",
+          "description": "a 6\" range shooting attack at Strength 3, no armour saves."
+        },
+        {
+          "name": "Demonic",
+          "description": "never gains Experience. Immune to Poison."
+        },
+        {
+          "name": "Immune to Psychology",
+          "description": "Immune to Psychology (auto-passes Leadership-based tests)."
+        },
+        {
+          "name": "Daemonic Aura",
+          "description": "5+ Armour save, modified by Strength as normal, negated by magic weapons/spells (attacks are also magical)."
+        },
+        {
+          "name": "Daemonic Instability",
+          "description": "if taken Out of Action, banished (destroyed, no injury roll) on a D6 of 1-3; if the warband routs, must pass a Leadership test or be destroyed."
+        }
+      ]
     },
     {
       "id": "nurglings",
@@ -69,10 +216,36 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
-      "statLine": { "M": 4, "WS": 3, "BS": 0, "S": 3, "T": 2, "W": 1, "I": 3, "A": 1, "Ld": 10 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 0,
+        "S": 3,
+        "T": 2,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 10
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
       "equipmentOptions": [],
-      "notes": "15 gc. Swarm: unlike other Henchmen groups, may have more than 5 Nurglings in the group. No weapons/armour. Cloud of Flies, Demonic (never gains Experience), Immune to Poison, Immune to Psychology, Daemonic Aura (5+ save, negated by magic), Daemonic Instability — same as Plague Bearers. statMaximums null: Daemons have no Human Maximum Profile."
+      "notes": "statMaximums null: Daemons have no Human Maximum Profile.",
+      "specialRules": [
+        {
+          "name": "Swarm",
+          "description": "unlike other Henchmen groups, may have more than 5 Nurglings in the group. No weapons/armour. Cloud of Flies, Demonic (never gains Experience), Immune to Poison, Immune to Psychology, Daemonic Aura (5+ save, negated by magic), Daemonic Instability — same as Plague Bearers."
+        }
+      ]
     },
     {
       "id": "brethren",
@@ -81,10 +254,33 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
-      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["carnivalEquipmentList"],
-      "notes": "25 gc, any number. Rank-and-file Nurgle devotees."
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "carnivalEquipmentList"
+      ],
+      "notes": "Rank-and-file Nurgle devotees.",
+      "specialRules": []
     },
     {
       "id": "plagueCart",
@@ -93,15 +289,60 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 1,
-      "statLine": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "statLine": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
       "equipmentOptions": [],
-      "notes": "120 gc, 0-1. TODO/unmodeled: the Plague Cart is a special \"wagon\" unit the source page splits into four separate sub-profiles rather than one M/WS/BS/S/T/W/I/A/Ld line, and refers to a separate 'wagons' mechanic page (movement, being destroyed piece-by-piece, etc.) that wasn't fetched — this app's data model only supports one stat line per unit, so statLine/statMaximums are left null rather than force-fit or guessed. Source profiles as given: Cart — W4; Wheel — W1; Horse — M8, S3, T3, W1, I3; Guardian — WS3, S3, T3, I3, A1 (the part that actually fights; no weapons/armour, no penalty for fighting unarmed). Rating impact not stated on the source page — TODO: verify whether it counts as a Large Creature (+20 flat) or a normal model (+5) for warband rating. Special rules: Plague Cart increases the warband's maximum warriors by +2, and lets Plague Bearers/Nurglings re-roll Instability Leadership tests and get +1 on Injury tests if taken Out of Action. Guardian is bonded to the cart (can never dismount/leave, can't be injured unless the Cart itself is destroyed, never gains Experience, its attacks cause Nurgle's Rot), and is Immune to Psychology (as is the Plague Cart itself)."
+      "notes": "TODO/unmodeled: the Plague Cart is a special \"wagon\" unit the source page splits into four separate sub-profiles rather than one M/WS/BS/S/T/W/I/A/Ld line, and refers to a separate 'wagons' mechanic page (movement, being destroyed piece-by-piece, etc.) that wasn't fetched — this app's data model only supports one stat line per unit, so  Source profiles as given: Cart — W4; Wheel — W1; Horse — M8, S3, T3, W1, I3; Guardian — WS3, S3, T3, I3, A1 (the part that actually fights; no weapons/armour, no penalty for fighting unarmed). Rating impact not stated on the source page — TODO: verify whether it counts as a Large Creature (+20 flat) or a normal model (+5) for warband rating. statLine/statMaximums are left null rather than force-fit or guessed.",
+      "specialRules": [
+        {
+          "name": "Special rules",
+          "description": "Plague Cart increases the warband's maximum warriors by +2, and lets Plague Bearers/Nurglings re-roll Instability Leadership tests and get +1 on Injury tests if taken Out of Action. Guardian is bonded to the cart (can never dismount/leave, can't be injured unless the Cart itself is destroyed, never gains Experience, its attacks cause Nurgle's Rot), and is Immune to Psychology (as is the Plague Cart itself)."
+        }
+      ]
     }
   ],
   "equipmentLists": {
-    "carnivalEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "morningStar", "doubleHandedWeapon", "spear", "halberd", "shortBow", "bow", "pistol", "lightArmour", "heavyArmour", "shield", "helmet"],
-    "bruteEquipmentList": ["doubleHandedWeapon", "flail"]
+    "carnivalEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "morningStar",
+      "doubleHandedWeapon",
+      "spear",
+      "halberd",
+      "shortBow",
+      "bow",
+      "pistol",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet"
+    ],
+    "bruteEquipmentList": [
+      "doubleHandedWeapon",
+      "flail"
+    ]
   },
   "exclusiveEquipment": [
     {

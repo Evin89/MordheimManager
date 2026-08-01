@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import { getUnitSpecialRules, getUnitNotes } from '../data/warbandRegistry';
+import SpecialRulesList from '../components/SpecialRulesList';
 import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
 import { STAT_KEYS } from '../lib/statLine';
@@ -95,9 +97,22 @@ export default function HenchmenDetailScreen() {
 
   function buyForGroup(item: ResolvedEquipmentItem, price: number) {
     if (!draft || !group) return;
-    if (price > draft.gold) {
-      if (!window.confirm(strings.trading.insufficientGoldConfirm(price, draft.gold))) return;
+
+    // "Every model in each Henchman group must be armed and armoured in the
+    // same way... if your Henchman group has four warriors, and you want to buy
+    // them swords, you must buy four swords." The group's equipment list holds
+    // one entry meaning "each model carries this", so the entry is added once
+    // but paid for once per model.
+    const total = price * group.count;
+
+    if (total > draft.gold) {
+      if (!window.confirm(strings.trading.insufficientGoldConfirm(total, draft.gold))) return;
+    } else if (group.count > 1) {
+      // Worth a confirm of its own: the shop showed a single item's price, and
+      // the warband is about to be charged several times that.
+      if (!window.confirm(strings.trading.groupPurchaseConfirm(item.name, group.count, total))) return;
     }
+
     const newItem: EquipmentItem = {
       id: generateId(),
       name: item.name,
@@ -109,7 +124,7 @@ export default function HenchmenDetailScreen() {
       henchmenGroups: current.henchmenGroups.map((g) =>
         g.id === groupId ? { ...g, equipment: [...g.equipment, newItem] } : g,
       ),
-      gold: current.gold - price,
+      gold: current.gold - total,
     }));
   }
 
@@ -146,6 +161,11 @@ export default function HenchmenDetailScreen() {
           value={group.count}
           min={0}
           onCommit={(count) => updateGroup({ count })}
+        />
+
+        <SpecialRulesList
+          rules={getUnitSpecialRules(draft.warbandType, group.unitType)}
+          notes={getUnitNotes(draft.warbandType, group.unitType)}
         />
 
         <section className="space-y-3">
@@ -247,6 +267,8 @@ export default function HenchmenDetailScreen() {
                 {strings.modelDetail.shopGoldLabel}: {draft.gold} {strings.common.gold}
               </p>
               <EquipmentShop
+                buyer={'henchmenGroup'}
+                unitType={group.unitType}
                 warband={draft}
                 onPurchase={buyForGroup}
                 skipRarityRoll={!hasFoughtFirstBattle(draft.id, battles)}

@@ -1,4 +1,4 @@
-import { WarbandDefinition } from './types';
+import { UnitSpecialRule, WarbandDefinition } from './types';
 import maneaters from './warbands/maneaters.json';
 import reiklanders from './warbands/reiklanders.json';
 import middenheimers from './warbands/middenheimers.json';
@@ -87,3 +87,30 @@ export function getWarbandProvenance(definition: WarbandDefinition): WarbandProv
 export const warbandDefinitionsByName: WarbandDefinition[] = [...warbandDefinitions].sort((a, b) =>
   a.name.localeCompare(b.name),
 );
+
+/**
+ * The special rules printed in a unit's entry.
+ *
+ * Resolved from the warband definition rather than stored on the model: these
+ * belong to the unit type, not to the individual warrior, so a copy in the
+ * saved warband would go stale the day the data file is corrected. Returns an
+ * empty list for a unit the definition doesn't know.
+ */
+export function getUnitSpecialRules(warbandType: string, unitType: string): UnitSpecialRule[] {
+  const definition = getWarbandDefinition(warbandType);
+  if (!definition) return [];
+  const unit =
+    definition.heroSlots.find((s) => s.unitType === unitType) ??
+    definition.henchmenTypes.find((h) => h.unitType === unitType);
+  return unit?.specialRules ?? [];
+}
+
+/** Whatever text on a unit hasn't been split into named rules yet. */
+export function getUnitNotes(warbandType: string, unitType: string): string {
+  const definition = getWarbandDefinition(warbandType);
+  if (!definition) return '';
+  const unit =
+    definition.heroSlots.find((s) => s.unitType === unitType) ??
+    definition.henchmenTypes.find((h) => h.unitType === unitType);
+  return unit?.notes ?? '';
+}

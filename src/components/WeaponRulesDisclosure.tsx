@@ -73,9 +73,11 @@ export default function WeaponRulesDisclosure({ name, rule, toggleLabel, subtitl
           ) : (
             <p className="text-bone-200 text-sm whitespace-pre-line">{resolved!.body}</p>
           )}
-          <Link to={`/rules/${resolved!.ruleId}`} className="inline-block text-ember-400 text-xs font-semibold">
-            {strings.weaponRules.fullEntry}
-          </Link>
+          {resolved!.ruleId && (
+            <Link to={`/rules/${resolved!.ruleId}`} className="inline-block text-ember-400 text-xs font-semibold">
+              {strings.weaponRules.fullEntry}
+            </Link>
+          )}
         </div>
       )}
     </div>

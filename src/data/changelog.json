@@ -1,5 +1,20 @@
 [
   {
+    "date": "2026-07-31",
+    "title": "Equipment That Knows Its Own Rules",
+    "description": "Warband-specific gear — the Ogre club, the hand-held mortar, the harpoon crossbow, Weeping Blades, the mutations and Blessings — always had its rules written down, but the app could never show them. Tap any of them now and the rules are there. The equipment list also grew from 60 items to 142, taking in the whole Miscellaneous Equipment section: torches, garlic, lucky charms, poisons and drugs, ladders, powder kegs, maps, and the rest. Items belonging to warbands the app doesn't carry yet are in the catalogue but stay out of your shop."
+  },
+  {
+    "date": "2026-07-31",
+    "title": "Buying by the Book",
+    "description": "Kitting out a Henchmen group used to charge for one item however many warriors were in it — five swordsmen cost one sword. Every model in a group must be armed the same way, so it now buys one per model and says so before you commit. Miscellaneous equipment is Heroes-only, as the rules have it, with the handful of exceptions the book names (rain coats, winter furs, wheelbarrows, victuals). And each warrior is now offered only the weapons and armour from his own entry — unless he has learned Weapons Training or Weapons Expert, which open up hand-to-hand and missile weapons respectively."
+  },
+  {
+    "date": "2026-07-31",
+    "title": "Special Rules, Listed Properly",
+    "description": "A warrior's special rules used to sit buried in a paragraph that also held his hire cost. Leader, Large, Bloodgreed, Feral Instinct and 107 others are now a proper list on his page, each one tapping open to its full text. Anything from the source that hasn't been split out yet is still there, marked \"to do\" so you can tell a finished rule from one that still needs work."
+  },
+  {
     "date": "2026-07-30",
     "title": "Easier to Hit, Easier to Read",
     "description": "A pass over every screen for the things that matter with a phone in one hand at a cluttered table. The characteristic boxes on a warrior's page were only 15 pixels tall — the single hardest thing in the app to tap — and are now full-height fields. The same goes for \"Move to treasury\", the weapon rule expanders, the checkboxes and the changelog link, all of which were too small to hit reliably. Screen titles are back at their proper size, and the smallest text anywhere in the app is now 12 pixels."

@@ -46,7 +46,13 @@
       "equipmentOptions": [
         "sistersEquipmentList"
       ],
-      "notes": "70 gc (dowry). Leader (6\"). Prayers of Sigmar (see Magic). May carry two Sigmarite warhammers."
+      "notes": "Prayers of Sigmar (see Magic). May carry two Sigmarite warhammers.",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Leader (6\")."
+        }
+      ]
     },
     {
       "id": "sisterSuperior",
@@ -88,7 +94,8 @@
       "equipmentOptions": [
         "sistersEquipmentList"
       ],
-      "notes": "35 gc (dowry), 0-3. May carry two Sigmarite warhammers."
+      "notes": "May carry two Sigmarite warhammers.",
+      "specialRules": []
     },
     {
       "id": "augur",
@@ -128,7 +135,13 @@
       "equipmentOptions": [
         "sistersEquipmentList"
       ],
-      "notes": "25 gc (dowry), 0-1. Never wears armour. Blessed Sight: re-roll any failed characteristic test and any to-hit roll (must accept the second result); if not taken out of action, roll two Exploration dice and pick one."
+      "notes": "Never wears armour.",
+      "specialRules": [
+        {
+          "name": "Blessed Sight",
+          "description": "re-roll any failed characteristic test and any to-hit roll (must accept the second result); if not taken out of action, roll two Exploration dice and pick one."
+        }
+      ]
     }
   ],
   "henchmenTypes": [
@@ -164,7 +177,8 @@
       "equipmentOptions": [
         "sistersEquipmentList"
       ],
-      "notes": "15 gc (dowry), 0-10."
+      "notes": "",
+      "specialRules": []
     },
     {
       "id": "sisters",
@@ -198,7 +212,8 @@
       "equipmentOptions": [
         "sistersEquipmentList"
       ],
-      "notes": "25 gc (dowry), any number."
+      "notes": "",
+      "specialRules": []
     }
   ],
   "equipmentLists": {

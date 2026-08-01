@@ -45,7 +45,21 @@
       "equipmentOptions": [
         "undeadEquipmentList"
       ],
-      "notes": "110 gc. Leader (6\"). Causes fear. Immune to Psychology (never leaves combat). Immune to Poison. No Pain: treats 'stunned' as 'knocked down'. statMaximums null: fill Vampire maximums from the Maximum Profile table."
+      "notes": "Causes fear. Immune to Poison. statMaximums null: fill Vampire maximums from the Maximum Profile table.",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Leader (6\")."
+        },
+        {
+          "name": "Immune to Psychology",
+          "description": "Immune to Psychology (never leaves combat)."
+        },
+        {
+          "name": "No Pain",
+          "description": "treats 'stunned' as 'knocked down'."
+        }
+      ]
     },
     {
       "id": "necromancer",
@@ -84,7 +98,13 @@
       "equipmentOptions": [
         "undeadEquipmentList"
       ],
-      "notes": "35 gc, 0-1. Wizard: uses Necromantic magic (see Magic)."
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Wizard",
+          "description": "uses Necromantic magic (see Magic)."
+        }
+      ]
     },
     {
       "id": "dregs",
@@ -123,7 +143,8 @@
       "equipmentOptions": [
         "undeadEquipmentList"
       ],
-      "notes": "20 gc, 0-3."
+      "notes": "",
+      "specialRules": []
     }
   ],
   "henchmenTypes": [
@@ -157,7 +178,8 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "40 gc, any number (bought 1-5). Cause fear. Never carry equipment (bare teeth and claws). These henchmen DO gain experience. statMaximums null: fill from the Maximum Profile table."
+      "notes": "Cause fear. Never carry equipment (bare teeth and claws). These henchmen DO gain experience. statMaximums null: fill from the Maximum Profile table.",
+      "specialRules": []
     },
     {
       "id": "zombies",
@@ -189,7 +211,17 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "15 gc, any number. Cause fear. May not run (may charge). Immune to Psychology (never leave combat). Immune to Poison. No Pain. No Brain: never gain experience. (isAnimal=true is used here as the 'does not gain experience' flag.)"
+      "notes": "Cause fear. May not run (may charge). Immune to Poison. No Pain.",
+      "specialRules": [
+        {
+          "name": "Immune to Psychology",
+          "description": "Immune to Psychology (never leave combat)."
+        },
+        {
+          "name": "No Brain",
+          "description": "never gain experience. (isAnimal=true is used here as the 'does not gain experience' flag.)"
+        }
+      ]
     },
     {
       "id": "direWolves",
@@ -221,7 +253,17 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "50 gc, 0-5. Charge: 2 attacks on the turn they charge. May not run (may charge). Cause fear. Immune to Psychology/Poison. No Pain. Unliving: never gain experience. (isAnimal=true used as the 'no experience' flag.)"
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Charge",
+          "description": "2 attacks on the turn they charge. May not run (may charge). Cause fear. Immune to Psychology/Poison. No Pain."
+        },
+        {
+          "name": "Unliving",
+          "description": "never gain experience. (isAnimal=true used as the 'no experience' flag.)"
+        }
+      ]
     }
   ],
   "equipmentLists": {

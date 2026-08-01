@@ -46,7 +46,13 @@
       "equipmentOptions": [
         "witchHunterEquipmentList"
       ],
-      "notes": "60 gc. Leader (6\"). Burn the Witch!: hates all models that can cast spells."
+      "notes": "Burn the Witch!: hates all models that can cast spells.",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Leader (6\")."
+        }
+      ]
     },
     {
       "id": "warriorPriest",
@@ -86,7 +92,13 @@
       "equipmentOptions": [
         "witchHunterEquipmentList"
       ],
-      "notes": "40 gc, 0-1. Prayers: may use the Prayers of Sigmar (see Magic)."
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Prayers",
+          "description": "may use the Prayers of Sigmar (see Magic)."
+        }
+      ]
     },
     {
       "id": "witchHunters",
@@ -127,7 +139,8 @@
       "equipmentOptions": [
         "witchHunterEquipmentList"
       ],
-      "notes": "25 gc, 0-3. Burn the Witch!: hate all models that can cast spells."
+      "notes": "Burn the Witch!: hate all models that can cast spells.",
+      "specialRules": []
     }
   ],
   "henchmenTypes": [
@@ -163,7 +176,8 @@
       "equipmentOptions": [
         "zealotEquipmentList"
       ],
-      "notes": "20 gc, any number."
+      "notes": "",
+      "specialRules": []
     },
     {
       "id": "flagellants",
@@ -197,7 +211,13 @@
       "equipmentOptions": [
         "flagellantEquipmentList"
       ],
-      "notes": "40 gc, 0-5. Fanatical: automatically pass all Leadership-based tests; may never become warband leader; never use missile weapons even if an Advance would allow it."
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Fanatical",
+          "description": "automatically pass all Leadership-based tests; may never become warband leader; never use missile weapons even if an Advance would allow it."
+        }
+      ]
     },
     {
       "id": "warhounds",
@@ -229,7 +249,13 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "15 gc, 0-5. Animals: do not gain experience. No weapons/armour."
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Animals",
+          "description": "do not gain experience. No weapons/armour."
+        }
+      ]
     }
   ],
   "equipmentLists": {

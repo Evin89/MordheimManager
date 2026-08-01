@@ -9,6 +9,12 @@ import { StatLine } from '../types';
 
 export type NullableStatLine = { [K in keyof StatLine]: number | null };
 
+/** A named special rule as printed in the unit's entry. */
+export type UnitSpecialRule = {
+  name: string;
+  description: string;
+};
+
 export type HeroSlotDefinition = {
   id: string;
   unitType: string;
@@ -22,6 +28,9 @@ export type HeroSlotDefinition = {
   statMaximums: NullableStatLine;
   equipmentOptions: string[]; // keys into equipment.json, or category names
   notes: string;
+  /** Named rules from the unit's entry. Split out of `notes`, which now holds
+   * only flavour and data-quality remarks. */
+  specialRules?: UnitSpecialRule[];
 };
 
 export type HenchmenTypeDefinition = {
@@ -35,6 +44,7 @@ export type HenchmenTypeDefinition = {
   statMaximums: NullableStatLine;
   equipmentOptions: string[];
   notes: string;
+  specialRules?: UnitSpecialRule[];
 };
 
 export type WarbandExclusiveEquipmentEntry = {
@@ -79,6 +89,10 @@ export type EquipmentTableEntry = {
   category: 'melee' | 'missile' | 'armour' | 'misc';
   cost: number | null;
   notes: string;
+  /** See RareEquipmentEntry — same meaning, for fixed-price items. */
+  restriction?: string;
+  warbandIds?: string[];
+  henchmenAllowed?: boolean;
 };
 
 export type RareEquipmentEntry = {
@@ -88,6 +102,23 @@ export type RareEquipmentEntry = {
   rarity: number | null;
   priceRange: string | null;
   notes: string;
+  /** Free-text availability note, e.g. "Pirates only". Shown, not parsed. */
+  restriction?: string;
+  /**
+   * Warband ids that may take this item. Absent means anyone may.
+   *
+   * Many published items are locked to warbands this app doesn't carry yet
+   * (Pirates, Amazons, Tomb Guardians...). Listing the id anyway keeps the item
+   * in the catalogue — searchable, and correct the day that warband is added —
+   * while `warbandIds` keeps it out of shops it doesn't belong in.
+   */
+  warbandIds?: string[];
+  /**
+   * Overrides the Heroes-only rule that governs Miscellaneous Equipment.
+   * Only the handful the rules name explicitly — Rain Coat, Winter Furs,
+   * Reptile Venom — set this.
+   */
+  henchmenAllowed?: boolean;
 };
 
 export type EquipmentData = {

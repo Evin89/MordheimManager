@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import { getUnitSpecialRules, getUnitNotes } from '../data/warbandRegistry';
+import SpecialRulesList from '../components/SpecialRulesList';
 import ProfileBlock from '../components/ProfileBlock';
 import { STAT_KEYS } from '../lib/statLine';
 import EquipmentShop from '../components/EquipmentShop';
@@ -221,6 +223,11 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           />
           <p className="text-ink-faded text-xs">{strings.modelDetail.atMaxLegend}</p>
         </section>
+
+        <SpecialRulesList
+          rules={getUnitSpecialRules(warband.warbandType, 'unitType' in model ? model.unitType : model.type)}
+          notes={getUnitNotes(warband.warbandType, 'unitType' in model ? model.unitType : model.type)}
+        />
 
         <section className="space-y-3">
           <h2 className="text-bone-100 font-semibold">{strings.modelDetail.xpSection}</h2>
@@ -458,6 +465,9 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                 {strings.modelDetail.shopGoldLabel}: {draft.gold} {strings.common.gold}
               </p>
               <EquipmentShop
+                buyer={kind === 'hero' ? 'hero' : 'hiredSword'}
+                unitType={'unitType' in model ? model.unitType : model.type}
+                skills={model.skills}
                 warband={warband}
                 onPurchase={buyForModel}
                 skipRarityRoll={!hasFoughtFirstBattle(draft.id, battles)}

@@ -253,6 +253,9 @@ export const strings = {
     skillNamePlaceholder: 'e.g. Strongman',
     skillBlockedSuffix: (reason: string) => ` — ${reason}`,
     skillPrerequisiteWarning: (text: string) => `Prerequisite: ${text}`,
+    specialRulesSection: 'Special Rules',
+    unstructuredNotes: 'Notes from the source',
+    todoBadge: 'To do',
     skillsSection: 'Skills',
     noSkills: 'No skills learned yet.',
     injuriesSection: 'Injuries',
@@ -461,6 +464,8 @@ export const strings = {
     commonTab: 'Common',
     rareTab: 'Rare',
     buyButton: (cost: number) => `Buy (${cost} gc)`,
+    groupPurchaseConfirm: (item: string, count: number, total: number) =>
+      `Every model in a Henchmen group carries the same gear, so this buys ${count}x ${item} for ${total} gc. Continue?`,
     insufficientGoldConfirm: (cost: number, have: number) =>
       `This costs ${cost} gc but the warband only has ${have} gc. Buy it anyway?`,
     rarityLabel: (n: number) => `Rare ${n}`,

@@ -44,7 +44,17 @@
       "equipmentOptions": [
         "possessedEquipmentList"
       ],
-      "notes": "70 gc. Leader (6\"). Wizard: uses Chaos Rituals (see Magic)."
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Leader (6\")."
+        },
+        {
+          "name": "Wizard",
+          "description": "uses Chaos Rituals (see Magic)."
+        }
+      ]
     },
     {
       "id": "possessed",
@@ -82,7 +92,8 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "90 gc + cost of mutations, 0-2. Never uses weapons or armour. Causes fear. May start with one or more mutations (see exclusiveEquipment; first at listed price, each further mutation on the same model costs double). statMaximums null: fill from the Maximum Profile table."
+      "notes": "+ cost of mutations, 0-2. Never uses weapons or armour. Causes fear. May start with one or more mutations (see exclusiveEquipment; first at listed price, each further mutation on the same model costs double). statMaximums null: fill from the Maximum Profile table.",
+      "specialRules": []
     },
     {
       "id": "mutants",
@@ -121,7 +132,8 @@
       "equipmentOptions": [
         "possessedEquipmentList"
       ],
-      "notes": "25 gc + cost of mutations, 0-2. MUST start with one or more mutations (first at listed price, each further mutation on the same model costs double)."
+      "notes": "+ cost of mutations, 0-2. MUST start with one or more mutations (first at listed price, each further mutation on the same model costs double).",
+      "specialRules": []
     }
   ],
   "henchmenTypes": [
@@ -157,7 +169,8 @@
       "equipmentOptions": [
         "darksoulsEquipmentList"
       ],
-      "notes": "45 gc, 0-3. Uses the Darksouls equipment list. statMaximums null: fill Beastmen maximums from the Maximum Profile table."
+      "notes": "Uses the Darksouls equipment list. statMaximums null: fill Beastmen maximums from the Maximum Profile table.",
+      "specialRules": []
     },
     {
       "id": "darksouls",
@@ -191,7 +204,13 @@
       "equipmentOptions": [
         "darksoulsEquipmentList"
       ],
-      "notes": "35 gc, 0-5. Crazed: know no fear and automatically pass any Leadership test they must take."
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Crazed",
+          "description": "know no fear and automatically pass any Leadership test they must take."
+        }
+      ]
     },
     {
       "id": "brethren",
@@ -225,7 +244,8 @@
       "equipmentOptions": [
         "possessedEquipmentList"
       ],
-      "notes": "25 gc, any number."
+      "notes": "",
+      "specialRules": []
     }
   ],
   "equipmentLists": {

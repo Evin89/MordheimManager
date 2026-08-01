@@ -12,6 +12,10 @@ export type ResolvedEquipmentItem = {
   rarity: number | null; // "Rare N" — null means Common
   notes: string;
   restriction: string; // e.g. "Captain only" — empty for universally available items
+  /** Warbands that may take this. Absent/empty means anyone may. */
+  warbandIds?: string[];
+  /** Set only on the few Miscellaneous items the rules let Henchmen carry. */
+  henchmenAllowed?: boolean;
 };
 
 function fromExclusive(id: string, definition: WarbandDefinition): ResolvedEquipmentItem | undefined {
@@ -50,7 +54,9 @@ export function resolveEquipmentItem(id: string, definition?: WarbandDefinition)
       priceRange: common.cost !== null ? `${common.cost} gc` : null,
       rarity: null,
       notes: common.notes,
-      restriction: '',
+      restriction: common.restriction ?? '',
+      warbandIds: common.warbandIds,
+      henchmenAllowed: common.henchmenAllowed,
     };
   }
 
@@ -65,7 +71,9 @@ export function resolveEquipmentItem(id: string, definition?: WarbandDefinition)
       priceRange: rare.priceRange,
       rarity: rare.rarity,
       notes: rare.notes,
-      restriction: '',
+      restriction: rare.restriction ?? '',
+      warbandIds: rare.warbandIds,
+      henchmenAllowed: rare.henchmenAllowed,
     };
   }
 

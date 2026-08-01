@@ -14,11 +14,44 @@
       "maxCount": 1,
       "cost": 85,
       "startingXp": 20,
-      "skillLists": ["combat", "shooting", "strength", "dwarves"],
-      "statLine": { "M": 3, "WS": 5, "BS": 4, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 9 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["dwarfWarriorEquipmentList"],
-      "notes": "85 gc. Leader: any warrior within 6\" may use his Leadership instead of their own. statMaximums null: Dwarfs are not Human — fill from the Dwarf Maximum Profile table if/when sourced."
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "dwarves"
+      ],
+      "statLine": {
+        "M": 3,
+        "WS": 5,
+        "BS": 4,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dwarfWarriorEquipmentList"
+      ],
+      "notes": "statMaximums null: Dwarfs are not Human — fill from the Dwarf Maximum Profile table if/when sourced.",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "any warrior within 6\" may use his Leadership instead of their own."
+        }
+      ]
     },
     {
       "id": "dwarfEngineer",
@@ -28,11 +61,43 @@
       "maxCount": 1,
       "cost": 50,
       "startingXp": 10,
-      "skillLists": ["combat", "shooting", "dwarves"],
-      "statLine": { "M": 3, "WS": 4, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 9 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["dwarfThundererEquipmentList"],
-      "notes": "50 gc, 0-1. Expert Weaponsmith: while he takes part in a battle, missile weapons bought from the warband's basic equipment lists get +3\" range for pistols and +6\" for crossbows/handguns (applies even if he's not yet entered play or has already been taken Out of Action that battle; no effect on Hired Sword equipment). statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced."
+      "skillLists": [
+        "combat",
+        "shooting",
+        "dwarves"
+      ],
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dwarfThundererEquipmentList"
+      ],
+      "notes": "statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced.",
+      "specialRules": [
+        {
+          "name": "Expert Weaponsmith",
+          "description": "while he takes part in a battle, missile weapons bought from the warband's basic equipment lists get +3\" range for pistols and +6\" for crossbows/handguns (applies even if he's not yet entered play or has already been taken Out of Action that battle; no effect on Hired Sword equipment)."
+        }
+      ]
     },
     {
       "id": "trollSlayers",
@@ -42,11 +107,48 @@
       "maxCount": 2,
       "cost": 50,
       "startingXp": 8,
-      "skillLists": ["combat", "strength", "dwarves", "trollSlayers"],
-      "statLine": { "M": 3, "WS": 4, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 9 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["dwarfWarriorEquipmentList"],
-      "notes": "50 gc, 0-2. May be equipped with weapons (not missile weapons) from the Dwarf Warrior equipment list, and may never wear any armour. Deathwish: immune to all psychology, never needs to test for fighting alone. Slayer Skills: may pick from the Troll Slayer skill list as well as their normal lists. statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced."
+      "skillLists": [
+        "combat",
+        "strength",
+        "dwarves",
+        "trollSlayers"
+      ],
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dwarfWarriorEquipmentList"
+      ],
+      "notes": "May be equipped with weapons (not missile weapons) from the Dwarf Warrior equipment list, and may never wear any armour. statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced.",
+      "specialRules": [
+        {
+          "name": "Deathwish",
+          "description": "immune to all psychology, never needs to test for fighting alone."
+        },
+        {
+          "name": "Slayer Skills",
+          "description": "may pick from the Troll Slayer skill list as well as their normal lists."
+        }
+      ]
     }
   ],
   "henchmenTypes": [
@@ -57,10 +159,33 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
-      "statLine": { "M": 3, "WS": 4, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 9 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["dwarfWarriorEquipmentList"],
-      "notes": "40 gc, any number. statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced."
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dwarfWarriorEquipmentList"
+      ],
+      "notes": "statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced.",
+      "specialRules": []
     },
     {
       "id": "dwarfThunderers",
@@ -69,10 +194,33 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
-      "statLine": { "M": 3, "WS": 4, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 9 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["dwarfThundererEquipmentList"],
-      "notes": "40 gc, 0-5. statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced."
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dwarfThundererEquipmentList"
+      ],
+      "notes": "statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced.",
+      "specialRules": []
     },
     {
       "id": "beardlings",
@@ -81,15 +229,65 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
-      "statLine": { "M": 3, "WS": 3, "BS": 2, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 8 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["dwarfWarriorEquipmentList"],
-      "notes": "25 gc, any number. Young Dwarfs seeking their fortune. statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced."
+      "statLine": {
+        "M": 3,
+        "WS": 3,
+        "BS": 2,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dwarfWarriorEquipmentList"
+      ],
+      "notes": "Young Dwarfs seeking their fortune. statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced.",
+      "specialRules": []
     }
   ],
   "equipmentLists": {
-    "dwarfWarriorEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "dwarfAxe", "doubleHandedWeapon", "spear", "halberd", "pistol", "lightArmour", "heavyArmour", "gromrilArmour", "shield", "helmet"],
-    "dwarfThundererEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "pistol", "crossbow", "handgun", "lightArmour", "heavyArmour", "shield", "helmet"]
+    "dwarfWarriorEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "dwarfAxe",
+      "doubleHandedWeapon",
+      "spear",
+      "halberd",
+      "pistol",
+      "lightArmour",
+      "heavyArmour",
+      "gromrilArmour",
+      "shield",
+      "helmet"
+    ],
+    "dwarfThundererEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "pistol",
+      "crossbow",
+      "handgun",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet"
+    ]
   },
   "exclusiveEquipment": [
     {

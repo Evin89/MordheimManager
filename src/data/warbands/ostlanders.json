@@ -14,11 +14,45 @@
       "maxCount": 1,
       "cost": 60,
       "startingXp": 20,
-      "skillLists": ["combat", "shooting", "strength", "speed", "ostlanders"],
-      "statLine": { "M": 4, "WS": 4, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 8 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["ostlanderEquipmentList"],
-      "notes": "60 gc. Leader: any warrior within 6\" may use his Leadership for Leadership tests. The oldest (or biggest) man in the village."
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "speed",
+        "ostlanders"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "ostlanderEquipmentList"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "any warrior within 6\" may use his Leadership for Leadership tests. The oldest (or biggest) man in the village."
+        }
+      ]
     },
     {
       "id": "bloodBrothers",
@@ -28,11 +62,38 @@
       "maxCount": 2,
       "cost": 35,
       "startingXp": 12,
-      "skillLists": ["combat", "strength", "ostlanders"],
-      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["ostlanderEquipmentList"],
-      "notes": "35 gc, 0-2. The most respected men in the village aside from the Elder."
+      "skillLists": [
+        "combat",
+        "strength",
+        "ostlanders"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "ostlanderEquipmentList"
+      ],
+      "notes": "The most respected men in the village aside from the Elder.",
+      "specialRules": []
     },
     {
       "id": "priestOfTaal",
@@ -42,11 +103,49 @@
       "maxCount": 1,
       "cost": 45,
       "startingXp": 12,
-      "skillLists": ["combat", "academic", "strength", "speed", "ostlanders"],
-      "statLine": { "M": 4, "WS": 2, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["ostlanderEquipmentList"],
-      "notes": "45 gc, 0-1. Prayers: may use the Prayers of Taal (see Magic — priests may pray in armour). Strictures: may never wear heavy armour."
+      "skillLists": [
+        "combat",
+        "academic",
+        "strength",
+        "speed",
+        "ostlanders"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "ostlanderEquipmentList"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Prayers",
+          "description": "may use the Prayers of Taal (see Magic — priests may pray in armour)."
+        },
+        {
+          "name": "Strictures",
+          "description": "may never wear heavy armour."
+        }
+      ]
     }
   ],
   "henchmenTypes": [
@@ -57,10 +156,33 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
-      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["ostlanderEquipmentList"],
-      "notes": "25 gc, any number. Brothers and cousins of the Elder — the bulk of the warband."
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "ostlanderEquipmentList"
+      ],
+      "notes": "Brothers and cousins of the Elder — the bulk of the warband.",
+      "specialRules": []
     },
     {
       "id": "jaeger",
@@ -69,10 +191,33 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 7,
-      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["jaegerEquipmentList"],
-      "notes": "25 gc, 0-7. Forest rangers with a taste for blackpowder weapons — the only Ostlanders with access to handguns, hunting rifles, and the double-barrelled versions."
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "jaegerEquipmentList"
+      ],
+      "notes": "Forest rangers with a taste for blackpowder weapons — the only Ostlanders with access to handguns, hunting rifles, and the double-barrelled versions.",
+      "specialRules": []
     },
     {
       "id": "ruffians",
@@ -81,10 +226,42 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
-      "statLine": { "M": 4, "WS": 2, "BS": 2, "S": 3, "T": 3, "W": 1, "I": 2, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["ruffianEquipmentList"],
-      "notes": "25 gc, 0-5. May never use missile weapons (poor depth perception), even if an Advance roll would otherwise allow it. Drunk: automatically passes all Leadership-based tests. No Respect: may never become the warband leader."
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "ruffianEquipmentList"
+      ],
+      "notes": "May never use missile weapons (poor depth perception), even if an Advance roll would otherwise allow it.",
+      "specialRules": [
+        {
+          "name": "Drunk",
+          "description": "automatically passes all Leadership-based tests."
+        },
+        {
+          "name": "No Respect",
+          "description": "may never become the warband leader."
+        }
+      ]
     },
     {
       "id": "ogre",
@@ -93,17 +270,98 @@
       "isAnimal": false,
       "isLargeCreature": true,
       "maxCount": 1,
-      "statLine": { "M": 6, "WS": 3, "BS": 2, "S": 4, "T": 4, "W": 3, "I": 3, "A": 2, "Ld": 7 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["ogreEquipmentList"],
-      "notes": "160 gc, 0-1 (\"there isn't enough food for more than one!\"). Fear: causes fear. Large: any model may shoot at the Ogre even if it isn't the closest target. Skills: if promoted to Hero via \"The lad's got talent\", may choose from Combat and Strength skills. Slow-witted: gains advances at half rate — must accrue twice the normal Experience per advance (the app's next-advance display doesn't model this doubling; track it manually). statMaximums null: Ogres are not Human — fill from the Ogre Maximum Profile table if/when sourced. Note the source's Ogre list prices a double-handed weapon at 10 gc (vs the usual 15)."
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 2,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 3,
+        "A": 2,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "ogreEquipmentList"
+      ],
+      "notes": "statMaximums null: Ogres are not Human — fill from the Ogre Maximum Profile table if/when sourced.",
+      "specialRules": [
+        {
+          "name": "Fear",
+          "description": "causes fear."
+        },
+        {
+          "name": "Large",
+          "description": "any model may shoot at the Ogre even if it isn't the closest target."
+        },
+        {
+          "name": "Skills",
+          "description": "if promoted to Hero via \"The lad's got talent\", may choose from Combat and Strength skills."
+        },
+        {
+          "name": "Slow-witted",
+          "description": "gains advances at half rate — must accrue twice the normal Experience per advance (the app's next-advance display doesn't model this doubling; track it manually).  Note the source's Ogre list prices a double-handed weapon at 10 gc (vs the usual 15)."
+        }
+      ]
     }
   ],
   "equipmentLists": {
-    "ostlanderEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "spear", "doubleHandedWeapon", "bow", "pistol", "lightArmour", "heavyArmour", "shield", "helmet"],
-    "ruffianEquipmentList": ["dagger", "clubMaceHammer", "axe", "sword", "doubleHandedWeapon", "lightArmour"],
-    "jaegerEquipmentList": ["dagger", "axe", "sword", "spear", "pistol", "ostlanderDoubleBarrelledPistol", "bow", "blunderbuss", "handgun", "huntingRifle", "ostlanderDoubleBarrelledHuntingRifle", "lightArmour", "shield", "helmet"],
-    "ogreEquipmentList": ["clubMaceHammer", "axe", "sword", "doubleHandedWeapon", "lightArmour"]
+    "ostlanderEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "bow",
+      "pistol",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet"
+    ],
+    "ruffianEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "lightArmour"
+    ],
+    "jaegerEquipmentList": [
+      "dagger",
+      "axe",
+      "sword",
+      "spear",
+      "pistol",
+      "ostlanderDoubleBarrelledPistol",
+      "bow",
+      "blunderbuss",
+      "handgun",
+      "huntingRifle",
+      "ostlanderDoubleBarrelledHuntingRifle",
+      "lightArmour",
+      "shield",
+      "helmet"
+    ],
+    "ogreEquipmentList": [
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "lightArmour"
+    ]
   },
   "exclusiveEquipment": [
     {

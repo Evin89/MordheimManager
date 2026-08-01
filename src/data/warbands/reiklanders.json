@@ -46,7 +46,13 @@
       "equipmentOptions": [
         "mercenaryEquipmentList"
       ],
-      "notes": "60 gc. Leader: warriors within 6\" (12\" for Reikland) may use his Leadership."
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "warriors within 6\" (12\" for Reikland) may use his Leadership."
+        }
+      ]
     },
     {
       "id": "champion",
@@ -86,7 +92,8 @@
       "equipmentOptions": [
         "mercenaryEquipmentList"
       ],
-      "notes": "35 gc, 0-2."
+      "notes": "",
+      "specialRules": []
     },
     {
       "id": "youngblood",
@@ -126,7 +133,8 @@
       "equipmentOptions": [
         "mercenaryEquipmentList"
       ],
-      "notes": "15 gc, 0-2."
+      "notes": "",
+      "specialRules": []
     }
   ],
   "henchmenTypes": [
@@ -162,7 +170,8 @@
       "equipmentOptions": [
         "mercenaryEquipmentList"
       ],
-      "notes": "25 gc, any number. Core fighters of the warband."
+      "notes": "Core fighters of the warband.",
+      "specialRules": []
     },
     {
       "id": "marksmen",
@@ -196,7 +205,13 @@
       "equipmentOptions": [
         "marksmanEquipmentList"
       ],
-      "notes": "25 gc, 0-7. Use the Marksman equipment list. Reikland: BS shown as 4 (base 3 +1 from the Reikland special rule)."
+      "notes": "Use the Marksman equipment list.",
+      "specialRules": [
+        {
+          "name": "Reikland",
+          "description": "BS shown as 4 (base 3 +1 from the Reikland special rule)."
+        }
+      ]
     },
     {
       "id": "swordsmen",
@@ -230,7 +245,13 @@
       "equipmentOptions": [
         "mercenaryEquipmentList"
       ],
-      "notes": "35 gc, 0-5. Expert Swordsmen: may re-roll failed hits when charging, but only when armed with a normal sword (not double-handed swords or other weapons)."
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Expert Swordsmen",
+          "description": "may re-roll failed hits when charging, but only when armed with a normal sword (not double-handed swords or other weapons)."
+        }
+      ]
     }
   ],
   "equipmentLists": {
