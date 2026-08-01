@@ -4,6 +4,7 @@ import {
   createCampaign,
   fetchCampaignMembers,
   fetchCampaignStandings,
+  fetchCampaignSummaries,
   fetchMyCampaigns,
   joinCampaignByCode,
   regenerateJoinCode,
@@ -64,6 +65,16 @@ export function useSetActiveCampaign() {
     // The choice lives outside React Query, so nudge every consumer to re-pick.
     queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });
   };
+}
+
+/** Every campaign you're in, with role and activity — for the overview screen. */
+export function useCampaignSummariesQuery() {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ['campaignSummaries', user?.id],
+    queryFn: () => fetchCampaignSummaries(user!.id),
+    enabled: !!user,
+  });
 }
 
 export function useCreateCampaignMutation() {

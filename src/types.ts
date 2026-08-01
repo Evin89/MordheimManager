@@ -180,6 +180,20 @@ export type PublicWarbandRow = {
 };
 
 /**
+ * A campaign as it appears in the "my campaigns" overview: the campaign itself,
+ * your standing in it, and enough activity to tell a live one from a dead one.
+ */
+export type CampaignSummary = {
+  campaign: Campaign;
+  /** Your own role, which is what decides whether you can manage it. */
+  role: CampaignRole;
+  memberCount: number;
+  battleCount: number;
+  /** Warbands you personally have entered in this campaign. */
+  myWarbandCount: number;
+};
+
+/**
  * One row of the standings table.
  *
  * Driven by campaign *membership*, not by warbands: everyone who joined shows

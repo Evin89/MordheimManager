@@ -16,6 +16,7 @@ import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
+import { MAX_MELEE, MAX_MISSILE_TYPES, canAddWeapon, countWeaponSlots } from '../lib/weaponSlots';
 import { getAdvanceProgress } from '../lib/xpThresholds';
 import { EquipmentItem, HenchmenGroup, StatLine, Warband } from '../types';
 
@@ -87,6 +88,7 @@ export default function HenchmenDetailScreen() {
     if (!draft || !group) return;
     const item = draft.treasury.find((e) => e.id === itemId);
     if (!item) return;
+    if (!allowWeapon(item)) return;
     saveNow((current: Warband) => ({
       henchmenGroups: current.henchmenGroups.map((g) =>
         g.id === groupId ? { ...g, equipment: [...g.equipment, item] } : g,
@@ -95,8 +97,23 @@ export default function HenchmenDetailScreen() {
     }));
   }
 
+  /** The two-weapon limits apply per model, and every model in a group carries
+   * the same gear — so the group's own list is what gets checked. */
+  function allowWeapon(item: { name: string; category: EquipmentItem['category'] }): boolean {
+    if (!group) return false;
+    const verdict = canAddWeapon(group.equipment, item);
+    if (verdict.allowed) return true;
+    window.alert(
+      verdict.reason === 'meleeFull'
+        ? strings.modelDetail.meleeFull(MAX_MELEE)
+        : strings.modelDetail.missileFull(MAX_MISSILE_TYPES),
+    );
+    return false;
+  }
+
   function buyForGroup(item: ResolvedEquipmentItem, price: number) {
     if (!draft || !group) return;
+    if (!allowWeapon(item)) return;
 
     // "Every model in each Henchman group must be armed and armoured in the
     // same way... if your Henchman group has four warriors, and you want to buy
@@ -234,6 +251,17 @@ export default function HenchmenDetailScreen() {
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-bone-100 font-semibold">{strings.modelDetail.equipmentSection}</h2>
+            <p className="text-ink-faded text-sm">
+              {(() => {
+                const usage = countWeaponSlots(group.equipment);
+                return strings.modelDetail.weaponSlots(
+                  usage.melee,
+                  MAX_MELEE,
+                  usage.missileTypes,
+                  MAX_MISSILE_TYPES,
+                );
+              })()}
+            </p>
             <button
               type="button"
               onClick={() => setShoppingOpen((v) => !v)}

@@ -108,15 +108,52 @@ export type NavItem = {
   to: string;
   label: string;
   end?: boolean;
+  /**
+   * Extra path prefixes that still belong to this tab.
+   *
+   * NavLink matches on the link's own path, so a tab pointing at a list goes
+   * dark the moment you open something from it. Campaign is the case in point:
+   * `/campaign` is not a prefix of `/campaigns`, so viewing a campaign would
+   * un-highlight the tab you reached it from.
+   */
+  activeFor?: string[];
+  /**
+   * Paths this tab must *not* claim, even though its own path is a prefix.
+   *
+   * The battle screens live under `/warbands/:id/...` because they belong to a
+   * warband, so Warbands lit up all the way through a game while the Battle tab
+   * — the one you actually came from — stayed dark.
+   */
+  notActiveFor?: (pathname: string) => boolean;
+  /** Claims a path its own `to` can't express, e.g. one with an id in the middle. */
+  alsoActiveFor?: (pathname: string) => boolean;
   Icon: (props: IconProps) => JSX.Element;
 };
 
+/** The battle flow, wherever it happens to be nested. */
+const BATTLE_SUFFIXES = ['/pre-battle', '/during-battle', '/post-battle'];
+function isBattlePath(pathname: string): boolean {
+  return BATTLE_SUFFIXES.some((suffix) => pathname.endsWith(suffix));
+}
+
+/** Whether a tab should read as current for the path being viewed. */
+export function isNavItemActive(item: NavItem, pathname: string, linkIsActive: boolean): boolean {
+  // Exclusions win over everything, including NavLink's own prefix match.
+  if (item.notActiveFor?.(pathname)) return false;
+  if (linkIsActive) return true;
+  if (item.alsoActiveFor?.(pathname)) return true;
+  return (item.activeFor ?? []).some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
+
 export const NAV_ITEMS: NavItem[] = [
   { to: '/', label: strings.nav.home, end: true, Icon: HomeIcon },
-  { to: '/warbands', label: strings.nav.warbands, Icon: WarbandIcon },
-  { to: '/post-battle', label: strings.nav.postBattle, Icon: BattleIcon },
+  { to: '/warbands', label: strings.nav.warbands, notActiveFor: isBattlePath, Icon: WarbandIcon },
+  { to: '/post-battle', label: strings.nav.postBattle, alsoActiveFor: isBattlePath, Icon: BattleIcon },
   { to: '/trading', label: strings.nav.trading, Icon: TradingIcon },
-  { to: '/campaign', label: strings.nav.campaign, Icon: CampaignIcon },
+  // The overview, not a single campaign: a player can be in several, and the
+  // list is what tells them which they lead and which is still being played.
+  // Opening one from there sets it active, so /campaign stays the detail view.
+  { to: '/campaigns', label: strings.nav.campaign, activeFor: ['/campaign'], Icon: CampaignIcon },
   { to: '/rules', label: strings.nav.rules, Icon: RulesIcon },
   { to: '/settings', label: strings.nav.settings, Icon: SettingsIcon },
 ];

@@ -105,12 +105,23 @@ export default function HomeScreen() {
           ) : (
             <p className="text-bone-300 text-sm">{strings.home.startCampaignCta}</p>
           )}
-          <Link
-            to="/campaign"
-            className="inline-block text-ember-400 text-sm font-semibold pt-1"
-          >
-            {strings.home.goToCampaign}
-          </Link>
+          {/* Two destinations, because they answer different questions: the
+              campaign you're in, and the list of all of them. Only the log was
+              reachable before. */}
+          <div className="flex flex-wrap items-center gap-x-4">
+            <Link
+              to="/campaign"
+              className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+            >
+              {strings.home.goToCampaign}
+            </Link>
+            <Link
+              to="/campaigns"
+              className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+            >
+              {strings.campaign.myCampaignsLink}
+            </Link>
+          </div>
         </section>
 
         <section className="space-y-3">

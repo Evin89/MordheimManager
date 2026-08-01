@@ -25,6 +25,7 @@ import DuringBattleScreen from './screens/DuringBattleScreen';
 import PostBattleWizard from './screens/postBattle/PostBattleWizard';
 import TradingPostScreen from './screens/TradingPostScreen';
 import CampaignScreen from './screens/CampaignScreen';
+import MyCampaignsScreen from './screens/MyCampaignsScreen';
 import SharedWarbandScreen from './screens/SharedWarbandScreen';
 import GalleryScreen from './screens/GalleryScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
@@ -107,6 +108,7 @@ function AppShell() {
               )}
             />
             <Route path="/campaign" element={guarded(<CampaignScreen />)} />
+            <Route path="/campaigns" element={guarded(<MyCampaignsScreen />)} />
             {/* Where standings used to link; kept so older in-app links still land. */}
             <Route path="/campaign/warbands/:warbandId" element={guarded(<SharedWarbandScreen />)} />
 

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import BackHeader from '../components/BackHeader';
+import { CreateCampaignForm, JoinCampaignForm } from '../components/CampaignForms';
 import InviteShareButtons from '../components/InviteShareButtons';
 import SaveBar from '../components/SaveBar';
 import { strings } from '../strings';
@@ -7,15 +9,12 @@ import { useAuth } from '../auth/AuthProvider';
 import {
   useBattlesQuery,
   useCampaignMembersQuery,
-  useCreateCampaignMutation,
-  useJoinCampaignMutation,
   useMyCampaignQuery,
   useMyCampaignsQuery,
   useRegenerateJoinCodeMutation,
   useRemoveMemberMutation,
   useSaveCampaignMutation,
   usePersonalBattlesQuery,
-  useSetActiveCampaign,
   useStandingsQuery,
 } from '../hooks/useCampaign';
 import { useObjectiveQuery, useSaveObjectiveMutation } from '../hooks/useObjective';
@@ -177,100 +176,10 @@ function ObjectiveCard({ warband }: { warband: Warband }) {
   );
 }
 
-/**
- * Entering a code someone shared with you.
- *
- * Appears both in the no-campaign entry state and on the Players tab: a player
- * who already has a campaign of their own (the post-battle wizard creates one
- * automatically on the first committed battle) still needs somewhere to paste a
- * code, and gating this behind "has no campaign" would lock most users out of
- * ever joining one.
- */
-function JoinCampaignForm({ title, compact = false }: { title: string; compact?: boolean }) {
-  const joinCampaign = useJoinCampaignMutation();
-  const [code, setCode] = useState('');
-  const [joinError, setJoinError] = useState<string | null>(null);
-  const [joining, setJoining] = useState(false);
-
-  async function handleJoin() {
-    setJoining(true);
-    setJoinError(null);
-    const error = await joinCampaign(code);
-    setJoining(false);
-    if (error) setJoinError(error);
-    else setCode('');
-  }
-
-  const field = (
-    <input
-      type="text"
-      value={code}
-      onChange={(e) => setCode(e.target.value)}
-      placeholder={strings.campaign.joinCodePlaceholder}
-      aria-label={strings.campaign.joinCodeLabel}
-      autoCapitalize="characters"
-      autoCorrect="off"
-      spellCheck={false}
-      className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 font-mono tracking-widest uppercase focus:outline-none focus:border-ember-500"
-    />
-  );
-
-  const submit = (
-    <button
-      type="button"
-      onClick={handleJoin}
-      disabled={joining || !code.trim()}
-      className="min-h-[48px] px-4 rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 disabled:opacity-50 transition-colors shrink-0"
-    >
-      {strings.campaign.joinButton}
-    </button>
-  );
-
-  // Compact: one row above the tabs, so it's visible without hunting for it but
-  // doesn't compete with the campaign you're actually looking at.
-  if (compact) {
-    return (
-      <section className="space-y-2">
-        <label className="block text-bone-300 text-sm">{title}</label>
-        <div className="flex gap-2">
-          {field}
-          {submit}
-        </div>
-        {joinError && <p className="text-sm text-red-400">{joinError}</p>}
-      </section>
-    );
-  }
-
-  return (
-    <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-      <h2 className="text-bone-100 font-semibold">{title}</h2>
-      <p className="text-bone-300 text-sm">{strings.campaign.joinHint}</p>
-      <div className="space-y-1">
-        <label className="text-bone-300 text-sm">{strings.campaign.joinCodeLabel}</label>
-        {field}
-      </div>
-      {joinError && <p className="text-sm text-red-400">{joinError}</p>}
-      <div className="flex">
-        <button
-          type="button"
-          onClick={handleJoin}
-          disabled={joining || !code.trim()}
-          className="w-full min-h-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 disabled:opacity-50 transition-colors"
-        >
-          {strings.campaign.joinButton}
-        </button>
-      </div>
-    </section>
-  );
-}
-
 /** First-run state: no campaign yet, so offer both ways in. */
 function CampaignEntry() {
-  const createCampaign = useCreateCampaignMutation();
   const warbands = useWarbandList();
   const { data: personalBattles } = usePersonalBattlesQuery();
-  const [draftName, setDraftName] = useState('My Campaign');
-  const [draftUsesBtb, setDraftUsesBtb] = useState(false);
 
   function warbandName(id: string): string {
     return warbands.find((w) => w.id === id)?.name ?? strings.campaign.unknownWarband;
@@ -278,36 +187,7 @@ function CampaignEntry() {
 
   return (
     <>
-      <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-        <h2 className="text-bone-100 font-semibold">{strings.campaign.startTitle}</h2>
-        <p className="text-bone-300 text-sm">{strings.campaign.startHint}</p>
-        <div className="space-y-1">
-          <label className="text-bone-300 text-sm">{strings.campaign.nameLabel}</label>
-          <input
-            type="text"
-            value={draftName}
-            onChange={(e) => setDraftName(e.target.value)}
-            placeholder={strings.campaign.namePlaceholder}
-            className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
-          />
-        </div>
-        <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm">
-          <input
-            type="checkbox"
-            checked={draftUsesBtb}
-            onChange={(e) => setDraftUsesBtb(e.target.checked)}
-            className="h-5 w-5 shrink-0"
-          />
-          {strings.campaign.usesBtbLabel}
-        </label>
-        <button
-          type="button"
-          onClick={() => createCampaign(draftName.trim() || 'My Campaign', draftUsesBtb)}
-          className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
-        >
-          {strings.campaign.startButton}
-        </button>
-      </section>
+      <CreateCampaignForm title={strings.campaign.startTitle} hint={strings.campaign.startHint} />
 
       <div className="flex items-center gap-3">
         <div className="flex-1 h-px bg-ink-800" />
@@ -503,7 +383,6 @@ export default function CampaignScreen() {
   const { user } = useAuth();
   const { data: campaigns } = useMyCampaignsQuery();
   const { data: campaign } = useMyCampaignQuery();
-  const setActiveCampaign = useSetActiveCampaign();
   const { data: battles } = useBattlesQuery(campaign?.id);
   const { data: standings } = useStandingsQuery(campaign?.id, battles);
   const { data: members } = useCampaignMembersQuery(campaign?.id);
@@ -538,9 +417,17 @@ export default function CampaignScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-        <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{strings.campaign.title}</h1>
-      </header>
+      {/* Back goes wherever you came from, which for a screen reachable from
+          the campaign list, Home and the post-battle commit is the honest
+          answer — each of those is somewhere you might want to return to. */}
+      <BackHeader
+        title={campaign ? campaign.name : strings.campaign.title}
+        subtitle={
+          campaign && (campaigns?.length ?? 0) > 1
+            ? strings.campaign.inCampaignCount(campaigns?.length ?? 0)
+            : undefined
+        }
+      />
 
       <div className="px-4 pt-4 flex gap-2">
         {TABS.map((t) => (
@@ -562,28 +449,15 @@ export default function CampaignScreen() {
           <CampaignEntry />
         ) : (
           <>
-            {/* Only worth the space once there's actually a choice to make. */}
-            {(campaigns?.length ?? 0) > 1 && (
-              <div className="space-y-1">
-                <label className="text-bone-300 text-sm">{strings.campaign.switchCampaignLabel}</label>
-                <select
-                  value={campaign.id}
-                  onChange={(e) => setActiveCampaign(e.target.value)}
-                  className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
-                >
-                  {(campaigns ?? []).map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-
             {/* Always on screen, not buried under a tab: in the user test nobody
                 found the join field once they already had a campaign, which read
                 as "you can only be in one". */}
             <JoinCampaignForm title={strings.campaign.joinAnotherTitle} compact />
+            <CreateCampaignForm
+              title={strings.campaign.startAnotherTitle}
+              hint={strings.campaign.startAnotherHint}
+              compact
+            />
 
             {tab === 'log' && (
               <>

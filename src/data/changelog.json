@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-08-02",
+    "title": "Play in as Many Campaigns as You Like",
+    "description": "There's a new My Campaigns screen behind the Campaign tab, listing every campaign you're in with your role, how many players and battles it has, and how many of your warbands are entered. Leaders see their join code on the card. You could already join other people's campaigns, but there was no way to start a second one of your own — now you can, and both the code field and the start form sit right on that screen. Opening a campaign from the list makes it the one the rest of the app follows."
+  },
+  {
+    "date": "2026-08-02",
+    "title": "Two Weapons, and the Dagger's Free",
+    "description": "A warrior can now carry only what the rules allow: two close combat weapons on top of his free dagger, and two different missile weapons. A brace of pistols counts as one, so a second pistol is still fine. Armour and miscellaneous gear are unlimited. Each warrior's page shows what he's carrying against those limits, so you can see a full slot before you go shopping rather than being turned away at the till. Your treasury is untouched — the rules cap what a warrior carries, not what the warband owns."
+  },
+  {
     "date": "2026-07-31",
     "title": "Equipment That Knows Its Own Rules",
     "description": "Warband-specific gear — the Ogre club, the hand-held mortar, the harpoon crossbow, Weeping Blades, the mutations and Blessings — always had its rules written down, but the app could never show them. Tap any of them now and the rules are there. The equipment list also grew from 60 items to 142, taking in the whole Miscellaneous Equipment section: torches, garlic, lucky charms, poisons and drugs, ladders, powder kegs, maps, and the rest. Items belonging to warbands the app doesn't carry yet are in the catalogue but stay out of your shop."

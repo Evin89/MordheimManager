@@ -17,6 +17,7 @@ import { generateId } from '../lib/id';
 import { getUniqueInjuries } from '../lib/injuryLookup';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
+import { MAX_MELEE, MAX_MISSILE_TYPES, canAddWeapon, countWeaponSlots } from '../lib/weaponSlots';
 import { getAdvanceProgress } from '../lib/xpThresholds';
 import { EquipmentItem, Hero, HiredSword, ModelStatus, StatLine, Warband } from '../types';
 
@@ -137,6 +138,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     if (!draft || !model) return;
     const item = draft.treasury.find((e) => e.id === itemId);
     if (!item) return;
+    if (!allowWeapon(item)) return;
     saveNow((current: Warband) => ({
       [listKey]: (current[listKey] as EditableModel[]).map((m) =>
         m.id === modelId ? { ...m, equipment: [...m.equipment, item] } : m,
@@ -145,8 +147,27 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     }));
   }
 
+  /**
+   * The two-weapon limits. Enforced on both routes onto a model — buying and
+   * assigning from the treasury — since either would otherwise slip past it.
+   * The treasury itself stays unlimited: the rules cap what a warrior carries,
+   * not what the warband owns.
+   */
+  function allowWeapon(item: { name: string; category: EquipmentItem['category'] }): boolean {
+    if (!model) return false;
+    const verdict = canAddWeapon(model.equipment, item);
+    if (verdict.allowed) return true;
+    window.alert(
+      verdict.reason === 'meleeFull'
+        ? strings.modelDetail.meleeFull(MAX_MELEE)
+        : strings.modelDetail.missileFull(MAX_MISSILE_TYPES),
+    );
+    return false;
+  }
+
   function buyForModel(item: ResolvedEquipmentItem, price: number) {
     if (!draft || !model) return;
+    if (!allowWeapon(item)) return;
     if (price > draft.gold) {
       if (!window.confirm(strings.trading.insufficientGoldConfirm(price, draft.gold))) return;
     }
@@ -432,6 +453,19 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-bone-100 font-semibold">{strings.modelDetail.equipmentSection}</h2>
+            {/* Shown rather than only enforced: knowing a slot is full before
+                you go shopping beats being refused at the till. */}
+            <p className="text-ink-faded text-sm">
+              {(() => {
+                const usage = countWeaponSlots(model.equipment);
+                return strings.modelDetail.weaponSlots(
+                  usage.melee,
+                  MAX_MELEE,
+                  usage.missileTypes,
+                  MAX_MISSILE_TYPES,
+                );
+              })()}
+            </p>
             <button
               type="button"
               onClick={() => setShoppingOpen((v) => !v)}

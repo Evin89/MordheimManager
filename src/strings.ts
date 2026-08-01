@@ -254,6 +254,12 @@ export const strings = {
     skillBlockedSuffix: (reason: string) => ` — ${reason}`,
     skillPrerequisiteWarning: (text: string) => `Prerequisite: ${text}`,
     specialRulesSection: 'Special Rules',
+    meleeFull: (max: number) =>
+      `A warrior may carry at most ${max} close combat weapons, on top of his free dagger. Move one to the treasury first.`,
+    missileFull: (max: number) =>
+      `A warrior may carry at most ${max} different missile weapons (a brace of pistols counts as one). Move one to the treasury first.`,
+    weaponSlots: (melee: number, maxMelee: number, missile: number, maxMissile: number) =>
+      `Weapons carried: ${melee}/${maxMelee} close combat, ${missile}/${maxMissile} missile`,
     unstructuredNotes: 'Notes from the source',
     todoBadge: 'To do',
     skillsSection: 'Skills',
@@ -528,6 +534,20 @@ export const strings = {
     membersTab: 'Players',
     joinTitle: 'Join a Campaign',
     joinAnotherTitle: 'Join another campaign with a code',
+    myCampaignsTitle: 'My Campaigns',
+    myCampaignsLink: 'All my campaigns',
+    inCampaignCount: (n: number) => `You're in ${n} campaigns`,
+    myCampaignsEmpty: "You're not in any campaigns yet. Start one or join with a code.",
+    activeBadge: 'Showing now',
+    playersStat: 'Players',
+    battlesStat: 'Battles',
+    yourWarbandsStat: 'Your warbands',
+    openActive: 'Open campaign',
+    switchToThis: 'Switch to this campaign',
+    startOrJoinLink: 'Start or join another campaign',
+    startAnotherTitle: 'Start another campaign',
+    startAnotherHint:
+      'You can lead or play in as many campaigns as you like. Each keeps its own battle log, standings and players, and a warband belongs to one at a time.',
     personalBattlesSection: 'Your Battles',
     personalBattlesHint: "Battles you've fought outside a campaign.",
     joinHint: 'Got a code from your campaign leader? Enter it here.',

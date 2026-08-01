@@ -1,6 +1,13 @@
 import { supabase } from '../lib/supabaseClient';
 import { CampaignWarbandRow, fetchCampaignWarbands } from './warbands';
-import { Campaign, CampaignMember, CampaignRole, CampaignVisibility, StandingsRow } from '../types';
+import {
+  Campaign,
+  CampaignMember,
+  CampaignRole,
+  CampaignSummary,
+  CampaignVisibility,
+  StandingsRow,
+} from '../types';
 
 type CampaignRow = {
   id: string;
@@ -44,6 +51,60 @@ export async function fetchMyCampaigns(userId: string): Promise<Campaign[]> {
     .map((row) => row.campaigns)
     .filter((row): row is CampaignRow => row !== null)
     .map(toCampaign);
+}
+
+/**
+ * Every campaign you're in, with your role and enough activity to judge it.
+ *
+ * Counts are gathered in two queries over all your campaigns at once rather
+ * than per campaign — the obvious loop would be one round trip each, which on
+ * a phone at a game table is exactly where it hurts. RLS already scopes both
+ * tables to campaigns you belong to, so no extra filtering is needed beyond
+ * the id list.
+ */
+export async function fetchCampaignSummaries(userId: string): Promise<CampaignSummary[]> {
+  const { data: memberRows, error } = await supabase
+    .from('campaign_members')
+    .select('campaign_id, role, campaigns (*)')
+    .eq('user_id', userId)
+    .order('joined_at', { ascending: true });
+  if (error) throw error;
+
+  const rows = (memberRows ?? []) as unknown as {
+    campaign_id: string;
+    role: CampaignRole;
+    campaigns: CampaignRow | null;
+  }[];
+  const mine = rows.filter((r) => r.campaigns !== null);
+  const ids = mine.map((r) => r.campaign_id);
+  if (ids.length === 0) return [];
+
+  const [members, battles, warbands] = await Promise.all([
+    supabase.from('campaign_members').select('campaign_id').in('campaign_id', ids),
+    supabase.from('battles').select('campaign_id').in('campaign_id', ids),
+    supabase.from('warbands').select('campaign_id').eq('owner_id', userId).in('campaign_id', ids),
+  ]);
+
+  const tally = (data: { campaign_id: string | null }[] | null) => {
+    const counts = new Map<string, number>();
+    for (const row of data ?? []) {
+      if (!row.campaign_id) continue;
+      counts.set(row.campaign_id, (counts.get(row.campaign_id) ?? 0) + 1);
+    }
+    return counts;
+  };
+
+  const memberCounts = tally(members.data);
+  const battleCounts = tally(battles.data);
+  const warbandCounts = tally(warbands.data);
+
+  return mine.map((r) => ({
+    campaign: toCampaign(r.campaigns!),
+    role: r.role,
+    memberCount: memberCounts.get(r.campaign_id) ?? 0,
+    battleCount: battleCounts.get(r.campaign_id) ?? 0,
+    myWarbandCount: warbandCounts.get(r.campaign_id) ?? 0,
+  }));
 }
 
 /** Atomic via RPC: also adds the creator as campaign_leader and issues a join code. */
