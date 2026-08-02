@@ -1,0 +1,188 @@
+{
+  "id": "amazons-lustria",
+  "name": "Amazons (Lustria)",
+  "source": "Town Cryer #15 (Grade 1b), Lustria setting. Text supplied directly by the owner on 2026-08-02; cross-check against your own copy. Racial maximums are not stated in this entry; the human maximum profile is used, matching the Mordheim-setting Amazon list.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "serpentPriestess",
+      "unitType": "Serpent Priestess",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 70,
+      "startingXp": 20,
+      "skillLists": ["combat", "academic", "speed", "amazon"],
+      "statLine": { "M": 4, "WS": 4, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 8 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["heroinesList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any models in the warband within 6\" of the Priestess may use her Leadership instead of their own."
+        },
+        {
+          "name": "Wizard",
+          "description": "The Priestess is a Wizard and may use Amazon Rituals. She starts with one ritual chosen at random from the list."
+        }
+      ]
+    },
+    {
+      "id": "eagleWarrior",
+      "unitType": "Eagle Warrior",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 35,
+      "startingXp": 8,
+      "skillLists": ["combat", "strength", "speed", "amazon"],
+      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["heroinesList"],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "piranhaWarrior",
+      "unitType": "Piranha Warrior",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 30,
+      "startingXp": 8,
+      "skillLists": ["combat", "shooting", "speed", "amazon"],
+      "statLine": { "M": 4, "WS": 3, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["heroinesList"],
+      "notes": "Only Piranha Warriors may carry the Conch Shell Horn.",
+      "specialRules": []
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "amazonWarriors",
+      "unitType": "Amazon Warriors",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["henchwomenList"],
+      "notes": "A warband must include at least one Amazon Warrior.",
+      "specialRules": []
+    },
+    {
+      "id": "jaguarWarriors",
+      "unitType": "Jaguar Warriors",
+      "cost": 30,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["jaguarList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "One with the Jungle",
+          "description": "A Jaguar has lived her life in the deepest parts of the jungle and can move through jungle terrain without penalty."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "heroinesList": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "starblade",
+      "starsword",
+      "bow",
+      "sunstaffLustria",
+      "buckler",
+      "helmet",
+      "enchantedSkins",
+      "amuletOfTheMoon",
+      "healingHerbs"
+    ],
+    "henchwomenList": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "spear",
+      "sling",
+      "bow",
+      "sunstaffLustria",
+      "buckler",
+      "helmet",
+      "enchantedSkins"
+    ],
+    "jaguarList": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "spear",
+      "sling",
+      "bolas",
+      "javelins",
+      "bow",
+      "sunstaffLustria",
+      "helmet",
+      "enchantedSkins"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "starblade",
+      "name": "Starblade",
+      "category": "melee",
+      "cost": 15,
+      "rarity": 7,
+      "restriction": "Amazons only",
+      "rulesText": "Range: Close Combat; Strength: as user.\n\n+1 enemy armour save: the enemy gets +1 to his armour save.\n\nPotential parry: a Starblade can parry the first successful hit of any combat on a 4+."
+    },
+    {
+      "id": "starsword",
+      "name": "Starsword",
+      "category": "melee",
+      "cost": 30,
+      "rarity": 10,
+      "restriction": "Amazons only",
+      "rulesText": "Range: Close Combat; Strength: as user +1.\n\nParry: can parry enemy blows.\n\nIgnores armour: a Starsword ignores all armour saves except ward and dodge saves."
+    },
+    {
+      "id": "sunstaffLustria",
+      "name": "Sunstaff (Lustria)",
+      "category": "missile",
+      "cost": 35,
+      "rarity": 10,
+      "restriction": "Amazons only",
+      "rulesText": "Range: 12\" / Close Combat; Strength: as user.\n\nSunbolt: in the shooting phase the wielder may discharge a beam of energy with a range of 12\", hitting at Strength 4. Aside from ward and dodge saves, a Sunbolt ignores armour saves and penalties for long range."
+    },
+    {
+      "id": "bolas",
+      "name": "Bolas",
+      "category": "missile",
+      "cost": 5,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": "Range: 16\"; Strength: special. Usable once per battle and automatically recovered afterwards.\n\nDangerous: if the roll to hit is a natural 1, the bolas brain the wielder for a Strength 3 hit.\n\nEntangle: a model hit is not hurt, but his legs are entangled and he cannot move. He also suffers -2 Weapon Skill in hand-to-hand combat, though he may still shoot normally. He may try to free himself in the recovery phase, and is freed on a 4+."
+    },
+    {
+      "id": "javelins",
+      "name": "Javelins",
+      "category": "missile",
+      "cost": 5,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": "Range: 8\"; Strength: as user.\n\nThrown weapon: the warrior suffers no penalty for range or for moving."
+    }
+  ],
+  "specialRules": "Amazons (Lustria, Town Cryer #15). Isolationists: Amazons re-roll any attack rolls that miss in the first round of combat against Lizardmen and Norse. | Sacrifice: they follow the rules for the Possessed when it comes to captives; sacrificing a captured Lizardman also grants a free set of Enchanted Skins. | Norse Enmity: against a Norse warband, Amazons may re-roll their first failed Rout test, and may never voluntarily rout unless their leader has been taken out of action. | Not one of us: Amazons may not hire any Hired Swords or Dramatis Personae unless those are themselves Amazons. | Min warband size 3, max 15. Exactly one Serpent Priestess. At least one Amazon Warrior."
+}

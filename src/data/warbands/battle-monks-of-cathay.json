@@ -1,0 +1,210 @@
+{
+  "id": "battle-monks-of-cathay",
+  "name": "Battle Monks of Cathay",
+  "source": "Border Town Burning (Grade 1c), Grand Cathay setting. Text supplied directly by the owner on 2026-08-02; cross-check against your own copy. The source states Cathayans are humans and therefore use the human maximum profile.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "emissary",
+      "unitType": "Emissary",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": ["shooting", "academic", "speed", "battleMonk"],
+      "statLine": { "M": 4, "WS": 3, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 8 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["soldierList"],
+      "notes": "From the Battle Monks special skill list, the Emissary may only pick Warmonger.",
+      "specialRules": [
+        { "name": "Leader", "description": "Any warrior within 6\" of the Emissary may use his Leadership when taking Leadership tests." },
+        { "name": "Ride Horse", "description": "The Emissary is trained in riding horses." },
+        {
+          "name": "Decree",
+          "description": "When the Emissary dies a new one must be hired as soon as possible. Until you have done so, no other warriors or equipment may be bought. The new Emissary then reclaims leadership of the warband."
+        }
+      ]
+    },
+    {
+      "id": "officer",
+      "unitType": "Officer",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 40,
+      "startingXp": 12,
+      "skillLists": ["combat", "shooting", "strength", "speed"],
+      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["soldierList"],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "dragonMonk",
+      "unitType": "Dragon Monk",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "cost": 55,
+      "startingXp": 15,
+      "skillLists": ["combat", "academic", "strength", "speed", "battleMonk"],
+      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 8 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["monkList"],
+      "notes": "Monks suffer no penalty whatsoever for fighting unarmed and receive +1 Attack when doing so.",
+      "specialRules": [
+        {
+          "name": "Art of Silent Death",
+          "description": "In hand-to-hand combat, if fighting unarmed, a Dragon Monk causes a critical hit on a roll to wound of 5-6 instead of 6. If he wields a quarter staff, only the unarmed attacks cause a critical on 5+."
+        },
+        {
+          "name": "Strictures",
+          "description": "Dragon Monks never wear armour of any kind."
+        },
+        {
+          "name": "Distaste for Poison",
+          "description": "Dragon Monks may never use any kind of poison or venom."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "soldiers",
+      "unitType": "Soldiers",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["soldierList"],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "warriorMonks",
+      "unitType": "Warrior Monks",
+      "cost": 35,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["monkList"],
+      "notes": "Monks suffer no penalty whatsoever for fighting unarmed and receive +1 Attack when doing so.",
+      "specialRules": [
+        { "name": "Strictures", "description": "Warrior Monks never wear armour of any kind." },
+        { "name": "Distaste for Poison", "description": "Warrior Monks may never use any kind of poison or venom." }
+      ]
+    },
+    {
+      "id": "ragingPeasants",
+      "unitType": "Raging Peasants",
+      "cost": 10,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": { "M": 4, "WS": 2, "BS": 2, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 6 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": [],
+      "notes": "A peasant is usually equipped with a pitchfork, torch or other simple tool. Treat them as fighting unarmed, but without any penalties.",
+      "specialRules": [
+        { "name": "Simple folk", "description": "Peasants never gain Experience." },
+        {
+          "name": "Mob",
+          "description": "A Peasant gets +1 Leadership for each other allied Peasant model within 3\". Due to their rage they do not benefit from the Leader rule."
+        },
+        {
+          "name": "Ignored",
+          "description": "Peasants taken out of action do not count towards the number of out-of-action models for Rout tests."
+        },
+        {
+          "name": "Downtrodden",
+          "description": "When a Peasant is wounded, do not roll for injury — the model is immediately taken out of action."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "soldierList": [
+      "dagger",
+      "spear",
+      "sword",
+      "dragonSword",
+      "cathayanLongsword",
+      "duellingPistol",
+      "handgun",
+      "bow",
+      "crossbow",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet",
+      "cathayanSilkCloak",
+      "horse"
+    ],
+    "monkList": ["axe", "spear", "sword", "quarterStaff", "dragonSword", "chainSticks", "fishHookShot", "throwingKnivesStars"]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "dragonSword",
+      "name": "Dragon Sword",
+      "category": "melee",
+      "cost": 20,
+      "rarity": 10,
+      "restriction": "",
+      "rulesText": "Range: Close Combat; Strength: as user +1.\n\nTwo-handed: a model armed with a Dragon Sword may not use a shield, buckler or additional weapon in close combat. It gains an additional +1 armour save bonus against ranged attacks if it carries a shield.\n\nParry: despite its size it can be used to parry like a sword. When his opponent rolls to hit, the model may roll a D6; if the score is greater than the highest to-hit score of his opponent, the blow is parried. Attacks made with double or more his own Strength may not be parried.\n\nIn some older material this weapon was called a Katana."
+    },
+    {
+      "id": "chainSticks",
+      "name": "Chain Sticks",
+      "category": "melee",
+      "cost": 20,
+      "rarity": 7,
+      "restriction": "",
+      "rulesText": "Range: Close Combat; Strength: as user.\n\nFlurry: a warrior armed with chain sticks gets +2 Attacks. This bonus applies only in the first turn of each hand-to-hand combat; otherwise using chain sticks counts as having two hand weapons.\n\nTwo-handed: requires two hands to wield."
+    },
+    {
+      "id": "quarterStaff",
+      "name": "Quarter Staff",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": "Range: Close Combat; Strength: as user.\n\nBalanced: a model armed with a quarter staff gets +1 Initiative in close combat.\n\nParry: can parry enemy blows.\n\nFreestyle: although a staff does not always require two hands, it cannot be combined with another weapon, shield or buckler. It can, however, be combined with a Monk's bare-hand attacks, so the Monk still gets his +1 Attack."
+    },
+    {
+      "id": "fishHookShot",
+      "name": "Fish-hook Shot",
+      "category": "missile",
+      "cost": 10,
+      "rarity": 7,
+      "restriction": "",
+      "rulesText": "Range: 3\"; Strength: 3.\n\nThrown weapon: no penalties for range or moving, as it is designed for short range anyway.\n\nPrecise: the user may attack enemy models that are engaged in close combat. The hook shot is useless when the monk himself is engaged in close combat.\n\nCaused fall: the warrior may declare he is trying to make an enemy fall instead of causing damage. Roll to hit as normal, then pass a Strength test; if successful the enemy counts as knocked down. Apply a +1 modifier to the Strength test against large models. When a mount is knocked down, the rider falls off."
+    },
+    {
+      "id": "cathayanLongsword",
+      "name": "Cathayan Longsword",
+      "category": "melee",
+      "cost": 75,
+      "rarity": null,
+      "restriction": "Emissary only",
+      "rulesText": "TODO: verify vs Border Town Burning — the Soldier equipment list gives a cost of 75 gc and an Emissary-only restriction, but the weapon's full profile and special rules were not part of the supplied text."
+    },
+    {
+      "id": "cathayanSilkCloak",
+      "name": "Cathayan Silk Cloak",
+      "category": "misc",
+      "cost": 40,
+      "rarity": null,
+      "restriction": "Emissary only",
+      "rulesText": "TODO: verify vs Border Town Burning — the Soldier equipment list gives a cost of 40 gc and an Emissary-only restriction, but the item's rules were not part of the supplied text."
+    }
+  ],
+  "specialRules": "Battle Monks of Cathay (Border Town Burning). Strictures: Dragon Monks and Warrior Monks never wear any kind of armour. | Distaste for Poison: Dragon Monks and Warrior Monks may never use any kind of poison or venom. | Outsiders: the warband may never hire any sort of Hired Sword or Dramatis Personae unless specifically stated in that hired sword's own entry. | Min warband size 3, max 15. Exactly one Emissary — no more, no less. | Cathayans are humans and use the human maximum profile. | Warmonger (Emissary only, special skill): the Emissary may make a Leadership test before the battle; if it passes, D3+1 Raging Peasants join the warband for the next game, which may exceed the maximum warband size, and every Raging Peasant is subject to Hatred for that battle."
+}

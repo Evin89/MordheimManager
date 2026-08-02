@@ -251,8 +251,7 @@
   "equipmentLists": {
     "possessedEquipmentList": [
       "dagger",
-      "mace",
-      "hammer",
+      "clubMaceHammer",
       "axe",
       "sword",
       "doubleHandedWeapon",
@@ -266,8 +265,7 @@
     ],
     "darksoulsEquipmentList": [
       "dagger",
-      "mace",
-      "hammer",
+      "clubMaceHammer",
       "axe",
       "sword",
       "doubleHandedWeapon",

@@ -285,7 +285,6 @@
   ],
   "equipmentLists": {
     "ogreEquipmentList": [
-      "cleaver",
       "ogreClub",
       "sword",
       "spear",
@@ -303,7 +302,6 @@
       "swordGnoblar"
     ],
     "guideEquipmentList": [
-      "cleaver",
       "ogreClub",
       "sword",
       "spear",

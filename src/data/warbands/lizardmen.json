@@ -1,0 +1,268 @@
+{
+  "id": "lizardmen",
+  "name": "Lizardmen",
+  "source": "Town Cryer #11 (Grade 1b), Lustria setting. Text supplied directly by the owner on 2026-08-02; cross-check against your own copy. Racial maximums are not given in the source and are left unverified. Sacred Markings are one-per-Hero upgrades bought only at recruitment and are listed as exclusive equipment.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 20,
+  "heroSlots": [
+    {
+      "id": "skinkPriest",
+      "unitType": "Skink Priest",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": ["academic", "speed", "lizardmenSkink"],
+      "statLine": { "M": 6, "WS": 3, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 5, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["skinkList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any Lizardmen within 6\" of the Skink Priest may use his Leadership characteristic for Leadership tests. If the Priest is killed you may recruit a new one, but must play at least one game without a leader to give him time to join up."
+        },
+        { "name": "Wizard", "description": "The Skink Priest is a Wizard and may use Lizardmen magic." },
+        {
+          "name": "Scaly Skin",
+          "description": "Skinks have a natural 6+ armour save. It cannot be modified beyond 6 by Strength modifiers, but a 'no save' result on the injury chart negates it. Light armour adds +1, as does a shield."
+        },
+        { "name": "Aquatic", "description": "Skinks may move through water terrain with no penalty, and count as being in cover while in the water." },
+        { "name": "Jungle born", "description": "All Skinks can move through jungle terrain without penalty." },
+        {
+          "name": "Cold Blooded",
+          "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test."
+        }
+      ]
+    },
+    {
+      "id": "saurusTotemWarrior",
+      "unitType": "Saurus Totem Warrior",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 11,
+      "skillLists": ["combat", "strength", "lizardmenSaurus"],
+      "statLine": { "M": 4, "WS": 4, "BS": 0, "S": 4, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 8 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["saurusList"],
+      "notes": "The profile is listed as A 1+1 in the source: one Attack plus the Bite attack.",
+      "specialRules": [
+        {
+          "name": "Scaly Skin",
+          "description": "Saurus have a natural 5+ armour save. It cannot be modified beyond 6 by Strength modifiers, but a 'no save' result on the injury chart negates it. Light armour adds +1, as does a shield."
+        },
+        {
+          "name": "Bite Attack",
+          "description": "An extra attack using the Saurus' own Strength to wound, with no penalty for being unarmed. The bite always strikes last, regardless of who charged or which weapon is used."
+        },
+        {
+          "name": "Cold Blooded",
+          "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. A Lizardmen warband may never use the Leadership of a Saurus or Kroxigor for a Rout test."
+        },
+        {
+          "name": "No missile weapons",
+          "description": "Saurus can never use missile weapons and can never receive Academic skills."
+        }
+      ]
+    },
+    {
+      "id": "skinkGreatCrest",
+      "unitType": "Skink Great Crest",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 30,
+      "startingXp": 8,
+      "skillLists": ["shooting", "speed", "lizardmenSkink"],
+      "statLine": { "M": 6, "WS": 3, "BS": 3, "S": 3, "T": 2, "W": 1, "I": 4, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["skinkList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Scaly Skin",
+          "description": "Skinks have a natural 6+ armour save. It cannot be modified beyond 6 by Strength modifiers, but a 'no save' result on the injury chart negates it. Light armour adds +1, as does a shield."
+        },
+        { "name": "Aquatic", "description": "Skinks may move through water terrain with no penalty, and count as being in cover while in the water." },
+        { "name": "Jungle born", "description": "All Skinks can move through jungle terrain without penalty." },
+        {
+          "name": "Cold Blooded",
+          "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "skinkBraves",
+      "unitType": "Skink Braves",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 6, "WS": 2, "BS": 3, "S": 3, "T": 2, "W": 1, "I": 4, "A": 1, "Ld": 6 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["skinkList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Scaly Skin",
+          "description": "Skinks have a natural 6+ armour save. Light armour adds +1, as does a shield."
+        },
+        { "name": "Aquatic", "description": "May move through water terrain with no penalty, and count as being in cover while in the water." },
+        { "name": "Jungle born", "description": "Can move through jungle terrain without penalty." },
+        { "name": "Cold Blooded", "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test." }
+      ]
+    },
+    {
+      "id": "saurusBraves",
+      "unitType": "Saurus Braves",
+      "cost": 40,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 4,
+      "statLine": { "M": 4, "WS": 3, "BS": 0, "S": 4, "T": 4, "W": 1, "I": 1, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["saurusList"],
+      "notes": "The profile is listed as A 1+1 in the source: one Attack plus the Bite attack. A warband may never contain more Saurus Braves than Skink Braves.",
+      "specialRules": [
+        { "name": "Scaly Skin", "description": "Saurus have a natural 5+ armour save. Light armour adds +1, as does a shield." },
+        {
+          "name": "Bite Attack",
+          "description": "An extra attack using the Saurus' own Strength to wound, with no penalty for being unarmed. The bite always strikes last."
+        },
+        { "name": "Cold Blooded", "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test." },
+        { "name": "No missile weapons", "description": "Saurus can never use missile weapons." }
+      ]
+    },
+    {
+      "id": "kroxigor",
+      "unitType": "Kroxigor",
+      "cost": 200,
+      "isAnimal": true,
+      "isLargeCreature": true,
+      "maxCount": 1,
+      "statLine": { "M": 6, "WS": 3, "BS": 0, "S": 5, "T": 4, "W": 3, "I": 1, "A": 3, "Ld": 8 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": [],
+      "notes": "The Kroxigor is equipped with a halberd and may not be given other equipment.",
+      "specialRules": [
+        { "name": "Scaly Skin", "description": "The Kroxigor has a natural save of 4+." },
+        { "name": "Aquatic", "description": "May move through water with no penalty, and counts as being in cover while in water." },
+        { "name": "Cause Fear", "description": "Kroxigor are large and frightening monsters that cause fear." },
+        {
+          "name": "Large",
+          "description": "A Kroxigor stands out among the rest of the warband and may be picked out by an archer even if he is not the closest model."
+        },
+        { "name": "Animal", "description": "Kroxigor are slow-witted creatures that never learn from their mistakes. The Kroxigor does not gain experience." },
+        { "name": "Cold Blooded", "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. The warband may never use a Kroxigor's Leadership for a Rout test." }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "saurusList": ["dagger", "stoneAxe", "axe", "sword", "spear", "halberd", "doubleHandedWeapon", "shield", "boneHelmet", "lizardmenLightArmour"],
+    "skinkList": [
+      "dagger",
+      "stoneAxe",
+      "axe",
+      "sword",
+      "spear",
+      "shortBow",
+      "bolas",
+      "javelins",
+      "throwingKnivesStars",
+      "blowpipe",
+      "shield",
+      "buckler",
+      "boneHelmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "stoneAxe",
+      "name": "Stone Axe",
+      "category": "melee",
+      "cost": 3,
+      "rarity": null,
+      "restriction": "Lizardmen",
+      "rulesText": "Counts as a club in every respect."
+    },
+    {
+      "id": "boneHelmet",
+      "name": "Bone Helmet",
+      "category": "armour",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "Skink Priest only among Skinks",
+      "rulesText": "Counts as a helmet in every respect."
+    },
+    {
+      "id": "lizardmenLightArmour",
+      "name": "Light armour (Lizardmen)",
+      "category": "armour",
+      "cost": 50,
+      "rarity": null,
+      "restriction": "Lizardmen — armour is rare among them",
+      "rulesText": "Counts as light armour. Armour is rare amongst the Lizardmen and always costs 50 gc, even when bought from the standard equipment chart."
+    },
+    {
+      "id": "blowpipe",
+      "name": "Blowpipe",
+      "category": "missile",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "Skinks",
+      "rulesText": "TODO: verify vs Town Cryer #11 — the Skink equipment list gives a cost of 25 gc, but the weapon's own profile and special rules were not part of the supplied text."
+    },
+    {
+      "id": "bolas",
+      "name": "Bolas",
+      "category": "missile",
+      "cost": 5,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": "Range: 16\"; Strength: special. Usable once per battle and automatically recovered afterwards.\n\nDangerous: if the roll to hit is a natural 1, the bolas brain the wielder for a Strength 3 hit.\n\nEntangle: a model hit is not hurt, but his legs are entangled and he cannot move. He also suffers -2 Weapon Skill in hand-to-hand combat, though he may still shoot normally. He may try to free himself in the recovery phase, and is freed on a 4+."
+    },
+    {
+      "id": "javelins",
+      "name": "Javelins",
+      "category": "missile",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": "Range: 8\"; Strength: as user.\n\nThrown weapon: the warrior suffers no penalty for range or for moving.\n\nNote: the Skink list prices these at 10 gc, where the Amazon lists give 5 gc."
+    },
+    {
+      "id": "oversizedJaws",
+      "name": "Sacred Marking: Oversized Jaws",
+      "category": "misc",
+      "cost": 40,
+      "rarity": null,
+      "restriction": "Saurus Heroes only — one Sacred Marking per Hero, bought at recruitment",
+      "rulesText": "The Hero may make his bite attack with +1 Strength."
+    },
+    {
+      "id": "poisonGlands",
+      "name": "Sacred Marking: Poison Glands",
+      "category": "misc",
+      "cost": 40,
+      "rarity": null,
+      "restriction": "Skink Heroes only — one Sacred Marking per Hero, bought at recruitment",
+      "rulesText": "He may choose to make any number of attacks with his teeth instead of his weapons; these are treated as a Saurus bite attack. They carry a +1 save modifier regardless of the Skink's Strength, and add +1 to the roll on the Injury table."
+    },
+    {
+      "id": "markOfTheOldOnes",
+      "name": "Sacred Marking: Mark of the Old Ones",
+      "category": "misc",
+      "cost": 50,
+      "rarity": null,
+      "restriction": "Lizardmen Heroes only — one Sacred Marking per Hero, bought at recruitment",
+      "rulesText": "The Hero may change one of his failed dice rolls into a successful one. Usable once per battle and only on actions the Hero makes himself. It may be used on a failed Rout test."
+    }
+  ],
+  "specialRules": "Lizardmen (Town Cryer #11). Scaly Skin: Saurus have a 5+ save, Skinks a 6+. The save cannot be modified beyond 6 by Strength modifiers, but a 'no save' result on the injury chart negates it. Light armour adds +1, as does a shield. | Armour: armour is rare amongst the Lizardmen and light armour always costs 50 gc, even from the standard equipment chart. | Bite Attack: Saurus have a bite that uses their own Strength to wound with no penalty for being unarmed, and always strikes last. | Cold Blooded: all Lizardmen roll 3D6 and select the lowest two when taking a psychology or Rout test. A warband may never use the Leadership of a Saurus or Kroxigor for a Rout test. | Aquatic: Skinks move through water with no penalty and count as being in cover there. | Jungle born: all Skinks move through jungle terrain without penalty. | Saurus Rarity: a warband may never contain more Saurus Braves than Skink Braves. | Saurus cannot receive Academic skills and can never use missile weapons. | Min warband size 3, max 20. | Poisons: Skink Heroes may buy Dark Venom at 20 gc and Black Lotus at 10 gc as common items, usable only on missile weapons; only Saurus may use them on close combat weapons, bought as normal from the trading chart. Skink henchmen may buy Reptile Venom at 5 gc per weapon."
+}

@@ -1,0 +1,248 @@
+{
+  "id": "gunnery-school-of-nuln",
+  "name": "Gunnery School of Nuln",
+  "source": "Nemesis Crown supplement (Grade 1b), Nemesis Crown setting, by the Mordheim Nemesis Crown Development Team. Text supplied directly by the owner on 2026-08-02; cross-check against your own copy. Cathayans aside, these are humans and use the standard human maximum profile.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "seniorGunneryOfficer",
+      "unitType": "Senior Gunnery Officer",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": ["combat", "shooting", "academic", "strength", "speed"],
+      "statLine": { "M": 4, "WS": 4, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 8 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["schoolArmouryList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any models in the warband within 12\" of the Senior Gunnery Officer may use his Leadership value when taking Leadership tests."
+        },
+        { "name": "Hunter", "description": "The Senior Gunnery Officer starts with the Hunter skill from the Shooting skills list." }
+      ]
+    },
+    {
+      "id": "instructor",
+      "unitType": "Instructor",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 45,
+      "startingXp": 12,
+      "skillLists": ["shooting", "academic", "speed"],
+      "statLine": { "M": 4, "WS": 3, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["schoolArmouryList", "marksmanList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Expert Weaponsmith",
+          "description": "While there is an Instructor in the warband, all Pistol weapons receive a +3\" range bonus and all other blackpowder weapons receive a +6\" range bonus."
+        }
+      ]
+    },
+    {
+      "id": "seniorStudent",
+      "unitType": "Senior Student",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 45,
+      "startingXp": 8,
+      "skillLists": ["combat", "shooting", "strength", "speed"],
+      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["schoolArmouryList"],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "underclassmen",
+      "unitType": "Underclassmen",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 20,
+      "startingXp": 0,
+      "skillLists": ["combat", "shooting", "speed"],
+      "statLine": { "M": 4, "WS": 3, "BS": 2, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 6 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["schoolArmouryList"],
+      "notes": "",
+      "specialRules": []
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "sonsOfTheGuns",
+      "unitType": "Sons of the Guns",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["schoolArmouryList"],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "marksmen",
+      "unitType": "Marksmen",
+      "cost": 30,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 7,
+      "statLine": { "M": 4, "WS": 3, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["marksmanList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Quick Reload",
+          "description": "Marksmen have the Hunter skill from the Mordheim rulebook. A Marksman who becomes a Hero gains no further effect from taking Hunter again."
+        }
+      ]
+    },
+    {
+      "id": "pistoliers",
+      "unitType": "Pistoliers",
+      "cost": 35,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["schoolArmouryList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Crack Shot",
+          "description": "When using pistols in close combat, Pistoliers may re-roll any missed to-hit rolls with the pistol in the first round of combat."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "schoolArmouryList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "halberd",
+      "morningStar",
+      "doubleHandedWeapon",
+      "pistol",
+      "doubleBarrelledPistol",
+      "duellingPistol",
+      "doubleBarrelledDuellingPistol",
+      "handgun",
+      "doubleBarrelledHandgun",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet",
+      "superiorBlackpowder"
+    ],
+    "marksmanList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "pistol",
+      "doubleBarrelledPistol",
+      "repeaterPistol",
+      "blunderbuss",
+      "handgun",
+      "doubleBarrelledHandgun",
+      "repeaterHandgun",
+      "handHeldMortar",
+      "pigeonBombs",
+      "lightArmour",
+      "shield",
+      "helmet",
+      "superiorBlackpowder"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "doubleBarrelledPistol",
+      "name": "Double-barrelled Pistol",
+      "category": "missile",
+      "cost": null,
+      "priceRange": "25 + 1D6 gc (46 + 2D6 gc for a brace)",
+      "rarity": 9,
+      "restriction": "Rare 10 for a brace",
+      "rulesText": "Range: 6\"; Strength: 4.\n\nPrepare shot: takes a complete turn to reload, so it may only be fired every other turn. With a brace, it may be fired every turn.\n\nSave modifier: a warrior wounded by a pistol makes his armour save with a -2 modifier.\n\nHand-to-hand: a model armed with a pistol and another close combat weapon gains +1 Attack at Strength 4 with a -2 save modifier, usable once per combat. With a brace, the model fights with 2 Attacks in the first turn of close combat.\n\nDouble-barrelled: declare whether you are firing one or both barrels. Firing both, roll a single dice to hit, then roll to wound for each shot individually. After firing both barrels place 2 tokens on the model, removing one per shooting phase; you cannot shoot in the same phase as a reload. Firing a brace of both barrels places 4 tokens in two colours, one of each removed per turn."
+    },
+    {
+      "id": "doubleBarrelledDuellingPistol",
+      "name": "Double-barrelled Duelling Pistol",
+      "category": "missile",
+      "cost": null,
+      "priceRange": "45 + 2D6 gc (80 + 4D6 gc for a brace)",
+      "rarity": 11,
+      "restriction": "Rare 12 for a brace",
+      "rulesText": "Range: 9\"; Strength: 4.\n\nAccuracy: all shots and close combat attacks have a +1 bonus to hit.\n\nPrepare shot: takes a complete turn to reload, so it may only be fired every other turn. With a brace, it may be fired every turn.\n\nSave modifier: a warrior wounded by a duelling pistol makes his armour save with a -2 modifier.\n\nHand-to-hand: as a pistol — +1 Attack at Strength 4 with a -2 save modifier, once per combat; a brace gives 2 Attacks in the first turn.\n\nDouble-barrelled: as the double-barrelled pistol above."
+    },
+    {
+      "id": "doubleBarrelledHandgun",
+      "name": "Double-barrelled Handgun",
+      "category": "missile",
+      "cost": null,
+      "priceRange": "60 + 2D6 gc",
+      "rarity": 10,
+      "restriction": "",
+      "rulesText": "Range: 24\"; Strength: 4.\n\nPrepare shot: takes a complete turn to reload, so it may only be fired every other turn.\n\nMove or fire: you may not move and fire in the same turn, other than to pivot on the spot or stand up.\n\nSave modifier: a warrior wounded by a handgun makes his armour save with a -2 modifier.\n\nDouble-barrelled: declare whether you are firing one or both barrels. Firing both, roll a single dice to hit, then roll to wound for each shot individually. After firing both barrels place 2 tokens on the model, removing one per shooting phase; you cannot shoot in the same phase as a reload."
+    },
+    {
+      "id": "repeaterPistol",
+      "name": "Repeater Pistol",
+      "category": "missile",
+      "cost": null,
+      "priceRange": "30 + 2D6 gc",
+      "rarity": 9,
+      "restriction": "",
+      "rulesText": "Range: 6\"; Strength: 4.\n\nSave modifier: a warrior wounded by it makes his armour save with a -2 modifier.\n\nFire thrice: may fire up to three shots; if more than one shot is made, the to-hit roll is at -1. Resolve each shot individually; later shots may target a different model within 3\" of the previous target.\n\nExperimental: always subject to the optional Blackpowder Weapons rules, even if those are not normally used. On any result other than 'BOOM!' the weapon has jammed or run out of loaded barrels and must be reloaded.\n\nQuick reload: the pistol can always fire at least one shot. After shooting more than one shot in a turn, the model must spend a complete shooting phase without shooting and out of combat before firing multiple shots again.\n\nNot a club: may be used as a normal pistol in the first round of combat only. After that it does not count as an additional hand weapon, and its owner will not discard it, so he fights on without one."
+    },
+    {
+      "id": "repeaterHandgun",
+      "name": "Repeater Handgun",
+      "category": "missile",
+      "cost": null,
+      "priceRange": "60 + 2D6 gc",
+      "rarity": 11,
+      "restriction": "",
+      "rulesText": "Range: 24\"; Strength: 4.\n\nSave modifier: a warrior wounded by it makes his armour save with a -2 modifier.\n\nMove or fire: you may not move and fire in the same turn, other than to pivot on the spot or stand up.\n\nFire thrice: may fire up to three shots; if more than one shot is made, the to-hit roll is at -1. Resolve each shot individually; later shots may target a different model within 3\" of the previous target.\n\nExperimental: always subject to the optional Blackpowder Weapons rules. On any result other than 'BOOM!' the weapon has jammed and must be reloaded.\n\nSlow reload: the warrior must do nothing at all for a complete turn in order to reload."
+    },
+    {
+      "id": "handHeldMortar",
+      "name": "Hand-held Mortar",
+      "category": "missile",
+      "cost": null,
+      "priceRange": "80 + 2D6 gc",
+      "rarity": 12,
+      "restriction": "",
+      "rulesText": "Range: 24\"; Strength: 4.\n\nPrepare shot: takes a complete turn to reload, so it may only be fired every other turn.\n\nMove or fire: you may not move and fire in the same turn, other than to pivot on the spot or stand up.\n\nSave modifier: a warrior wounded by it makes his armour save with a -2 modifier.\n\nScatter: if the warrior misses his roll to hit, the shot lands 2D6\" in a random direction.\n\nExperimental: always subject to the optional Blackpowder Weapons rules. On any result other than 'BOOM!' the weapon has jammed or run out of loaded barrels and must be reloaded.\n\nExplosive radius: the target and any models within 1.5\" of the final landing spot each take a single Strength 4 hit."
+    },
+    {
+      "id": "pigeonBombs",
+      "name": "Hersten-Wenkler Pigeon Bombs",
+      "category": "missile",
+      "cost": null,
+      "priceRange": "30 + 2D6 gc",
+      "rarity": 8,
+      "restriction": "",
+      "rulesText": "Range: unlimited; Strength: 4.\n\nMove or fire: you may not move and launch a pigeon bomb in the same turn, other than to pivot on the spot or stand up from knocked down.\n\nTemperamental: do not use the warrior's BS. Roll a D6: on 5-6 the bomb hits its target; on 2-4 the fuse was cut badly and it explodes harmlessly in the air; on a 1 it explodes in the hero's hands, and he and everyone within 1.5\" takes a Strength 4 hit.\n\nExplosive radius: on target, the target and any models within 1.5\" each take a single Strength 4 hit.\n\nPigeon roost: once bought, the Hero has enough for the full game and his supply is replenished at the start of each new game."
+    }
+  ],
+  "specialRules": "Gunnery School of Nuln (Nemesis Crown). Impeccable Care: the warband may always use the reduced blackpowder prices in its own starting equipment list, and gains +2 on rare rolls to find any blackpowder weapon. | Properly Used: when using the optional Misfire rules, if a 1 is rolled, roll a second dice — on a 3+ the misfire is ignored (the shot still misses, but the weapon does not explode). | Proud To A Fault!: members of this warband never use any non-blackpowder ranged weapon. This does not apply to Hired Swords or Dramatis Personae, who have not received Nuln training. | Min warband size 3, max 15. Exactly one Senior Gunnery Officer."
+}

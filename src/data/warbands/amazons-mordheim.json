@@ -1,0 +1,168 @@
+{
+  "id": "amazons-mordheim",
+  "name": "Amazons (Mordheim)",
+  "source": "Town Cryer #23 (Grade 1b), Mordheim setting. Text supplied directly by the owner on 2026-08-02; cross-check against your own copy. The source states that although outsiders consider the Amazons immortal, the maximum characteristics for each type are the same as any other human warband, so the standard human maximum profile is used.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "priestess",
+      "unitType": "Priestess",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 70,
+      "startingXp": 20,
+      "skillLists": ["combat", "shooting", "academic", "strength", "speed"],
+      "statLine": { "M": 4, "WS": 4, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 8 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["heroinesList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any models in the warband within 6\" of the Priestess may use her Leadership instead of their own."
+        },
+        {
+          "name": "Wizard",
+          "description": "The Priestess is a Wizard and may use Amazon Rituals. She starts with one ritual chosen at random from the list."
+        }
+      ]
+    },
+    {
+      "id": "champion",
+      "unitType": "Champion",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 35,
+      "startingXp": 8,
+      "skillLists": ["combat", "shooting", "speed"],
+      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["heroinesList"],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "totemWarrior",
+      "unitType": "Totem Warrior",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 30,
+      "startingXp": 8,
+      "skillLists": ["combat", "strength", "speed"],
+      "statLine": { "M": 4, "WS": 4, "BS": 2, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["heroinesList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Frenzy",
+          "description": "Totem Warriors are fanatical, blood-crazed individuals, out of their heads on psychedelic herbal concoctions prepared by their sisters. They are subject to the rules for frenzy."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "amazonWarriors",
+      "unitType": "Amazon Warriors",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["henchwomenList"],
+      "notes": "A warband must include at least one Amazon Warrior.",
+      "specialRules": []
+    },
+    {
+      "id": "scouts",
+      "unitType": "Scouts",
+      "cost": 30,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "equipmentOptions": ["scoutList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Stealthy",
+          "description": "A Scout may deploy twice the distance onto the battlefield than other warriors, and may start the battle hiding."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "heroinesList": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "spear",
+      "clawOfTheOldOnes",
+      "sunstaff",
+      "sunGauntlet",
+      "buckler",
+      "helmet",
+      "amuletOfTheMoon",
+      "healingHerbs"
+    ],
+    "henchwomenList": ["dagger", "clubMaceHammer", "sword", "spear", "sling", "bow", "buckler", "helmet"],
+    "scoutList": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "spear",
+      "sling",
+      "javelins",
+      "bow",
+      "buckler",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "clawOfTheOldOnes",
+      "name": "Claw of the Old Ones",
+      "category": "melee",
+      "cost": 30,
+      "rarity": 12,
+      "restriction": "Amazons only",
+      "rulesText": "Range: Close Combat; Strength: as user +1.\n\nNo save: the blade can cut through anything — a warrior wounded by a Claw receives no armour save whatsoever.\n\nParry: a model armed with a Claw may parry blows. When his opponent rolls to hit, he may roll a D6; if the score is greater than the highest to-hit score of his opponent, the blow is parried and that attack discarded. Attacks made with double or more his own Strength may not be parried."
+    },
+    {
+      "id": "sunstaff",
+      "name": "Sunstaff",
+      "category": "missile",
+      "cost": 50,
+      "rarity": 12,
+      "restriction": "Amazons only",
+      "rulesText": "Range: 24\"; Strength: 4.\n\nAccurate: does not suffer the usual -1 modifier to hit at long range.\n\nNo save: a warrior wounded by a Sunstaff receives no armour save whatsoever."
+    },
+    {
+      "id": "sunGauntlet",
+      "name": "Sun Gauntlet",
+      "category": "missile",
+      "cost": 40,
+      "rarity": 12,
+      "restriction": "Amazons only",
+      "rulesText": "Range: 12\"; Strength: 4.\n\nAccurate: does not suffer the usual -1 modifier to hit at long range.\n\nNo save: a warrior wounded by a Sun Gauntlet receives no armour save whatsoever.\n\nHand-to-hand: may be used with another close combat weapon at Strength 4 with no armour save. Because it does not require a prepared shot, this bonus attack may be used every turn of combat."
+    },
+    {
+      "id": "javelins",
+      "name": "Javelins",
+      "category": "missile",
+      "cost": 5,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": "Range: 8\"; Strength: as user.\n\nThrown weapon: the warrior suffers no penalty for range or for moving.\n\nNote: published Javelin entries differ across Town Cryer #11, #14, #21, #23 and Border Town Burning. This uses the core rulebook's thrown-weapon rule (as for throwing knives and blessed water) and the 8\" range shared by four of the five sources."
+    }
+  ],
+  "specialRules": "Amazons (Mordheim, Town Cryer #23). Sacrifice: the Amazons are quick to sacrifice any captive to their gods, following the rules for the Possessed when it comes to captives. | Not one of us: because of their isolationism and suspicion of other races, Amazons never side with anyone else and may not have any Hired Swords or Dramatis Personae unless those are themselves Amazons. | Min warband size 3, max 15. Exactly one Priestess — no more, no less. At least one Amazon Warrior. | Although outsiders consider the Amazons immortal, their maximum characteristics are the same as any other human warband."
+}

@@ -930,7 +930,8 @@
       "notes": "Missile fire directed at a model equipped with the amulet suffers -1 to hit. The amulet also confers a special save of 5+ against missile fire.",
       "restriction": "Amazons only",
       "warbandIds": [
-        "amazons"
+        "amazons-mordheim",
+        "amazons-lustria"
       ]
     },
     {
@@ -942,7 +943,8 @@
       "notes": "Any model wearing Skins and Charms receives a 6+ special save versus any wounds inflicted. In addition, the wearer is unaffected by enemy magic on a roll of 5+.",
       "restriction": "Amazons (Lustria) only",
       "warbandIds": [
-        "amazons"
+        "amazons-mordheim",
+        "amazons-lustria"
       ]
     },
     {
@@ -954,7 +956,8 @@
       "notes": "At the beginning of the game a Piranha warrior may use the horn to re-roll when deciding who deploys first and who goes first. Multiple horns cannot force a second re-roll.",
       "restriction": "Amazons (Lustria) Piranha Warrior only",
       "warbandIds": [
-        "amazons"
+        "amazons-mordheim",
+        "amazons-lustria"
       ]
     },
     {

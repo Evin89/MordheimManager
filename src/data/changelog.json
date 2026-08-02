@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-08-02",
+    "title": "Six New Warbands",
+    "description": "Black Orcs, Amazons (Mordheim), Amazons (Lustria), Lizardmen, the Gunnery School of Nuln and the Battle Monks of Cathay all join the roster, bringing the total to 22. Each comes with its full hero and henchmen list, equipment lists, special rules and its own skill table — Waaagh! and 'eadbasher for the Black Orcs, Mesmerising Dance for the Amazons, Infiltration and Toughened Hide for the Lizardmen, Leap of Faith and Human Shield for the Monks. Their unique gear is in too: choppas, sunstaffs, starswords, bolas, blowpipes, Sacred Markings, chain sticks, and Nuln's double-barrelled and repeater blackpowder weapons."
+  },
+  {
+    "date": "2026-08-02",
+    "title": "Clubs and Hammers Are Buyable Again",
+    "description": "Seven warbands could not buy a club, mace or hammer. Their equipment lists named those weapons separately while the price chart carries them as one combined entry, so once each warrior started being offered only his own list, the weapon fell through the gap entirely. Reiklanders, Middenheimers, Marienburgers, Witch Hunters, Sisters of Sigmar, Undead and the Cult of the Possessed all have them back."
+  },
+  {
+    "date": "2026-08-02",
     "title": "Play in as Many Campaigns as You Like",
     "description": "There's a new My Campaigns screen behind the Campaign tab, listing every campaign you're in with your role, how many players and battles it has, and how many of your warbands are entered. Leaders see their join code on the card. You could already join other people's campaigns, but there was no way to start a second one of your own — now you can, and both the code field and the start form sit right on that screen. Opening a campaign from the list makes it the one the rest of the app follows."
   },

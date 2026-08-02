@@ -261,8 +261,7 @@
   "equipmentLists": {
     "witchHunterEquipmentList": [
       "dagger",
-      "mace",
-      "hammer",
+      "clubMaceHammer",
       "axe",
       "sword",
       "doubleHandedWeapon",
@@ -282,8 +281,7 @@
     ],
     "zealotEquipmentList": [
       "dagger",
-      "mace",
-      "hammer",
+      "clubMaceHammer",
       "axe",
       "sword",
       "doubleHandedWeapon",

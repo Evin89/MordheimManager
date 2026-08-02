@@ -219,8 +219,7 @@
   "equipmentLists": {
     "sistersEquipmentList": [
       "dagger",
-      "mace",
-      "hammer",
+      "clubMaceHammer",
       "sigmariteWarhammer",
       "flail",
       "steelWhip",

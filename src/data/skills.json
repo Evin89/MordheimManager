@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "source": "The Mordheimer's Master Skill List Compilation v1.30 (compiled by Edwin \"The Mordheimer\" Molina, based on prior work by Tim Leach), fetched from https://www.broheim.net/downloads/resources/Master%20Skill%20List.pdf on 2026-07-03. Core lists cite the Mordheim rulebook (RB) page numbers as given in that document; owner should still cross-check against their own physical rulebook printing.",
+  "source": "The Mordheimer's Master Skill List Compilation v1.30 (compiled by Edwin \"The Mordheimer\" Molina, based on prior work by Tim Leach), fetched from https://www.broheim.net/downloads/resources/Master%20Skill%20List.pdf on 2026-07-03. Core lists cite the Mordheim rulebook (RB) page numbers as given in that document; owner should still cross-check against their own physical rulebook printing. Black Orc, Amazon, Lizardmen (Skink and Saurus) and Battle Monk special skill lists supplied directly by the owner on 2026-08-02.",
   "lists": {
     "combat": {
       "name": "Combat",
@@ -92,7 +92,9 @@
           "prerequisite": {
             "text": "Leader only. Undead leaders may not use this skill.",
             "requiresLeader": true,
-            "excludedWarbandTypes": ["undead"]
+            "excludedWarbandTypes": [
+              "undead"
+            ]
           }
         },
         {
@@ -101,7 +103,9 @@
           "effect": "Heroes capable of casting spells only. +1 to rolls to see whether a spell is cast successfully. Sisters of Sigmar and Warrior-Priests may not use this skill. (RB 123)",
           "prerequisite": {
             "text": "Heroes capable of casting spells only.",
-            "excludedWarbandTypes": ["sisters-of-sigmar"]
+            "excludedWarbandTypes": [
+              "sisters-of-sigmar"
+            ]
           }
         },
         {
@@ -120,7 +124,10 @@
           "effect": "Witch Hunters, Sisters of Sigmar and Warrior-Priests may not have this skill. A warrior with this skill may learn Lesser Magic if he owns a Tome of Magic. (RB 123)",
           "prerequisite": {
             "text": "Witch Hunters, Sisters of Sigmar and Warrior-Priests may not have this skill.",
-            "excludedWarbandTypes": ["witch-hunters", "sisters-of-sigmar"]
+            "excludedWarbandTypes": [
+              "witch-hunters",
+              "sisters-of-sigmar"
+            ]
           }
         },
         {
@@ -176,7 +183,9 @@
           "effect": "Spellcasters only (not Sisters of Sigmar or Warrior Priests). May attempt to cast two spells per turn if not in hand-to-hand combat; after the first, take a Toughness test — pass to attempt a second (even the same spell); fail and roll on the injury table immediately with no saves, treating out of action as stunned. (TC7)",
           "prerequisite": {
             "text": "Spellcasters only.",
-            "excludedWarbandTypes": ["sisters-of-sigmar"]
+            "excludedWarbandTypes": [
+              "sisters-of-sigmar"
+            ]
           }
         },
         {
@@ -835,6 +844,131 @@
           "id": "giantWolfForm",
           "name": "Giant Wolf Form",
           "effect": "As Ratswarm/Bat Form's transformation rules, using profile M9 WS4 BS0 S4 T3 W* I* A2 Ld* (* = as Vampire); no weapons/armour, cannot shoot/cast, fights unarmed without penalty. (TC11)"
+        }
+      ]
+    },
+    "blackOrc": {
+      "name": "Black Orc Special Skills (Nemesis Crown)",
+      "skills": [
+        {
+          "id": "provenWarrior",
+          "name": "Proven Warrior",
+          "effect": "May only be taken by a Young'un with the Black Orc Blood ability and 25 experience. Once he gains this skill the model is considered a full Black Orc Warrior, though he keeps the title of Young'un. He follows all the rules for Black Orcs, uses their equipment list, and has access to the same skill lists as a Black Orc."
+        },
+        {
+          "id": "ardEad",
+          "name": "'ard Ead",
+          "effect": "The warrior has a thick skull even for an Orc. He has a special 3+ save on a D6 to avoid being stunned; if the save is made, treat a stunned result as knocked down instead. If he also wears a helmet the save is 2+ instead, taking the place of the normal helmet special rule."
+        },
+        {
+          "id": "waaagh",
+          "name": "Waaagh!",
+          "effect": "The warrior may add +D3\" to his charge range."
+        },
+        {
+          "id": "ereWeGo",
+          "name": "'ere We Go!",
+          "effect": "The model may ignore fear tests when charging."
+        },
+        {
+          "id": "daCunninPlan",
+          "name": "Da Cunnin' Plan",
+          "effect": "Only the Boss may have this skill. The warband may re-roll any failed Rout tests as long as the Boss is not out of action."
+        },
+        {
+          "id": "eadbasher",
+          "name": "'eadbasher",
+          "effect": "Any knocked down results the Orc causes in hand-to-hand count as stunned results instead."
+        }
+      ]
+    },
+    "amazon": {
+      "name": "Amazon Special Skills (Town Cryer #15 — Lustria)",
+      "skills": [
+        {
+          "id": "skinkHunter",
+          "name": "Skink Hunter",
+          "effect": "An Amazon with this skill always strikes first in the first round of combat against Skink models, no matter who charged."
+        },
+        {
+          "id": "elixirOfLife",
+          "name": "Elixir of Life",
+          "effect": "Any Amazon with this Elixir may re-roll a Serious Injury roll once after the battle, accepting the result of the second roll."
+        },
+        {
+          "id": "mesmerisingDance",
+          "name": "Mesmerising Dance",
+          "effect": "Any model fighting in base contact with the Amazon must take a Leadership test at the start of each turn. If they fail they cannot attack that turn, but may defend themselves. The dance is useless against Lizardmen and Undead, who are immune to their charms."
+        },
+        {
+          "id": "savageFury",
+          "name": "Savage Fury",
+          "effect": "The Amazon receives +1 Attack when charging and is immune to charm effects and fear."
+        },
+        {
+          "id": "concealment",
+          "name": "Concealment",
+          "effect": "When hiding in jungle terrain, all enemy models must halve the range at which they can spot her."
+        }
+      ]
+    },
+    "lizardmenSkink": {
+      "name": "Lizardmen Special Skills — Skinks (Town Cryer #11)",
+      "skills": [
+        {
+          "id": "infiltration",
+          "name": "Infiltration",
+          "effect": "The Hero may set up anywhere on the table but no closer than 12\" to an enemy, and must start the game hiding."
+        },
+        {
+          "id": "greatHunter",
+          "name": "Great Hunter",
+          "effect": "The Skink is adept at making the most of available cover and imposes an additional -1 to hit him while he is in cover, i.e. a -2 to hit penalty."
+        }
+      ]
+    },
+    "lizardmenSaurus": {
+      "name": "Lizardmen Special Skills — Saurus (Town Cryer #11)",
+      "skills": [
+        {
+          "id": "bellowingBattleRoar",
+          "name": "Bellowing Battle Roar",
+          "effect": "The Saurus' roar is so deafening that enemy models in base contact suffer -1 to hit in the first round of combat against him."
+        },
+        {
+          "id": "toughenedHide",
+          "name": "Toughened Hide",
+          "effect": "Through years of battle the Saurus' hide has hardened, and he will only be taken out of action on a 6+."
+        }
+      ]
+    },
+    "battleMonk": {
+      "name": "Battle Monks Special Skills (Border Town Burning)",
+      "skills": [
+        {
+          "id": "energyFocus",
+          "name": "Energy Focus",
+          "effect": "If fighting unarmed, the Hero may reduce his Attacks by -1 to gain +1 Strength in close combat. He may sacrifice any number of attacks this way."
+        },
+        {
+          "id": "lightningSpeed",
+          "name": "Lightning Speed",
+          "effect": "The monk may triple his Movement when running or charging, and may run even when there are enemy models within 8\"."
+        },
+        {
+          "id": "leapOfFaith",
+          "name": "Leap of Faith",
+          "effect": "The Hero cannot be intercepted while charging. He may escape from combat by leaping away without having to pass a Leadership test, and may declare a leaping charge in the same turn."
+        },
+        {
+          "id": "humanShield",
+          "name": "Human Shield",
+          "effect": "If two or more models are engaged in close combat with the monk, he may grab one to use as a shield instead of making his normal attacks. He must pass an Initiative test after the first model has attacked but before the second does. On a success he grabs the first model and the second directs its full attacks at that friendly model; after the combat phase the model breaks free. On a failure both the monk and the second model use their normal attacks."
+        },
+        {
+          "id": "warmonger",
+          "name": "Warmonger",
+          "effect": "Emissary only. The Emissary may make a Leadership test before the battle. If it succeeds, D3+1 Raging Peasants join the warband for the next game, which may exceed the maximum number of warriors. Each Raging Peasant is subject to Hatred for the duration of that battle."
         }
       ]
     }

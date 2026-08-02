@@ -1,0 +1,221 @@
+{
+  "id": "black-orcs",
+  "name": "Black Orcs",
+  "source": "Nemesis Crown supplement (Grade 1b), Nemesis Crown setting. Text supplied directly by the owner on 2026-08-02; cross-check against your own copy. Racial maximums are not given in the source and are left unverified, matching the existing Orc Mob entry. The Animosity rules the entry points at are the 2002 Annual version, which triggers on a D6 roll of 1 rather than a Leadership test — the henchmen entries below say 'Ld Test', which the source itself flags as a probable misprint.",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "blackOrcBoss",
+      "unitType": "Black Orc Boss",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 90,
+      "startingXp": 20,
+      "skillLists": ["combat", "shooting", "strength", "speed", "blackOrc"],
+      "statLine": { "M": 4, "WS": 4, "BS": 4, "S": 4, "T": 4, "W": 1, "I": 3, "A": 1, "Ld": 8 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["blackOrcList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any warrior within 6\" of the Boss may use his Leadership characteristic when taking Leadership tests."
+        },
+        {
+          "name": "Black Orc",
+          "description": "Starts with a natural 6+ Armour save. This save may be combined with other equipment to improve it."
+        },
+        {
+          "name": "Oi Behave!",
+          "description": "If any Henchman fails his Animosity test within 6\" of the Boss, the player may have the Boss stamp his authority on the situation. The misbehaving Henchman takes an automatic hit at a Strength of the Orc player's choosing. If he is still on his feet afterwards, he adds a number equal to that Strength to his subsequent Animosity effect roll."
+        }
+      ]
+    },
+    {
+      "id": "blackOrc",
+      "unitType": "Black Orc",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 60,
+      "startingXp": 8,
+      "skillLists": ["combat", "shooting", "strength", "speed", "blackOrc"],
+      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 4, "T": 4, "W": 1, "I": 3, "A": 1, "Ld": 7 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["blackOrcList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Black Orc",
+          "description": "Starts with a natural 6+ Armour save. This save may be combined with other equipment to improve it."
+        }
+      ]
+    },
+    {
+      "id": "younguns",
+      "unitType": "Young'uns",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 25,
+      "startingXp": 0,
+      "skillLists": ["combat", "shooting", "blackOrc"],
+      "statLine": { "M": 4, "WS": 2, "BS": 2, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 6 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["henchmenList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Black Orc Blood",
+          "description": "One Young'un may be upgraded to a Black Orc Young'un for 10 gc. The upgrade allows him to take the 'Proven Warrior' skill, making him a fully-fledged Black Orc Warrior."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "orcBoyz",
+      "unitType": "Orc Boyz",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 6 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["henchmenList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Animosity",
+          "description": "At the start of each of the Orc player's turns, roll a D6 for this warrior. On a 1 he has taken offence at something one of his mates has done or said; roll again on the Animosity chart for the effect. Do not roll for models already engaged in hand-to-hand combat."
+        }
+      ]
+    },
+    {
+      "id": "orcShootaz",
+      "unitType": "Orc Shootaz",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 6 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["henchmenList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Animosity",
+          "description": "At the start of each of the Orc player's turns, roll a D6 for this warrior. On a 1 he has taken offence; roll again on the Animosity chart for the effect. Do not roll for models already engaged in hand-to-hand combat."
+        },
+        {
+          "name": "Uncommon",
+          "description": "A warband may not hire more Shootaz than it has Boyz. If a Boy dies and the Shootaz outnumber the Boyz, the next hire must be a Boy to restore the balance."
+        }
+      ]
+    },
+    {
+      "id": "orcNuttaz",
+      "unitType": "Orc Nuttaz",
+      "cost": 40,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 4,
+      "statLine": { "M": 4, "WS": 3, "BS": 2, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 5 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": ["henchmenList"],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Unstable",
+          "description": "Nuttaz do not suffer from Animosity, but have a host of their own issues instead."
+        },
+        {
+          "name": "Crazy",
+          "description": "Nuttaz always pass any Leadership-based tests they have to take. Their minds are too far gone to learn Academic skills, should one become a Hero on an Advance roll."
+        },
+        {
+          "name": "Savage",
+          "description": "Nuttaz must always run or charge their maximum distance towards the nearest opponent they can see; friendly models do not block line of sight. They fight with an extra attack in combat, which does not appear on their profile and does not count towards the racial maximum. If no enemy is visible they move under the player's control. They can never use any form of armour or ranged weapons, can never have the Leader ability, and their Leadership may not be used for Rout tests unless they are the only models left on the board."
+        }
+      ]
+    },
+    {
+      "id": "troll",
+      "unitType": "Troll",
+      "cost": 200,
+      "isAnimal": true,
+      "isLargeCreature": true,
+      "maxCount": 1,
+      "statLine": { "M": 6, "WS": 3, "BS": 1, "S": 5, "T": 4, "W": 3, "I": 1, "A": 3, "Ld": 4 },
+      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "equipmentOptions": [],
+      "notes": "Trolls do not require weapons to fight but often carry a big club. They can never be given weapons or armour.",
+      "specialRules": [
+        { "name": "Fear", "description": "Trolls are frightening monsters which cause fear." },
+        { "name": "Stupidity", "description": "A Troll is subject to the rules for stupidity." },
+        {
+          "name": "Regeneration",
+          "description": "Whenever an enemy successfully inflicts a wound on a Troll, roll a D6: on a 4 or more the wound is ignored and the Troll is unhurt. Trolls may not regenerate wounds caused by fire or fire-based magic. Trolls never roll for Injury after a battle unless they were taken out of action by a flaming weapon or spell, in which case they roll as a normal Henchman."
+        },
+        {
+          "name": "Dumb Monster",
+          "description": "A Troll is far too stupid to learn any new skills. Trolls do not gain experience."
+        },
+        {
+          "name": "Always Hungry",
+          "description": "The warband must pay 20 gold crowns after every game to keep the Troll. If it lacks the gold, the Boss may instead have the Troll count as 2 members, reducing the upkeep to 5 crowns — which effectively drops the maximum warband size to 11 models."
+        },
+        {
+          "name": "Vomit Attack",
+          "description": "Instead of his normal attacks, a Troll may regurgitate his corrosive digestive juices over a hand-to-hand opponent. This is a single attack that automatically hits at Strength 5 and ignores armour saves."
+        },
+        { "name": "Large Target", "description": "Trolls are Large Targets as defined in the shooting rules." }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "blackOrcList": [
+      "dagger",
+      "axe",
+      "sword",
+      "choppa",
+      "spear",
+      "doubleHandedWeapon",
+      "bow",
+      "crossbow",
+      "buckler",
+      "shield",
+      "helmet",
+      "lightArmour",
+      "heavyArmour"
+    ],
+    "henchmenList": [
+      "dagger",
+      "axe",
+      "sword",
+      "choppa",
+      "spear",
+      "doubleHandedWeapon",
+      "bow",
+      "crossbow",
+      "shield",
+      "helmet",
+      "lightArmour"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "choppa",
+      "name": "Choppa",
+      "category": "melee",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "Orc warbands",
+      "rulesText": "Counts as a morning star in every respect."
+    }
+  ],
+  "specialRules": "Black Orcs (Nemesis Crown). Let the goons do the work: Black Orcs rely on themselves to do the killing and never ride mounts of any kind — only normal Orcs may ride a boar or similar. | Da Boss is Dead!: if the Boss is killed, a Black Orc always assumes leadership of the warband before any other type, regardless of relative experience, and automatically acquires the 'Oi Behave!' skill. | Animosity: at the start of the Orc player's turn, roll a D6 for each Henchman who is an Orc or a Goblin. On a 1 the warrior has taken offence at one of his mates; roll again and consult the Animosity chart. Do not roll for models engaged in hand-to-hand combat. | Min warband size 3, max 12. Shootaz may never outnumber Boyz. | Racial maximums are not given in the source and are left unverified."
+}

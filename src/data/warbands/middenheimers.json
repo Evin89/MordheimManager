@@ -261,8 +261,7 @@
   "equipmentLists": {
     "mercenaryEquipmentList": [
       "dagger",
-      "mace",
-      "hammer",
+      "clubMaceHammer",
       "axe",
       "sword",
       "morningStar",
@@ -281,8 +280,7 @@
     ],
     "marksmanEquipmentList": [
       "dagger",
-      "mace",
-      "hammer",
+      "clubMaceHammer",
       "axe",
       "sword",
       "crossbow",

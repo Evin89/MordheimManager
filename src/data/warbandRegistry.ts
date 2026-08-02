@@ -15,6 +15,12 @@ import dwarfTreasureHunters from './warbands/dwarf-treasure-hunters.json';
 import kislevites from './warbands/kislevites.json';
 import orcMob from './warbands/orc-mob.json';
 import ostlanders from './warbands/ostlanders.json';
+import blackOrcs from './warbands/black-orcs.json';
+import amazonsMordheim from './warbands/amazons-mordheim.json';
+import amazonsLustria from './warbands/amazons-lustria.json';
+import lizardmen from './warbands/lizardmen.json';
+import gunnerySchoolOfNuln from './warbands/gunnery-school-of-nuln.json';
+import battleMonksOfCathay from './warbands/battle-monks-of-cathay.json';
 
 // Every playable warband definition, keyed by id. Add new warbands here as
 // their data files are populated.
@@ -35,6 +41,12 @@ export const warbandDefinitions: WarbandDefinition[] = [
   kislevites,
   orcMob,
   ostlanders,
+  blackOrcs,
+  amazonsMordheim,
+  amazonsLustria,
+  lizardmen,
+  gunnerySchoolOfNuln,
+  battleMonksOfCathay,
 ] as WarbandDefinition[];
 
 export function getWarbandDefinition(id: string): WarbandDefinition | undefined {
