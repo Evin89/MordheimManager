@@ -169,7 +169,7 @@
         "A": 4,
         "Ld": 10
       },
-      "notes": "From the 2002 Annual. The source lists Attacks as \"4+1\"; carried here as 4, since what the +1 applies to is not stated. TODO: verify vs the Annual."
+      "notes": "From the 2002 Annual. The source lists Attacks as \"4+1\": the ceiling is 4, and the +1 is the separate Bite Attack special rule every Saurus has. Same convention as their starting line, which the warband data lists as \"A 1+1\"."
     },
     "skink": {
       "id": "skink",
