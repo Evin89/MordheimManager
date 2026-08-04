@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "beastmenChieftain",
+      "racialProfile": "otherBeastmen",
       "unitType": "Beastmen Chieftain",
       "isLeader": true,
       "isLargeCreature": false,
@@ -55,6 +56,7 @@
     },
     {
       "id": "beastmenShaman",
+      "racialProfile": "otherBeastmen",
       "unitType": "Beastmen Shaman",
       "isLeader": false,
       "isLargeCreature": false,
@@ -105,6 +107,7 @@
     },
     {
       "id": "bestigors",
+      "racialProfile": "otherBeastmen",
       "unitType": "Bestigors",
       "isLeader": false,
       "isLargeCreature": false,
@@ -146,6 +149,7 @@
     },
     {
       "id": "centigors",
+      "racialProfile": "centigor",
       "unitType": "Centigors",
       "isLeader": false,
       "isLargeCreature": false,
@@ -202,6 +206,7 @@
   "henchmenTypes": [
     {
       "id": "ungor",
+      "racialProfile": "ungor",
       "unitType": "Ungor",
       "cost": 25,
       "isAnimal": false,
@@ -242,6 +247,7 @@
     },
     {
       "id": "gor",
+      "racialProfile": "otherBeastmen",
       "unitType": "Gor",
       "cost": 35,
       "isAnimal": false,
@@ -315,6 +321,7 @@
     },
     {
       "id": "minotaur",
+      "racialProfile": "minotaur",
       "unitType": "Minotaur",
       "cost": 200,
       "isAnimal": false,

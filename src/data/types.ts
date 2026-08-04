@@ -25,6 +25,16 @@ export type HeroSlotDefinition = {
   startingXp: number | null;
   skillLists: string[]; // keys into skills.json `lists`
   statLine: NullableStatLine;
+  /**
+   * Which racial ceiling this unit advances against — a key into
+   * racialMaximums.json. Preferred over `statMaximums` below, which is kept
+   * only for units whose race has no published profile.
+   *
+   * Omitted for anything that cannot gain Experience: a model that never
+   * advances has no use for a ceiling, and inventing one implies it could.
+   */
+  racialProfile?: string;
+  /** Per-unit override. Used only where `racialProfile` is absent. */
   statMaximums: NullableStatLine;
   equipmentOptions: string[]; // keys into equipment.json, or category names
   /** Spell/prayer/ritual lists this unit may draw on — ids into spells.json.
@@ -47,6 +57,9 @@ export type HenchmenTypeDefinition = {
   isLargeCreature: boolean;
   maxCount: number | null;
   statLine: NullableStatLine;
+  /** See HeroSlotDefinition. Absent for animals and anything else that never
+   * gains Experience. */
+  racialProfile?: string;
   statMaximums: NullableStatLine;
   equipmentOptions: string[];
   notes: string;
@@ -232,6 +245,8 @@ export type HiredSwordDefinition = {
   mayBeHiredBy: string; // free text describing eligible warbands/exceptions
   ratingBonus: string; // free text, e.g. "+22 points, plus 1 per Experience point"
   statLine: NullableStatLine;
+  /** See HeroSlotDefinition. */
+  racialProfile?: string;
   equipment: string;
   skillLists: string[];
   /** See HeroSlotDefinition. The Warlock is the only Hired Sword who casts. */
@@ -451,6 +466,29 @@ export type RuleEntry = {
 
 /** What a list is called in its own source, which decides the UI heading —
  * a priest prays, a shaman performs rituals, only a wizard casts spells. */
+/**
+ * A racial maximum profile: the ceiling a warrior of that race may advance to.
+ *
+ * Held once, globally, rather than copied onto every unit. Sixty-odd units
+ * repeating the same nine Human numbers is sixty places for one of them to be
+ * wrong, and seventeen hero slots had no maximums at all because nobody had
+ * filled them in.
+ */
+export type RacialProfile = {
+  id: string;
+  name: string;
+  /** A BS of 0 means the creature cannot shoot at all. */
+  statMaximums: StatLine;
+  notes?: string;
+};
+
+export type RacialMaximumsData = {
+  schemaVersion: number;
+  source: string;
+  notes: string;
+  profiles: Record<string, RacialProfile>;
+};
+
 export type SpellListKind = 'magic' | 'prayer' | 'ritual';
 
 export type Spell = {

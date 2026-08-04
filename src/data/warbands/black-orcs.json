@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "blackOrcBoss",
+      "racialProfile": "blackOrc",
       "unitType": "Black Orc Boss",
       "isLeader": true,
       "isLargeCreature": false,
@@ -36,6 +37,7 @@
     },
     {
       "id": "blackOrc",
+      "racialProfile": "blackOrc",
       "unitType": "Black Orc",
       "isLeader": false,
       "isLargeCreature": false,
@@ -56,6 +58,7 @@
     },
     {
       "id": "younguns",
+      "racialProfile": "orc",
       "unitType": "Young'uns",
       "isLeader": false,
       "isLargeCreature": false,
@@ -78,6 +81,7 @@
   "henchmenTypes": [
     {
       "id": "orcBoyz",
+      "racialProfile": "orc",
       "unitType": "Orc Boyz",
       "cost": 25,
       "isAnimal": false,
@@ -96,6 +100,7 @@
     },
     {
       "id": "orcShootaz",
+      "racialProfile": "orc",
       "unitType": "Orc Shootaz",
       "cost": 25,
       "isAnimal": false,
@@ -118,6 +123,7 @@
     },
     {
       "id": "orcNuttaz",
+      "racialProfile": "orc",
       "unitType": "Orc Nuttaz",
       "cost": 40,
       "isAnimal": false,

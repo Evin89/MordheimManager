@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "emissary",
+      "racialProfile": "human",
       "unitType": "Emissary",
       "isLeader": true,
       "isLargeCreature": false,
@@ -30,6 +31,7 @@
     },
     {
       "id": "officer",
+      "racialProfile": "human",
       "unitType": "Officer",
       "isLeader": false,
       "isLargeCreature": false,
@@ -45,6 +47,7 @@
     },
     {
       "id": "dragonMonk",
+      "racialProfile": "human",
       "unitType": "Dragon Monk",
       "isLeader": false,
       "isLargeCreature": false,
@@ -75,6 +78,7 @@
   "henchmenTypes": [
     {
       "id": "soldiers",
+      "racialProfile": "human",
       "unitType": "Soldiers",
       "cost": 25,
       "isAnimal": false,
@@ -88,6 +92,7 @@
     },
     {
       "id": "warriorMonks",
+      "racialProfile": "human",
       "unitType": "Warrior Monks",
       "cost": 35,
       "isAnimal": false,
@@ -104,6 +109,7 @@
     },
     {
       "id": "ragingPeasants",
+      "racialProfile": "human",
       "unitType": "Raging Peasants",
       "cost": 10,
       "isAnimal": false,

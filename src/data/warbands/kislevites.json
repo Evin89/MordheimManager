@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "druzhinaCaptain",
+      "racialProfile": "human",
       "unitType": "Druzhina Captain",
       "isLeader": true,
       "isLargeCreature": false,
@@ -60,6 +61,7 @@
     },
     {
       "id": "esaul",
+      "racialProfile": "human",
       "unitType": "Esaul",
       "isLeader": false,
       "isLargeCreature": false,
@@ -101,6 +103,7 @@
     },
     {
       "id": "bearTamer",
+      "racialProfile": "human",
       "unitType": "Bear Tamer",
       "isLeader": false,
       "isLargeCreature": false,
@@ -147,6 +150,7 @@
     },
     {
       "id": "youths",
+      "racialProfile": "human",
       "unitType": "Youths",
       "isLeader": false,
       "isLargeCreature": false,
@@ -190,6 +194,7 @@
   "henchmenTypes": [
     {
       "id": "warriors",
+      "racialProfile": "human",
       "unitType": "Warriors",
       "cost": 25,
       "isAnimal": false,
@@ -225,6 +230,7 @@
     },
     {
       "id": "cossacks",
+      "racialProfile": "human",
       "unitType": "Cossacks",
       "cost": 30,
       "isAnimal": false,
@@ -265,6 +271,7 @@
     },
     {
       "id": "streltsi",
+      "racialProfile": "human",
       "unitType": "Streltsi",
       "cost": 25,
       "isAnimal": false,

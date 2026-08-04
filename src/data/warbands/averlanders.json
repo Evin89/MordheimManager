@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "captain",
+      "racialProfile": "human",
       "unitType": "Captain",
       "isLeader": true,
       "isLargeCreature": false,
@@ -56,6 +57,7 @@
     },
     {
       "id": "sergeant",
+      "racialProfile": "human",
       "unitType": "Sergeant",
       "isLeader": false,
       "isLargeCreature": false,
@@ -97,6 +99,7 @@
     },
     {
       "id": "bergjaeger",
+      "racialProfile": "human",
       "unitType": "Bergjaeger",
       "isLeader": false,
       "isLargeCreature": false,
@@ -142,6 +145,7 @@
     },
     {
       "id": "youngblood",
+      "racialProfile": "human",
       "unitType": "Youngblood",
       "isLeader": false,
       "isLargeCreature": false,
@@ -185,6 +189,7 @@
   "henchmenTypes": [
     {
       "id": "mountainguard",
+      "racialProfile": "human",
       "unitType": "Mountainguard",
       "cost": 30,
       "isAnimal": false,
@@ -220,6 +225,7 @@
     },
     {
       "id": "marksmen",
+      "racialProfile": "human",
       "unitType": "Marksmen",
       "cost": 25,
       "isAnimal": false,
@@ -255,6 +261,7 @@
     },
     {
       "id": "halflingScouts",
+      "racialProfile": "halfling",
       "unitType": "Halfling Scouts",
       "cost": 20,
       "isAnimal": false,

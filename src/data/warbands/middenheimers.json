@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "captain",
+      "racialProfile": "human",
       "unitType": "Mercenary Captain",
       "isLeader": true,
       "isLargeCreature": false,
@@ -60,6 +61,7 @@
     },
     {
       "id": "champion",
+      "racialProfile": "human",
       "unitType": "Champion",
       "isLeader": false,
       "isLargeCreature": false,
@@ -106,6 +108,7 @@
     },
     {
       "id": "youngblood",
+      "racialProfile": "human",
       "unitType": "Youngblood",
       "isLeader": false,
       "isLargeCreature": false,
@@ -149,6 +152,7 @@
   "henchmenTypes": [
     {
       "id": "warriors",
+      "racialProfile": "human",
       "unitType": "Warriors",
       "cost": 25,
       "isAnimal": false,
@@ -184,6 +188,7 @@
     },
     {
       "id": "marksmen",
+      "racialProfile": "human",
       "unitType": "Marksmen",
       "cost": 25,
       "isAnimal": false,
@@ -219,6 +224,7 @@
     },
     {
       "id": "swordsmen",
+      "racialProfile": "human",
       "unitType": "Swordsmen",
       "cost": 35,
       "isAnimal": false,

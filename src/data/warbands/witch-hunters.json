@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "captain",
+      "racialProfile": "human",
       "unitType": "Witch Hunter Captain",
       "isLeader": true,
       "isLargeCreature": false,
@@ -56,6 +57,7 @@
     },
     {
       "id": "warriorPriest",
+      "racialProfile": "human",
       "unitType": "Warrior-Priest",
       "isLeader": false,
       "isLargeCreature": false,
@@ -106,6 +108,7 @@
     },
     {
       "id": "witchHunters",
+      "racialProfile": "human",
       "unitType": "Witch Hunters",
       "isLeader": false,
       "isLargeCreature": false,
@@ -150,6 +153,7 @@
   "henchmenTypes": [
     {
       "id": "zealots",
+      "racialProfile": "human",
       "unitType": "Zealots",
       "cost": 20,
       "isAnimal": false,
@@ -185,6 +189,7 @@
     },
     {
       "id": "flagellants",
+      "racialProfile": "human",
       "unitType": "Flagellants",
       "cost": 40,
       "isAnimal": false,
@@ -242,15 +247,15 @@
         "Ld": 5
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+         "M": 6,
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 5
       },
       "equipmentOptions": [],
       "notes": "",

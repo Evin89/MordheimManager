@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "carnivalMaster",
+      "racialProfile": "human",
       "unitType": "Carnival Master",
       "isLeader": true,
       "isLargeCreature": false,
@@ -64,6 +65,7 @@
     },
     {
       "id": "brutes",
+      "racialProfile": "human",
       "unitType": "Brutes",
       "isLeader": false,
       "isLargeCreature": false,
@@ -110,6 +112,7 @@
     },
     {
       "id": "taintedOnes",
+      "racialProfile": "human",
       "unitType": "Tainted Ones",
       "isLeader": false,
       "isLargeCreature": false,
@@ -253,6 +256,7 @@
     },
     {
       "id": "brethren",
+      "racialProfile": "human",
       "unitType": "Brethren",
       "cost": 25,
       "isAnimal": false,

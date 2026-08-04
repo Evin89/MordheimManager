@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "matriarch",
+      "racialProfile": "human",
       "unitType": "Sigmarite Matriarch",
       "isLeader": true,
       "isLargeCreature": false,
@@ -60,6 +61,7 @@
     },
     {
       "id": "sisterSuperior",
+      "racialProfile": "human",
       "unitType": "Sister Superior",
       "isLeader": false,
       "isLargeCreature": false,
@@ -103,6 +105,7 @@
     },
     {
       "id": "augur",
+      "racialProfile": "human",
       "unitType": "Augur",
       "isLeader": false,
       "isLargeCreature": false,
@@ -151,6 +154,7 @@
   "henchmenTypes": [
     {
       "id": "novices",
+      "racialProfile": "human",
       "unitType": "Novices",
       "cost": 15,
       "isAnimal": false,
@@ -186,6 +190,7 @@
     },
     {
       "id": "sisters",
+      "racialProfile": "human",
       "unitType": "Sigmarite Sisters",
       "cost": 25,
       "isAnimal": false,

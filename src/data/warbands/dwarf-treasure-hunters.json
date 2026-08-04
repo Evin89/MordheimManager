@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "dwarfNoble",
+      "racialProfile": "dwarf",
       "unitType": "Dwarf Noble",
       "isLeader": true,
       "isLargeCreature": false,
@@ -55,6 +56,7 @@
     },
     {
       "id": "dwarfEngineer",
+      "racialProfile": "dwarf",
       "unitType": "Dwarf Engineer",
       "isLeader": false,
       "isLargeCreature": false,
@@ -101,6 +103,7 @@
     },
     {
       "id": "trollSlayers",
+      "racialProfile": "dwarf",
       "unitType": "Dwarf Troll Slayers",
       "isLeader": false,
       "isLargeCreature": false,
@@ -154,6 +157,7 @@
   "henchmenTypes": [
     {
       "id": "dwarfClansmen",
+      "racialProfile": "dwarf",
       "unitType": "Dwarf Clansmen",
       "cost": 40,
       "isAnimal": false,
@@ -189,6 +193,7 @@
     },
     {
       "id": "dwarfThunderers",
+      "racialProfile": "dwarf",
       "unitType": "Dwarf Thunderers",
       "cost": 40,
       "isAnimal": false,
@@ -224,6 +229,7 @@
     },
     {
       "id": "beardlings",
+      "racialProfile": "dwarf",
       "unitType": "Beardlings",
       "cost": 25,
       "isAnimal": false,

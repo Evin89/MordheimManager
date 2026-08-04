@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "seniorGunneryOfficer",
+      "racialProfile": "human",
       "unitType": "Senior Gunnery Officer",
       "isLeader": true,
       "isLargeCreature": false,
@@ -29,6 +30,7 @@
     },
     {
       "id": "instructor",
+      "racialProfile": "human",
       "unitType": "Instructor",
       "isLeader": false,
       "isLargeCreature": false,
@@ -49,6 +51,7 @@
     },
     {
       "id": "seniorStudent",
+      "racialProfile": "human",
       "unitType": "Senior Student",
       "isLeader": false,
       "isLargeCreature": false,
@@ -64,6 +67,7 @@
     },
     {
       "id": "underclassmen",
+      "racialProfile": "human",
       "unitType": "Underclassmen",
       "isLeader": false,
       "isLargeCreature": false,
@@ -81,6 +85,7 @@
   "henchmenTypes": [
     {
       "id": "sonsOfTheGuns",
+      "racialProfile": "human",
       "unitType": "Sons of the Guns",
       "cost": 25,
       "isAnimal": false,
@@ -94,6 +99,7 @@
     },
     {
       "id": "marksmen",
+      "racialProfile": "human",
       "unitType": "Marksmen",
       "cost": 30,
       "isAnimal": false,
@@ -112,6 +118,7 @@
     },
     {
       "id": "pistoliers",
+      "racialProfile": "human",
       "unitType": "Pistoliers",
       "cost": 35,
       "isAnimal": false,

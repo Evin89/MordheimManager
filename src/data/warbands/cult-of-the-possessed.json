@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "magister",
+      "racialProfile": "human",
       "unitType": "Magister",
       "isLeader": true,
       "isLargeCreature": false,
@@ -62,6 +63,7 @@
     },
     {
       "id": "possessed",
+      "racialProfile": "possessed",
       "unitType": "The Possessed",
       "isLeader": false,
       "isLargeCreature": false,
@@ -101,6 +103,7 @@
     },
     {
       "id": "mutants",
+      "racialProfile": "human",
       "unitType": "Mutants",
       "isLeader": false,
       "isLargeCreature": false,
@@ -143,6 +146,7 @@
   "henchmenTypes": [
     {
       "id": "beastmen",
+      "racialProfile": "otherBeastmen",
       "unitType": "Beastmen (Gors)",
       "cost": 45,
       "isAnimal": false,
@@ -178,6 +182,7 @@
     },
     {
       "id": "darksouls",
+      "racialProfile": "human",
       "unitType": "Darksouls",
       "cost": 35,
       "isAnimal": false,
@@ -218,6 +223,7 @@
     },
     {
       "id": "brethren",
+      "racialProfile": "human",
       "unitType": "Brethren",
       "cost": 25,
       "isAnimal": false,

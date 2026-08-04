@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "assassinAdept",
+      "racialProfile": "skaven",
       "unitType": "Assassin Adept",
       "isLeader": true,
       "isLargeCreature": false,
@@ -33,15 +34,15 @@
         "Ld": 7
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+        "M": 6,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 7,
+        "A": 4,
+        "Ld": 7
       },
       "equipmentOptions": [
         "skavenHeroesEquipmentList"
@@ -60,6 +61,7 @@
     },
     {
       "id": "eshinSorcerer",
+      "racialProfile": "skaven",
       "unitType": "Eshin Sorcerer",
       "isLeader": false,
       "isLargeCreature": false,
@@ -110,6 +112,7 @@
     },
     {
       "id": "blackSkaven",
+      "racialProfile": "skaven",
       "unitType": "Black Skaven",
       "isLeader": false,
       "isLargeCreature": false,
@@ -153,6 +156,7 @@
     },
     {
       "id": "nightRunners",
+      "racialProfile": "skaven",
       "unitType": "Night Runners",
       "isLeader": false,
       "isLargeCreature": false,
@@ -196,6 +200,7 @@
   "henchmenTypes": [
     {
       "id": "verminkin",
+      "racialProfile": "skaven",
       "unitType": "Verminkin",
       "cost": 20,
       "isAnimal": false,

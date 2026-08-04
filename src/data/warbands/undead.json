@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "vampire",
+      "racialProfile": "vampire",
       "unitType": "Vampire",
       "isLeader": true,
       "isLargeCreature": false,
@@ -32,15 +33,15 @@
         "Ld": 8
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+        "M": 6,
+        "WS": 8,
+        "BS": 6,
+        "S": 7,
+        "T": 6,
+        "W": 4,
+        "I": 9,
+        "A": 4,
+        "Ld": 10
       },
       "equipmentOptions": [
         "undeadEquipmentList"
@@ -63,6 +64,7 @@
     },
     {
       "id": "necromancer",
+      "racialProfile": "human",
       "unitType": "Necromancer",
       "isLeader": false,
       "isLargeCreature": false,
@@ -112,6 +114,7 @@
     },
     {
       "id": "dregs",
+      "racialProfile": "human",
       "unitType": "Dregs",
       "isLeader": false,
       "isLargeCreature": false,
@@ -154,6 +157,7 @@
   "henchmenTypes": [
     {
       "id": "ghouls",
+      "racialProfile": "ghoul",
       "unitType": "Ghouls",
       "cost": 40,
       "isAnimal": false,
@@ -171,15 +175,15 @@
         "Ld": 5
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+        "M": 5,
+        "WS": 5,
+        "BS": 2,
+        "S": 4,
+        "T": 5,
+        "W": 3,
+        "I": 5,
+        "A": 5,
+        "Ld": 7
       },
       "equipmentOptions": [],
       "notes": "Cause fear. Never carry equipment (bare teeth and claws). These henchmen DO gain experience. statMaximums null: fill from the Maximum Profile table.",
@@ -204,15 +208,15 @@
         "Ld": 5
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+        "M": 4,
+        "WS": 2,
+        "BS": 0,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 1,
+        "A": 1,
+        "Ld": 5
       },
       "equipmentOptions": [],
       "notes": "Cause fear. May not run (may charge). Immune to Poison. No Pain.",
@@ -246,15 +250,15 @@
         "Ld": 4
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+         "M": 9,
+        "WS": 3,
+        "BS": 0,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 4
       },
       "equipmentOptions": [],
       "notes": "",

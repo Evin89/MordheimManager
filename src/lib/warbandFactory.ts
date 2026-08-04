@@ -1,6 +1,7 @@
 import { HenchmenTypeDefinition, HeroSlotDefinition, HiredSwordDefinition, WarbandDefinition } from '../data/types';
 import { generateId } from './id';
 import { resolveStatLine } from './statLine';
+import { resolveStatMaximums } from './racialMaximums';
 import { EquipmentItem, Hero, HenchmenGroup, HiredSword, Warband, WARBAND_SCHEMA_VERSION } from '../types';
 
 /**
@@ -45,7 +46,14 @@ function composeModelNotes(sourceNotes: string, statsWarning: boolean): string {
 
 export function createHeroFromSlot(slot: HeroSlotDefinition, name: string): Hero {
   const { stats, hadMissingStats } = resolveStatLine(slot.statLine);
-  const { stats: statMaximums, hadMissingStats: maxesMissing } = resolveStatLine(slot.statMaximums);
+  // Racial ceiling first (racialMaximums.json), the unit's own numbers only
+  // where its race has no published profile. Thirty-one units reached here with
+  // nothing at all before the profiles existed, and silently got a line of
+  // zeroes — which reads as "every stat is already at its maximum".
+  const racial = resolveStatMaximums(slot);
+  const fallback = resolveStatLine(slot.statMaximums);
+  const statMaximums = racial ?? fallback.stats;
+  const maxesMissing = racial === null && fallback.hadMissingStats;
 
   return {
     id: generateId(),
@@ -130,9 +138,10 @@ export function createHiredSwordFromDefinition(
     isLargeCreature: false,
     countsTowardMax: false,
     stats,
-    // The source lists no separate maximums for Hired Swords, so their starting
-    // line doubles as the ceiling rather than inventing one.
-    statMaximums: stats,
+    // Racial ceiling where the Hired Sword's entry names a race; otherwise its
+    // starting line doubles as the ceiling, since the source lists no separate
+    // maximums for Hired Swords and inventing one would be a guess.
+    statMaximums: resolveStatMaximums(definition) ?? stats,
     xp: 0,
     startingXp: 0,
     advances: [],

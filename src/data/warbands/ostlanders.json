@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "elder",
+      "racialProfile": "human",
       "unitType": "Elder",
       "isLeader": true,
       "isLargeCreature": false,
@@ -56,6 +57,7 @@
     },
     {
       "id": "bloodBrothers",
+      "racialProfile": "human",
       "unitType": "Blood-Brothers",
       "isLeader": false,
       "isLargeCreature": false,
@@ -97,6 +99,7 @@
     },
     {
       "id": "priestOfTaal",
+      "racialProfile": "human",
       "unitType": "Priest of Taal",
       "isLeader": false,
       "isLargeCreature": false,
@@ -153,6 +156,7 @@
   "henchmenTypes": [
     {
       "id": "kin",
+      "racialProfile": "human",
       "unitType": "Kin",
       "cost": 25,
       "isAnimal": false,
@@ -188,6 +192,7 @@
     },
     {
       "id": "jaeger",
+      "racialProfile": "human",
       "unitType": "Jaeger",
       "cost": 25,
       "isAnimal": false,
@@ -223,6 +228,7 @@
     },
     {
       "id": "ruffians",
+      "racialProfile": "human",
       "unitType": "Ruffians",
       "cost": 25,
       "isAnimal": false,
@@ -267,6 +273,7 @@
     },
     {
       "id": "ogre",
+      "racialProfile": "ogre",
       "unitType": "Ogre",
       "cost": 160,
       "isAnimal": false,
@@ -284,15 +291,15 @@
         "Ld": 7
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+        "M": 6,
+        "WS": 6,
+        "BS": 5,
+        "S": 5,
+        "T": 5,
+        "W": 5,
+        "I": 6,
+        "A": 5,
+        "Ld": 9
       },
       "equipmentOptions": [
         "ogreEquipmentList"

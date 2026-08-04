@@ -1,0 +1,447 @@
+{
+  "schemaVersion": 1,
+  "source": "The Mordheimer (mordheimer.net) Racial Maximum Characteristics",
+  "notes": "Racial maximums a warrior may advance to. Profiles other than Human, Elf, Dwarf, Ogre, Halfling, Possessed and Vampire come from their respective warband lists. A BS of 0 means the creature cannot shoot at all. Units that cannot gain Experience have no profile: they never advance, so a ceiling would be meaningless.",
+  "profiles": {
+    "human": {
+      "id": "human",
+      "name": "Human",
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      }
+    },
+    "elf": {
+      "id": "elf",
+      "name": "Elf",
+      "statMaximums": {
+        "M": 5,
+        "WS": 7,
+        "BS": 7,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 9,
+        "A": 4,
+        "Ld": 10
+      }
+    },
+    "dwarf": {
+      "id": "dwarf",
+      "name": "Dwarf",
+      "statMaximums": {
+        "M": 3,
+        "WS": 7,
+        "BS": 6,
+        "S": 4,
+        "T": 5,
+        "W": 3,
+        "I": 5,
+        "A": 4,
+        "Ld": 10
+      }
+    },
+    "ogre": {
+      "id": "ogre",
+      "name": "Ogre",
+      "statMaximums": {
+        "M": 6,
+        "WS": 6,
+        "BS": 5,
+        "S": 5,
+        "T": 5,
+        "W": 5,
+        "I": 6,
+        "A": 5,
+        "Ld": 9
+      },
+      "notes": "Updated in the 2005 Errata; the source marks this row as amended."
+    },
+    "halfling": {
+      "id": "halfling",
+      "name": "Halfling",
+      "statMaximums": {
+        "M": 4,
+        "WS": 5,
+        "BS": 7,
+        "S": 3,
+        "T": 3,
+        "W": 3,
+        "I": 9,
+        "A": 4,
+        "Ld": 10
+      },
+      "notes": "The source marks this row as amended."
+    },
+    "possessed": {
+      "id": "possessed",
+      "name": "Possessed",
+      "statMaximums": {
+        "M": 6,
+        "WS": 8,
+        "BS": 0,
+        "S": 6,
+        "T": 6,
+        "W": 4,
+        "I": 7,
+        "A": 5,
+        "Ld": 10
+      }
+    },
+    "vampire": {
+      "id": "vampire",
+      "name": "Vampire",
+      "statMaximums": {
+        "M": 6,
+        "WS": 8,
+        "BS": 6,
+        "S": 7,
+        "T": 6,
+        "W": 4,
+        "I": 9,
+        "A": 4,
+        "Ld": 10
+      }
+    },
+    "skaven": {
+      "id": "skaven",
+      "name": "Skaven",
+      "statMaximums": {
+        "M": 6,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 7,
+        "A": 4,
+        "Ld": 7
+      }
+    },
+    "skavenPestilens": {
+      "id": "skavenPestilens",
+      "name": "Skaven (Clan Pestilens)",
+      "statMaximums": {
+        "M": 5,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 5,
+        "W": 3,
+        "I": 7,
+        "A": 4,
+        "Ld": 7
+      }
+    },
+    "ghoul": {
+      "id": "ghoul",
+      "name": "Ghoul",
+      "statMaximums": {
+        "M": 5,
+        "WS": 5,
+        "BS": 2,
+        "S": 4,
+        "T": 5,
+        "W": 3,
+        "I": 5,
+        "A": 5,
+        "Ld": 7
+      }
+    },
+    "saurus": {
+      "id": "saurus",
+      "name": "Saurus",
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 0,
+        "S": 5,
+        "T": 5,
+        "W": 3,
+        "I": 4,
+        "A": 4,
+        "Ld": 10
+      },
+      "notes": "From the 2002 Annual. The source lists Attacks as \"4+1\"; carried here as 4, since what the +1 applies to is not stated. TODO: verify vs the Annual."
+    },
+    "skink": {
+      "id": "skink",
+      "name": "Skink",
+      "statMaximums": {
+        "M": 6,
+        "WS": 5,
+        "BS": 6,
+        "S": 4,
+        "T": 3,
+        "W": 3,
+        "I": 7,
+        "A": 4,
+        "Ld": 8
+      },
+      "notes": "From the 2002 Annual."
+    },
+    "goblin": {
+      "id": "goblin",
+      "name": "Goblin",
+      "statMaximums": {
+        "M": 4,
+        "WS": 5,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 7
+      }
+    },
+    "orc": {
+      "id": "orc",
+      "name": "Orc",
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 5,
+        "W": 3,
+        "I": 5,
+        "A": 4,
+        "Ld": 9
+      }
+    },
+    "blackOrc": {
+      "id": "blackOrc",
+      "name": "Black Orc",
+      "statMaximums": {
+        "M": 4,
+        "WS": 7,
+        "BS": 6,
+        "S": 5,
+        "T": 6,
+        "W": 3,
+        "I": 5,
+        "A": 4,
+        "Ld": 9
+      }
+    },
+    "werecreature": {
+      "id": "werecreature",
+      "name": "Werecreature (Norse Wulfen / Ulfwerenar)",
+      "statMaximums": {
+        "M": 8,
+        "WS": 6,
+        "BS": 0,
+        "S": 6,
+        "T": 5,
+        "W": 4,
+        "I": 7,
+        "A": 4,
+        "Ld": 9
+      }
+    },
+    "tombLord": {
+      "id": "tombLord",
+      "name": "Tomb Lord (Tomb Guardians)",
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 5,
+        "T": 5,
+        "W": 5,
+        "I": 5,
+        "A": 4,
+        "Ld": 9
+      }
+    },
+    "lichePriest": {
+      "id": "lichePriest",
+      "name": "Liche Priest & Acolyte (Tomb Guardians)",
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      }
+    },
+    "liche": {
+      "id": "liche",
+      "name": "Liche (Restless Dead)",
+      "statMaximums": {
+        "M": 5,
+        "WS": 4,
+        "BS": 4,
+        "S": 4,
+        "T": 4,
+        "W": 8,
+        "I": 6,
+        "A": 3,
+        "Ld": 10
+      }
+    },
+    "graveGuard": {
+      "id": "graveGuard",
+      "name": "Grave Guard (Restless Dead)",
+      "statMaximums": {
+        "M": 5,
+        "WS": 5,
+        "BS": 5,
+        "S": 4,
+        "T": 4,
+        "W": 4,
+        "I": 5,
+        "A": 4,
+        "Ld": 10
+      }
+    },
+    "bullCentaurBlackDwarfs": {
+      "id": "bullCentaurBlackDwarfs",
+      "name": "Bull Centaur (Black Dwarfs)",
+      "statMaximums": {
+        "M": 8,
+        "WS": 7,
+        "BS": 6,
+        "S": 5,
+        "T": 5,
+        "W": 4,
+        "I": 6,
+        "A": 5,
+        "Ld": 10
+      }
+    },
+    "bullCentaurHashut": {
+      "id": "bullCentaurHashut",
+      "name": "Bull Centaur (The Sons of Hashut)",
+      "statMaximums": {
+        "M": 7,
+        "WS": 7,
+        "BS": 3,
+        "S": 5,
+        "T": 5,
+        "W": 4,
+        "I": 4,
+        "A": 5,
+        "Ld": 9
+      }
+    },
+    "hobgoblin": {
+      "id": "hobgoblin",
+      "name": "Hobgoblin (The Sons of Hashut)",
+      "statMaximums": {
+        "M": 4,
+        "WS": 5,
+        "BS": 5,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 5,
+        "A": 3,
+        "Ld": 8
+      }
+    },
+    "marauderOfChaos": {
+      "id": "marauderOfChaos",
+      "name": "Marauder of Chaos",
+      "statMaximums": {
+        "M": 4,
+        "WS": 7,
+        "BS": 7,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 7,
+        "A": 4,
+        "Ld": 9
+      }
+    },
+    "warriorOfChaos": {
+      "id": "warriorOfChaos",
+      "name": "Warrior of Chaos",
+      "statMaximums": {
+        "M": 4,
+        "WS": 8,
+        "BS": 8,
+        "S": 5,
+        "T": 5,
+        "W": 3,
+        "I": 8,
+        "A": 5,
+        "Ld": 9
+      }
+    },
+    "ungor": {
+      "id": "ungor",
+      "name": "Ungor",
+      "statMaximums": {
+        "M": 6,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 7,
+        "A": 4,
+        "Ld": 7
+      }
+    },
+    "centigor": {
+      "id": "centigor",
+      "name": "Centigor",
+      "statMaximums": {
+        "M": 9,
+        "WS": 7,
+        "BS": 6,
+        "S": 4,
+        "T": 5,
+        "W": 4,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      }
+    },
+    "minotaur": {
+      "id": "minotaur",
+      "name": "Minotaur",
+      "statMaximums": {
+        "M": 6,
+        "WS": 6,
+        "BS": 5,
+        "S": 5,
+        "T": 5,
+        "W": 5,
+        "I": 6,
+        "A": 5,
+        "Ld": 9
+      }
+    },
+    "otherBeastmen": {
+      "id": "otherBeastmen",
+      "name": "Other Beastmen",
+      "statMaximums": {
+        "M": 5,
+        "WS": 7,
+        "BS": 6,
+        "S": 4,
+        "T": 5,
+        "W": 4,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "notes": "The source marks this row as amended."
+    }
+  }
+}

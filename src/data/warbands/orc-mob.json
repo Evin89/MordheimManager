@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "orcBoss",
+      "racialProfile": "orc",
       "unitType": "Orc Boss",
       "isLeader": true,
       "isLargeCreature": false,
@@ -33,15 +34,15 @@
         "Ld": 8
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 5,
+        "W": 3,
+        "I": 5,
+        "A": 4,
+        "Ld": 9
       },
       "equipmentOptions": [
         "orcEquipmentList"
@@ -56,6 +57,7 @@
     },
     {
       "id": "orcShaman",
+      "racialProfile": "orc",
       "unitType": "Orc Shaman",
       "isLeader": false,
       "isLargeCreature": false,
@@ -78,15 +80,15 @@
         "Ld": 7
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+         "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 5,
+        "W": 3,
+        "I": 5,
+        "A": 4,
+        "Ld": 9
       },
       "equipmentOptions": [
         "orcEquipmentList"
@@ -105,6 +107,7 @@
     },
     {
       "id": "orcBigUns",
+      "racialProfile": "orc",
       "unitType": "Orc Big 'Uns",
       "isLeader": false,
       "isLargeCreature": false,
@@ -129,15 +132,15 @@
         "Ld": 7
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+         "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 5,
+        "W": 3,
+        "I": 5,
+        "A": 4,
+        "Ld": 9
       },
       "equipmentOptions": [
         "orcEquipmentList"
@@ -149,6 +152,7 @@
   "henchmenTypes": [
     {
       "id": "orcBoyz",
+      "racialProfile": "orc",
       "unitType": "Orc Boyz",
       "cost": 25,
       "isAnimal": false,
@@ -166,15 +170,15 @@
         "Ld": 7
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+         "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 5,
+        "W": 3,
+        "I": 5,
+        "A": 4,
+        "Ld": 9
       },
       "equipmentOptions": [
         "orcEquipmentList"
@@ -189,6 +193,7 @@
     },
     {
       "id": "goblinWarriors",
+      "racialProfile": "goblin",
       "unitType": "Goblin Warriors",
       "cost": 15,
       "isAnimal": false,
@@ -206,15 +211,15 @@
         "Ld": 5
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+        "M": 4,
+        "WS": 5,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 7
       },
       "equipmentOptions": [
         "goblinEquipmentList"
@@ -255,14 +260,14 @@
       },
       "statMaximums": {
         "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 5
       },
       "equipmentOptions": [],
       "notes": "— and never more Cave Squigs than Goblin Warriors in the warband (not enforced by the app; check when recruiting). No weapons or armour, ever — big gob and brutality.",
@@ -304,15 +309,15 @@
         "Ld": 4
       },
       "statMaximums": {
-        "M": null,
-        "WS": null,
-        "BS": null,
-        "S": null,
-        "T": null,
-        "W": null,
-        "I": null,
-        "A": null,
-        "Ld": null
+        "M": 6,
+        "WS": 3,
+        "BS": 1,
+        "S": 5,
+        "T": 4,
+        "W": 3,
+        "I": 1,
+        "A": 3,
+        "Ld": 4
       },
       "equipmentOptions": [],
       "notes": "May never be given weapons or armour (often carries a big club anyway).",

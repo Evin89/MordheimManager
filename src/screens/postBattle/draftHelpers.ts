@@ -1,4 +1,5 @@
 import { generateId } from '../../lib/id';
+import { getUnitRacialMaximums } from '../../lib/racialMaximums';
 import { getSpell } from '../../lib/spellLookup';
 import { getWyrdstoneSellPrice } from '../../lib/wyrdstonePricing';
 import { countModels } from '../../lib/rating';
@@ -281,7 +282,10 @@ export function applyDraftToWarband(
         isLeader: false,
         isLargeCreature: group.isLargeCreature,
         stats: groupStats,
-        statMaximums: groupStats,
+        // The racial ceiling for his unit type, not the stats he happens to
+        // have. Using his own line froze the promoted model permanently: every
+        // stat already sat at its "maximum", so he could never advance again.
+        statMaximums: getUnitRacialMaximums(warband.warbandType, group.unitType) ?? groupStats,
         xp: groupXp,
         startingXp: groupXp,
         advances: [],

@@ -8,6 +8,7 @@
   "heroSlots": [
     {
       "id": "captain",
+      "racialProfile": "ogre",
       "unitType": "Captain",
       "isLeader": true,
       "isLargeCreature": true,
@@ -58,6 +59,7 @@
     },
     {
       "id": "mountainGuide",
+      "racialProfile": "ogre",
       "unitType": "Mountain Guide",
       "isLeader": false,
       "isLargeCreature": true,
@@ -112,6 +114,7 @@
     },
     {
       "id": "youngblood",
+      "racialProfile": "ogre",
       "unitType": "Youngblood",
       "isLeader": false,
       "isLargeCreature": false,
@@ -155,6 +158,7 @@
   "henchmenTypes": [
     {
       "id": "bulls",
+      "racialProfile": "ogre",
       "unitType": "Bulls",
       "cost": 140,
       "isAnimal": false,
@@ -199,6 +203,7 @@
     },
     {
       "id": "halfGrowns",
+      "racialProfile": "ogre",
       "unitType": "Half-growns",
       "cost": 85,
       "isAnimal": false,
