@@ -27,7 +27,7 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 | 5 | `Campaign.joinCode: string` | **Nullable in build** — the leader can revoke rather than only rotate. §3.1 |
 | 6 | `HiredSword` without `countsTowardMax` | **Built version wins.** §3.1 |
 | 7 | Six bottom tabs incl. "Browse" | ⚠️ **Seven tabs shipped**, gallery reached from Home rather than a tab. The crowding concern is real and recorded. §4 |
-| 8 | Fonts self-hosted woff2 | ◻️ **Not done** — still the Google CDN, 4 families. The argument is sound; it's a genuine gap. §12.4, §15 |
+| 8 | Fonts self-hosted woff2 | ◻️ **Not done** — still the Google CDN, 4 families. The argument is sound; it's a genuine gap. §12.4, §16 |
 | 9 | Dark theme "optional later, not v1" | ⚠️ **Shipped first, as the default.** §5.5 |
 | 10 | "Requires login throughout, no logged-out mode" | ⚠️ **The gallery is anon-readable** (migration 0004). This has consequences for photos — see conflict 11. §8.1, §4.7 |
 | 11 | Photos on public warbands are "visible to all authenticated users" | **Wrong given conflict 10** — they would be visible to the *entire internet*. Raises the moderation bar before §11 ships. §11.5 |
@@ -69,7 +69,7 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 
 - No automated rules enforcement beyond warnings — with **two deliberate exceptions**, because in both cases the mistake is silent and the rulebook is unambiguous: the weapon-carrying limits (§9.2) and the equipment-list restrictions (§9.3). Both refuse the *assign-to-model* step; neither blocks buying into the treasury, and neither touches anything a house rule is likely to vary.
 - No point-and-click battle resolution; this is bookkeeping, not a game client.
-- **The app never rolls dice.** The player rolls physical dice and taps the result — injuries, advances, rare-item availability, exploration. Dice are sacred; this is a tabletop tool.
+- **The app never rolls dice *for* you — but it will roll *with* you.** ⚠️ The original brief said the app must never roll at all. What shipped is narrower and better: every table offers a **Roll** button *and* a picker for entering the result of a physical die, side by side, both feeding the same handler. Injuries, advances, rare-item availability and Exploration all work this way. The rule that actually holds is that **no outcome is ever applied without the player choosing it** — the app never rolls silently, never rolls on your behalf mid-flow, and never denies you the physical die. Anywhere a new table is added, it inherits this pattern; see §15.
 
 ---
 
@@ -141,6 +141,8 @@ type Hero = {
   injuries: Injury[];
   equipment: EquipmentItem[];
   photo?: ModelPhoto;        // planned, §11
+  spells?: string[];         // planned, §15 — mirrors `skills`
+  prayerModifier?: number;   // planned, §15
   status: ModelStatus;
   notes: string;
 };
@@ -179,6 +181,8 @@ type HiredSword = {
   injuries: Injury[];
   equipment: EquipmentItem[];
   photo?: ModelPhoto;        // planned, §11
+  spells?: string[];         // planned, §15 — mirrors `skills`
+  prayerModifier?: number;   // planned, §15
   status: ModelStatus;
   notes: string;
 };
@@ -307,6 +311,7 @@ type StandingsRow = {
   hiredSwords.json       Hired Sword profiles, hire fee, upkeep, skill lists
   scenarios.json         scenario list with page references
   exploration.json       the D66 Exploration chart
+  spells.json            spell/prayer/ritual lists — planned, §15
   rules.json             the in-app rules browser index
   changelog.json         user-facing release notes, rendered at /settings/changelog
   types.ts               the definition format
@@ -353,6 +358,7 @@ Nav highlighting is not plain path-prefix matching. `NavLink` matches on its own
 - Advance flow: the user rolls physical dice and taps the result.
 - Injuries with effects; equipment moved between model and treasury, subject to §9.2 and §9.3.
 - Hired swords share the screen, showing hire fee and upkeep, excluded from slot limits.
+- ◻️ **Spells, prayers or rituals** for casters — its own block between skills and equipment, rolled or chosen in place. §15.
 
 ### 4.3 Battle flow ✅
 
@@ -367,7 +373,7 @@ Nav highlighting is not plain path-prefix matching. `NavLink` matches on its own
 3. **Experience** — per-model XP with quick buttons for the standard awards; underdog bonus field.
 4. **Advances** — everyone who crossed a threshold, resolved as in §4.2.
 5. **Dead models cleanup** — equipment to treasury or lost, models removed, emptied groups deletable.
-6. **Income** — wyrdstone found, then the selling price for the current warband size. Plus **Exploration**: the D66 chart, with gold and shards banked automatically (§15 for what isn't).
+6. **Income** — wyrdstone found, then the selling price for the current warband size. Plus **Exploration**: the D66 chart, with gold and shards banked automatically (§16 for what isn't).
 7. **Upkeep & recruiting** — pay hired swords, warn on insufficient gold, jump to Trading.
 8. **Confirm** — full diff summary. The commit writes the BattleRecord and updated warband, and stages the pre-battle warband in `previous_data` for a **single-level undo**.
 
@@ -503,6 +509,7 @@ A design sandbox at `/design` judges components against both themes before migra
 13. ◻️ **M7 — Scale testing** (§13.2–§13.4) and the caching fixes it exposes (§12).
 14. ◻️ **M8 — Campaign events** (§4.5). The schema is already there.
 15. ◻️ **M9 — Photos** (§11), then gallery pagination and card design (§4.7).
+16. ◻️ **M10 — Magic, prayers & rituals** (§15). Structure and pickers first; spell contents transcribed from the book after, per §15.6.
 
 Tested continuously against one real dataset (the owner's Maneaters warband mid-campaign) and once against two live players in a session that produced roughly fifty items of feedback, all triaged and worked through.
 
@@ -595,7 +602,7 @@ Rich game state stays as `jsonb` blobs matching the TypeScript types — heroes 
 
 **Campaign events:** same read rule as the parent campaign; insert by any member; update/delete by the creator or the leader. Policies written; no UI.
 
-⚠️ **Verification status.** Single-account paths are verified end to end against the live project. The two-account matrix — owner / campaign-mate / unrelated — is still outstanding, and with it the claim the objectives table exists to make. §15, and §14.4 for the matrix itself.
+⚠️ **Verification status.** Single-account paths are verified end to end against the live project. The two-account matrix — owner / campaign-mate / unrelated — is still outstanding, and with it the claim the objectives table exists to make. §16, and §14.4 for the matrix itself.
 
 ### 8.4 Data access model (online-only) ✅
 
@@ -788,7 +795,7 @@ Target (conflict 15):
 
 - **Never `select('*')` on `warbands` in a list view.** The `data` jsonb is the largest object in the app; a page of 25 warbands fetching blobs is megabytes for a screen showing names and ratings. This is what `rating` is denormalized for (§3.2).
 - ✅ `fetchCampaignWarbands` and `fetchPublicWarbands` already select `id, owner_id, name, warband_type, rating` plus the profile join — the two list views that matter most are correct.
-- ⚠️ **`fetchWarbands(ownerId)` still does `select('*')`** — the owner's own list at `/warbands`. Harmless at two warbands, wrong in principle, and the first thing to break for a player with a dozen. Narrow it, and fetch the blob only on the roster screen. §15.
+- ⚠️ **`fetchWarbands(ownerId)` still does `select('*')`** — the owner's own list at `/warbands`. Harmless at two warbands, wrong in principle, and the first thing to break for a player with a dozen. Narrow it, and fetch the blob only on the roster screen. §16.
 - `battles` and `objectives` also use `select('*')`, but those rows are small and fully rendered; leave them.
 - Use keyset pagination everywhere (§13.3), page size 20–25.
 - Prefer a Postgres view or RPC for joined screens so one round trip returns exactly the columns the UI renders. The members panel is currently three batched queries, which is already far better than the obvious one-per-campaign loop.
@@ -989,11 +996,138 @@ Also confirm: removing a player drops their warband out of the standings via the
 
 ---
 
-## 15. Known gaps
+## 15. Magic, prayers & rituals ◻️
+
+Wizards, priests and shamans carry a list of spells or prayers the way a fighter carries weapons. Nothing of this is built: a Sigmarite Matriarch currently shows the words "Prayers of Sigmar (see Magic)" in her notes and nothing else, so the player looks the prayer up in the book anyway — which is the exact bookkeeping this app exists to remove.
+
+**The model rolls in-app, or the player chooses.** Both, side by side, exactly as injuries, advances, rare items and Exploration already work (§1). This is not a new principle; it is the established one applied to one more table.
+
+### 15.1 What the data already tells us
+
+Every claim below is cited from a file in this repo, not from memory. The spell *contents* are not — see §15.6.
+
+| Warband | List named in its data |
+| --- | --- |
+| Sisters of Sigmar, Witch Hunters | Prayers of Sigmar |
+| Ostlanders | Prayers of Taal |
+| Cult of the Possessed, Carnival of Chaos, Beastmen Raiders | Rituals (Chaos) |
+| Amazons (Mordheim and Lustria) | Rituals (Amazon) |
+| Skaven | Magic of the Horned Rat |
+| Orc Mob | Waaagh! Magic |
+| Undead | Necromantic magic |
+| Lizardmen | Lizardmen magic — "the Skink Priest is a Wizard" |
+| Hired Swords | Lesser Magic |
+
+Four mechanics fall out of that same data, and they are why this can't be modelled as "one spell, chosen once":
+
+- **Counts vary.** The Amazon priestess "starts with one ritual chosen at random from the list"; the Wizard hired sword "has two spells generated at random from the Lesser Magic list". Starting count is per unit, not global.
+- **Advances can grant spells.** The Wizard may "randomly determine a new Lesser Magic spell instead" of taking an Academic skill. So the advance flow is a second entry point into the same picker.
+- **Prayers are rolled for in play.** The Sisters' High Matriarch handmaiden gets "+2 to all rolls to see whether her Prayers of Sigmar are granted" — so an entry carries a difficulty, and a model can carry a modifier to it.
+- **A model can know a whole list.** A dramatis personae entry "knows all six Prayers of Sigmar" — which also pins that list at six entries, i.e. a D6 table.
+
+### 15.2 Data model
+
+Mirrors skills deliberately. `skillLists`/`skills` is a pattern the codebase, the data files and the unit entry already understand, and magic is the same shape: a set of tables a unit may draw on, plus what it has actually drawn.
+
+```ts
+// src/data/spells.json — one entry per list
+type SpellList = {
+  id: string;                       // 'prayersOfSigmar'
+  name: string;                     // 'Prayers of Sigmar'
+  kind: 'magic' | 'prayer' | 'ritual';  // drives the label; see §15.4
+  die: string;                      // 'D6' — what `roll` below indexes
+  source: string;
+  spells: Spell[];
+};
+
+type Spell = {
+  id: string;
+  roll: number;                     // its number on the list's die
+  name: string;
+  // The 2D6 a caster must beat. Null where the entry is not cast against a
+  // number at all — do not default it to 0, which would read as "always works".
+  difficulty: number | null;
+  effect: string;
+  source: string;                   // 'TODO: verify vs rulebook p.XX'
+};
+```
+
+On the unit definition (`HeroSlotDefinition`, and the Hired Sword equivalent):
+
+```ts
+spellLists: string[];   // ids into spells.json — empty for a non-caster
+startingSpells: number; // 1 for most, 2 for the Wizard, 0 where none
+```
+
+On the model (`Hero`, `HiredSword`):
+
+```ts
+spells: string[];       // spell ids known — mirrors `skills`
+prayerModifier?: number;// e.g. the handmaiden's +2; omitted when zero
+```
+
+**Henchmen have none.** No henchmen type in the data names a list, and henchmen advance as a group, which a per-model spell list can't express. If a supplement ever needs it, it goes on the henchmen type explicitly rather than being assumed.
+
+### 15.3 Choosing a spell — roll or pick
+
+One component, `<SpellPicker>`, modelled directly on the injury step (`StepInjuries.tsx`), which already puts a **Roll** button and a picker side by side feeding one handler:
+
+- **Roll** — rolls the list's die via `src/lib/dice.ts`, shows its working ("D6 → 4: *Wings of Doom*"), and applies the result.
+- **Choose** — the same list as a picker, for a player who rolled a physical die, or whose group lets you choose, or who is rebuilding a roster that already exists on paper.
+- **Duplicates re-roll.** The rulebook's own instruction where a list is rolled on. The app should re-roll automatically and say that it did, rather than silently handing over a spell the model already knows or making the player notice.
+- **Nothing is applied without a tap.** No auto-roll on recruitment; a new caster arrives with an empty spell block and a prompt.
+
+Entry points, all reaching the same picker:
+
+1. **Recruitment** — `startingSpells` prompts that many times.
+2. **Advances** — where a unit's rules allow a spell in place of a skill, the advance step offers it alongside the skill lists.
+3. **The unit entry** — add or remove by hand, for corrections and house rules.
+
+### 15.4 In the unit entry
+
+Rendered exactly like equipment and skills: its own block on the detail screen, between skills and equipment.
+
+- **Heading follows `kind`** — "Prayers" for a priest, "Rituals" for a Chaos or Amazon caster, "Spells" for a wizard. The app should call the thing what the player's book calls it; a Sigmarite Matriarch does not cast spells.
+- **Each entry is an expandable row** like `SpecialRulesList`: name and difficulty collapsed, effect text expanded. A statline block is wrong here — spells are prose, not numbers.
+- **Difficulty is prominent**, since it is the number actually needed at the table, set in `tabular-nums` like every other figure (§5.2). Where `prayerModifier` is set, show the effective number and the modifier that produced it, not just the total.
+- **Roster rows** show a small caster badge only. The full list belongs on the detail screen; a roster row that expands nine prayers is unreadable at a game table.
+- Spells appear in the **rules browser** (§4.8) from the same data, so a spell read on a model and one read in the browser cannot disagree.
+
+### 15.5 Rules the app should enforce
+
+Following §9's standard — enforce only where the mistake is silent and the rulebook is unambiguous:
+
+- **Only a caster may hold spells.** A unit whose definition has an empty `spellLists` gets no block and no picker.
+- **A model may only draw from its own lists.** Same shape as the equipment-list rule (§9.3), and the same exception mechanism if a skill ever lifts it.
+- **No duplicates.** Enforced at the point of adding, which is also what makes automatic re-rolling correct rather than a convenience.
+- Everything else — how many spells a model may end up with, whether a house rule lets a priest choose rather than roll — stays a warning at most.
+
+Spells do **not** affect warband rating (§3.2); nothing in the rating formula accounts for them.
+
+### 15.6 Data sourcing — the blocking constraint
+
+The lists in §15.1 are named in the repo. **Their contents are not, and must not be invented.** Per §3.3, stat lines, prices and table entries never come from memory, and a spell's difficulty is exactly as load-bearing as a weapon's Strength. Getting *Wings of Doom* wrong is worse than leaving it blank, because a filled-in table looks finished.
+
+So the build splits cleanly:
+
+1. **Structure first** — `spells.json` scaffolded with every list from §15.1, each with its `kind`, `die`, and entries marked `TODO: verify vs rulebook p.XX`. The picker, the unit-entry block and the rules-browser wiring can all be built and tested against placeholder entries.
+2. **Contents second**, transcribed from the rulebook and the Border Town Burning PDF, one list at a time, with page references — the same way `equipment.json` reached 142 verified entries.
+
+The one number already pinned: Prayers of Sigmar has **six** entries (§15.1), so it is a D6 list.
+
+### 15.7 Build order
+
+**M10**, after photos (§6). It touches the model type, the warband definitions, a new data file, the advance step and the unit entry, so it wants the roster screens stable — but it is independent of §10–§13 and could move earlier if the casting warbands are what the group is actually playing.
+
+---
+
+## 16. Known gaps
 
 Deliberate, with reasons. Kept here rather than in a tracker so the spec and the truth stay in one file.
 
-**Unbuilt sections:** §10 (deletion and naming), §11 (photos), and the §12/§13 work are gaps by definition and aren't repeated here.
+**Unbuilt sections:** §10 (deletion and naming), §11 (photos), §15 (magic and prayers), and the §12/§13 work are gaps by definition and aren't repeated here.
+
+- **Casters have no spells.** Twelve warbands field a wizard, priest or shaman, and every one of them currently shows the name of a list in its notes and nothing more — the player looks the prayer up in the book, which is the bookkeeping this app exists to remove. §15.
 
 - **Offline.** There is none, by design — data is server-side and the app requires a connection. Asset caching is a separate question, and is handled (§2).
 - **Campaign events.** Table and RLS exist and are migrated; the UI from §4.5 isn't built.
