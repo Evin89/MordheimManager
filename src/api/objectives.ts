@@ -1,4 +1,6 @@
 import { supabase } from '../lib/supabaseClient';
+import { isDemoMode } from '../dev/demoMode';
+import * as demo from '../dev/demoApi';
 import { BtbObjective } from '../types';
 
 type ObjectiveRow = {
@@ -14,6 +16,7 @@ function toObjective(row: ObjectiveRow): BtbObjective {
 }
 
 export async function fetchObjective(warbandId: string): Promise<BtbObjective | null> {
+  if (isDemoMode()) return demo.fetchObjective(warbandId);
   const { data, error } = await supabase.from('objectives').select('*').eq('warband_id', warbandId).maybeSingle();
   if (error) throw error;
   return data ? toObjective(data as ObjectiveRow) : null;
@@ -24,6 +27,7 @@ export async function saveObjective(
   ownerId: string,
   patch: Omit<BtbObjective, 'id' | 'warbandId'>,
 ): Promise<BtbObjective> {
+  if (isDemoMode()) return demo.saveObjective(warbandId, ownerId, patch);
   const { data, error } = await supabase
     .from('objectives')
     .upsert({ warband_id: warbandId, owner_id: ownerId, data: patch, updated_at: new Date().toISOString() }, { onConflict: 'warband_id' })
@@ -34,6 +38,7 @@ export async function saveObjective(
 }
 
 export async function deleteObjective(warbandId: string): Promise<void> {
+  if (isDemoMode()) return demo.deleteObjective(warbandId);
   const { error } = await supabase.from('objectives').delete().eq('warband_id', warbandId);
   if (error) throw error;
 }

@@ -1,6 +1,8 @@
 import { Session, User } from '@supabase/supabase-js';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { isDemoMode, setDemoMode } from '../dev/demoMode';
+import { demoViewer } from '../dev/demoApi';
 
 type AuthState = {
   session: Session | null;
@@ -17,11 +19,37 @@ type AuthState = {
 
 const AuthContext = createContext<AuthState | null>(null);
 
+/**
+ * The account demo mode is signed in as.
+ *
+ * Deliberately replaces any real session rather than sitting alongside it:
+ * every screen reads `user.id` to decide whose warbands and campaigns to show,
+ * and with a real id there nothing generated would be visible. It carries only
+ * the fields the app actually reads — enough of a `User` to stand in, not a
+ * usable credential.
+ */
+function demoSession(): Session {
+  const viewer = demoViewer();
+  const user = {
+    id: viewer.id,
+    email: viewer.email,
+    user_metadata: { display_name: viewer.displayName },
+    app_metadata: {},
+    aud: 'authenticated',
+    created_at: new Date().toISOString(),
+  } as unknown as User;
+  return { access_token: 'demo', user } as unknown as Session;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState<Session | null>(() =>
+    isDemoMode() ? demoSession() : null,
+  );
+  const [loading, setLoading] = useState(!isDemoMode());
 
   useEffect(() => {
+    if (isDemoMode()) return;
+
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       setLoading(false);
@@ -49,6 +77,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signOut() {
+    // Signing out of the demo account means leaving demo mode — there is no
+    // Supabase session to end, and reloading is how the flag is applied.
+    if (isDemoMode()) {
+      setDemoMode(false);
+      return;
+    }
     await supabase.auth.signOut();
   }
 

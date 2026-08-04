@@ -1,4 +1,6 @@
 import { supabase } from '../lib/supabaseClient';
+import { isDemoMode } from '../dev/demoMode';
+import * as demo from '../dev/demoApi';
 import { CampaignWarbandRow, fetchCampaignWarbands } from './warbands';
 import {
   Campaign,
@@ -40,6 +42,7 @@ function toCampaign(row: CampaignRow): Campaign {
  * goes through `campaign_members` so RLS resolves it in one round trip.
  */
 export async function fetchMyCampaigns(userId: string): Promise<Campaign[]> {
+  if (isDemoMode()) return demo.fetchMyCampaigns(userId);
   const { data, error } = await supabase
     .from('campaign_members')
     .select('role, campaigns (*)')
@@ -63,6 +66,7 @@ export async function fetchMyCampaigns(userId: string): Promise<Campaign[]> {
  * the id list.
  */
 export async function fetchCampaignSummaries(userId: string): Promise<CampaignSummary[]> {
+  if (isDemoMode()) return demo.fetchCampaignSummaries(userId);
   const { data: memberRows, error } = await supabase
     .from('campaign_members')
     .select('campaign_id, role, campaigns (*)')
@@ -109,12 +113,14 @@ export async function fetchCampaignSummaries(userId: string): Promise<CampaignSu
 
 /** Atomic via RPC: also adds the creator as campaign_leader and issues a join code. */
 export async function createCampaign(name: string, usesBtb: boolean): Promise<Campaign> {
+  if (isDemoMode()) return demo.createCampaign(name, usesBtb);
   const { data, error } = await supabase.rpc('create_campaign', { p_name: name, p_uses_btb: usesBtb });
   if (error) throw error;
   return toCampaign(data as CampaignRow);
 }
 
 export async function updateCampaign(campaign: Campaign): Promise<Campaign> {
+  if (isDemoMode()) return demo.updateCampaign(campaign);
   const { data, error } = await supabase
     .from('campaigns')
     .update({
@@ -136,6 +142,7 @@ export async function updateCampaign(campaign: Campaign): Promise<Campaign> {
  * campaign the caller can't yet SELECT.
  */
 export async function joinCampaignByCode(code: string): Promise<string> {
+  if (isDemoMode()) return demo.joinCampaignByCode(code);
   const { data, error } = await supabase.rpc('join_campaign_by_code', { p_code: code });
   if (error) throw error;
   // The RPC returns the campaign_members row; its campaign_id is what the
@@ -145,6 +152,7 @@ export async function joinCampaignByCode(code: string): Promise<string> {
 
 /** Leader-only; invalidates the previous code. */
 export async function regenerateJoinCode(campaignId: string): Promise<string> {
+  if (isDemoMode()) return demo.regenerateJoinCode(campaignId);
   const { data, error } = await supabase.rpc('regenerate_join_code', { p_campaign_id: campaignId });
   if (error) throw error;
   return data as string;
@@ -158,6 +166,7 @@ type MemberRow = {
 };
 
 export async function fetchCampaignMembers(campaignId: string): Promise<CampaignMember[]> {
+  if (isDemoMode()) return demo.fetchCampaignMembers(campaignId);
   const { data, error } = await supabase
     .from('campaign_members')
     .select('user_id, role, joined_at, profiles (display_name)')
@@ -261,6 +270,7 @@ export function buildStandingsRows(
  * is your own or you lead the campaign, so one call covers both cases.
  */
 export async function removeCampaignMember(campaignId: string, userId: string): Promise<void> {
+  if (isDemoMode()) return demo.removeCampaignMember(campaignId, userId);
   const { error } = await supabase
     .from('campaign_members')
     .delete()

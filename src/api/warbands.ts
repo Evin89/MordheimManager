@@ -1,5 +1,7 @@
 import { supabase } from '../lib/supabaseClient';
 import { computeWarbandRating } from '../lib/rating';
+import { isDemoMode } from '../dev/demoMode';
+import * as demo from '../dev/demoApi';
 import { PublicWarbandRow, Warband, WarbandVisibility } from '../types';
 import { ConcurrencyError, PGRST_NO_ROWS } from './errors';
 
@@ -39,6 +41,7 @@ function toRecord(row: WarbandRow): WarbandRecord {
 }
 
 export async function fetchWarbands(ownerId: string): Promise<WarbandRecord[]> {
+  if (isDemoMode()) return demo.fetchWarbands(ownerId);
   const { data, error } = await supabase
     .from('warbands')
     .select('*')
@@ -49,6 +52,7 @@ export async function fetchWarbands(ownerId: string): Promise<WarbandRecord[]> {
 }
 
 export async function insertWarband(ownerId: string, warband: Warband): Promise<WarbandRecord> {
+  if (isDemoMode()) return demo.insertWarband(ownerId, warband);
   const { data, error } = await supabase
     .from('warbands')
     .insert({
@@ -72,6 +76,7 @@ export async function updateWarband(
   warband: Warband,
   expectedUpdatedAt: string,
 ): Promise<WarbandRecord> {
+  if (isDemoMode()) return demo.updateWarband(id, ownerId, warband, expectedUpdatedAt);
   const { data, error } = await supabase
     .from('warbands')
     .update({
@@ -101,6 +106,9 @@ export async function commitBattleUpdate(
   newWarband: Warband,
   expectedUpdatedAt: string,
 ): Promise<WarbandRecord> {
+  if (isDemoMode()) {
+    return demo.commitBattleUpdate(id, ownerId, previousWarband, newWarband, expectedUpdatedAt);
+  }
   const { data, error } = await supabase
     .from('warbands')
     .update({
@@ -126,6 +134,7 @@ export async function commitBattleUpdate(
 
 /** Rolls back to the single-level undo snapshot, if one exists. Returns null if there was none. */
 export async function undoLastBattle(id: string, ownerId: string): Promise<WarbandRecord | null> {
+  if (isDemoMode()) return demo.undoLastBattle(id, ownerId);
   const { data: current, error: fetchError } = await supabase
     .from('warbands')
     .select('previous_data')
@@ -156,6 +165,7 @@ export async function undoLastBattle(id: string, ownerId: string): Promise<Warba
 }
 
 export async function deleteWarband(id: string, ownerId: string): Promise<void> {
+  if (isDemoMode()) return demo.deleteWarband(id, ownerId);
   const { error } = await supabase.from('warbands').delete().eq('id', id).eq('owner_id', ownerId);
   if (error) throw error;
 }
@@ -176,6 +186,7 @@ export async function setWarbandCampaign(
   ownerId: string,
   campaignId: string | null,
 ): Promise<void> {
+  if (isDemoMode()) return demo.setWarbandCampaign(id, ownerId, campaignId);
   const { error } = await supabase
     .from('warbands')
     .update({ campaign_id: campaignId })
@@ -189,6 +200,7 @@ export async function setWarbandVisibility(
   ownerId: string,
   visibility: WarbandVisibility,
 ): Promise<void> {
+  if (isDemoMode()) return demo.setWarbandVisibility(id, ownerId, visibility);
   const { error } = await supabase
     .from('warbands')
     .update({ visibility })
@@ -222,6 +234,7 @@ type CampaignWarbandQueryRow = {
  * 8.3, visibility never hides a warband from its own campaign.
  */
 export async function fetchCampaignWarbands(campaignId: string): Promise<CampaignWarbandRow[]> {
+  if (isDemoMode()) return demo.fetchCampaignWarbands(campaignId);
   const { data, error } = await supabase
     .from('warbands')
     .select('id, owner_id, name, warband_type, rating, profiles (display_name)')
@@ -254,6 +267,7 @@ const PUBLIC_WARBAND_LIMIT = 200;
  * signed-out browsing of other people's warbands.
  */
 export async function fetchPublicWarbands(): Promise<PublicWarbandRow[]> {
+  if (isDemoMode()) return demo.fetchPublicWarbands();
   const { data, error } = await supabase
     .from('warbands')
     .select('id, owner_id, name, warband_type, rating, profiles (display_name)')
@@ -288,6 +302,7 @@ export async function fetchPublicWarbands(): Promise<PublicWarbandRow[]> {
  * RLS filters the row out.
  */
 export async function fetchSharedWarband(id: string): Promise<Warband | null> {
+  if (isDemoMode()) return demo.fetchSharedWarband(id);
   const { data, error } = await supabase.from('warbands').select('data').eq('id', id).maybeSingle();
   if (error) throw error;
   return data ? (data as { data: Warband }).data : null;

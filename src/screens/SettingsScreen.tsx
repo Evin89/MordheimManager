@@ -6,6 +6,7 @@ import { useTheme } from '../hooks/useTheme';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
 import { ImportValidationError, downloadExport, importAllData, parseImportFile } from '../storage/persistence';
+import { isDemoMode, setDemoMode } from '../dev/demoMode';
 
 export default function SettingsScreen() {
   const [theme, setTheme] = useTheme();
@@ -122,6 +123,26 @@ export default function SettingsScreen() {
             </Link>
           )}
         </section>
+
+        {/* Dev builds only — `import.meta.env.DEV` is replaced with `false` when
+            building for production, so this section is compiled away entirely. */}
+        {import.meta.env.DEV && (
+          <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+            <h2 className="text-bone-100 font-semibold">Demo data</h2>
+            <p className="text-bone-300 text-sm">
+              Fills the app with 50 players, 100 warbands and 10 campaigns so the screens can be
+              judged at volume. Nothing is written to the database — reloading with this off
+              returns you to your own account.
+            </p>
+            <button
+              type="button"
+              onClick={() => setDemoMode(!isDemoMode())}
+              className="min-h-[48px] w-full rounded-md border border-ink-700 hover:bg-ink-800 text-bone-100 font-semibold px-4 transition-colors"
+            >
+              {isDemoMode() ? 'Leave demo mode' : 'Enter demo mode'}
+            </button>
+          </section>
+        )}
 
         <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
           <h2 className="text-bone-100 font-semibold">{strings.settings.aboutSection}</h2>

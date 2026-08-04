@@ -80,6 +80,21 @@ npm run preview   # serve the production build locally
 
 Sign up through the app's own register screen. Note that Supabase projects have **email confirmation on by default**, so a new account can't sign in until the emailed link is clicked — turn it off under Authentication → Providers → Email if you'd rather not bother for a personal instance.
 
+### Demo mode
+
+Judging a list, a standings table or the public gallery needs more than one player's data in it. `npm run dev` with `?demo=1` on any URL (or the toggle in Settings) fills the app with 50 players, 100 warbands and 10 campaigns of 5–10 members each, and signs you in as one of them:
+
+```
+http://localhost:5173/campaigns?demo=1     # on
+http://localhost:5173/campaigns?demo=0     # off
+```
+
+Nothing is written to Supabase. Every call in `src/api` short-circuits to `src/dev/demoApi`, which serves a generated in-memory database — so a hundred warbands never end up in the same tables as your real campaign, in other players' standings, or in the public gallery. Writes made while clicking around land in that in-memory copy and are gone on reload.
+
+The data is seeded, so the same warbands, ratings and standings come back every run, and the rosters are built through the real warband factory — the ratings on the standings table are computed, not invented. It's UI volume, not a test of the queries or of RLS, both of which are replaced.
+
+The whole thing is gated on `import.meta.env.DEV`, which Vite replaces with `false` when building for production, so the generator and its guards are dropped from `dist/` rather than merely being unreachable.
+
 ## Project structure
 
 ```
@@ -91,6 +106,8 @@ src/
   hooks/           TanStack Query hooks the screens actually call (useWarbands,
                     useCampaign, useObjective) — queries, mutations, cache invalidation
   auth/            AuthProvider (session context) and RequireAuth (route gate)
+  dev/             Demo mode — a seeded in-memory stand-in for the whole data layer,
+                    compiled out of production builds (see "Demo mode" above)
   storage/         Export/import helpers and the jsonb schemaVersion migration path
   store/           Zustand — transient UI state only (the in-progress battle session)
   lib/             Pure helper logic (warband rating, stat lines, wyrdstone pricing, equipment lookup,
