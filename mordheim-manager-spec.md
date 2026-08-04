@@ -311,7 +311,7 @@ type StandingsRow = {
   hiredSwords.json       Hired Sword profiles, hire fee, upkeep, skill lists
   scenarios.json         scenario list with page references
   exploration.json       the D66 Exploration chart
-  spells.json            9 spell/prayer/ritual lists, 54 entries
+  spells.json            10 spell/prayer/ritual lists, 60 entries
   rules.json             the in-app rules browser index
   changelog.json         user-facing release notes, rendered at /settings/changelog
   types.ts               the definition format
@@ -998,7 +998,7 @@ Also confirm: removing a player drops their warband out of the standings via the
 
 ## 15. Magic, prayers & rituals ✅
 
-Wizards, priests and shamans carry a list of spells or prayers the way a fighter carries weapons. **Built**: nine lists, 54 entries in `src/data/spells.json`, wired to eleven caster hero slots and the Warlock hired sword, rendered on the unit entry and rolled or chosen in place.
+Wizards, priests and shamans carry a list of spells or prayers the way a fighter carries weapons. **Built**: ten lists, 60 entries in `src/data/spells.json`, wired to twelve caster hero slots and the Warlock hired sword, rendered on the unit entry and rolled or chosen in place.
 
 **The model rolls in-app, or the player chooses.** Both, side by side, exactly as injuries, advances, rare items and Exploration already work (§1). This is not a new principle; it is the established one applied to one more table.
 
@@ -1120,11 +1120,14 @@ That constraint was lifted by the owner supplying the lists, so structure and co
 | Lizardmen Magic | magic | Skink Priest |
 | Magic of the Horned Rat | magic | Eshin Sorcerer |
 | Necromancy | magic | Necromancer |
+| Prayers of Taal | prayer | Ostlander Priest of Taal |
 | Lesser Magic | magic | Warlock (Hired Sword), 2 starting entries |
 
-Every list is a D6 covering 1–6, and all 54 ids are unique — both asserted after generation rather than assumed. Two entries succeed automatically (Spell of Awakening, Children of the Horned Rat) and carry `difficulty: null`; two resolve on a second roll of their own and carry a `subTable`; seven carry `errata` where the source flags a passage as queried or amended by its editors, shown in the expanded row so a contested rule reads as contested.
+Every list is a D6 covering 1–6, and all 60 ids are unique — both asserted after generation rather than assumed. Two entries succeed automatically (Spell of Awakening, Children of the Horned Rat) and carry `difficulty: null`; two resolve on a second roll of their own and carry a `subTable`; seven carry `errata` where the source flags a passage as queried or amended by its editors, shown in the expanded row so a contested rule reads as contested.
 
-**Still outstanding:** Prayers of Taal, for the Ostlanders' Priest of Taal. His slot carries no `spellLists` rather than a wrong one.
+Three lists carry a `notes` caveat that changes how the model plays rather than how one entry resolves — the Priest of Taal wears no *heavy* armour, Lizardmen magic works like prayers, Lesser Magic is hedge magic. These render under the block heading; leaving them in the data unread would have been the easy mistake.
+
+Every caster in the app now has its list: **13 wired**, and no list is left without a caster.
 
 ### 15.7 Build order
 
@@ -1138,7 +1141,6 @@ Deliberate, with reasons. Kept here rather than in a tracker so the spec and the
 
 **Unbuilt sections:** §10 (deletion and naming), §11 (photos), and the §12/§13 work are gaps by definition and aren't repeated here.
 
-- **Prayers of Taal is the one caster list still missing.** The Ostlanders' Priest of Taal is the twelfth caster; his list wasn't in the transcription, so his slot carries no `spellLists` rather than a wrong one. §15.6.
 - **Advances don't offer a spell yet.** The Warlock may "randomly determine a new Lesser Magic spell instead" of an Academic skill, and the advance step doesn't yet present that choice — the spell has to be added from the unit entry by hand. §15.3.
 
 - **Offline.** There is none, by design — data is server-side and the app requires a connection. Asset caching is a separate question, and is handled (§2).

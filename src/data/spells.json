@@ -480,6 +480,62 @@
         }
       ]
     },
+    "prayersOfTaal": {
+      "id": "prayersOfTaal",
+      "name": "Prayers of Taal",
+      "kind": "prayer",
+      "die": "D6",
+      "usedBy": [
+        "Ostlander Mercenaries Priest of Taal",
+        "Horned Hunters Priest of Taal"
+      ],
+      "notes": "Work like the Prayers of Sigmar. The Priest wears no armour — which the unit entry narrows to heavy armour only, so light armour, a helmet and a shield are allowed.",
+      "source": "The Mordheimer (mordheimer.net) magic and prayer lists",
+      "spells": [
+        {
+          "id": "prayersOfTaal.stagsLeap",
+          "roll": 1,
+          "name": "Stag's Leap",
+          "difficulty": 7,
+          "effect": "The Priest may immediately move anywhere within 9\", including into base contact with an enemy, counting as charging and gaining +1 Strength for his first round of attacks. If he engages a fleeing enemy he scores one automatic hit at +1 Strength in the close combat phase, and his opponent then flees again if it survives."
+        },
+        {
+          "id": "prayersOfTaal.blessedAle",
+          "roll": 2,
+          "name": "Blessed Ale",
+          "difficulty": 5,
+          "effect": "Any one model within 2\" of the Priest, including himself, is restored to its full quota of Wounds. In addition, any living enemy models within 2\" — not Undead or Possessed — lose 1 Attack during the next round of combat."
+        },
+        {
+          "id": "prayersOfTaal.bearsPaw",
+          "roll": 3,
+          "name": "Bear's Paw",
+          "difficulty": 7,
+          "effect": "The Priest or a single friendly model within 6\" gains +2 Strength until the Priest's next turn."
+        },
+        {
+          "id": "prayersOfTaal.earthshudder",
+          "roll": 4,
+          "name": "Earthshudder",
+          "difficulty": 9,
+          "effect": "Cast on a single building within 4\". Any enemy models touching it suffer a single Strength 3 hit. The building then collapses: models on it count as having fallen to the ground, and the terrain feature is removed from the board for the rest of the game."
+        },
+        {
+          "id": "prayersOfTaal.tanglefoot",
+          "roll": 5,
+          "name": "Tanglefoot",
+          "difficulty": 8,
+          "effect": "All models within 12\" of the Priest, friend as well as foe, may move only at half speed until the next shooting phase. Ostlander Jaegers and friendly Horned Hunter Zealots are unaffected."
+        },
+        {
+          "id": "prayersOfTaal.summonSquirrels",
+          "roll": 6,
+          "name": "Summon Squirrels",
+          "difficulty": 7,
+          "effect": "One enemy model within 12\" of the Priest suffers 2D6 Strength 1 hits. No armour saves allowed."
+        }
+      ]
+    },
     "waaaghMagic": {
       "id": "waaaghMagic",
       "name": "Waaagh! Magic",

@@ -135,6 +135,8 @@
       "equipmentOptions": [
         "ostlanderEquipmentList"
       ],
+      "spellLists": ["prayersOfTaal"],
+      "startingSpells": 1,
       "notes": "",
       "specialRules": [
         {
