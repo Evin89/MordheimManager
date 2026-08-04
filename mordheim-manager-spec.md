@@ -141,8 +141,8 @@ type Hero = {
   injuries: Injury[];
   equipment: EquipmentItem[];
   photo?: ModelPhoto;        // planned, §11
-  spells?: string[];         // planned, §15 — mirrors `skills`
-  prayerModifier?: number;   // planned, §15
+  spellLists: string[];      // lists this model may draw on
+  spells: string[];          // entries known — mirrors `skills`
   status: ModelStatus;
   notes: string;
 };
@@ -181,8 +181,8 @@ type HiredSword = {
   injuries: Injury[];
   equipment: EquipmentItem[];
   photo?: ModelPhoto;        // planned, §11
-  spells?: string[];         // planned, §15 — mirrors `skills`
-  prayerModifier?: number;   // planned, §15
+  spellLists: string[];      // lists this model may draw on
+  spells: string[];          // entries known — mirrors `skills`
   status: ModelStatus;
   notes: string;
 };
@@ -311,7 +311,7 @@ type StandingsRow = {
   hiredSwords.json       Hired Sword profiles, hire fee, upkeep, skill lists
   scenarios.json         scenario list with page references
   exploration.json       the D66 Exploration chart
-  spells.json            spell/prayer/ritual lists — planned, §15
+  spells.json            9 spell/prayer/ritual lists, 54 entries
   rules.json             the in-app rules browser index
   changelog.json         user-facing release notes, rendered at /settings/changelog
   types.ts               the definition format
@@ -358,7 +358,7 @@ Nav highlighting is not plain path-prefix matching. `NavLink` matches on its own
 - Advance flow: the user rolls physical dice and taps the result.
 - Injuries with effects; equipment moved between model and treasury, subject to §9.2 and §9.3.
 - Hired swords share the screen, showing hire fee and upkeep, excluded from slot limits.
-- ◻️ **Spells, prayers or rituals** for casters — its own block between skills and equipment, rolled or chosen in place. §15.
+- ✅ **Spells, prayers or rituals** for casters — its own block after skills, rolled or chosen in place. §15.
 
 ### 4.3 Battle flow ✅
 
@@ -509,7 +509,7 @@ A design sandbox at `/design` judges components against both themes before migra
 13. ◻️ **M7 — Scale testing** (§13.2–§13.4) and the caching fixes it exposes (§12).
 14. ◻️ **M8 — Campaign events** (§4.5). The schema is already there.
 15. ◻️ **M9 — Photos** (§11), then gallery pagination and card design (§4.7).
-16. ◻️ **M10 — Magic, prayers & rituals** (§15). Structure and pickers first; spell contents transcribed from the book after, per §15.6.
+16. ✅ **M10 — Magic, prayers & rituals** (§15). Structure, data and unit-entry block all landed together, since the owner supplied the transcribed lists.
 
 Tested continuously against one real dataset (the owner's Maneaters warband mid-campaign) and once against two live players in a session that produced roughly fifty items of feedback, all triaged and worked through.
 
@@ -996,9 +996,9 @@ Also confirm: removing a player drops their warband out of the standings via the
 
 ---
 
-## 15. Magic, prayers & rituals ◻️
+## 15. Magic, prayers & rituals ✅
 
-Wizards, priests and shamans carry a list of spells or prayers the way a fighter carries weapons. Nothing of this is built: a Sigmarite Matriarch currently shows the words "Prayers of Sigmar (see Magic)" in her notes and nothing else, so the player looks the prayer up in the book anyway — which is the exact bookkeeping this app exists to remove.
+Wizards, priests and shamans carry a list of spells or prayers the way a fighter carries weapons. **Built**: nine lists, 54 entries in `src/data/spells.json`, wired to eleven caster hero slots and the Warlock hired sword, rendered on the unit entry and rolled or chosen in place.
 
 **The model rolls in-app, or the player chooses.** Both, side by side, exactly as injuries, advances, rare items and Exploration already work (§1). This is not a new principle; it is the established one applied to one more table.
 
@@ -1108,12 +1108,23 @@ Spells do **not** affect warband rating (§3.2); nothing in the rating formula a
 
 The lists in §15.1 are named in the repo. **Their contents are not, and must not be invented.** Per §3.3, stat lines, prices and table entries never come from memory, and a spell's difficulty is exactly as load-bearing as a weapon's Strength. Getting *Wings of Doom* wrong is worse than leaving it blank, because a filled-in table looks finished.
 
-So the build splits cleanly:
+That constraint was lifted by the owner supplying the lists, so structure and contents landed together. What is in the file:
 
-1. **Structure first** — `spells.json` scaffolded with every list from §15.1, each with its `kind`, `die`, and entries marked `TODO: verify vs rulebook p.XX`. The picker, the unit-entry block and the rules-browser wiring can all be built and tested against placeholder entries.
-2. **Contents second**, transcribed from the rulebook and the Border Town Burning PDF, one list at a time, with page references — the same way `equipment.json` reached 142 verified entries.
+| List | Kind | Casters wired |
+| --- | --- | --- |
+| Prayers of Sigmar | prayer | Sisters Matriarch, Witch Hunter Warrior-Priest |
+| Amazon Rituals | ritual | Serpent Priestess, Priestess |
+| Chaos Rituals | ritual | Magister, Beastmen Shaman |
+| Nurgle Rituals | ritual | Carnival Master |
+| Waaagh! Magic | ritual | Orc Shaman |
+| Lizardmen Magic | magic | Skink Priest |
+| Magic of the Horned Rat | magic | Eshin Sorcerer |
+| Necromancy | magic | Necromancer |
+| Lesser Magic | magic | Warlock (Hired Sword), 2 starting entries |
 
-The one number already pinned: Prayers of Sigmar has **six** entries (§15.1), so it is a D6 list.
+Every list is a D6 covering 1–6, and all 54 ids are unique — both asserted after generation rather than assumed. Two entries succeed automatically (Spell of Awakening, Children of the Horned Rat) and carry `difficulty: null`; two resolve on a second roll of their own and carry a `subTable`; seven carry `errata` where the source flags a passage as queried or amended by its editors, shown in the expanded row so a contested rule reads as contested.
+
+**Still outstanding:** Prayers of Taal, for the Ostlanders' Priest of Taal. His slot carries no `spellLists` rather than a wrong one.
 
 ### 15.7 Build order
 
@@ -1125,9 +1136,10 @@ The one number already pinned: Prayers of Sigmar has **six** entries (§15.1), s
 
 Deliberate, with reasons. Kept here rather than in a tracker so the spec and the truth stay in one file.
 
-**Unbuilt sections:** §10 (deletion and naming), §11 (photos), §15 (magic and prayers), and the §12/§13 work are gaps by definition and aren't repeated here.
+**Unbuilt sections:** §10 (deletion and naming), §11 (photos), and the §12/§13 work are gaps by definition and aren't repeated here.
 
-- **Casters have no spells.** Twelve warbands field a wizard, priest or shaman, and every one of them currently shows the name of a list in its notes and nothing more — the player looks the prayer up in the book, which is the bookkeeping this app exists to remove. §15.
+- **Prayers of Taal is the one caster list still missing.** The Ostlanders' Priest of Taal is the twelfth caster; his list wasn't in the transcription, so his slot carries no `spellLists` rather than a wrong one. §15.6.
+- **Advances don't offer a spell yet.** The Warlock may "randomly determine a new Lesser Magic spell instead" of an Academic skill, and the advance step doesn't yet present that choice — the spell has to be added from the unit entry by hand. §15.3.
 
 - **Offline.** There is none, by design — data is server-side and the app requires a connection. Asset caching is a separate question, and is handled (§2).
 - **Campaign events.** Table and RLS exist and are migrated; the UI from §4.5 isn't built.

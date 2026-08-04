@@ -102,7 +102,11 @@
           "name": "Wizard",
           "description": "uses the Magic of the Horned Rat (see Magic)."
         }
-      ]
+      ],
+      "spellLists": [
+        "magicOfTheHornedRat"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "blackSkaven",

@@ -104,7 +104,11 @@
           "name": "Wizard",
           "description": "uses Necromantic magic (see Magic)."
         }
-      ]
+      ],
+      "spellLists": [
+        "necromancy"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "dregs",

@@ -60,6 +60,10 @@ export function createHeroFromSlot(slot: HeroSlotDefinition, name: string): Hero
     advances: [],
     skillLists: slot.skillLists,
     skills: [],
+    // Copied from the definition, but left empty of entries: a new caster
+    // arrives with a prompt, never with a spell the player didn't choose.
+    spellLists: slot.spellLists ?? [],
+    spells: [],
     injuries: [],
     equipment: [createFreeDagger()],
     status: 'active',
@@ -134,6 +138,8 @@ export function createHiredSwordFromDefinition(
     advances: [],
     skillLists: definition.skillLists,
     skills: [],
+    spellLists: definition.spellLists ?? [],
+    spells: [],
     injuries: [],
     equipment: [createFreeDagger()],
     status: 'active',

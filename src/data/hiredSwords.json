@@ -84,6 +84,8 @@
     {
       "id": "warlock",
       "name": "Warlock",
+      "spellLists": ["lesserMagic"],
+      "startingSpells": 2,
       "hireFee": 30,
       "upkeep": 15,
       "mayBeHiredBy": "Any warband except Witch Hunters and Sisters of Sigmar.",

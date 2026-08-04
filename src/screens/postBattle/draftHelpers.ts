@@ -266,6 +266,12 @@ export function applyDraftToWarband(
         advances: [],
         skillLists: [],
         skills: [],
+        // A promoted Henchman is not a caster: which lists a warband's Heroes
+        // may use varies, and none of them grant magic on promotion. Left empty
+        // for the same reason as `skillLists` — the player sets it if the
+        // warband's own rules say otherwise.
+        spellLists: [],
+        spells: [],
         injuries: [],
         equipment: [],
         status: 'active',

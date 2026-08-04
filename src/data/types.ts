@@ -27,6 +27,12 @@ export type HeroSlotDefinition = {
   statLine: NullableStatLine;
   statMaximums: NullableStatLine;
   equipmentOptions: string[]; // keys into equipment.json, or category names
+  /** Spell/prayer/ritual lists this unit may draw on — ids into spells.json.
+   * Absent or empty for a non-caster, which is what suppresses the block. */
+  spellLists?: string[];
+  /** How many entries the unit starts with. One for most casters; the Warlock
+   * hired sword's own entry gives him two. */
+  startingSpells?: number;
   notes: string;
   /** Named rules from the unit's entry. Split out of `notes`, which now holds
    * only flavour and data-quality remarks. */
@@ -228,6 +234,9 @@ export type HiredSwordDefinition = {
   statLine: NullableStatLine;
   equipment: string;
   skillLists: string[];
+  /** See HeroSlotDefinition. The Warlock is the only Hired Sword who casts. */
+  spellLists?: string[];
+  startingSpells?: number;
   specialRules: string;
   source: string;
 };
@@ -438,6 +447,54 @@ export type RuleEntry = {
   body: string; // plain-text paragraphs, separated by blank lines
   weapon?: WeaponProfile;
   relatedIds?: string[]; // ids of other RuleEntry objects
+};
+
+/** What a list is called in its own source, which decides the UI heading —
+ * a priest prays, a shaman performs rituals, only a wizard casts spells. */
+export type SpellListKind = 'magic' | 'prayer' | 'ritual';
+
+export type Spell = {
+  /** Namespaced by list, e.g. `necromancy.lifestealer`. */
+  id: string;
+  /** Its number on the list's die. */
+  roll: number;
+  name: string;
+  /**
+   * The 2D6 the caster must equal or beat.
+   *
+   * Null means the entry succeeds automatically and is never rolled for — the
+   * Spell of Awakening and Children of the Horned Rat. Deliberately not 0,
+   * which would render as a number the player might try to beat.
+   */
+  difficulty: number | null;
+  effect: string;
+  /** For entries that resolve on a second roll of their own (Eye of God,
+   * Sotec's Blessing). Rendered as a table under the effect text. */
+  subTable?: { roll: string; effect: string }[];
+  /** Where the source flags a passage as queried or amended by its editors.
+   * Carried so a contested rule is visibly contested rather than silently
+   * presented as settled. */
+  errata?: string;
+};
+
+export type SpellList = {
+  id: string;
+  name: string;
+  kind: SpellListKind;
+  /** The die rolled against each entry's `roll`. */
+  die: string;
+  /** Units named by the source as drawing on this list. */
+  usedBy: string[];
+  notes?: string;
+  source: string;
+  spells: Spell[];
+};
+
+export type SpellsData = {
+  schemaVersion: number;
+  source: string;
+  difficultyNote: string;
+  lists: Record<string, SpellList>;
 };
 
 export type RulesData = {

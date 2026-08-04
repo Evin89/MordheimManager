@@ -53,6 +53,11 @@ export type Hero = {
   advances: Advance[];
   skillLists: string[]; // which skill tables this hero may use
   skills: string[];
+  /** Spell/prayer/ritual list ids this model may draw on, copied from its unit
+   * definition at recruitment so a saved roster stays readable on its own. */
+  spellLists: string[];
+  /** Entries known, as namespaced ids into spells.json. Mirrors `skills`. */
+  spells: string[];
   injuries: Injury[];
   equipment: EquipmentItem[];
   status: ModelStatus;
@@ -89,6 +94,8 @@ export type HiredSword = {
   advances: Advance[];
   skillLists: string[];
   skills: string[];
+  spellLists: string[];
+  spells: string[];
   injuries: Injury[];
   equipment: EquipmentItem[];
   status: ModelStatus;

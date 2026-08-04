@@ -7,6 +7,7 @@ import ProfileBlock from '../components/ProfileBlock';
 import { STAT_KEYS } from '../lib/statLine';
 import EquipmentShop from '../components/EquipmentShop';
 import SkillPicker from '../components/SkillPicker';
+import SpellBlock from '../components/SpellBlock';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import SaveBar from '../components/SaveBar';
 import { strings } from '../strings';
@@ -100,6 +101,19 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
       advances: [...model.advances, { id: generateId(), type: 'skill', detail: skillName }],
     });
     setAdvanceMode(null);
+  }
+
+  function addSpell(spellId: string) {
+    if (!model) return;
+    // Guarded rather than assumed: the picker filters known entries out, but a
+    // roll and a pick can race, and a duplicate is unresolvable after the fact.
+    if ((model.spells ?? []).includes(spellId)) return;
+    commitModel({ spells: [...(model.spells ?? []), spellId] });
+  }
+
+  function removeSpell(spellId: string) {
+    if (!model) return;
+    commitModel({ spells: (model.spells ?? []).filter((id) => id !== spellId) });
   }
 
   function addInjury() {
@@ -376,6 +390,15 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
             </ul>
           )}
         </section>
+
+        {/* Between skills and equipment: a caster's list belongs with the other
+            things the unit brings, not buried under its rules text. */}
+        <SpellBlock
+          spellLists={model.spellLists ?? []}
+          known={model.spells ?? []}
+          onAdd={addSpell}
+          onRemove={removeSpell}
+        />
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">

@@ -52,7 +52,11 @@
           "name": "Leader",
           "description": "Leader (6\")."
         }
-      ]
+      ],
+      "spellLists": [
+        "prayersOfSigmar"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "sisterSuperior",

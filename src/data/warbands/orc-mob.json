@@ -97,7 +97,11 @@
           "name": "Wizard",
           "description": "uses Waaagh! Magic (see Magic)."
         }
-      ]
+      ],
+      "spellLists": [
+        "waaaghMagic"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "orcBigUns",

@@ -264,6 +264,17 @@ export const strings = {
     todoBadge: 'To do',
     skillsSection: 'Skills',
     noSkills: 'No skills learned yet.',
+    spells: {
+      // The heading itself comes from the list's kind — a priest prays rather
+      // than casts — so these take the word rather than hardcoding "spell".
+      none: (kind: string) => `No ${kind} known yet.`,
+      allKnown: (kind: string) => `Knows every entry on the list — no ${kind} left to learn.`,
+      rollButton: (die: string) => `Roll ${die}`,
+      rollResult: (die: number, name: string) => `Rolled ${die}: ${name}.`,
+      rerolled: (dice: string) => `Re-rolled ${dice} — already known.`,
+      chooseInstead: 'Or choose from the list',
+      remove: 'Remove',
+    },
     injuriesSection: 'Injuries',
     noInjuries: 'No injuries recorded.',
     addInjury: '+ Add Injury',

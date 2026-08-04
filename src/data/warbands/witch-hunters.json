@@ -98,7 +98,11 @@
           "name": "Prayers",
           "description": "may use the Prayers of Sigmar (see Magic)."
         }
-      ]
+      ],
+      "spellLists": [
+        "prayersOfSigmar"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "witchHunters",

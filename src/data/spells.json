@@ -1,0 +1,540 @@
+{
+  "schemaVersion": 1,
+  "source": "The Mordheimer (mordheimer.net) magic and prayer lists",
+  "difficultyNote": "`difficulty` is the 2D6 the caster must equal or beat. Null means the entry succeeds automatically and is never rolled for.",
+  "lists": {
+    "amazonRituals": {
+      "id": "amazonRituals",
+      "name": "Amazon Rituals",
+      "kind": "ritual",
+      "die": "D6",
+      "usedBy": [
+        "Amazons (Lustria) Serpent Priestess",
+        "Amazons (Mordheim) Priestess"
+      ],
+      "source": "The Mordheimer (mordheimer.net) magic and prayer lists",
+      "spells": [
+        {
+          "id": "amazonRituals.singingWind",
+          "roll": 1,
+          "name": "Singing Wind",
+          "difficulty": 8,
+          "effect": "Any model within 10\" is held until the start of the Amazon player's next turn: it cannot move, shoot or cast spells, but may defend itself in hand-to-hand combat. Models affected automatically go last in combat."
+        },
+        {
+          "id": "amazonRituals.serpentsStrength",
+          "roll": 2,
+          "name": "Serpent's Strength",
+          "difficulty": 9,
+          "effect": "Any model within 8\" of the Priestess, including herself, adds +1 Strength until the end of their next turn. Cannot be cast if the Priestess is in close combat during her Shooting phase; the effect continues if she enters combat afterwards."
+        },
+        {
+          "id": "amazonRituals.wendalasMaelstrom",
+          "roll": 3,
+          "name": "Wendala's Maelstrom",
+          "difficulty": 7,
+          "effect": "A storm extends 18\" from the Priestess. All enemy attempts to shoot missile weapons are at -1 to hit, until the start of the Amazon player's next turn."
+        },
+        {
+          "id": "amazonRituals.shieldOfThorns",
+          "roll": 4,
+          "name": "Shield of Thorns",
+          "difficulty": 7,
+          "effect": "The Priestess becomes immune to ranged and magical attacks. Models may still charge her, but the thorns negate all strikes by her and her enemies in the first round of combat. Cannot be cast while in hand-to-hand combat."
+        },
+        {
+          "id": "amazonRituals.theLivingJungle",
+          "roll": 5,
+          "name": "The Living Jungle",
+          "difficulty": 6,
+          "effect": "Pick one model within 12\". It takes 1D6 Strength 2 hits with no armour saves allowed apart from Ward saves. Dodge saves cannot be used against the swarm."
+        },
+        {
+          "id": "amazonRituals.sirensDreams",
+          "roll": 6,
+          "name": "Siren's Dreams",
+          "difficulty": 7,
+          "effect": "All Leadership tests for the opposing warband within 12\" are made at -1 until the end of the opposing player's next turn. Lizardmen and Undead are immune."
+        }
+      ]
+    },
+    "nurgleRituals": {
+      "id": "nurgleRituals",
+      "name": "Nurgle Rituals",
+      "kind": "ritual",
+      "die": "D6",
+      "usedBy": [
+        "Carnival of Chaos Carnival Master"
+      ],
+      "source": "The Mordheimer (mordheimer.net) magic and prayer lists",
+      "spells": [
+        {
+          "id": "nurgleRituals.daemonicVigour",
+          "roll": 1,
+          "name": "Daemonic Vigour",
+          "difficulty": 8,
+          "effect": "Any Plague Bearers or Nurglings within 8\" of the Master increase their Daemonic Aura save from 5+ to 4+ until the beginning of their next turn."
+        },
+        {
+          "id": "nurgleRituals.buboes",
+          "roll": 2,
+          "name": "Buboes",
+          "difficulty": 7,
+          "effect": "Range 8\", affects a single enemy warrior. The warrior must pass a Toughness test or lose a Wound. No armour saves allowed."
+        },
+        {
+          "id": "nurgleRituals.stenchOfNurgle",
+          "roll": 3,
+          "name": "Stench of Nurgle",
+          "difficulty": 8,
+          "effect": "Range 6\", affects all living creatures, friend or foe. Each enemy warrior in range must pass a Toughness test or lose an Attack until their next turn."
+        },
+        {
+          "id": "nurgleRituals.pestilence",
+          "roll": 4,
+          "name": "Pestilence",
+          "difficulty": 10,
+          "effect": "All enemy models within 12\" of the Master suffer a Strength 3 hit. No armour saves allowed."
+        },
+        {
+          "id": "nurgleRituals.scabrousHide",
+          "roll": 5,
+          "name": "Scabrous Hide",
+          "difficulty": 8,
+          "effect": "The Master has an armour save of 2+, replacing any normal armour save, until the beginning of his next Shooting phase."
+        },
+        {
+          "id": "nurgleRituals.nurglesRot",
+          "roll": 6,
+          "name": "Nurgle's Rot",
+          "difficulty": 9,
+          "effect": "All enemy models in base contact with the Master must immediately test against their Toughness or contract Nurgle's Rot."
+        }
+      ]
+    },
+    "chaosRituals": {
+      "id": "chaosRituals",
+      "name": "Chaos Rituals",
+      "kind": "ritual",
+      "die": "D6",
+      "usedBy": [
+        "Cult of the Possessed Magister",
+        "Daemons",
+        "Beastmen",
+        "Marauders of Chaos Seer with the Mark of Chaos Undivided"
+      ],
+      "source": "The Mordheimer (mordheimer.net) magic and prayer lists",
+      "spells": [
+        {
+          "id": "chaosRituals.visionOfTorment",
+          "roll": 1,
+          "name": "Vision of Torment",
+          "difficulty": 10,
+          "effect": "Range 6\", cast on the closest enemy model; if the caster is in hand-to-hand combat he must choose a target in base contact. The affected model is immediately stunned, or knocked down if it cannot be stunned."
+        },
+        {
+          "id": "chaosRituals.eyeOfGod",
+          "roll": 2,
+          "name": "Eye of God",
+          "difficulty": 7,
+          "effect": "Usable successfully only once per battle. Choose any single model within 6\", friend or foe, and roll a D6.",
+          "subTable": [
+            {
+              "roll": "1",
+              "effect": "The model is taken out of action immediately. It does not roll on the Serious Injury chart after the battle."
+            },
+            {
+              "roll": "2-5",
+              "effect": "The model gains +1 to any one characteristic for this battle, chosen by the player who cast the spell."
+            },
+            {
+              "roll": "6",
+              "effect": "The model gains +1 to all of its characteristics for the duration of the battle."
+            }
+          ]
+        },
+        {
+          "id": "chaosRituals.darkBlood",
+          "roll": 3,
+          "name": "Dark Blood",
+          "difficulty": 8,
+          "effect": "Range 8\", causing D3 Strength 5 hits on the first model in its path. Afterwards the caster rolls on the Injury table for himself, treating an out-of-action result as stunned instead."
+        },
+        {
+          "id": "chaosRituals.lureOfChaos",
+          "roll": 4,
+          "name": "Lure of Chaos",
+          "difficulty": 9,
+          "effect": "Range 12\", cast on the closest enemy model. Roll a D6 and add the caster's Leadership; the target rolls a D6 and adds its own. If the caster wins he controls the model until it passes a Leadership test in its own recovery phase. The model may not commit suicide, but can attack its own side and will not fight the caster's warband. Any of the caster's warriors it was engaged with immediately move 1\" apart.",
+          "errata": "The source marks the final clause as queried."
+        },
+        {
+          "id": "chaosRituals.wingsOfDarkness",
+          "roll": 5,
+          "name": "Wings of Darkness",
+          "difficulty": 7,
+          "effect": "The caster may immediately move anywhere within 12\", including into base contact with an enemy, counting as charging. If he engages a fleeing enemy he scores one automatic hit in the close combat phase, and his opponent then flees again if it survives."
+        },
+        {
+          "id": "chaosRituals.wordOfPain",
+          "roll": 6,
+          "name": "Word of Pain",
+          "difficulty": 7,
+          "effect": "All models within 3\" of the caster, friend or foe, suffer one Strength 3 hit. No armour saves allowed."
+        }
+      ]
+    },
+    "lesserMagic": {
+      "id": "lesserMagic",
+      "name": "Lesser Magic",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Human warlocks",
+        "Wizard (Hired Sword)"
+      ],
+      "notes": "Also called hedge magic: the recourse of wizards without the tradition and grimoires of Necromancers and Chaos Mages.",
+      "source": "The Mordheimer (mordheimer.net) magic and prayer lists",
+      "spells": [
+        {
+          "id": "lesserMagic.firesOfUzhul",
+          "roll": 1,
+          "name": "Fires of U'Zhul",
+          "difficulty": 7,
+          "effect": "Range 18\", causing one Strength 4 hit on the first model in its path. Armour saves are taken as normal, with the -1 modifier."
+        },
+        {
+          "id": "lesserMagic.flightOfZimmeran",
+          "roll": 2,
+          "name": "Flight of Zimmeran",
+          "difficulty": 7,
+          "effect": "The wizard may immediately move anywhere within 12\", including into base contact with an enemy, counting as charging. If he engages a fleeing enemy he scores one automatic hit in the close combat phase, and his opponent then flees again if it survives.",
+          "errata": "The source marks the final clause as queried."
+        },
+        {
+          "id": "lesserMagic.dreadOfAramar",
+          "roll": 3,
+          "name": "Dread of Aramar",
+          "difficulty": 7,
+          "effect": "A single model within 12\" must pass a Leadership test or flee 2D6\" directly away. If it flees it tests again at the start of each of its own movement phases, continuing to flee until it passes. Does not affect Undead or any model immune to fear."
+        },
+        {
+          "id": "lesserMagic.silverArrowsOfArha",
+          "roll": 4,
+          "name": "Silver Arrows of Arha",
+          "difficulty": 7,
+          "effect": "Cannot be cast while in hand-to-hand combat. Summons D6+2 arrows, range 24\", shot against one enemy model. Use the wizard's own Ballistic Skill to hit, ignoring movement, range and cover penalties. Each arrow causes one Strength 3 hit.",
+          "errata": "The source marks the single-target restriction as amended and the movement penalty as queried."
+        },
+        {
+          "id": "lesserMagic.luckOfShemtek",
+          "roll": 5,
+          "name": "Luck of Shemtek",
+          "difficulty": 6,
+          "effect": "The wizard may re-roll all his failed dice rolls; the second result stands. Lasts until the beginning of his own next turn."
+        },
+        {
+          "id": "lesserMagic.swordOfRezhebel",
+          "roll": 6,
+          "name": "Sword of Rezhebel",
+          "difficulty": 8,
+          "effect": "A flaming sword gives the wizard +1 Attack, +2 Strength and +2 Weapon Skill. Take a Leadership test at the beginning of each of the wizard's own turns; if it fails, the sword disappears."
+        }
+      ]
+    },
+    "lizardmenMagic": {
+      "id": "lizardmenMagic",
+      "name": "Lizardmen Magic",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Lizardmen Skink Priest"
+      ],
+      "notes": "Works like the Prayers of Sigmar and may be used even while the Skink Priest is wearing armour.",
+      "source": "The Mordheimer (mordheimer.net) magic and prayer lists",
+      "spells": [
+        {
+          "id": "lizardmenMagic.chotecsWrath",
+          "roll": 1,
+          "name": "Chotec's Wrath",
+          "difficulty": 8,
+          "effect": "A lightning bolt strikes the closest enemy model within 10\" for a single Strength 5 hit. Add +1 Strength and +1 to the roll on the Injury table if that model is wearing light, heavy, Ithilmar or Gromril armour."
+        },
+        {
+          "id": "lizardmenMagic.sotecsBlessing",
+          "roll": 2,
+          "name": "Sotec's Blessing",
+          "difficulty": 7,
+          "effect": "Cast on a single model within 6\" or on the Priest himself; roll a D6 for the blessing. The effect remains until the Priest or the model is stunned or taken out of action. Only one model may be affected at a time.",
+          "subTable": [
+            {
+              "roll": "1-2",
+              "effect": "+1 BS, or +1 to hit in close combat."
+            },
+            {
+              "roll": "3-4",
+              "effect": "Toughness +1."
+            },
+            {
+              "roll": "5-6",
+              "effect": "Movement and Initiative +1."
+            }
+          ]
+        },
+        {
+          "id": "lizardmenMagic.huanchisStealth",
+          "roll": 3,
+          "name": "Huanchi's Stealth",
+          "difficulty": 7,
+          "effect": "All Skinks within 6\" of the Priest, including himself, may immediately go into hiding if in cover — even if they ran this movement phase or have already shot with a missile weapon."
+        },
+        {
+          "id": "lizardmenMagic.theOldOnesProtection",
+          "roll": 4,
+          "name": "The Old Ones' Protection",
+          "difficulty": 6,
+          "effect": "The Priest and any Lizardmen within 4\" gain a 4+ save against the effects of spells and prayers. Remains in play until the Priest is taken out of action."
+        },
+        {
+          "id": "lizardmenMagic.tincisRage",
+          "roll": 5,
+          "name": "Tinci's Rage",
+          "difficulty": 8,
+          "effect": "A single Lizardman within 6\", or the Priest himself, is overtaken by rage: it follows the rules for Frenzy and gains +1 Strength. Remains in play until the Priest or the model is stunned or taken out of action. At the beginning of each turn the Priest must pass a Leadership roll to keep it going. Only one model may be affected at a time, though the Priest may release it at the beginning of his turn to recast on another model later in the shooting phase."
+        },
+        {
+          "id": "lizardmenMagic.itzlsSpeed",
+          "roll": 6,
+          "name": "Itzl's Speed",
+          "difficulty": 7,
+          "effect": "A single Lizardman within 6\", or the Priest himself, may make an additional sprint of up to 4\". This counts as running, may not be used by a model that has already fired a missile weapon, and may not be used to charge."
+        }
+      ]
+    },
+    "magicOfTheHornedRat": {
+      "id": "magicOfTheHornedRat",
+      "name": "Magic of the Horned Rat",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Skaven of Clan Eshin Sorcerer",
+        "Skaven of Clan Pestilens Sorcerer"
+      ],
+      "source": "The Mordheimer (mordheimer.net) magic and prayer lists",
+      "spells": [
+        {
+          "id": "magicOfTheHornedRat.warpfire",
+          "roll": 1,
+          "name": "Warpfire",
+          "difficulty": 8,
+          "effect": "Range 8\", hitting the first model in its path. Causes D3 Strength 4 hits on the target and one Strength 3 hit on each model within 2\" of it."
+        },
+        {
+          "id": "magicOfTheHornedRat.childrenOfTheHornedRat",
+          "roll": 2,
+          "name": "Children of the Horned Rat",
+          "difficulty": null,
+          "effect": "Must be used before the game and only once. Summons D3 Giant Rats, placed within 6\" of the Sorcerer. They disappear after the battle and do not count towards the maximum size of the warband."
+        },
+        {
+          "id": "magicOfTheHornedRat.gnawdoom",
+          "roll": 3,
+          "name": "Gnawdoom",
+          "difficulty": 7,
+          "effect": "Causes 2D6 Strength 1 hits on a single model within 8\" of the caster."
+        },
+        {
+          "id": "magicOfTheHornedRat.blackFury",
+          "roll": 4,
+          "name": "Black Fury",
+          "difficulty": 8,
+          "effect": "The Sorcerer may immediately charge any enemy model within 12\", ignoring terrain and interposing models, and gains 2 extra Attacks and +1 Strength during this turn's hand-to-hand combat phase only."
+        },
+        {
+          "id": "magicOfTheHornedRat.eyeOfTheWarp",
+          "roll": 5,
+          "name": "Eye of the Warp",
+          "difficulty": 8,
+          "effect": "All standing models in base contact with the Sorcerer take an immediate Leadership test. Each that fails suffers a Strength 3 hit and must run 2D6\" directly away from the Sorcerer, as if it had lost its nerve fighting more than one opponent."
+        },
+        {
+          "id": "magicOfTheHornedRat.sorcerersCurse",
+          "roll": 6,
+          "name": "Sorcerer's Curse",
+          "difficulty": 6,
+          "effect": "Range 12\", affecting a single model. The target must re-roll any successful armour saves and to-hit rolls during the Skaven hand-to-hand phase and its own next shooting and hand-to-hand combat phases."
+        }
+      ]
+    },
+    "necromancy": {
+      "id": "necromancy",
+      "name": "Necromancy",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "The Undead Necromancer"
+      ],
+      "source": "The Mordheimer (mordheimer.net) magic and prayer lists",
+      "spells": [
+        {
+          "id": "necromancy.lifestealer",
+          "roll": 1,
+          "name": "Lifestealer",
+          "difficulty": 10,
+          "effect": "Choose a single model within 6\". It suffers a wound with no save allowed, and the Necromancer gains an extra wound for the duration of the battle, which may take him above his original maximum. Does not affect the Possessed or any Undead models."
+        },
+        {
+          "id": "necromancy.re-animation",
+          "roll": 2,
+          "name": "Re-Animation",
+          "difficulty": 5,
+          "effect": "One Zombie that went out of action during the last hand-to-hand combat or Shooting phase immediately returns to the battle, placed within 6\" of the Necromancer. It cannot be placed straight into hand-to-hand combat with an enemy model.",
+          "errata": "The source marks the returning-Zombie clause as amended."
+        },
+        {
+          "id": "necromancy.deathVision",
+          "roll": 3,
+          "name": "Death Vision",
+          "difficulty": 6,
+          "effect": "The Necromancer causes fear in his enemies for the duration of the battle."
+        },
+        {
+          "id": "necromancy.spellOfDoom",
+          "roll": 4,
+          "name": "Spell of Doom",
+          "difficulty": 9,
+          "effect": "Choose one enemy model within 12\". It must immediately roll equal to or less than its Strength on a D6, or you may roll on the Injury table to see what happens to it."
+        },
+        {
+          "id": "necromancy.callOfVanhel",
+          "roll": 5,
+          "name": "Call of Vanhel",
+          "difficulty": 6,
+          "effect": "A single Zombie or Dire Wolf within 6\" of the Necromancer may immediately move again up to its maximum Movement. If this brings it into base contact with an enemy model, it counts as charging."
+        },
+        {
+          "id": "necromancy.spellOfAwakening",
+          "roll": 6,
+          "name": "Spell of Awakening",
+          "difficulty": null,
+          "effect": "If an enemy Hero is killed — your opponent rolls 11-15 on the Serious Injury chart after the battle — the Necromancer may raise him to fight as a Zombie. The dead Hero keeps his characteristics, weapons and armour but may not use any other equipment or skills, may no longer run, counts as a Henchman group on his own, and may not gain experience. He otherwise follows the normal Zombie rules.",
+          "errata": "The source marks the new Zombie's status as queried and its retained profile as amended."
+        }
+      ]
+    },
+    "prayersOfSigmar": {
+      "id": "prayersOfSigmar",
+      "name": "Prayers of Sigmar",
+      "kind": "prayer",
+      "die": "D6",
+      "usedBy": [
+        "Sisters of Sigmar Matriarch",
+        "Witch Hunters Warrior Priest"
+      ],
+      "notes": "May be used while wearing armour. Prayers are not regarded as spells, so protection against spells does not affect them.",
+      "source": "The Mordheimer (mordheimer.net) magic and prayer lists",
+      "spells": [
+        {
+          "id": "prayersOfSigmar.theHammerOfSigmar",
+          "roll": 1,
+          "name": "The Hammer of Sigmar",
+          "difficulty": 7,
+          "effect": "The wielder gains +2 Strength in hand-to-hand combat and all hits he inflicts cause double damage — 2 wounds instead of 1.",
+          "errata": "The source marks the requirement to test each Shooting phase as queried."
+        },
+        {
+          "id": "prayersOfSigmar.heartsOfSteel",
+          "roll": 2,
+          "name": "Hearts of Steel",
+          "difficulty": 8,
+          "effect": "Allied warriors within 8\" become immune to fear and to all alone tests, and the whole warband gains +1 to any Rout tests. Lasts until the caster is knocked down, stunned or put out of action. Effects are not cumulative if cast again.",
+          "errata": "The source marks the non-cumulative clause as both queried and amended."
+        },
+        {
+          "id": "prayersOfSigmar.soulfire",
+          "roll": 3,
+          "name": "Soulfire",
+          "difficulty": 9,
+          "effect": "All enemy models within 4\" suffer a Strength 3 hit with no armour saves allowed. Undead and Possessed models in range suffer a Strength 5 hit instead."
+        },
+        {
+          "id": "prayersOfSigmar.shieldOfFaith",
+          "roll": 4,
+          "name": "Shield of Faith",
+          "difficulty": 6,
+          "effect": "The Priest is immune to all spells. Roll at the beginning of each turn in the recovery phase; on a 1 or 2 the shield disappears."
+        },
+        {
+          "id": "prayersOfSigmar.healingHand",
+          "roll": 5,
+          "name": "Healing Hand",
+          "difficulty": 5,
+          "effect": "Any one model within 2\" of the Priest, including himself, is restored to its full quota of Wounds. In addition, any friendly models within 2\" that are stunned or knocked down immediately stand up and continue fighting as normal."
+        },
+        {
+          "id": "prayersOfSigmar.armourOfRighteousness",
+          "roll": 6,
+          "name": "Armour of Righteousness",
+          "difficulty": 9,
+          "effect": "The Priest has an armour save of 2+, replacing his normal armour save, and causes fear in his enemies, and is therefore immune to fear himself. Lasts until the beginning of the Priest's next Shooting phase."
+        }
+      ]
+    },
+    "waaaghMagic": {
+      "id": "waaaghMagic",
+      "name": "Waaagh! Magic",
+      "kind": "ritual",
+      "die": "D6",
+      "usedBy": [
+        "Orc Mob Shaman",
+        "Night Goblins Shaman"
+      ],
+      "notes": "Rituals of a sort: howling prayers to the Orc gods Gork and Mork.",
+      "source": "The Mordheimer (mordheimer.net) magic and prayer lists",
+      "spells": [
+        {
+          "id": "waaaghMagic.ledzGo",
+          "roll": 1,
+          "name": "Led'z Go",
+          "difficulty": 9,
+          "effect": "Any Orc or Goblin within 4\" of the Shaman automatically strikes first in hand-to-hand combat regardless of other circumstances. Lasts until the caster is knocked down, stunned or taken out of action."
+        },
+        {
+          "id": "waaaghMagic.oiGerroff",
+          "roll": 2,
+          "name": "Oi! Gerroff!",
+          "difficulty": 7,
+          "effect": "Range 8\". Moves any enemy model within range D6\" directly away from the Shaman. If the target collides with another model or a building, both suffer one Strength 3 hit. May not be cast on models in hand-to-hand combat."
+        },
+        {
+          "id": "waaaghMagic.zzap",
+          "roll": 3,
+          "name": "Zzap!",
+          "difficulty": 9,
+          "effect": "Range 12\". Causes D3 Strength 4 hits on the closest enemy target, with no armour saves allowed."
+        },
+        {
+          "id": "waaaghMagic.fooledYa",
+          "roll": 4,
+          "name": "Fooled Ya!",
+          "difficulty": 6,
+          "effect": "No enemy may charge the Shaman during their next turn. If the Shaman is engaged in hand-to-hand combat he may immediately move 4\" away."
+        },
+        {
+          "id": "waaaghMagic.clubba",
+          "roll": 5,
+          "name": "Clubba",
+          "difficulty": 7,
+          "effect": "An ectoplasmic club counts as a normal club with a +2 Strength bonus and gives the Shaman +1 Attack. Lasts until the Shaman suffers a wound."
+        },
+        {
+          "id": "waaaghMagic.fireOfGork",
+          "roll": 6,
+          "name": "Fire of Gork",
+          "difficulty": 8,
+          "effect": "Range 12\". Two bolts each cause D3 Strength 3 hits; both may be fired at the closest enemy target or split between the two closest enemy targets."
+        }
+      ]
+    }
+  }
+}

@@ -54,7 +54,11 @@
           "name": "Wizard",
           "description": "uses Chaos Rituals (see Magic)."
         }
-      ]
+      ],
+      "spellLists": [
+        "chaosRituals"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "possessed",

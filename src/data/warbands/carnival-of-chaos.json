@@ -56,7 +56,11 @@
           "name": "Wizard",
           "description": "uses Nurgle Rituals (see Magic)."
         }
-      ]
+      ],
+      "spellLists": [
+        "nurgleRituals"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "brutes",
