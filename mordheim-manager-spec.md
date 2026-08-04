@@ -894,7 +894,32 @@ Page size 20–25. Use **keyset pagination** (`WHERE created_at < :cursor ORDER 
 
 ### 13.5 Design sandbox ✅
 
-`/design` — components rendered against both themes side by side, for judging them before migrating screens. See §5.5.
+`/design` — components rendered against both themes, for judging them before migrating screens. It is the authority for anything interactive: focus rings, editable profile cells, hover and pressed states, and how a block reflows when nine stat columns meet a 360px phone.
+
+The sheets below are the static half of that, generated so the spec can show the design rather than describe it:
+
+```bash
+npm run design-sheet
+```
+
+`scripts/design-sheet.mjs` reads the theme tokens straight out of `src/index.css` and writes one SVG per theme into `docs/design/`. Nothing in them is hand-drawn or hand-copied — the swatch hexes come from the stylesheet, and **the contrast ratios are computed from those same values** rather than transcribed. A token edited without re-running shows up as a diff; a token change that drops a pair below AA prints `FAIL` and exits non-zero.
+
+#### Rulebook (parchment) — §5.1 verbatim
+
+![Rulebook theme design sheet: colour tokens, measured contrast, profile block, type scale and actions](docs/design/parchment.svg)
+
+#### Grimdark — the same roles, different values
+
+![Grimdark theme design sheet: colour tokens, measured contrast, profile block, type scale and actions](docs/design/grimdark.svg)
+
+Reading them side by side is the point of §5.5: the token *names* are the spec's, but what they mean is the **role**, so `parchment` is "the page" and `ink` is "text on it" even where that resolves to bone on near-black. The profile block, the type scale and the touch targets are identical in both — only the values move.
+
+**Two limits worth knowing:**
+
+- **Fonts don't load.** An SVG embedded via `<img>` can't fetch a webfont, so the type scale shows the *sizes* and names the intended family beside each line rather than pretending to render Pirata One. For the real thing, open `/design`.
+- **The sheet has to render what the components render.** The first draft put `parchment-raised` on the verdigris confirm button and produced a 3.95:1 failure that exists nowhere in the app — the components use white, which measures 4.73:1 under Grimdark and 7.08:1 under Rulebook. That pair is now in the checked set. A sheet that invents a plausible substitute is worse than no sheet, because it reports bugs that aren't there.
+
+The generator also caught a real error in the other direction: the Grimdark `on-accent` comment in `src/index.css` claimed 8.9:1 for near-black on ember. It is **5.26:1** — still comfortably past AA, so the decision to use near-black over white (3.76:1) was right, but the recorded number was not. That is the whole argument for computing these rather than writing them down.
 
 ### 13.6 Repository conventions
 

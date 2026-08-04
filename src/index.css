@@ -41,7 +41,9 @@
   --color-ink-faded: 168 152 122;
   --color-accent: 220 92 14; /* ember — this theme's stand-in for blood */
   /* Text laid on the accent. Ember is a light orange, so this must be dark:
-     white on it is 3.76:1 and fails AA, while near-black is 8.9:1. */
+     white on it is 3.76:1 and fails AA, while near-black is 5.26:1 and passes.
+     (This comment read 8.9:1 until `npm run design-sheet` computed it — the
+     decision was right, the number was not.) */
   --color-on-accent: 11 10 9;
   --color-verdigris: 94 122 99; /* lifted off §5's value so it reads on black */
 }
