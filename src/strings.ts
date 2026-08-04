@@ -273,6 +273,8 @@ export const strings = {
       rollResult: (die: number, name: string) => `Rolled ${die}: ${name}.`,
       rerolled: (dice: string) => `Re-rolled ${dice} — already known.`,
       chooseInstead: 'Or choose from the list',
+      chooseCount: (n: number) => `${n} available`,
+      chooseThis: 'Learn this',
       remove: 'Remove',
     },
     injuriesSection: 'Injuries',
