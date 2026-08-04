@@ -449,16 +449,15 @@ export default function CampaignScreen() {
           <CampaignEntry />
         ) : (
           <>
-            {/* Always on screen, not buried under a tab: in the user test nobody
-                found the join field once they already had a campaign, which read
-                as "you can only be in one". */}
-            <JoinCampaignForm title={strings.campaign.joinAnotherTitle} compact />
-            <CreateCampaignForm
-              title={strings.campaign.startAnotherTitle}
-              hint={strings.campaign.startAnotherHint}
-              compact
-            />
-
+            {/* Joining and starting another campaign live on /campaigns, not
+                here. They were put on this screen because the user test found
+                nobody could locate the join field once they already had a
+                campaign, which read as "you can only be in one" — but the fix
+                for that was the overview screen, which is now what the nav's
+                Campaign tab and this screen's back arrow both lead to. Left
+                here as well, they sat above whichever tab was open, pushing the
+                standings and the log down behind a form about other campaigns
+                entirely. */}
             {tab === 'log' && (
               <>
                 <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
