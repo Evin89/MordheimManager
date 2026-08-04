@@ -168,6 +168,18 @@ function buildWarband(rng: () => number, ownerIndex: number, index: number): War
       warband.henchmenGroups.push(group);
     }
   }
+
+  // The factory hands out random UUIDs, which would make a model's URL change
+  // on every page load — so a link to a demo hero never survived a reload, and
+  // the "same data every run" promise held for warbands but not for the models
+  // inside them. Deterministic ids, derived like the warband's own.
+  warband.heroes.forEach((hero, i) => {
+    hero.id = `${warband.id}-hero-${i}`;
+  });
+  warband.henchmenGroups.forEach((group, i) => {
+    group.id = `${warband.id}-hench-${i}`;
+  });
+
   return warband;
 }
 

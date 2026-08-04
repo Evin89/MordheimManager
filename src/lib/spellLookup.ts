@@ -1,4 +1,6 @@
 import spellsData from '../data/spells.json';
+import hiredSwordsData from '../data/hiredSwords.json';
+import { getWarbandDefinition } from '../data/warbandRegistry';
 import { Spell, SpellList, SpellListKind } from '../data/types';
 
 const LISTS = spellsData.lists as unknown as Record<string, SpellList>;
@@ -105,4 +107,38 @@ export function rollSpell(
     return { die, spell, rerolled };
   }
   return null;
+}
+
+/**
+ * Which lists a model may draw on, resolved from the game data.
+ *
+ * Read from the unit's definition rather than from the copy stored on the
+ * model, for the same reason `getUnitSpecialRules` does: the lists belong to
+ * the unit type, not to the individual warrior. A stored copy goes stale the
+ * moment the data file is corrected — and worse, every hero recruited before
+ * spell lists existed carries an empty one, so a Necromancer built last week
+ * showed no magic at all.
+ *
+ * Falls back to whatever the model stored for anything the definitions don't
+ * know: a promoted Henchman, or a hand-edited import.
+ */
+export function resolveSpellLists(
+  warbandType: string,
+  model: { unitType?: string; type?: string; spellLists?: string[] },
+): string[] {
+  const unitName = model.unitType ?? model.type;
+  if (unitName) {
+    // Hero slots only: no henchmen type in the data is a caster, and henchmen
+    // advance as a group, which a per-model spell list can't express.
+    const definition = getWarbandDefinition(warbandType);
+    const slot = definition?.heroSlots.find((s) => s.unitType === unitName);
+    if (slot) return slot.spellLists ?? [];
+
+    // Hired Swords aren't in the warband file; they have their own catalogue.
+    const sword = (hiredSwordsData.hiredSwords as { name: string; spellLists?: string[] }[]).find(
+      (s) => s.name === unitName,
+    );
+    if (sword) return sword.spellLists ?? [];
+  }
+  return model.spellLists ?? [];
 }

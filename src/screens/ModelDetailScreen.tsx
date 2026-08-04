@@ -15,7 +15,7 @@ import { useWarbandLookup } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
-import { getSpell, spellBlockLabel } from '../lib/spellLookup';
+import { getSpell, resolveSpellLists, spellBlockLabel } from '../lib/spellLookup';
 import { getUniqueInjuries } from '../lib/injuryLookup';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
@@ -67,6 +67,10 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const list = draft[listKey] as EditableModel[];
   const model = list.find((m) => m.id === modelId);
   if (!model) return <Navigate to={`/warbands/${draft.id}`} replace />;
+
+  // From the game data, not from the model's stored copy — a caster recruited
+  // before spell lists existed has an empty one, and would show no magic.
+  const spellLists = resolveSpellLists(draft.warbandType, model);
 
   function modelPatch(patch: Partial<EditableModel>) {
     return (current: Warband) => ({
@@ -356,7 +360,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                 </button>
                 {/* Only a caster is offered this; for everyone else the tab
                     would be a dead end rather than a choice. */}
-                {(model.spellLists?.length ?? 0) > 0 && (
+                {spellLists.length > 0 && (
                   <button
                     type="button"
                     onClick={() => setAdvanceMode('spell')}
@@ -364,7 +368,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                       advanceMode === 'spell' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
                     }`}
                   >
-                    {spellBlockLabel(model.spellLists ?? [], false)}
+                    {spellBlockLabel(spellLists, false)}
                   </button>
                 )}
               </div>
@@ -395,7 +399,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
               {advanceMode === 'spell' && (
                 <SpellBlock
-                  spellLists={model.spellLists ?? []}
+                  spellLists={spellLists}
                   known={model.spells ?? []}
                   pickerOnly
                   onAdd={applySpellAdvance}
@@ -441,7 +445,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
         {/* Between skills and equipment: a caster's list belongs with the other
             things the unit brings, not buried under its rules text. */}
         <SpellBlock
-          spellLists={model.spellLists ?? []}
+          spellLists={spellLists}
           known={model.spells ?? []}
           onAdd={addSpell}
           onRemove={removeSpell}
