@@ -15,6 +15,7 @@ import { useWarbandLookup } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
+import { getSpell, spellBlockLabel } from '../lib/spellLookup';
 import { getUniqueInjuries } from '../lib/injuryLookup';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
@@ -30,6 +31,11 @@ type ModelDetailScreenProps = {
 
 const STATUS_OPTIONS: ModelStatus[] = ['active', 'missNextGame', 'dead', 'captured', 'left'];
 
+/** Names a spell for an advance record, falling back to the id. */
+function spellName(spellId: string): string {
+  return getSpell(spellId)?.name ?? spellId;
+}
+
 export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const { warbandId, modelId } = useParams<{ warbandId: string; modelId: string }>();
   const navigate = useNavigate();
@@ -39,7 +45,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const { data: campaign } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
 
-  const [advanceMode, setAdvanceMode] = useState<'stat' | 'skill' | null>(null);
+  const [advanceMode, setAdvanceMode] = useState<'stat' | 'skill' | 'spell' | null>(null);
   const [addingInjury, setAddingInjury] = useState(false);
   const [injuryChoice, setInjuryChoice] = useState('custom');
   const [customInjuryName, setCustomInjuryName] = useState('');
@@ -99,6 +105,25 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     commitModel({
       skills: [...model.skills, skillName],
       advances: [...model.advances, { id: generateId(), type: 'skill', detail: skillName }],
+    });
+    setAdvanceMode(null);
+  }
+
+  /**
+   * A caster may spend a "new skill" advance on an entry from his own list
+   * instead — the Warlock's entry says so outright. Recorded as a skill
+   * advance, since that is the advance that was rolled; the detail names the
+   * spell taken in its place.
+   */
+  function applySpellAdvance(spellId: string) {
+    if (!model) return;
+    if ((model.spells ?? []).includes(spellId)) return;
+    commitModel({
+      spells: [...(model.spells ?? []), spellId],
+      advances: [
+        ...model.advances,
+        { id: generateId(), type: 'skill', detail: spellName(spellId) },
+      ],
     });
     setAdvanceMode(null);
   }
@@ -329,6 +354,19 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                 >
                   {strings.modelDetail.advanceTypeSkill}
                 </button>
+                {/* Only a caster is offered this; for everyone else the tab
+                    would be a dead end rather than a choice. */}
+                {(model.spellLists?.length ?? 0) > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setAdvanceMode('spell')}
+                    className={`flex-1 min-h-[44px] rounded-md text-sm font-semibold border ${
+                      advanceMode === 'spell' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+                    }`}
+                  >
+                    {spellBlockLabel(model.spellLists ?? [], false)}
+                  </button>
+                )}
               </div>
 
               {advanceMode === 'stat' && (
@@ -353,6 +391,15 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                     })}
                   </div>
                 </div>
+              )}
+
+              {advanceMode === 'spell' && (
+                <SpellBlock
+                  spellLists={model.spellLists ?? []}
+                  known={model.spells ?? []}
+                  pickerOnly
+                  onAdd={applySpellAdvance}
+                />
               )}
 
               {advanceMode === 'skill' && (

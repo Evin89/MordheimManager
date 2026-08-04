@@ -1,4 +1,5 @@
 import { generateId } from '../../lib/id';
+import { getSpell } from '../../lib/spellLookup';
 import { getWyrdstoneSellPrice } from '../../lib/wyrdstonePricing';
 import { countModels } from '../../lib/rating';
 import { OutOfActionTally } from '../../store/useAppStore';
@@ -11,6 +12,12 @@ function todayIso(): string {
 
 function emptyStatIncreases(): StatIncreases {
   return {};
+}
+
+/** A spell's name for an advance record. Falls back to the id so a renamed or
+ * removed entry still leaves a legible advance rather than a blank one. */
+function spellName(spellId: string): string {
+  return getSpell(spellId)?.name ?? spellId;
 }
 
 /**
@@ -81,6 +88,7 @@ export function createInitialDraft(warband: Warband): PostBattleDraft {
       equipmentFate: 'keep',
       statIncreases: emptyStatIncreases(),
       newSkills: [],
+      newSpells: [],
     };
   }
 
@@ -109,6 +117,7 @@ export function createInitialDraft(warband: Warband): PostBattleDraft {
       payUpkeep: true,
       statIncreases: emptyStatIncreases(),
       newSkills: [],
+      newSpells: [],
     };
   }
 
@@ -194,12 +203,24 @@ export function applyDraftToWarband(
     for (const skill of state.newSkills) {
       advances.push({ id: generateId(), type: 'skill', detail: skill, battleRef: draft.scenario });
     }
+    // Typed 'skill' deliberately: the advance rolled *was* a new skill, and the
+    // caster spent it on a spell instead. A third Advance type would mean a
+    // stored-data migration to record something the detail already says.
+    for (const spellId of state.newSpells) {
+      advances.push({
+        id: generateId(),
+        type: 'skill',
+        detail: spellName(spellId),
+        battleRef: draft.scenario,
+      });
+    }
 
     heroes.push({
       ...hero,
       xp: hero.xp + state.xpAwarded,
       stats: applyStatIncreases(hero.stats, state.statIncreases),
       skills: [...hero.skills, ...state.newSkills],
+      spells: [...hero.spells, ...state.newSpells],
       advances,
       injuries: [
         ...hero.injuries,
@@ -318,12 +339,24 @@ export function applyDraftToWarband(
     for (const skill of state.newSkills) {
       advances.push({ id: generateId(), type: 'skill', detail: skill, battleRef: draft.scenario });
     }
+    // Typed 'skill' deliberately: the advance rolled *was* a new skill, and the
+    // caster spent it on a spell instead. A third Advance type would mean a
+    // stored-data migration to record something the detail already says.
+    for (const spellId of state.newSpells) {
+      advances.push({
+        id: generateId(),
+        type: 'skill',
+        detail: spellName(spellId),
+        battleRef: draft.scenario,
+      });
+    }
 
     hiredSwords.push({
       ...sword,
       xp: sword.xp + state.xpAwarded,
       stats: applyStatIncreases(sword.stats, state.statIncreases),
       skills: [...sword.skills, ...state.newSkills],
+      spells: [...sword.spells, ...state.newSpells],
       advances,
     });
   }
@@ -416,7 +449,11 @@ export function buildDiffSummary(warband: Warband, draft: PostBattleDraft): stri
 
     if (state.xpAwarded > 0) lines.push(`${hero.name} gains +${state.xpAwarded} XP.`);
     for (const injury of state.injuries) lines.push(`${hero.name} suffers ${injury.name}.`);
-    const advanceTags = [...statIncreaseTags(state.statIncreases), ...state.newSkills];
+    const advanceTags = [
+      ...statIncreaseTags(state.statIncreases),
+      ...state.newSkills,
+      ...state.newSpells.map(spellName),
+    ];
     if (advanceTags.length > 0) lines.push(`${hero.name} advances: ${advanceTags.join(', ')}.`);
     if (state.resultingStatus === 'missNextGame') lines.push(`${hero.name} will miss the next game.`);
   }
@@ -449,7 +486,11 @@ export function buildDiffSummary(warband: Warband, draft: PostBattleDraft): stri
       continue;
     }
     if (state.xpAwarded > 0) lines.push(`${sword.name} gains +${state.xpAwarded} XP.`);
-    const advanceTags = [...statIncreaseTags(state.statIncreases), ...state.newSkills];
+    const advanceTags = [
+      ...statIncreaseTags(state.statIncreases),
+      ...state.newSkills,
+      ...state.newSpells.map(spellName),
+    ];
     if (advanceTags.length > 0) lines.push(`${sword.name} advances: ${advanceTags.join(', ')}.`);
     if (state.payUpkeep) lines.push(`Pay ${sword.upkeep} gc upkeep to ${sword.name}.`);
   }

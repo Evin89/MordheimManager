@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { strings } from '../../strings';
 import SkillPicker from '../../components/SkillPicker';
+import SpellBlock from '../../components/SpellBlock';
+import { spellBlockLabel } from '../../lib/spellLookup';
 import { STAT_KEYS } from '../../lib/statLine';
 import { roll2D6, rollD6 } from '../../lib/dice';
 import { parseAdvanceResult } from '../../lib/advanceLookup';
@@ -26,6 +28,11 @@ type AdvanceRecorderProps = {
   currentStats: StatLine;
   skillLists?: string[];
   knownSkills: string[];
+  /** Empty for a non-caster, which is what hides the option. */
+  spellLists?: string[];
+  knownSpells?: string[];
+  newSpells?: string[];
+  onAddSpell?: (spellId: string) => void;
   warbandType: string;
   isLeader: boolean;
   statIncreases: StatIncreases;
@@ -48,6 +55,10 @@ function AdvanceRecorder({
   currentStats,
   skillLists,
   knownSkills,
+  spellLists,
+  knownSpells,
+  newSpells,
+  onAddSpell,
   warbandType,
   isLeader,
   statIncreases,
@@ -62,7 +73,7 @@ function AdvanceRecorder({
   ladsGotTalent,
   onToggleLadsGotTalent,
 }: AdvanceRecorderProps) {
-  const [open, setOpen] = useState<'stat' | 'skill' | null>(null);
+  const [open, setOpen] = useState<'stat' | 'skill' | 'spell' | null>(null);
   const [lastRoll, setLastRoll] = useState<LastAdvanceRoll | null>(null);
 
   const maxed = maxedStats(currentStats, statMaximums, statIncreases, STAT_KEYS);
@@ -226,6 +237,17 @@ function AdvanceRecorder({
               {strings.modelDetail.advanceTypeSkill}
             </button>
           )}
+          {/* A caster may spend a "new skill" advance on an entry from his own
+              list instead. Offered only where the model actually has one. */}
+          {spellLists && spellLists.length > 0 && onAddSpell && (
+            <button
+              type="button"
+              onClick={() => setOpen('spell')}
+              className="flex-1 min-w-[7rem] min-h-[40px] rounded-md border border-ink-700 text-bone-200 text-sm font-semibold"
+            >
+              {spellBlockLabel(spellLists, false)}
+            </button>
+          )}
           {/* Henchmen have no skill lists of their own — their table's
               equivalent of "New Skill" is the promotion result, which had no
               control at all and so could not be recorded. */}
@@ -277,6 +299,24 @@ function AdvanceRecorder({
         </div>
       )}
 
+      {open === 'spell' && spellLists && onAddSpell && (
+        <div className="space-y-2 rounded-md bg-ink-800 border border-ink-700 p-3">
+          <SpellBlock
+            spellLists={spellLists}
+            known={[...(knownSpells ?? []), ...(newSpells ?? [])]}
+            pickerOnly
+            onAdd={(spellId) => {
+              onAddSpell(spellId);
+              setOpen(null);
+              setLastRoll(null);
+            }}
+          />
+          <button type="button" onClick={() => setOpen(null)} className="w-full min-h-[36px] text-bone-300 text-sm">
+            {strings.common.cancel}
+          </button>
+        </div>
+      )}
+
       {open === 'skill' && (
         <div className="space-y-2 rounded-md bg-ink-800 border border-ink-700 p-3">
           <SkillPicker
@@ -301,9 +341,16 @@ function AdvanceRecorder({
 
 /** Advances staged so far for a model, counting each characteristic point and
  * each new skill as one. */
-function recordedCount(statIncreases: StatIncreases, newSkills?: string[]): number {
+function recordedCount(
+  statIncreases: StatIncreases,
+  newSkills?: string[],
+  newSpells?: string[],
+): number {
   const stats = Object.values(statIncreases).reduce((sum: number, n) => sum + (n ?? 0), 0);
-  return stats + (newSkills?.length ?? 0);
+  // Spells count here too: a caster's entry is taken *in place of* a new skill,
+  // so it spends the same advance. Leaving it out would let him record a spell
+  // and still be owed the skill.
+  return stats + (newSkills?.length ?? 0) + (newSpells?.length ?? 0);
 }
 
 export default function StepAdvances({ warband, draft, updateDraft }: StepProps) {
@@ -354,13 +401,16 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               currentStats={hero.stats}
               skillLists={hero.skillLists}
               knownSkills={hero.skills}
+              spellLists={hero.spellLists}
+              knownSpells={hero.spells}
               warbandType={warband.warbandType}
               isLeader={hero.isLeader}
               statIncreases={state.statIncreases}
               newSkills={state.newSkills}
+              newSpells={state.newSpells}
               advanceEntries={advancesData.heroAdvanceTable.entries}
               due={due}
-              recorded={recordedCount(state.statIncreases, state.newSkills)}
+              recorded={recordedCount(state.statIncreases, state.newSkills, state.newSpells)}
               onRemoveStat={(key) =>
                 updateDraft((current) => {
                   const s = current.heroes[hero.id];
@@ -397,6 +447,12 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
                 updateDraft((current) => {
                   const s = current.heroes[hero.id];
                   return { heroes: { ...current.heroes, [hero.id]: { ...s, newSkills: [...s.newSkills, skillName] } } };
+                })
+              }
+              onAddSpell={(spellId) =>
+                updateDraft((current) => {
+                  const s = current.heroes[hero.id];
+                  return { heroes: { ...current.heroes, [hero.id]: { ...s, newSpells: [...s.newSpells, spellId] } } };
                 })
               }
             />
@@ -490,13 +546,16 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               currentStats={sword.stats}
               skillLists={sword.skillLists}
               knownSkills={sword.skills}
+              spellLists={sword.spellLists}
+              knownSpells={sword.spells}
               warbandType={warband.warbandType}
               isLeader={sword.isLeader}
               statIncreases={state.statIncreases}
               newSkills={state.newSkills}
+              newSpells={state.newSpells}
               advanceEntries={advancesData.heroAdvanceTable.entries}
               due={due}
-              recorded={recordedCount(state.statIncreases, state.newSkills)}
+              recorded={recordedCount(state.statIncreases, state.newSkills, state.newSpells)}
               onRemoveStat={(key) =>
                 updateDraft((current) => {
                   const s = current.hiredSwords[sword.id];
@@ -533,6 +592,12 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
                 updateDraft((current) => {
                   const s = current.hiredSwords[sword.id];
                   return { hiredSwords: { ...current.hiredSwords, [sword.id]: { ...s, newSkills: [...s.newSkills, skillName] } } };
+                })
+              }
+              onAddSpell={(spellId) =>
+                updateDraft((current) => {
+                  const s = current.hiredSwords[sword.id];
+                  return { hiredSwords: { ...current.hiredSwords, [sword.id]: { ...s, newSpells: [...s.newSpells, spellId] } } };
                 })
               }
             />

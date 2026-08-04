@@ -1080,7 +1080,8 @@ One component, `<SpellPicker>`, modelled directly on the injury step (`StepInjur
 Entry points, all reaching the same picker:
 
 1. **Recruitment** — `startingSpells` prompts that many times.
-2. **Advances** — where a unit's rules allow a spell in place of a skill, the advance step offers it alongside the skill lists.
+2. **Advances** — both the roster's Record Advance panel and the post-battle wizard's Advances step offer a third option beside Characteristic Increase and New Skill, labelled by list kind ("Prayer", "Ritual", "Spell") and shown only for a caster. Taking one is recorded as a **skill** advance whose detail names the entry: the advance rolled *was* a new skill, and it was spent on a spell. A third `Advance` type would have meant migrating stored data to record something the detail already says.
+   The wizard's "*n* of *m* advances recorded" tally counts spells alongside stats and skills — without that a caster could take the spell and still be owed the skill.
 3. **The unit entry** — add or remove by hand, for corrections and house rules.
 
 ### 15.4 In the unit entry
@@ -1141,7 +1142,6 @@ Deliberate, with reasons. Kept here rather than in a tracker so the spec and the
 
 **Unbuilt sections:** §10 (deletion and naming), §11 (photos), and the §12/§13 work are gaps by definition and aren't repeated here.
 
-- **Advances don't offer a spell yet.** The Warlock may "randomly determine a new Lesser Magic spell instead" of an Academic skill, and the advance step doesn't yet present that choice — the spell has to be added from the unit entry by hand. §15.3.
 
 - **Offline.** There is none, by design — data is server-side and the app requires a connection. Asset caching is a separate question, and is handled (§2).
 - **Campaign events.** Table and RLS exist and are migrated; the UI from §4.5 isn't built.

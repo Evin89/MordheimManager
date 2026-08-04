@@ -16,6 +16,9 @@ export type HeroBattleState = {
   equipmentFate: 'keep' | 'treasury' | 'lost';
   statIncreases: StatIncreases;
   newSkills: string[];
+  /** Entries learned in place of a new skill. A caster's advance may be spent
+   * on a spell instead, so this is a sibling of `newSkills`, not a subset. */
+  newSpells: string[];
 };
 
 export type HenchmenBattleState = {
@@ -39,6 +42,9 @@ export type HiredSwordBattleState = {
   payUpkeep: boolean;
   statIncreases: StatIncreases;
   newSkills: string[];
+  /** Entries learned in place of a new skill. A caster's advance may be spent
+   * on a spell instead, so this is a sibling of `newSkills`, not a subset. */
+  newSpells: string[];
 };
 
 /**
