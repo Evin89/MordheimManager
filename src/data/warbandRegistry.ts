@@ -1,4 +1,5 @@
-import { UnitSpecialRule, WarbandDefinition } from './types';
+import { ResolvedSpecialRule, WarbandDefinition } from './types';
+import { resolveSpecialRules } from '../lib/specialRulesLookup';
 import maneaters from './warbands/maneaters.json';
 import reiklanders from './warbands/reiklanders.json';
 import middenheimers from './warbands/middenheimers.json';
@@ -108,13 +109,18 @@ export const warbandDefinitionsByName: WarbandDefinition[] = [...warbandDefiniti
  * saved warband would go stale the day the data file is corrected. Returns an
  * empty list for a unit the definition doesn't know.
  */
-export function getUnitSpecialRules(warbandType: string, unitType: string): UnitSpecialRule[] {
+export function getUnitSpecialRules(
+  warbandType: string,
+  unitType: string,
+): ResolvedSpecialRule[] {
   const definition = getWarbandDefinition(warbandType);
   if (!definition) return [];
   const unit =
     definition.heroSlots.find((s) => s.unitType === unitType) ??
     definition.henchmenTypes.find((h) => h.unitType === unitType);
-  return unit?.specialRules ?? [];
+  // Shared references are resolved here rather than in the screens, so nothing
+  // downstream has to know a rule can be stored two different ways.
+  return resolveSpecialRules(unit?.specialRules);
 }
 
 /** Whatever text on a unit hasn't been split into named rules yet. */

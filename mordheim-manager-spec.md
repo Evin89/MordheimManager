@@ -315,6 +315,7 @@ type StandingsRow = {
   hiredSwords.json       Hired Sword profiles, hire fee, upkeep, skill lists
   scenarios.json         scenario list with page references
   exploration.json       the D66 Exploration chart
+  specialRules.json      12 rules shared across warbands, referenced by unit
   racialMaximums.json    29 racial ceilings, shared by every advancing unit
   spells.json            10 spell/prayer/ritual lists, 60 entries
   rules.json             the in-app rules browser index

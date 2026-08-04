@@ -50,8 +50,8 @@
       "notes": "",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "any warrior within 6\" may use his Leadership for Leadership tests. The oldest (or biggest) man in the village."
+          "ref": "leader",
+          "note": "The Elder is the oldest — or biggest — man in the village."
         }
       ]
     },
@@ -138,13 +138,15 @@
       "equipmentOptions": [
         "ostlanderEquipmentList"
       ],
-      "spellLists": ["prayersOfTaal"],
+      "spellLists": [
+        "prayersOfTaal"
+      ],
       "startingSpells": 1,
       "notes": "",
       "specialRules": [
         {
-          "name": "Prayers",
-          "description": "may use the Prayers of Taal (see Magic — priests may pray in armour)."
+          "ref": "prayers",
+          "note": "A Priest of Taal may pray while wearing armour."
         },
         {
           "name": "Strictures",
@@ -307,8 +309,7 @@
       "notes": "statMaximums null: Ogres are not Human — fill from the Ogre Maximum Profile table if/when sourced.",
       "specialRules": [
         {
-          "name": "Fear",
-          "description": "causes fear."
+          "ref": "fear"
         },
         {
           "name": "Large",

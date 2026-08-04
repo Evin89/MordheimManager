@@ -48,12 +48,10 @@
       "notes": "",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "Leader (6\")."
+          "ref": "leader"
         },
         {
-          "name": "Wizard",
-          "description": "uses Chaos Rituals (see Magic)."
+          "ref": "wizard"
         }
       ],
       "spellLists": [

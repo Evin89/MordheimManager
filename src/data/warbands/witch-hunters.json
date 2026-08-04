@@ -50,8 +50,7 @@
       "notes": "Burn the Witch!: hates all models that can cast spells.",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "Leader (6\")."
+          "ref": "leader"
         }
       ]
     },
@@ -97,8 +96,7 @@
       "notes": "",
       "specialRules": [
         {
-          "name": "Prayers",
-          "description": "may use the Prayers of Sigmar (see Magic)."
+          "ref": "prayers"
         }
       ],
       "spellLists": [
@@ -247,7 +245,7 @@
         "Ld": 5
       },
       "statMaximums": {
-         "M": 6,
+        "M": 6,
         "WS": 4,
         "BS": 0,
         "S": 4,
@@ -261,8 +259,8 @@
       "notes": "",
       "specialRules": [
         {
-          "name": "Animals",
-          "description": "do not gain experience. No weapons/armour."
+          "ref": "animal",
+          "note": "May not be given weapons or armour."
         }
       ]
     }

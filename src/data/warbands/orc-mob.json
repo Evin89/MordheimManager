@@ -50,8 +50,7 @@
       "notes": "statMaximums null: Orcs are not Human — fill from the Orc Maximum Profile table if/when sourced.",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "any warrior within 6\" may use his Leadership for Leadership tests."
+          "ref": "leader"
         }
       ]
     },
@@ -80,7 +79,7 @@
         "Ld": 7
       },
       "statMaximums": {
-         "M": 4,
+        "M": 4,
         "WS": 6,
         "BS": 6,
         "S": 4,
@@ -96,8 +95,7 @@
       "notes": "May be armed with weapons from the Orc Equipment list, but never armour. statMaximums null: fill from the Orc Maximum Profile table if/when sourced.",
       "specialRules": [
         {
-          "name": "Wizard",
-          "description": "uses Waaagh! Magic (see Magic)."
+          "ref": "wizard"
         }
       ],
       "spellLists": [
@@ -132,7 +130,7 @@
         "Ld": 7
       },
       "statMaximums": {
-         "M": 4,
+        "M": 4,
         "WS": 6,
         "BS": 6,
         "S": 4,
@@ -170,7 +168,7 @@
         "Ld": 7
       },
       "statMaximums": {
-         "M": 4,
+        "M": 4,
         "WS": 6,
         "BS": 6,
         "S": 4,
@@ -186,8 +184,7 @@
       "notes": "statMaximums null: fill from the Orc Maximum Profile table if/when sourced.",
       "specialRules": [
         {
-          "name": "Animosity",
-          "description": "subject to the Animosity rules (see the warband's special rules / Leadership & Psychology)."
+          "ref": "animosity"
         }
       ]
     },
@@ -227,8 +224,8 @@
       "notes": "— but never more than two Goblins for each Orc in the warband (counting Orc Heroes); the app doesn't enforce this ratio, so check it when recruiting. statMaximums null: fill from the Goblin Maximum Profile table if/when sourced.",
       "specialRules": [
         {
-          "name": "Animosity",
-          "description": "subject to Animosity, but on a result of 1 will never charge an Orc Henchman (still shoots as normal)."
+          "ref": "animosity",
+          "note": "On a result of 1 a Goblin will never charge an Orc Henchman, though it still shoots as normal."
         },
         {
           "name": "Not Orcs",
@@ -285,8 +282,7 @@
           "description": "counts as half a model for Rout-test thresholds."
         },
         {
-          "name": "Animals",
-          "description": "never gains Experience."
+          "ref": "animal"
         }
       ]
     },
@@ -323,20 +319,17 @@
       "notes": "May never be given weapons or armour (often carries a big club anyway).",
       "specialRules": [
         {
-          "name": "Fear",
-          "description": "causes fear."
+          "ref": "fear"
         },
         {
-          "name": "Stupidity",
-          "description": "Stupidity."
+          "ref": "stupidity"
         },
         {
-          "name": "Regeneration",
-          "description": "whenever it suffers a wound, roll a D6 — on 4+ the wound is ignored; doesn't work against fire or fire-based magic; never rolls for Injury after a battle."
+          "ref": "regeneration",
+          "note": "The Troll never rolls for Injury after a battle."
         },
         {
-          "name": "Dumb Monster",
-          "description": "too stupid to learn — never gains Experience."
+          "ref": "dumbMonster"
         },
         {
           "name": "Always Hungry",
@@ -347,8 +340,7 @@
           "description": "instead of its normal attacks, a single automatic hit at Strength 5 that ignores armour saves."
         },
         {
-          "name": "Large Target",
-          "description": "Large Target as defined in the shooting rules."
+          "ref": "largeTarget"
         }
       ]
     }

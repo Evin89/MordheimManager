@@ -50,12 +50,10 @@
       "notes": "",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "Leader (6\")."
+          "ref": "leader"
         },
         {
-          "name": "Wizard",
-          "description": "uses Nurgle Rituals (see Magic)."
+          "ref": "wizard"
         }
       ],
       "spellLists": [
@@ -203,8 +201,7 @@
           "description": "never gains Experience. Immune to Poison."
         },
         {
-          "name": "Immune to Psychology",
-          "description": "Immune to Psychology (auto-passes Leadership-based tests)."
+          "ref": "immuneToPsychology"
         },
         {
           "name": "Daemonic Aura",

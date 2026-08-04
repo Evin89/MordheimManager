@@ -49,12 +49,10 @@
       "notes": "Causes fear. Immune to Poison. statMaximums null: fill Vampire maximums from the Maximum Profile table.",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "Leader (6\")."
+          "ref": "leader"
         },
         {
-          "name": "Immune to Psychology",
-          "description": "Immune to Psychology (never leaves combat)."
+          "ref": "immuneToPsychology"
         },
         {
           "name": "No Pain",
@@ -103,8 +101,7 @@
       "notes": "",
       "specialRules": [
         {
-          "name": "Wizard",
-          "description": "uses Necromantic magic (see Magic)."
+          "ref": "wizard"
         }
       ],
       "spellLists": [
@@ -222,8 +219,7 @@
       "notes": "Cause fear. May not run (may charge). Immune to Poison. No Pain.",
       "specialRules": [
         {
-          "name": "Immune to Psychology",
-          "description": "Immune to Psychology (never leave combat)."
+          "ref": "immuneToPsychology"
         },
         {
           "name": "No Brain",
@@ -250,7 +246,7 @@
         "Ld": 4
       },
       "statMaximums": {
-         "M": 9,
+        "M": 9,
         "WS": 3,
         "BS": 0,
         "S": 4,

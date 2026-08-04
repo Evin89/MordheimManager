@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "source": "Mordheim rulebook — Leadership & Psychology, Shooting, and the warband lists",
+  "notes": "Special rules shared by more than one warband. A unit refers to one by {\"ref\": \"<id>\"}, optionally with `params` to fill a placeholder and `note` for a warband-specific rider. Rules unique to one unit stay inline on that unit as {\"name\", \"description\"}.",
+  "rules": {
+    "leader": {
+      "id": "leader",
+      "name": "Leader",
+      "description": "Any warrior within {range} of this model may use his Leadership characteristic when taking Leadership tests.",
+      "params": {
+        "range": "6\""
+      }
+    },
+    "fear": {
+      "id": "fear",
+      "name": "Fear",
+      "description": "This model causes fear. See the Leadership & Psychology rules."
+    },
+    "largeTarget": {
+      "id": "largeTarget",
+      "name": "Large Target",
+      "description": "This model is a Large Target: it may be picked out and shot at even when it is not the closest model. See the Shooting rules."
+    },
+    "stupidity": {
+      "id": "stupidity",
+      "name": "Stupidity",
+      "description": "This model is subject to Stupidity and must test at the start of each of its own turns. See the Leadership & Psychology rules."
+    },
+    "immuneToPsychology": {
+      "id": "immuneToPsychology",
+      "name": "Immune to Psychology",
+      "description": "This model is immune to psychology: it never takes fear, terror, all alone or rout-related Leadership tests, and never leaves close combat."
+    },
+    "animal": {
+      "id": "animal",
+      "name": "Animal",
+      "description": "This model is an animal and never gains Experience."
+    },
+    "animosity": {
+      "id": "animosity",
+      "name": "Animosity",
+      "description": "At the start of each of the player’s own turns, roll a D6 for this warrior. On a 1 he has taken offence at something one of his mates has done or said; roll again on the Animosity chart for the effect."
+    },
+    "regeneration": {
+      "id": "regeneration",
+      "name": "Regeneration",
+      "description": "Whenever this model suffers a wound, roll a D6: on a 4 or more the wound is ignored and the model is unhurt. Wounds caused by fire or fire-based magic may not be regenerated."
+    },
+    "dumbMonster": {
+      "id": "dumbMonster",
+      "name": "Dumb Monster",
+      "description": "This model is far too stupid to learn anything: it never gains Experience and may not take skills."
+    },
+    "expertSwordsmen": {
+      "id": "expertSwordsmen",
+      "name": "Expert Swordsmen",
+      "description": "May re-roll failed hits when charging, but only when armed with a normal sword — not a double-handed sword or any other weapon."
+    },
+    "wizard": {
+      "id": "wizard",
+      "name": "Wizard",
+      "description": "This model is a wizard and may cast spells from its list. Its spells are shown on its own entry."
+    },
+    "prayers": {
+      "id": "prayers",
+      "name": "Prayers",
+      "description": "This model is a priest and may use prayers from its list. Prayers are not spells, so protection against spells does not affect them. Its prayers are shown on its own entry."
+    }
+  }
+}

@@ -50,8 +50,7 @@
       "notes": "",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "warriors within 6\" (12\" for Reikland) may use his Leadership."
+          "ref": "leader"
         }
       ]
     },
@@ -249,8 +248,7 @@
       "notes": "",
       "specialRules": [
         {
-          "name": "Expert Swordsmen",
-          "description": "may re-roll failed hits when charging, but only when armed with a normal sword (not double-handed swords or other weapons)."
+          "ref": "expertSwordsmen"
         }
       ]
     }

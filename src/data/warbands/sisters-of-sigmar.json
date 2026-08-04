@@ -50,8 +50,7 @@
       "notes": "Prayers of Sigmar (see Magic). May carry two Sigmarite warhammers.",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "Leader (6\")."
+          "ref": "leader"
         }
       ],
       "spellLists": [

@@ -50,8 +50,7 @@
       "notes": "",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "Leader (6\")."
+          "ref": "leader"
         },
         {
           "name": "Inheritance",
@@ -359,12 +358,10 @@
           "description": "as long as the Bear isn't taken Out of Action, the Bear Tamer ignores \"Sold to the Pits\", \"Robbed\", and \"Captured\" results on the Serious Injury table (treat as \"Full Recovery\" instead)."
         },
         {
-          "name": "Animal",
-          "description": "never gains Experience."
+          "ref": "animal"
         },
         {
-          "name": "Large Target",
-          "description": "Large Target as defined in the shooting rules."
+          "ref": "largeTarget"
         }
       ]
     }

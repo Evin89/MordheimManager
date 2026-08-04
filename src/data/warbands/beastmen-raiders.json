@@ -49,8 +49,7 @@
       "notes": "statMaximums null: Beastmen are not Human — fill from the Beastman Maximum Profile table if/when sourced.",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "any warrior within 6\" may use his Leadership for Leadership tests."
+          "ref": "leader"
         }
       ]
     },
@@ -96,8 +95,7 @@
       "notes": "May be equipped with weapons from the Beastmen Equipment list, but never armour. statMaximums null: fill from the Beastman Maximum Profile table if/when sourced.",
       "specialRules": [
         {
-          "name": "Wizard",
-          "description": "uses Chaos Rituals (see Magic)."
+          "ref": "wizard"
         }
       ],
       "spellLists": [
@@ -314,8 +312,7 @@
       "notes": "No weapons/armour — fangs and temper only, no penalty for fighting unarmed.",
       "specialRules": [
         {
-          "name": "Animal",
-          "description": "never gains Experience."
+          "ref": "animal"
         }
       ]
     },
@@ -355,8 +352,7 @@
       "notes": "statMaximums null: fill from the Beastman Maximum Profile table if/when sourced.",
       "specialRules": [
         {
-          "name": "Fear",
-          "description": "causes fear."
+          "ref": "fear"
         },
         {
           "name": "Bloodgreed",
@@ -367,8 +363,7 @@
           "description": "may gain Experience but may never become a Hero."
         },
         {
-          "name": "Large Target",
-          "description": "Large Target as defined in the shooting rules."
+          "ref": "largeTarget"
         }
       ]
     }

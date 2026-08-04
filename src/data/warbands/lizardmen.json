@@ -15,25 +15,61 @@
       "maxCount": 1,
       "cost": 60,
       "startingXp": 20,
-      "skillLists": ["academic", "speed", "lizardmenSkink"],
-      "statLine": { "M": 6, "WS": 3, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 5, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["skinkList"],
-      "spellLists": ["lizardmenMagic"],
+      "skillLists": [
+        "academic",
+        "speed",
+        "lizardmenSkink"
+      ],
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "skinkList"
+      ],
+      "spellLists": [
+        "lizardmenMagic"
+      ],
       "startingSpells": 1,
       "notes": "",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "Any Lizardmen within 6\" of the Skink Priest may use his Leadership characteristic for Leadership tests. If the Priest is killed you may recruit a new one, but must play at least one game without a leader to give him time to join up."
+          "ref": "leader",
+          "note": "If the Skink Priest is killed you may recruit a new one, but the warband must play at least one game without a leader first."
         },
-        { "name": "Wizard", "description": "The Skink Priest is a Wizard and may use Lizardmen magic." },
+        {
+          "ref": "wizard"
+        },
         {
           "name": "Scaly Skin",
           "description": "Skinks have a natural 6+ armour save. It cannot be modified beyond 6 by Strength modifiers, but a 'no save' result on the injury chart negates it. Light armour adds +1, as does a shield."
         },
-        { "name": "Aquatic", "description": "Skinks may move through water terrain with no penalty, and count as being in cover while in the water." },
-        { "name": "Jungle born", "description": "All Skinks can move through jungle terrain without penalty." },
+        {
+          "name": "Aquatic",
+          "description": "Skinks may move through water terrain with no penalty, and count as being in cover while in the water."
+        },
+        {
+          "name": "Jungle born",
+          "description": "All Skinks can move through jungle terrain without penalty."
+        },
         {
           "name": "Cold Blooded",
           "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test."
@@ -49,10 +85,36 @@
       "maxCount": 1,
       "cost": 60,
       "startingXp": 11,
-      "skillLists": ["combat", "strength", "lizardmenSaurus"],
-      "statLine": { "M": 4, "WS": 4, "BS": 0, "S": 4, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 8 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["saurusList"],
+      "skillLists": [
+        "combat",
+        "strength",
+        "lizardmenSaurus"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "saurusList"
+      ],
       "notes": "The profile is listed as A 1+1 in the source: one Attack plus the Bite attack.",
       "specialRules": [
         {
@@ -82,18 +144,50 @@
       "maxCount": 2,
       "cost": 30,
       "startingXp": 8,
-      "skillLists": ["shooting", "speed", "lizardmenSkink"],
-      "statLine": { "M": 6, "WS": 3, "BS": 3, "S": 3, "T": 2, "W": 1, "I": 4, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["skinkList"],
+      "skillLists": [
+        "shooting",
+        "speed",
+        "lizardmenSkink"
+      ],
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 2,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "skinkList"
+      ],
       "notes": "",
       "specialRules": [
         {
           "name": "Scaly Skin",
           "description": "Skinks have a natural 6+ armour save. It cannot be modified beyond 6 by Strength modifiers, but a 'no save' result on the injury chart negates it. Light armour adds +1, as does a shield."
         },
-        { "name": "Aquatic", "description": "Skinks may move through water terrain with no penalty, and count as being in cover while in the water." },
-        { "name": "Jungle born", "description": "All Skinks can move through jungle terrain without penalty." },
+        {
+          "name": "Aquatic",
+          "description": "Skinks may move through water terrain with no penalty, and count as being in cover while in the water."
+        },
+        {
+          "name": "Jungle born",
+          "description": "All Skinks can move through jungle terrain without penalty."
+        },
         {
           "name": "Cold Blooded",
           "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test."
@@ -110,18 +204,49 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
-      "statLine": { "M": 6, "WS": 2, "BS": 3, "S": 3, "T": 2, "W": 1, "I": 4, "A": 1, "Ld": 6 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["skinkList"],
+      "statLine": {
+        "M": 6,
+        "WS": 2,
+        "BS": 3,
+        "S": 3,
+        "T": 2,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "skinkList"
+      ],
       "notes": "",
       "specialRules": [
         {
           "name": "Scaly Skin",
           "description": "Skinks have a natural 6+ armour save. Light armour adds +1, as does a shield."
         },
-        { "name": "Aquatic", "description": "May move through water terrain with no penalty, and count as being in cover while in the water." },
-        { "name": "Jungle born", "description": "Can move through jungle terrain without penalty." },
-        { "name": "Cold Blooded", "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test." }
+        {
+          "name": "Aquatic",
+          "description": "May move through water terrain with no penalty, and count as being in cover while in the water."
+        },
+        {
+          "name": "Jungle born",
+          "description": "Can move through jungle terrain without penalty."
+        },
+        {
+          "name": "Cold Blooded",
+          "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test."
+        }
       ]
     },
     {
@@ -132,18 +257,49 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 4,
-      "statLine": { "M": 4, "WS": 3, "BS": 0, "S": 4, "T": 4, "W": 1, "I": 1, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["saurusList"],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 0,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 1,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "saurusList"
+      ],
       "notes": "The profile is listed as A 1+1 in the source: one Attack plus the Bite attack. A warband may never contain more Saurus Braves than Skink Braves.",
       "specialRules": [
-        { "name": "Scaly Skin", "description": "Saurus have a natural 5+ armour save. Light armour adds +1, as does a shield." },
+        {
+          "name": "Scaly Skin",
+          "description": "Saurus have a natural 5+ armour save. Light armour adds +1, as does a shield."
+        },
         {
           "name": "Bite Attack",
           "description": "An extra attack using the Saurus' own Strength to wound, with no penalty for being unarmed. The bite always strikes last."
         },
-        { "name": "Cold Blooded", "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test." },
-        { "name": "No missile weapons", "description": "Saurus can never use missile weapons." }
+        {
+          "name": "Cold Blooded",
+          "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test."
+        },
+        {
+          "name": "No missile weapons",
+          "description": "Saurus can never use missile weapons."
+        }
       ]
     },
     {
@@ -153,25 +309,70 @@
       "isAnimal": true,
       "isLargeCreature": true,
       "maxCount": 1,
-      "statLine": { "M": 6, "WS": 3, "BS": 0, "S": 5, "T": 4, "W": 3, "I": 1, "A": 3, "Ld": 8 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 0,
+        "S": 5,
+        "T": 4,
+        "W": 3,
+        "I": 1,
+        "A": 3,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
       "equipmentOptions": [],
       "notes": "The Kroxigor is equipped with a halberd and may not be given other equipment.",
       "specialRules": [
-        { "name": "Scaly Skin", "description": "The Kroxigor has a natural save of 4+." },
-        { "name": "Aquatic", "description": "May move through water with no penalty, and counts as being in cover while in water." },
-        { "name": "Cause Fear", "description": "Kroxigor are large and frightening monsters that cause fear." },
+        {
+          "name": "Scaly Skin",
+          "description": "The Kroxigor has a natural save of 4+."
+        },
+        {
+          "name": "Aquatic",
+          "description": "May move through water with no penalty, and counts as being in cover while in water."
+        },
+        {
+          "name": "Cause Fear",
+          "description": "Kroxigor are large and frightening monsters that cause fear."
+        },
         {
           "name": "Large",
           "description": "A Kroxigor stands out among the rest of the warband and may be picked out by an archer even if he is not the closest model."
         },
-        { "name": "Animal", "description": "Kroxigor are slow-witted creatures that never learn from their mistakes. The Kroxigor does not gain experience." },
-        { "name": "Cold Blooded", "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. The warband may never use a Kroxigor's Leadership for a Rout test." }
+        {
+          "ref": "animal"
+        },
+        {
+          "name": "Cold Blooded",
+          "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. The warband may never use a Kroxigor's Leadership for a Rout test."
+        }
       ]
     }
   ],
   "equipmentLists": {
-    "saurusList": ["dagger", "stoneAxe", "axe", "sword", "spear", "halberd", "doubleHandedWeapon", "shield", "boneHelmet", "lizardmenLightArmour"],
+    "saurusList": [
+      "dagger",
+      "stoneAxe",
+      "axe",
+      "sword",
+      "spear",
+      "halberd",
+      "doubleHandedWeapon",
+      "shield",
+      "boneHelmet",
+      "lizardmenLightArmour"
+    ],
     "skinkList": [
       "dagger",
       "stoneAxe",

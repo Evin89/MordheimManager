@@ -48,8 +48,7 @@
       "notes": "Ogres never carry/use daggers — no free starting dagger. Only the Captain may buy the Cathayan longsword from the Ogre equipment list.",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "any warrior within 6\" of the Captain may use his Leadership when taking Ld tests."
+          "ref": "leader"
         },
         {
           "name": "Large",
@@ -282,8 +281,7 @@
           "description": "does not count toward out-of-action totals for Rout tests."
         },
         {
-          "name": "Fear",
-          "description": "causes fear."
+          "ref": "fear"
         }
       ]
     }

@@ -49,8 +49,7 @@
       "notes": "statMaximums null: Dwarfs are not Human — fill from the Dwarf Maximum Profile table if/when sourced.",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "any warrior within 6\" may use his Leadership instead of their own."
+          "ref": "leader"
         }
       ]
     },

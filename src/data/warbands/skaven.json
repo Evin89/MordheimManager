@@ -50,8 +50,7 @@
       "notes": "statMaximums null: fill Skaven maximums from the Maximum Profile table.",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "Leader (6\")."
+          "ref": "leader"
         },
         {
           "name": "Perfect Killer",
@@ -101,8 +100,7 @@
       "notes": "",
       "specialRules": [
         {
-          "name": "Wizard",
-          "description": "uses the Magic of the Horned Rat (see Magic)."
+          "ref": "wizard"
         }
       ],
       "spellLists": [
@@ -267,8 +265,8 @@
       "notes": "",
       "specialRules": [
         {
-          "name": "Animals",
-          "description": "do not gain experience. No weapons/armour."
+          "ref": "animal",
+          "note": "May not be given weapons or armour."
         }
       ]
     },
@@ -305,16 +303,14 @@
       "notes": "Does not gain experience. No weapons/armour. (isAnimal=true used as the 'no experience' flag.)",
       "specialRules": [
         {
-          "name": "Fear",
-          "description": "Fear."
+          "ref": "fear"
         },
         {
-          "name": "Stupidity",
-          "description": "Stupidity unless a Skaven Hero is within 6\"."
+          "ref": "stupidity",
+          "note": "Does not apply while a Skaven Hero is within 6\"."
         },
         {
-          "name": "Large Target",
-          "description": "Large Target."
+          "ref": "largeTarget"
         }
       ]
     }

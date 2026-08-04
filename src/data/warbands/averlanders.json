@@ -50,8 +50,7 @@
       "notes": "",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "any warrior within 6\" may use his Leadership for Leadership tests."
+          "ref": "leader"
         }
       ]
     },

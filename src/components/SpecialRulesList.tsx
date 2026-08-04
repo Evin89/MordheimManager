@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import DisclosureChevron from './DisclosureChevron';
-import { UnitSpecialRule } from '../data/types';
+import { ResolvedSpecialRule } from '../data/types';
 import { strings } from '../strings';
 
-function RuleRow({ rule, isTodo = false }: { rule: UnitSpecialRule; isTodo?: boolean }) {
+function RuleRow({ rule, isTodo = false }: { rule: ResolvedSpecialRule; isTodo?: boolean }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="border-b border-ink/15 last:border-b-0">
@@ -30,13 +30,19 @@ function RuleRow({ rule, isTodo = false }: { rule: UnitSpecialRule; isTodo?: boo
         )}
       </button>
       {open && (
-        <p
-          className={`pb-3 pl-6 pr-1 text-sm whitespace-pre-line ${
-            isTodo ? 'text-ink-faded' : 'text-ink'
-          }`}
-        >
-          {rule.description}
-        </p>
+        <div className="pb-3 pl-6 pr-1 space-y-2">
+          <p className={`text-sm whitespace-pre-line ${isTodo ? 'text-ink-faded' : 'text-ink'}`}>
+            {rule.description}
+          </p>
+          {/* This warband's rider on a shared rule — the Gunnery School's longer
+              Leader range, the Goblins' Animosity clause. Set apart so it reads
+              as an addition to the rule above, not as part of it. */}
+          {rule.note && (
+            <p className="border-l-2 border-ink/25 pl-3 text-sm text-ink whitespace-pre-line">
+              {rule.note}
+            </p>
+          )}
+        </div>
       )}
     </div>
   );
@@ -55,7 +61,7 @@ export default function SpecialRulesList({
   rules,
   notes = '',
 }: {
-  rules: UnitSpecialRule[];
+  rules: ResolvedSpecialRule[];
   /** Whatever survived the split into named rules — flavour, warband quirks,
    * and data-quality remarks. Shown as an explicit TODO rather than dropped. */
   notes?: string;

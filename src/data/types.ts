@@ -9,10 +9,58 @@ import { StatLine } from '../types';
 
 export type NullableStatLine = { [K in keyof StatLine]: number | null };
 
-/** A named special rule as printed in the unit's entry. */
-export type UnitSpecialRule = {
+/**
+ * A special rule on a unit's entry, as stored.
+ *
+ * Either written out on the unit, or a reference to one of the shared rules in
+ * specialRules.json. Fear, Stupidity and Leader are the same rulebook rules
+ * wherever they appear, and they were being retranscribed per warband — twenty-
+ * two slightly different wordings of Leader, three of Fear — so a correction had
+ * to be made in every copy to take effect, and drift was invisible.
+ *
+ * A shared reference can still carry a warband-specific rider in `note`, and
+ * fill a placeholder through `params`, so centralising doesn't flatten real
+ * differences: the Gunnery School's Leader really does reach 12", and Goblins
+ * really do have their own Animosity clause.
+ */
+export type UnitSpecialRule = InlineSpecialRule | SharedSpecialRuleRef;
+
+/** Written out on the unit, for a rule no other warband shares. */
+export type InlineSpecialRule = {
   name: string;
   description: string;
+};
+
+export type SharedSpecialRuleRef = {
+  /** Key into specialRules.json `rules`. */
+  ref: string;
+  /** Fills placeholders in the shared text, e.g. Leader's `{range}`. */
+  params?: Record<string, string>;
+  /** This warband's addition to the shared rule. Shown after it. */
+  note?: string;
+};
+
+/** What the UI receives: always a name and a description, wherever it came from. */
+export type ResolvedSpecialRule = {
+  name: string;
+  description: string;
+  note?: string;
+  /** Set when the rule came from specialRules.json, for linking to it. */
+  sharedId?: string;
+};
+
+export type SharedSpecialRule = {
+  id: string;
+  name: string;
+  description: string;
+  params?: Record<string, string>;
+};
+
+export type SpecialRulesData = {
+  schemaVersion: number;
+  source: string;
+  notes: string;
+  rules: Record<string, SharedSpecialRule>;
 };
 
 export type HeroSlotDefinition = {

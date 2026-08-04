@@ -15,14 +15,46 @@
       "maxCount": 1,
       "cost": 60,
       "startingXp": 20,
-      "skillLists": ["shooting", "academic", "speed", "battleMonk"],
-      "statLine": { "M": 4, "WS": 3, "BS": 4, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 8 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["soldierList"],
+      "skillLists": [
+        "shooting",
+        "academic",
+        "speed",
+        "battleMonk"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "soldierList"
+      ],
       "notes": "From the Battle Monks special skill list, the Emissary may only pick Warmonger.",
       "specialRules": [
-        { "name": "Leader", "description": "Any warrior within 6\" of the Emissary may use his Leadership when taking Leadership tests." },
-        { "name": "Ride Horse", "description": "The Emissary is trained in riding horses." },
+        {
+          "ref": "leader"
+        },
+        {
+          "name": "Ride Horse",
+          "description": "The Emissary is trained in riding horses."
+        },
         {
           "name": "Decree",
           "description": "When the Emissary dies a new one must be hired as soon as possible. Until you have done so, no other warriors or equipment may be bought. The new Emissary then reclaims leadership of the warband."
@@ -38,10 +70,37 @@
       "maxCount": 1,
       "cost": 40,
       "startingXp": 12,
-      "skillLists": ["combat", "shooting", "strength", "speed"],
-      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["soldierList"],
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "soldierList"
+      ],
       "notes": "",
       "specialRules": []
     },
@@ -54,10 +113,38 @@
       "maxCount": 3,
       "cost": 55,
       "startingXp": 15,
-      "skillLists": ["combat", "academic", "strength", "speed", "battleMonk"],
-      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 8 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["monkList"],
+      "skillLists": [
+        "combat",
+        "academic",
+        "strength",
+        "speed",
+        "battleMonk"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "monkList"
+      ],
       "notes": "Monks suffer no penalty whatsoever for fighting unarmed and receive +1 Attack when doing so.",
       "specialRules": [
         {
@@ -84,9 +171,31 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
-      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["soldierList"],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "soldierList"
+      ],
       "notes": "",
       "specialRules": []
     },
@@ -98,13 +207,41 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
-      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 3, "W": 1, "I": 4, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
-      "equipmentOptions": ["monkList"],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "monkList"
+      ],
       "notes": "Monks suffer no penalty whatsoever for fighting unarmed and receive +1 Attack when doing so.",
       "specialRules": [
-        { "name": "Strictures", "description": "Warrior Monks never wear armour of any kind." },
-        { "name": "Distaste for Poison", "description": "Warrior Monks may never use any kind of poison or venom." }
+        {
+          "name": "Strictures",
+          "description": "Warrior Monks never wear armour of any kind."
+        },
+        {
+          "name": "Distaste for Poison",
+          "description": "Warrior Monks may never use any kind of poison or venom."
+        }
       ]
     },
     {
@@ -115,12 +252,35 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
-      "statLine": { "M": 4, "WS": 2, "BS": 2, "S": 3, "T": 3, "W": 1, "I": 3, "A": 1, "Ld": 6 },
-      "statMaximums": { "M": 4, "WS": 6, "BS": 6, "S": 4, "T": 4, "W": 3, "I": 6, "A": 4, "Ld": 9 },
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 9
+      },
       "equipmentOptions": [],
       "notes": "A peasant is usually equipped with a pitchfork, torch or other simple tool. Treat them as fighting unarmed, but without any penalties.",
       "specialRules": [
-        { "name": "Simple folk", "description": "Peasants never gain Experience." },
+        {
+          "name": "Simple folk",
+          "description": "Peasants never gain Experience."
+        },
         {
           "name": "Mob",
           "description": "A Peasant gets +1 Leadership for each other allied Peasant model within 3\". Due to their rage they do not benefit from the Leader rule."
@@ -154,7 +314,16 @@
       "cathayanSilkCloak",
       "horse"
     ],
-    "monkList": ["axe", "spear", "sword", "quarterStaff", "dragonSword", "chainSticks", "fishHookShot", "throwingKnivesStars"]
+    "monkList": [
+      "axe",
+      "spear",
+      "sword",
+      "quarterStaff",
+      "dragonSword",
+      "chainSticks",
+      "fishHookShot",
+      "throwingKnivesStars"
+    ]
   },
   "exclusiveEquipment": [
     {

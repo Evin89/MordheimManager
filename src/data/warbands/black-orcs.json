@@ -15,15 +15,42 @@
       "maxCount": 1,
       "cost": 90,
       "startingXp": 20,
-      "skillLists": ["combat", "shooting", "strength", "speed", "blackOrc"],
-      "statLine": { "M": 4, "WS": 4, "BS": 4, "S": 4, "T": 4, "W": 1, "I": 3, "A": 1, "Ld": 8 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["blackOrcList"],
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "speed",
+        "blackOrc"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "blackOrcList"
+      ],
       "notes": "",
       "specialRules": [
         {
-          "name": "Leader",
-          "description": "Any warrior within 6\" of the Boss may use his Leadership characteristic when taking Leadership tests."
+          "ref": "leader"
         },
         {
           "name": "Black Orc",
@@ -44,10 +71,38 @@
       "maxCount": 2,
       "cost": 60,
       "startingXp": 8,
-      "skillLists": ["combat", "shooting", "strength", "speed", "blackOrc"],
-      "statLine": { "M": 4, "WS": 4, "BS": 3, "S": 4, "T": 4, "W": 1, "I": 3, "A": 1, "Ld": 7 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["blackOrcList"],
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "speed",
+        "blackOrc"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "blackOrcList"
+      ],
       "notes": "",
       "specialRules": [
         {
@@ -65,10 +120,36 @@
       "maxCount": 2,
       "cost": 25,
       "startingXp": 0,
-      "skillLists": ["combat", "shooting", "blackOrc"],
-      "statLine": { "M": 4, "WS": 2, "BS": 2, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 6 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["henchmenList"],
+      "skillLists": [
+        "combat",
+        "shooting",
+        "blackOrc"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "henchmenList"
+      ],
       "notes": "",
       "specialRules": [
         {
@@ -87,14 +168,35 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
-      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 6 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["henchmenList"],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "henchmenList"
+      ],
       "notes": "",
       "specialRules": [
         {
-          "name": "Animosity",
-          "description": "At the start of each of the Orc player's turns, roll a D6 for this warrior. On a 1 he has taken offence at something one of his mates has done or said; roll again on the Animosity chart for the effect. Do not roll for models already engaged in hand-to-hand combat."
+          "ref": "animosity"
         }
       ]
     },
@@ -106,14 +208,35 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
-      "statLine": { "M": 4, "WS": 3, "BS": 3, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 6 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["henchmenList"],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "henchmenList"
+      ],
       "notes": "",
       "specialRules": [
         {
-          "name": "Animosity",
-          "description": "At the start of each of the Orc player's turns, roll a D6 for this warrior. On a 1 he has taken offence; roll again on the Animosity chart for the effect. Do not roll for models already engaged in hand-to-hand combat."
+          "ref": "animosity"
         },
         {
           "name": "Uncommon",
@@ -129,9 +252,31 @@
       "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 4,
-      "statLine": { "M": 4, "WS": 3, "BS": 2, "S": 3, "T": 4, "W": 1, "I": 2, "A": 1, "Ld": 5 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
-      "equipmentOptions": ["henchmenList"],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 2,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "henchmenList"
+      ],
       "notes": "",
       "specialRules": [
         {
@@ -155,20 +300,42 @@
       "isAnimal": true,
       "isLargeCreature": true,
       "maxCount": 1,
-      "statLine": { "M": 6, "WS": 3, "BS": 1, "S": 5, "T": 4, "W": 3, "I": 1, "A": 3, "Ld": 4 },
-      "statMaximums": { "M": null, "WS": null, "BS": null, "S": null, "T": null, "W": null, "I": null, "A": null, "Ld": null },
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 1,
+        "S": 5,
+        "T": 4,
+        "W": 3,
+        "I": 1,
+        "A": 3,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
       "equipmentOptions": [],
       "notes": "Trolls do not require weapons to fight but often carry a big club. They can never be given weapons or armour.",
       "specialRules": [
-        { "name": "Fear", "description": "Trolls are frightening monsters which cause fear." },
-        { "name": "Stupidity", "description": "A Troll is subject to the rules for stupidity." },
         {
-          "name": "Regeneration",
-          "description": "Whenever an enemy successfully inflicts a wound on a Troll, roll a D6: on a 4 or more the wound is ignored and the Troll is unhurt. Trolls may not regenerate wounds caused by fire or fire-based magic. Trolls never roll for Injury after a battle unless they were taken out of action by a flaming weapon or spell, in which case they roll as a normal Henchman."
+          "ref": "fear"
         },
         {
-          "name": "Dumb Monster",
-          "description": "A Troll is far too stupid to learn any new skills. Trolls do not gain experience."
+          "ref": "stupidity"
+        },
+        {
+          "ref": "regeneration"
+        },
+        {
+          "ref": "dumbMonster"
         },
         {
           "name": "Always Hungry",
@@ -178,7 +345,9 @@
           "name": "Vomit Attack",
           "description": "Instead of his normal attacks, a Troll may regurgitate his corrosive digestive juices over a hand-to-hand opponent. This is a single attack that automatically hits at Strength 5 and ignores armour saves."
         },
-        { "name": "Large Target", "description": "Trolls are Large Targets as defined in the shooting rules." }
+        {
+          "ref": "largeTarget"
+        }
       ]
     }
   ],
