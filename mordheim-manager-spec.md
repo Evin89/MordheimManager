@@ -285,6 +285,10 @@ type StandingsRow = {
   - A henchmen group's `xp` is the Experience of *each* member, so it counts once per model: `(5 or 20 + group.xp) × group.count`. Counting it once per group understated a group of five veterans by four times their XP.
   - ⚠️ Hired Swords are approximated with the same formula. The rulebook gives flat per-type bonuses ("+22, plus 1 per XP" for a Pit Fighter); those aren't linked to individual records yet. Marked in the source rather than silently wrong.
   - `rating` is also a denormalized column on `warbands`, recomputed and rewritten on every save, so standings never parse jsonb. Never treated as authoritative input. This is the column §12.2 depends on.
+- ✅ **Racial maximums** live in one file (`racialMaximums.json`, 29 profiles); every unit points at one by `racialProfile` instead of 125 units each restating the same nine numbers. Centralising closed a real gap: **31 units had no maximums at all**, so they silently received a line of zeroes — and a zero maximum reads as "already at the cap", which blocked every advance. All 125 units that *did* carry hand-entered numbers agreed with their profile exactly, so nothing changed behaviour except the gaps closing.
+  - **A unit that cannot gain Experience gets no profile**, deliberately: it never advances, so a ceiling is meaningless and inventing one implies it could. The resolver returns null rather than a fabricated line.
+  - Three units keep per-unit numbers, their race having no published profile: Carnival of Chaos's Plague Bearers, Nurglings and Plague Cart.
+  - A promoted Henchman ("That Lad's Got Talent") takes his unit type's racial ceiling. He used to be handed *his own current stats* as maximums, freezing him at the numbers he was promoted with.
 - ✅ **Max warband size / hero slots** from the warband definition (`src/lib/warbandLimits.ts`). Hired Swords excluded via `countsTowardMax`.
 - ✅ **Total upkeep** = sum of hired sword upkeep fees.
 - ✅ **Advance eligibility** (`advanceEligibility.ts`, `xpThresholds.ts`).
@@ -311,6 +315,7 @@ type StandingsRow = {
   hiredSwords.json       Hired Sword profiles, hire fee, upkeep, skill lists
   scenarios.json         scenario list with page references
   exploration.json       the D66 Exploration chart
+  racialMaximums.json    29 racial ceilings, shared by every advancing unit
   spells.json            10 spell/prayer/ritual lists, 60 entries
   rules.json             the in-app rules browser index
   changelog.json         user-facing release notes, rendered at /settings/changelog
