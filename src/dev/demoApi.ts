@@ -344,3 +344,107 @@ export async function saveObjective(
 export async function deleteObjective(warbandId: string): Promise<void> {
   objectives.delete(warbandId);
 }
+
+// --- issue reports & admin --------------------------------------------------
+
+// Seeded with a couple of plausible reports so the inbox isn't an empty state
+// the first time it's opened — the screen's job is triaging a queue, and an
+// empty queue shows none of that.
+const issues: {
+  id: string;
+  reporterId: string | null;
+  path: string;
+  message: string;
+  context: Record<string, unknown>;
+  appVersion: string;
+  userAgent: string;
+  status: 'open' | 'triaged' | 'closed';
+  adminNotes: string;
+  createdAt: string;
+}[] = [
+  {
+    id: 'demo-issue-1',
+    reporterId: 'demo-user-3',
+    path: '/warbands/demo-wb-3-0/hero/demo-wb-3-0-hero-0',
+    message: 'The Necromancer has no spells listed, but he is a wizard.',
+    context: { warbandType: 'undead', unitType: 'Necromancer' },
+    appVersion: '1.0.0',
+    userAgent: 'Mozilla/5.0 (Linux; Android 14)',
+    status: 'open',
+    adminNotes: '',
+    createdAt: new Date(2026, 7, 1, 19, 24).toISOString(),
+  },
+  {
+    id: 'demo-issue-2',
+    reporterId: null,
+    path: '/rules/weapons-armour',
+    message: 'Gromril weapons show no price. Is that intentional?',
+    context: { ruleId: 'weapons-armour' },
+    appVersion: '1.0.0',
+    userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5)',
+    status: 'triaged',
+    adminNotes: '',
+    createdAt: new Date(2026, 6, 28, 9, 10).toISOString(),
+  },
+];
+
+export async function insertIssueReport(report: {
+  reporterId: string | null;
+  path: string;
+  message: string;
+  context: Record<string, unknown>;
+  appVersion: string;
+  userAgent: string;
+}): Promise<void> {
+  issues.unshift({
+    id: `demo-issue-${issues.length + 1}`,
+    ...report,
+    status: 'open',
+    adminNotes: '',
+    createdAt: new Date().toISOString(),
+  });
+}
+
+/** The demo viewer is an admin, so the screen can be opened without granting
+ * anyone real access. Nothing here touches the live `admins` table. */
+export async function fetchIsAdmin(userId: string): Promise<boolean> {
+  return userId === db().viewerId;
+}
+
+export async function fetchIssueReports(status: string): Promise<typeof issues> {
+  return status === 'all' ? [...issues] : issues.filter((i) => i.status === status);
+}
+
+export async function updateIssueStatus(id: string, status: 'open' | 'triaged' | 'closed'): Promise<void> {
+  const issue = issues.find((i) => i.id === id);
+  if (issue) issue.status = status;
+}
+
+/** Counted off the generated database, so the numbers move when you click
+ * around rather than being a fixed decoration. */
+export async function fetchAdminStats() {
+  const database = db();
+  const types = new Map<string, number>();
+  for (const row of database.warbands) {
+    types.set(row.warband.warbandType, (types.get(row.warband.warbandType) ?? 0) + 1);
+  }
+
+  const signups = Array.from({ length: 30 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (29 - i));
+    return { day: d.toISOString().slice(0, 10), count: (i * 7) % 5 };
+  });
+
+  return {
+    users: database.users.length,
+    warbands: database.warbands.length,
+    public_warbands: database.warbands.filter((w) => w.visibility === 'public').length,
+    campaigns: database.campaigns.length,
+    battles: database.battles.length,
+    open_issues: issues.filter((i) => i.status === 'open').length,
+    warband_types: [...types.entries()]
+      .map(([type, count]) => ({ type, count }))
+      .sort((a, b) => b.count - a.count || a.type.localeCompare(b.type)),
+    signups,
+  };
+}

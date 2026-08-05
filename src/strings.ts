@@ -63,6 +63,19 @@ export const strings = {
     relatedSection: 'Related rules',
     resultCount: (n: number) => `${n} result${n === 1 ? '' : 's'}`,
   },
+  report: {
+    trigger: 'Report an issue on this page',
+    heading: 'Report an issue',
+    hint: 'What went wrong, or what looks incorrect? The page you are on and which build you are running are attached automatically.',
+    placeholder: 'The Necromancer has no spells listed, but he is a wizard…',
+    send: 'Send report',
+    sending: 'Sending…',
+    cancel: 'Cancel',
+    thanks: 'Thanks — that has been logged.',
+    failed: 'That could not be sent. Check your connection and try again.',
+    attachedTo: (path: string) => `Attached: ${path}`,
+  },
+
   settings: {
     title: 'Settings',
     appearanceSection: 'Appearance',

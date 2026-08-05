@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
+import ReportIssueButton from './components/ReportIssueButton';
 import SideNav from './components/SideNav';
 import ConnectionBanner from './components/ConnectionBanner';
 import RequireAuth from './auth/RequireAuth';
@@ -115,6 +116,9 @@ function AppShell() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
+        {/* Below the routed content on every screen, so "this page" means the
+            page you're actually looking at. */}
+        <ReportIssueButton />
       </div>
       <BottomNav />
     </div>

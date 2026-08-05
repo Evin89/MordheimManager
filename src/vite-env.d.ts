@@ -8,3 +8,6 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+/** Injected by vite.config.ts — `<package version>+<commit ref>`. */
+declare const __APP_VERSION__: string;

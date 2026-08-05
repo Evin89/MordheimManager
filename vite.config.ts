@@ -1,8 +1,19 @@
+import { readFileSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
+
+// Stamped into the bundle so an issue report says which build it came from.
+// Netlify sets COMMIT_REF; locally there isn't one, and "dev" is the honest
+// answer rather than a fake hash.
+const APP_VERSION = `${pkg.version}+${(process.env.COMMIT_REF ?? 'dev').slice(0, 7)}`;
+
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(APP_VERSION),
+  },
   plugins: [
     react(),
     VitePWA({
