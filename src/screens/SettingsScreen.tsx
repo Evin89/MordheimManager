@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import ThemeToggle from '../components/ThemeToggle';
 import { useTheme } from '../hooks/useTheme';
 import { strings } from '../strings';
+import { useIsAdminQuery } from '../hooks/useIssues';
 import { useAuth } from '../auth/AuthProvider';
 import { ImportValidationError, downloadExport, importAllData, parseImportFile } from '../storage/persistence';
 import { isDemoMode, setDemoMode } from '../dev/demoMode';
@@ -11,6 +12,7 @@ import { isDemoMode, setDemoMode } from '../dev/demoMode';
 export default function SettingsScreen() {
   const [theme, setTheme] = useTheme();
   const { user, signOut } = useAuth();
+  const { data: isAdmin } = useIsAdminQuery();
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [importMessage, setImportMessage] = useState<string | null>(null);
@@ -124,6 +126,24 @@ export default function SettingsScreen() {
           )}
         </section>
 
+        {/* Only rendered for an admin, but that's presentation, not protection:
+            `issue_reports` and `admin_stats()` are admin-gated in the database,
+            so hiding the link and showing it are equally safe. It's here because
+            an unlinked route you have to remember the URL of is a bad way to
+            reach a screen you use. */}
+        {isAdmin && (
+          <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+            <h2 className="text-bone-100 font-semibold">{strings.settings.adminSection}</h2>
+            <p className="text-bone-300 text-sm">{strings.settings.adminHint}</p>
+            <Link
+              to="/admin"
+              className="block text-center min-h-[48px] leading-[48px] w-full rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold px-4 transition-colors"
+            >
+              {strings.settings.adminLink}
+            </Link>
+          </section>
+        )}
+
         {/* Dev builds only — `import.meta.env.DEV` is replaced with `false` when
             building for production, so this section is compiled away entirely. */}
         {import.meta.env.DEV && (
@@ -147,7 +167,7 @@ export default function SettingsScreen() {
         <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
           <h2 className="text-bone-100 font-semibold">{strings.settings.aboutSection}</h2>
           <Link
-            to="/settings/changelog"
+            to="/profile/changelog"
             className="inline-flex items-center min-h-[44px] text-ember-400 font-semibold"
           >
             {strings.settings.changelogLink}

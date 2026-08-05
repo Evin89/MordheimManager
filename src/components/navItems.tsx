@@ -155,5 +155,5 @@ export const NAV_ITEMS: NavItem[] = [
   // Opening one from there sets it active, so /campaign stays the detail view.
   { to: '/campaigns', label: strings.nav.campaign, activeFor: ['/campaign'], Icon: CampaignIcon },
   { to: '/rules', label: strings.nav.rules, Icon: RulesIcon },
-  { to: '/settings', label: strings.nav.settings, Icon: SettingsIcon },
+  { to: '/profile', label: strings.nav.settings, Icon: SettingsIcon },
 ];

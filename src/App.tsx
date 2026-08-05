@@ -61,12 +61,17 @@ function AppShell() {
             <Route path="/" element={<HomeScreen />} />
             <Route path="/rules" element={<RulesScreen />} />
             <Route path="/rules/:ruleId" element={<RuleDetailScreen />} />
-            <Route path="/settings" element={<SettingsScreen />} />
+            <Route path="/profile" element={<SettingsScreen />} />
+            {/* The tab was renamed Settings -> Profile. Redirects rather
+                than a bare rename, so a bookmark or an old changelog link
+                still lands somewhere. */}
+            <Route path="/settings" element={<Navigate to="/profile" replace />} />
+            <Route path="/settings/changelog" element={<Navigate to="/profile/changelog" replace />} />
             {/* Not linked from the nav. The gate is in the database —
                 `issue_reports` and `admin_stats()` are admin-only, so a
                 non-admin reaching this URL gets nothing to read. */}
             <Route path="/admin" element={guarded(<AdminScreen />)} />
-            <Route path="/settings/changelog" element={<ChangelogScreen />} />
+            <Route path="/profile/changelog" element={<ChangelogScreen />} />
             {/* Warbands their owners chose to publish, plus the read-only roster
                 behind each one. Public by design — an opted-in roster you can't
                 show to someone without an account isn't really shared. The

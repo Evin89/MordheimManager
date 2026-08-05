@@ -13,7 +13,7 @@ export const strings = {
     trading: 'Trading',
     campaign: 'Campaign',
     rules: 'Rules',
-    settings: 'Settings',
+    settings: 'Profile',
     signIn: 'Sign in',
     signOut: 'Sign out',
   },
@@ -77,7 +77,7 @@ export const strings = {
   },
 
   settings: {
-    title: 'Settings',
+    title: 'Profile',
     appearanceSection: 'Appearance',
     themeNames: {
       grimdark: 'Grimdark',
@@ -99,6 +99,9 @@ export const strings = {
     signedInAs: (email: string) => `Signed in as ${email}`,
     signOutButton: 'Sign out',
     signedOutHint: 'Sign in to export or import your warband and campaign data.',
+    adminSection: 'Admin',
+    adminLink: 'Issue inbox & statistics',
+    adminHint: 'Reported issues and aggregate numbers. Only you can see this.',
     signInButton: 'Sign in',
   },
   changelog: {
