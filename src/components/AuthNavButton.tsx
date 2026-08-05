@@ -22,6 +22,15 @@ export default function AuthNavButton({ variant }: { variant: 'bar' | 'rail' }) 
   if (loading) return null;
 
   const signedIn = !!user;
+
+  // Signing out lives on Settings, which already carries it under Account
+  // alongside the address you're signed in as. Repeating it in the bottom bar
+  // spent one of eight cells on a phone — on the destructive action, wedged a
+  // thumb's width from Settings itself — to duplicate something one tap away.
+  // Signing *in* stays: it's the entry point for someone who has no session,
+  // and it costs nothing, since the cell is free exactly when they need it.
+  if (signedIn && variant === 'bar') return null;
+
   const label = signedIn ? strings.nav.signOut : strings.nav.signIn;
   const Icon = signedIn ? SignOutIcon : SignInIcon;
 
