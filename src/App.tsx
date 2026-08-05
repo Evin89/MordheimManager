@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
 import ReportIssueButton from './components/ReportIssueButton';
+import AdminScreen from './screens/AdminScreen';
 import SideNav from './components/SideNav';
 import ConnectionBanner from './components/ConnectionBanner';
 import RequireAuth from './auth/RequireAuth';
@@ -61,6 +62,10 @@ function AppShell() {
             <Route path="/rules" element={<RulesScreen />} />
             <Route path="/rules/:ruleId" element={<RuleDetailScreen />} />
             <Route path="/settings" element={<SettingsScreen />} />
+            {/* Not linked from the nav. The gate is in the database —
+                `issue_reports` and `admin_stats()` are admin-only, so a
+                non-admin reaching this URL gets nothing to read. */}
+            <Route path="/admin" element={guarded(<AdminScreen />)} />
             <Route path="/settings/changelog" element={<ChangelogScreen />} />
             {/* Warbands their owners chose to publish, plus the read-only roster
                 behind each one. Public by design — an opted-in roster you can't
