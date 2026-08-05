@@ -57,8 +57,24 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: ({ request }) =>
-              request.destination === 'font' || request.destination === 'image',
+            // Warbands, campaigns and battles must never come from a stale
+            // copy. Nothing below would match a Supabase call today, but this
+            // is stated as a rule rather than left to the absence of one — the
+            // font/image rule below matches on `destination` alone, and the
+            // moment model photos (spec §11) are served from Supabase Storage
+            // that would start quietly caching private images.
+            urlPattern: ({ url }) =>
+              url.hostname.endsWith('.supabase.co') || url.hostname.endsWith('.supabase.in'),
+            handler: 'NetworkOnly',
+          },
+          {
+            // Scoped to our own origin and the Google Fonts CDN. Matching on
+            // `destination` alone would reach any host that serves an image.
+            urlPattern: ({ url, request }) =>
+              (url.origin === self.location.origin ||
+                url.hostname === 'fonts.gstatic.com' ||
+                url.hostname === 'fonts.googleapis.com') &&
+              (request.destination === 'font' || request.destination === 'image'),
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'app-media',
@@ -66,9 +82,6 @@ export default defineConfig({
             },
           },
         ],
-        // Supabase is explicitly not cached: warbands, campaigns and battles
-        // must never be served from a stale copy, and the app already shows a
-        // connection banner when a call fails.
         navigationPreload: false,
       },
       manifest: {
