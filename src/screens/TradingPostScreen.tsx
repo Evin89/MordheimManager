@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import EquipmentShop from '../components/EquipmentShop';
 import NumberInput from '../components/NumberInput';
-import RuleEntryList from '../components/RuleEntryList';
 import { strings } from '../strings';
+
+// Lazy: see TabRules — keeps the rules catalogues out of this chunk too.
+const TabRules = lazy(() => import('../components/TabRules'));
 import { useSaveWarbandMutation, useWarbandLookup } from '../hooks/useWarbands';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { EQUIPMENT_CATEGORY_LABELS, groupByCategory } from '../lib/equipmentCategories';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
-import { getTradingTabRuleEntries } from '../lib/rulesIndex';
 import { EquipmentItem, Warband } from '../types';
 
 type Tab = 'shop' | 'rules';
@@ -86,7 +87,6 @@ export default function TradingPostScreen() {
   const { data: campaign } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
   const [tab, setTab] = useState<Tab>('shop');
-  const ruleEntries = getTradingTabRuleEntries();
 
   if (loading) {
     return (
@@ -187,7 +187,9 @@ export default function TradingPostScreen() {
             </section>
           </>
         ) : (
-          <RuleEntryList entries={ruleEntries} emptyMessage={strings.rules.noEntriesInCategory} />
+          <Suspense fallback={<p className="text-bone-300 text-sm">{strings.common.loading}</p>}>
+            <TabRules tab="trading" />
+          </Suspense>
         )}
       </main>
     </div>

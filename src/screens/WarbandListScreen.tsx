@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PublicWarbandBrowser from '../components/PublicWarbandBrowser';
-import RuleEntryList from '../components/RuleEntryList';
 import { strings } from '../strings';
 import { useWarbandList } from '../hooks/useWarbands';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
-import { getWarbandsTabRuleEntries } from '../lib/rulesIndex';
+
+// Lazy so rules.json and the catalogues stay out of the entry bundle — see TabRules.
+const TabRules = lazy(() => import('../components/TabRules'));
 
 type Tab = 'warbands' | 'public' | 'rules';
 
@@ -19,7 +20,6 @@ const TABS: { id: Tab; label: string }[] = [
 export default function WarbandListScreen() {
   const warbands = useWarbandList();
   const [tab, setTab] = useState<Tab>('warbands');
-  const ruleEntries = getWarbandsTabRuleEntries();
 
   return (
     <div className="min-h-full flex flex-col">
@@ -81,7 +81,9 @@ export default function WarbandListScreen() {
             ))}
           </>
         ) : (
-          <RuleEntryList entries={ruleEntries} emptyMessage={strings.rules.noEntriesInCategory} />
+          <Suspense fallback={<p className="text-bone-300 text-sm">{strings.common.loading}</p>}>
+            <TabRules tab="warbands" />
+          </Suspense>
         )}
       </main>
     </div>

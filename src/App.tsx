@@ -1,8 +1,7 @@
-import { ReactElement } from 'react';
+import { ReactElement, Suspense, lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
 import ReportIssueButton from './components/ReportIssueButton';
-import AdminScreen from './screens/AdminScreen';
 import SideNav from './components/SideNav';
 import ConnectionBanner from './components/ConnectionBanner';
 import RequireAuth from './auth/RequireAuth';
@@ -11,29 +10,68 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import WarbandListScreen from './screens/WarbandListScreen';
-import NewWarbandScreen from './screens/NewWarbandScreen';
 import RosterScreen from './screens/RosterScreen';
-import ModelDetailScreen from './screens/ModelDetailScreen';
-import HenchmenDetailScreen from './screens/HenchmenDetailScreen';
-import AddHeroScreen from './screens/AddHeroScreen';
-import AddHenchmenScreen from './screens/AddHenchmenScreen';
-import AddHiredSwordScreen from './screens/AddHiredSwordScreen';
 import SettingsScreen from './screens/SettingsScreen';
-import DesignSandboxScreen from './screens/DesignSandboxScreen';
-import ChangelogScreen from './screens/ChangelogScreen';
-import WarbandPickerScreen from './screens/WarbandPickerScreen';
-import PreBattleScreen from './screens/PreBattleScreen';
-import DuringBattleScreen from './screens/DuringBattleScreen';
-import PostBattleWizard from './screens/postBattle/PostBattleWizard';
-import TradingPostScreen from './screens/TradingPostScreen';
-import CampaignScreen from './screens/CampaignScreen';
-import MyCampaignsScreen from './screens/MyCampaignsScreen';
-import SharedWarbandScreen from './screens/SharedWarbandScreen';
-import GalleryScreen from './screens/GalleryScreen';
-import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
-import ResetPasswordScreen from './screens/ResetPasswordScreen';
-import RulesScreen from './screens/RulesScreen';
-import RuleDetailScreen from './screens/RuleDetailScreen';
+
+const AdminScreen = lazy(() => import('./screens/AdminScreen'));
+
+const DesignSandboxScreen = lazy(() => import('./screens/DesignSandboxScreen'));
+
+const ChangelogScreen = lazy(() => import('./screens/ChangelogScreen'));
+
+const RulesScreen = lazy(() => import('./screens/RulesScreen'));
+
+const RuleDetailScreen = lazy(() => import('./screens/RuleDetailScreen'));
+
+const PostBattleWizard = lazy(() => import('./screens/postBattle/PostBattleWizard'));
+
+const TradingPostScreen = lazy(() => import('./screens/TradingPostScreen'));
+
+const PreBattleScreen = lazy(() => import('./screens/PreBattleScreen'));
+
+const DuringBattleScreen = lazy(() => import('./screens/DuringBattleScreen'));
+
+const GalleryScreen = lazy(() => import('./screens/GalleryScreen'));
+
+const SharedWarbandScreen = lazy(() => import('./screens/SharedWarbandScreen'));
+
+const CampaignScreen = lazy(() => import('./screens/CampaignScreen'));
+
+const MyCampaignsScreen = lazy(() => import('./screens/MyCampaignsScreen'));
+
+const ModelDetailScreen = lazy(() => import('./screens/ModelDetailScreen'));
+
+const HenchmenDetailScreen = lazy(() => import('./screens/HenchmenDetailScreen'));
+
+const AddHeroScreen = lazy(() => import('./screens/AddHeroScreen'));
+
+const AddHenchmenScreen = lazy(() => import('./screens/AddHenchmenScreen'));
+
+const AddHiredSwordScreen = lazy(() => import('./screens/AddHiredSwordScreen'));
+
+const NewWarbandScreen = lazy(() => import('./screens/NewWarbandScreen'));
+
+const WarbandPickerScreen = lazy(() => import('./screens/WarbandPickerScreen'));
+
+const ForgotPasswordScreen = lazy(() => import('./screens/ForgotPasswordScreen'));
+
+const ResetPasswordScreen = lazy(() => import('./screens/ResetPasswordScreen'));
+
+/**
+ * Shown while a route's chunk downloads.
+ *
+ * Deliberately the same wording RequireAuth uses while restoring a session, so
+ * the two waits look like one thing to the user rather than two different
+ * stalls. Most navigations never show it — the chunk is usually cached by the
+ * time it's needed.
+ */
+function RouteFallback() {
+  return (
+    <div className="min-h-full flex items-center justify-center">
+      <p className="text-bone-300">{strings.common.loading}</p>
+    </div>
+  );
+}
 
 /** Wraps a route element in the auth gate, redirecting to /login when signed out. */
 function guarded(element: ReactElement) {
@@ -56,7 +94,8 @@ function AppShell() {
       <div className="flex-1 min-w-0 pb-[56px] md:pb-0">
         <ConnectionBanner />
         <div className="mx-auto w-full max-w-4xl">
-          <Routes>
+          <Suspense fallback={<RouteFallback />}>
+      <Routes>
             {/* --- Public: static reference content --- */}
             <Route path="/" element={<HomeScreen />} />
             <Route path="/rules" element={<RulesScreen />} />
@@ -125,6 +164,7 @@ function AppShell() {
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+      </Suspense>
         </div>
         {/* Below the routed content on every screen, so "this page" means the
             page you're actually looking at. */}
@@ -138,7 +178,8 @@ function AppShell() {
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
         {/* Auth screens render outside the app shell — no nav on the sign-in flow. */}
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
@@ -147,7 +188,8 @@ export default function App() {
         {/* Design workbench for spec §5 — not linked from the nav. */}
         <Route path="/design" element={<DesignSandboxScreen />} />
         <Route path="*" element={<AppShell />} />
-      </Routes>
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }
