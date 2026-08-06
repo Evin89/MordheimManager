@@ -97,6 +97,12 @@ export const strings = {
     changelogLink: "What's New (Changelog)",
     accountSection: 'Account',
     signedInAs: (email: string) => `Signed in as ${email}`,
+    displayNameLabel: 'Display name',
+    // Says where it shows up, because it is the one field here other people see.
+    displayNameHint: 'Shown to your campaign-mates in standings and on any warband you make public.',
+    displayNameSave: 'Save name',
+    displayNameSaved: 'Name updated.',
+    displayNameEmpty: 'Your display name cannot be empty.',
     signOutButton: 'Sign out',
     signedOutHint: 'Sign in to export or import your warband and campaign data.',
     adminSection: 'Admin',

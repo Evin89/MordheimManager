@@ -448,3 +448,28 @@ export async function fetchAdminStats() {
     signups,
   };
 }
+
+// --- profile ---------------------------------------------------------------
+
+export async function fetchMyProfile(userId: string): Promise<{ id: string; displayName: string } | null> {
+  const user = db().users.find((u) => u.id === userId);
+  return user ? { id: user.id, displayName: user.displayName } : null;
+}
+
+/**
+ * Renames the demo viewer.
+ *
+ * Mutates the generated user, so the change shows up wherever that name is
+ * read — standings, the members list, the gallery — rather than only on the
+ * field that was edited. That is the whole point of the rename being worth
+ * testing.
+ */
+export async function updateDisplayName(
+  userId: string,
+  displayName: string,
+): Promise<{ id: string; displayName: string }> {
+  const user = db().users.find((u) => u.id === userId);
+  if (!user) throw new Error('User not found.');
+  user.displayName = displayName;
+  return { id: user.id, displayName: user.displayName };
+}

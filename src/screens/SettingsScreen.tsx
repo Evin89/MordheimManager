@@ -8,6 +8,70 @@ import { useIsAdminQuery } from '../hooks/useIssues';
 import { useAuth } from '../auth/AuthProvider';
 import { ImportValidationError, downloadExport, importAllData, parseImportFile } from '../storage/persistence';
 import { isDemoMode, setDemoMode } from '../dev/demoMode';
+import { MAX_DISPLAY_NAME } from '../api/profile';
+import { useMyProfileQuery, useUpdateDisplayNameMutation } from '../hooks/useProfile';
+
+
+/**
+ * Renaming yourself.
+ *
+ * This is the only field on the screen other people see — it labels you in
+ * campaign standings, the pre-battle opponent picker and the public gallery —
+ * and until now it was set once at registration and never editable, so a typo
+ * at signup was permanent.
+ *
+ * Saved explicitly rather than on each keystroke, matching how the roster and
+ * campaign screens treat typed fields: a name is something you finish writing
+ * before you mean it.
+ */
+function DisplayNameField() {
+  const { data: profile } = useMyProfileQuery();
+  const mutation = useUpdateDisplayNameMutation();
+  const [draft, setDraft] = useState<string | null>(null);
+
+  // Null until the user types, so the loaded name shows without a second
+  // effect copying it into state — and a rename landing elsewhere is picked up
+  // rather than pinned to whatever this field first rendered.
+  const value = draft ?? profile?.displayName ?? '';
+  const trimmed = value.trim();
+  const dirty = profile !== undefined && profile !== null && trimmed !== profile.displayName;
+
+  return (
+    <div className="space-y-2">
+      <label htmlFor="display-name" className="block text-bone-300 text-sm">
+        {strings.settings.displayNameLabel}
+      </label>
+      <input
+        id="display-name"
+        type="text"
+        value={value}
+        maxLength={MAX_DISPLAY_NAME}
+        onChange={(e) => setDraft(e.target.value)}
+        className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
+      />
+      <p className="text-bone-400 text-xs">{strings.settings.displayNameHint}</p>
+
+      {dirty && (
+        <button
+          type="button"
+          disabled={!trimmed || mutation.isPending}
+          onClick={() => mutation.mutate(trimmed, { onSuccess: () => setDraft(null) })}
+          className="min-h-[48px] w-full rounded-md bg-ember-500 hover:bg-ember-600 disabled:opacity-50 text-ink-950 font-semibold px-4 transition-colors"
+        >
+          {mutation.isPending ? strings.common.loading : strings.settings.displayNameSave}
+        </button>
+      )}
+
+      {!trimmed && <p className="text-blood-500 text-xs">{strings.settings.displayNameEmpty}</p>}
+      {mutation.isSuccess && !dirty && (
+        <p className="text-bone-300 text-xs">{strings.settings.displayNameSaved}</p>
+      )}
+      {mutation.isError && (
+        <p className="text-blood-500 text-xs">{(mutation.error as Error).message}</p>
+      )}
+    </div>
+  );
+}
 
 export default function SettingsScreen() {
   const [theme, setTheme] = useTheme();
@@ -108,6 +172,9 @@ export default function SettingsScreen() {
           {user ? (
             <>
               {user.email && <p className="text-bone-300 text-sm">{strings.settings.signedInAs(user.email)}</p>}
+
+              <DisplayNameField />
+
               <button
                 type="button"
                 onClick={() => signOut()}
