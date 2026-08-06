@@ -100,17 +100,22 @@ function AppShell() {
             <Route path="/" element={<HomeScreen />} />
             <Route path="/rules" element={<RulesScreen />} />
             <Route path="/rules/:ruleId" element={<RuleDetailScreen />} />
-            <Route path="/profile" element={<SettingsScreen />} />
+            <Route path="/account" element={<SettingsScreen />} />
             {/* The tab was renamed Settings -> Profile. Redirects rather
                 than a bare rename, so a bookmark or an old changelog link
                 still lands somewhere. */}
-            <Route path="/settings" element={<Navigate to="/profile" replace />} />
-            <Route path="/settings/changelog" element={<Navigate to="/profile/changelog" replace />} />
+            {/* Two renames deep now: Settings became Profile, Profile became
+                Account. Both old paths still resolve, so links shared in
+                the group chat and anyone's bookmarks keep working. */}
+            <Route path="/settings" element={<Navigate to="/account" replace />} />
+            <Route path="/profile" element={<Navigate to="/account" replace />} />
+            <Route path="/settings/changelog" element={<Navigate to="/account/changelog" replace />} />
+            <Route path="/profile/changelog" element={<Navigate to="/account/changelog" replace />} />
             {/* Not linked from the nav. The gate is in the database —
                 `issue_reports` and `admin_stats()` are admin-only, so a
                 non-admin reaching this URL gets nothing to read. */}
             <Route path="/admin" element={guarded(<AdminScreen />)} />
-            <Route path="/profile/changelog" element={<ChangelogScreen />} />
+            <Route path="/account/changelog" element={<ChangelogScreen />} />
             {/* Warbands their owners chose to publish, plus the read-only roster
                 behind each one. Public by design — an opted-in roster you can't
                 show to someone without an account isn't really shared. The

@@ -20,7 +20,7 @@ function AboutSection() {
     <section className="space-y-3">
       <h2 className="text-bone-100 font-semibold">{strings.settings.aboutSection}</h2>
       <Link
-        to="/profile/changelog"
+        to="/account/changelog"
         className="inline-flex items-center min-h-[44px] text-ember-400 font-semibold"
       >
         {strings.settings.changelogLink}

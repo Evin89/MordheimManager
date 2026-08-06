@@ -13,7 +13,7 @@ export const strings = {
     trading: 'Trading',
     campaign: 'Campaign',
     rules: 'Rules',
-    settings: 'Profile',
+    settings: 'Account',
     signIn: 'Sign in',
     signOut: 'Sign out',
   },
@@ -77,7 +77,7 @@ export const strings = {
   },
 
   settings: {
-    title: 'Profile',
+    title: 'Account',
     appearanceSection: 'Appearance',
     themeNames: {
       grimdark: 'Grimdark',
@@ -95,7 +95,7 @@ export const strings = {
     importError: (message: string) => `Import failed: ${message}`,
     aboutSection: 'About',
     changelogLink: "What's New (Changelog)",
-    accountSection: 'Account',
+    accountSection: 'Your details',
     signedInAs: (email: string) => `Signed in as ${email}`,
     displayNameLabel: 'Display name',
     // Says where it shows up, because it is the one field here other people see.
