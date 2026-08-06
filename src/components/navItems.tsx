@@ -73,11 +73,12 @@ function RulesIcon({ className }: IconProps) {
   );
 }
 
-function SettingsIcon({ className }: IconProps) {
+/** Head and shoulders — the tab holds your account, not app settings. */
+function ProfileIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1" />
     </svg>
   );
 }
@@ -155,5 +156,5 @@ export const NAV_ITEMS: NavItem[] = [
   // Opening one from there sets it active, so /campaign stays the detail view.
   { to: '/campaigns', label: strings.nav.campaign, activeFor: ['/campaign'], Icon: CampaignIcon },
   { to: '/rules', label: strings.nav.rules, Icon: RulesIcon },
-  { to: '/profile', label: strings.nav.settings, Icon: SettingsIcon },
+  { to: '/profile', label: strings.nav.settings, Icon: ProfileIcon },
 ];

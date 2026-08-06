@@ -7,6 +7,28 @@ import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 
+/**
+ * About and the changelog, at the foot of Home.
+ *
+ * Moved off Profile: "what changed" is something you read occasionally rather
+ * than an account setting, and on Home it also reaches signed-out visitors,
+ * who never open Profile at all. Last on the page in both views, because
+ * nobody launches the app to read release notes.
+ */
+function AboutSection() {
+  return (
+    <section className="space-y-3">
+      <h2 className="text-bone-100 font-semibold">{strings.settings.aboutSection}</h2>
+      <Link
+        to="/profile/changelog"
+        className="inline-flex items-center min-h-[44px] text-ember-400 font-semibold"
+      >
+        {strings.settings.changelogLink}
+      </Link>
+    </section>
+  );
+}
+
 /** Landing view for visitors without an account: the rules are open to everyone,
  * so point at them rather than showing empty warband/campaign shells. */
 function SignedOutHome() {
@@ -53,6 +75,8 @@ function SignedOutHome() {
             </Link>
           </div>
         </section>
+
+        <AboutSection />
       </main>
     </div>
   );
@@ -186,6 +210,8 @@ export default function HomeScreen() {
             </Link>
           </div>
         </section>
+
+        <AboutSection />
       </main>
     </div>
   );
