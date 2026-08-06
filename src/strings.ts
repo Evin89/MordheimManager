@@ -182,6 +182,9 @@ export const strings = {
     publicEmpty: "No public warbands yet. Set one of yours to public from its roster screen and it'll show up here.",
     publicNoMatches: 'Nothing matches that search.',
     publicCount: (n: number) => `${n} warband${n === 1 ? '' : 's'}`,
+    // Only shown while more pages exist, so the search scope is never ambiguous.
+    publicLoadedSoFar: (n: number) => `of ${n} loaded so far`,
+    publicLoadMore: 'Load more',
   },
   newWarband: {
     title: 'New Warband',

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../auth/AuthProvider';
 import {
   WarbandRecord,
@@ -249,10 +249,21 @@ export function useSetWarbandVisibilityMutation() {
 /** The public gallery. Not keyed by user — the same list for everyone signed in. */
 /** Deliberately not gated on `user`: the gallery is readable signed out, which
  * the database enforces via the anon select policy on public warbands (0004). */
+/**
+ * The public gallery, a page at a time.
+ *
+ * Infinite rather than a single fetch: the old query took a flat 200 rows,
+ * which sends far more than the first screenful needs and silently caps the
+ * gallery once it passes that. Search and the type filter still run over what
+ * is loaded — the screen says how many that is, so a search that finds nothing
+ * doesn't read as "there is nothing" when it means "not in the first 24".
+ */
 export function usePublicWarbandsQuery() {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ['publicWarbands'],
-    queryFn: fetchPublicWarbands,
+    queryFn: ({ pageParam }) => fetchPublicWarbands(pageParam as number),
+    initialPageParam: 0,
+    getNextPageParam: (last) => last.nextCursor,
   });
 }
 

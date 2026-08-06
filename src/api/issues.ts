@@ -87,13 +87,40 @@ export async function fetchIsAdmin(userId: string): Promise<boolean> {
   return data !== null;
 }
 
-export async function fetchIssueReports(status: IssueStatus | 'all'): Promise<IssueReport[]> {
-  if (isDemoMode()) return demo.fetchIssueReports(status);
-  let query = supabase.from('issue_reports').select('*').order('created_at', { ascending: false });
+/** Reports per page in the inbox. Unlike the gallery this is ordered by
+ * `created_at`, which never changes once written, so paging is exact. */
+export const ISSUE_PAGE_SIZE = 25;
+
+export type IssueReportPage = {
+  rows: IssueReport[];
+  nextCursor: number | null;
+};
+
+/**
+ * A page of reports, newest first.
+ *
+ * Paged because this list is the one thing in the app that grows without any
+ * natural ceiling: every player, signed in or not, can add to it forever, and
+ * closing a report doesn't remove the row.
+ */
+export async function fetchIssueReports(
+  status: IssueStatus | 'all',
+  cursor = 0,
+): Promise<IssueReportPage> {
+  if (isDemoMode()) return demo.fetchIssueReports(status, cursor);
+  let query = supabase
+    .from('issue_reports')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .range(cursor, cursor + ISSUE_PAGE_SIZE - 1);
   if (status !== 'all') query = query.eq('status', status);
   const { data, error } = await query;
   if (error) throw error;
-  return (data as IssueRow[]).map(toReport);
+  const rows = (data as IssueRow[]).map(toReport);
+  return {
+    rows,
+    nextCursor: rows.length < ISSUE_PAGE_SIZE ? null : cursor + rows.length,
+  };
 }
 
 export async function updateIssueStatus(id: string, status: IssueStatus): Promise<void> {

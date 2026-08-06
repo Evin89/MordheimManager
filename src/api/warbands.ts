@@ -252,10 +252,25 @@ export async function fetchCampaignWarbands(campaignId: string): Promise<Campaig
   }));
 }
 
-/** How many public warbands the browse screen pulls at once. Well beyond what
- * this app will realistically hold, but bounded so the list can't grow without
- * limit if it ever is. */
-const PUBLIC_WARBAND_LIMIT = 200;
+/** Rows per page in the gallery.
+ *
+ * Was a single hard `.limit(200)`, which is both too much to send someone who
+ * looks at the first screenful and a silent ceiling once the gallery passes it.
+ *
+ * Paged with `.range()` rather than a keyset cursor, deliberately: the sort key
+ * is `rating`, which changes every time a warband gains Experience, so a cursor
+ * over it is no more stable than an offset — a row can move across the boundary
+ * either way. Neither is exact under concurrent edits, and the offset version is
+ * far harder to get wrong. Revisit if the gallery reaches thousands of rows,
+ * where OFFSET's cost actually bites.
+ */
+export const PUBLIC_WARBAND_PAGE_SIZE = 24;
+
+export type PublicWarbandPage = {
+  rows: PublicWarbandRow[];
+  /** Offset to pass as the next page's cursor, or null at the end. */
+  nextCursor: number | null;
+};
 
 /**
  * Every warband its owner has marked public.
@@ -266,17 +281,20 @@ const PUBLIC_WARBAND_LIMIT = 200;
  * it asks for exactly that. Reading still requires a session; there is no
  * signed-out browsing of other people's warbands.
  */
-export async function fetchPublicWarbands(): Promise<PublicWarbandRow[]> {
-  if (isDemoMode()) return demo.fetchPublicWarbands();
+export async function fetchPublicWarbands(cursor = 0): Promise<PublicWarbandPage> {
+  if (isDemoMode()) return demo.fetchPublicWarbands(cursor);
   const { data, error } = await supabase
     .from('warbands')
     .select('id, owner_id, name, warband_type, rating, profiles (display_name)')
     .eq('visibility', 'public')
+    // `id` breaks ties: ordering by rating alone leaves rows with equal ratings
+    // in an arbitrary order per request, which pages can duplicate or skip.
     .order('rating', { ascending: false })
-    .limit(PUBLIC_WARBAND_LIMIT);
+    .order('id', { ascending: true })
+    .range(cursor, cursor + PUBLIC_WARBAND_PAGE_SIZE - 1);
   if (error) throw error;
 
-  return (
+  const rows = (
     data as unknown as {
       id: string;
       owner_id: string;
@@ -293,6 +311,13 @@ export async function fetchPublicWarbands(): Promise<PublicWarbandRow[]> {
     playerName: row.profiles?.display_name || '',
     rating: row.rating,
   }));
+
+  return {
+    rows,
+    // A short page means the end. Costs nothing, where asking for an exact
+    // count would be a second query on every page.
+    nextCursor: rows.length < PUBLIC_WARBAND_PAGE_SIZE ? null : cursor + rows.length,
+  };
 }
 
 /**

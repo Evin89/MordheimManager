@@ -139,7 +139,13 @@ function ReportRow({
 export default function AdminScreen() {
   const { data: isAdmin, isPending } = useIsAdminQuery();
   const [filter, setFilter] = useState<IssueStatus | 'all'>('open');
-  const { data: reports } = useIssueReportsQuery(filter);
+  const {
+    data: reportPages,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useIssueReportsQuery(filter);
+  const reports = reportPages ? reportPages.pages.flatMap((p) => p.rows) : undefined;
   const { data: stats } = useAdminStatsQuery();
   const setStatus = useUpdateIssueStatusMutation();
 
@@ -235,6 +241,17 @@ export default function AdminScreen() {
                 />
               ))}
             </div>
+          )}
+
+          {hasNextPage && (
+            <button
+              type="button"
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+              className="w-full min-h-[48px] rounded-md border border-ink/40 font-ui text-sm font-semibold text-ink disabled:opacity-50"
+            >
+              {isFetchingNextPage ? strings.common.loading : strings.warbandList.publicLoadMore}
+            </button>
           )}
         </section>
       </main>

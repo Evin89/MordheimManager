@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../auth/AuthProvider';
 import {
   IssueStatus,
@@ -30,9 +30,11 @@ export function useIsAdminQuery() {
 
 export function useIssueReportsQuery(status: IssueStatus | 'all') {
   const { data: isAdmin } = useIsAdminQuery();
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ['issueReports', status],
-    queryFn: () => fetchIssueReports(status),
+    queryFn: ({ pageParam }) => fetchIssueReports(status, pageParam as number),
+    initialPageParam: 0,
+    getNextPageParam: (last) => last.nextCursor,
     enabled: isAdmin === true,
   });
 }

@@ -279,8 +279,10 @@ export async function fetchCampaignWarbands(campaignId: string): Promise<Campaig
     .sort((a, b) => b.rating - a.rating);
 }
 
-export async function fetchPublicWarbands(): Promise<PublicWarbandRow[]> {
-  return db()
+export async function fetchPublicWarbands(
+  cursor = 0,
+): Promise<{ rows: PublicWarbandRow[]; nextCursor: number | null }> {
+  const all = db()
     .warbands.filter((w) => w.visibility === 'public')
     .map((w) => ({
       id: w.id,
@@ -290,7 +292,10 @@ export async function fetchPublicWarbands(): Promise<PublicWarbandRow[]> {
       playerName: displayName(w.ownerId),
       rating: ratingOf(w),
     }))
-    .sort((a, b) => b.rating - a.rating);
+    // Same tie-break as the real query, so paging behaves identically.
+    .sort((a, b) => b.rating - a.rating || a.id.localeCompare(b.id));
+  const rows = all.slice(cursor, cursor + 24);
+  return { rows, nextCursor: cursor + rows.length >= all.length ? null : cursor + rows.length };
 }
 
 export async function fetchSharedWarband(id: string): Promise<Warband | null> {
@@ -388,6 +393,41 @@ const issues: {
   },
 ];
 
+/**
+ * Pads the inbox past one page.
+ *
+ * Two reports show the row layout but not the screen's actual job: a queue you
+ * page through and triage. Without more than `ISSUE_PAGE_SIZE` of them the
+ * pagination cannot be seen at all, let alone checked.
+ */
+const FILLER = [
+  'Halfling Scouts cost 25 gc in the book, 30 here.',
+  'The trading post lets me buy a second brace of pistols.',
+  'Rout test wording is cut off on a small phone.',
+  'Exploration result 66 does not mention the Catacombs re-roll.',
+  'Sisters of Sigmar cannot take Sigmarite warhammers in the shop.',
+  'Wyrdstone price for 8+ shards looks wrong at 13-15 models.',
+  'Skill picker offers Weapons Training to a henchman group.',
+  'The undo button stays enabled after a reload.',
+  'Campaign standings show my warband twice.',
+  'Ogre Bodyguard upkeep is not deducted post-battle.',
+];
+for (let i = 0; i < 28; i += 1) {
+  issues.push({
+    id: `demo-issue-filler-${i}`,
+    reporterId: i % 3 === 0 ? null : `demo-user-${(i % 12) + 1}`,
+    path: i % 2 === 0 ? `/warbands/demo-wb-${i % 8}-0` : '/rules/trading',
+    message: FILLER[i % FILLER.length],
+    context: i % 2 === 0 ? { warbandType: 'reiklanders' } : { ruleId: 'trading' },
+    appVersion: '1.0.0',
+    userAgent: i % 2 === 0 ? 'Mozilla/5.0 (Linux; Android 14)' : 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5)',
+    // Mostly open, so the default filter is the one worth paging.
+    status: i % 7 === 0 ? 'closed' : i % 5 === 0 ? 'triaged' : 'open',
+    adminNotes: '',
+    createdAt: new Date(2026, 6, 27 - Math.floor(i / 2), 8 + (i % 12), i % 60).toISOString(),
+  });
+}
+
 export async function insertIssueReport(report: {
   reporterId: string | null;
   path: string;
@@ -411,8 +451,12 @@ export async function fetchIsAdmin(userId: string): Promise<boolean> {
   return userId === db().viewerId;
 }
 
-export async function fetchIssueReports(status: string): Promise<typeof issues> {
-  return status === 'all' ? [...issues] : issues.filter((i) => i.status === status);
+export async function fetchIssueReports(status: string, cursor = 0) {
+  const all = issues
+    .filter((r) => status === 'all' || r.status === status)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const rows = all.slice(cursor, cursor + 25);
+  return { rows, nextCursor: cursor + rows.length >= all.length ? null : cursor + rows.length };
 }
 
 export async function updateIssueStatus(id: string, status: 'open' | 'triaged' | 'closed'): Promise<void> {

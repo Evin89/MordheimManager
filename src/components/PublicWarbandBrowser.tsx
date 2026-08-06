@@ -44,7 +44,19 @@ export function filterPublicWarbands(
  */
 export default function PublicWarbandBrowser() {
   const { user } = useAuth();
-  const { data: warbands, isLoading, isError } = usePublicWarbandsQuery();
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = usePublicWarbandsQuery();
+
+  // Every page loaded so far. Search and the type filter run over this, not
+  // over the whole table — the count line below says so, so an empty result
+  // reads as "not in what's loaded" rather than "doesn't exist".
+  const warbands = useMemo(() => (data?.pages ?? []).flatMap((p) => p.rows), [data]);
   const [search, setSearch] = useState('');
   const [type, setType] = useState('');
 
@@ -55,7 +67,7 @@ export default function PublicWarbandBrowser() {
     return warbandDefinitions.filter((d) => present.has(d.id));
   }, [warbands]);
 
-  const visible = useMemo(() => filterPublicWarbands(warbands ?? [], search, type), [warbands, search, type]);
+  const visible = useMemo(() => filterPublicWarbands(warbands, search, type), [warbands, search, type]);
 
   if (isLoading) return <p className="text-bone-300">{strings.common.loading}</p>;
   if (isError) return <p className="text-bone-300">{strings.connection.lost}</p>;
@@ -96,7 +108,10 @@ export default function PublicWarbandBrowser() {
         <p className="text-bone-300 text-sm">{strings.warbandList.publicNoMatches}</p>
       ) : (
         <>
-          <p className="text-bone-400 text-xs">{strings.warbandList.publicCount(visible.length)}</p>
+          <p className="text-bone-400 text-xs">
+            {strings.warbandList.publicCount(visible.length)}
+            {hasNextPage && ` ${strings.warbandList.publicLoadedSoFar(warbands.length)}`}
+          </p>
           {visible.map((warband) => (
             <Link
               key={warband.id}
@@ -123,6 +138,17 @@ export default function PublicWarbandBrowser() {
               </div>
             </Link>
           ))}
+
+          {hasNextPage && (
+            <button
+              type="button"
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+              className="w-full min-h-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 disabled:opacity-50 transition-colors"
+            >
+              {isFetchingNextPage ? strings.common.loading : strings.warbandList.publicLoadMore}
+            </button>
+          )}
         </>
       )}
     </div>
