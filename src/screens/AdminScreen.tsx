@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import DisclosureChevron from './../components/DisclosureChevron';
 import { IssueReport, IssueStatus } from '../api/issues';
@@ -196,7 +196,15 @@ function UserOverview() {
             {users.map((u) => (
               <tr key={u.userId} className="border-b border-ink/15 last:border-b-0">
                 <th scope="row" className="text-left font-normal px-3 py-2">
-                  <span className="text-ink">{u.displayName || 'Unnamed'}</span>
+                  {/* The name is the link, not the whole row: a row-wide click
+                      target would swallow text selection, and an admin reading
+                      these numbers wants to be able to select them. */}
+                  <Link
+                    to={`/admin/users/${u.userId}`}
+                    className="text-blood font-semibold underline-offset-2 hover:underline"
+                  >
+                    {u.displayName || 'Unnamed'}
+                  </Link>
                   {u.isAdmin && (
                     <span className="ml-2 rounded border border-ink/40 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-ink-faded">
                       admin

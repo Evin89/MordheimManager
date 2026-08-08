@@ -196,6 +196,77 @@ export async function fetchAdminUsers(cursor = 0): Promise<AdminUserPage> {
   };
 }
 
+export type AdminUserWarband = {
+  id: string;
+  name: string;
+  warbandType: string;
+  rating: number;
+  visibility: 'public' | 'private';
+  campaignName: string | null;
+  updatedAt: string;
+  createdAt: string;
+};
+
+export type AdminUserCampaign = {
+  id: string;
+  name: string;
+  usesBtb: boolean;
+  role: 'campaign_leader' | 'player';
+  joinedAt: string;
+  members: number;
+};
+
+export type AdminUserDetail = {
+  userId: string;
+  displayName: string;
+  createdAt: string;
+  isAdmin: boolean;
+  warbands: AdminUserWarband[];
+  campaigns: AdminUserCampaign[];
+};
+
+/** One player's warbands and campaigns — summary rows only. See migration 0008
+ * for what is deliberately excluded. */
+export async function fetchAdminUserDetail(userId: string): Promise<AdminUserDetail> {
+  if (isDemoMode()) return demo.fetchAdminUserDetail(userId);
+  const { data, error } = await supabase.rpc('admin_user_detail', { p_user_id: userId });
+  if (error) throw error;
+
+  const d = data as {
+    user_id: string;
+    display_name: string;
+    created_at: string;
+    is_admin: boolean;
+    warbands: Record<string, unknown>[];
+    campaigns: Record<string, unknown>[];
+  };
+
+  return {
+    userId: d.user_id,
+    displayName: d.display_name,
+    createdAt: d.created_at,
+    isAdmin: d.is_admin,
+    warbands: d.warbands.map((w) => ({
+      id: w.id as string,
+      name: w.name as string,
+      warbandType: w.warband_type as string,
+      rating: Number(w.rating ?? 0),
+      visibility: w.visibility as 'public' | 'private',
+      campaignName: (w.campaign_name as string | null) ?? null,
+      updatedAt: w.updated_at as string,
+      createdAt: w.created_at as string,
+    })),
+    campaigns: d.campaigns.map((c) => ({
+      id: c.id as string,
+      name: c.name as string,
+      usesBtb: Boolean(c.uses_btb),
+      role: c.role as 'campaign_leader' | 'player',
+      joinedAt: c.joined_at as string,
+      members: Number(c.members ?? 0),
+    })),
+  };
+}
+
 export type AdminStats = {
   users: number;
   warbands: number;

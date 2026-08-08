@@ -3,6 +3,7 @@ import { useAuth } from '../auth/AuthProvider';
 import {
   IssueStatus,
   fetchAdminStats,
+  fetchAdminUserDetail,
   fetchAdminUsers,
   fetchIsAdmin,
   fetchIssueReports,
@@ -60,6 +61,15 @@ export function useAdminUsersQuery() {
     initialPageParam: 0,
     getNextPageParam: (last) => last.nextCursor,
     enabled: isAdmin === true,
+  });
+}
+
+export function useAdminUserDetailQuery(userId: string | undefined) {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['adminUserDetail', userId],
+    queryFn: () => fetchAdminUserDetail(userId!),
+    enabled: isAdmin === true && !!userId,
   });
 }
 

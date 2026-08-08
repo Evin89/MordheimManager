@@ -541,3 +541,46 @@ export async function fetchAdminUsers(cursor = 0) {
   const rows = all.slice(cursor, cursor + 25);
   return { rows, nextCursor: cursor + rows.length >= all.length ? null : cursor + rows.length };
 }
+
+/** One demo player's warbands and campaigns, same shape as the real RPC. */
+export async function fetchAdminUserDetail(userId: string) {
+  const database = db();
+  const user = database.users.find((u) => u.id === userId);
+  if (!user) throw new Error('No such player');
+  const index = database.users.indexOf(user);
+
+  return {
+    userId: user.id,
+    displayName: user.displayName,
+    createdAt: new Date(2026, 5, 1 + (index % 28), 9, index % 60).toISOString(),
+    isAdmin: user.id === database.viewerId,
+    warbands: database.warbands
+      .filter((w) => w.ownerId === user.id)
+      .map((w) => ({
+        id: w.id,
+        name: w.warband.name,
+        warbandType: w.warband.warbandType,
+        rating: ratingOf(w),
+        visibility: w.visibility,
+        campaignName:
+          database.campaigns.find((c) => c.id === w.campaignId)?.name ?? null,
+        updatedAt: w.updatedAt,
+        createdAt: w.updatedAt,
+      }))
+      .sort((a, b) => b.rating - a.rating),
+    campaigns: database.memberships
+      .filter((m) => m.userId === user.id)
+      .map((m) => {
+        const campaign = database.campaigns.find((c) => c.id === m.campaignId)!;
+        return {
+          id: campaign.id,
+          name: campaign.name,
+          usesBtb: campaign.usesBTB,
+          role: m.role,
+          joinedAt: m.joinedAt,
+          members: database.memberships.filter((x) => x.campaignId === campaign.id).length,
+        };
+      })
+      .sort((a, b) => a.joinedAt.localeCompare(b.joinedAt)),
+  };
+}

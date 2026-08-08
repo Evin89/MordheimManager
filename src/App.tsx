@@ -14,6 +14,7 @@ import RosterScreen from './screens/RosterScreen';
 import SettingsScreen from './screens/SettingsScreen';
 
 const AdminScreen = lazy(() => import('./screens/AdminScreen'));
+const AdminUserScreen = lazy(() => import('./screens/AdminUserScreen'));
 
 const DesignSandboxScreen = lazy(() => import('./screens/DesignSandboxScreen'));
 
@@ -115,6 +116,7 @@ function AppShell() {
                 `issue_reports` and `admin_stats()` are admin-only, so a
                 non-admin reaching this URL gets nothing to read. */}
             <Route path="/admin" element={guarded(<AdminScreen />)} />
+            <Route path="/admin/users/:userId" element={guarded(<AdminUserScreen />)} />
             <Route path="/account/changelog" element={<ChangelogScreen />} />
             {/* Warbands their owners chose to publish, plus the read-only roster
                 behind each one. Public by design — an opted-in roster you can't
