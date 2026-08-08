@@ -211,9 +211,21 @@ export default function SettingsScreen() {
           </section>
         )}
 
-        {/* Dev builds only — `import.meta.env.DEV` is replaced with `false` when
-            building for production, so this section is compiled away entirely. */}
-        {import.meta.env.DEV && (
+        {/* Admins only, and dev builds only.
+            
+            `import.meta.env.DEV` is replaced with `false` in a production build,
+            so this section is compiled away there regardless — the admin check
+            narrows who sees it while developing, it does not make the toggle
+            available in production. It could not be: `isDemoMode()` is itself
+            gated on DEV, so in production the button would render and do
+            nothing.
+
+            `|| isDemoMode()` is not redundant. Demo mode replaces the data
+            layer, including the admin check, so without it a signed-out
+            developer could never reach the toggle to turn demo mode *on* — and
+            once on, would need it to turn the thing back off. `?demo=0` still
+            works as an escape hatch either way. */}
+        {import.meta.env.DEV && (isAdmin || isDemoMode()) && (
           <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
             <h2 className="text-bone-100 font-semibold">Demo data</h2>
             <p className="text-bone-300 text-sm">
