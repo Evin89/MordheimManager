@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { CampaignEvent } from '../api/events';
 import {
   useCampaignEventsQuery,
@@ -54,10 +55,26 @@ function daysUntil(iso: string): string {
 export function NextEventBanner({ campaignId }: { campaignId: string | undefined }) {
   const { data: events } = useCampaignEventsQuery(campaignId);
   const next = events ? partition(events).upcoming[0] : undefined;
-  if (!next) return null;
+
+  // Always rendered, even with nothing scheduled — the banner is the only way
+  // into the events screen, so hiding it when the list is empty would make
+  // scheduling the first game night unreachable.
+  if (!next) {
+    return (
+      <Link
+        to="/campaign/events"
+        className="block rounded-lg border border-ink-800 bg-ink-900 px-4 py-3 hover:border-ink-700 transition-colors"
+      >
+        <p className="text-bone-300 text-sm">{strings.events.noneScheduled}</p>
+      </Link>
+    );
+  }
 
   return (
-    <div className="rounded-lg border border-ember-500 bg-ink-900 px-4 py-3">
+    <Link
+      to="/campaign/events"
+      className="block rounded-lg border border-ember-500 bg-ink-900 px-4 py-3 hover:bg-ink-800 transition-colors"
+    >
       <p className="font-ui text-xs uppercase tracking-wide text-ember-400">
         {strings.events.nextUp} · {daysUntil(next.eventDateTime)}
       </p>
@@ -66,7 +83,7 @@ export function NextEventBanner({ campaignId }: { campaignId: string | undefined
         {formatWhen(next.eventDateTime)}
         {next.location && ` · ${next.location}`}
       </p>
-    </div>
+    </Link>
   );
 }
 

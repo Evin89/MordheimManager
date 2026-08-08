@@ -113,6 +113,7 @@ export const strings = {
   events: {
     section: 'Game nights',
     nextUp: 'Next up',
+    noneScheduled: 'No game night scheduled — tap to add one.',
     today: 'today',
     tomorrow: 'tomorrow',
     inDays: (n: number) => `in ${n} days`,
