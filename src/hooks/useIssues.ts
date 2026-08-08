@@ -3,6 +3,7 @@ import { useAuth } from '../auth/AuthProvider';
 import {
   IssueStatus,
   fetchAdminStats,
+  fetchAdminUsers,
   fetchIsAdmin,
   fetchIssueReports,
   updateIssueStatus,
@@ -44,6 +45,20 @@ export function useAdminStatsQuery() {
   return useQuery({
     queryKey: ['adminStats'],
     queryFn: fetchAdminStats,
+    enabled: isAdmin === true,
+  });
+}
+
+/** Per-player activity, paged. Admin-gated in the database, so this stays
+ * disabled until the admin check has actually come back true — firing it for a
+ * non-admin would only produce a "Not authorised" in the console. */
+export function useAdminUsersQuery() {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useInfiniteQuery({
+    queryKey: ['adminUsers'],
+    queryFn: ({ pageParam }) => fetchAdminUsers(pageParam as number),
+    initialPageParam: 0,
+    getNextPageParam: (last) => last.nextCursor,
     enabled: isAdmin === true,
   });
 }

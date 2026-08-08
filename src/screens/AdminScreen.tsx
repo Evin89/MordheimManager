@@ -5,6 +5,7 @@ import DisclosureChevron from './../components/DisclosureChevron';
 import { IssueReport, IssueStatus } from '../api/issues';
 import {
   useAdminStatsQuery,
+  useAdminUsersQuery,
   useIsAdminQuery,
   useIssueReportsQuery,
   useUpdateIssueStatusMutation,
@@ -126,6 +127,116 @@ function ReportRow({
   );
 }
 
+/** How long ago, in the coarsest useful unit. An exact timestamp is noise when
+ * the question is only "is this person still playing". */
+function ago(iso: string | null): string {
+  if (!iso) return 'never';
+  const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000);
+  if (days <= 0) return 'today';
+  if (days === 1) return 'yesterday';
+  if (days < 30) return `${days}d ago`;
+  if (days < 365) return `${Math.floor(days / 30)}mo ago`;
+  return `${Math.floor(days / 365)}y ago`;
+}
+
+/**
+ * Who is using the app, and how much.
+ *
+ * Counts per player, no email and no roster contents — see migration 0007 for
+ * what is deliberately excluded. Read as a table because that is what it is:
+ * one row per person, columns you scan down.
+ */
+function UserOverview() {
+  const { data, error, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useAdminUsersQuery();
+  const users = data ? data.pages.flatMap((p) => p.rows) : undefined;
+
+  // Names the likely cause rather than spinning forever. This section depends on
+  // a function added in migration 0007, so "works locally, empty in production"
+  // is the predictable failure until that has been pushed.
+  if (isError) {
+    return (
+      <div className="space-y-1">
+        <p className="text-blood text-sm">Could not load players.</p>
+        <p className="font-ui text-xs text-ink-faded">
+          {(error as Error).message} — if this mentions <code>admin_user_overview</code>, migration
+          0007 has not been applied yet.
+        </p>
+      </div>
+    );
+  }
+
+  if (!users) return <p className="text-ink-faded text-sm">{strings.common.loading}</p>;
+  if (users.length === 0) return <p className="text-ink-faded text-sm">No players yet.</p>;
+
+  return (
+    <div className="space-y-2">
+      <div className="overflow-x-auto rounded-lg border-2 border-ink bg-parchment-raised">
+        <table className="w-full text-sm tabular-nums lining-nums">
+          <thead>
+            <tr className="border-b border-ink/40">
+              <th scope="col" className="text-left font-ui text-xs uppercase tracking-wide text-ink-faded px-3 py-2">
+                Player
+              </th>
+              <th scope="col" className="text-right font-ui text-xs uppercase tracking-wide text-ink-faded px-2 py-2">
+                Warbands
+              </th>
+              <th scope="col" className="text-right font-ui text-xs uppercase tracking-wide text-ink-faded px-2 py-2">
+                Campaigns
+              </th>
+              <th scope="col" className="text-right font-ui text-xs uppercase tracking-wide text-ink-faded px-2 py-2">
+                Battles
+              </th>
+              <th scope="col" className="text-right font-ui text-xs uppercase tracking-wide text-ink-faded px-3 py-2 whitespace-nowrap">
+                Last active
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((u) => (
+              <tr key={u.userId} className="border-b border-ink/15 last:border-b-0">
+                <th scope="row" className="text-left font-normal px-3 py-2">
+                  <span className="text-ink">{u.displayName || 'Unnamed'}</span>
+                  {u.isAdmin && (
+                    <span className="ml-2 rounded border border-ink/40 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-ink-faded">
+                      admin
+                    </span>
+                  )}
+                  <span className="block font-ui text-xs text-ink-faded">
+                    joined {ago(u.createdAt)}
+                  </span>
+                </th>
+                <td className="text-right px-2 py-2 text-ink">
+                  {u.warbands}
+                  {u.publicWarbands > 0 && (
+                    <span className="font-ui text-xs text-ink-faded"> ({u.publicWarbands} public)</span>
+                  )}
+                </td>
+                <td className="text-right px-2 py-2 text-ink">{u.campaigns}</td>
+                <td className="text-right px-2 py-2 text-ink">{u.battles}</td>
+                <td className="text-right px-3 py-2 text-ink-faded whitespace-nowrap">
+                  {ago(u.lastActive)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {hasNextPage && (
+        <button
+          type="button"
+          onClick={() => fetchNextPage()}
+          disabled={isFetchingNextPage}
+          className="w-full min-h-[48px] rounded-md border border-ink/40 font-ui text-sm font-semibold text-ink disabled:opacity-50"
+        >
+          {isFetchingNextPage ? strings.common.loading : strings.warbandList.publicLoadMore}
+        </button>
+      )}
+    </div>
+  );
+}
+
 /**
  * The admin view: the issue inbox and aggregate statistics.
  *
@@ -205,6 +316,11 @@ export default function AdminScreen() {
               </div>
             </>
           )}
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-ink font-semibold">Players</h2>
+          <UserOverview />
         </section>
 
         <section className="space-y-3">

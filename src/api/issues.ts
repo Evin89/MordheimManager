@@ -129,6 +129,73 @@ export async function updateIssueStatus(id: string, status: IssueStatus): Promis
   if (error) throw error;
 }
 
+/** Players per page in the admin user overview. */
+export const ADMIN_USER_PAGE_SIZE = 25;
+
+export type AdminUserRow = {
+  userId: string;
+  displayName: string;
+  createdAt: string;
+  isAdmin: boolean;
+  warbands: number;
+  publicWarbands: number;
+  campaigns: number;
+  battles: number;
+  /** Newest warband edit, or null for someone who never built one. */
+  lastActive: string | null;
+};
+
+export type AdminUserPage = {
+  rows: AdminUserRow[];
+  nextCursor: number | null;
+};
+
+/**
+ * Per-player activity for the admin overview.
+ *
+ * Counts only, and no email — see the comment block on migration 0007 for what
+ * is deliberately left out and why.
+ */
+export async function fetchAdminUsers(cursor = 0): Promise<AdminUserPage> {
+  if (isDemoMode()) return demo.fetchAdminUsers(cursor);
+  const { data, error } = await supabase.rpc('admin_user_overview', {
+    p_limit: ADMIN_USER_PAGE_SIZE,
+    p_offset: cursor,
+  });
+  if (error) throw error;
+
+  const rows: AdminUserRow[] = (
+    data as {
+      user_id: string;
+      display_name: string;
+      created_at: string;
+      is_admin: boolean;
+      warbands: number;
+      public_warbands: number;
+      campaigns: number;
+      battles: number;
+      last_active: string | null;
+    }[]
+  ).map((r) => ({
+    userId: r.user_id,
+    displayName: r.display_name,
+    createdAt: r.created_at,
+    isAdmin: r.is_admin,
+    // Postgres bigint arrives as a string over PostgREST when it exceeds the
+    // safe integer range; Number() is correct either way and these never will.
+    warbands: Number(r.warbands),
+    publicWarbands: Number(r.public_warbands),
+    campaigns: Number(r.campaigns),
+    battles: Number(r.battles),
+    lastActive: r.last_active,
+  }));
+
+  return {
+    rows,
+    nextCursor: rows.length < ADMIN_USER_PAGE_SIZE ? null : cursor + rows.length,
+  };
+}
+
 export type AdminStats = {
   users: number;
   warbands: number;

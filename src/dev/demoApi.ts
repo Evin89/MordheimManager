@@ -517,3 +517,27 @@ export async function updateDisplayName(
   user.displayName = displayName;
   return { id: user.id, displayName: user.displayName };
 }
+
+/** Per-player activity for the admin overview, from the generated database. */
+export async function fetchAdminUsers(cursor = 0) {
+  const database = db();
+  const all = database.users.map((u, i) => {
+    const owned = database.warbands.filter((w) => w.ownerId === u.id);
+    return {
+      userId: u.id,
+      displayName: u.displayName,
+      createdAt: new Date(2026, 5, 1 + (i % 28), 9, i % 60).toISOString(),
+      // Only the viewer is an admin in demo mode, matching fetchIsAdmin.
+      isAdmin: u.id === database.viewerId,
+      warbands: owned.length,
+      publicWarbands: owned.filter((w) => w.visibility === 'public').length,
+      campaigns: database.memberships.filter((m) => m.userId === u.id).length,
+      battles: database.battles.filter((b) => b.ownerId === u.id).length,
+      lastActive: owned.length
+        ? owned.map((w) => w.updatedAt).sort().slice(-1)[0]
+        : null,
+    };
+  });
+  const rows = all.slice(cursor, cursor + 25);
+  return { rows, nextCursor: cursor + rows.length >= all.length ? null : cursor + rows.length };
+}
