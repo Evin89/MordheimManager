@@ -628,6 +628,11 @@ export const strings = {
     youSuffix: '(you)',
     unnamedPlayer: 'Unnamed player',
     removeMember: 'Remove',
+    makeLeader: 'Make leader',
+    makeLeaderConfirm: (name: string) =>
+      `Hand leadership of this campaign to ${name}? You stay a player, and they can then rename it, regenerate the join code and remove members — including you.`,
+    leaderCannotLeave:
+      'You lead this campaign. Make someone else leader first, or it would be left with nobody who can manage it.',
     removeMemberConfirm: (name: string) => `Remove ${name} from the campaign? Their warbands will be unlinked from the standings.`,
     leaveCampaign: 'Leave campaign',
     leaveConfirm:

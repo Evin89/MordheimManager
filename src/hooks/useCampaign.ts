@@ -9,6 +9,7 @@ import {
   joinCampaignByCode,
   regenerateJoinCode,
   removeCampaignMember,
+  transferCampaignLeadership,
   updateCampaign,
 } from '../api/campaign';
 import { fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
@@ -145,6 +146,36 @@ export function useCampaignMembersQuery(campaignId: string | undefined) {
   });
 }
 
+/**
+ * Hands leadership to another member.
+ *
+ * Returns the error message rather than throwing, so the Players list can show
+ * it inline — the failures here are all things the user can act on ("that
+ * player is not in this campaign"), not connection faults.
+ */
+export function useTransferLeadershipMutation(campaignId: string | undefined) {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (toUserId: string) => transferCampaignLeadership(campaignId!, toUserId),
+    onSuccess: () => {
+      // Who leads decides what the whole screen offers, so both the member list
+      // and the campaign list have to re-read it.
+      queryClient.invalidateQueries({ queryKey: membersKey(campaignId) });
+      queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });
+      queryClient.invalidateQueries({ queryKey: ['campaignSummaries', user?.id] });
+    },
+  });
+  return async (toUserId: string): Promise<string | null> => {
+    try {
+      await mutation.mutateAsync(toUserId);
+      return null;
+    } catch (err) {
+      return err instanceof Error ? err.message : 'Could not transfer leadership.';
+    }
+  };
+}
+
 /** Covers both "remove this player" (leader) and "leave" (yourself) — RLS decides. */
 export function useRemoveMemberMutation(campaignId: string | undefined) {
   const { user } = useAuth();
@@ -155,7 +186,10 @@ export function useRemoveMemberMutation(campaignId: string | undefined) {
       queryClient.invalidateQueries({ queryKey: membersKey(campaignId) });
       queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });
     },
-    onError: () => window.alert(strings.connection.lost),
+    // The 0010 trigger refuses a leader who would orphan the campaign. That is
+    // a rule, not a connection fault, so it must not be reported as one.
+    onError: (err) =>
+      window.alert(err instanceof Error ? err.message : strings.connection.lost),
   });
   return (userId: string) => mutation.mutate(userId);
 }

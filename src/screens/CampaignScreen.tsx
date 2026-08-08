@@ -13,6 +13,7 @@ import {
   useMyCampaignsQuery,
   useRegenerateJoinCodeMutation,
   useRemoveMemberMutation,
+  useTransferLeadershipMutation,
   useSaveCampaignMutation,
   usePersonalBattlesQuery,
   useStandingsQuery,
@@ -325,10 +326,24 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
   const { user } = useAuth();
   const { data: members } = useCampaignMembersQuery(campaign.id);
   const removeMember = useRemoveMemberMutation(campaign.id);
+  const transferLeadership = useTransferLeadershipMutation(campaign.id);
+  const [transferError, setTransferError] = useState<string | null>(null);
+
+  // A leader with company cannot leave — the 0010 trigger refuses it. Saying so
+  // on the button beats letting them tap it and reading an exception.
+  const others = (members ?? []).filter((m) => m.userId !== user?.id);
+  const iAmOnlyLeader =
+    (members ?? []).some((m) => m.userId === user?.id && m.role === 'campaign_leader') &&
+    others.length > 0 &&
+    !others.some((m) => m.role === 'campaign_leader');
 
   return (
     <section className="space-y-3">
       <h2 className="text-bone-100 font-semibold">{strings.campaign.membersSection}</h2>
+      {iAmOnlyLeader && (
+        <p className="text-bone-400 text-xs">{strings.campaign.leaderCannotLeave}</p>
+      )}
+      {transferError && <p className="text-blood-500 text-sm">{transferError}</p>}
       <div className="space-y-2">
         {(members ?? []).map((member) => {
           const isMe = member.userId === user?.id;
@@ -350,25 +365,42 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
                 // Leaving is always yours to do; removing others is the leader's.
                 <button
                   type="button"
+                  disabled={iAmOnlyLeader}
+                  title={iAmOnlyLeader ? strings.campaign.leaderCannotLeave : undefined}
                   onClick={() => {
                     if (window.confirm(strings.campaign.leaveConfirm)) removeMember(member.userId);
                   }}
-                  className="shrink-0 text-blood-500 text-sm font-semibold"
+                  className="shrink-0 text-blood-500 text-sm font-semibold disabled:text-bone-400 disabled:cursor-not-allowed"
                 >
                   {strings.campaign.leaveCampaign}
                 </button>
               ) : (
                 isLeader && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const name = member.displayName || strings.campaign.unnamedPlayer;
-                      if (window.confirm(strings.campaign.removeMemberConfirm(name))) removeMember(member.userId);
-                    }}
-                    className="shrink-0 text-blood-500 text-sm font-semibold"
-                  >
-                    {strings.campaign.removeMember}
-                  </button>
+                  <div className="shrink-0 flex flex-col items-end gap-1">
+                    {member.role !== 'campaign_leader' && (
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          const name = member.displayName || strings.campaign.unnamedPlayer;
+                          if (!window.confirm(strings.campaign.makeLeaderConfirm(name))) return;
+                          setTransferError(await transferLeadership(member.userId));
+                        }}
+                        className="text-ember-400 text-sm font-semibold"
+                      >
+                        {strings.campaign.makeLeader}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const name = member.displayName || strings.campaign.unnamedPlayer;
+                        if (window.confirm(strings.campaign.removeMemberConfirm(name))) removeMember(member.userId);
+                      }}
+                      className="text-blood-500 text-sm font-semibold"
+                    >
+                      {strings.campaign.removeMember}
+                    </button>
+                  </div>
                 )
               )}
             </div>

@@ -269,6 +269,26 @@ export function buildStandingsRows(
  * Doubles as "leave" and "remove a player": RLS allows the delete when the row
  * is your own or you lead the campaign, so one call covers both cases.
  */
+/**
+ * Hands leadership to another member.
+ *
+ * An RPC because it necessarily writes two rows the caller cannot both write
+ * under RLS: the point is that the caller ends up without the rights they
+ * started with, so doing it as two client updates would either lose the
+ * permission needed for the second, or leave two leaders if it failed.
+ */
+export async function transferCampaignLeadership(
+  campaignId: string,
+  toUserId: string,
+): Promise<void> {
+  if (isDemoMode()) return demo.transferCampaignLeadership(campaignId, toUserId);
+  const { error } = await supabase.rpc('transfer_campaign_leadership', {
+    p_campaign_id: campaignId,
+    p_to_user_id: toUserId,
+  });
+  if (error) throw error;
+}
+
 export async function removeCampaignMember(campaignId: string, userId: string): Promise<void> {
   if (isDemoMode()) return demo.removeCampaignMember(campaignId, userId);
   const { error } = await supabase

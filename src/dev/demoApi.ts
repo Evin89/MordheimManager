@@ -167,6 +167,17 @@ export async function fetchCampaignMembers(campaignId: string): Promise<Campaign
 
 export async function removeCampaignMember(campaignId: string, userId: string): Promise<void> {
   const database = db();
+  // Same rule the 0010 trigger enforces, so the demo can exercise the refusal.
+  const leaving = database.memberships.find(
+    (m) => m.campaignId === campaignId && m.userId === userId,
+  );
+  const others = database.memberships.filter(
+    (m) => m.campaignId === campaignId && m.userId !== userId,
+  );
+  if (leaving?.role === 'campaign_leader' && others.length > 0
+      && !others.some((m) => m.role === 'campaign_leader')) {
+    throw new Error('Transfer leadership before leaving: this campaign would have no leader.');
+  }
   database.memberships = database.memberships.filter(
     (m) => !(m.campaignId === campaignId && m.userId === userId),
   );
@@ -583,4 +594,22 @@ export async function fetchAdminUserDetail(userId: string) {
       })
       .sort((a, b) => a.joinedAt.localeCompare(b.joinedAt)),
   };
+}
+
+/** Mirrors the 0010 RPC: promote first, then demote, so a half-applied
+ * change leaves two leaders rather than none. */
+export async function transferCampaignLeadership(
+  campaignId: string,
+  toUserId: string,
+): Promise<void> {
+  const database = db();
+  const target = database.memberships.find(
+    (m) => m.campaignId === campaignId && m.userId === toUserId,
+  );
+  if (!target) throw new Error('That player is not in this campaign.');
+  target.role = 'campaign_leader';
+  const me = database.memberships.find(
+    (m) => m.campaignId === campaignId && m.userId === database.viewerId,
+  );
+  if (me) me.role = 'player';
 }
