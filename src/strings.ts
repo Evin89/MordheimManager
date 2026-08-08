@@ -210,7 +210,16 @@ export const strings = {
     shardsLabel: 'Wyrdstone Shards',
     ratingLabel: 'Warband Rating',
     deleteWarband: 'Delete Warband',
-    deleteWarbandConfirm: (name: string) => `Delete "${name}" and all its heroes, henchmen, and history? This cannot be undone.`,
+    deleteWarbandCancel: 'Keep this warband',
+    deleteWarbandTypeLabel: (name: string) => `Type ${name} to confirm`,
+    deleteWarbandAction: 'Delete this warband',
+    // Says what goes and what stays. "Cannot be undone" was both frightening
+    // and, since 0009, no longer true — an operator can restore it.
+    deleteWarbandImpact: (models: number, campaign: string | null) =>
+      `This removes ${models} model${models === 1 ? '' : 's'} with their Experience, advances, injuries and equipment` +
+      (campaign ? `, and drops the warband out of ${campaign} — its standings row goes with it.` : '.'),
+    deleteWarbandKeeps: 'Battles already logged stay in the campaign history.',
+    deleteWarbandRecoverable: 'Deleted warbands are kept, hidden, so this can be reversed on request.',
     addHiredSword: 'Hire a Hired Sword',
     slotFull: 'full',
     slotsUnlimited: 'No limit on this unit',

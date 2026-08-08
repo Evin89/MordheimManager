@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
 import WarbandSharingCard from '../components/WarbandSharingCard';
+import ConfirmByTyping from '../components/ConfirmByTyping';
 import SaveBar from '../components/SaveBar';
 import { strings } from '../strings';
 import {
@@ -9,9 +11,11 @@ import {
   useDeleteWarbandMutation,
   useUndoLastBattleMutation,
   useWarbandLookup,
+  useWarbandSharing,
 } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
-import { computeWarbandRating } from '../lib/rating';
+import { useMyCampaignsQuery } from '../hooks/useCampaign';
+import { computeWarbandRating, countModels } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { HenchmenGroup, Hero, HiredSword, ModelStatus } from '../types';
 
@@ -95,6 +99,11 @@ export default function RosterScreen() {
   const navigate = useNavigate();
   const { warband, loading } = useWarbandLookup(warbandId);
   const deleteWarband = useDeleteWarbandMutation();
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  // Named, not just flagged: "drops out of Grudge Season" is a consequence
+  // someone can weigh; "is in a campaign" is not.
+  const { data: campaigns } = useMyCampaignsQuery();
+  const sharing = useWarbandSharing(warbandId);
   const canUndo = useCanUndoLastBattle(warbandId);
   const undoLastBattle = useUndoLastBattleMutation();
   // Treasury figures are typed, so they're drafted and saved on request. The
@@ -113,12 +122,12 @@ export default function RosterScreen() {
     return <Navigate to="/warbands" replace />;
   }
 
+  const campaignName = campaigns?.find((c) => c.id === sharing.campaignId)?.name ?? null;
+
   function handleDelete() {
     if (!warband) return;
-    if (window.confirm(strings.roster.deleteWarbandConfirm(warband.name))) {
-      deleteWarband(warband.id);
-      navigate('/warbands', { replace: true });
-    }
+    deleteWarband(warband.id);
+    navigate('/warbands', { replace: true });
   }
 
   function handleUndo() {
@@ -233,13 +242,39 @@ export default function RosterScreen() {
 
         <WarbandSharingCard warbandId={warband.id} />
 
-        <button
-          type="button"
-          onClick={handleDelete}
-          className="w-full min-h-[48px] rounded-md border border-blood-600 text-blood-500 font-semibold hover:bg-blood-600 hover:text-bone-100 transition-colors"
-        >
-          {strings.roster.deleteWarband}
-        </button>
+        {/* Opens in place rather than as a dialog — see ConfirmByTyping. */}
+        {!confirmingDelete ? (
+          <button
+            type="button"
+            onClick={() => setConfirmingDelete(true)}
+            className="w-full min-h-[48px] rounded-md border border-blood-600 text-blood-500 font-semibold hover:bg-blood-600 hover:text-bone-100 transition-colors"
+          >
+            {strings.roster.deleteWarband}
+          </button>
+        ) : (
+          <div className="space-y-2">
+            <ConfirmByTyping
+              phrase={warband.name}
+              label={strings.roster.deleteWarbandTypeLabel(warband.name)}
+              action={strings.roster.deleteWarbandAction}
+              onConfirm={handleDelete}
+              impact={
+                <>
+                  <p>{strings.roster.deleteWarbandImpact(countModels(warband), campaignName)}</p>
+                  <p>{strings.roster.deleteWarbandKeeps}</p>
+                  <p className="text-bone-400">{strings.roster.deleteWarbandRecoverable}</p>
+                </>
+              }
+            />
+            <button
+              type="button"
+              onClick={() => setConfirmingDelete(false)}
+              className="w-full min-h-[44px] rounded-md text-bone-300 text-sm"
+            >
+              {strings.roster.deleteWarbandCancel}
+            </button>
+          </div>
+        )}
 
         <SaveBar dirty={dirty} onSave={save} onDiscard={discard} />
       </main>

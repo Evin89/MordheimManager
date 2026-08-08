@@ -164,9 +164,25 @@ export async function undoLastBattle(id: string, ownerId: string): Promise<Warba
   return toRecord(data as WarbandRow);
 }
 
+/**
+ * Soft-deletes a warband.
+ *
+ * An UPDATE, not a DELETE: this is the one action in the app that destroys work
+ * nobody can reconstruct — a season of Experience, advances and injuries — so
+ * the row stays and every read path filters it out through RLS (migration
+ * 0009). Recovering one is `update warbands set deleted_at = null` in the
+ * dashboard, rather than an apology.
+ *
+ * Battles are left alone deliberately: they are the campaign's history, and a
+ * deleted warband's games still happened.
+ */
 export async function deleteWarband(id: string, ownerId: string): Promise<void> {
   if (isDemoMode()) return demo.deleteWarband(id, ownerId);
-  const { error } = await supabase.from('warbands').delete().eq('id', id).eq('owner_id', ownerId);
+  const { error } = await supabase
+    .from('warbands')
+    .update({ deleted_at: new Date().toISOString() })
+    .eq('id', id)
+    .eq('owner_id', ownerId);
   if (error) throw error;
 }
 
