@@ -38,6 +38,7 @@ const SharedWarbandScreen = lazy(() => import('./screens/SharedWarbandScreen'));
 
 const CampaignScreen = lazy(() => import('./screens/CampaignScreen'));
 const CampaignEventsScreen = lazy(() => import('./screens/CampaignEventsScreen'));
+const CampaignCalendarScreen = lazy(() => import('./screens/CampaignCalendarScreen'));
 
 const MyCampaignsScreen = lazy(() => import('./screens/MyCampaignsScreen'));
 
@@ -167,6 +168,7 @@ function AppShell() {
             />
             <Route path="/campaign" element={guarded(<CampaignScreen />)} />
             <Route path="/campaign/events" element={guarded(<CampaignEventsScreen />)} />
+            <Route path="/campaign/calendar" element={guarded(<CampaignCalendarScreen />)} />
             <Route path="/campaigns" element={guarded(<MyCampaignsScreen />)} />
             {/* Where standings used to link; kept so older in-app links still land. */}
             <Route path="/campaign/warbands/:warbandId" element={guarded(<SharedWarbandScreen />)} />

@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import CampaignEvents from '../components/CampaignEvents';
 import { useCampaignMembersQuery, useMyCampaignQuery } from '../hooks/useCampaign';
@@ -44,6 +44,13 @@ export default function CampaignEventsScreen() {
       <BackHeader title={strings.events.section} subtitle={campaign.name} />
 
       <main className="flex-1 px-4 py-4 space-y-6">
+        <Link
+          to="/campaign/calendar"
+          className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+        >
+          {strings.events.viewAsCalendar}
+        </Link>
+
         <CampaignEvents campaignId={campaign.id} isLeader={isLeader} />
       </main>
     </div>

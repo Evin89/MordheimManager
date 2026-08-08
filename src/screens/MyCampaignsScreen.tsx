@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CreateCampaignForm, JoinCampaignForm } from '../components/CampaignForms';
 import { strings } from '../strings';
 import { useCampaignSummariesQuery, useSetActiveCampaign } from '../hooks/useCampaign';
@@ -72,6 +72,18 @@ function CampaignCard({
           {strings.campaign.joinCodeLabel}:{' '}
           <code className="font-mono tracking-widest text-ember-400">{campaign.joinCode}</code>
         </p>
+      )}
+
+      {/* Only on the campaign you're actually in: /campaign/events resolves
+          against the active campaign, so offering it on the others would open
+          the wrong one's calendar. */}
+      {isActive && (
+        <Link
+          to="/campaign/events"
+          className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+        >
+          {strings.events.homeLink}
+        </Link>
       )}
 
       <button

@@ -140,6 +140,12 @@ export default function HomeScreen() {
               {strings.home.goToCampaign}
             </Link>
             <Link
+              to="/campaign/events"
+              className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+            >
+              {strings.events.homeLink}
+            </Link>
+            <Link
               to="/campaigns"
               className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
             >
