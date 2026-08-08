@@ -613,3 +613,65 @@ export async function transferCampaignLeadership(
   );
   if (me) me.role = 'player';
 }
+
+// --- campaign events -------------------------------------------------------
+
+// Seeded so the section isn't an empty state on first look: one game night
+// coming up, one already played.
+const events: {
+  id: string;
+  campaignId: string;
+  title: string;
+  eventDateTime: string;
+  location: string;
+  notes: string;
+  createdBy: string;
+}[] = [
+  {
+    id: 'demo-event-1',
+    campaignId: 'demo-campaign-0',
+    title: 'Game night — Session 5',
+    eventDateTime: new Date(Date.now() + 6 * 86_400_000).toISOString(),
+    location: 'Tabletop Kingdom, back room',
+    notes: 'Bring your own terrain if you have any.',
+    createdBy: 'demo-user-0',
+  },
+  {
+    id: 'demo-event-2',
+    campaignId: 'demo-campaign-0',
+    title: 'Game night — Session 4',
+    eventDateTime: new Date(Date.now() - 9 * 86_400_000).toISOString(),
+    location: 'Tabletop Kingdom',
+    notes: '',
+    createdBy: 'demo-user-0',
+  },
+];
+
+export async function fetchCampaignEvents(campaignId: string) {
+  return events
+    .filter((e) => e.campaignId === campaignId)
+    .sort((a, b) => a.eventDateTime.localeCompare(b.eventDateTime));
+}
+
+export async function createCampaignEvent(
+  campaignId: string,
+  createdBy: string,
+  fields: { title: string; eventDateTime: string; location: string; notes: string },
+) {
+  const event = {
+    id: `demo-event-${events.length + 1}`,
+    campaignId,
+    createdBy,
+    title: fields.title.trim(),
+    eventDateTime: fields.eventDateTime,
+    location: fields.location.trim(),
+    notes: fields.notes.trim(),
+  };
+  events.push(event);
+  return event;
+}
+
+export async function deleteCampaignEvent(id: string): Promise<void> {
+  const i = events.findIndex((e) => e.id === id);
+  if (i >= 0) events.splice(i, 1);
+}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import { CreateCampaignForm, JoinCampaignForm } from '../components/CampaignForms';
 import InviteShareButtons from '../components/InviteShareButtons';
+import CampaignEvents, { NextEventBanner } from '../components/CampaignEvents';
 import SaveBar from '../components/SaveBar';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
@@ -477,6 +478,9 @@ export default function CampaignScreen() {
       </div>
 
       <main className="flex-1 px-4 py-4 space-y-6">
+        {/* Above the tabs: "are we playing, and when" is what people open
+            the campaign screen to find out. */}
+        {campaign && <NextEventBanner campaignId={campaign.id} />}
         {!campaign ? (
           <CampaignEntry />
         ) : (
@@ -574,6 +578,7 @@ export default function CampaignScreen() {
               <>
                 <JoinCodeCard campaign={campaign} isLeader={isLeader} />
                 <MembersList campaign={campaign} isLeader={isLeader} />
+                <CampaignEvents campaignId={campaign.id} isLeader={isLeader} />
               </>
             )}
           </>
