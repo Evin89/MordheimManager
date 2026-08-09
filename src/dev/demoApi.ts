@@ -675,3 +675,16 @@ export async function deleteCampaignEvent(id: string): Promise<void> {
   const i = events.findIndex((e) => e.id === id);
   if (i >= 0) events.splice(i, 1);
 }
+
+export async function updateCampaignEvent(
+  id: string,
+  fields: { title: string; eventDateTime: string; location: string; notes: string },
+) {
+  const event = events.find((e) => e.id === id);
+  if (!event) throw new Error('Event not found.');
+  event.title = fields.title.trim();
+  event.eventDateTime = fields.eventDateTime;
+  event.location = fields.location.trim();
+  event.notes = fields.notes.trim();
+  return event;
+}

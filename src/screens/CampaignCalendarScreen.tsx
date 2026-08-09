@@ -199,16 +199,20 @@ export default function CampaignCalendarScreen() {
             <p className="text-bone-300 text-sm">{strings.events.nothingOnThisDay}</p>
           ) : (
             selectedEvents.map((e) => (
-              <div key={e.id} className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-1">
+              <Link
+                key={e.id}
+                to={`/campaign/events/${e.id}`}
+                className="block rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-1 hover:border-ink-700 transition-colors"
+              >
                 <p className="text-bone-100 font-semibold">{e.title}</p>
                 <p className="text-bone-300 text-sm">
                   {formatTime(e.eventDateTime)}
                   {e.location && ` · ${e.location}`}
                 </p>
                 {e.notes && (
-                  <p className="text-bone-300 text-sm whitespace-pre-line">{e.notes}</p>
+                  <p className="text-bone-400 text-sm line-clamp-2 whitespace-pre-line">{e.notes}</p>
                 )}
-              </div>
+              </Link>
             ))
           )}
         </section>

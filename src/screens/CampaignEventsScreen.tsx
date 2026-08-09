@@ -1,8 +1,7 @@
 import { Link, Navigate } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import CampaignEvents from '../components/CampaignEvents';
-import { useCampaignMembersQuery, useMyCampaignQuery } from '../hooks/useCampaign';
-import { useAuth } from '../auth/AuthProvider';
+import { useMyCampaignQuery } from '../hooks/useCampaign';
 import { strings } from '../strings';
 
 /**
@@ -19,9 +18,7 @@ import { strings } from '../strings';
  * other campaign playing".
  */
 export default function CampaignEventsScreen() {
-  const { user } = useAuth();
   const { data: campaign, isLoading } = useMyCampaignQuery();
-  const { data: members } = useCampaignMembersQuery(campaign?.id);
 
   if (isLoading) {
     return (
@@ -35,10 +32,6 @@ export default function CampaignEventsScreen() {
   // is more use than an empty page explaining what they already know.
   if (!campaign) return <Navigate to="/campaigns" replace />;
 
-  const isLeader = (members ?? []).some(
-    (m) => m.userId === user?.id && m.role === 'campaign_leader',
-  );
-
   return (
     <div className="min-h-full flex flex-col">
       <BackHeader title={strings.events.section} subtitle={campaign.name} />
@@ -51,7 +44,7 @@ export default function CampaignEventsScreen() {
           {strings.events.viewAsCalendar}
         </Link>
 
-        <CampaignEvents campaignId={campaign.id} isLeader={isLeader} />
+        <CampaignEvents campaignId={campaign.id} />
       </main>
     </div>
   );

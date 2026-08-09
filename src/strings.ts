@@ -140,6 +140,12 @@ export const strings = {
     notesLabel: 'Notes',
     saveButton: 'Save event',
     deleteConfirm: (title: string) => `Delete "${title}"?`,
+    editButton: 'Edit',
+    deleteButton: 'Delete this game night',
+    deleteTypeLabel: (title: string) => `Type ${title} to confirm`,
+    deleteImpact: 'The event is removed for everyone in the campaign. Battles already logged are unaffected.',
+    alreadyHappened: 'This one has already happened.',
+    organisedBy: (name: string) => `Added by ${name}`,
   },
   changelog: {
     title: "What's New",

@@ -76,6 +76,34 @@ export async function createCampaignEvent(
   return toEvent(data as EventRow);
 }
 
+/**
+ * Edits an event.
+ *
+ * The `campaign_events_update` policy has allowed this since 0001 — creator or
+ * campaign leader — and nothing ever called it, so a game night moved to a
+ * different evening had to be deleted and retyped. As with delete, the policy
+ * decides; there is no client-side check standing in for it.
+ */
+export async function updateCampaignEvent(
+  id: string,
+  fields: { title: string; eventDateTime: string; location: string; notes: string },
+): Promise<CampaignEvent> {
+  if (isDemoMode()) return demo.updateCampaignEvent(id, fields);
+  const { data, error } = await supabase
+    .from('campaign_events')
+    .update({
+      title: fields.title.trim(),
+      event_datetime: fields.eventDateTime,
+      location: fields.location.trim() || null,
+      notes: fields.notes.trim() || null,
+    })
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return toEvent(data as EventRow);
+}
+
 /** Deleting is allowed for the event's creator or the campaign leader — the
  * 0001 policy decides which, so there is no client-side check standing in. */
 export async function deleteCampaignEvent(id: string): Promise<void> {

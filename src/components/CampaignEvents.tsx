@@ -4,9 +4,7 @@ import { CampaignEvent } from '../api/events';
 import {
   useCampaignEventsQuery,
   useCreateEventMutation,
-  useDeleteEventMutation,
 } from '../hooks/useEvents';
-import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
 
 /** Splits on "now" rather than on the date, so tonight's game stays upcoming
@@ -87,39 +85,23 @@ export function NextEventBanner({ campaignId }: { campaignId: string | undefined
   );
 }
 
-function EventRow({
-  event,
-  canDelete,
-  onDelete,
-}: {
-  event: CampaignEvent;
-  canDelete: boolean;
-  onDelete: () => void;
-}) {
+/** A row in the list. The whole row is the link — unlike the gallery, there is
+ * nothing here worth selecting, so the larger target is the better trade. */
+function EventRow({ event }: { event: CampaignEvent }) {
   return (
-    <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-1">
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-bone-100 font-semibold">{event.title}</p>
-          <p className="text-bone-300 text-sm">
-            {formatWhen(event.eventDateTime)}
-            {event.location && ` · ${event.location}`}
-          </p>
-        </div>
-        {canDelete && (
-          <button
-            type="button"
-            onClick={() => {
-              if (window.confirm(strings.events.deleteConfirm(event.title))) onDelete();
-            }}
-            className="shrink-0 min-h-[44px] text-blood-500 text-sm font-semibold"
-          >
-            {strings.common.delete}
-          </button>
-        )}
-      </div>
-      {event.notes && <p className="text-bone-300 text-sm whitespace-pre-line">{event.notes}</p>}
-    </div>
+    <Link
+      to={`/campaign/events/${event.id}`}
+      className="block rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-1 hover:border-ink-700 transition-colors"
+    >
+      <p className="text-bone-100 font-semibold">{event.title}</p>
+      <p className="text-bone-300 text-sm">
+        {formatWhen(event.eventDateTime)}
+        {event.location && ` · ${event.location}`}
+      </p>
+      {event.notes && (
+        <p className="text-bone-400 text-sm line-clamp-2 whitespace-pre-line">{event.notes}</p>
+      )}
+    </Link>
   );
 }
 
@@ -131,17 +113,9 @@ function EventRow({
  * event and to the leader; the policy is what actually decides, so a wrong
  * guess here shows a button that fails rather than granting anything.
  */
-export default function CampaignEvents({
-  campaignId,
-  isLeader,
-}: {
-  campaignId: string;
-  isLeader: boolean;
-}) {
-  const { user } = useAuth();
+export default function CampaignEvents({ campaignId }: { campaignId: string }) {
   const { data: events } = useCampaignEventsQuery(campaignId);
   const createEvent = useCreateEventMutation(campaignId);
-  const deleteEvent = useDeleteEventMutation(campaignId);
 
   const [adding, setAdding] = useState(false);
   const [title, setTitle] = useState('');
@@ -280,12 +254,7 @@ export default function CampaignEvents({
             {strings.events.upcoming}
           </p>
           {upcoming.map((e) => (
-            <EventRow
-              key={e.id}
-              event={e}
-              canDelete={isLeader || e.createdBy === user?.id}
-              onDelete={() => deleteEvent(e.id)}
-            />
+            <EventRow key={e.id} event={e} />
           ))}
         </div>
       )}
@@ -296,12 +265,7 @@ export default function CampaignEvents({
             {strings.events.past}
           </p>
           {past.map((e) => (
-            <EventRow
-              key={e.id}
-              event={e}
-              canDelete={isLeader || e.createdBy === user?.id}
-              onDelete={() => deleteEvent(e.id)}
-            />
+            <EventRow key={e.id} event={e} />
           ))}
         </div>
       )}
