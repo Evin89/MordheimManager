@@ -256,6 +256,10 @@ export const strings = {
       `This removes ${models} model${models === 1 ? '' : 's'} with their Experience, advances, injuries and equipment` +
       (campaign ? `, and drops the warband out of ${campaign} — its standings row goes with it.` : '.'),
     deleteWarbandKeeps: 'Battles already logged stay in the campaign history.',
+    deleteWarbandCampaignWarning: (campaign: string) =>
+      `This warband is entered in ${campaign}.`,
+    deleteWarbandCampaignAck: (campaign: string) =>
+      `I understand this removes it from ${campaign}'s standings.`,
     deleteWarbandRecoverable: 'Deleted warbands are kept, hidden, so this can be reversed on request.',
     addHiredSword: 'Hire a Hired Sword',
     slotFull: 'full',
@@ -657,6 +661,16 @@ export const strings = {
       `Join my Mordheim campaign **${campaignName}** — join code \`${code}\`\nSign up at ${url}, then go to Campaign › Players and paste the code.`,
     regenerateCode: 'New code',
     regenerateConfirm: 'Issue a new join code? The old one will stop working immediately.',
+    deleteBattleConfirm: (scenario: string) =>
+      `Remove the ${scenario} entry from the log? Experience and injuries already applied to the warbands stay — this only removes the record.`,
+    deleteBattle: 'Remove',
+    dangerSection: 'Delete this campaign',
+    deleteCampaignBlocked: (n: number) =>
+      `${n} other player${n === 1 ? ' is' : 's are'} still in this campaign. Remove them, or let them leave, before deleting it — their battle log and standings go with it.`,
+    deleteCampaignImpact:
+      'This removes the shared battle log, the standings and every scheduled game night. Warbands are not deleted: they go back to being standalone warbands owned by their players.',
+    deleteCampaignTypeLabel: (name: string) => `Type ${name} to confirm`,
+    deleteCampaignAction: 'Delete this campaign',
     leaderOnlyHint: 'Only the campaign leader can change these.',
     noCodeYet: 'No code yet',
     membersSection: 'Players',

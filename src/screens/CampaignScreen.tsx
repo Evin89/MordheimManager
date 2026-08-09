@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import { CreateCampaignForm, JoinCampaignForm } from '../components/CampaignForms';
 import InviteShareButtons from '../components/InviteShareButtons';
 import { NextEventBanner } from '../components/CampaignEvents';
 import SaveBar from '../components/SaveBar';
+import ConfirmByTyping from '../components/ConfirmByTyping';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
 import {
@@ -13,7 +14,10 @@ import {
   useMyCampaignQuery,
   useMyCampaignsQuery,
   useRegenerateJoinCodeMutation,
+  useDeleteBattleMutation,
+  useDeleteCampaignMutation,
   useRemoveMemberMutation,
+  useSetActiveCampaign,
   useTransferLeadershipMutation,
   useSaveCampaignMutation,
   usePersonalBattlesQuery,
@@ -53,7 +57,16 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'players', label: strings.campaign.membersTab },
 ];
 
-function BattleRow({ battle, warbandName }: { battle: BattleRecord; warbandName: string }) {
+function BattleRow({
+  battle,
+  warbandName,
+  onDelete,
+}: {
+  battle: BattleRecord;
+  warbandName: string;
+  /** Leaders (and the reporter, per the 0005 policy) may remove an entry. */
+  onDelete?: () => void;
+}) {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -101,6 +114,18 @@ function BattleRow({ battle, warbandName }: { battle: BattleRecord; warbandName:
               <span className="text-bone-200 font-semibold">{strings.campaign.notesForBattleLabel}: </span>
               {battle.notes}
             </p>
+          )}
+
+          {/* Behind the disclosure, so it takes a deliberate open-then-tap
+              rather than sitting next to the row you were only scanning. */}
+          {onDelete && (
+            <button
+              type="button"
+              onClick={onDelete}
+              className="min-h-[44px] text-blood-500 text-sm font-semibold"
+            >
+              {strings.campaign.deleteBattle}
+            </button>
           )}
         </div>
       )}
@@ -178,6 +203,70 @@ function ObjectiveCard({ warband }: { warband: Warband }) {
   );
 }
 
+/**
+ * Deleting a campaign.
+ *
+ * Refused by the database while anyone else is still a member (0011), because
+ * the log and standings are the group's record, not the leader's. The button is
+ * therefore not merely hidden while others remain — it explains what to do
+ * first, since "why can't I delete this" is the question a hidden control
+ * leaves unanswered.
+ */
+function DeleteCampaign({ campaign, memberCount }: { campaign: Campaign; memberCount: number }) {
+  const deleteCampaign = useDeleteCampaignMutation();
+  const setActive = useSetActiveCampaign();
+  const navigate = useNavigate();
+  const [confirming, setConfirming] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const others = Math.max(0, memberCount - 1);
+
+  return (
+    <section className="space-y-3">
+      <h2 className="text-bone-100 font-semibold">{strings.campaign.dangerSection}</h2>
+
+      {others > 0 ? (
+        <p className="text-bone-300 text-sm">{strings.campaign.deleteCampaignBlocked(others)}</p>
+      ) : !confirming ? (
+        <button
+          type="button"
+          onClick={() => setConfirming(true)}
+          className="w-full min-h-[48px] rounded-md border border-blood-600 text-blood-500 font-semibold hover:bg-blood-600 hover:text-bone-100 transition-colors"
+        >
+          {strings.campaign.deleteCampaignAction}
+        </button>
+      ) : (
+        <div className="space-y-2">
+          <ConfirmByTyping
+            phrase={campaign.name}
+            label={strings.campaign.deleteCampaignTypeLabel(campaign.name)}
+            action={strings.campaign.deleteCampaignAction}
+            impact={<p>{strings.campaign.deleteCampaignImpact}</p>}
+            onConfirm={async () => {
+              const message = await deleteCampaign(campaign.id);
+              setError(message);
+              if (!message) {
+                // The active-campaign pick is stored per device and would
+                // otherwise point at a campaign that no longer exists.
+                setActive('');
+                navigate('/campaigns', { replace: true });
+              }
+            }}
+          />
+          {error && <p className="text-blood-500 text-sm">{error}</p>}
+          <button
+            type="button"
+            onClick={() => setConfirming(false)}
+            className="w-full min-h-[44px] rounded-md text-bone-300 text-sm"
+          >
+            {strings.common.cancel}
+          </button>
+        </div>
+      )}
+    </section>
+  );
+}
+
 /** First-run state: no campaign yet, so offer both ways in. */
 function CampaignEntry() {
   const warbands = useWarbandList();
@@ -208,7 +297,11 @@ function CampaignEntry() {
           <p className="text-bone-300 text-xs">{strings.campaign.personalBattlesHint}</p>
           <div className="space-y-2">
             {[...(personalBattles ?? [])].reverse().map((battle) => (
-              <BattleRow key={battle.id} battle={battle} warbandName={warbandName(battle.warbandId)} />
+              <BattleRow
+                key={battle.id}
+                battle={battle}
+                warbandName={warbandName(battle.warbandId)}
+              />
             ))}
           </div>
         </section>
@@ -417,6 +510,7 @@ export default function CampaignScreen() {
   const { data: campaigns } = useMyCampaignsQuery();
   const { data: campaign } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
+  const deleteBattle = useDeleteBattleMutation(campaign?.id);
   const { data: standings } = useStandingsQuery(campaign?.id, battles);
   const { data: members } = useCampaignMembersQuery(campaign?.id);
   const warbands = useWarbandList();
@@ -543,7 +637,16 @@ export default function CampaignScreen() {
                   ) : (
                     <div className="space-y-2">
                       {[...(battles ?? [])].reverse().map((battle) => (
-                        <BattleRow key={battle.id} battle={battle} warbandName={warbandName(battle.warbandId)} />
+                        <BattleRow
+                          key={battle.id}
+                          battle={battle}
+                          warbandName={warbandName(battle.warbandId)}
+                          onDelete={isLeader ? () => {
+                            if (window.confirm(strings.campaign.deleteBattleConfirm(battle.scenario))) {
+                              deleteBattle(battle.id);
+                            }
+                          } : undefined}
+                        />
                       ))}
                     </div>
                   )}
@@ -578,6 +681,8 @@ export default function CampaignScreen() {
               <>
                 <JoinCodeCard campaign={campaign} isLeader={isLeader} />
                 <MembersList campaign={campaign} isLeader={isLeader} />
+
+                {isLeader && <DeleteCampaign campaign={campaign} memberCount={(members ?? []).length} />}
               </>
             )}
           </>

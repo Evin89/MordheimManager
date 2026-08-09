@@ -289,6 +289,23 @@ export async function transferCampaignLeadership(
   if (error) throw error;
 }
 
+/**
+ * Deletes a campaign.
+ *
+ * Only its leader, and only once every other player has gone — enforced by the
+ * `campaigns_delete_leader` policy as narrowed in 0011, not here. The client
+ * check exists to explain the rule before you try, not to be the rule.
+ *
+ * Battles, memberships and scheduled events cascade with the row. Warbands do
+ * not: the 0003 trigger unlinks them, so they return to being standalone
+ * warbands owned by their players.
+ */
+export async function deleteCampaign(campaignId: string): Promise<void> {
+  if (isDemoMode()) return demo.deleteCampaign(campaignId);
+  const { error } = await supabase.from('campaigns').delete().eq('id', campaignId);
+  if (error) throw error;
+}
+
 export async function removeCampaignMember(campaignId: string, userId: string): Promise<void> {
   if (isDemoMode()) return demo.removeCampaignMember(campaignId, userId);
   const { error } = await supabase

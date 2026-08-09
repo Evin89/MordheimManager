@@ -1150,10 +1150,7 @@ Deliberate, with reasons. Kept here rather than in a tracker so the spec and the
 
 
 - **Offline.** There is none, by design — data is server-side and the app requires a connection. Asset caching is a separate question, and is handled (§2).
-- **Campaign events.** Table and RLS exist and are migrated; the UI from §4.5 isn't built.
 - **The RLS matrix has never been run with a second account.** §14.4. The single-player half is verified live. Untested: two accounts against each other, and specifically that a campaign-mate *cannot* see the owner's BTB objective — the claim the separate objectives table exists to make.
-- **A campaign leader can orphan a campaign** by leaving while members remain. §10.3.
-- **Warband deletion is a hard delete** behind an ordinary confirm. §10.
 - **`fetchWarbands` selects the full jsonb blob** for the owner's list view. §12.2.
 - **Fonts load from the Google CDN**, four families, unsubset. §12.4.
 - ⚠️ **The entry bundle is 666 kB** (180 kB gzipped), still over Vite's 500 kB warning. Down from a single 1,112 kB chunk: routes off the first-paint path are lazy, and the rules catalogues moved behind a chunk of their own rather than riding in because a primary tab imported them. What remains is mostly the 22 warband data files, pulled in by `getWarbandTypeName` on the list screens — a name lookup dragging 227 kB of definitions. Splitting that needs a generated id→name map with a drift check, not another lazy boundary. §12.4.

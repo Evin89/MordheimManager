@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../auth/AuthProvider';
 import {
   createCampaign,
+  deleteCampaign,
   fetchCampaignMembers,
   fetchCampaignStandings,
   fetchCampaignSummaries,
@@ -12,11 +13,15 @@ import {
   transferCampaignLeadership,
   updateCampaign,
 } from '../api/campaign';
-import { fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
+import { deleteBattle, fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
 import { fetchCampaignWarbands } from '../api/warbands';
 import { pickActiveCampaign, writeActiveCampaignId } from '../lib/activeCampaign';
 import { Campaign, BattleRecord } from '../types';
 import { strings } from '../strings';
+
+function warbandsKeyForInvalidate() {
+  return ['warbands'] as const;
+}
 
 function campaignsKey(userId: string | undefined) {
   return ['campaigns', userId] as const;
@@ -136,6 +141,50 @@ export function useRegenerateJoinCodeMutation() {
     onError: () => window.alert(strings.connection.lost),
   });
   return (campaignId: string) => mutation.mutate(campaignId);
+}
+
+/**
+ * Deletes a campaign, then sends the user back to the campaign list.
+ *
+ * Refused by the database while other members remain (0011). The error is
+ * returned rather than thrown so the screen can explain it inline.
+ */
+export function useDeleteCampaignMutation() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (campaignId: string) => deleteCampaign(campaignId),
+    onSuccess: () => {
+      // The active-campaign pick lives outside React Query and may now point
+      // at a campaign that no longer exists.
+      queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });
+      queryClient.invalidateQueries({ queryKey: ['campaignSummaries', user?.id] });
+      queryClient.invalidateQueries({ queryKey: warbandsKeyForInvalidate() });
+    },
+  });
+  return async (campaignId: string): Promise<string | null> => {
+    try {
+      await mutation.mutateAsync(campaignId);
+      return null;
+    } catch (err) {
+      return err instanceof Error ? err.message : 'Could not delete that campaign.';
+    }
+  };
+}
+
+/** Removes one entry from the shared battle log. Reporter or leader, decided by
+ * the policy; the standings key includes the battle count, so both move. */
+export function useDeleteBattleMutation(campaignId: string | undefined) {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (id: string) => deleteBattle(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: battlesKey(campaignId) });
+      queryClient.invalidateQueries({ queryKey: ['standings'] });
+      queryClient.invalidateQueries({ queryKey: ['campaignSummaries'] });
+    },
+  });
+  return (id: string) => mutation.mutate(id);
 }
 
 export function useCampaignMembersQuery(campaignId: string | undefined) {

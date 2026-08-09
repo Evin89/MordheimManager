@@ -52,3 +52,20 @@ export async function insertBattle(
   if (error) throw error;
   return (data as BattleRow).data;
 }
+
+/**
+ * Removes one entry from the battle log.
+ *
+ * Whoever reported it, or the campaign leader — the `battles_delete` policy
+ * decides, and it has allowed this since 0005 with nothing calling it. A
+ * mistyped result was previously permanent.
+ *
+ * Deleting the record does not touch the warbands: Experience and injuries were
+ * applied at commit time and are part of the roster now. Use the post-battle
+ * undo for that, which is a separate, single-level thing.
+ */
+export async function deleteBattle(id: string): Promise<void> {
+  if (isDemoMode()) return demo.deleteBattle(id);
+  const { error } = await supabase.from('battles').delete().eq('id', id);
+  if (error) throw error;
+}

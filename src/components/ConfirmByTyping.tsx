@@ -20,6 +20,7 @@ export default function ConfirmByTyping({
   impact,
   onConfirm,
   busy = false,
+  acknowledge,
 }: {
   /** What must be typed — normally the name of the thing being destroyed. */
   phrase: string;
@@ -31,14 +32,42 @@ export default function ConfirmByTyping({
   impact: ReactNode;
   onConfirm: () => void;
   busy?: boolean;
+  /**
+   * An extra consequence the user must tick before the button unlocks.
+   *
+   * Typing the name proves you know *which* thing you are destroying; it does
+   * not prove you have read what else goes with it. Where there is a second
+   * party — a campaign that loses a standings row — that needs its own
+   * deliberate acknowledgement.
+   */
+  acknowledge?: ReactNode;
 }) {
   const [typed, setTyped] = useState('');
+  const [acknowledged, setAcknowledged] = useState(false);
   const inputId = useId();
-  const matches = typed.trim().toLowerCase() === phrase.trim().toLowerCase();
+  const ackId = useId();
+  const matches =
+    typed.trim().toLowerCase() === phrase.trim().toLowerCase() && (!acknowledge || acknowledged);
 
   return (
     <div className="space-y-3 rounded-lg border border-blood-600 p-4">
       <div className="text-bone-200 text-sm space-y-1">{impact}</div>
+
+      {acknowledge && (
+        <label
+          htmlFor={ackId}
+          className="flex items-start gap-3 min-h-[44px] py-1 text-bone-200 text-sm cursor-pointer"
+        >
+          <input
+            id={ackId}
+            type="checkbox"
+            checked={acknowledged}
+            onChange={(e) => setAcknowledged(e.target.checked)}
+            className="mt-0.5 h-5 w-5 shrink-0"
+          />
+          <span>{acknowledge}</span>
+        </label>
+      )}
 
       <label htmlFor={inputId} className="block text-bone-300 text-sm">
         {label}

@@ -688,3 +688,20 @@ export async function updateCampaignEvent(
   event.notes = fields.notes.trim();
   return event;
 }
+
+export async function deleteCampaign(campaignId: string): Promise<void> {
+  const database = db();
+  const others = database.memberships.filter((m) => m.campaignId === campaignId).length;
+  // Mirrors the 0011 policy, so the demo refuses it in the same situations.
+  if (others > 1) throw new Error('Remove the other players first.');
+  database.campaigns = database.campaigns.filter((c) => c.id !== campaignId);
+  database.memberships = database.memberships.filter((m) => m.campaignId !== campaignId);
+  database.battles = database.battles.filter((b) => b.campaignId !== campaignId);
+  // Warbands are unlinked, not deleted — as the 0003 trigger does.
+  for (const w of database.warbands) if (w.campaignId === campaignId) w.campaignId = null;
+}
+
+export async function deleteBattle(id: string): Promise<void> {
+  const database = db();
+  database.battles = database.battles.filter((b) => b.battle.id !== id);
+}
