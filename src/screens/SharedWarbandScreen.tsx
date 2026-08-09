@@ -49,7 +49,7 @@ function SharedModelCard({
         <p className="text-bone-300 text-sm shrink-0">{xp} XP</p>
       </div>
 
-      <ProfileBlock stats={stats} />
+      <ProfileBlock stats={stats} variant="collapsed" />
 
       {equipment.length > 0 ? (
         <div className="space-y-0.5">

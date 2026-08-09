@@ -464,7 +464,7 @@ Three roles:
 
 Unit statlines rendered as the rulebook's profile table — the `M WS BS S T W I A Ld` header row in small caps, values beneath, framed by a heavy 2px ink border with a thin inner rule, on `parchment-raised`. A real `<table>`, so it is a table to a screen reader too. Editable in place via `onStatChange`, with an optional maximums row.
 
-Implemented as `src/components/ProfileBlock.tsx`, used on the detail screens. ◻️ Roster rows do not yet use the collapsed form.
+Implemented as `src/components/ProfileBlock.tsx`. ✅ Full form on the detail screens; collapsed form in all three roster listings — your own roster, the read-only shared roster, and the during-battle quick reference. At 375px the collapsed table is 198px wide and shrinks cell padding rather than font size, so its numbers stay at §5.4's 14px floor.
 
 Supporting details, used with restraint: woodcut-style SVG divider ornaments between major sections (one or two designs, reused), and a drop cap on campaign-log battle narratives. No ornate borders around every card — the rulebook's pages are actually quite plain; its character sits in the type and the ink.
 
@@ -1168,6 +1168,5 @@ Deliberate, with reasons. Kept here rather than in a tracker so the spec and the
 - **Unsplit unit special rules.** 39 units still carry rules as source prose behind a "to do" badge.
 - **Items still without rules text:** Cathayan longsword, Gnoblar Fighter, Ball & Chain, Throwing stars, the Blowpipe profile, Cathayan Silk Cloak.
 - **Hired Sword rating** is approximated with the 5/20-per-model formula rather than the rulebook's per-type bonuses. §3.2.
-- **Roster rows don't use the collapsed profile block.** §5.3.
 - **Touch targets below 48px** on tabs, Buy, and the rules filters. §5.4.
 - **Seven bottom tabs** is one or two more than comfortable on a narrow phone. §4.

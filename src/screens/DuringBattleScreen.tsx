@@ -111,7 +111,7 @@ function RosterCard({
           {strings.battle.duringBattle.viewFullDetails}
         </Link>
       </div>
-      <ProfileBlock stats={stats} />
+      <ProfileBlock stats={stats} variant="collapsed" />
       {equipment.length > 0 ? (
         <div className="space-y-0.5">
           {equipment.map((e) => (

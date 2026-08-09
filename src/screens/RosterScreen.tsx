@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
+import ProfileBlock from '../components/ProfileBlock';
 import WarbandSharingCard from '../components/WarbandSharingCard';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import SaveBar from '../components/SaveBar';
@@ -51,6 +52,14 @@ function ModelRow({ to, model }: { to: string; model: Hero | HiredSword }) {
           )}
         </div>
       </div>
+
+      {/* §5.3: the profile block is reused everywhere a statline appears, and a
+          roster row collapses it. Rows previously showed no characteristics at
+          all, so checking a warrior's Toughness while deploying meant opening
+          him. */}
+      <div className="mt-3 overflow-x-auto">
+        <ProfileBlock stats={model.stats} variant="collapsed" />
+      </div>
     </Link>
   );
 }
@@ -77,6 +86,13 @@ function HenchmenGroupCard({ warbandId, group }: { warbandId: string; group: Hen
             </p>
           </div>
           <p className="text-bone-300 text-sm shrink-0">{strings.roster.xpEach(group.xp)}</p>
+        </div>
+
+        {/* One line for the group: the rules give every member the same
+            characteristics, so repeating it per body would be nine identical
+            numbers times four. */}
+        <div className="mt-3 overflow-x-auto">
+          <ProfileBlock stats={group.stats} variant="collapsed" />
         </div>
       </Link>
 
