@@ -301,9 +301,16 @@ export default function WarbandPrintScreen() {
         <p className="text-bone-300 text-sm">{strings.print.hint}</p>
       </div>
 
-      {/* The sheet. `print-sheet` forces ink on white paper whatever theme the
-          screen is using — see index.css. */}
-      <div className="print-sheet px-4 py-4 print:p-0">
+      {/*
+        The sheet. `print-sheet` puts it on white with black ink whatever theme
+        the app is wearing (see index.css), so on screen it reads as paper.
+
+        750px is A4 with the page margins taken off: 210mm - 2x10mm = 190mm,
+        which is 718px at 96dpi, plus the 2x16px of screen padding that `@page`
+        replaces on paper. The preview therefore breaks its lines exactly where
+        the printout will.
+      */}
+      <div className="print-sheet bg-parchment mx-auto max-w-[750px] px-4 py-4 shadow-lg print:max-w-none print:p-0 print:shadow-none">
         <header className="border-2 border-ink p-3 break-inside-avoid">
           <div className="flex items-baseline justify-between gap-4 flex-wrap">
             <div className="min-w-0">

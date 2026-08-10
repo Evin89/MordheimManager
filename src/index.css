@@ -153,50 +153,54 @@ body,
 }
 
 /*
- * Print (§4.1 roster sheet).
+ * The roster sheet (§4.1.1) — black on white, on screen and on paper alike.
  *
- * The app has no light-paper default — Grimdark is bone on near-black, and
- * sending that to a printer means a solid black page and an empty cartridge.
- * So print redefines the theme variables rather than restyling components: one
- * block here, and every `text-ink` / `border-ink` / `bg-parchment` in the app
- * lands as ink on white without a single component knowing it is being printed.
+ * Neither theme is printable as-is: Grimdark is bone on near-black, which is a
+ * solid black page and an empty cartridge, and even Rulebook's parchment is a
+ * beige flood fill costing ink for nothing. So the sheet redefines the §5.1
+ * theme variables rather than restyling components — one block here, and every
+ * `text-ink` / `border-ink` / `bg-parchment` inside it lands as ink on white
+ * without a single component knowing it is on a sheet.
  *
- * Scoped to `.print-sheet` so only the sheet is repainted; anything else that
- * happens to be on the page keeps its own colours and is hidden anyway.
+ * Deliberately *not* inside `@media print`. The sheet is a real screen whose
+ * whole promise is that what you see is what comes out; showing it in the app's
+ * dark theme and quietly inverting it at the print dialog broke that promise,
+ * and left the ink cost invisible until the page was already coming out of the
+ * printer. On screen it now reads as what it is: a sheet of paper.
  */
+.print-sheet {
+  --color-parchment: 255 255 255;
+  --color-parchment-raised: 255 255 255;
+  --color-ink: 0 0 0;
+  /* Not a light grey: field labels are set in this and they have to survive a
+     tired office laser printer. */
+  --color-ink-faded: 68 68 68;
+  --color-accent: 0 0 0;
+  --color-on-accent: 255 255 255;
+  --color-verdigris: 0 0 0;
+
+  /* Legacy numbered roles, for anything on the sheet not yet migrated. */
+  --color-ink-950: 255 255 255;
+  --color-ink-900: 255 255 255;
+  --color-ink-800: 0 0 0;
+  --color-ink-700: 0 0 0;
+  --color-bone-100: 0 0 0;
+  --color-bone-200: 0 0 0;
+  --color-bone-300: 68 68 68;
+  --color-bone-400: 68 68 68;
+  --color-ember-400: 0 0 0;
+  --color-ember-500: 0 0 0;
+  --color-ember-600: 0 0 0;
+  --color-blood-500: 0 0 0;
+  --color-blood-600: 0 0 0;
+}
+
 @media print {
   @page {
     size: A4 portrait;
     /* The sheet draws its own frames, so the page margin only has to clear
        what printers physically cannot reach. */
     margin: 10mm;
-  }
-
-  .print-sheet {
-    --color-parchment: 255 255 255;
-    --color-parchment-raised: 255 255 255;
-    --color-ink: 0 0 0;
-    /* Not a light grey: field labels are set in this and they have to survive
-       a tired office laser printer. */
-    --color-ink-faded: 68 68 68;
-    --color-accent: 0 0 0;
-    --color-on-accent: 255 255 255;
-    --color-verdigris: 0 0 0;
-
-    /* Legacy numbered roles, for anything on the sheet not yet migrated. */
-    --color-ink-950: 255 255 255;
-    --color-ink-900: 255 255 255;
-    --color-ink-800: 0 0 0;
-    --color-ink-700: 0 0 0;
-    --color-bone-100: 0 0 0;
-    --color-bone-200: 0 0 0;
-    --color-bone-300: 68 68 68;
-    --color-bone-400: 68 68 68;
-    --color-ember-400: 0 0 0;
-    --color-ember-500: 0 0 0;
-    --color-ember-600: 0 0 0;
-    --color-blood-500: 0 0 0;
-    --color-blood-600: 0 0 0;
   }
 
   /* The ticked Experience boxes are filled backgrounds, and browsers drop
