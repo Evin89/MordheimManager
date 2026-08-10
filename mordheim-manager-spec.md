@@ -357,6 +357,26 @@ Nav highlighting is not plain path-prefix matching. `NavLink` matches on its own
 - ✅ Roster rows carry the collapsed profile block §5.3 asks for, so a warrior's Toughness is readable while deploying without opening him.
 - ◻️ Photo thumbnails at the left of each row: §11.4.
 
+#### 4.1.1 Printable roster sheet ✅
+
+`/warbands/:id/print` renders the warband as a sheet you can put on the table, laid out after the official Games Workshop sheet (1999) — same sections in the same order, and its field names, so anyone who has filled one in by hand knows where to look. Ours is drawn from scratch in the app's own type and rules; it carries no Games Workshop artwork or branding.
+
+| Section | Fields |
+| --- | --- |
+| Header | Warband name, warband type, player |
+| Heroes | Name, type, statline, Experience track, Equipment, "Skills, injuries, etc" |
+| Hired Swords | As Heroes. The original has no such section — you wrote them in among the heroes — but the app models them separately, and on the table they are what a hero is: one named model with a statline. |
+| Henchmen | Count, group name, type, statline, Group experience, Equipment, Special rules |
+| Foot | Stored equipment, Treasury (gold / shards), Warband rating, ruled Notes |
+
+The **Experience track** is the real one: 90 boxes in three rows of 30 for a Hero, 14 for a Henchman, thick-bordered at every advance threshold. Those numbers were already in `xpThresholds.json`, read off the official PDF. The one thing the app adds over a photocopy is that it knows the total, so the boxes arrive ticked.
+
+Dead, captured and departed models are left off — the sheet is what you carry to a game, and `isInWarband` in `lib/rating.ts` is now the single definition of who is still in the warband, shared with the rating so the two cannot disagree. The rating box shows its working (experience, members, total) because that number gets read out to an opponent before a game.
+
+**Output goes through the browser's print path, not a PDF library.** Generating a file would mean either shipping a layout engine and embedding Alegreya and IM Fell — a few hundred kB for one screen — or rasterising with html2canvas, which turns a sheet made almost entirely of small numbers into a blurry image. Printing keeps the text vector, uses the fonts already loaded, offers "Save as PDF" on every desktop browser and both mobile OSes, and also prints. The screen is a real route rather than a hidden frame, so what you see before pressing the button is what comes out.
+
+The print stylesheet redefines the §5.1 theme variables inside `.print-sheet` rather than restyling components: the app has no light-paper default, and sending Grimdark to a printer means a solid black page. One block in `index.css` and every `text-ink`/`border-ink` in the app lands as ink on white without any component knowing it is being printed. `print-color-adjust: exact` is set because browsers drop backgrounds when printing, and the ticked Experience boxes *are* backgrounds.
+
 ### 4.2 Hero / henchman / hired sword detail ✅
 
 - Full stat line via `ProfileBlock` (§5.3), editable, with racial maximum warnings — a stat at maximum is flagged and the reason named, rather than the input silently refusing.

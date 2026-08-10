@@ -61,7 +61,7 @@ export default function ReportIssueButton() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-4xl px-4 pb-6 pt-2">
+    <section className="print:hidden mx-auto w-full max-w-4xl px-4 pb-6 pt-2">
       <div className="border-t border-ink/15 pt-3">
         <button
           type="button"

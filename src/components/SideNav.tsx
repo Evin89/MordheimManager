@@ -11,7 +11,7 @@ import { NAV_ITEMS, isNavItemActive } from './navItems';
 export default function SideNav() {
   const { pathname } = useLocation();
   return (
-    <aside className="hidden md:flex shrink-0 sticky top-0 h-screen flex-col border-r border-ink-800 bg-ink-900 md:w-16 lg:w-56">
+    <aside className="hidden md:flex print:hidden shrink-0 sticky top-0 h-screen flex-col border-r border-ink-800 bg-ink-900 md:w-16 lg:w-56">
       <div className="flex items-center gap-2 h-16 shrink-0 border-b border-ink-800 justify-center lg:justify-start lg:px-4">
         <span className="h-9 w-9 shrink-0 rounded-md bg-ink-800 border border-ink-700 flex items-center justify-center text-ember-400 font-bold text-xl">
           M

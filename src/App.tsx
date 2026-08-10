@@ -28,6 +28,8 @@ const PostBattleWizard = lazy(() => import('./screens/postBattle/PostBattleWizar
 
 const TradingPostScreen = lazy(() => import('./screens/TradingPostScreen'));
 
+const WarbandPrintScreen = lazy(() => import('./screens/WarbandPrintScreen'));
+
 const PreBattleScreen = lazy(() => import('./screens/PreBattleScreen'));
 
 const DuringBattleScreen = lazy(() => import('./screens/DuringBattleScreen'));
@@ -95,7 +97,7 @@ function AppShell() {
   return (
     <div className="min-h-full md:flex md:items-start">
       <SideNav />
-      <div className="flex-1 min-w-0 pb-[56px] md:pb-0">
+      <div className="flex-1 min-w-0 pb-[56px] md:pb-0 print:pb-0">
         <ConnectionBanner />
         <div className="mx-auto w-full max-w-4xl">
           <Suspense fallback={<RouteFallback />}>
@@ -145,6 +147,7 @@ function AppShell() {
             <Route path="/warbands/:warbandId/during-battle" element={guarded(<DuringBattleScreen />)} />
             <Route path="/warbands/:warbandId/post-battle" element={guarded(<PostBattleWizard />)} />
             <Route path="/warbands/:warbandId/trading" element={guarded(<TradingPostScreen />)} />
+            <Route path="/warbands/:warbandId/print" element={guarded(<WarbandPrintScreen />)} />
             <Route
               path="/post-battle"
               element={guarded(

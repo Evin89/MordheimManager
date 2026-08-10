@@ -5,7 +5,7 @@ import { NAV_ITEMS, isNavItemActive } from './navItems';
 export default function BottomNav() {
   const { pathname } = useLocation();
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t border-ink-800 bg-ink-900 flex z-10">
+    <nav className="md:hidden print:hidden fixed bottom-0 left-0 right-0 border-t border-ink-800 bg-ink-900 flex z-10">
       {NAV_ITEMS.map((tab, i) => {
         const { Icon } = tab;
         return (

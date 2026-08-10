@@ -191,6 +191,13 @@ export default function RosterScreen() {
         </Link>
 
         <Link
+          to={`/warbands/${warband.id}/print`}
+          className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
+        >
+          {strings.print.rosterLink}
+        </Link>
+
+        <Link
           to={`/warbands/${warband.id}/post-battle`}
           className="block text-center w-full min-h-[40px] leading-[40px] text-bone-300 text-sm"
         >

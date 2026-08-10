@@ -1,4 +1,4 @@
-import { Warband } from '../types';
+import { ModelStatus, Warband } from '../types';
 
 // Warband rating per spec section 3.2: (number of models x 5) + accumulated XP,
 // with large creatures counting 20 instead of 5. Dead/captured/left models are
@@ -10,6 +10,18 @@ import { Warband } from '../types';
 // are approximated here using the same 5/20-per-model formula as everyone
 // else. Revisit once hiredSwords.json data is linked to warband instances.
 const ACTIVE_STATUSES = new Set(['active', 'missNextGame']);
+
+/**
+ * Whether a model is still part of the warband.
+ *
+ * "Misses next game" counts: he is injured, not gone. Dead, captured and left
+ * models are out, which is why they neither add to the rating nor belong on a
+ * roster sheet you carry to the table. Exported so the sheet and the rating
+ * agree on who is in the warband instead of each keeping its own list.
+ */
+export function isInWarband(status: ModelStatus): boolean {
+  return ACTIVE_STATUSES.has(status);
+}
 
 export function computeWarbandRating(warband: Warband): number {
   let rating = 0;

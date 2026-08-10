@@ -152,6 +152,72 @@ body,
   }
 }
 
+/*
+ * Print (§4.1 roster sheet).
+ *
+ * The app has no light-paper default — Grimdark is bone on near-black, and
+ * sending that to a printer means a solid black page and an empty cartridge.
+ * So print redefines the theme variables rather than restyling components: one
+ * block here, and every `text-ink` / `border-ink` / `bg-parchment` in the app
+ * lands as ink on white without a single component knowing it is being printed.
+ *
+ * Scoped to `.print-sheet` so only the sheet is repainted; anything else that
+ * happens to be on the page keeps its own colours and is hidden anyway.
+ */
+@media print {
+  @page {
+    size: A4 portrait;
+    /* The sheet draws its own frames, so the page margin only has to clear
+       what printers physically cannot reach. */
+    margin: 10mm;
+  }
+
+  .print-sheet {
+    --color-parchment: 255 255 255;
+    --color-parchment-raised: 255 255 255;
+    --color-ink: 0 0 0;
+    /* Not a light grey: field labels are set in this and they have to survive
+       a tired office laser printer. */
+    --color-ink-faded: 68 68 68;
+    --color-accent: 0 0 0;
+    --color-on-accent: 255 255 255;
+    --color-verdigris: 0 0 0;
+
+    /* Legacy numbered roles, for anything on the sheet not yet migrated. */
+    --color-ink-950: 255 255 255;
+    --color-ink-900: 255 255 255;
+    --color-ink-800: 0 0 0;
+    --color-ink-700: 0 0 0;
+    --color-bone-100: 0 0 0;
+    --color-bone-200: 0 0 0;
+    --color-bone-300: 68 68 68;
+    --color-bone-400: 68 68 68;
+    --color-ember-400: 0 0 0;
+    --color-ember-500: 0 0 0;
+    --color-ember-600: 0 0 0;
+    --color-blood-500: 0 0 0;
+    --color-blood-600: 0 0 0;
+  }
+
+  /* The ticked Experience boxes are filled backgrounds, and browsers drop
+     backgrounds when printing unless asked. Without this the whole point of
+     printing a *filled* sheet is lost. */
+  .print-sheet * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* The shell sizes itself to the viewport and pads for the bottom nav, both of
+     which are meaningless on paper and would otherwise leave a blank strip at
+     the foot of every page. */
+  html,
+  body,
+  #root {
+    height: auto;
+    background: #fff;
+  }
+}
+
 /* §5.4 — honour the OS setting, and keep motion slight regardless. */
 @media (prefers-reduced-motion: reduce) {
   *,

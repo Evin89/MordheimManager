@@ -231,6 +231,54 @@ export const strings = {
     createButton: 'Create Warband',
     nameRequired: 'Give your warband a name first.',
   },
+  /**
+   * The printable roster sheet. Field names follow the official Games Workshop
+   * sheet (1999) so anyone who has filled one in by hand knows where to look —
+   * "Skills, injuries, etc" is its wording, not ours.
+   */
+  print: {
+    rosterLink: 'Print roster sheet',
+    title: 'Roster sheet',
+    printAction: 'Print / Save as PDF',
+    hint: 'In the print dialog, pick "Save as PDF" as the destination to keep a copy.',
+    warbandName: 'Warband name',
+    warbandType: 'Warband type',
+    player: 'Player',
+    heroes: 'Heroes',
+    hiredSwords: 'Hired Swords',
+    henchmen: 'Henchmen',
+    name: 'Name',
+    type: 'Type',
+    number: 'Number',
+    experience: 'Experience',
+    groupExperience: 'Group experience',
+    equipment: 'Equipment',
+    skillsInjuries: 'Skills, injuries, etc',
+    specialRules: 'Special rules',
+    storedEquipment: 'Stored equipment',
+    treasury: 'Treasury',
+    goldCrowns: 'Gold crowns',
+    wyrdstoneShards: 'Wyrdstone shards',
+    warbandRating: 'Warband rating',
+    totalExperience: 'Total experience',
+    // The original prints "Members ( ) x 5". That arithmetic only holds while
+    // every model is a normal one, so the label names the large creatures when
+    // there are any rather than showing a sum that doesn't add up.
+    membersLine: (models: number, largeCreatures: number) =>
+      largeCreatures > 0
+        ? `Members (${models}) x 5, of which ${largeCreatures} large x 20`
+        : `Members (${models}) x 5`,
+    rating: 'Rating',
+    notes: 'Notes',
+    leader: 'Leader',
+    missNextGame: 'Misses next game',
+    // Dated because a roster sheet goes stale the moment you finish a game, and
+    // two printouts in a folder are otherwise impossible to tell apart.
+    printedOn: (date: string) => `Printed ${date}`,
+    nothingRecruited: 'Nothing recruited yet.',
+    none: '—',
+  },
+
   roster: {
     heroesSection: 'Heroes',
     henchmenSection: 'Henchmen Groups',

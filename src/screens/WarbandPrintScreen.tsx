@@ -1,0 +1,421 @@
+import { Link, Navigate, useParams } from 'react-router-dom';
+import ProfileBlock from '../components/ProfileBlock';
+import { strings } from '../strings';
+import { useWarbandLookup } from '../hooks/useWarbands';
+import { useMyProfileQuery } from '../hooks/useProfile';
+import { computeWarbandRating, isInWarband } from '../lib/rating';
+import { TRACK_LENGTH, getAdvanceThresholds } from '../lib/xpThresholds';
+import { getWarbandTypeName } from '../data/warbandRegistry';
+import { getSpell } from '../lib/spellLookup';
+import { EquipmentItem, HenchmenGroup, Hero, HiredSword, Warband } from '../types';
+
+/**
+ * The Experience track from the printed sheet.
+ *
+ * The signature element of the original: a run of small boxes, thick-bordered
+ * at every advance threshold, that you tick off game by game. The thresholds
+ * and the track lengths were read off the official PDF (see the `source` note
+ * in xpThresholds.json), so this is the real track rather than an approximation
+ * of one.
+ *
+ * The one thing the app adds over a photocopy is that it already knows the
+ * total, so the boxes arrive ticked.
+ */
+function XpTrack({ xp, kind }: { xp: number; kind: 'hero' | 'henchmen' }) {
+  const length = TRACK_LENGTH[kind];
+  const thresholds = new Set(getAdvanceThresholds(kind));
+  // 30 to a row on the Hero track, which is how the official sheet breaks its
+  // 90 boxes; the 14-box Henchman track is one row.
+  const perRow = kind === 'hero' ? 30 : length;
+  const rows: number[][] = [];
+  for (let i = 0; i < length; i += perRow) {
+    rows.push(Array.from({ length: Math.min(perRow, length - i) }, (_, n) => i + n + 1));
+  }
+
+  return (
+    <div className="space-y-[2px]">
+      {rows.map((row, i) => (
+        <div key={i} className="flex gap-[2px]">
+          {row.map((box) => {
+            const isAdvance = thresholds.has(box);
+            const earned = box <= xp;
+            return (
+              <span
+                key={box}
+                title={isAdvance ? `${box} XP — advance` : `${box} XP`}
+                className={`flex-1 h-[14px] min-w-[7px] border ${
+                  // A thick border means "roll an Advance when you reach this
+                  // box" (rulebook p.81). It has to survive being filled in,
+                  // so the mark is a background and the threshold is a border.
+                  isAdvance ? 'border-2 border-ink' : 'border-ink/45'
+                } ${earned ? 'bg-ink' : ''}`}
+              />
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** A labelled line inside a warrior's box: "EQUIPMENT  dagger, sword". */
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <p className="text-ink text-sm leading-snug">
+      <span className="font-heading-sc uppercase tracking-[0.08em] text-ink-faded">{label} </span>
+      {children}
+    </p>
+  );
+}
+
+function equipmentText(equipment: EquipmentItem[]): string {
+  if (equipment.length === 0) return strings.print.none;
+  return equipment.map((e) => e.name).join(', ');
+}
+
+/**
+ * A hero or hired sword, in the shape the official sheet gives them: name and
+ * type, the statline, the Experience track, then equipment and the catch-all
+ * "Skills, injuries, etc".
+ */
+function WarriorBlock({ model }: { model: Hero | HiredSword }) {
+  const isLeader = 'isLeader' in model && model.isLeader;
+  const unitType = 'unitType' in model ? model.unitType : model.type;
+
+  // The original's one free-text box, so everything that isn't a number or a
+  // weapon goes here in the order you would have written it: what he can do,
+  // then what is wrong with him.
+  const notes = [
+    ...model.skills,
+    ...model.spells.map((id) => getSpell(id)?.name).filter((n): n is string => !!n),
+    ...model.injuries.map((i) => i.name),
+    ...(model.status === 'missNextGame' ? [strings.print.missNextGame] : []),
+    ...(model.notes.trim() ? [model.notes.trim()] : []),
+  ];
+
+  return (
+    <div className="border-2 border-ink p-2 space-y-1.5 break-inside-avoid">
+      <div className="flex items-baseline justify-between gap-3">
+        <p className="font-heading text-ink text-base leading-tight">
+          {model.name}
+          {isLeader && (
+            <span className="font-ui text-ink-faded text-xs uppercase tracking-wide">
+              {' '}
+              · {strings.print.leader}
+            </span>
+          )}
+        </p>
+        <p className="font-ui text-ink-faded text-xs uppercase tracking-wide text-right shrink-0">
+          {unitType}
+        </p>
+      </div>
+
+      <ProfileBlock stats={model.stats} variant="collapsed" />
+
+      <div className="flex items-end gap-2">
+        <div className="flex-1 min-w-0">
+          <p className="font-heading-sc uppercase tracking-[0.08em] text-ink-faded text-xs mb-0.5">
+            {strings.print.experience}
+          </p>
+          <XpTrack xp={model.xp} kind="hero" />
+        </div>
+        {/* The total in figures as well as in boxes: past forty ticks nobody is
+            counting them at the table. */}
+        <p className="font-body text-ink tabular-nums lining-nums text-base shrink-0 leading-none">
+          {model.xp}
+        </p>
+      </div>
+
+      <Field label={strings.print.equipment}>{equipmentText(model.equipment)}</Field>
+      <Field label={strings.print.skillsInjuries}>
+        {notes.length > 0 ? notes.join(' · ') : strings.print.none}
+      </Field>
+    </div>
+  );
+}
+
+/** A henchmen group. The sheet gives these a Number column and calls their free
+ * text "Special rules" rather than "Skills, injuries" — a group advances as one
+ * and cannot carry individual wounds. */
+function HenchmenBlock({ group }: { group: HenchmenGroup }) {
+  const notes = [
+    ...group.advances.map((a) => a.detail),
+    ...(group.notes.trim() ? [group.notes.trim()] : []),
+  ];
+
+  return (
+    <div className="border-2 border-ink p-2 space-y-1.5 break-inside-avoid">
+      <div className="flex items-baseline justify-between gap-3">
+        <p className="font-heading text-ink text-base leading-tight">
+          <span className="tabular-nums lining-nums">{group.count}</span> · {group.groupName}
+        </p>
+        <p className="font-ui text-ink-faded text-xs uppercase tracking-wide text-right shrink-0">
+          {group.unitType}
+        </p>
+      </div>
+
+      <ProfileBlock stats={group.stats} variant="collapsed" />
+
+      <div className="flex items-end gap-2">
+        <div className="flex-1 min-w-0">
+          <p className="font-heading-sc uppercase tracking-[0.08em] text-ink-faded text-xs mb-0.5">
+            {strings.print.groupExperience}
+          </p>
+          <XpTrack xp={group.xp} kind="henchmen" />
+        </div>
+        <p className="font-body text-ink tabular-nums lining-nums text-base shrink-0 leading-none">
+          {group.xp}
+        </p>
+      </div>
+
+      <Field label={strings.print.equipment}>{equipmentText(group.equipment)}</Field>
+      <Field label={strings.print.specialRules}>
+        {notes.length > 0 ? notes.join(' · ') : strings.print.none}
+      </Field>
+    </div>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="space-y-2 mt-4">
+      <h2 className="font-heading-sc uppercase tracking-[0.12em] text-ink text-sm border-b-2 border-ink pb-0.5">
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+}
+
+/** One of the boxes along the foot of the original: a heading and a short list
+ * of label/value pairs. */
+function Summary({ title, rows }: { title: string; rows: [string, string | number][] }) {
+  return (
+    <div className="border-2 border-ink p-2 break-inside-avoid">
+      <p className="font-heading-sc uppercase tracking-[0.08em] text-ink text-xs border-b border-ink/40 pb-0.5 mb-1">
+        {title}
+      </p>
+      <dl className="space-y-0.5">
+        {rows.map(([label, value]) => (
+          <div key={label} className="flex items-baseline justify-between gap-2">
+            <dt className="text-ink-faded text-sm">{label}</dt>
+            <dd className="text-ink text-sm tabular-nums lining-nums font-semibold">{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}
+
+/**
+ * The arithmetic printed at the foot of the sheet.
+ *
+ * Deliberately shows its working rather than just the rating: the number gets
+ * read out to an opponent before a game, and "how did you get that" is a fair
+ * question. Large creatures are the reason the members line can't simply be
+ * n x 5 — see `strings.print.membersLine`.
+ */
+function ratingBreakdown(warband: Warband) {
+  const heroes = warband.heroes.filter((h) => isInWarband(h.status));
+  const swords = warband.hiredSwords.filter((s) => isInWarband(s.status));
+
+  let experience = 0;
+  let models = 0;
+  let largeCreatures = 0;
+
+  for (const m of [...heroes, ...swords]) {
+    experience += m.xp;
+    models += 1;
+    if (m.isLargeCreature) largeCreatures += 1;
+  }
+  for (const g of warband.henchmenGroups) {
+    // Group Experience is what *each* member carries, so it counts per model.
+    experience += g.xp * g.count;
+    models += g.count;
+    if (g.isLargeCreature) largeCreatures += g.count;
+  }
+
+  return { experience, models, largeCreatures, rating: computeWarbandRating(warband) };
+}
+
+/**
+ * A warband as a printable roster sheet.
+ *
+ * Laid out after the official Games Workshop sheet (1999) — the same sections
+ * in the same order, and its field names, so anyone who has filled one in by
+ * hand knows where to look. It is drawn from scratch in the app's own type and
+ * rules rather than being a copy of that file, and carries no Games Workshop
+ * artwork or branding.
+ *
+ * Output goes through the browser's own print path rather than a PDF library.
+ * A generated PDF would mean either shipping a layout engine and embedding
+ * Alegreya and IM Fell (a few hundred kB, for one screen) or rasterising the
+ * page with html2canvas, which turns a sheet made almost entirely of small
+ * numbers into a blurry image. Printing keeps the text vector, uses the fonts
+ * already loaded, gives "Save as PDF" on every desktop browser and both mobile
+ * OSes — and also, unlike a download, prints.
+ *
+ * The sheet is a screen in its own right rather than a hidden frame, so what
+ * you see before pressing the button is what comes out.
+ */
+export default function WarbandPrintScreen() {
+  const { warbandId } = useParams<{ warbandId: string }>();
+  const { warband, loading } = useWarbandLookup(warbandId);
+  const { data: profile } = useMyProfileQuery();
+
+  if (loading) {
+    return (
+      <div className="min-h-full flex items-center justify-center">
+        <p className="text-bone-300">{strings.common.loading}</p>
+      </div>
+    );
+  }
+  if (!warband) return <Navigate to="/warbands" replace />;
+
+  const heroes = warband.heroes.filter((h) => isInWarband(h.status));
+  const swords = warband.hiredSwords.filter((s) => isInWarband(s.status));
+  const groups = warband.henchmenGroups.filter((g) => g.count > 0);
+  const totals = ratingBreakdown(warband);
+  const empty = heroes.length === 0 && swords.length === 0 && groups.length === 0;
+
+  return (
+    <div className="min-h-full">
+      {/* Screen-only chrome. Everything below it is the sheet itself, which is
+          all that reaches the paper. */}
+      <div className="print:hidden px-4 py-4 space-y-3 border-b border-ink-800">
+        <div className="flex items-center justify-between gap-3">
+          <Link
+            to={`/warbands/${warband.id}`}
+            className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+          >
+            {warband.name}
+          </Link>
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="min-h-[48px] px-4 rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
+          >
+            {strings.print.printAction}
+          </button>
+        </div>
+        <p className="text-bone-300 text-sm">{strings.print.hint}</p>
+      </div>
+
+      {/* The sheet. `print-sheet` forces ink on white paper whatever theme the
+          screen is using — see index.css. */}
+      <div className="print-sheet px-4 py-4 print:p-0">
+        <header className="border-2 border-ink p-3 break-inside-avoid">
+          <div className="flex items-baseline justify-between gap-4 flex-wrap">
+            <div className="min-w-0">
+              <p className="font-heading-sc uppercase tracking-[0.08em] text-ink-faded text-xs">
+                {strings.print.warbandName}
+              </p>
+              <p className="font-display text-ink text-2xl leading-tight">{warband.name}</p>
+            </div>
+            <div className="text-right">
+              <p className="font-heading-sc uppercase tracking-[0.08em] text-ink-faded text-xs">
+                {strings.print.warbandType}
+              </p>
+              <p className="font-heading text-ink text-lg leading-tight">
+                {getWarbandTypeName(warband.warbandType)}
+              </p>
+            </div>
+          </div>
+          {profile?.displayName && (
+            <p className="mt-2 pt-2 border-t border-ink/40 text-ink text-sm">
+              <span className="font-heading-sc uppercase tracking-[0.08em] text-ink-faded">
+                {strings.print.player}{' '}
+              </span>
+              {profile.displayName}
+            </p>
+          )}
+        </header>
+
+        {empty && <p className="mt-4 text-ink text-sm">{strings.print.nothingRecruited}</p>}
+
+        {heroes.length > 0 && (
+          <Section title={strings.print.heroes}>
+            <div className="space-y-2">
+              {heroes.map((h) => (
+                <WarriorBlock key={h.id} model={h} />
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {/* The official sheet has no Hired Swords section — you wrote them in
+            among the heroes. They are a separate list here because the app
+            models them separately, and they take the hero layout because that
+            is what they are on the table: one named model with a statline. */}
+        {swords.length > 0 && (
+          <Section title={strings.print.hiredSwords}>
+            <div className="space-y-2">
+              {swords.map((s) => (
+                <WarriorBlock key={s.id} model={s} />
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {groups.length > 0 && (
+          <Section title={strings.print.henchmen}>
+            <div className="space-y-2">
+              {groups.map((g) => (
+                <HenchmenBlock key={g.id} group={g} />
+              ))}
+            </div>
+          </Section>
+        )}
+
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2 break-inside-avoid">
+          <div className="border-2 border-ink p-2 break-inside-avoid">
+            <p className="font-heading-sc uppercase tracking-[0.08em] text-ink text-xs border-b border-ink/40 pb-0.5 mb-1">
+              {strings.print.storedEquipment}
+            </p>
+            <p className="text-ink text-sm leading-snug">{equipmentText(warband.treasury)}</p>
+          </div>
+
+          <Summary
+            title={strings.print.treasury}
+            rows={[
+              [strings.print.goldCrowns, warband.gold],
+              [strings.print.wyrdstoneShards, warband.wyrdstoneShards],
+            ]}
+          />
+
+          <Summary
+            title={strings.print.warbandRating}
+            rows={[
+              [strings.print.totalExperience, totals.experience],
+              [
+                strings.print.membersLine(totals.models, totals.largeCreatures),
+                totals.rating - totals.experience,
+              ],
+              [strings.print.rating, totals.rating],
+            ]}
+          />
+        </div>
+
+        {/* Ruled space, because the sheet goes to the table and things change
+            there before they ever get typed back into the app. */}
+        <div className="mt-2 border-2 border-ink p-2 break-inside-avoid">
+          <p className="font-heading-sc uppercase tracking-[0.08em] text-ink text-xs mb-1">
+            {strings.print.notes}
+          </p>
+          {warband.notes.trim() && (
+            <p className="text-ink text-sm whitespace-pre-wrap mb-1">{warband.notes.trim()}</p>
+          )}
+          <div className="space-y-3 pt-1">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="border-b border-ink/40" />
+            ))}
+          </div>
+        </div>
+
+        <p className="mt-2 font-ui text-ink-faded text-xs text-right">
+          {strings.print.printedOn(new Date().toLocaleDateString())}
+        </p>
+      </div>
+    </div>
+  );
+}
