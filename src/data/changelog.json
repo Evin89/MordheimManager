@@ -1,5 +1,25 @@
 [
   {
+    "date": "2026-08-10",
+    "title": "Print Your Roster",
+    "description": "Every warband now has a Print roster sheet button, laid out after the original Mordheim roster sheet: the same sections in the same order, and its field names, so if you have ever filled one in by hand you already know where to look. The Experience track is the real one — 90 boxes for a Hero, 14 for a Henchman, with the thick-bordered advance boxes in the right places — and because the app already knows your totals, the boxes come pre-ticked. Dead, captured and departed warriors are left off, since the sheet is what you carry to a game. It prints black on white to save your ink, and the screen shows you exactly what will come out. Choose Save as PDF in the print dialog if you would rather keep a copy than print one."
+  },
+  {
+    "date": "2026-08-10",
+    "title": "Statlines On The Roster",
+    "description": "Roster rows used to show a name and an Experience total, so checking a warrior's Toughness while deploying meant opening him. Every row now carries his full profile, in the same table used everywhere else in the app. On a laptop it takes the roomier spacing of the printed book instead of staying squeezed to phone size."
+  },
+  {
+    "date": "2026-08-09",
+    "title": "Safer Deletions",
+    "description": "A campaign leader could delete a campaign at any moment, taking everyone else's battle log, standings and game nights with it. That now waits until you are the last one in it, and the screen tells you why rather than hiding the button. Deleting a warband that is entered in a campaign asks you to tick that you know it will drop out of that campaign's standings, as well as typing its name. And a mistyped battle result is no longer permanent — a leader can remove a single entry from the campaign log."
+  },
+  {
+    "date": "2026-08-08",
+    "title": "Game Nights",
+    "description": "Campaigns can schedule game nights: a date and time, where you are playing, and any notes. They have their own screen, a month calendar for working out whether a weekend is free, and a detail page for each one. Anyone in the campaign can see what is coming up; the leader adds and edits."
+  },
+  {
     "date": "2026-08-02",
     "title": "Six New Warbands",
     "description": "Black Orcs, Amazons (Mordheim), Amazons (Lustria), Lizardmen, the Gunnery School of Nuln and the Battle Monks of Cathay all join the roster, bringing the total to 22. Each comes with its full hero and henchmen list, equipment lists, special rules and its own skill table — Waaagh! and 'eadbasher for the Black Orcs, Mesmerising Dance for the Amazons, Infiltration and Toughened Hide for the Lizardmen, Leap of Faith and Human Shield for the Monks. Their unique gear is in too: choppas, sunstaffs, starswords, bolas, blowpipes, Sacred Markings, chain sticks, and Nuln's double-barrelled and repeater blackpowder weapons."

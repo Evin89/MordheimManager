@@ -38,7 +38,7 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 | 16 | Non-goal "never blocks" vs enforced limits | **Two deliberate exceptions**, both silent-failure cases with unambiguous rules. §1, §9 |
 | 17 | Section numbers 9–13 used by both drafts | **Renumbered.** New material became §10–§13; the built-app sections kept their meaning. |
 | 18 | Soft delete vs `ON DELETE CASCADE` | **Internal contradiction in the incoming draft** — you cannot soft-delete a parent and cascade-delete its children. Resolved in §10.5. |
-| 19 | Leader cannot leave while members remain | ◻️ **Not enforced today.** `removeCampaignMember` covers leave and remove alike; nothing blocks a leader orphaning a campaign. §10.3 |
+| 19 | Leader cannot leave while members remain | ✅ **Enforced in the database** (migration 0010), by a `before delete` trigger rather than a client check, since `removeCampaignMember` covers leave and remove alike. `transfer_campaign_leadership` is the way out; deleting the campaign is likewise blocked while others remain (0011). §10.2, §10.3 |
 
 ---
 
@@ -319,7 +319,7 @@ type StandingsRow = {
   racialMaximums.json    29 racial ceilings, shared by every advancing unit
   spells.json            10 spell/prayer/ritual lists, 60 entries
   rules.json             the in-app rules browser index
-  changelog.json         user-facing release notes, rendered at /settings/changelog
+  changelog.json         user-facing release notes, rendered at /account/changelog
   types.ts               the definition format
   warbandRegistry.ts     imports every warband file; A–Z ordering; unit/rule lookups
   btb/
@@ -421,14 +421,20 @@ The wizard's in-progress state is transient. If the app closes mid-wizard that p
 - ✅ **Members panel** lists **every** member including the leader, with display name, warband name/type and rating, and a "leader" badge. A member with no warband yet still appears, with "No warband entered" in the warband columns. The leader is a `campaign_members` row like anyone else, so filtering by `role = 'player'` would drop them — which is exactly the bug that was fixed here (§14, defect 1).
 - ✅ **BTB objective panel** — owner-only, enforced by RLS on a separate table (§8.3), never surfaced to other members regardless of the warband's visibility.
 - ◻️ Warband rating over time as a line chart (nice-to-have).
-- ◻️ **Campaign events** — game nights with a date-time picker, optional location and notes, and a banner for the next upcoming one. The table and its RLS policies are migrated (§8.2); no UI exists.
+- ✅ **Campaign events** — game nights with a date-time picker, optional location and notes, and a banner for the next upcoming one. Three screens rather than the one panel specced here, because scheduling turned out to answer two different questions:
+  - `/campaign/events` — the list, and where a leader adds or edits one. It started as a section under the Players tab, which was the wrong home: the campaign screen's tabs are all *records* of what happened, while this is the one part of a campaign that is about the future and the thing people check before leaving the house.
+  - `/campaign/calendar` — a month grid. A calendar answers what the list cannot: "are we free that weekend". Cells carry a marker and a count, not titles — a 50px square on a phone cannot hold "Game night — Session 5", and a truncated title is worse than a mark that says "something is here, tap to read it". No date library; one month grid is about forty lines of arithmetic and a dependency for it would be larger than the feature.
+  - `/campaign/events/:id` — one event in full, editable in place.
+  - Day keys are built from the **local** date parts, never `toISOString().slice(0,10)`, which converts to UTC first and files a 9pm game night under the following day for anyone east of Greenwich.
 
-### 4.6 Settings
+### 4.6 Account
 
 - ✅ Export all data as a JSON download; import with validation and an overwrite warning.
-- ✅ Theme switch (§5.5), account controls, sign in / sign out, changelog at `/settings/changelog`.
+- ✅ Theme switch (§5.5), account controls, sign in / sign out, changelog at `/account/changelog`.
+- ✅ Renamed twice: Settings → Profile → **Account**, which is what the screen actually holds. Every old path still resolves (`/settings`, `/profile`, and both `…/changelog` variants redirect), so bookmarks and links shared in the group chat keep working.
+- ✅ Admins get a link to `/admin` from here, shown only when the database says so. Before that the screen was reachable only by typing the URL.
 - ◻️ Data-file version display, "report a data error" link, strict-validation toggle. Every data file already carries `schemaVersion` and `source`, so this is presentation work rather than plumbing.
-- ◻️ **Danger zone** — the type-to-confirm deletion panels from §10 belong here and on each resource's own screen.
+- ⚠️ **Danger zone** — built on each resource's own screen (the warband roster, the campaign screen) rather than gathered here. Deleting a thing belongs where the thing lives: §10.1 requires the user to be looking at what they are destroying, which a central list of everything deletable works against.
 
 ### 4.7 Public gallery ✅
 
@@ -440,12 +446,28 @@ The wizard's in-progress state is transient. If the app closes mid-wizard that p
 - **Never shows:** the owner's BTB objective (separate table, owner-only RLS), and no field is surfaced by reusing the owner's full roster component unchanged — `PublicWarbandRow` (§3.1) is a deliberately narrow shape.
 - **Confirmed:** a `private` warband never appears here even when it belongs to a campaign the viewer is in. Campaign membership grants read *inside* the campaign; the gallery query filters on `visibility = 'public'` as a narrowing, and RLS is the boundary.
 - ✅ Filter by warband type, sorted by rating.
-- ◻️ **Pagination.** Currently a single `.limit(200)`. The list grows unbounded — see §12.2 and §13.3.
+- ✅ **Pagination.** `useInfiniteQuery` with a Load more control, replacing the single `.limit(200)`. Also applied to the admin issue inbox and player list. Deliberately *not* applied to the campaign battle log: `useStandingsQuery` derives every player's W/L/D from that same array, so paging it would silently truncate the standings rather than merely showing fewer rows.
 - ◻️ Photo group shots as card images (§11.4). A gallery of painted warbands is a far better screen than a list of names, which is an argument for building §11 before investing further here.
 
 ### 4.8 Rules browser ✅
 
 `/rules` and `/rules/:ruleId` — a searchable index of weapon rules, skills, and special rules, built from the same data the roster screens resolve against, so a rule shown on a model and a rule read in the browser can't disagree.
+
+### 4.9 Issue reports & the admin back-end ✅
+
+Not in either original draft. It exists because feedback was arriving as prose in a group chat, which had to be interviewed back into a reproducible report.
+
+**Reporting** — a button at the foot of every screen opens a textbox in place and files to `issue_reports`. Filing rather than opening a mail client is the whole point: the row carries the path, the build, the user agent and a small context blob (which warband type, which unit), so "the Necromancer has no spells" arrives *with* `{warbandType: undead, unitType: Necromancer}` attached. It works signed out — the rules are public, so a stranger finding a wrong weapon price is exactly who you want to hear from — and insert is anonymous-friendly while **reading** is admin-only, so nobody can enumerate other people's reports.
+
+**`/admin`** (migration 0006, extended by 0007) carries three things:
+
+- The **inbox** — filter by open/triaged/closed, expand for the captured context, mark triaged or closed.
+- **Aggregate statistics** from `admin_stats()`: players, warbands, public warbands, campaigns, battles, open issues, a 30-day signup series, and the warband-type distribution — the one number actually worth having, since it says which lists people play.
+- A **player list** (`admin_user_overview()`) and a per-player detail screen: counts, last activity, their warbands and campaigns.
+
+Deliberately excluded from every admin function: **email addresses, roster `data` jsonb, and BTB objectives**. Owner-only objectives are the reason that table is separate at all, and an admin screen that reads them would undo it. Aggregates and counts, not row access.
+
+The gate is a row in an `admins` table checked by a `SECURITY DEFINER` function, so an unlinked route is not what protects it — a non-admin who types the URL gets a rendered screen with nothing in it.
 
 ---
 
@@ -533,13 +555,16 @@ A design sandbox at `/design` judges components against both themes before migra
 10. ✅ **Rulebook design language** (§5).
 11. ✅ **Multi-campaign membership** and the campaigns overview.
 
-**Remaining, in recommended order.** The ordering is deliberate: deletion is the only unguarded destructive path in a live app, so it comes first; scale testing comes before photos because it tells you which screens can afford images; photos come before further gallery work because a gallery of painted warbands is a different product from a list of names.
+12. ⚠️ **M6 — Deletion, removal & naming** (§10). Type-to-confirm, soft delete, campaign deletion and leader-orphaning all landed. Outstanding: the campaign-name decision (§10.6) and the 30-day purge job.
+13. ✅ **M8 — Campaign events** (§4.5), as three screens — list, month calendar, detail. The schema had been waiting since 0002.
+14. ✅ **M10 — Magic, prayers & rituals** (§15). Structure, data and unit-entry block all landed together, since the owner supplied the transcribed lists.
+15. ✅ **Printable roster sheet** (§4.1.1), after the official 1999 sheet, through the browser's print path rather than a PDF library.
 
-12. ◻️ **M6 — Deletion, removal & naming** (§10). Type-to-confirm, soft delete, the campaign-name decision.
-13. ◻️ **M7 — Scale testing** (§13.2–§13.4) and the caching fixes it exposes (§12).
-14. ◻️ **M8 — Campaign events** (§4.5). The schema is already there.
-15. ◻️ **M9 — Photos** (§11), then gallery pagination and card design (§4.7).
-16. ✅ **M10 — Magic, prayers & rituals** (§15). Structure, data and unit-entry block all landed together, since the owner supplied the transcribed lists.
+**Remaining, in recommended order.** Scale testing comes before photos because it tells you which screens can afford images; photos come before further gallery work because a gallery of painted warbands is a different product from a list of names.
+
+16. ◻️ **M7 — Scale testing** (§13.2–§13.4) and the caching fixes it exposes (§12).
+17. ◻️ **M9 — Photos** (§11), then gallery card design (§4.7). Gallery pagination is done.
+18. ◻️ **The two-account test** (§14.4). The longest-standing open item: single-account paths are verified end to end, but the owner / campaign-mate / unrelated matrix — and with it the claim the separate objectives table exists to make — has never been exercised. Now also wants a non-admin second account confirming `/admin` yields nothing.
 
 Tested continuously against one real dataset (the owner's Maneaters warband mid-campaign) and once against two live players in a session that produced roughly fifty items of feedback, all triaged and worked through.
 
@@ -680,9 +705,9 @@ The **treasury is exempt** from all three. The rules restrict what a model may *
 
 ---
 
-## 10. Deletion, removal & naming rules ◻️
+## 10. Deletion, removal & naming rules ⚠️
 
-**None of this is built.** Deletion is the only place in the app where a mistap destroys work that can't be re-derived, and today `deleteWarband` is a hard delete behind an ordinary confirm. This is the highest-value unbuilt section, which is why it leads the remaining build order.
+**Mostly built.** `ConfirmByTyping` (§10.1) exists and is used by every destructive action; warbands soft-delete (migration 0009); campaign deletion is narrowed to a leader who is alone (0011); battle log entries are removable. What remains is naming (§10.6) and the 30-day purge job.
 
 ### 10.1 The type-to-confirm pattern
 
@@ -695,16 +720,23 @@ A single reusable `<ConfirmByTyping>` component, used by every destructive actio
 - On mobile the input must not be obscured by the keyboard — scroll it into view on focus.
 - After success, navigate away from the now-dead resource and show a toast naming what was deleted. Never leave the user looking at a blank detail screen.
 
-### 10.2 Deleting a campaign
+✅ **Built as specced**, with one addition §10.1 didn't anticipate: an optional acknowledgement checkbox above the field. Typing the name proves you know *which* thing you are destroying; it does not prove you have read what else goes with it. Where there is a second party — a campaign losing a standings row — that gets its own deliberate tick, and the button stays disabled until both are satisfied. It appears **only** when there is genuinely a second party: a tick-box on a standalone warband would be ceremony, and ceremony is how people learn to tick without reading.
+
+### 10.2 Deleting a campaign ✅
 
 - Leader only. Type-to-confirm value: **the campaign name**.
 - Impact text states, with live counts: how many players, how many battles logged, how many events scheduled.
 - Cascade: `campaign_members`, `battles` and `campaign_events` go with the campaign. **Warbands are not deleted** — they belong to their owners; their `campaign_id` becomes `NULL` and they return to standalone. Say this explicitly, so the leader isn't afraid to proceed.
+- ✅ **Only while the leader is alone in it** (migration 0011). Since 0001 a leader could delete at any moment, taking every other player's log, standings and game nights with them. Their warbands survive via the 0003 trigger, but the shared record does not — and it is not the leader's alone to discard. While others remain, the screen *explains what to do* ("6 other players are still in this campaign. Remove them, or let them leave…") rather than hiding the button: "why can't I delete this" is the question a hidden control leaves unanswered.
+- Counting the members needs a `SECURITY DEFINER` helper. `campaign_members` carries its own RLS, so an inline subquery in the policy would be filtered by the caller's own visibility and could recurse through the membership policies.
 
 ### 10.3 Removing a player from a campaign
 
 - The leader may remove any player; a player may remove themselves.
-- ◻️ **A leader may not leave while other members remain** (conflict 19) — they must delete the campaign or transfer leadership. Leadership transfer is not specced; until it is, the error message must say so plainly rather than implying a path that doesn't exist. **Nothing enforces this today**: `removeCampaignMember` serves both leave and remove, and a leader can currently orphan a campaign, leaving a `campaigns` row nobody can administer.
+- ✅ **A leader may not leave while other members remain** (conflict 19), and both ways out the spec asked for now exist. Migration 0010 does it with a `before delete` trigger on `campaign_members` rather than a client check, because `removeCampaignMember` serves leave and remove alike and the client is not the only way that row can be deleted. Management rights live *on* that row — the campaigns UPDATE/DELETE policies test `role = 'campaign_leader'` — so a leader who left took them along and the campaign became read-only forever.
+  - Last one out is deliberately allowed: leaving a campaign nobody else is in just abandons it, and demanding a transfer with nobody to transfer to would be a trap.
+  - Leadership transfer was the missing exit, and it cannot be done from the client as two updates — demoting yourself first loses the rights needed for the second, promoting first leaves two leaders if the second fails. `transfer_campaign_leadership` is one `SECURITY DEFINER` statement pair that checks the *caller* first.
+  - Deletion is guarded separately (§10.2, migration 0011): leaving is blocked while others remain, and so is deleting.
 - Type-to-confirm value: **the player's display name** (leader removing someone) or **the campaign name** (player leaving — their own name is too easy to type absent-mindedly).
 - Impact: their warband leaves the campaign (`campaign_id` → `NULL`) but is not deleted; battles they reported stay in the log, attributed to their name. ✅ The unlink half already works — migration 0003 does it with a trigger.
 - A removed player can rejoin with the join code unless the leader regenerates it.
