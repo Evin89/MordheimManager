@@ -354,7 +354,7 @@ Nav highlighting is not plain path-prefix matching. `NavLink` matches on its own
 - `/warbands/new` — pick from 22 lists (A–Z, with source and fan-supplement grade), name it, done.
 - Add hero / henchmen / hired sword each have their own route and validate slot limits, warband maximums, and gold.
 - ✅ **Henchmen count is a real number input** — `type="number" inputmode="numeric" min="1"`, select-on-focus, so you type "7" rather than tapping + seven times. Steppers supplement typing, never replace it. The same rule holds everywhere a quantity is entered (gold, shards, XP): see §5.4.
-- ⚠️ Roster rows do **not** yet show the collapsed profile block §5.3 asks for; they show a text statline.
+- ✅ Roster rows carry the collapsed profile block §5.3 asks for, so a warrior's Toughness is readable while deploying without opening him.
 - ◻️ Photo thumbnails at the left of each row: §11.4.
 
 ### 4.2 Hero / henchman / hired sword detail ✅
@@ -465,6 +465,8 @@ Three roles:
 Unit statlines rendered as the rulebook's profile table — the `M WS BS S T W I A Ld` header row in small caps, values beneath, framed by a heavy 2px ink border with a thin inner rule, on `parchment-raised`. A real `<table>`, so it is a table to a screen reader too. Editable in place via `onStatChange`, with an optional maximums row.
 
 Implemented as `src/components/ProfileBlock.tsx`. ✅ Full form on the detail screens; collapsed form in all three roster listings — your own roster, the read-only shared roster, and the during-battle quick reference. At 375px the collapsed table is 198px wide and shrinks cell padding rather than font size, so its numbers stay at §5.4's 14px floor.
+
+The collapsed form is that narrow-screen compromise **and nothing more**: past `sm` it takes back the printed cell padding and fills its container — 827px in a roster row at 1440px, against 198px before. A shrink-wrapped 200px table with 4px cells stranded in a 900px card read as a phone screenshot pasted into the desktop layout. Width is left to the context rather than hard-coded, so the block spans a block-level parent (a roster row) and still shrink-wraps as a flex sibling (the design sandbox, where it sits beside a name). Font size stays at the stat floor even when the spacing relaxes, keeping a listing one rung below the record it links to.
 
 Supporting details, used with restraint: woodcut-style SVG divider ornaments between major sections (one or two designs, reused), and a drop cap on campaign-log battle narratives. No ornate borders around every card — the rulebook's pages are actually quite plain; its character sits in the type and the ink.
 

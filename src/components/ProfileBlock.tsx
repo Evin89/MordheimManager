@@ -41,6 +41,12 @@ export type ProfileBlockProps = {
  * - Cell padding shrinks on narrow screens, never the font size. §5.4 sets a
  *   14px floor for statline numbers and prefers dropping padding to fit nine
  *   columns on a phone, so the type size is fixed and only the gaps give.
+ * - `collapsed` is that phone compromise, and only that. Past `sm` it relaxes
+ *   back to the printed density and fills its container — a shrink-wrapped
+ *   200px table with 4px cells sitting in a 900px card reads as a screenshot of
+ *   the mobile app rather than as a statline. Width is left to the context: in
+ *   a block parent (a roster row) it spans, and as a flex sibling (the design
+ *   sandbox, where the block sits beside a name) it still shrink-wraps.
  * - The heavy 2px outer border with a thin inner rule is drawn as a border plus
  *   a ring, so it survives the table's own border-collapse.
  */
@@ -56,7 +62,7 @@ export default function ProfileBlock({
   const editable = onStatChange !== undefined;
 
   return (
-    <div className={collapsed ? 'inline-block' : 'w-full'}>
+    <div className={collapsed ? 'inline-block sm:block' : 'w-full'}>
       {label && (
         <p className="font-heading-sc text-ink text-stat-min uppercase tracking-[0.08em] mb-1">{label}</p>
       )}
@@ -77,7 +83,7 @@ export default function ProfileBlock({
                   key={key}
                   scope="col"
                   className={`font-heading-sc text-ink border-b-2 border-ink font-normal uppercase tracking-[0.05em] text-stat-min ${
-                    collapsed ? 'px-1 py-0.5' : 'px-1.5 py-1 sm:px-3 sm:py-1.5'
+                    collapsed ? 'px-1 py-0.5 sm:px-3 sm:py-1.5' : 'px-1.5 py-1 sm:px-3 sm:py-1.5'
                   }`}
                 >
                   {key}
@@ -95,7 +101,12 @@ export default function ProfileBlock({
                   <td
                     key={key}
                     className={`font-body text-ink text-center text-stat-min ${
-                      collapsed ? 'px-1 py-0.5' : 'px-1.5 py-1.5 sm:px-3 sm:py-2 sm:text-base'
+                      // No `sm:text-base` on collapsed: it takes the printed
+                      // spacing but stays at the §5.4 stat floor, so a listing
+                      // still reads a rung below the record it links to.
+                      collapsed
+                        ? 'px-1 py-0.5 sm:px-3 sm:py-1.5'
+                        : 'px-1.5 py-1.5 sm:px-3 sm:py-2 sm:text-base'
                     } ${atMax ? 'font-bold' : ''}`}
                     // Screen readers get the cap spelled out; sighted users get
                     // the bold. Neither depends on colour alone.
@@ -131,7 +142,7 @@ export default function ProfileBlock({
                   <td
                     key={key}
                     className={`font-ui text-ink-faded border-t border-ink/25 text-center text-xs ${
-                      collapsed ? 'px-1 py-0.5' : 'px-1.5 py-1 sm:px-3'
+                      collapsed ? 'px-1 py-0.5 sm:px-3 sm:py-1' : 'px-1.5 py-1 sm:px-3'
                     }`}
                   >
                     <span className="sr-only">Maximum </span>
