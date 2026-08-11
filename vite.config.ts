@@ -6,9 +6,14 @@ import { VitePWA } from 'vite-plugin-pwa';
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
 
 // Stamped into the bundle so an issue report says which build it came from.
-// Netlify sets COMMIT_REF; locally there isn't one, and "dev" is the honest
-// answer rather than a fake hash.
-const APP_VERSION = `${pkg.version}+${(process.env.COMMIT_REF ?? 'dev').slice(0, 7)}`;
+// Each host names this differently — Netlify sets COMMIT_REF, Cloudflare Pages
+// sets CF_PAGES_COMMIT_SHA — and reading only one of them means every build from
+// the other reports itself as "dev", which is exactly the case where knowing the
+// build matters. Locally there is no commit, and "dev" is then the honest answer
+// rather than a fake hash.
+const COMMIT =
+  process.env.CF_PAGES_COMMIT_SHA ?? process.env.COMMIT_REF ?? process.env.GITHUB_SHA ?? 'dev';
+const APP_VERSION = `${pkg.version}+${COMMIT.slice(0, 7)}`;
 
 export default defineConfig({
   define: {

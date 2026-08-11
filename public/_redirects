@@ -1,0 +1,14 @@
+# SPA routing.
+#
+# Every path in this app is client-side: /rules/blackpowder and
+# /warbands/<id>/print are React Router destinations, not files on disk. Without
+# this rule, opening one directly — a bookmark, a shared roster link, a refresh —
+# is a 404, because the host looks for a file that was never built.
+#
+# 200 rather than 301/302: the URL must stay as typed so the router can read it.
+# A redirect would rewrite the address bar to / and lose the destination.
+#
+# Read by Cloudflare Pages and by Netlify alike, which is why it lives here
+# rather than only in netlify.toml. Static files are matched first by both, so
+# this catches only what genuinely has no file behind it.
+/*  /index.html  200

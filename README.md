@@ -161,9 +161,24 @@ If you own the books, please cross-check anything you rely on for a real campaig
 
 ## Deployment
 
-Live at **[mordheim.builderbasement.com](https://mordheim.builderbasement.com)**, auto-deployed by Netlify from this repo's `main` branch (`netlify.toml` — standard Vite build, no server functions needed; the backend is Supabase).
+Live at **[mordheimmanager.net](https://mordheimmanager.net)** on Cloudflare Pages, built from this repo's `main` branch. Standard Vite build, no server functions — the backend is Supabase.
 
-The deployed site needs `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` set as Netlify environment variables — they're baked in at build time, so changing them requires a redeploy. Both are safe to expose publicly: the anon key grants nothing on its own, since row-level security is what actually gates access.
+| Setting | Value |
+| --- | --- |
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| Environment variables | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` |
+
+Both variables are baked in at build time, so changing either needs a redeploy. Both are safe to expose publicly: the anon key grants nothing on its own, since row-level security is what actually gates access.
+
+Two files in `public/` carry the host configuration, and are read by Cloudflare Pages and Netlify alike:
+
+- **`_redirects`** — `/* /index.html 200`. Every path in this app is a client-side route, so without it a bookmark, a shared roster link or a refresh on `/rules/blackpowder` is a 404. Status 200 rather than a redirect, so the URL stays as typed and the router can still read it.
+- **`_headers`** — `no-cache` on `/sw.js`, because a cached service worker pins a cached app, which is the shape of the bug that made two correct deploys look broken; and `immutable` on `/assets/*`, whose filenames are content-hashed and can never change meaning.
+
+The old Netlify deployment at `mordheim.builderbasement.com` still builds from the same branch — `netlify.toml` is kept, and the two files above work there too — so the move is reversible until the DNS is retired.
+
+**A domain move needs one thing changed outside this repo:** Supabase → Authentication → URL Configuration. The Site URL and the redirect allow-list gate where auth emails may send people, so until the new domain is listed there, password resets and email confirmations land on the old host or are refused outright. Everything else follows the domain on its own — share links and the password-reset callback are both built from `window.location.origin`.
 
 ## Known gaps
 
