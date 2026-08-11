@@ -7,40 +7,28 @@ import {
 import { strings } from '../strings';
 
 /**
- * The empty state.
- *
- * §11.4: a placeholder silhouette, never a broken-image icon. Most warbands will
- * not have a photo, so this is the *ordinary* appearance of the component and
- * has to look deliberate rather than like something failed to load.
- */
-function Placeholder({ className }: { className?: string }) {
-  return (
-    <div
-      className={`flex items-center justify-center bg-parchment-raised ${className ?? ''}`}
-      aria-hidden="true"
-    >
-      <svg viewBox="0 0 48 32" className="w-10 h-10 text-ink-faded" fill="currentColor">
-        {/* A banner on a pole — a warband, not a camera icon, which would read
-            as "upload here" even on screens where you cannot. */}
-        <path d="M12 4h2v24h-2z" />
-        <path d="M15 5h20l-4 5 4 5H15z" opacity="0.85" />
-        <path d="M8 28h12v2H8z" opacity="0.6" />
-      </svg>
-    </div>
-  );
-}
-
-/**
  * One list row's thumbnail, given an already-resolved URL.
  *
  * Presentational on purpose: the URL comes from `useWarbandThumbnails`, which
  * fetches and signs a whole page at once. A row that fetched for itself would
  * turn a twenty-warband list into forty requests.
+ *
+ * No photo renders nothing at all — not an empty frame and not a silhouette,
+ * which is a deliberate departure from §11.4. A placeholder makes every warband
+ * without a picture look like one that failed to load, and since most warbands
+ * have no photo that would be the app's *ordinary* appearance. The cost is that
+ * rows no longer share a left edge; the row simply uses the width instead.
  */
 export function WarbandThumb({ url, alt }: { url: string | undefined; alt: string }) {
-  const frame = 'border-2 border-ink overflow-hidden w-20 h-[54px] shrink-0';
-  if (!url) return <Placeholder className={frame} />;
-  return <img src={url} alt={alt} loading="lazy" className={`${frame} object-cover`} />;
+  if (!url) return null;
+  return (
+    <img
+      src={url}
+      alt={alt}
+      loading="lazy"
+      className="border-2 border-ink overflow-hidden w-20 h-[54px] shrink-0 object-cover"
+    />
+  );
 }
 
 /**
@@ -71,9 +59,10 @@ export function WarbandPhotoFrame({
   const { data: urls } = useSignedPhotoUrls(path ? [path] : []);
   const url = path ? urls?.[path] : undefined;
 
-  const frame = `border-2 border-ink overflow-hidden ${className}`;
-
-  if (!url) return <Placeholder className={frame} />;
+  // Nothing rather than a placeholder — see WarbandThumb. On the roster this
+  // also means the photo controls sit directly under the treasury when there is
+  // no picture, instead of below an empty box explaining that there isn't one.
+  if (!url) return null;
   return (
     <img
       src={url}
@@ -83,7 +72,7 @@ export function WarbandPhotoFrame({
       width={photo?.width ?? undefined}
       height={photo?.height ?? undefined}
       loading="lazy"
-      className={`${frame} w-full object-cover`}
+      className={`border-2 border-ink overflow-hidden w-full object-cover ${className}`}
     />
   );
 }

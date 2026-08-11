@@ -93,34 +93,54 @@ create policy "warband_photos_delete_own" on public.warband_photos
   for delete to authenticated using (owner_id = auth.uid());
 
 -- ----------------------------------------------------------------------------
--- The bucket.
+-- The bucket: `images`, shared with whatever else the project keeps there.
 --
--- Private. A public bucket makes every object world-readable to anyone holding
--- the path, which would route straight around the policy above — the private
--- warband whose picture is one guessed URL away is the whole reason §11.2 insists
--- on this.
+-- It **must be private**. A public Supabase bucket serves every object at a
+-- predictable URL to anyone on the internet, with no policy consulted at all —
+-- which would route straight around `warband_photos_object_select` below and
+-- undo the signed-in-only decision in §11.5. A private warband whose group shot
+-- is one guessed URL away is exactly what that policy exists to prevent.
+--
+-- So this refuses to proceed rather than quietly publishing photos. If it stops
+-- your migration: either flip `images` to private in the dashboard (Storage →
+-- images → Settings), or say so and the client can be switched to public URLs
+-- with the consequences understood.
 -- ----------------------------------------------------------------------------
 insert into storage.buckets (id, name, public)
-values ('warband-photos', 'warband-photos', false)
+values ('images', 'images', false)
 on conflict (id) do nothing;
 
--- Path convention: {owner_id}/{warband_id}/{full|thumb}-{timestamp}.webp
--- The first segment being the owner id is what lets the write policies below be
--- a string comparison instead of a lookup.
+do $$
+begin
+  if exists (select 1 from storage.buckets where id = 'images' and public) then
+    raise exception
+      'The `images` bucket is public. Warband photos are meant to be readable only by signed-in players (spec 11.5), and a public bucket serves every object to anyone with the URL regardless of policy. Make it private, or change the decision deliberately.';
+  end if;
+end;
+$$;
+
+-- Path convention: warbands/{owner_id}/{warband_id}/{full|thumb}-{timestamp}.webp
+--
+-- Namespaced under `warbands/` because the bucket is shared — without it these
+-- policies would claim every object whose first path segment happens to be a
+-- uuid. The owner id being the *second* segment is what lets the write policies
+-- be a string comparison rather than a lookup.
 drop policy if exists "warband_photos_object_insert" on storage.objects;
 create policy "warband_photos_object_insert" on storage.objects
   for insert to authenticated
   with check (
-    bucket_id = 'warband-photos'
-    and (storage.foldername(name))[1] = auth.uid()::text
+    bucket_id = 'images'
+    and (storage.foldername(name))[1] = 'warbands'
+    and (storage.foldername(name))[2] = auth.uid()::text
   );
 
 drop policy if exists "warband_photos_object_delete" on storage.objects;
 create policy "warband_photos_object_delete" on storage.objects
   for delete to authenticated
   using (
-    bucket_id = 'warband-photos'
-    and (storage.foldername(name))[1] = auth.uid()::text
+    bucket_id = 'images'
+    and (storage.foldername(name))[1] = 'warbands'
+    and (storage.foldername(name))[2] = auth.uid()::text
   );
 
 -- Deliberately no UPDATE policy: replacing a photo writes a *new* path and
@@ -135,7 +155,7 @@ drop policy if exists "warband_photos_object_select" on storage.objects;
 create policy "warband_photos_object_select" on storage.objects
   for select to authenticated
   using (
-    bucket_id = 'warband-photos'
+    bucket_id = 'images'
     and exists (
       select 1 from public.warband_photos p
       where (p.storage_path = storage.objects.name or p.thumb_path = storage.objects.name)

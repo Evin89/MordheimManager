@@ -818,18 +818,19 @@ There is deliberately **no UPDATE policy on `storage.objects`** — replacement 
 | Piece | Choice |
 | --- | --- |
 | File storage | **Supabase Storage** — a new service, same project and keys |
-| Buckets | One **private** bucket, `model-photos`; access via signed URLs only |
-| Path convention | `{owner_id}/{warband_id}/{entity_type}-{entity_id}-{timestamp}.webp` |
+| Buckets | The project's shared **private** `images` bucket; access via signed URLs only |
+| Path convention | `warbands/{owner_id}/{warband_id}/{full\|thumb}-{timestamp}.webp` — prefixed, since the bucket is shared |
 | Database | No blobs in Postgres. Only the `ModelPhoto` record (§3.1) inside the existing jsonb |
 | Client work | Resize and re-encode **before** upload, HEIC handling, camera capture, cropping |
 | Cost | Free tier is 1 GB storage / 2 GB egress per month — §11.5 |
 
 ### 11.2 Bucket & security
 
-- **Private bucket** (`public = false`). A public bucket makes every object world-readable to anyone with the path, bypassing §8.3 entirely — and warbands can be private.
-- Storage RLS mirrors §8.3, using the first path segment as the owner id:
-  - INSERT / UPDATE / DELETE: `(storage.foldername(name))[1] = auth.uid()::text` — a user writes only under their own prefix.
-  - SELECT: the same owner check, **plus** the read cases from §8.3. Storage policies can't traverse into warband jsonb, so a small `photo_index` table (`storage_path`, `warband_id`, `owner_id`) is written alongside each photo; the SELECT policy joins against it and reuses the warband read rule. Keeping that table in step with the jsonb is the fragile part — write both in one transaction, or derive the index with a trigger on `warbands`.
+- **Private bucket** (`public = false`). A public bucket serves every object at a predictable URL to anyone on the internet with **no policy consulted at all**, bypassing §8.3 entirely — and warbands can be private. Because `images` is shared with whatever else the project stores, 0013 does not merely assume this: it creates the bucket private if absent and **raises rather than proceeding** if it exists and is public, so the feature cannot quietly publish photos.
+- Storage RLS mirrors §8.3, keyed on the path segments:
+  - INSERT / DELETE: `(storage.foldername(name))[1] = 'warbands' and [2] = auth.uid()::text` — a user writes only under their own prefix, and these policies claim only warband objects rather than everything in a shared bucket whose first segment happens to be a uuid.
+  - **No UPDATE policy at all.** Replacement writes a new path (see §11.0), so nothing ever needs to overwrite.
+  - SELECT: the read cases from §8.3, via `can_read_warband`. Storage policies can't traverse into warband jsonb — which is one of the reasons the record is a table rather than a blob field, so the join has something real to join against.
 - Serve via **signed URLs**, cached in TanStack Query for their lifetime so you aren't re-signing per render. See §12.3 for why the expiry length is a bandwidth decision, not just a security one.
 
 ### 11.3 Client-side upload pipeline
@@ -846,7 +847,7 @@ A modern phone camera produces 4–12 MB images. Uploading those raw is the sing
 
 ### 11.4 UI integration
 
-- **Roster rows:** small thumbnail at the left; a placeholder silhouette when absent (`ink-faded` on `parchment-raised`), never a broken-image icon.
+- **Roster rows:** small thumbnail at the left. ⚠️ **No placeholder when absent**, contrary to this section's original instruction. A silhouette in every row makes each warband without a picture look like one that failed to load — and since most warbands have none, that would be the app's ordinary appearance rather than an exception. The cost is accepted knowingly: rows no longer share a left edge, and a row without a photo simply uses the width. (Never a broken-image icon still holds; that was never the alternative.)
 - **Detail screens:** photo above the §5.3 profile block, tap for full size. Owner sees replace/remove; others see the image only.
 - **Warband list and gallery:** the group shot becomes the card image.
 - **Design fit:** frame photos with the same 2px `ink` border as the profile block, so they read as plates in the rulebook rather than social-media cards. Slight desaturation on thumbnails is optional and should be tested, not assumed.

@@ -3,7 +3,11 @@ import { isDemoMode } from '../dev/demoMode';
 import * as demo from '../dev/demoApi';
 import { ProcessedImage } from '../lib/imageProcessing';
 
-const BUCKET = 'warband-photos';
+/** The project's shared `images` bucket, private. Warband photos live under a
+ * `warbands/` prefix inside it so the storage policies can claim their own
+ * objects and nothing else's — see migration 0013. */
+const BUCKET = 'images';
+const PREFIX = 'warbands';
 
 /** How long a signed URL lives. Long enough that scrolling a gallery doesn't
  * re-sign, short enough that a link pasted elsewhere stops working the same day
@@ -111,9 +115,10 @@ export async function uploadWarbandPhoto(
   const previous = (await fetchWarbandPhotos([warbandId]))[0];
 
   // The timestamp is what makes the path fresh, and the owner id must be the
-  // first segment — the storage write policies are a comparison against it.
+  // second segment, after the prefix — the storage write policies are a
+  // comparison against exactly those two.
   const stamp = Date.now();
-  const base = `${ownerId}/${warbandId}`;
+  const base = `${PREFIX}/${ownerId}/${warbandId}`;
   const storagePath = `${base}/full-${stamp}.webp`;
   const thumbPath = `${base}/thumb-${stamp}.webp`;
 
