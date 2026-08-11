@@ -10,6 +10,7 @@ import {
   useIssueReportsQuery,
   useUpdateIssueStatusMutation,
 } from '../hooks/useIssues';
+import { usePurgeMutation, useStoragePurgeQueueQuery } from '../hooks/usePhotos';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { strings } from '../strings';
 
@@ -255,6 +256,78 @@ function UserOverview() {
  * Hiding this route is not the security boundary; the database policies are.
  * The redirect below is so a non-admin doesn't sit on a screen of errors.
  */
+/**
+ * The 30-day purge, and the backlog it leaves.
+ *
+ * The scheduled job (migration 0014) hard-deletes warbands soft-deleted more
+ * than 30 days ago and queues their photo paths. It cannot delete the files
+ * themselves: `storage.objects` is metadata, and removing a row there does not
+ * free the underlying object — only the Storage API does, which needs a session.
+ * So the queue drains from here.
+ *
+ * Normally this reads "nothing waiting", and that is the point: a number that is
+ * usually zero is worth showing precisely because a number that isn't means
+ * something needs doing.
+ */
+function StorageCleanup() {
+  const { data: queue, isError, error } = useStoragePurgeQueueQuery(true);
+  const { run, running } = usePurgeMutation();
+  const [result, setResult] = useState<string | null>(null);
+
+  if (isError) {
+    return (
+      <div className="space-y-1">
+        <p className="text-blood text-sm">Could not read the cleanup queue.</p>
+        <p className="font-ui text-xs text-ink-faded">
+          {(error as Error).message} — if this mentions <code>storage_purge_queue</code>, migration
+          0014 has not been applied yet.
+        </p>
+      </div>
+    );
+  }
+
+  const pending = queue?.length ?? 0;
+
+  return (
+    <div className="space-y-2 rounded-lg border-2 border-ink bg-parchment-raised p-3">
+      <p className="text-ink text-sm">
+        {pending === 0
+          ? 'No files waiting. The job runs nightly at 03:17.'
+          : `${pending} file${pending === 1 ? '' : 's'} left behind by purged warbands, oldest queued ${new Date(queue![0].queuedAt).toLocaleDateString()}.`}
+      </p>
+
+      <button
+        type="button"
+        disabled={running}
+        onClick={async () => {
+          const outcome = await run();
+          setResult(
+            typeof outcome === 'string'
+              ? outcome
+              : `Purged ${outcome.purged} warband${outcome.purged === 1 ? '' : 's'} and deleted ${outcome.cleared} file${outcome.cleared === 1 ? '' : 's'}.`,
+          );
+        }}
+        className="min-h-[44px] px-4 rounded-md border border-ink/40 font-ui text-sm font-semibold text-ink disabled:opacity-40"
+      >
+        {running ? 'Running…' : 'Run purge now'}
+      </button>
+
+      {result && <p className="font-ui text-xs text-ink-faded">{result}</p>}
+
+      {pending > 0 && (
+        <ul className="font-ui text-xs text-ink-faded space-y-0.5 pt-1">
+          {queue!.slice(0, 5).map((q) => (
+            <li key={q.path} className="break-all">
+              {q.path}
+            </li>
+          ))}
+          {pending > 5 && <li>…and {pending - 5} more</li>}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 export default function AdminScreen() {
   const { data: isAdmin, isPending } = useIsAdminQuery();
   const [filter, setFilter] = useState<IssueStatus | 'all'>('open');
@@ -329,6 +402,11 @@ export default function AdminScreen() {
         <section className="space-y-3">
           <h2 className="text-ink font-semibold">Players</h2>
           <UserOverview />
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-ink font-semibold">Storage cleanup</h2>
+          <StorageCleanup />
         </section>
 
         <section className="space-y-3">

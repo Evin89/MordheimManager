@@ -767,6 +767,12 @@ In the UI, the old single "Make leader" button silently demoted whoever tapped i
 
 Implement all three as **soft deletes**: set `deleted_at`, and filter it out of every query *and every RLS policy*. A mistaken deletion becomes recoverable by the operator, and battle history keeps its foreign keys intact. Purge rows older than 30 days with a scheduled job.
 
+✅ **The purge exists** (migration 0014): `purge_deleted_warbands()` on pg_cron nightly at 03:17, with `admin_purge_deleted_warbands()` as the operator's manual trigger from §4.9. Retention is a parameter defaulting to 30 days, so the job can be exercised against a shorter window without re-pushing the function that deletes people's warbands.
+
+⚠️ **It is two steps, because SQL cannot delete a Storage object.** `storage.objects` is metadata; removing a row there does not free the underlying file — only the Storage API does, which needs a session. And the ordering problem is sharper than it looks: `warband_photos` cascades away with the warband, so the instant the row goes, the only record of *which* files belonged to it is gone. The bytes remain as an orphan nobody can even name.
+
+So paths are copied into `storage_purge_queue` **before** the rows are deleted, in the same transaction, and the queue is drained from the admin screen. This is the 0013 upload rule read backwards: there the row is written last so it never points at bytes that don't exist; here the row is deleted last so the bytes never outlive the last reference to them. §11.5 warns that client-side cleanup is unreliable — true of cleanup at *deletion time*, where a closed tab loses the work, and precisely what a durable queue answers: a failed drain changes nothing and is run again.
+
 ⚠️ **Resolving conflict 18.** The incoming draft asked for soft delete *and* described children being "removed with the campaign" by cascade. Those are incompatible: `ON DELETE CASCADE` fires on a real `DELETE`, which a soft delete never issues. Pick one per table and be explicit:
 
 - **Soft-deleted parents, filtered children.** `campaigns.deleted_at` and `warbands.deleted_at` are set; `campaign_members`, `battles` and `campaign_events` are left in place and become unreachable because every query joins through a parent that is now filtered out. Simplest, fully reversible, and the recommendation.
@@ -855,7 +861,7 @@ A modern phone camera produces 4–12 MB images. Uploading those raw is the sing
 ### 11.5 Cost, quota & moderation
 
 - Free tier: **1 GB storage, 2 GB egress/month**. At ~150 KB per processed photo, 1 GB is roughly 6,500 images — plenty for a private group. **Egress is what bites first**, and the gallery is what spends it.
-- Deleting a warband or model must delete its Storage objects — orphaned files silently consume quota. Do it in the same operation via a trigger or edge function; client-side cleanup is not reliable. Note the soft-delete interaction in §10.5.
+- ✅ Deleting a warband must delete its Storage objects — orphaned files silently consume quota. Done by the 30-day purge and its drain queue rather than at deletion time, since a soft-deleted warband is still restorable and must keep its photo. See §10.5 for why it is two steps and why the queue exists.
 - ⚠️ **Moderation bar is higher than the incoming draft assumed (conflict 11).** It said public-warband photos become "publicly visible content" to *authenticated users*. Since migration 0004, the gallery is readable **without an account** — so a photo on a public warband would be visible to the open internet, and indexable.
 - ✅ **Decided before shipping, as this section required: photos are signed-in only.** `warband_photos_select` and the storage read policy are both `to authenticated` with no `anon` counterpart. The gallery still works signed out — names, types, ratings — and pictures appear once you have an account. Deliberately narrower than the surrounding screen, because it drops the moderation and takedown burden a long way for the cost of one sentence in the UI, and because "you can browse warbands without registering" survives it intact.
 
@@ -864,7 +870,7 @@ A modern phone camera produces 4–12 MB images. Uploading those raw is the sing
 1. ✅ Bucket + storage RLS + `warband_photos` (0013).
 2. ✅ The processing pipeline as `lib/imageProcessing.ts` — `createImageBitmap` with `imageOrientation: 'from-image'` decodes and un-rotates in one step, and a canvas re-encodes to WebP, so §11.3 needs no dependency at all. Verified in demo mode: a 5.5 MB 3000×2000 PNG became a 13 kB 1600×1067 WebP with a 3 kB 480×320 thumbnail at exactly 3:2; a 1200×1200 source stayed 1200×1200 rather than being upscaled. Both failure paths report rather than fail silently — a text file named `.jpg`, a `.heic`, and a 21 MB input each produce their own message.
 3. ✅ Wired into the roster (owner controls) and the warband list (thumbnails). ◻️ Hero, henchmen groups and hired swords.
-4. ◻️ **Still outstanding: deletion cleanup and the quota check.** `on delete cascade` removes the *row* when a warband is finally purged, but nothing removes the Storage objects — §11.5 is explicit that client-side cleanup is unreliable and this belongs in the purge job, which does not exist yet either (§10.5). Until it does, deleted warbands leave their photos consuming quota.
+4. ✅ Deletion cleanup, via the 30-day purge and its drain queue (0014, §10.5). ◻️ The quota check — nothing warns as the 1 GB storage or 2 GB monthly egress limits approach, and `admin_stats()` does not report either.
 5. ◻️ Tested on a real Android phone and iPhone. Everything above was verified in a desktop browser with synthesised images; the camera path, the `capture` hint and real HEIC behaviour have not been exercised on a phone.
 
 ⚠️ **Not a crop UI.** §11.3 asks for one; the thumbnail is centre-cropped to 3:2 instead. That is what makes a row of cards line up, and a miniature is almost always in the middle of the frame — but choosing *which* part of a photo to show is a real feature and this is not it.

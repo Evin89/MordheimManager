@@ -165,6 +165,86 @@ export async function uploadWarbandPhoto(
   return toPhoto(data as Row);
 }
 
+export type PurgeQueueEntry = {
+  bucket: string;
+  path: string;
+  warbandId: string | null;
+  queuedAt: string;
+};
+
+/**
+ * Storage objects left behind by the 30-day purge, oldest first.
+ *
+ * Admin-only by RLS (migration 0014). These are file paths belonging to other
+ * people, which is why the policy is `is_admin()` rather than anything derived
+ * from ownership — the warband whose ownership it would have been derived from
+ * no longer exists.
+ */
+export async function fetchStoragePurgeQueue(limit = 200): Promise<PurgeQueueEntry[]> {
+  if (isDemoMode()) return demo.fetchStoragePurgeQueue(limit);
+
+  const { data, error } = await supabase
+    .from('storage_purge_queue')
+    .select('bucket, path, warband_id, queued_at')
+    .order('queued_at', { ascending: true })
+    .limit(limit);
+  if (error) throw error;
+  return (data ?? []).map((r) => ({
+    bucket: r.bucket as string,
+    path: r.path as string,
+    warbandId: (r.warband_id as string | null) ?? null,
+    queuedAt: r.queued_at as string,
+  }));
+}
+
+/**
+ * Deletes the queued objects, then clears the entries that named them.
+ *
+ * Objects first — the same rule as everywhere else here, applied to the last
+ * reference rather than the first. A failed object delete leaves the queue
+ * entry, and the next run tries again; removing a file that has already gone is
+ * a no-op, so retrying is always safe. Clearing the entry first would strand the
+ * bytes permanently, with nothing left anywhere that knows their path.
+ *
+ * Returns how many entries were cleared.
+ */
+export async function drainStoragePurgeQueue(entries: PurgeQueueEntry[]): Promise<number> {
+  if (isDemoMode()) return demo.drainStoragePurgeQueue(entries);
+  if (entries.length === 0) return 0;
+
+  let cleared = 0;
+  // Grouped by bucket because `remove` takes paths within one bucket. Today that
+  // is always `images`; the column exists so this doesn't have to be revisited
+  // when it isn't.
+  const byBucket = new Map<string, string[]>();
+  for (const entry of entries) {
+    byBucket.set(entry.bucket, [...(byBucket.get(entry.bucket) ?? []), entry.path]);
+  }
+
+  for (const [bucket, paths] of byBucket) {
+    const { error } = await supabase.storage.from(bucket).remove(paths);
+    if (error) throw error;
+
+    const { error: clearError } = await supabase
+      .from('storage_purge_queue')
+      .delete()
+      .eq('bucket', bucket)
+      .in('path', paths);
+    if (clearError) throw clearError;
+    cleared += paths.length;
+  }
+  return cleared;
+}
+
+/** Runs the purge now rather than waiting for 03:17. Admin-gated in the
+ * database; the client check is only there to explain the rule. */
+export async function runPurgeNow(): Promise<number> {
+  if (isDemoMode()) return demo.runPurgeNow();
+  const { data, error } = await supabase.rpc('admin_purge_deleted_warbands');
+  if (error) throw error;
+  return (data as number) ?? 0;
+}
+
 /**
  * Removes a warband's photo.
  *

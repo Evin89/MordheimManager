@@ -710,6 +710,52 @@ export async function deleteWarbandPhoto(warbandId: string) {
   URL.revokeObjectURL(existing.thumbPath);
 }
 
+/**
+ * The purge queue, demo side.
+ *
+ * Seeded with a couple of entries so the admin screen's cleanup section can be
+ * judged with something in it — an empty queue is the state it will normally be
+ * in, and also the one state that tells you nothing about the layout.
+ */
+const purgeQueue: { bucket: string; path: string; warbandId: string | null; queuedAt: string }[] = [
+  {
+    bucket: 'images',
+    path: 'warbands/demo-user-3/demo-wb-3-0/full-1770000000000.webp',
+    warbandId: 'demo-wb-3-0',
+    queuedAt: new Date(Date.now() - 3 * 86_400_000).toISOString(),
+  },
+  {
+    bucket: 'images',
+    path: 'warbands/demo-user-3/demo-wb-3-0/thumb-1770000000000.webp',
+    warbandId: 'demo-wb-3-0',
+    queuedAt: new Date(Date.now() - 3 * 86_400_000).toISOString(),
+  },
+];
+
+export async function fetchStoragePurgeQueue(limit: number) {
+  return purgeQueue.slice(0, limit);
+}
+
+export async function drainStoragePurgeQueue(
+  entries: { bucket: string; path: string }[],
+): Promise<number> {
+  let cleared = 0;
+  for (const entry of entries) {
+    const i = purgeQueue.findIndex((q) => q.bucket === entry.bucket && q.path === entry.path);
+    if (i >= 0) {
+      purgeQueue.splice(i, 1);
+      cleared += 1;
+    }
+  }
+  return cleared;
+}
+
+export async function runPurgeNow(): Promise<number> {
+  // Nothing in the demo set is soft-deleted, so the honest answer is zero —
+  // which is also what the real job returns most days.
+  return 0;
+}
+
 // --- campaign events -------------------------------------------------------
 
 // Seeded so the section isn't an empty state on first look: one game night

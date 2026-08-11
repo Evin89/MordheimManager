@@ -3,7 +3,10 @@ import { useAuth } from '../auth/AuthProvider';
 import {
   WarbandPhoto,
   deleteWarbandPhoto,
+  drainStoragePurgeQueue,
+  fetchStoragePurgeQueue,
   fetchWarbandPhotos,
+  runPurgeNow,
   signPhotoUrls,
   uploadWarbandPhoto,
 } from '../api/photos';
@@ -106,6 +109,49 @@ export function useUploadWarbandPhotoMutation(warbandId: string | undefined) {
       }
     },
     uploading: mutation.isPending,
+  };
+}
+
+/** The Storage cleanup backlog, for the admin screen. */
+export function useStoragePurgeQueueQuery(enabled: boolean) {
+  return useQuery({
+    queryKey: ['storagePurgeQueue'],
+    queryFn: () => fetchStoragePurgeQueue(),
+    enabled,
+  });
+}
+
+/**
+ * Runs the purge, then drains whatever it queued.
+ *
+ * Two steps in one action because they are one intent, and because running the
+ * purge alone would leave a backlog the operator then has to notice. Ordered:
+ * purge first, so anything it queues is drained in the same press.
+ */
+export function usePurgeMutation() {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const purged = await runPurgeNow();
+      const queue = await fetchStoragePurgeQueue();
+      const cleared = await drainStoragePurgeQueue(queue);
+      return { purged, cleared };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['storagePurgeQueue'] });
+      queryClient.invalidateQueries({ queryKey: ['adminStats'] });
+    },
+  });
+
+  return {
+    run: async (): Promise<{ purged: number; cleared: number } | string> => {
+      try {
+        return await mutation.mutateAsync();
+      } catch (err) {
+        return err instanceof Error ? err.message : 'The purge could not be run.';
+      }
+    },
+    running: mutation.isPending,
   };
 }
 

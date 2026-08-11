@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-08-11",
+    "title": "Deleted Warbands Are Now Really Deleted",
+    "description": "Deleting a warband has always kept it hidden rather than destroying it, so a mistake could be reversed on request. What was missing was the other half: after 30 days it is now permanently removed, along with its photo. If you delete something by accident you still have a month to ask for it back — after that it really is gone."
+  },
+  {
+    "date": "2026-08-11",
     "title": "Warband Photos",
     "description": "Add a photo of your warband from its roster screen — the painted group shot, which is half the reason anyone builds one. It shows at the top of the roster and as a thumbnail in your warband list, and you can replace or remove it whenever you like. Photos are shrunk on your phone before they upload, so a 5 MB camera shot becomes a few kilobytes and does not eat your data at the game store. If your iPhone hands over a HEIC file the app cannot read, it will tell you which camera setting to change instead of quietly failing. Photos are only visible to players with an account, even on a warband you have made public."
   },
