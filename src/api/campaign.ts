@@ -290,6 +290,42 @@ export async function transferCampaignLeadership(
 }
 
 /**
+ * Promotes a member to co-leader, the caller keeping their own role.
+ *
+ * The difference from transfer, and the point of it: one leader who stops
+ * turning up is otherwise a dead end, since nobody else can rename the
+ * campaign, regenerate the code, remove a member or delete it (migration 0012).
+ */
+export async function grantCampaignLeadership(
+  campaignId: string,
+  toUserId: string,
+): Promise<void> {
+  if (isDemoMode()) return demo.grantCampaignLeadership(campaignId, toUserId);
+  const { error } = await supabase.rpc('grant_campaign_leadership', {
+    p_campaign_id: campaignId,
+    p_to_user_id: toUserId,
+  });
+  if (error) throw error;
+}
+
+/**
+ * Demotes a leader back to player — any leader may demote any leader, including
+ * themselves. Refused by the 0012 trigger if it would leave a campaign that
+ * still has members with no leader at all.
+ */
+export async function revokeCampaignLeadership(
+  campaignId: string,
+  userId: string,
+): Promise<void> {
+  if (isDemoMode()) return demo.revokeCampaignLeadership(campaignId, userId);
+  const { error } = await supabase.rpc('revoke_campaign_leadership', {
+    p_campaign_id: campaignId,
+    p_user_id: userId,
+  });
+  if (error) throw error;
+}
+
+/**
  * Deletes a campaign.
  *
  * Only its leader, and only once every other player has gone — enforced by the

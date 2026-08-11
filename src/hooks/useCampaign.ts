@@ -11,6 +11,8 @@ import {
   regenerateJoinCode,
   removeCampaignMember,
   transferCampaignLeadership,
+  grantCampaignLeadership,
+  revokeCampaignLeadership,
   updateCampaign,
 } from '../api/campaign';
 import { deleteBattle, fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
@@ -223,6 +225,56 @@ export function useTransferLeadershipMutation(campaignId: string | undefined) {
       return err instanceof Error ? err.message : 'Could not transfer leadership.';
     }
   };
+}
+
+/**
+ * Promote a member to co-leader, or demote a leader back to a player.
+ *
+ * One hook for both because they invalidate identically and fail identically —
+ * with a message the user can act on ("this campaign would have none"), which
+ * the Players list shows inline rather than throwing.
+ */
+function useLeadershipMutation(
+  campaignId: string | undefined,
+  fn: (campaignId: string, userId: string) => Promise<void>,
+  fallback: string,
+) {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (userId: string) => fn(campaignId!, userId),
+    onSuccess: () => {
+      // Who leads decides what the whole screen offers, so both the member list
+      // and the campaign list have to re-read it.
+      queryClient.invalidateQueries({ queryKey: membersKey(campaignId) });
+      queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });
+      queryClient.invalidateQueries({ queryKey: ['campaignSummaries', user?.id] });
+    },
+  });
+  return async (userId: string): Promise<string | null> => {
+    try {
+      await mutation.mutateAsync(userId);
+      return null;
+    } catch (err) {
+      return err instanceof Error ? err.message : fallback;
+    }
+  };
+}
+
+export function useGrantLeadershipMutation(campaignId: string | undefined) {
+  return useLeadershipMutation(
+    campaignId,
+    grantCampaignLeadership,
+    'Could not make that player a leader.',
+  );
+}
+
+export function useRevokeLeadershipMutation(campaignId: string | undefined) {
+  return useLeadershipMutation(
+    campaignId,
+    revokeCampaignLeadership,
+    'Could not remove that leader.',
+  );
 }
 
 /** Covers both "remove this player" (leader) and "leave" (yourself) — RLS decides. */

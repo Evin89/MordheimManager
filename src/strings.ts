@@ -727,11 +727,24 @@ export const strings = {
     youSuffix: '(you)',
     unnamedPlayer: 'Unnamed player',
     removeMember: 'Remove',
-    makeLeader: 'Make leader',
+    // Two separate actions, because they differ in what happens to *you* and
+    // the old single "Make leader" quietly demoted the person tapping it.
+    makeLeader: 'Make co-leader',
     makeLeaderConfirm: (name: string) =>
-      `Hand leadership of this campaign to ${name}? You stay a player, and they can then rename it, regenerate the join code and remove members — including you.`,
+      `Make ${name} a leader of this campaign as well as you? They can then rename it, regenerate the join code, schedule game nights and remove members — including you. You stay a leader too.`,
+    handOver: 'Hand over',
+    handOverConfirm: (name: string) =>
+      `Hand this campaign to ${name} and step back to being a player? They take over managing it, and you would need them to make you a leader again.`,
+    stepDown: 'Step down as leader',
+    stepDownConfirm:
+      'Give up leading this campaign? You stay in it as a player, and another leader would have to give the role back.',
+    removeLeader: 'Remove leader role',
+    removeLeaderConfirm: (name: string) =>
+      `Take leadership away from ${name}? They stay in the campaign as a player.`,
+    onlyLeaderHint:
+      'You are the only leader. Make someone else a leader and you can step down — or hand the campaign over in one go.',
     leaderCannotLeave:
-      'You lead this campaign. Make someone else leader first, or it would be left with nobody who can manage it.',
+      'You lead this campaign. Make someone else a leader first, or it would be left with nobody who can manage it.',
     removeMemberConfirm: (name: string) => `Remove ${name} from the campaign? Their warbands will be unlinked from the standings.`,
     leaveCampaign: 'Leave campaign',
     leaveConfirm:

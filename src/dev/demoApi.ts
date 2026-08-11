@@ -614,6 +614,44 @@ export async function transferCampaignLeadership(
   if (me) me.role = 'player';
 }
 
+/** Mirrors 0012's grant: the caller keeps their own role. */
+export async function grantCampaignLeadership(
+  campaignId: string,
+  toUserId: string,
+): Promise<void> {
+  const database = db();
+  const target = database.memberships.find(
+    (m) => m.campaignId === campaignId && m.userId === toUserId,
+  );
+  if (!target) throw new Error('That player is not in this campaign.');
+  target.role = 'campaign_leader';
+}
+
+/** Mirrors 0012's revoke, including the trigger that refuses to leave a
+ * campaign with members and no leader — the message has to match, since it is
+ * what the Players list shows. */
+export async function revokeCampaignLeadership(
+  campaignId: string,
+  userId: string,
+): Promise<void> {
+  const database = db();
+  const target = database.memberships.find(
+    (m) => m.campaignId === campaignId && m.userId === userId,
+  );
+  if (!target || target.role !== 'campaign_leader') {
+    throw new Error('That player does not lead this campaign.');
+  }
+
+  const others = database.memberships.filter(
+    (m) => m.campaignId === campaignId && m.userId !== userId,
+  );
+  if (others.length > 0 && !others.some((m) => m.role === 'campaign_leader')) {
+    throw new Error('Make someone else a leader first: this campaign would have none.');
+  }
+
+  target.role = 'player';
+}
+
 // --- campaign events -------------------------------------------------------
 
 // Seeded so the section isn't an empty state on first look: one game night

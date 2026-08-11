@@ -19,6 +19,8 @@ import {
   useRemoveMemberMutation,
   useSetActiveCampaign,
   useTransferLeadershipMutation,
+  useGrantLeadershipMutation,
+  useRevokeLeadershipMutation,
   useSaveCampaignMutation,
   usePersonalBattlesQuery,
   useStandingsQuery,
@@ -421,10 +423,12 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
   const { data: members } = useCampaignMembersQuery(campaign.id);
   const removeMember = useRemoveMemberMutation(campaign.id);
   const transferLeadership = useTransferLeadershipMutation(campaign.id);
-  const [transferError, setTransferError] = useState<string | null>(null);
+  const grantLeadership = useGrantLeadershipMutation(campaign.id);
+  const revokeLeadership = useRevokeLeadershipMutation(campaign.id);
+  const [leadershipError, setLeadershipError] = useState<string | null>(null);
 
-  // A leader with company cannot leave — the 0010 trigger refuses it. Saying so
-  // on the button beats letting them tap it and reading an exception.
+  // A leader with company cannot leave or step down — the 0010 and 0012
+  // triggers refuse it. Saying so beats letting them tap and read an exception.
   const others = (members ?? []).filter((m) => m.userId !== user?.id);
   const iAmOnlyLeader =
     (members ?? []).some((m) => m.userId === user?.id && m.role === 'campaign_leader') &&
@@ -434,10 +438,10 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
   return (
     <section className="space-y-3">
       <h2 className="text-bone-100 font-semibold">{strings.campaign.membersSection}</h2>
-      {iAmOnlyLeader && (
-        <p className="text-bone-400 text-xs">{strings.campaign.leaderCannotLeave}</p>
-      )}
-      {transferError && <p className="text-blood-500 text-sm">{transferError}</p>}
+      {/* Names the way out rather than only the wall: the point of co-leaders
+          is that being the only one is now a fixable state. */}
+      {iAmOnlyLeader && <p className="text-bone-400 text-xs">{strings.campaign.onlyLeaderHint}</p>}
+      {leadershipError && <p className="text-blood-500 text-sm">{leadershipError}</p>}
       <div className="space-y-2">
         {(members ?? []).map((member) => {
           const isMe = member.userId === user?.id;
@@ -456,32 +460,83 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
                 </p>
               </div>
               {isMe ? (
-                // Leaving is always yours to do; removing others is the leader's.
-                <button
-                  type="button"
-                  disabled={iAmOnlyLeader}
-                  title={iAmOnlyLeader ? strings.campaign.leaderCannotLeave : undefined}
-                  onClick={() => {
-                    if (window.confirm(strings.campaign.leaveConfirm)) removeMember(member.userId);
-                  }}
-                  className="shrink-0 text-blood-500 text-sm font-semibold disabled:text-bone-400 disabled:cursor-not-allowed"
-                >
-                  {strings.campaign.leaveCampaign}
-                </button>
+                <div className="shrink-0 flex flex-col items-end gap-1">
+                  {/* Stepping down is not the same as leaving, and conflating
+                      them was why handing the role over used to mean losing
+                      your seat in the campaign as well. */}
+                  {member.role === 'campaign_leader' && (
+                    <button
+                      type="button"
+                      disabled={iAmOnlyLeader}
+                      title={iAmOnlyLeader ? strings.campaign.onlyLeaderHint : undefined}
+                      onClick={async () => {
+                        if (!window.confirm(strings.campaign.stepDownConfirm)) return;
+                        setLeadershipError(await revokeLeadership(member.userId));
+                      }}
+                      className="min-h-[44px] text-ember-400 text-sm font-semibold disabled:text-bone-400 disabled:cursor-not-allowed"
+                    >
+                      {strings.campaign.stepDown}
+                    </button>
+                  )}
+                  {/* Leaving is always yours to do; removing others is the leader's. */}
+                  <button
+                    type="button"
+                    disabled={iAmOnlyLeader}
+                    title={iAmOnlyLeader ? strings.campaign.leaderCannotLeave : undefined}
+                    onClick={() => {
+                      if (window.confirm(strings.campaign.leaveConfirm)) removeMember(member.userId);
+                    }}
+                    className="min-h-[44px] text-blood-500 text-sm font-semibold disabled:text-bone-400 disabled:cursor-not-allowed"
+                  >
+                    {strings.campaign.leaveCampaign}
+                  </button>
+                </div>
               ) : (
                 isLeader && (
                   <div className="shrink-0 flex flex-col items-end gap-1">
-                    {member.role !== 'campaign_leader' && (
+                    {member.role !== 'campaign_leader' ? (
+                      <>
+                        {/* Promote, keeping your own role. This is the ordinary
+                            case: a campaign wants a second person who can run a
+                            game night, not a successor. */}
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            const name = member.displayName || strings.campaign.unnamedPlayer;
+                            if (!window.confirm(strings.campaign.makeLeaderConfirm(name))) return;
+                            setLeadershipError(await grantLeadership(member.userId));
+                          }}
+                          className="min-h-[44px] text-ember-400 text-sm font-semibold"
+                        >
+                          {strings.campaign.makeLeader}
+                        </button>
+                        {/* Handing over is grant + step down, but as one
+                            statement it cannot stop halfway — which matters
+                            most to the person doing it precisely because they
+                            are on their way out. */}
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            const name = member.displayName || strings.campaign.unnamedPlayer;
+                            if (!window.confirm(strings.campaign.handOverConfirm(name))) return;
+                            setLeadershipError(await transferLeadership(member.userId));
+                          }}
+                          className="min-h-[44px] text-bone-300 text-sm font-semibold"
+                        >
+                          {strings.campaign.handOver}
+                        </button>
+                      </>
+                    ) : (
                       <button
                         type="button"
                         onClick={async () => {
                           const name = member.displayName || strings.campaign.unnamedPlayer;
-                          if (!window.confirm(strings.campaign.makeLeaderConfirm(name))) return;
-                          setTransferError(await transferLeadership(member.userId));
+                          if (!window.confirm(strings.campaign.removeLeaderConfirm(name))) return;
+                          setLeadershipError(await revokeLeadership(member.userId));
                         }}
-                        className="text-ember-400 text-sm font-semibold"
+                        className="min-h-[44px] text-bone-300 text-sm font-semibold"
                       >
-                        {strings.campaign.makeLeader}
+                        {strings.campaign.removeLeader}
                       </button>
                     )}
                     <button
@@ -490,7 +545,7 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
                         const name = member.displayName || strings.campaign.unnamedPlayer;
                         if (window.confirm(strings.campaign.removeMemberConfirm(name))) removeMember(member.userId);
                       }}
-                      className="text-blood-500 text-sm font-semibold"
+                      className="min-h-[44px] text-blood-500 text-sm font-semibold"
                     >
                       {strings.campaign.removeMember}
                     </button>

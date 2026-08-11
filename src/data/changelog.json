@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-08-11",
+    "title": "More Than One Leader",
+    "description": "A campaign can now have as many leaders as you like. If the person who set it up stops turning up, nobody else could rename it, hand out a new join code, schedule a game night or close it down — and there was no way to take over. On the Players tab a leader can now Make co-leader, which promotes someone while you stay a leader too, or Hand over, which passes the campaign to them and drops you back to a player. There is also Step down as leader, separate from leaving the campaign, so you can give up running it without giving up your seat. Any leader can take the role back off any other leader, and the app will not let the last one go while there are still players in the campaign."
+  },
+  {
     "date": "2026-08-10",
     "title": "Print Your Roster",
     "description": "Every warband now has a Print roster sheet button, laid out after the original Mordheim roster sheet: the same sections in the same order, and its field names, so if you have ever filled one in by hand you already know where to look. The Experience track is the real one — 90 boxes for a Hero, 14 for a Henchman, with the thick-bordered advance boxes in the right places — and because the app already knows your totals, the boxes come pre-ticked. Dead, captured and departed warriors are left off, since the sheet is what you carry to a game. It prints black on white to save your ink, and the screen shows you exactly what will come out. Choose Save as PDF in the print dialog if you would rather keep a copy than print one."

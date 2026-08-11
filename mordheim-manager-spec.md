@@ -38,7 +38,7 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 | 16 | Non-goal "never blocks" vs enforced limits | **Two deliberate exceptions**, both silent-failure cases with unambiguous rules. §1, §9 |
 | 17 | Section numbers 9–13 used by both drafts | **Renumbered.** New material became §10–§13; the built-app sections kept their meaning. |
 | 18 | Soft delete vs `ON DELETE CASCADE` | **Internal contradiction in the incoming draft** — you cannot soft-delete a parent and cascade-delete its children. Resolved in §10.5. |
-| 19 | Leader cannot leave while members remain | ✅ **Enforced in the database** (migration 0010), by a `before delete` trigger rather than a client check, since `removeCampaignMember` covers leave and remove alike. `transfer_campaign_leadership` is the way out; deleting the campaign is likewise blocked while others remain (0011). §10.2, §10.3 |
+| 19 | Leader cannot leave while members remain | ✅ **Enforced in the database** (migration 0010), by a `before delete` trigger rather than a client check, since `removeCampaignMember` covers leave and remove alike. Deleting is likewise blocked while others remain (0011). Both exits exist: hand over, or promote a co-leader and step down (0012). §10.2, §10.3, §10.3.1 |
 
 ---
 
@@ -737,6 +737,22 @@ A single reusable `<ConfirmByTyping>` component, used by every destructive actio
   - Last one out is deliberately allowed: leaving a campaign nobody else is in just abandons it, and demanding a transfer with nobody to transfer to would be a trap.
   - Leadership transfer was the missing exit, and it cannot be done from the client as two updates — demoting yourself first loses the rights needed for the second, promoting first leaves two leaders if the second fails. `transfer_campaign_leadership` is one `SECURITY DEFINER` statement pair that checks the *caller* first.
   - Deletion is guarded separately (§10.2, migration 0011): leaving is blocked while others remain, and so is deleting.
+
+#### 10.3.1 Co-leaders ✅
+
+The guards above close the *orphaned* campaign — nobody can walk away and leave it unmanageable. They do nothing about the **stranded** one: a single leader who simply stops turning up still holds the only set of rights, and no one else can rename the campaign, regenerate the code, schedule a game night or delete it. There is no petition and no timeout, so the group's only remedy was to start over.
+
+Migration 0012 allows any number of leaders. Nothing in the schema ever required one: `is_campaign_leader` has always been an `exists (… role = 'campaign_leader')`, true for any count, and 0010's trigger already asks "does another leader remain" rather than "am I *the* leader". What was missing was a way to make a second one, and a way back down.
+
+| Function | Effect |
+| --- | --- |
+| `grant_campaign_leadership` | Promotes a member. **The caller keeps their own role** — this is the whole difference from transfer. Idempotent: promoting an existing leader is not an error, because a request for something already true has already succeeded and reporting failure only invites a confused retry. |
+| `revoke_campaign_leadership` | Demotes a leader, themselves included. Any leader may demote any leader — a hierarchy with an unremovable owner would reintroduce exactly the single point of failure this exists to remove. |
+| `transfer_campaign_leadership` | Kept. It is grant + revoke, but as one statement it cannot stop halfway, and "you take over, I'm stepping back" is a real single intent for someone leaving the group. |
+
+**The invariant — a campaign with members has at least one leader — is a `before update of role` trigger, not a check inside each function.** Same reasoning 0010 gives for guarding the leave path in the database: these functions are not the only way that column can ever be written, and a future migration or a console session should meet the same wall. It fires on demotion only, so a grant and the promote half of a transfer pass straight through — which is also why transfer's promote-then-demote order still works under it. `campaign_members` deliberately has no UPDATE policy at all, so a role can change *only* through one of these `SECURITY DEFINER` functions.
+
+In the UI, the old single "Make leader" button silently demoted whoever tapped it. It is now two honest actions — **Make co-leader** (you both lead) and **Hand over** (they lead, you don't) — plus **Step down as leader** on your own row, which is distinct from Leave: conflating them was why handing over used to cost you your seat in the campaign as well. The only-leader notice names the way out rather than only the wall, since being the sole leader is now a fixable state.
 - Type-to-confirm value: **the player's display name** (leader removing someone) or **the campaign name** (player leaving — their own name is too easy to type absent-mindedly).
 - Impact: their warband leaves the campaign (`campaign_id` → `NULL`) but is not deleted; battles they reported stay in the log, attributed to their name. ✅ The unlink half already works — migration 0003 does it with a trigger.
 - A removed player can rejoin with the join code unless the leader regenerates it.
