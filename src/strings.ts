@@ -279,6 +279,19 @@ export const strings = {
     none: '—',
   },
 
+  photo: {
+    section: 'Warband photo',
+    add: 'Add a photo',
+    replace: 'Replace photo',
+    remove: 'Remove',
+    uploading: 'Uploading…',
+    removeConfirm: 'Remove this photo? The warband and its roster are untouched.',
+    alt: (name: string) => `${name} — group shot`,
+    // Says where it shows up and who can see it, because "public" here means
+    // something narrower than the gallery's own visibility (§11.5).
+    hint: 'Shown on your roster, the warband list and — if this warband is public — the gallery. Only signed-in players can see it. Photos are resized on your device before uploading.',
+  },
+
   roster: {
     heroesSection: 'Heroes',
     henchmenSection: 'Henchmen Groups',

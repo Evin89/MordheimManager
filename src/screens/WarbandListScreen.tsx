@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PublicWarbandBrowser from '../components/PublicWarbandBrowser';
 import { strings } from '../strings';
 import { useWarbandList } from '../hooks/useWarbands';
+import { useWarbandThumbnails } from '../hooks/usePhotos';
+import { WarbandThumb } from '../components/WarbandPhoto';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 
@@ -20,6 +22,8 @@ const TABS: { id: Tab; label: string }[] = [
 export default function WarbandListScreen() {
   const warbands = useWarbandList();
   const [tab, setTab] = useState<Tab>('warbands');
+  // One records fetch and one signing call for the page, not two per row.
+  const thumbnails = useWarbandThumbnails(warbands.map((w) => w.id));
 
   return (
     <div className="min-h-full flex flex-col">
@@ -64,7 +68,11 @@ export default function WarbandListScreen() {
                 className="block rounded-lg bg-ink-900 border border-ink-800 p-4 hover:border-ink-700 transition-colors"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <div className="min-w-0">
+                  <WarbandThumb
+                    url={thumbnails[warband.id]}
+                    alt={strings.photo.alt(warband.name)}
+                  />
+                  <div className="min-w-0 flex-1">
                     <p className="text-bone-100 font-semibold truncate">{warband.name}</p>
                     <p className="text-bone-300 text-sm truncate">{getWarbandTypeName(warband.warbandType)}</p>
                   </div>

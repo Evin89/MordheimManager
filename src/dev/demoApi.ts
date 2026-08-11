@@ -652,6 +652,64 @@ export async function revokeCampaignLeadership(
   target.role = 'player';
 }
 
+// --- warband photos --------------------------------------------------------
+
+/**
+ * Demo mode has no Storage, so the "path" is an object URL and signing is the
+ * identity. That keeps the shape of the real flow — upload returns paths, the
+ * screen signs them, an `<img>` renders the result — while nothing leaves the
+ * tab. Object URLs die with the page, which is the same lifetime as the rest of
+ * the demo database.
+ */
+const photos = new Map<
+  string,
+  { storagePath: string; thumbPath: string; width: number; height: number; updatedAt: string }
+>();
+
+export async function fetchWarbandPhotos(warbandIds: string[]) {
+  return warbandIds
+    .map((id) => {
+      const p = photos.get(id);
+      return p ? { warbandId: id, ...p } : null;
+    })
+    .filter((p): p is NonNullable<typeof p> => p !== null);
+}
+
+export async function signPhotoUrls(paths: string[]) {
+  return Object.fromEntries(paths.map((p) => [p, p]));
+}
+
+export async function uploadWarbandPhoto(
+  warbandId: string,
+  _ownerId: string,
+  image: { full: Blob; thumb: Blob; width: number; height: number },
+) {
+  // Mirrors the real ordering to the extent it can: the previous pair is only
+  // released once the new one is recorded.
+  const previous = photos.get(warbandId);
+  const record = {
+    storagePath: URL.createObjectURL(image.full),
+    thumbPath: URL.createObjectURL(image.thumb),
+    width: image.width,
+    height: image.height,
+    updatedAt: new Date().toISOString(),
+  };
+  photos.set(warbandId, record);
+  if (previous) {
+    URL.revokeObjectURL(previous.storagePath);
+    URL.revokeObjectURL(previous.thumbPath);
+  }
+  return { warbandId, ...record };
+}
+
+export async function deleteWarbandPhoto(warbandId: string) {
+  const existing = photos.get(warbandId);
+  if (!existing) return;
+  photos.delete(warbandId);
+  URL.revokeObjectURL(existing.storagePath);
+  URL.revokeObjectURL(existing.thumbPath);
+}
+
 // --- campaign events -------------------------------------------------------
 
 // Seeded so the section isn't an empty state on first look: one game night

@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
+import WarbandPhotoEditor from '../components/WarbandPhoto';
 import WarbandSharingCard from '../components/WarbandSharingCard';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import SaveBar from '../components/SaveBar';
@@ -175,6 +176,8 @@ export default function RosterScreen() {
             />
           </div>
         </section>
+
+        <WarbandPhotoEditor warbandId={warband.id} warbandName={warband.name} />
 
         <Link
           to={`/warbands/${warband.id}/pre-battle`}

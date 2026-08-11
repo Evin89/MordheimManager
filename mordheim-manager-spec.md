@@ -788,9 +788,30 @@ Either way: the create/rename form checks availability as the user types (deboun
 
 ---
 
-## 11. Model & warband photos ◻️
+## 11. Model & warband photos ⚠️
 
-One photo per warband (group shot) and per hero, henchmen group and hired sword. Painted miniatures are half the hobby — this is the feature that makes a roster feel like *your* warband. Nothing here is built; the `photo?: ModelPhoto` fields in §3.1 are the planned shape.
+One photo per warband (group shot) and per hero, henchmen group and hired sword. Painted miniatures are half the hobby — this is the feature that makes a roster feel like *your* warband.
+
+✅ **The warband group shot is built** (migration 0013). ◻️ Per-model photos are not.
+
+⚠️ **The record does not live in the warband jsonb**, contrary to §11.1. That plan needed a `photo_index` table anyway, purely so Storage RLS could resolve ownership — and §11.2 then called keeping that index in step with the blob "the fragile part". So `warband_photos` *is* the record, and there is only one copy to keep in step. Two further reasons, both specific to this app:
+
+- `warbands` saves carry the `updated_at` they last read and are queued per warband (§14, defect 3). A photo in the blob makes uploading a picture a roster **save**: it collides with pending characteristic edits and is refused as "changed elsewhere", and it drags the entire roster through the save path to change an image.
+- A real row gets a foreign key, so deletion and the 30-day purge cascade. jsonb cannot.
+
+One photo per warband is the table's primary key, not an application check.
+
+### 11.0 CRUD ordering
+
+Storage and Postgres cannot share a transaction, so **the order of operations is the whole design**. One rule holds it together: *the row is only ever written once the bytes it points at exist.* Orphaned objects are cheap, invisible and sweepable; a row pointing at a missing object is a broken image in the user's face.
+
+| | Order | Why |
+| --- | --- | --- |
+| Create | upload → insert row | An upload that fails changes nothing |
+| Replace | upload to a **new** path → update row → delete old objects | Never overwrite in place: every cached signed URL and CDN copy would go on serving the previous picture, so a replace would look as though it had silently failed |
+| Delete | delete row → delete objects | The row is what the UI reads, so removing it *is* the deletion as far as anyone can tell |
+
+There is deliberately **no UPDATE policy on `storage.objects`** — replacement writes a new path, so nothing ever needs to overwrite. Failures in the trailing cleanup cost quota and nothing else, and are not worth failing an upload the user has already watched succeed.
 
 ### 11.1 Summary
 
@@ -816,7 +837,7 @@ One photo per warband (group shot) and per hero, henchmen group and hired sword.
 A modern phone camera produces 4–12 MB images. Uploading those raw is the single thing most likely to make this feature feel broken on mobile data. Before upload:
 
 1. **Accept the file:** `<input type="file" accept="image/*" capture="environment">` — the `capture` hint opens the camera directly on Android while still allowing gallery choice.
-2. **Handle HEIC.** iPhones may hand over `.heic`, which browsers can't decode natively. Either convert (`heic2any`) or reject with a message explaining the iPhone camera setting to change. Decide which — silently failing on iPhone uploads is the classic bug here.
+2. **Handle HEIC.** ✅ Decided: **reject with instructions**, no decoder shipped. `heic2any` is several hundred kB on an entry chunk already over Vite's warning, for a case iOS mostly avoids by converting to JPEG on upload unless "Keep Originals" is set. The message names the exact setting (Settings → Camera → Formats → Most Compatible) and the Photos → Share → Copy Photo workaround for an existing shot. Silently failing on iPhone uploads is the classic version of this bug, so the one thing it must not do is nothing.
 3. **Correct EXIF orientation** before resizing, or portrait photos arrive rotated.
 4. **Downscale and re-encode:** longest edge max **1600px**, **WebP** at ~0.8 quality. Also generate a **320px thumbnail** for roster rows and the gallery — loading full images into a list is the second-biggest trap. Store both, thumbnail path derivable by convention.
 5. **Square-ish crop UI:** miniature photos vary wildly. A fixed aspect ratio (1:1 for models, 3:2 for the group shot) keeps roster rows visually consistent.
@@ -834,16 +855,18 @@ A modern phone camera produces 4–12 MB images. Uploading those raw is the sing
 
 - Free tier: **1 GB storage, 2 GB egress/month**. At ~150 KB per processed photo, 1 GB is roughly 6,500 images — plenty for a private group. **Egress is what bites first**, and the gallery is what spends it.
 - Deleting a warband or model must delete its Storage objects — orphaned files silently consume quota. Do it in the same operation via a trigger or edge function; client-side cleanup is not reliable. Note the soft-delete interaction in §10.5.
-- ⚠️ **Moderation bar is higher than the incoming draft assumed (conflict 11).** It said public-warband photos become "publicly visible content" to *authenticated users*. Since migration 0004, the gallery is readable **without an account** — so a photo on a public warband is visible to the open internet, and indexable. Before photos ship, decide: whether public-warband photos are anon-readable at all (they could require a session while the rest of the gallery doesn't), a report mechanism, and an operator takedown path. This is a decision to make *before* the feature, not after.
+- ⚠️ **Moderation bar is higher than the incoming draft assumed (conflict 11).** It said public-warband photos become "publicly visible content" to *authenticated users*. Since migration 0004, the gallery is readable **without an account** — so a photo on a public warband would be visible to the open internet, and indexable.
+- ✅ **Decided before shipping, as this section required: photos are signed-in only.** `warband_photos_select` and the storage read policy are both `to authenticated` with no `anon` counterpart. The gallery still works signed out — names, types, ratings — and pictures appear once you have an account. Deliberately narrower than the surrounding screen, because it drops the moderation and takedown burden a long way for the cost of one sentence in the UI, and because "you can browse warbands without registering" survives it intact.
 
 ### 11.6 Build order
 
-As **M9** (§6), after scale testing:
+1. ✅ Bucket + storage RLS + `warband_photos` (0013).
+2. ✅ The processing pipeline as `lib/imageProcessing.ts` — `createImageBitmap` with `imageOrientation: 'from-image'` decodes and un-rotates in one step, and a canvas re-encodes to WebP, so §11.3 needs no dependency at all. Verified in demo mode: a 5.5 MB 3000×2000 PNG became a 13 kB 1600×1067 WebP with a 3 kB 480×320 thumbnail at exactly 3:2; a 1200×1200 source stayed 1200×1200 rather than being upscaled. Both failure paths report rather than fail silently — a text file named `.jpg`, a `.heic`, and a 21 MB input each produce their own message.
+3. ✅ Wired into the roster (owner controls) and the warband list (thumbnails). ◻️ Hero, henchmen groups and hired swords.
+4. ◻️ **Still outstanding: deletion cleanup and the quota check.** `on delete cascade` removes the *row* when a warband is finally purged, but nothing removes the Storage objects — §11.5 is explicit that client-side cleanup is unreliable and this belongs in the purge job, which does not exist yet either (§10.5). Until it does, deleted warbands leave their photos consuming quota.
+5. ◻️ Tested on a real Android phone and iPhone. Everything above was verified in a desktop browser with synthesised images; the camera path, the `capture` hint and real HEIC behaviour have not been exercised on a phone.
 
-1. Bucket + storage RLS + `photo_index`, tested with owner / campaign-mate / unrelated / **anonymous** accounts.
-2. The upload pipeline as a standalone `<PhotoUpload>` component — tested on a real Android phone *and* an iPhone before wiring it into any screen.
-3. Wire into warband, then hero, then henchmen groups and hired swords.
-4. Deletion cleanup + quota check.
+⚠️ **Not a crop UI.** §11.3 asks for one; the thumbnail is centre-cropped to 3:2 instead. That is what makes a row of cards line up, and a miniature is almost always in the middle of the frame — but choosing *which* part of a photo to show is a real feature and this is not it.
 
 ---
 
