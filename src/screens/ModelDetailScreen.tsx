@@ -4,6 +4,7 @@ import BackHeader from '../components/BackHeader';
 import { getUnitSpecialRules, getUnitNotes } from '../data/warbandRegistry';
 import SpecialRulesList from '../components/SpecialRulesList';
 import ProfileBlock from '../components/ProfileBlock';
+import WarbandPhotoEditor from '../components/WarbandPhoto';
 import { STAT_KEYS } from '../lib/statLine';
 import EquipmentShop from '../components/EquipmentShop';
 import SkillPicker from '../components/SkillPicker';
@@ -276,6 +277,13 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
             ))}
           </select>
         </div>
+
+        {/* §11.4: above the profile block. A painted model is how you recognise
+            him on the table; the numbers are what you look up once you have. */}
+        <section className="space-y-3">
+          <h2 className="text-bone-100 font-semibold">{strings.photo.modelSection}</h2>
+          <WarbandPhotoEditor warbandId={warbandId!} warbandName={model.name} modelId={model.id} />
+        </section>
 
         <section className="space-y-3">
           <h2 className="text-bone-100 font-semibold">{strings.modelDetail.statsSection}</h2>

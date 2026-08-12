@@ -238,6 +238,9 @@ export const strings = {
    */
   print: {
     rosterLink: 'Print roster sheet',
+    // Says what it is for, because the obvious objection is the cost of ink and
+    // the answer is that recognising the model is the point of carrying a sheet.
+    includePhotos: 'Include photos — helps match a warrior to the model on the table',
     title: 'Roster sheet',
     printAction: 'Print / Save as PDF',
     hint: 'In the print dialog, pick "Save as PDF" as the destination to keep a copy.',
@@ -281,6 +284,7 @@ export const strings = {
 
   photo: {
     section: 'Warband photo',
+    modelSection: 'Photo',
     add: 'Add a photo',
     replace: 'Replace photo',
     remove: 'Remove',

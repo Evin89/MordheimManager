@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { findPhoto } from '../api/photos';
 import { useSignedPhotoUrls, useWarbandPhotosQuery } from '../hooks/usePhotos';
 import {
   useDeleteWarbandPhotoMutation,
@@ -19,14 +20,25 @@ import { strings } from '../strings';
  * have no photo that would be the app's *ordinary* appearance. The cost is that
  * rows no longer share a left edge; the row simply uses the width instead.
  */
-export function WarbandThumb({ url, alt }: { url: string | undefined; alt: string }) {
+export function WarbandThumb({
+  url,
+  alt,
+  shape = 'landscape',
+}: {
+  url: string | undefined;
+  alt: string;
+  /** `landscape` for a warband's 3:2 group shot, `square` for one warrior. */
+  shape?: 'landscape' | 'square';
+}) {
   if (!url) return null;
   return (
     <img
       src={url}
       alt={alt}
       loading="lazy"
-      className="border-2 border-ink overflow-hidden w-20 h-[54px] shrink-0 object-cover"
+      className={`border-2 border-ink overflow-hidden shrink-0 object-cover ${
+        shape === 'square' ? 'w-14 h-14' : 'w-20 h-[54px]'
+      }`}
     />
   );
 }
@@ -44,17 +56,19 @@ export function WarbandThumb({ url, alt }: { url: string | undefined; alt: strin
  */
 export function WarbandPhotoFrame({
   warbandId,
+  modelId = null,
   alt,
   variant = 'thumb',
   className = '',
 }: {
   warbandId: string;
+  modelId?: string | null;
   alt: string;
   variant?: 'thumb' | 'full';
   className?: string;
 }) {
   const { data: photos } = useWarbandPhotosQuery([warbandId]);
-  const photo = photos?.[0];
+  const photo = findPhoto(photos, warbandId, modelId);
   const path = photo ? (variant === 'thumb' ? photo.thumbPath : photo.storagePath) : null;
   const { data: urls } = useSignedPhotoUrls(path ? [path] : []);
   const url = path ? urls?.[path] : undefined;
@@ -88,14 +102,20 @@ export function WarbandPhotoFrame({
 export default function WarbandPhotoEditor({
   warbandId,
   warbandName,
+  modelId = null,
 }: {
   warbandId: string;
+  /** Names the subject in the alt text and the confirm — "Klaus Bloody-Hand",
+   * not "warband photo", since on a detail screen the warband is not what you
+   * are looking at. */
   warbandName: string;
+  /** Null edits the warband's group shot; an id edits that warrior's portrait. */
+  modelId?: string | null;
 }) {
   const { data: photos } = useWarbandPhotosQuery([warbandId]);
-  const hasPhoto = !!photos?.[0];
-  const { upload, uploading } = useUploadWarbandPhotoMutation(warbandId);
-  const { remove, removing } = useDeleteWarbandPhotoMutation(warbandId);
+  const hasPhoto = !!findPhoto(photos, warbandId, modelId);
+  const { upload, uploading } = useUploadWarbandPhotoMutation(warbandId, modelId);
+  const { remove, removing } = useDeleteWarbandPhotoMutation(warbandId, modelId);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -114,9 +134,12 @@ export default function WarbandPhotoEditor({
     <section className="space-y-2">
       <WarbandPhotoFrame
         warbandId={warbandId}
+        modelId={modelId}
         alt={strings.photo.alt(warbandName)}
         variant="full"
-        className="aspect-[3/2]"
+        // Matches the crop the file was given on upload (§11.3), so the preview
+        // is the picture rather than a differently-shaped window onto it.
+        className={modelId ? 'aspect-square max-w-xs' : 'aspect-[3/2]'}
       />
 
       {/* The input itself is never shown: a bare file input cannot be sized to

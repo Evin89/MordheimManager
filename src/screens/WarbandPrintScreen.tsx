@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import ProfileBlock from '../components/ProfileBlock';
 import { strings } from '../strings';
 import { useWarbandLookup } from '../hooks/useWarbands';
 import { useMyProfileQuery } from '../hooks/useProfile';
+import { useRosterPhotos } from '../hooks/usePhotos';
 import { computeWarbandRating, isInWarband } from '../lib/rating';
 import { TRACK_LENGTH, getAdvanceThresholds } from '../lib/xpThresholds';
 import { getWarbandTypeName } from '../data/warbandRegistry';
@@ -58,6 +60,25 @@ function XpTrack({ xp, kind }: { xp: number; kind: 'hero' | 'henchmen' }) {
   );
 }
 
+/**
+ * A warrior's portrait on the sheet.
+ *
+ * Small on purpose — 15mm or so on paper. It is there to be matched against the
+ * model in your hand, which needs a silhouette and a colour scheme, not detail;
+ * and every square millimetre of it is ink. Renders nothing at all when there is
+ * no photo, so a roster without them prints exactly as it did before.
+ */
+function PrintPhoto({ url, alt }: { url?: string; alt: string }) {
+  if (!url) return null;
+  return (
+    <img
+      src={url}
+      alt={alt}
+      className="border border-ink w-14 h-14 object-cover shrink-0 self-start"
+    />
+  );
+}
+
 /** A labelled line inside a warrior's box: "EQUIPMENT  dagger, sword". */
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -78,7 +99,7 @@ function equipmentText(equipment: EquipmentItem[]): string {
  * type, the statline, the Experience track, then equipment and the catch-all
  * "Skills, injuries, etc".
  */
-function WarriorBlock({ model }: { model: Hero | HiredSword }) {
+function WarriorBlock({ model, photoUrl }: { model: Hero | HiredSword; photoUrl?: string }) {
   const isLeader = 'isLeader' in model && model.isLeader;
   const unitType = 'unitType' in model ? model.unitType : model.type;
 
@@ -94,7 +115,13 @@ function WarriorBlock({ model }: { model: Hero | HiredSword }) {
   ];
 
   return (
-    <div className="border-2 border-ink p-2 space-y-1.5 break-inside-avoid">
+    <div className="border-2 border-ink p-2 break-inside-avoid flex gap-2">
+      {/* Left of the block, not above it: the photo is how you find this warrior
+          among the models on the table, so it wants to sit beside his name at a
+          glance rather than push the statline down the page. */}
+      <PrintPhoto url={photoUrl} alt={strings.photo.alt(model.name)} />
+
+      <div className="min-w-0 flex-1 space-y-1.5">
       <div className="flex items-baseline justify-between gap-3">
         <p className="font-heading text-ink text-base leading-tight">
           {model.name}
@@ -130,6 +157,7 @@ function WarriorBlock({ model }: { model: Hero | HiredSword }) {
       <Field label={strings.print.skillsInjuries}>
         {notes.length > 0 ? notes.join(' · ') : strings.print.none}
       </Field>
+      </div>
     </div>
   );
 }
@@ -137,14 +165,17 @@ function WarriorBlock({ model }: { model: Hero | HiredSword }) {
 /** A henchmen group. The sheet gives these a Number column and calls their free
  * text "Special rules" rather than "Skills, injuries" — a group advances as one
  * and cannot carry individual wounds. */
-function HenchmenBlock({ group }: { group: HenchmenGroup }) {
+function HenchmenBlock({ group, photoUrl }: { group: HenchmenGroup; photoUrl?: string }) {
   const notes = [
     ...group.advances.map((a) => a.detail),
     ...(group.notes.trim() ? [group.notes.trim()] : []),
   ];
 
   return (
-    <div className="border-2 border-ink p-2 space-y-1.5 break-inside-avoid">
+    <div className="border-2 border-ink p-2 break-inside-avoid flex gap-2">
+      <PrintPhoto url={photoUrl} alt={strings.photo.alt(group.groupName)} />
+
+      <div className="min-w-0 flex-1 space-y-1.5">
       <div className="flex items-baseline justify-between gap-3">
         <p className="font-heading text-ink text-base leading-tight">
           <span className="tabular-nums lining-nums">{group.count}</span> · {group.groupName}
@@ -172,6 +203,7 @@ function HenchmenBlock({ group }: { group: HenchmenGroup }) {
       <Field label={strings.print.specialRules}>
         {notes.length > 0 ? notes.join(' · ') : strings.print.none}
       </Field>
+      </div>
     </div>
   );
 }
@@ -262,6 +294,19 @@ export default function WarbandPrintScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const { warband, loading } = useWarbandLookup(warbandId);
   const { data: profile } = useMyProfileQuery();
+  const photos = useRosterPhotos(warbandId);
+  /*
+   * On by default, because recognising the model in front of you is the whole
+   * reason to carry a printed sheet to a table — but a toggle, because photos
+   * are the one thing on this page that costs real ink, and a sheet reprinted
+   * after every game is a sheet printed a lot.
+   *
+   * Not remembered between visits: the choice belongs to *this* printout. You
+   * might want portraits for a game night and a plain copy for the folder.
+   */
+  const [withPhotos, setWithPhotos] = useState(true);
+  const hasAnyPhoto = Object.keys(photos).length > 0;
+  const photoFor = (id: string) => (withPhotos ? photos[id] : undefined);
 
   if (loading) {
     return (
@@ -299,6 +344,20 @@ export default function WarbandPrintScreen() {
           </button>
         </div>
         <p className="text-bone-300 text-sm">{strings.print.hint}</p>
+
+        {/* Only offered when there is something to include — a switch that can
+            change nothing is a question the user has to answer for no reason. */}
+        {hasAnyPhoto && (
+          <label className="flex items-center gap-3 min-h-[44px] text-bone-200 text-sm cursor-pointer">
+            <input
+              type="checkbox"
+              checked={withPhotos}
+              onChange={(e) => setWithPhotos(e.target.checked)}
+              className="h-5 w-5 shrink-0"
+            />
+            <span>{strings.print.includePhotos}</span>
+          </label>
+        )}
       </div>
 
       {/*
@@ -344,7 +403,7 @@ export default function WarbandPrintScreen() {
           <Section title={strings.print.heroes}>
             <div className="space-y-2">
               {heroes.map((h) => (
-                <WarriorBlock key={h.id} model={h} />
+                <WarriorBlock key={h.id} model={h} photoUrl={photoFor(h.id)} />
               ))}
             </div>
           </Section>
@@ -358,7 +417,7 @@ export default function WarbandPrintScreen() {
           <Section title={strings.print.hiredSwords}>
             <div className="space-y-2">
               {swords.map((s) => (
-                <WarriorBlock key={s.id} model={s} />
+                <WarriorBlock key={s.id} model={s} photoUrl={photoFor(s.id)} />
               ))}
             </div>
           </Section>
@@ -368,7 +427,7 @@ export default function WarbandPrintScreen() {
           <Section title={strings.print.henchmen}>
             <div className="space-y-2">
               {groups.map((g) => (
-                <HenchmenBlock key={g.id} group={g} />
+                <HenchmenBlock key={g.id} group={g} photoUrl={photoFor(g.id)} />
               ))}
             </div>
           </Section>

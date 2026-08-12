@@ -5,6 +5,7 @@ import { getUnitSpecialRules, getUnitNotes } from '../data/warbandRegistry';
 import SpecialRulesList from '../components/SpecialRulesList';
 import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
+import WarbandPhotoEditor from '../components/WarbandPhoto';
 import { STAT_KEYS } from '../lib/statLine';
 import EquipmentShop from '../components/EquipmentShop';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
@@ -184,6 +185,15 @@ export default function HenchmenDetailScreen() {
           rules={getUnitSpecialRules(draft.warbandType, group.unitType)}
           notes={getUnitNotes(draft.warbandType, group.unitType)}
         />
+
+        <section className="space-y-3">
+          <h2 className="text-bone-100 font-semibold">{strings.photo.modelSection}</h2>
+          <WarbandPhotoEditor
+            warbandId={warbandId!}
+            warbandName={group.groupName}
+            modelId={group.id}
+          />
+        </section>
 
         <section className="space-y-3">
           <h2 className="text-bone-100 font-semibold">{strings.modelDetail.statsSection}</h2>

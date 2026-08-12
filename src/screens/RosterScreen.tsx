@@ -3,7 +3,8 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
-import WarbandPhotoEditor from '../components/WarbandPhoto';
+import WarbandPhotoEditor, { WarbandThumb } from '../components/WarbandPhoto';
+import { useRosterPhotos } from '../hooks/usePhotos';
 import WarbandSharingCard from '../components/WarbandSharingCard';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import SaveBar from '../components/SaveBar';
@@ -28,7 +29,15 @@ const STATUS_BADGE: Partial<Record<ModelStatus, string>> = {
   left: strings.roster.leftBadge,
 };
 
-function ModelRow({ to, model }: { to: string; model: Hero | HiredSword }) {
+function ModelRow({
+  to,
+  model,
+  photoUrl,
+}: {
+  to: string;
+  model: Hero | HiredSword;
+  photoUrl?: string;
+}) {
   const badge = STATUS_BADGE[model.status];
   const unitTypeLabel = 'unitType' in model ? model.unitType : model.type;
   return (
@@ -37,7 +46,8 @@ function ModelRow({ to, model }: { to: string; model: Hero | HiredSword }) {
       className="block rounded-lg bg-ink-900 border border-ink-800 p-4 hover:border-ink-700 transition-colors"
     >
       <div className="flex items-center justify-between gap-3">
-        <div className="min-w-0">
+        <WarbandThumb url={photoUrl} alt={strings.photo.alt(model.name)} shape="square" />
+        <div className="min-w-0 flex-1">
           <p className="text-bone-100 font-semibold truncate">{model.name}</p>
           <p className="text-bone-300 text-sm truncate">{unitTypeLabel}</p>
         </div>
@@ -75,12 +85,23 @@ function ModelRow({ to, model }: { to: string; model: Hero | HiredSword }) {
  * or work out who's left. The members are therefore listed individually, while
  * anything you can *edit* stays on the group.
  */
-function HenchmenGroupCard({ warbandId, group }: { warbandId: string; group: HenchmenGroup }) {
+function HenchmenGroupCard({
+  warbandId,
+  group,
+  photoUrl,
+}: {
+  warbandId: string;
+  group: HenchmenGroup;
+  photoUrl?: string;
+}) {
   return (
     <div className="rounded-lg bg-ink-900 border border-ink-800 hover:border-ink-700 transition-colors">
       <Link to={`/warbands/${warbandId}/henchmen/${group.id}`} className="block p-4">
         <div className="flex items-center justify-between gap-3">
-          <div className="min-w-0">
+          {/* One photo for the group, like the statline: the rules treat them as
+              one entity and they are usually painted as a matched set. */}
+          <WarbandThumb url={photoUrl} alt={strings.photo.alt(group.groupName)} shape="square" />
+          <div className="min-w-0 flex-1">
             <p className="text-bone-100 font-semibold truncate">{group.groupName}</p>
             <p className="text-bone-300 text-sm truncate">
               {group.count}x {group.unitType}
@@ -126,6 +147,9 @@ export default function RosterScreen() {
   // Treasury figures are typed, so they're drafted and saved on request. The
   // roster's own actions (recruit, trade, delete) still write immediately.
   const { draft, update, dirty, save, discard } = useWarbandDraft(warband);
+  // One records fetch and one signing call for the whole roster, keyed by model
+  // id -- see useRosterPhotos. Asking per row would be two requests per warrior.
+  const photos = useRosterPhotos(warbandId);
   useUnsavedChangesWarning(dirty);
 
   if (loading) {
@@ -227,7 +251,12 @@ export default function RosterScreen() {
           {warband.heroes.length === 0 && <p className="text-bone-300 text-sm">{strings.roster.noHeroes}</p>}
           <div className="space-y-2">
             {warband.heroes.map((hero) => (
-              <ModelRow key={hero.id} to={`/warbands/${warband.id}/hero/${hero.id}`} model={hero} />
+              <ModelRow
+                key={hero.id}
+                to={`/warbands/${warband.id}/hero/${hero.id}`}
+                model={hero}
+                photoUrl={photos[hero.id]}
+              />
             ))}
           </div>
         </section>
@@ -244,7 +273,12 @@ export default function RosterScreen() {
           )}
           <div className="space-y-2">
             {warband.henchmenGroups.map((group) => (
-              <HenchmenGroupCard key={group.id} warbandId={warband.id} group={group} />
+              <HenchmenGroupCard
+                key={group.id}
+                warbandId={warband.id}
+                group={group}
+                photoUrl={photos[group.id]}
+              />
             ))}
           </div>
         </section>
@@ -261,7 +295,12 @@ export default function RosterScreen() {
           )}
           <div className="space-y-2">
             {warband.hiredSwords.map((sword) => (
-              <ModelRow key={sword.id} to={`/warbands/${warband.id}/hired-sword/${sword.id}`} model={sword} />
+              <ModelRow
+                key={sword.id}
+                to={`/warbands/${warband.id}/hired-sword/${sword.id}`}
+                model={sword}
+                photoUrl={photos[sword.id]}
+              />
             ))}
           </div>
         </section>

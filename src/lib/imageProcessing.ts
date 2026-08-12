@@ -14,11 +14,23 @@
 const MAX_INPUT_BYTES = 20 * 1024 * 1024;
 /** Longest edge of the stored image. */
 const FULL_MAX_EDGE = 1600;
-/** The list thumbnail, at 3:2 — §11.4 wants roster rows and gallery cards to
- * line up, and a fixed ratio is what does that when miniature photos arrive in
- * every shape imaginable. */
-const THUMB_WIDTH = 480;
-const THUMB_HEIGHT = 320;
+/**
+ * Thumbnail shapes, per §11.3: 3:2 for a warband group shot, 1:1 for a single
+ * model.
+ *
+ * Not decoration. A group shot is several miniatures on a board and wants the
+ * width; one warrior is a vertical object photographed head-on, and a landscape
+ * crop of him is mostly table. Square also tiles predictably down a roster row
+ * and across a printed sheet, which is the whole point of having the photo
+ * there — recognising the model in front of you.
+ */
+const THUMB_SIZES = {
+  warband: { width: 480, height: 320 },
+  model: { width: 400, height: 400 },
+} as const;
+
+export type PhotoSubject = keyof typeof THUMB_SIZES;
+
 const QUALITY = 0.8;
 
 export type ProcessedImage = {
@@ -112,15 +124,19 @@ async function cropped(bitmap: ImageBitmap, w: number, h: number): Promise<Blob>
  * `type` the browser guessed — a file named `.jpg` that is not an image fails
  * here, at `decode`, which is the only check that cannot be lied to.
  */
-export async function processWarbandPhoto(file: File): Promise<ProcessedImage> {
+export async function processPhoto(
+  file: File,
+  subject: PhotoSubject = 'warband',
+): Promise<ProcessedImage> {
   if (file.size > MAX_INPUT_BYTES) {
     throw new ImageError('That image is over 20 MB. Try a smaller one.');
   }
 
   const bitmap = await decode(file);
   try {
+    const size = THUMB_SIZES[subject];
     const full = await fit(bitmap, FULL_MAX_EDGE);
-    const thumb = await cropped(bitmap, THUMB_WIDTH, THUMB_HEIGHT);
+    const thumb = await cropped(bitmap, size.width, size.height);
     return { full: full.blob, thumb, width: full.w, height: full.h };
   } finally {
     // Frees the decoded pixels rather than waiting for GC — a 12 MP photo is

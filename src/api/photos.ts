@@ -16,6 +16,8 @@ const SIGNED_URL_TTL_SECONDS = 60 * 60;
 
 export type WarbandPhoto = {
   warbandId: string;
+  /** Hero, henchmen group or hired sword id. Null is the warband group shot. */
+  modelId: string | null;
   storagePath: string;
   thumbPath: string;
   width: number | null;
@@ -25,6 +27,7 @@ export type WarbandPhoto = {
 
 type Row = {
   warband_id: string;
+  model_id: string | null;
   storage_path: string;
   thumb_path: string;
   width: number | null;
@@ -32,9 +35,12 @@ type Row = {
   updated_at: string;
 };
 
+const COLUMNS = 'warband_id, model_id, storage_path, thumb_path, width, height, updated_at';
+
 function toPhoto(row: Row): WarbandPhoto {
   return {
     warbandId: row.warband_id,
+    modelId: row.model_id,
     storagePath: row.storage_path,
     thumbPath: row.thumb_path,
     width: row.width,
@@ -43,12 +49,25 @@ function toPhoto(row: Row): WarbandPhoto {
   };
 }
 
+/** Finds one subject's photo in a warband's set. `null` asks for the group shot,
+ * which is what the column stores for it. */
+export function findPhoto(
+  photos: WarbandPhoto[] | undefined,
+  warbandId: string,
+  modelId: string | null,
+): WarbandPhoto | undefined {
+  return photos?.find((p) => p.warbandId === warbandId && p.modelId === modelId);
+}
+
 /**
- * The photo records for a set of warbands.
+ * Every photo belonging to a set of warbands — the group shot and each model's,
+ * in one call.
  *
- * Batched by id rather than fetched per card: a gallery page is twenty-odd
- * warbands, and twenty round trips to render one screen is how a list gets slow.
- * Missing ids simply have no photo — absence is the common case, not an error.
+ * Batched by warband rather than by subject: a roster is a dozen warriors, and
+ * fetching per row would be a dozen round trips to draw one screen. The caller
+ * picks the subject it wants out of the result with `findPhoto`, so opening a
+ * roster costs the same one request whether nobody has a photo or everybody
+ * does.
  */
 export async function fetchWarbandPhotos(warbandIds: string[]): Promise<WarbandPhoto[]> {
   if (warbandIds.length === 0) return [];
@@ -56,7 +75,7 @@ export async function fetchWarbandPhotos(warbandIds: string[]): Promise<WarbandP
 
   const { data, error } = await supabase
     .from('warband_photos')
-    .select('warband_id, storage_path, thumb_path, width, height, updated_at')
+    .select(COLUMNS)
     .in('warband_id', warbandIds);
   if (error) throw error;
   return (data as Row[]).map(toPhoto);
@@ -109,16 +128,20 @@ export async function uploadWarbandPhoto(
   warbandId: string,
   ownerId: string,
   image: ProcessedImage,
+  modelId: string | null = null,
 ): Promise<WarbandPhoto> {
-  if (isDemoMode()) return demo.uploadWarbandPhoto(warbandId, ownerId, image);
+  if (isDemoMode()) return demo.uploadWarbandPhoto(warbandId, ownerId, image, modelId);
 
-  const previous = (await fetchWarbandPhotos([warbandId]))[0];
+  const previous = findPhoto(await fetchWarbandPhotos([warbandId]), warbandId, modelId);
 
   // The timestamp is what makes the path fresh, and the owner id must be the
   // second segment, after the prefix — the storage write policies are a
-  // comparison against exactly those two.
+  // comparison against exactly those two. A model adds a segment below that,
+  // which those policies ignore and so already permit.
   const stamp = Date.now();
-  const base = `${PREFIX}/${ownerId}/${warbandId}`;
+  const base = modelId
+    ? `${PREFIX}/${ownerId}/${warbandId}/${modelId}`
+    : `${PREFIX}/${ownerId}/${warbandId}`;
   const storagePath = `${base}/full-${stamp}.webp`;
   const thumbPath = `${base}/thumb-${stamp}.webp`;
 
@@ -139,6 +162,7 @@ export async function uploadWarbandPhoto(
     .upsert(
       {
         warband_id: warbandId,
+        model_id: modelId,
         owner_id: ownerId,
         storage_path: storagePath,
         thumb_path: thumbPath,
@@ -146,9 +170,11 @@ export async function uploadWarbandPhoto(
         height: image.height,
         updated_at: new Date().toISOString(),
       },
-      { onConflict: 'warband_id' },
+      // Matches the 0015 unique index, which is NULLS NOT DISTINCT — so a second
+      // group shot conflicts with the first rather than being inserted beside it.
+      { onConflict: 'warband_id,model_id' },
     )
-    .select('warband_id, storage_path, thumb_path, width, height, updated_at')
+    .select(COLUMNS)
     .single();
   if (error) {
     await supabase.storage.from(BUCKET).remove([storagePath, thumbPath]);
@@ -252,13 +278,22 @@ export async function runPurgeNow(): Promise<number> {
  * is what the UI reads, so deleting it is the moment the photo is gone as far as
  * anyone can tell; the objects becoming briefly orphaned is invisible.
  */
-export async function deleteWarbandPhoto(warbandId: string): Promise<void> {
-  if (isDemoMode()) return demo.deleteWarbandPhoto(warbandId);
+export async function deleteWarbandPhoto(
+  warbandId: string,
+  modelId: string | null = null,
+): Promise<void> {
+  if (isDemoMode()) return demo.deleteWarbandPhoto(warbandId, modelId);
 
-  const existing = (await fetchWarbandPhotos([warbandId]))[0];
+  const existing = findPhoto(await fetchWarbandPhotos([warbandId]), warbandId, modelId);
   if (!existing) return;
 
-  const { error } = await supabase.from('warband_photos').delete().eq('warband_id', warbandId);
+  // `.is` rather than `.eq` for the group shot: SQL equality against NULL is
+  // never true, so `.eq('model_id', null)` matches nothing and the row would
+  // survive while its files were deleted underneath it.
+  const query = supabase.from('warband_photos').delete().eq('warband_id', warbandId);
+  const { error } = await (modelId === null
+    ? query.is('model_id', null)
+    : query.eq('model_id', modelId));
   if (error) throw error;
 
   await supabase.storage.from(BUCKET).remove([existing.storagePath, existing.thumbPath]);

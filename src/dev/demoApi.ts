@@ -661,18 +661,26 @@ export async function revokeCampaignLeadership(
  * tab. Object URLs die with the page, which is the same lifetime as the rest of
  * the demo database.
  */
-const photos = new Map<
-  string,
-  { storagePath: string; thumbPath: string; width: number; height: number; updatedAt: string }
->();
+type DemoPhoto = {
+  warbandId: string;
+  modelId: string | null;
+  storagePath: string;
+  thumbPath: string;
+  width: number;
+  height: number;
+  updatedAt: string;
+};
+
+/** Keyed by subject, mirroring the 0015 unique index. The empty string stands in
+ * for the group shot's null, since a Map key cannot be null and still compare
+ * equal the way NULLS NOT DISTINCT does. */
+const photos = new Map<string, DemoPhoto>();
+
+const photoKey = (warbandId: string, modelId: string | null) => `${warbandId}:${modelId ?? ''}`;
 
 export async function fetchWarbandPhotos(warbandIds: string[]) {
-  return warbandIds
-    .map((id) => {
-      const p = photos.get(id);
-      return p ? { warbandId: id, ...p } : null;
-    })
-    .filter((p): p is NonNullable<typeof p> => p !== null);
+  const wanted = new Set(warbandIds);
+  return [...photos.values()].filter((p) => wanted.has(p.warbandId));
 }
 
 export async function signPhotoUrls(paths: string[]) {
@@ -683,29 +691,34 @@ export async function uploadWarbandPhoto(
   warbandId: string,
   _ownerId: string,
   image: { full: Blob; thumb: Blob; width: number; height: number },
+  modelId: string | null = null,
 ) {
   // Mirrors the real ordering to the extent it can: the previous pair is only
   // released once the new one is recorded.
-  const previous = photos.get(warbandId);
-  const record = {
+  const key = photoKey(warbandId, modelId);
+  const previous = photos.get(key);
+  const record: DemoPhoto = {
+    warbandId,
+    modelId,
     storagePath: URL.createObjectURL(image.full),
     thumbPath: URL.createObjectURL(image.thumb),
     width: image.width,
     height: image.height,
     updatedAt: new Date().toISOString(),
   };
-  photos.set(warbandId, record);
+  photos.set(key, record);
   if (previous) {
     URL.revokeObjectURL(previous.storagePath);
     URL.revokeObjectURL(previous.thumbPath);
   }
-  return { warbandId, ...record };
+  return record;
 }
 
-export async function deleteWarbandPhoto(warbandId: string) {
-  const existing = photos.get(warbandId);
+export async function deleteWarbandPhoto(warbandId: string, modelId: string | null = null) {
+  const key = photoKey(warbandId, modelId);
+  const existing = photos.get(key);
   if (!existing) return;
-  photos.delete(warbandId);
+  photos.delete(key);
   URL.revokeObjectURL(existing.storagePath);
   URL.revokeObjectURL(existing.thumbPath);
 }

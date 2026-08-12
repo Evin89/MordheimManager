@@ -10,7 +10,7 @@ import {
   signPhotoUrls,
   uploadWarbandPhoto,
 } from '../api/photos';
-import { ImageError, processWarbandPhoto } from '../lib/imageProcessing';
+import { ImageError, processPhoto } from '../lib/imageProcessing';
 
 /** Keyed on the sorted id list so two screens asking for the same warbands share
  * one fetch, and a gallery page that has scrolled on doesn't collide with the
@@ -55,13 +55,43 @@ export function useSignedPhotoUrls(paths: string[]) {
  */
 export function useWarbandThumbnails(warbandIds: string[]): Record<string, string> {
   const { data: photos } = useWarbandPhotosQuery(warbandIds);
-  const paths = (photos ?? []).map((p) => p.thumbPath);
-  const { data: urls } = useSignedPhotoUrls(paths);
+  // Group shots only. The query now returns every warrior's photo as well, and
+  // without this filter a warband would show whichever of its models happened to
+  // come back last as its own picture.
+  const groupShots = (photos ?? []).filter((p) => p.modelId === null);
+  const { data: urls } = useSignedPhotoUrls(groupShots.map((p) => p.thumbPath));
+
+  const map: Record<string, string> = {};
+  for (const photo of groupShots) {
+    const url = urls?.[photo.thumbPath];
+    if (url) map[photo.warbandId] = url;
+  }
+  return map;
+}
+
+/**
+ * Every photo in one warband, as a lookup by model id.
+ *
+ * One records fetch and one signing call for a whole roster — a dozen warriors
+ * asking individually would be two dozen requests to draw one screen, which is
+ * exactly the trap the batched API exists to avoid.
+ *
+ * Keyed by model id, with the empty string standing in for the group shot's
+ * null, because an object cannot hold null as a key.
+ */
+export function useRosterPhotos(
+  warbandId: string | undefined,
+  variant: 'thumb' | 'full' = 'thumb',
+): Record<string, string> {
+  const ids = warbandId ? [warbandId] : [];
+  const { data: photos } = useWarbandPhotosQuery(ids);
+  const pick = (p: WarbandPhoto) => (variant === 'thumb' ? p.thumbPath : p.storagePath);
+  const { data: urls } = useSignedPhotoUrls((photos ?? []).map(pick));
 
   const map: Record<string, string> = {};
   for (const photo of photos ?? []) {
-    const url = urls?.[photo.thumbPath];
-    if (url) map[photo.warbandId] = url;
+    const url = urls?.[pick(photo)];
+    if (url) map[photo.modelId ?? ''] = url;
   }
   return map;
 }
@@ -86,14 +116,19 @@ function invalidatePhotos(queryClient: ReturnType<typeof useQueryClient>) {
  * upload that didn't land — and §11.3 requires a failure to say so rather than
  * appear to succeed.
  */
-export function useUploadWarbandPhotoMutation(warbandId: string | undefined) {
+export function useUploadWarbandPhotoMutation(
+  warbandId: string | undefined,
+  modelId: string | null = null,
+) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async (file: File): Promise<WarbandPhoto> => {
-      const image = await processWarbandPhoto(file);
-      return uploadWarbandPhoto(warbandId!, user!.id, image);
+      // A single warrior is cropped square, a group shot 3:2 — §11.3, and the
+      // reason the subject has to be known this early rather than at render.
+      const image = await processPhoto(file, modelId ? 'model' : 'warband');
+      return uploadWarbandPhoto(warbandId!, user!.id, image, modelId);
     },
     onSuccess: () => invalidatePhotos(queryClient),
   });
@@ -155,10 +190,13 @@ export function usePurgeMutation() {
   };
 }
 
-export function useDeleteWarbandPhotoMutation(warbandId: string | undefined) {
+export function useDeleteWarbandPhotoMutation(
+  warbandId: string | undefined,
+  modelId: string | null = null,
+) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: () => deleteWarbandPhoto(warbandId!),
+    mutationFn: () => deleteWarbandPhoto(warbandId!, modelId),
     onSuccess: () => invalidatePhotos(queryClient),
   });
 
