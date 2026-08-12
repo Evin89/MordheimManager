@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { isDemoMode } from '../dev/demoMode';
 
 const url = import.meta.env.VITE_SUPABASE_URL;
 const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -36,4 +37,21 @@ export const missingConfig: string[] = [
 export const supabase = createClient(
   url ?? 'http://supabase-not-configured.invalid',
   anonKey ?? 'missing-anon-key',
+  isDemoMode()
+    ? {
+        /*
+         * Demo mode promises that nothing reaches the database, and until now
+         * that was very slightly untrue: the client refreshes any session it
+         * finds in localStorage the moment it is constructed, before a single
+         * screen renders and regardless of the demo branch in AuthProvider. A
+         * leftover session from real testing on the same origin therefore fired
+         * a token refresh at the live project on every demo page load — usually
+         * a 400, since it had long expired.
+         *
+         * Harmless in effect, misleading in a console: it is exactly the sort of
+         * red herring that costs twenty minutes while debugging something else.
+         */
+        auth: { persistSession: false, autoRefreshToken: false },
+      }
+    : undefined,
 );
