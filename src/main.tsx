@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './auth/AuthProvider';
 import { useConnectionStatus } from './store/useConnectionStatus';
+import { missingConfig } from './lib/supabaseClient';
+import StartupError from './StartupError';
 import App from './App';
 import './index.css';
 
@@ -34,12 +36,23 @@ const queryClient = new QueryClient({
   mutationCache: new MutationCache({ onError: reportConnectionError }),
 });
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </QueryClientProvider>
-  </React.StrictMode>,
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
+if (missingConfig.length > 0) {
+  // Checked before the providers mount, not inside them: AuthProvider talks to
+  // Supabase on its first render, so anything downstream of it would fail on the
+  // way to reporting that it cannot work. Also logged, since a screenshot of the
+  // page is not always what gets sent.
+  console.error(`Missing required configuration: ${missingConfig.join(', ')}`);
+  root.render(<StartupError missing={missingConfig} />);
+} else {
+  root.render(
+    <React.StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </QueryClientProvider>
+    </React.StrictMode>,
+  );
+}

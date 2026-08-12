@@ -169,7 +169,7 @@ Live at **[mordheimmanager.net](https://mordheimmanager.net)**, deployed as a **
 | Deploy command | `npx wrangler deploy` |
 | Build variables | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` |
 
-Those two must be set as **build** variables, not as the Worker's runtime Variables and Secrets. Vite substitutes `import.meta.env` at build time, so a value that only exists at runtime never reaches the bundle — the app builds cleanly and then fails to reach Supabase at all. Both are safe to expose publicly: the anon key grants nothing on its own, since row-level security is what actually gates access.
+Those two must be set as **build** variables, not as the Worker's runtime Variables and Secrets. Vite substitutes `import.meta.env` at build time, so a value that only exists at runtime never reaches the bundle — the app builds cleanly and then fails to reach Supabase at all. This happened on the first Cloudflare deploy, and the app now says so on the page rather than rendering a black rectangle with the explanation in the console: missing configuration is reported by `StartupError`, which names the variables and where they go. Both are safe to expose publicly: the anon key grants nothing on its own, since row-level security is what actually gates access.
 
 Routing and caching are split between two files, deliberately:
 
