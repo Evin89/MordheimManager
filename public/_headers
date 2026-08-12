@@ -1,6 +1,14 @@
 # Cache-Control, in the two places it actually matters.
 #
-# Read by Cloudflare Pages and Netlify both.
+# Read from the assets directory by Cloudflare Workers Static Assets, and from
+# the publish directory by Netlify. Vite copies public/ into dist/ verbatim, so
+# one file serves both.
+#
+# SPA routing is *not* here: it lives in wrangler.toml's `not_found_handling` for
+# Workers and in netlify.toml for Netlify. A `/* /index.html 200` line in a
+# companion _redirects file would do the same job, but redirects are evaluated
+# before headers and win on a match — and a `/*` rule matches /assets/* too,
+# dropping the very header below that those files exist to get.
 
 # The service worker must never be served stale. It is the thing that decides
 # how everything else is cached, so a cached worker pins a cached app — which is

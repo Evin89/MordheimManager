@@ -2,7 +2,7 @@
 
 A mobile-first Progressive Web App for managing Mordheim warbands and campaigns, including Border Town Burning (BTB) supplement content. Online, account-based, backed by Supabase. Installed via "Add to Home Screen" on Android.
 
-**Owner:** Evin — deployed on Cloudflare Pages at `mordheimmanager.net`, built from `main`. The former Netlify deployment at `mordheim.builderbasement.com` still builds from the same branch while the move settles; `public/_redirects` and `public/_headers` are read by both hosts, so neither needs host-specific config beyond its dashboard settings.
+**Owner:** Evin — deployed as a Cloudflare **Worker** serving static assets at `mordheimmanager.net`, built from `main` (`wrangler.toml`). Not a Pages project: the two are grouped together in the dashboard but configured differently, and only the Worker needs a file in the repo. The former Netlify deployment at `mordheim.builderbasement.com` still builds from the same branch while the move settles; `public/_headers` is read by both hosts, while SPA routing is `not_found_handling` on Workers and `netlify.toml` on Netlify.
 
 ---
 

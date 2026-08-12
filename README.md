@@ -161,20 +161,22 @@ If you own the books, please cross-check anything you rely on for a real campaig
 
 ## Deployment
 
-Live at **[mordheimmanager.net](https://mordheimmanager.net)** on Cloudflare Pages, built from this repo's `main` branch. Standard Vite build, no server functions — the backend is Supabase.
+Live at **[mordheimmanager.net](https://mordheimmanager.net)**, deployed as a **Cloudflare Worker serving static assets** — not a Pages project. The two sit together under "Workers & Pages" in the dashboard but take different configuration, and the Worker is the one that needs a file in the repo: [`wrangler.toml`](./wrangler.toml).
 
 | Setting | Value |
 | --- | --- |
 | Build command | `npm run build` |
-| Output directory | `dist` |
-| Environment variables | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` |
+| Deploy command | `npx wrangler deploy` |
+| Build variables | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` |
 
-Both variables are baked in at build time, so changing either needs a redeploy. Both are safe to expose publicly: the anon key grants nothing on its own, since row-level security is what actually gates access.
+Those two must be set as **build** variables, not as the Worker's runtime Variables and Secrets. Vite substitutes `import.meta.env` at build time, so a value that only exists at runtime never reaches the bundle — the app builds cleanly and then fails to reach Supabase at all. Both are safe to expose publicly: the anon key grants nothing on its own, since row-level security is what actually gates access.
 
-Two files in `public/` carry the host configuration, and are read by Cloudflare Pages and Netlify alike:
+Routing and caching are split between two files, deliberately:
 
-- **`_redirects`** — `/* /index.html 200`. Every path in this app is a client-side route, so without it a bookmark, a shared roster link or a refresh on `/rules/blackpowder` is a 404. Status 200 rather than a redirect, so the URL stays as typed and the router can still read it.
-- **`_headers`** — `no-cache` on `/sw.js`, because a cached service worker pins a cached app, which is the shape of the bug that made two correct deploys look broken; and `immutable` on `/assets/*`, whose filenames are content-hashed and can never change meaning.
+- **`wrangler.toml`** sets `not_found_handling = "single-page-application"`. Every path in this app is a client-side route, so a request with no file behind it — a bookmark, a shared roster link, a refresh on `/rules/blackpowder` — must serve `index.html` with a 200, or the router never gets to read the URL.
+- **`public/_headers`** sets `no-cache` on `/sw.js`, because a cached service worker pins a cached app, which is the shape of the bug that made two correct deploys look broken; and `immutable` on `/assets/*`, whose filenames are content-hashed and can never change meaning. Workers reads this from the assets directory, Netlify from the publish directory, and Vite copies `public/` into `dist/` verbatim, so one file serves both.
+
+A `_redirects` file with `/* /index.html 200` would also give SPA routing, and was the first attempt. It came out again: redirects are evaluated *before* headers and win on a match, so a rule matching `/*` matches `/assets/*` too and would drop the immutable header those files exist to get. `not_found_handling` only engages when nothing was found, so the two never interact.
 
 The old Netlify deployment at `mordheim.builderbasement.com` still builds from the same branch — `netlify.toml` is kept, and the two files above work there too — so the move is reversible until the DNS is retired.
 

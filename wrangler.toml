@@ -1,0 +1,27 @@
+# Cloudflare Workers Static Assets.
+#
+# This project deploys as a *Worker* serving static assets, not as a Pages
+# project — the two are grouped under "Workers & Pages" in the dashboard but take
+# different configuration, and a Worker is the one that needs a file in the repo.
+#
+# Netlify is unaffected and still builds from netlify.toml.
+
+name = "mordheimmanager"
+compatibility_date = "2026-08-11"
+
+[assets]
+# Vite's build output. Everything in public/ is copied in here verbatim, which is
+# how _headers arrives alongside the built bundle.
+directory = "./dist/"
+
+# SPA routing. Every path in this app is a client-side route, so a request with
+# no file behind it — a bookmark, a shared roster link, a refresh on
+# /rules/blackpowder — must serve index.html with a 200 rather than a 404, or
+# the router never gets to read the URL.
+#
+# Deliberately this rather than a `/* /index.html 200` line in _redirects, which
+# would do the same job: redirects are evaluated *before* headers and win on a
+# match, and a rule matching `/*` matches /assets/* too — which would drop the
+# immutable caching header those files exist to get. `not_found_handling` only
+# engages when nothing was found, so the two never interact.
+not_found_handling = "single-page-application"
