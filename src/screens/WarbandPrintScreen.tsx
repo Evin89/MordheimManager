@@ -89,9 +89,30 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-function equipmentText(equipment: EquipmentItem[]): string {
-  if (equipment.length === 0) return strings.print.none;
-  return equipment.map((e) => e.name).join(', ');
+/*
+ * Reading a stored warband defensively.
+ *
+ * `types.ts` declares these fields required, and they are — for a warband saved
+ * *today*. A roster written before a field existed simply has no key for it, and
+ * TypeScript cannot see that, because the type describes the shape the app now
+ * writes rather than every shape already sitting in the database.
+ *
+ * This screen learned it the hard way: `model.spells.map(...)` threw on a real
+ * mid-campaign warband whose heroes predate spells, and since the throw happens
+ * during render with no error boundary above it, the whole page went blank. The
+ * detail screens already read `model.spells ?? []` for the same reason.
+ *
+ * A printed sheet is exactly where this matters most: it is the oldest warbands,
+ * the ones with the most history, that are least likely to have every modern
+ * field — and most likely to be worth printing.
+ */
+const list = <T,>(value: T[] | undefined | null): T[] => value ?? [];
+const text = (value: string | undefined | null): string => (value ?? '').trim();
+
+function equipmentText(equipment: EquipmentItem[] | undefined): string {
+  const items = list(equipment);
+  if (items.length === 0) return strings.print.none;
+  return items.map((e) => e.name).join(', ');
 }
 
 /**
@@ -107,11 +128,13 @@ function WarriorBlock({ model, photoUrl }: { model: Hero | HiredSword; photoUrl?
   // weapon goes here in the order you would have written it: what he can do,
   // then what is wrong with him.
   const notes = [
-    ...model.skills,
-    ...model.spells.map((id) => getSpell(id)?.name).filter((n): n is string => !!n),
-    ...model.injuries.map((i) => i.name),
+    ...list(model.skills),
+    ...list(model.spells)
+      .map((id) => getSpell(id)?.name)
+      .filter((n): n is string => !!n),
+    ...list(model.injuries).map((i) => i.name),
     ...(model.status === 'missNextGame' ? [strings.print.missNextGame] : []),
-    ...(model.notes.trim() ? [model.notes.trim()] : []),
+    ...(text(model.notes) ? [text(model.notes)] : []),
   ];
 
   return (
@@ -167,8 +190,8 @@ function WarriorBlock({ model, photoUrl }: { model: Hero | HiredSword; photoUrl?
  * and cannot carry individual wounds. */
 function HenchmenBlock({ group, photoUrl }: { group: HenchmenGroup; photoUrl?: string }) {
   const notes = [
-    ...group.advances.map((a) => a.detail),
-    ...(group.notes.trim() ? [group.notes.trim()] : []),
+    ...list(group.advances).map((a) => a.detail),
+    ...(text(group.notes) ? [text(group.notes)] : []),
   ];
 
   return (
@@ -248,8 +271,8 @@ function Summary({ title, rows }: { title: string; rows: [string, string | numbe
  * n x 5 — see `strings.print.membersLine`.
  */
 function ratingBreakdown(warband: Warband) {
-  const heroes = warband.heroes.filter((h) => isInWarband(h.status));
-  const swords = warband.hiredSwords.filter((s) => isInWarband(s.status));
+  const heroes = list(warband.heroes).filter((h) => isInWarband(h.status));
+  const swords = list(warband.hiredSwords).filter((s) => isInWarband(s.status));
 
   let experience = 0;
   let models = 0;
@@ -260,7 +283,7 @@ function ratingBreakdown(warband: Warband) {
     models += 1;
     if (m.isLargeCreature) largeCreatures += 1;
   }
-  for (const g of warband.henchmenGroups) {
+  for (const g of list(warband.henchmenGroups)) {
     // Group Experience is what *each* member carries, so it counts per model.
     experience += g.xp * g.count;
     models += g.count;
@@ -317,9 +340,9 @@ export default function WarbandPrintScreen() {
   }
   if (!warband) return <Navigate to="/warbands" replace />;
 
-  const heroes = warband.heroes.filter((h) => isInWarband(h.status));
-  const swords = warband.hiredSwords.filter((s) => isInWarband(s.status));
-  const groups = warband.henchmenGroups.filter((g) => g.count > 0);
+  const heroes = list(warband.heroes).filter((h) => isInWarband(h.status));
+  const swords = list(warband.hiredSwords).filter((s) => isInWarband(s.status));
+  const groups = list(warband.henchmenGroups).filter((g) => g.count > 0);
   const totals = ratingBreakdown(warband);
   const empty = heroes.length === 0 && swords.length === 0 && groups.length === 0;
 
@@ -468,8 +491,8 @@ export default function WarbandPrintScreen() {
           <p className="font-heading-sc uppercase tracking-[0.08em] text-ink text-xs mb-1">
             {strings.print.notes}
           </p>
-          {warband.notes.trim() && (
-            <p className="text-ink text-sm whitespace-pre-wrap mb-1">{warband.notes.trim()}</p>
+          {text(warband.notes) && (
+            <p className="text-ink text-sm whitespace-pre-wrap mb-1">{text(warband.notes)}</p>
           )}
           <div className="space-y-3 pt-1">
             {[0, 1, 2].map((i) => (

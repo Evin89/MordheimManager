@@ -41,12 +41,18 @@ export type ProfileBlockProps = {
  * - Cell padding shrinks on narrow screens, never the font size. §5.4 sets a
  *   14px floor for statline numbers and prefers dropping padding to fit nine
  *   columns on a phone, so the type size is fixed and only the gaps give.
- * - `collapsed` is that phone compromise, and only that. Past `sm` it relaxes
- *   back to the printed density and fills its container — a shrink-wrapped
- *   200px table with 4px cells sitting in a 900px card reads as a screenshot of
- *   the mobile app rather than as a statline. Width is left to the context: in
- *   a block parent (a roster row) it spans, and as a flex sibling (the design
- *   sandbox, where the block sits beside a name) it still shrink-wraps.
+ * - `collapsed` differs from `full` in *density*, never in width. Both fill
+ *   their container; collapsed simply spends less on padding and stays at the
+ *   §5.4 stat floor rather than growing to 16px.
+ *
+ *   It was briefly `inline-block` below `sm`, which shrink-wrapped the table to
+ *   its content — about 198px, or 60% of a phone card, with the rest of the row
+ *   empty. That was a half-fix: the first pass relaxed the desktop case and left
+ *   the phone one narrow, which is the width that mattered most. Width is now
+ *   left entirely to context, so a block parent (a roster row) gets a full-width
+ *   statline at every size, while a flex sibling (the design sandbox, where the
+ *   block sits beside a name) still shrink-wraps because flex items size to
+ *   their content.
  * - The heavy 2px outer border with a thin inner rule is drawn as a border plus
  *   a ring, so it survives the table's own border-collapse.
  */
@@ -62,7 +68,7 @@ export default function ProfileBlock({
   const editable = onStatChange !== undefined;
 
   return (
-    <div className={collapsed ? 'inline-block sm:block' : 'w-full'}>
+    <div className={collapsed ? 'block' : 'w-full'}>
       {label && (
         <p className="font-heading-sc text-ink text-stat-min uppercase tracking-[0.08em] mb-1">{label}</p>
       )}
