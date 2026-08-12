@@ -6,13 +6,21 @@ import { VitePWA } from 'vite-plugin-pwa';
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
 
 // Stamped into the bundle so an issue report says which build it came from.
-// Each host names this differently — Netlify sets COMMIT_REF, Cloudflare Pages
-// sets CF_PAGES_COMMIT_SHA — and reading only one of them means every build from
-// the other reports itself as "dev", which is exactly the case where knowing the
-// build matters. Locally there is no commit, and "dev" is then the honest answer
-// rather than a fake hash.
+//
+// Every host names this differently, and getting it wrong fails silently — the
+// build succeeds and simply reports "dev", which is precisely the case where
+// knowing the build mattered. Verified against the live deploy rather than
+// assumed: Workers Builds sets WORKERS_CI_COMMIT_SHA, and reading only Pages'
+// CF_PAGES_COMMIT_SHA stamped the first Cloudflare deploy as "dev".
+//
+// Locally there is no commit at all, and "dev" is then the honest answer rather
+// than a fake hash.
 const COMMIT =
-  process.env.CF_PAGES_COMMIT_SHA ?? process.env.COMMIT_REF ?? process.env.GITHUB_SHA ?? 'dev';
+  process.env.WORKERS_CI_COMMIT_SHA ?? // Cloudflare Workers Builds — this deploy
+  process.env.CF_PAGES_COMMIT_SHA ?? // Cloudflare Pages
+  process.env.COMMIT_REF ?? // Netlify
+  process.env.GITHUB_SHA ?? // GitHub Actions
+  'dev';
 const APP_VERSION = `${pkg.version}+${COMMIT.slice(0, 7)}`;
 
 export default defineConfig({
