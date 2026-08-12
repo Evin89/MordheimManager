@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
@@ -23,7 +23,58 @@ const COMMIT =
   'dev';
 const APP_VERSION = `${pkg.version}+${COMMIT.slice(0, 7)}`;
 
-export default defineConfig({
+/** Without these the app cannot reach its database at all. */
+const REQUIRED_ENV = ['VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY'];
+
+/**
+ * Refuses to produce a build that cannot work.
+ *
+ * `import.meta.env` is substituted here, at compile time, so a value supplied
+ * only to the *running* host arrives far too late — and the build then succeeds,
+ * uploads, and serves an app with no database. That is not a hypothetical: it is
+ * how the first Cloudflare deploy went out.
+ *
+ * The failure is worse than it sounds, because a build missing these produces a
+ * byte-identical bundle to the last one that was also missing them — same
+ * content, same hash. From the outside, "the build never ran" and "the build ran
+ * and still could not see the variables" are indistinguishable. Failing here
+ * collapses the two: either the deploy is good, or the build log says exactly
+ * which variable was absent.
+ *
+ * `vite dev` is exempt — a contributor should be able to start the app and read
+ * the rules without an account. `ALLOW_UNCONFIGURED_BUILD=1` is the deliberate
+ * escape hatch, used to exercise the StartupError screen itself.
+ */
+function assertConfigured(env: Record<string, string>) {
+  const missing = REQUIRED_ENV.filter((key) => !env[key]);
+  if (missing.length === 0 || env.ALLOW_UNCONFIGURED_BUILD) return;
+
+  throw new Error(
+    [
+      '',
+      `Refusing to build: ${missing.join(' and ')} ${missing.length === 1 ? 'is' : 'are'} not set.`,
+      '',
+      'These are substituted into the bundle at build time, so they must be set as',
+      'BUILD variables, not as the host\'s runtime variables/secrets:',
+      '',
+      '  Cloudflare Workers  Settings -> Build -> Build variables and secrets',
+      '  Netlify             Site configuration -> Environment variables',
+      '  Locally             copy .env.example to .env.local',
+      '',
+      'Set ALLOW_UNCONFIGURED_BUILD=1 to build anyway (the app will render its',
+      '"Not configured" screen instead of starting).',
+      '',
+    ].join('\n'),
+  );
+}
+
+export default defineConfig(({ command, mode }) => {
+  // Third argument '' loads every variable, not just the VITE_-prefixed ones, so
+  // the escape hatch above is visible here too.
+  const env = loadEnv(mode, process.cwd(), '');
+  if (command === 'build') assertConfigured(env);
+
+  return {
   define: {
     __APP_VERSION__: JSON.stringify(APP_VERSION),
   },
@@ -137,4 +188,5 @@ export default defineConfig({
       },
     }),
   ],
+  };
 });
