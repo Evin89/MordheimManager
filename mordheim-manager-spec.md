@@ -798,7 +798,7 @@ Either way: the create/rename form checks availability as the user types (deboun
 
 One photo per warband (group shot) and per hero, henchmen group and hired sword. Painted miniatures are half the hobby — this is the feature that makes a roster feel like *your* warband.
 
-✅ **The warband group shot is built** (migration 0013). ◻️ Per-model photos are not.
+✅ **Both are built** — the warband group shot (migration 0013) and per-model portraits for heroes, hired swords and henchmen groups (0015).
 
 ⚠️ **The record does not live in the warband jsonb**, contrary to §11.1. That plan needed a `photo_index` table anyway, purely so Storage RLS could resolve ownership — and §11.2 then called keeping that index in step with the blob "the fragile part". So `warband_photos` *is* the record, and there is only one copy to keep in step. Two further reasons, both specific to this app:
 
@@ -869,9 +869,9 @@ A modern phone camera produces 4–12 MB images. Uploading those raw is the sing
 
 1. ✅ Bucket + storage RLS + `warband_photos` (0013).
 2. ✅ The processing pipeline as `lib/imageProcessing.ts` — `createImageBitmap` with `imageOrientation: 'from-image'` decodes and un-rotates in one step, and a canvas re-encodes to WebP, so §11.3 needs no dependency at all. Verified in demo mode: a 5.5 MB 3000×2000 PNG became a 13 kB 1600×1067 WebP with a 3 kB 480×320 thumbnail at exactly 3:2; a 1200×1200 source stayed 1200×1200 rather than being upscaled. Both failure paths report rather than fail silently — a text file named `.jpg`, a `.heic`, and a 21 MB input each produce their own message.
-3. ✅ Wired into the roster (owner controls) and the warband list (thumbnails). ◻️ Hero, henchmen groups and hired swords.
+3. ✅ Wired into the roster (owner controls) and the warband list (thumbnails), and ✅ into heroes, hired swords and henchmen groups — each with its own portrait, cropped 1:1 against the group shot's 3:2, and carried onto the printed sheet (§4.1.1).
 4. ✅ Deletion cleanup, via the 30-day purge and its drain queue (0014, §10.5). ◻️ The quota check — nothing warns as the 1 GB storage or 2 GB monthly egress limits approach, and `admin_stats()` does not report either.
-5. ◻️ Tested on a real Android phone and iPhone. Everything above was verified in a desktop browser with synthesised images; the camera path, the `capture` hint and real HEIC behaviour have not been exercised on a phone.
+5. ⚠️ Tested on a real **Android** phone (Galaxy S25) — camera capture, upload and per-model portraits all confirmed by the owner. ◻️ **iPhone is still untested**, which is where the interesting failure lives: HEIC is the one input the pipeline deliberately refuses rather than decodes (§11.3), and nothing has yet confirmed iOS actually hands over JPEG in the common case.
 
 ⚠️ **Not a crop UI.** §11.3 asks for one; the thumbnail is centre-cropped to 3:2 instead. That is what makes a row of cards line up, and a miniature is almost always in the middle of the frame — but choosing *which* part of a photo to show is a real feature and this is not it.
 
@@ -1248,7 +1248,7 @@ Every caster in the app now has its list: **13 wired**, and no list is left with
 
 Deliberate, with reasons. Kept here rather than in a tracker so the spec and the truth stay in one file.
 
-**Unbuilt sections:** §10 (deletion and naming), §11 (photos), and the §12/§13 work are gaps by definition and aren't repeated here.
+**Unbuilt sections:** the §12/§13 work, and §17–§21 in full, are gaps by definition and aren't repeated here.
 
 
 - **Offline.** There is none, by design — data is server-side and the app requires a connection. Asset caching is a separate question, and is handled (§2).
@@ -1269,3 +1269,343 @@ Deliberate, with reasons. Kept here rather than in a tracker so the spec and the
 - **Hired Sword rating** is approximated with the 5/20-per-model formula rather than the rulebook's per-type bonuses. §3.2.
 - **Touch targets below 48px** on tabs, Buy, and the rules filters. §5.4.
 - **Seven bottom tabs** is one or two more than comfortable on a narrow phone. §4.
+
+
+---
+
+## 17. Campaign flavour features ◻️
+
+Four additions to make a campaign read as a story, not just a stat sheet. All four follow §1's non-goal — no automated rules enforcement, warnings only where a mistake is silent — and reuse the existing patterns: campaign-membership RLS (§8.3), the `Campaign`/`CampaignMember` shapes already in `src/types.ts`, and `ConfirmByTyping` (§10.1) for anything destructive.
+
+**Suggested build order:** 17.4 (Awards) → 17.2 (Rivalries) → 17.3 (Narrative log) → 17.1 (Territory). Awards need zero new tables and validate the read patterns; rivalries are read-mostly with one small write; the narrative log is a straightforward new table on a well-worn RLS shape; territory is the only one with real write contention (several players claiming the same thing) and benefits from going last.
+
+### 17.1 Territory control ◻️
+
+Mordheim's territory rules are themselves campaign-variant and often house-ruled, so the app tracks **who controls what**, not income or effects — matching the treatment Exploration already gets in §16 ("persistent effects ... not fed back ... doing it properly means real fields and a migration, deferred").
+
+```ts
+type Territory = {
+  id: string;
+  campaignId: string;
+  name: string;              // "The Wyrdstone Mine", or a player-typed name
+  territoryType?: string;    // free text; not validated against a table —
+                             // house rules vary the list too much to enumerate
+  controlledByWarbandId: string | null;  // null = contested/unclaimed
+  controlledSince: string | null;        // ISO date, set on claim
+  notes: string;             // income, effects — left prose, same reasoning as §16
+};
+```
+
+**Schema**
+
+```
+territories   id, campaign_id, name, territory_type, controlled_by_warband_id (nullable),
+              controlled_since, notes, created_at
+```
+
+**RLS** — the same shape as `campaign_events` (§8.3): read follows the parent campaign's rule; insert by any member (claiming or adding a territory); update (reassigning control) by any member, since territory changes hands at the table rather than through a leader approval step; delete by the creator or the leader, as with events.
+
+- `controlled_by_warband_id` is a foreign key, not a free-text player name, so a warband that leaves the campaign or is deleted does not orphan a territory silently — it returns to `null` via `ON DELETE SET NULL`, the same instinct as the 0003 trigger unlinking warbands from standings on leave.
+
+**Screen**
+
+- A new panel on `/campaign/:id`, likely a fourth tab (Log / Standings / Players / Territory) rather than folded into Players — territory is per-campaign state, not per-member.
+- A list of territories, each showing its current holder (or "Unclaimed") and a Claim / Reassign action: a simple picker of the campaign's warbands, with no confirm step, since it is non-destructive and any member can reverse it.
+- The leader can add and remove entries; the type-to-confirm panel (§10.1) applies to removal, which *is* destructive to campaign state.
+
+❓ **Open question** — whether claiming should be leader-gated (so disputes are settled at the table rather than in-app) or open to any member. Leaning **open**, consistent with §1: the app records the outcome of a decision made elsewhere, it does not adjudicate one.
+
+### 17.2 Rivalries / nemesis tracking ◻️
+
+Mostly derived rather than new state — `BattleRecord.opponents` already exists (§3.1) — plus one small explicit field for the part that cannot be derived: which rivalry a player actually cares about.
+
+```ts
+// Computed, not stored — src/lib/rivalries.ts
+type RivalryRecord = {
+  opponentWarbandId: string;
+  opponentWarbandName: string;
+  wins: number; losses: number; draws: number;
+  lastBattleDate: string;
+};
+
+// The one new field, added to Warband (§3.1)
+nemesisWarbandId?: string;   // player-designated; never implied by battle count
+```
+
+**Why not a table:** a rivalry's W/L/D is arithmetic over the campaign's existing `battles` rows, matched by warband id because the pre-battle flow already picks an opponent from the campaign roster (§4.3). Materialising it would be a second copy of what the log already holds — the same reasoning that kept `rating` as the only denormalised column (§8.2).
+
+**Schema change:** one nullable column, `warbands.nemesis_warband_id`. No RLS change; it is covered by the existing owner-only warband UPDATE policy.
+
+**Screen**
+
+- A Rivalries card on the warband detail screen and/or the campaign Standings tab: opponents ranked by battles fought, with W/L/D each, computed client-side from the campaign's `battles` array — the same array `useStandingsQuery` already derives W/L/D from (§4.5), so this reuses a fetch that is already happening.
+- A "Mark as nemesis" action on any row past a small threshold (2+ battles). Purely cosmetic — a badge on the standings row — so it needs no enforcement and no confirm.
+
+❓ **Open question** — campaign-scoped only, or across a player's standalone battles too? **Recommend campaign-scoped.** Cross-campaign rivalry needs a canonical "same person" identity that opponents-as-text cannot guarantee.
+
+### 17.3 Campaign narrative log ◻️
+
+A free-text log distinct from `BattleRecord`: entries between games, side notes, things that happened at the table that are not a win or a loss. The same instinct as `campaign_events` splitting off from the Players tab (§4.5) — battle records are a tally, this is a story, and the two do not want the same screen.
+
+```ts
+type CampaignLogEntry = {
+  id: string;
+  campaignId: string;
+  authorId: string;
+  authorDisplayName: string;   // denormalised for the list, same reasoning as
+                               // StandingsRow (§3.1) — avoids a join per row
+  title: string;
+  body: string;
+  battleId?: string;           // optional link to the BattleRecord it narrates
+  createdAt: string;
+};
+```
+
+**Schema**
+
+```
+campaign_log_entries   id, campaign_id, author_id, title, body, battle_id (nullable, FK),
+                       created_at
+```
+
+**RLS** — identical in shape to `campaign_events` and `battles`: SELECT follows the parent campaign rule; INSERT by any member; UPDATE/DELETE by the author or the leader. `battle_id` is a nullable FK with `ON DELETE SET NULL`, so removing a battle record does not take the narrative with it — matching §10.4's "battles stay, they are campaign history".
+
+**Screen**
+
+- Folds into the existing Log tab on `/campaign/:id`, interleaved chronologically with battle records rather than taking a tab of its own. This is the one place a fifth tab would be one too many, and the Log tab is already "things that happened over time", which a narrative entry is.
+- Composer: title, body, and an optional link to one of the campaign's last ~10 battles.
+- The drop-cap styling in §5.3 ("used with restraint ... on campaign-log battle narratives") already exists for this — the design language anticipated the feature before it had a table.
+
+**Non-goal:** no rich text and no images. Photos are their own §11 effort with their own storage and moderation cost; this is plain body text, like every other `notes` field in the schema.
+
+### 17.4 Awards & titles ◻️
+
+Pure read: aggregates over data that already exists, zero new tables and zero new writes. The safest of the four to build first, because it validates nothing more than a query.
+
+```ts
+// Computed client-side or via RPC — src/lib/awards.ts
+type CampaignAward = {
+  id: string;              // 'most-wyrdstone' | 'longest-streak' | ...
+  title: string;           // "Wyrdstone Baron"
+  holderWarbandId: string;
+  holderWarbandName: string;
+  value: string;           // "14 shards found" — pre-formatted, not a raw number,
+                           // since each award's unit differs
+};
+```
+
+Candidates, all derivable from `battles` plus `warbands.rating`:
+
+- **Most wyrdstone found** — sum of `BattleRecord.wyrdstoneFound` per warband.
+- **Longest win streak** — consecutive `result: 'win'` in date order.
+- **Most battles fought.**
+- **Highest rating** — reads the denormalised column directly (§3.2), no computation.
+- **Bloodiest** — most models lost, *if* that ends up tracked per battle. `casualtiesSummary` is free text today (§3.1), so this one may have to wait or stay off the list.
+
+**Screen** — a small Campaign Awards card on the Standings tab, beside or above the table. A handful of badges, not a screen of its own, recomputed on every Standings load from the `battles` array already fetched.
+
+**No persistence:** an award is a snapshot of current standings, not an achievement earned and locked in, so nothing needs to survive a warband's stats changing later.
+
+❓ **Open question** — "Bloodiest" needs `casualtiesSummary` to stop being free text before it can be computed honestly. Either drop it, or add a `casualtiesCount` number alongside the existing prose. Additive, with no migration of old rows needed: it defaults to null and simply does not participate until populated.
+
+### 17.5 Cross-cutting notes
+
+- None of the four need new bottom-tab space except optionally Territory — §4 already flags seven tabs as tight (conflict 7). Rivalries and Awards live on screens that exist, and the narrative log folds into an existing tab.
+- The RLS pattern is reused twice more (territory, log entries) and is exactly the `campaign_events` one: read by campaign membership, write by member, delete by author-or-leader. Worth extracting into a helper if a fourth table ever needs it, rather than hand-copying a fourth time.
+- **Indexes:** add `territories (campaign_id)` and `campaign_log_entries (campaign_id, created_at)` to the same pre-scale-test batch as §8.2's list, since both are read once per campaign-screen load.
+
+---
+
+## 18. Roster & model depth ◻️
+
+Three additions that make individual models feel lived-in without touching rating or rules mechanics, so none of them trip §1's non-goal.
+
+### 18.1 Model nicknames & epitaphs ◻️
+
+Two small text fields, no new tables.
+
+```ts
+// Added to Hero, HiredSword (§3.1)
+nickname?: string;       // "One-Eye", shown beside the given name
+
+// Added to Injury (§3.1) — only meaningful when the injury is 'dead'
+lastWords?: string;      // epitaph, written at the point of death
+```
+
+**Screen:** the nickname is an editable field on the detail screen header, shown in parentheses after the name everywhere the name renders — roster row, print sheet, gallery. The epitaph is a one-line prompt that appears **only** in the post-battle wizard's Dead Models step (§4.3 step 5) when a model is marked dead: the moment it is narratively relevant, rather than a field sitting unused on every living model.
+
+No RLS change (both live in the existing `warbands.data` jsonb) and no rating effect.
+
+### 18.2 Equipment history log ◻️
+
+A per-model append-only log of gear gained and lost, distinct from the `equipment: EquipmentItem[]` snapshot (§3.1), which only ever shows *now*.
+
+```ts
+type EquipmentLogEntry = {
+  id: string;
+  itemName: string;
+  action: 'acquired' | 'lost' | 'sold' | 'destroyed';
+  date: string;             // ISO date
+  context?: string;         // "Found in Exploration", "Sold at half price"
+};
+
+// Added to Hero, HenchmenGroup, HiredSword
+equipmentLog: EquipmentLogEntry[];
+```
+
+**Where it is written:** not a new form — a side effect of actions that already exist (trading post purchase and sale, the post-battle equipment-to-treasury step, dead-model cleanup). Each call site appends one entry instead of asking the player to log anything, matching the wizard's staged-then-committed pattern (§4.3).
+
+**Screen:** collapsed by default under the model's Equipment block, behind a History toggle. Read-only — it is a log, not a field.
+
+❓ **Open question** — existing warbands have no history to backfill. Either leave it empty and let it fill from here forward (**recommended**, matching how `xpThresholds` and `racialMaximums` gaps were closed forward rather than invented), or seed one entry per current item stamped "as of". Prefer the former: a fabricated history is worse than a short one.
+
+### 18.3 Warband rating over time ◻️
+
+Already flagged as a nice-to-have in §4.5. Needs one new table, not a new column — rating already recomputes on every save (§3.2); this keeps the old values.
+
+```
+warband_rating_history   warband_id, rating, recorded_at
+```
+
+Written by a trigger on `warbands` `AFTER UPDATE OF rating` — append-only, never written by the application layer. Same reasoning as the purge queue in §10.5: a durable side effect belongs in the database, not in every call site that might change rating.
+
+**Screen:** a line chart on the warband detail screen and on the campaign Standings tab (one line per warband).
+
+**RLS:** SELECT follows the same rule as `warbands` SELECT (§8.3) — if you can read the warband you can read its history. **No INSERT/UPDATE/DELETE policy at all**; only the trigger writes it, exactly as §11.2's storage policies omit UPDATE on purpose rather than by oversight.
+
+---
+
+## 19. Social & multiplayer ◻️
+
+### 19.1 Event RSVPs ◻️
+
+Extends `campaign_events`, whose three screens are now built (§4.5), rather than adding a table.
+
+```ts
+type EventRsvp = {
+  eventId: string;
+  userId: string;
+  status: 'going' | 'not_going' | 'maybe';
+  respondedAt: string;
+};
+```
+
+**Schema:** `campaign_event_rsvps (event_id, user_id, status, responded_at)`, composite PK `(event_id, user_id)` — one row per member per event, upserted on change.
+
+**RLS:** SELECT follows the parent event's campaign-membership rule; a member may INSERT/UPDATE **only their own row** (`user_id = auth.uid()`), mirroring the self-leave policy on `campaign_members` (§8.3).
+
+**Screen:** a three-button row (Going / Maybe / Can't make it) on `/campaign/events/:id` and inline on the list row. The next-upcoming banner gains a "4 going, 1 maybe" count.
+
+### 19.2 Gallery comments ◻️
+
+The riskiest item on this list. Moderation is why §11.5 spent a paragraph narrowing photo visibility to signed-in users, and a comment box is a strictly larger moderation surface than a photo: unbounded free text attached to a resource that anonymous visitors can read.
+
+```
+warband_comments   id, warband_id, author_id, body, created_at, deleted_at (nullable)
+```
+
+**RLS:** SELECT signed-in only, with no `anon` policy — the same decision as photos (§11.5). The gallery stays anonymously readable for names, types and ratings; comments do not extend that. INSERT by any authenticated user, not only campaign members, since this is the public gallery. UPDATE (soft-delete via `deleted_at`) by the author or an admin.
+
+**Moderation** reuses the `issue_reports` shape (§4.9): a Report action files into the same table with a `context` blob naming the comment, so the existing admin inbox handles it without a second one. Admins get a hide action alongside triage.
+
+❓ **Recommendation** — given the moderation cost, and that this is the one feature here with no precedent for a solo-maintained app absorbing ongoing abuse handling, ship RSVPs, announcements and the §17.3 narrative log first. Revisit comments only if the gallery grows past the size where an admin can plausibly handle them by hand.
+
+### 19.3 Leader announcements ◻️
+
+A single pinned note per campaign, not a feed — deliberately smaller than a comment system, and a field rather than a table.
+
+```ts
+// Added to Campaign (§3.1)
+pinnedAnnouncement?: { body: string; postedAt: string; postedBy: string };
+```
+
+**Schema:** two nullable columns on `campaigns` rather than a jsonb blob — it is one value, not a collection, so it does not want the `objectives`-style separate table.
+
+**RLS:** covered by the existing leader-only `campaigns` UPDATE policy (§8.3). No new policy.
+
+**Screen:** a banner at the top of `/campaign/:id`, above the tabs, dismissible **per session rather than per account** — it reappears next visit, deliberately, so a leader can always reach the group without anyone building a notification system.
+
+### 19.4 Push notifications ◻️
+
+The largest infrastructure lift here. The PWA groundwork (§2) supports it, but nothing in the stack sends anything today. Two triggers are worth having: an event within 24 hours, and a campaign-mate reporting a battle. Both read data that already exists.
+
+**Requires:** a service worker push handler (new — the current worker is caching-only, §2), a `push_subscriptions` table (`user_id`, `endpoint`, `keys`; one row per device), and a server-side sender, which this project has never had — every write today comes from the client (§8.4). A Supabase Edge Function driven by `pg_cron` for reminders and by a `battles` insert webhook for the second case is the natural fit, consistent with the pg_cron precedent set by the purge job (§10.5).
+
+❓ **Open question** — this is meaningfully bigger than everything else in §17–§20 combined: the first server-side compute the project has needed, against every other feature being schema, RLS and client screens. **Scope it last, and scope the reminder case only at first** — that needs no inbound trigger, just a cron job reading `campaign_events`, whereas the battle-reported case needs a database webhook wired to the function: a second moving part, and a second thing to debug at a distance.
+
+---
+
+## 20. Utility ◻️
+
+### 20.1 Standalone dice roller ◻️
+
+No schema, no RLS, no persistence — a component, not a feature with state.
+
+**Screen:** a small persistent control opening a picker: die type (D3 / D6 / D66 / 2D6 / D100), count, modifier. Shows the result large and keeps a short in-memory history for the session, cleared on navigation. Reuses `src/lib/dice.ts`, already built for spells, injuries, advances and exploration (§15.3) — a UI wrapper around an existing utility, not new roll logic.
+
+**Why it is separate** from the roll-or-pick pattern elsewhere: every other roller in the app is scoped to a table and writes its result into a model. This one writes nothing. It is for a house rule or a moment the app does not model, which is exactly why it needs no state.
+
+### 20.2 Warband comparison tool ◻️
+
+Read-only and client-side: pick two warbands and render their `ProfileBlock`s (§5.3) side by side, with a rating / gold / composition summary above.
+
+**Screen:** a new route, `/compare?a={id}&b={id}`, reachable from the campaign Standings row and the warband list. No new tables — it fetches the same rows the detail screen already fetches, so RLS is whatever already governs reading each warband (§8.3). Comparing a private warband you cannot read fails exactly as opening it directly would.
+
+### 20.3 "What can I afford" filter ◻️
+
+A client-side filter on data already loaded — no schema, no query change. A toggle on the trading post list, filtering the fetched catalogue against the warband's current gold. For rare items, which carry a price *range* rather than a fixed price (§4.4), the filter uses the range's minimum, since the actual price is not known until it is rolled.
+
+---
+
+## 21. Bigger swings ◻️
+
+Kept separate because each is a different order of magnitude from §17–§20 and deserves its own scoping pass.
+
+### 21.1 Per-model photos ✅ — built
+
+Specced in §11 and **now built** (migration 0015): heroes, hired swords and henchmen groups each carry a portrait, cropped 1:1 against the group shot's 3:2, wired into the roster rows, the detail screens and the printed sheet (§4.1.1). Listed here only because it appeared on the original wish-list; §11.6 carries the remaining photo work, which is the iPhone/HEIC path and the storage quota check.
+
+### 21.2 Custom / house-rule warband builder ◻️
+
+The largest undertaking on any list so far, and **in tension with the project's core discipline**. §3.3's sourcing rule — "populate from the rulebook ... do not generate stat lines, prices, or table entries from memory" — exists precisely because the data is curated rather than user-authored. A builder inverts that: every custom warband is unverified by construction, and the racial-maximums, equipment-list and weapon-limit machinery (§9, §3.2) all assume a `WarbandDefinition` that came from `warbandRegistry.ts` rather than from a form.
+
+If pursued, **scope narrowly first.** A "custom" type that clones an existing warband's slot, equipment and racial-maximum structure — clone-and-rename, not build-from-scratch — is a far smaller lift and sidesteps most of the sourcing-integrity problem, because the numbers are still ones the rulebook printed, merely reassigned. A true from-scratch builder with custom stat lines and costs is a different and much larger feature, and wants its own spec document rather than a subsection here.
+
+### 21.3 Scenario generator ◻️
+
+Smaller than it sounds, and fits the roll-or-pick pattern exactly (§1, §15.3): a picker feeding the existing pre-battle screen (§4.3), not a new subsystem.
+
+```ts
+type ScenarioWeight = {
+  scenarioId: string;           // from scenarios.json (§3.3)
+  weight: number;               // relative selection weight
+  minCampaignBattles?: number;  // gates late-campaign scenarios (e.g. a finale)
+};
+```
+
+**Where the weighting lives:** a new static `scenarioWeights.json` beside `scenarios.json`, not user-editable. Scenario weighting is inherently a design choice rather than something with a rulebook page to cite, so this file's `source` field says **"app design choice"** rather than a page reference — and says so honestly, which is the point of that field.
+
+**Screen:** a "Suggest a scenario" button beside the existing picker, rolling a weighted pick and showing it with its page reference. It fills the same field the manual picker fills and is never auto-applied, matching §1: no outcome is applied without the player choosing it.
+
+---
+
+## 22. Suggested sequencing
+
+Roughly by lift × risk, cheapest first.
+
+| # | Item | Why here |
+| --- | --- | --- |
+| 1 | §20 Utility — dice roller, comparison, afford-filter | No schema at all |
+| 2 | §17.4 Awards, §17.2 Rivalries | Computed from data already fetched |
+| 3 | §18.1 Nicknames & epitaphs | Two text fields in existing jsonb |
+| 4 | §21.3 Scenario generator | One static file and a button |
+| 5 | §17.3 Narrative log, §19.3 Announcements | Small tables on an RLS pattern that exists |
+| 6 | §18.3 Rating history | One trigger-written table |
+| 7 | §19.1 Event RSVPs | Extends the events tables, now that their screens exist |
+| 8 | §18.2 Equipment history | Touches several existing write paths |
+| 9 | §17.1 Territory | Real write contention; resolve the open question first |
+| 10 | §19.2 Gallery comments | Moderation cost — reconsider the need before building |
+| 11 | §19.4 Push notifications | First server-side compute the project has needed |
+| 12 | §21.2 Custom warband builder | Scope separately; conflicts with §3.3 unless narrowed to clone-and-rename |
+
+Two items from the original wish-list are **already done** and are not in the table: per-model photos (§21.1, migration 0015) and the campaign events UI that §19.1 extends (§4.5).
