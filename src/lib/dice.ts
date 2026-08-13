@@ -1,5 +1,11 @@
+/** A single die of any number of sides. The one primitive the standalone roller
+ * (§20.1) needs beyond the fixed D6/D66/2D6 the rest of the app already rolls. */
+export function rollDie(sides: number): number {
+  return Math.floor(Math.random() * sides) + 1;
+}
+
 export function rollD6(): number {
-  return Math.floor(Math.random() * 6) + 1;
+  return rollDie(6);
 }
 
 export type D66Roll = { tens: number; units: number; key: string };

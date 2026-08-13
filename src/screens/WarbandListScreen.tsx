@@ -61,6 +61,17 @@ export default function WarbandListScreen() {
           <>
             {warbands.length === 0 && <p className="text-bone-300">{strings.warbandList.empty}</p>}
 
+            {/* Comparison needs two warbands, so the entry only appears once
+                there are two to compare. */}
+            {warbands.length >= 2 && (
+              <Link
+                to="/compare"
+                className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+              >
+                {strings.compare.entry}
+              </Link>
+            )}
+
             {warbands.map((warband) => (
               <Link
                 key={warband.id}

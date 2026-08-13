@@ -1535,9 +1535,9 @@ The largest infrastructure lift here. The PWA groundwork (§2) supports it, but 
 
 ---
 
-## 20. Utility ◻️
+## 20. Utility ✅
 
-### 20.1 Standalone dice roller ◻️
+### 20.1 Standalone dice roller ✅
 
 No schema, no RLS, no persistence — a component, not a feature with state.
 
@@ -1545,15 +1545,17 @@ No schema, no RLS, no persistence — a component, not a feature with state.
 
 **Why it is separate** from the roll-or-pick pattern elsewhere: every other roller in the app is scoped to a table and writes its result into a model. This one writes nothing. It is for a house rule or a moment the app does not model, which is exactly why it needs no state.
 
-### 20.2 Warband comparison tool ◻️
+✅ **Built** at `/dice`, reached from a card at the top of the Rules screen rather than a floating button — §4 already flags seven tabs as tight, and the roller is a reference companion, so it belongs with the reference. Public, since a roller behind a login is useless at a table. `lib/dice.ts` gained one primitive, `rollDie(sides)`; the die set is D3/D6/D66/2D6/D100 with a count control where the type leaves it open and a modifier on the total (both hidden for D66, which is a table index, not a sum). History id is derived from the list inside the state updater rather than a counter, so a double-tap can't collide on a React key — the bug the first cut shipped and browser testing caught.
+
+### 20.2 Warband comparison tool ✅
 
 Read-only and client-side: pick two warbands and render their `ProfileBlock`s (§5.3) side by side, with a rating / gold / composition summary above.
 
-**Screen:** a new route, `/compare?a={id}&b={id}`, reachable from the campaign Standings row and the warband list. No new tables — it fetches the same rows the detail screen already fetches, so RLS is whatever already governs reading each warband (§8.3). Comparing a private warband you cannot read fails exactly as opening it directly would.
+**Screen:** a new route, `/compare?a={id}&b={id}`, reachable from the warband list (shown once you own two). No new tables — each id resolves through `useSharedWarbandQuery`, the same RLS-gated path the read-only roster uses, so it works for your own warbands, a campaign-mate's and any public one, and a private warband you can't read shows the same "unavailable" message opening it directly would. ✅ **Built.** Each side reports its load and RLS outcome independently, so one unreadable warband doesn't blank the other; a summary row (rating, gold, model counts) sits above the two rosters, which stack on a phone and sit side by side from `sm` up.
 
-### 20.3 "What can I afford" filter ◻️
+### 20.3 "What can I afford" filter ✅
 
-A client-side filter on data already loaded — no schema, no query change. A toggle on the trading post list, filtering the fetched catalogue against the warband's current gold. For rare items, which carry a price *range* rather than a fixed price (§4.4), the filter uses the range's minimum, since the actual price is not known until it is rolled.
+A client-side filter on data already loaded — no schema, no query change. A toggle on the trading post list, filtering the fetched catalogue against the warband's current gold. For rare items, which carry a price *range* rather than a fixed price (§4.4), the filter uses the range's minimum, since the actual price is not known until it is rolled. ✅ **Built** as a checkbox above the Common/Rare tabs in `EquipmentShop` (so it also covers the buy-from-detail-screen flow). An item whose price can't be computed — a null cost, or a "4× base weapon price" multiplier `parseBasePrice` reports as 0 — is never hidden, since hiding something you might afford is worse than showing one you can't. Verified against a warband drained to 42 gold: items over 42 dropped, the rest stayed.
 
 ---
 
@@ -1595,7 +1597,7 @@ Roughly by lift × risk, cheapest first.
 
 | # | Item | Why here |
 | --- | --- | --- |
-| 1 | §20 Utility — dice roller, comparison, afford-filter | No schema at all |
+| 1 | ✅ §20 Utility — dice roller, comparison, afford-filter | Built. No schema at all |
 | 2 | §17.4 Awards, §17.2 Rivalries | Computed from data already fetched |
 | 3 | §18.1 Nicknames & epitaphs | Two text fields in existing jsonb |
 | 4 | §21.3 Scenario generator | One static file and a button |
@@ -1608,4 +1610,4 @@ Roughly by lift × risk, cheapest first.
 | 11 | §19.4 Push notifications | First server-side compute the project has needed |
 | 12 | §21.2 Custom warband builder | Scope separately; conflicts with §3.3 unless narrowed to clone-and-rename |
 
-Two items from the original wish-list are **already done** and are not in the table: per-model photos (§21.1, migration 0015) and the campaign events UI that §19.1 extends (§4.5).
+Done so far: per-model photos (§21.1, migration 0015), the campaign events UI that §19.1 extends (§4.5), and all of §20 Utility (the dice roller, comparison tool and afford-filter — row 1).

@@ -30,6 +30,10 @@ const TradingPostScreen = lazy(() => import('./screens/TradingPostScreen'));
 
 const WarbandPrintScreen = lazy(() => import('./screens/WarbandPrintScreen'));
 
+const DiceRollerScreen = lazy(() => import('./screens/DiceRollerScreen'));
+
+const WarbandCompareScreen = lazy(() => import('./screens/WarbandCompareScreen'));
+
 const PreBattleScreen = lazy(() => import('./screens/PreBattleScreen'));
 
 const DuringBattleScreen = lazy(() => import('./screens/DuringBattleScreen'));
@@ -106,6 +110,9 @@ function AppShell() {
             <Route path="/" element={<HomeScreen />} />
             <Route path="/rules" element={<RulesScreen />} />
             <Route path="/rules/:ruleId" element={<RuleDetailScreen />} />
+            {/* Public, like the rest of the Rules reference it is reached from —
+                a dice roller behind a login is useless at the table. */}
+            <Route path="/dice" element={<DiceRollerScreen />} />
             <Route path="/account" element={<SettingsScreen />} />
             {/* The tab was renamed Settings -> Profile. Redirects rather
                 than a bare rename, so a bookmark or an old changelog link
@@ -132,6 +139,7 @@ function AppShell() {
 
             {/* --- Requires an account: your warbands, battles and campaign --- */}
             <Route path="/warbands" element={guarded(<WarbandListScreen />)} />
+            <Route path="/compare" element={guarded(<WarbandCompareScreen />)} />
             <Route path="/warbands/new" element={guarded(<NewWarbandScreen />)} />
             <Route path="/warbands/:warbandId" element={guarded(<RosterScreen />)} />
             <Route path="/warbands/:warbandId/add-hero" element={guarded(<AddHeroScreen />)} />

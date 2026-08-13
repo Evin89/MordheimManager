@@ -17,6 +17,40 @@ export const strings = {
     signIn: 'Sign in',
     signOut: 'Sign out',
   },
+  dice: {
+    title: 'Dice roller',
+    rulesLink: 'Dice roller',
+    rulesLinkHint: 'For a house rule or a moment the app does not model.',
+    dieLabel: 'Die',
+    countLabel: 'How many',
+    modifierLabel: 'Modifier',
+    rollButton: 'Roll',
+    // D66 is a table index (tens then units), not a sum, so the modifier is
+    // meaningless against it and the reading is shown as its two digits.
+    d66Reading: (tens: number, units: number) => `${tens} then ${units}`,
+    // "3, 5, 1  +2  = 11" — dice, then modifier, then total.
+    breakdown: (rolls: number[], modifier: number) =>
+      rolls.join(', ') + (modifier ? `  ${modifier > 0 ? '+' : ''}${modifier}` : ''),
+    historyTitle: 'This session',
+    historyEmpty: 'No rolls yet.',
+    clearHistory: 'Clear',
+  },
+  compare: {
+    title: 'Compare warbands',
+    entry: 'Compare',
+    pickLeft: 'First warband',
+    pickRight: 'Second warband',
+    choose: 'Choose a warband…',
+    unavailable: 'That warband could not be loaded — it may be private, or you may have left its campaign.',
+    ratingLabel: 'Rating',
+    goldLabel: 'Gold',
+    modelsLabel: 'Models',
+    heroesLabel: 'Heroes',
+    henchmenLabel: 'Henchmen',
+    hiredSwordsLabel: 'Hired swords',
+    pickPrompt: 'Pick two warbands to see their profiles side by side.',
+    sameWarband: 'Pick two different warbands.',
+  },
   common: {
     save: 'Save',
     cancel: 'Cancel',
@@ -650,6 +684,11 @@ export const strings = {
     sellPriceLabel: 'Sell price',
     sellConfirm: (name: string, price: number) => `Sell ${name} for ${price} gc?`,
     exclusiveBadge: "Warband-exclusive",
+    affordToggle: 'Only what I can afford',
+    // Rare prices are a range resolved by a dice roll, so "afford" uses the
+    // lowest the item could cost — the filter narrows the list, it doesn't
+    // promise the final price.
+    affordRareHint: 'Rare items are filtered by their lowest possible price.',
   },
   campaign: {
     title: 'Campaign',

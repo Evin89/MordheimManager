@@ -52,6 +52,26 @@ export default function RulesScreen() {
         />
       </div>
 
+      {/* The dice roller lives here rather than in a tab of its own: §4 already
+          flags seven bottom tabs as tight, and a reference companion is what the
+          Rules screen is. */}
+      {!query.trim() && (
+        <div className="px-4 pt-3">
+          <Link
+            to="/dice"
+            className="flex items-center justify-between gap-3 rounded-lg bg-ink-900 border border-ink-800 p-4 hover:border-ink-700 transition-colors"
+          >
+            <span className="min-w-0">
+              <span className="block text-bone-100 font-semibold">{strings.dice.rulesLink}</span>
+              <span className="block text-bone-300 text-sm">{strings.dice.rulesLinkHint}</span>
+            </span>
+            <span className="text-ember-400 shrink-0" aria-hidden="true">
+              ›
+            </span>
+          </Link>
+        </div>
+      )}
+
       {!searchResults && (
         <div className="px-4 pt-3 flex gap-2 overflow-x-auto">
           <button

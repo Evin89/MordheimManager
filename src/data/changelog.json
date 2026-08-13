@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-08-12",
+    "title": "Dice, Compare & Afford",
+    "description": "Three small tools for the table. A dice roller lives at the top of the Rules tab — D3, D6, D66, 2D6 or D100, with a count and a modifier, for a house rule or any moment the app doesn't roll for you. A compare screen, reached from your warband list once you have two, puts two warbands' profiles side by side with their ratings and model counts. And the trading post gains an \"only what I can afford\" tickbox that hides anything your gold won't cover — rare items by their cheapest possible price, since the real one isn't known until you roll."
+  },
+  {
     "date": "2026-08-11",
     "title": "Deleted Warbands Are Now Really Deleted",
     "description": "Deleting a warband has always kept it hidden rather than destroying it, so a mistake could be reversed on request. What was missing was the other half: after 30 days it is now permanently removed, along with its photo. If you delete something by accident you still have a month to ask for it back — after that it really is gone."

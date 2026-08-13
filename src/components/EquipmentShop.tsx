@@ -180,6 +180,7 @@ export default function EquipmentShop({
   skills,
 }: EquipmentShopProps) {
   const [tab, setTab] = useState<Tab>('common');
+  const [affordOnly, setAffordOnly] = useState(false);
 
   const definition = getWarbandDefinition(warband.warbandType);
   const exclusiveItems = definition ? getWarbandExclusiveItems(definition) : [];
@@ -191,18 +192,45 @@ export default function EquipmentShop({
     allowedIds: unitType ? allowedEquipmentIds(definition, unitType) : null,
     skills,
   };
-  const commonItems = eligibleItems(
+  const allCommon = eligibleItems(
     [...getUniversalCommonItems(), ...exclusiveItems.filter((i) => !i.isRare)],
     context,
   );
-  const rareItems = eligibleItems(
+  const allRare = eligibleItems(
     [...getUniversalRareItems(), ...exclusiveItems.filter((i) => i.isRare)],
     context,
   );
   const rollBonus = definition?.rareItemRollBonus ?? 0;
 
+  // §20.3: narrow to what the warband can pay for right now. An item whose price
+  // can't be computed — null cost, or a "4x base weapon price" multiplier that
+  // parseBasePrice reports as 0 — is never hidden, since hiding something you
+  // *might* afford is worse than showing something you can't. Rare items filter
+  // on the low end of their range, because the real price isn't known until the
+  // dice are rolled.
+  const affordable = (cost: number | null) => cost === null || cost <= warband.gold;
+  // A rare item's comparable price: its fixed cost if it has one, else the low
+  // end of its range, and null (never hidden) when neither can be read.
+  const rareLowPrice = (item: ResolvedEquipmentItem): number | null =>
+    item.cost ?? (parseBasePrice(item.priceRange) || null);
+  const commonItems = affordOnly ? allCommon.filter((i) => affordable(i.cost)) : allCommon;
+  const rareItems = affordOnly ? allRare.filter((i) => affordable(rareLowPrice(i))) : allRare;
+
   return (
     <div className="space-y-4">
+      <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm cursor-pointer">
+        <input
+          type="checkbox"
+          checked={affordOnly}
+          onChange={(e) => setAffordOnly(e.target.checked)}
+          className="h-5 w-5 shrink-0"
+        />
+        <span>{strings.trading.affordToggle}</span>
+      </label>
+      {affordOnly && tab === 'rare' && (
+        <p className="text-bone-400 text-xs">{strings.trading.affordRareHint}</p>
+      )}
+
       <div className="flex gap-2">
         <button
           type="button"
