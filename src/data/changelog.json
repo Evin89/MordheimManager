@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-08-14",
+    "title": "Awards & Rivalries",
+    "description": "The campaign's Standings tab gains two flourishes drawn straight from the battle log. Campaign awards hand out titles as the campaign runs — Wyrdstone Baron for the most shards found, On a Roll for the longest win streak, Old Campaigner for the most battles, and Top Dogs for the highest rating — each a snapshot of where things stand, not a locked-in prize. And a Rivalries card tallies your warband's head-to-head record against everyone it has faced: wins, losses and draws per opponent, so you can see who has your number and who you own."
+  },
+  {
+    "date": "2026-08-14",
+    "title": "Nicknames, Kit History & the Rising Line",
+    "description": "Warriors feel a little more lived-in. Every hero and hired sword can carry a nickname — \"One-Eye\", \"the Lucky\" — shown in brackets after their name on the roster, the shared roster and the printed sheet. A dead hero can be given last words in the post-battle wizard, which are written into the battle log so they aren't forgotten. Each model now keeps an equipment history under its gear — what was bought, assigned or sold, and when — filling in from here forward. And a warband's rating over time appears as a small chart on its roster, once it has changed at least once. The dice roller is also now tucked into the during-battle screen, folded away until you need it."
+  },
+  {
     "date": "2026-08-12",
     "title": "Dice, Compare & Afford",
     "description": "Three small tools for the table. A dice roller lives at the top of the Rules tab — D3, D6, D66, 2D6 or D100, with a count and a modifier, for a house rule or any moment the app doesn't roll for you. A compare screen, reached from your warband list once you have two, puts two warbands' profiles side by side with their ratings and model counts. And the trading post gains an \"only what I can afford\" tickbox that hides anything your gold won't cover — rare items by their cheapest possible price, since the real one isn't known until you roll."

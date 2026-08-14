@@ -652,6 +652,28 @@ export async function revokeCampaignLeadership(
   target.role = 'player';
 }
 
+// --- rating history --------------------------------------------------------
+
+/**
+ * A fabricated rating series, so the §18.3 chart can be judged with a real
+ * shape. Deterministic from the id (no randomness), a gentle climb over eight
+ * game-nights ending at the warband's current rating — enough to prove the line
+ * draws, without pretending to be a specific campaign's history.
+ */
+export async function fetchRatingHistory(warbandId: string) {
+  const record = db().warbands.find((w: DemoWarbandRow) => w.id === warbandId);
+  const current = record ? ratingOf(record) : 100;
+  const points = 8;
+  const start = Math.max(20, Math.round(current * 0.45));
+  const step = (current - start) / (points - 1);
+  const now = Date.now();
+  return Array.from({ length: points }, (_, i) => ({
+    rating: i === points - 1 ? current : Math.round(start + step * i),
+    // One point per week going back, oldest first.
+    recordedAt: new Date(now - (points - 1 - i) * 7 * 86_400_000).toISOString(),
+  }));
+}
+
 // --- warband photos --------------------------------------------------------
 
 /**

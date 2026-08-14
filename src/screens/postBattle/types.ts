@@ -19,6 +19,14 @@ export type HeroBattleState = {
   /** Entries learned in place of a new skill. A caster's advance may be spent
    * on a spell instead, so this is a sibling of `newSkills`, not a subset. */
   newSpells: string[];
+  /**
+   * An epitaph (spec §18.1), captured when a hero is marked dead. §18.1 planned
+   * to store it on the killing Injury, but this app *removes* a dead hero from
+   * the roster rather than keeping him — so there is no model left to hang it
+   * on. It goes into the battle's casualty summary instead, where a fallen
+   * hero's memory belongs: campaign history, not a roster field.
+   */
+  lastWords?: string;
 };
 
 export type HenchmenBattleState = {

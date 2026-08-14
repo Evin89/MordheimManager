@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import DiceRoller from '../components/DiceRoller';
 import ProfileBlock from '../components/ProfileBlock';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { strings } from '../strings';
@@ -320,6 +321,18 @@ export default function DuringBattleScreen() {
             </button>
           </div>
         </section>
+
+        {/* Collapsed by default — the dice are at hand during the game without
+            crowding the tracker, and folded away when you're reading the roster.
+            The roller keeps its own session history while open. */}
+        <details className="rounded-lg bg-ink-900 border border-ink-800">
+          <summary className="min-h-[48px] flex items-center px-4 text-bone-100 font-semibold cursor-pointer select-none">
+            {strings.battle.duringBattle.diceRoller}
+          </summary>
+          <div className="px-4 pb-4">
+            <DiceRoller compact />
+          </div>
+        </details>
 
         <section className="space-y-3">
           <h2 className="text-bone-100 font-semibold">{strings.battle.duringBattle.eventLogSection}</h2>

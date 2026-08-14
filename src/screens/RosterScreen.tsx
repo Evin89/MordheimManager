@@ -5,6 +5,9 @@ import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
 import WarbandPhotoEditor, { WarbandThumb } from '../components/WarbandPhoto';
 import { useRosterPhotos } from '../hooks/usePhotos';
+import { useRatingHistoryQuery } from '../hooks/useRatingHistory';
+import RatingHistoryChart from '../components/RatingHistoryChart';
+import { modelDisplayName } from '../lib/modelNames';
 import WarbandSharingCard from '../components/WarbandSharingCard';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import SaveBar from '../components/SaveBar';
@@ -48,7 +51,7 @@ function ModelRow({
       <div className="flex items-center justify-between gap-3">
         <WarbandThumb url={photoUrl} alt={strings.photo.alt(model.name)} shape="square" />
         <div className="min-w-0 flex-1">
-          <p className="text-bone-100 font-semibold truncate">{model.name}</p>
+          <p className="text-bone-100 font-semibold truncate">{modelDisplayName(model)}</p>
           <p className="text-bone-300 text-sm truncate">{unitTypeLabel}</p>
         </div>
         <div className="text-right shrink-0 flex flex-col items-end gap-1">
@@ -132,6 +135,28 @@ function HenchmenGroupCard({
   );
 }
 
+/**
+ * The rating-over-time chart (§18.3), collapsed under the rating figure.
+ *
+ * Its own component so the query only runs on the roster screen, and renders
+ * nothing at all until there are two points to draw a line between — a warband
+ * created moments ago has one, which is a dot, not a trend.
+ */
+function RatingHistory({ warbandId }: { warbandId: string }) {
+  const { data: points } = useRatingHistoryQuery(warbandId);
+  if (!points || points.length < 2) return null;
+  return (
+    <details className="border-t border-ink-800 pt-3">
+      <summary className="min-h-[44px] flex items-center text-bone-300 text-sm font-semibold cursor-pointer select-none">
+        {strings.roster.ratingHistoryTitle}
+      </summary>
+      <div className="pt-2">
+        <RatingHistoryChart points={points} />
+      </div>
+    </details>
+  );
+}
+
 export default function RosterScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
@@ -199,6 +224,8 @@ export default function RosterScreen() {
               onCommit={(wyrdstoneShards) => update({ wyrdstoneShards })}
             />
           </div>
+
+          <RatingHistory warbandId={warband.id} />
         </section>
 
         <WarbandPhotoEditor warbandId={warband.id} warbandName={warband.name} />

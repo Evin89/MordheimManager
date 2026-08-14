@@ -1315,7 +1315,7 @@ territories   id, campaign_id, name, territory_type, controlled_by_warband_id (n
 
 ❓ **Open question** — whether claiming should be leader-gated (so disputes are settled at the table rather than in-app) or open to any member. Leaning **open**, consistent with §1: the app records the outcome of a decision made elsewhere, it does not adjudicate one.
 
-### 17.2 Rivalries / nemesis tracking ◻️
+### 17.2 Rivalries / nemesis tracking ⚠️
 
 Mostly derived rather than new state — `BattleRecord.opponents` already exists (§3.1) — plus one small explicit field for the part that cannot be derived: which rivalry a player actually cares about.
 
@@ -1342,6 +1342,8 @@ nemesisWarbandId?: string;   // player-designated; never implied by battle count
 - A "Mark as nemesis" action on any row past a small threshold (2+ battles). Purely cosmetic — a badge on the standings row — so it needs no enforcement and no confirm.
 
 ❓ **Open question** — campaign-scoped only, or across a player's standalone battles too? **Recommend campaign-scoped.** Cross-campaign rivalry needs a canonical "same person" identity that opponents-as-text cannot guarantee.
+
+⚠️ **Built, but grouped by opponent *name*, not warband id** — because the premise didn't hold. `BattleRecord.opponents` is `string[]`: the names typed or picked in the pre-battle flow, never the opponent's warband id. So `lib/rivalries.ts` groups by that name and tallies W/L/D per opponent, shown as a card per the viewer's own campaign warband on the Standings tab (a rivalry is *yours*, and the log holds every player's battles). The persisted `nemesisWarbandId` is **not built**: there is no id to point at until the battle record starts capturing the opponent's warband id, which is a separate change to the pre-battle flow and its commit. The derived view — the valuable half — is what shipped.
 
 ### 17.3 Campaign narrative log ◻️
 
@@ -1378,7 +1380,7 @@ campaign_log_entries   id, campaign_id, author_id, title, body, battle_id (nulla
 
 **Non-goal:** no rich text and no images. Photos are their own §11 effort with their own storage and moderation cost; this is plain body text, like every other `notes` field in the schema.
 
-### 17.4 Awards & titles ◻️
+### 17.4 Awards & titles ✅
 
 Pure read: aggregates over data that already exists, zero new tables and zero new writes. The safest of the four to build first, because it validates nothing more than a query.
 
@@ -1416,11 +1418,11 @@ Candidates, all derivable from `battles` plus `warbands.rating`:
 
 ---
 
-## 18. Roster & model depth ◻️
+## 18. Roster & model depth ✅
 
 Three additions that make individual models feel lived-in without touching rating or rules mechanics, so none of them trip §1's non-goal.
 
-### 18.1 Model nicknames & epitaphs ◻️
+### 18.1 Model nicknames & epitaphs ✅
 
 Two small text fields, no new tables.
 
@@ -1436,7 +1438,9 @@ lastWords?: string;      // epitaph, written at the point of death
 
 No RLS change (both live in the existing `warbands.data` jsonb) and no rating effect.
 
-### 18.2 Equipment history log ◻️
+✅ **Built**, with one deviation the spec's own storage choice couldn't survive contact with the app. §18.1 puts `lastWords` on the killing `Injury` — but this app **removes** a dead hero from the roster on commit (draftHelpers), rather than keeping him with `status: 'dead'`. There is no model left to hang an epitaph on. So the epitaph is captured in the Dead Models step and folded into the battle's **casualty summary** (`Grukk — "last words"`), where a fallen hero's memory belongs anyway: campaign history, not a roster field. The `lastWords` field is kept on `HeroBattleState` rather than `Injury`. The nickname works as specced — an editable field on the detail screen, shown in parentheses via a single `modelDisplayName` helper on the roster row, the print sheet and the shared roster.
+
+### 18.2 Equipment history log ✅
 
 A per-model append-only log of gear gained and lost, distinct from the `equipment: EquipmentItem[]` snapshot (§3.1), which only ever shows *now*.
 
@@ -1455,11 +1459,13 @@ equipmentLog: EquipmentLogEntry[];
 
 **Where it is written:** not a new form — a side effect of actions that already exist (trading post purchase and sale, the post-battle equipment-to-treasury step, dead-model cleanup). Each call site appends one entry instead of asking the player to log anything, matching the wizard's staged-then-committed pattern (§4.3).
 
-**Screen:** collapsed by default under the model's Equipment block, behind a History toggle. Read-only — it is a log, not a field.
+**Screen:** collapsed by default under the model's Equipment block, behind a History toggle. Read-only — it is a log, not a field. Renders nothing when empty, so a warband predating the feature stays silent rather than showing an empty box that reads as a fault.
+
+✅ **Built.** `appendEquipmentLog` is called from the three per-model gear write sites on the detail screen — buying onto a model, assigning from the treasury, moving to the treasury — each stamping a dated entry with context ("Bought for 5 gc", "Assigned from treasury"). The Trading Post's own buy/sell is deliberately *not* logged: it moves gear to and from the **treasury**, which has no model to attribute a line to. Dead-model cleanup is likewise moot as a write site, for the same reason 18.1's epitaph moved — the model is removed, so there is nothing left to log against.
 
 ❓ **Open question** — existing warbands have no history to backfill. Either leave it empty and let it fill from here forward (**recommended**, matching how `xpThresholds` and `racialMaximums` gaps were closed forward rather than invented), or seed one entry per current item stamped "as of". Prefer the former: a fabricated history is worse than a short one.
 
-### 18.3 Warband rating over time ◻️
+### 18.3 Warband rating over time ✅
 
 Already flagged as a nice-to-have in §4.5. Needs one new table, not a new column — rating already recomputes on every save (§3.2); this keeps the old values.
 
@@ -1471,7 +1477,9 @@ Written by a trigger on `warbands` `AFTER UPDATE OF rating` — append-only, nev
 
 **Screen:** a line chart on the warband detail screen and on the campaign Standings tab (one line per warband).
 
-**RLS:** SELECT follows the same rule as `warbands` SELECT (§8.3) — if you can read the warband you can read its history. **No INSERT/UPDATE/DELETE policy at all**; only the trigger writes it, exactly as §11.2's storage policies omit UPDATE on purpose rather than by oversight.
+**RLS:** SELECT follows the same rule as `warbands` SELECT (§8.3) — if you can read the warband you can read its history, reusing `can_read_warband` (migration 0013) rather than restating the branches. **No INSERT/UPDATE/DELETE policy at all**; only the trigger writes it, exactly as §11.2's storage policies omit UPDATE on purpose rather than by oversight.
+
+✅ **Built** (migration 0016). The trigger fires `after insert or update of rating`, guarded by `is distinct from` so a save touching only gold or a name plants no duplicate point. One backfill row per existing warband at its current rating, so a warband with history doesn't start its chart at a single dot today — the honest amount, since the path that led there was never recorded and isn't invented (cf. 18.2). The chart is hand-drawn SVG on the warband detail screen, collapsed under the rating figure and shown only past two points (one is a dot, not a trend) — the same no-dependency choice as the admin signups sparkline. ◻️ The standings-tab line-per-warband view is not built; the detail-screen chart is.
 
 ---
 
@@ -1598,13 +1606,13 @@ Roughly by lift × risk, cheapest first.
 | # | Item | Why here |
 | --- | --- | --- |
 | 1 | ✅ §20 Utility — dice roller, comparison, afford-filter | Built. No schema at all |
-| 2 | §17.4 Awards, §17.2 Rivalries | Computed from data already fetched |
-| 3 | §18.1 Nicknames & epitaphs | Two text fields in existing jsonb |
+| 2 | ✅ §17.4 Awards, ⚠️ §17.2 Rivalries | Built. Awards full; rivalries grouped by opponent name (no persisted nemesis — opponents are text, not ids) |
+| 3 | ✅ §18.1 Nicknames & epitaphs | Built (epitaph in the battle log, since dead heroes leave the roster) |
 | 4 | §21.3 Scenario generator | One static file and a button |
 | 5 | §17.3 Narrative log, §19.3 Announcements | Small tables on an RLS pattern that exists |
-| 6 | §18.3 Rating history | One trigger-written table |
+| 6 | ✅ §18.3 Rating history | Built (migration 0016; detail-screen chart) |
 | 7 | §19.1 Event RSVPs | Extends the events tables, now that their screens exist |
-| 8 | §18.2 Equipment history | Touches several existing write paths |
+| 8 | ✅ §18.2 Equipment history | Built (the three per-model gear write sites) |
 | 9 | §17.1 Territory | Real write contention; resolve the open question first |
 | 10 | §19.2 Gallery comments | Moderation cost — reconsider the need before building |
 | 11 | §19.4 Push notifications | First server-side compute the project has needed |

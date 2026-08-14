@@ -187,7 +187,12 @@ export function applyDraftToWarband(
     }
 
     if (state.resultingStatus === 'dead' || state.resultingStatus === 'captured' || state.resultingStatus === 'left') {
-      if (state.resultingStatus === 'dead') deadHeroNames.push(hero.name);
+      if (state.resultingStatus === 'dead') {
+        // The epitaph rides along with the name, so a fallen hero's last words
+        // land in the campaign's battle log rather than vanishing with him.
+        const epitaph = state.lastWords?.trim();
+        deadHeroNames.push(epitaph ? `${hero.name} — “${epitaph}”` : hero.name);
+      }
       if (state.equipmentFate === 'treasury') {
         treasury = [...treasury, ...hero.equipment];
       }

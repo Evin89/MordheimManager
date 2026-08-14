@@ -9,6 +9,7 @@ import { computeWarbandRating, isInWarband } from '../lib/rating';
 import { TRACK_LENGTH, getAdvanceThresholds } from '../lib/xpThresholds';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { getSpell } from '../lib/spellLookup';
+import { modelDisplayName } from '../lib/modelNames';
 import { EquipmentItem, HenchmenGroup, Hero, HiredSword, Warband } from '../types';
 
 /**
@@ -147,7 +148,7 @@ function WarriorBlock({ model, photoUrl }: { model: Hero | HiredSword; photoUrl?
       <div className="min-w-0 flex-1 space-y-1.5">
       <div className="flex items-baseline justify-between gap-3">
         <p className="font-heading text-ink text-base leading-tight">
-          {model.name}
+          {modelDisplayName(model)}
           {isLeader && (
             <span className="font-ui text-ink-faded text-xs uppercase tracking-wide">
               {' '}

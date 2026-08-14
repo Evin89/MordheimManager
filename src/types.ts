@@ -19,6 +19,28 @@ export type Injury = {
   effect: string; // short rules text
   dateAcquired: string; // battle reference
   missNextGame?: boolean;
+  /**
+   * An epitaph, written at the point of death (spec §18.1). Only meaningful on
+   * the injury that killed the model — prompted in the post-battle Dead Models
+   * step, the one moment it is narratively relevant.
+   */
+  lastWords?: string;
+};
+
+/**
+ * One line in a model's equipment history (spec §18.2).
+ *
+ * Append-only, and distinct from the `equipment` snapshot, which only ever shows
+ * what a model holds *now*. Written as a side effect of actions that already
+ * exist — buying, selling, the post-battle equipment-to-treasury step — so no
+ * one is asked to keep a log by hand.
+ */
+export type EquipmentLogEntry = {
+  id: string;
+  itemName: string;
+  action: 'acquired' | 'lost' | 'sold' | 'destroyed';
+  date: string; // ISO date
+  context?: string; // "Found in Exploration", "Sold at half price"
 };
 
 export type Advance = {
@@ -43,6 +65,8 @@ export type ModelStatus = 'active' | 'missNextGame' | 'dead' | 'captured' | 'lef
 export type Hero = {
   id: string;
   name: string;
+  /** A byname shown in parentheses after the given name (spec §18.1). */
+  nickname?: string;
   unitType: string; // e.g. "Maneater Captain", "Youngblood"
   isLeader: boolean;
   isLargeCreature: boolean; // counts 20 toward warband rating
@@ -60,6 +84,9 @@ export type Hero = {
   spells: string[];
   injuries: Injury[];
   equipment: EquipmentItem[];
+  /** Append-only gear history (spec §18.2). Optional: warbands predating the
+   * feature simply have none, and it fills forward. */
+  equipmentLog?: EquipmentLogEntry[];
   status: ModelStatus;
   notes: string;
 };
@@ -75,12 +102,14 @@ export type HenchmenGroup = {
   xp: number; // shared group XP
   advances: Advance[];
   equipment: EquipmentItem[]; // shared loadout
+  equipmentLog?: EquipmentLogEntry[];
   notes: string;
 };
 
 export type HiredSword = {
   id: string;
   name: string;
+  nickname?: string;
   type: string;
   hireFee: number;
   upkeep: number;
@@ -98,6 +127,7 @@ export type HiredSword = {
   spells: string[];
   injuries: Injury[];
   equipment: EquipmentItem[];
+  equipmentLog?: EquipmentLogEntry[];
   status: ModelStatus;
   notes: string;
 };

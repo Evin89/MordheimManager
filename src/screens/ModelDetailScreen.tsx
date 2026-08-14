@@ -7,6 +7,8 @@ import ProfileBlock from '../components/ProfileBlock';
 import WarbandPhotoEditor from '../components/WarbandPhoto';
 import { STAT_KEYS } from '../lib/statLine';
 import EquipmentShop from '../components/EquipmentShop';
+import EquipmentHistory from '../components/EquipmentHistory';
+import { appendEquipmentLog } from '../lib/equipmentLog';
 import SkillPicker from '../components/SkillPicker';
 import SpellBlock from '../components/SpellBlock';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
@@ -172,7 +174,18 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     if (!item) return;
     saveNow((current: Warband) => ({
       [listKey]: (current[listKey] as EditableModel[]).map((m) =>
-        m.id === modelId ? { ...m, equipment: m.equipment.filter((e: EquipmentItem) => e.id !== itemId) } : m,
+        m.id === modelId
+          ? {
+              ...m,
+              equipment: m.equipment.filter((e: EquipmentItem) => e.id !== itemId),
+              equipmentLog: appendEquipmentLog(
+                m.equipmentLog,
+                'lost',
+                item.name,
+                strings.modelDetail.logMovedToTreasury,
+              ),
+            }
+          : m,
       ),
       treasury: [...current.treasury, item],
     }));
@@ -185,7 +198,18 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     if (!allowWeapon(item)) return;
     saveNow((current: Warband) => ({
       [listKey]: (current[listKey] as EditableModel[]).map((m) =>
-        m.id === modelId ? { ...m, equipment: [...m.equipment, item] } : m,
+        m.id === modelId
+          ? {
+              ...m,
+              equipment: [...m.equipment, item],
+              equipmentLog: appendEquipmentLog(
+                m.equipmentLog,
+                'acquired',
+                item.name,
+                strings.modelDetail.logFromTreasury,
+              ),
+            }
+          : m,
       ),
       treasury: current.treasury.filter((e: EquipmentItem) => e.id !== itemId),
     }));
@@ -224,7 +248,18 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     };
     saveNow((current: Warband) => ({
       [listKey]: (current[listKey] as EditableModel[]).map((m) =>
-        m.id === modelId ? { ...m, equipment: [...m.equipment, newItem] } : m,
+        m.id === modelId
+          ? {
+              ...m,
+              equipment: [...m.equipment, newItem],
+              equipmentLog: appendEquipmentLog(
+                m.equipmentLog,
+                'acquired',
+                newItem.name,
+                strings.modelDetail.logBought(price),
+              ),
+            }
+          : m,
       ),
       gold: current.gold - price,
     }));
@@ -249,7 +284,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
       <main className="flex-1 px-4 py-6 space-y-6">
         <div className="space-y-2">
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="model-name">
-            Name
+            {strings.modelDetail.nameLabel}
           </label>
           <input
             id="model-name"
@@ -257,6 +292,20 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
             value={model.name}
             onChange={(e) => updateModel({ name: e.target.value })}
             className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-bone-200 text-sm font-semibold" htmlFor="model-nickname">
+            {strings.modelDetail.nicknameLabel}
+          </label>
+          <input
+            id="model-nickname"
+            type="text"
+            value={model.nickname ?? ''}
+            onChange={(e) => updateModel({ nickname: e.target.value })}
+            placeholder={strings.modelDetail.nicknamePlaceholder}
+            className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 placeholder:text-ink-faded focus:outline-none focus:border-ember-500"
           />
         </div>
 
@@ -610,6 +659,8 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
               />
             ))}
           </div>
+
+          <EquipmentHistory log={model.equipmentLog} />
         </section>
 
         <div className="space-y-2">

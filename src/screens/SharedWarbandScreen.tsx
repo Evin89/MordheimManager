@@ -6,6 +6,7 @@ import { strings } from '../strings';
 import { useSharedWarbandQuery, useWarband } from '../hooks/useWarbands';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
+import { modelDisplayName } from '../lib/modelNames';
 import { EquipmentItem, Injury, StatLine } from '../types';
 
 /**
@@ -151,7 +152,7 @@ export default function SharedWarbandScreen() {
               {warband.heroes.map((hero) => (
                 <SharedModelCard
                   key={hero.id}
-                  name={hero.name}
+                  name={modelDisplayName(hero)}
                   subtitle={hero.unitType}
                   stats={hero.stats}
                   equipment={hero.equipment}
@@ -191,7 +192,7 @@ export default function SharedWarbandScreen() {
               {warband.hiredSwords.map((sword) => (
                 <SharedModelCard
                   key={sword.id}
-                  name={sword.name}
+                  name={modelDisplayName(sword)}
                   subtitle={sword.type}
                   stats={sword.stats}
                   equipment={sword.equipment}
