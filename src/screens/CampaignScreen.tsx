@@ -27,6 +27,8 @@ import {
 } from '../hooks/useCampaign';
 import { useObjectiveQuery, useSaveObjectiveMutation } from '../hooks/useObjective';
 import { getWarbandTypeName } from '../data/warbandRegistry';
+import { computeAwards } from '../lib/awards';
+import { computeRivalries } from '../lib/rivalries';
 import { useWarbandList } from '../hooks/useWarbands';
 import objectivesData from '../data/btb/objectives.json';
 import { BtbObjectivesData } from '../data/types';
@@ -360,6 +362,95 @@ function JoinCodeCard({ campaign, isLeader }: { campaign: Campaign; isLeader: bo
         </button>
       )}
     </section>
+  );
+}
+
+/**
+ * Campaign awards (§17.4): a few badges over the current standings, recomputed
+ * on every render from the `battles` array the tab already holds. No table, no
+ * write — a snapshot, not a trophy cabinet.
+ */
+function CampaignAwards({ battles, standings }: { battles: BattleRecord[]; standings: StandingsRow[] }) {
+  const awards = computeAwards(battles, standings, {
+    mostWyrdstone: strings.campaign.awardMostWyrdstone,
+    mostWyrdstoneValue: strings.campaign.awardMostWyrdstoneValue,
+    longestStreak: strings.campaign.awardLongestStreak,
+    longestStreakValue: strings.campaign.awardLongestStreakValue,
+    mostBattles: strings.campaign.awardMostBattles,
+    mostBattlesValue: strings.campaign.awardMostBattlesValue,
+    highestRating: strings.campaign.awardHighestRating,
+    highestRatingValue: strings.campaign.awardHighestRatingValue,
+  });
+
+  return (
+    <div className="space-y-3">
+      <h2 className="text-bone-100 font-semibold">{strings.campaign.awardsSection}</h2>
+      {awards.length === 0 ? (
+        <p className="text-bone-300 text-sm">{strings.campaign.awardsEmpty}</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {awards.map((award) => (
+            <div key={award.id} className="rounded-lg bg-ink-900 border border-ink-800 p-3">
+              <p className="text-ember-400 font-semibold text-sm">{award.title}</p>
+              <p className="text-bone-100 truncate">{award.holderWarbandName}</p>
+              <p className="text-bone-400 text-xs tabular-nums">{award.value}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Rivalries (§17.2): the viewer's own campaign warbands and their head-to-head
+ * records, grouped by opponent name from the shared battle log. Shown only for
+ * warbands the viewer actually entered — a rivalry is *yours*, and the log holds
+ * every player's battles.
+ */
+function CampaignRivalries({
+  battles,
+  myWarbandIds,
+}: {
+  battles: BattleRecord[];
+  myWarbandIds: string[];
+}) {
+  const mine = new Set(myWarbandIds);
+  // One block per warband of the viewer's that has fought in this campaign.
+  const blocks = myWarbandIds
+    .map((warbandId) => {
+      const wb = battles.filter((b) => b.warbandId === warbandId);
+      if (wb.length === 0) return null;
+      return { warbandId, rivalries: computeRivalries(wb) };
+    })
+    .filter((b): b is NonNullable<typeof b> => b !== null && b.rivalries.length > 0);
+
+  // Nothing to show until one of the viewer's warbands has logged a battle here.
+  if (!battles.some((b) => mine.has(b.warbandId))) return null;
+
+  return (
+    <div className="space-y-3">
+      <h2 className="text-bone-100 font-semibold">{strings.campaign.rivalriesSection}</h2>
+      {blocks.length === 0 ? (
+        <p className="text-bone-300 text-sm">{strings.campaign.rivalriesEmpty}</p>
+      ) : (
+        blocks.map((block) => (
+          <div key={block.warbandId} className="rounded-lg bg-ink-900 border border-ink-800 p-3 space-y-2">
+            <ul className="space-y-1">
+              {block.rivalries.map((r) => (
+                <li key={r.opponentName} className="flex items-baseline justify-between gap-3">
+                  <span className="text-bone-100 truncate">{r.opponentName}</span>
+                  <span className="text-bone-400 text-xs tabular-nums shrink-0">
+                    {strings.campaign.rivalryRecord(r.wins, r.losses, r.draws)} ·{' '}
+                    {strings.campaign.rivalryBattles(r.battles)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      )}
+    </div>
   );
 }
 
@@ -726,9 +817,13 @@ export default function CampaignScreen() {
             )}
 
             {tab === 'standings' && (
-              <section className="space-y-3">
-                <h2 className="text-bone-100 font-semibold">{strings.campaign.standingsSection}</h2>
-                <StandingsTable rows={standings ?? []} />
+              <section className="space-y-6">
+                <div className="space-y-3">
+                  <h2 className="text-bone-100 font-semibold">{strings.campaign.standingsSection}</h2>
+                  <StandingsTable rows={standings ?? []} />
+                </div>
+                <CampaignAwards battles={battles ?? []} standings={standings ?? []} />
+                <CampaignRivalries battles={battles ?? []} myWarbandIds={warbands.map((w) => w.id)} />
               </section>
             )}
 
