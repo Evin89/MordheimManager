@@ -453,6 +453,10 @@ The wizard's in-progress state is transient. If the app closes mid-wizard that p
 
 `/rules` and `/rules/:ruleId` — a searchable index of weapon rules, skills, and special rules, built from the same data the roster screens resolve against, so a rule shown on a model and a rule read in the browser can't disagree.
 
+⚠️ **Redesigned for density and inline drill-in.** Search is the hero (you usually know the word at a table); below it, the dice roller (§20.1) is embedded in a collapsible row rather than a page of its own, reusing the same `DiceRoller` component the battle screen embeds. The browse is a **chapter accordion** — each of the rulebook's ~20 chapters is a row carrying a lucide icon and its real entry count, expanding in place to its entries, which link on to `/rules/:id`. A **coarse filter** above folds the data's eight fine categories into five groups (Core / Magic / Post-Battle / Trading / Warbands & Scenarios), Magic pulled out of Core because people look for it by name. Search stays a flat, highlighted result list, since collapsing matches into chapters would hide the thing searched for. The shared `RuleEntryList` (used by the embedded Warbands/Trading/Campaign rules panels) is untouched — this restyle is the standalone screen only.
+
+This is the first screen to use an **icon library** (`lucide-react`), a deliberate exception to the app's otherwise hand-drawn icons, chosen for the per-chapter icon set; icons are named imports and tree-shake. Note the shadowing trap it introduced and the fix: lucide exports a `Map` icon, which shadows the global `Map` constructor — imported `as MapIcon` so `new Map()` in the same file still means the built-in.
+
 ### 4.9 Issue reports & the admin back-end ✅
 
 Not in either original draft. It exists because feedback was arriving as prose in a group chat, which had to be interviewed back into a reproducible report.

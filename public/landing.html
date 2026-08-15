@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en" data-theme="grimdark" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <!-- ===== SEO: everything a crawler or link-unfurler needs, baked in ===== -->
+    <title>Mordheim Campaign Manager — warband tracker & post-battle wizard</title>
+    <meta
+      name="description"
+      content="Run your Mordheim campaign without the paperwork. A warband tracker with a guided post-battle sequence — injuries, experience, advances, income and upkeep, rolled or chosen, never miscounted. Free, works on your phone at the table."
+    />
+    <link rel="canonical" href="https://mordheimmanager.net/" />
+    <meta name="theme-color" content="#0b0a09" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph — this is the payload a WhatsApp/Discord/Slack share unfurls. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mordheim Campaign Manager" />
+    <meta property="og:title" content="Mordheim Campaign Manager — warband tracker & post-battle wizard" />
+    <meta
+      property="og:description"
+      content="Run your Mordheim campaign without the paperwork. A guided post-battle sequence handles injuries, experience, advances, income and upkeep. Free, on your phone at the table."
+    />
+    <meta property="og:url" content="https://mordheimmanager.net/" />
+    <meta property="og:image" content="https://mordheimmanager.net/og-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter/X large card, same payload. -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mordheim Campaign Manager — warband tracker & post-battle wizard" />
+    <meta
+      name="twitter:description"
+      content="Run your Mordheim campaign without the paperwork. Guided post-battle sequence, shared campaign standings, printable roster sheet. Free."
+    />
+    <meta name="twitter:image" content="https://mordheimmanager.net/og-card.png" />
+
+    <!-- Types the page as a tool, not a rules reference — the signal that keeps
+         this out of the rules-database lane and positioned as a campaign tracker. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Mordheim Campaign Manager",
+        "url": "https://mordheimmanager.net/",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Web, iOS, Android",
+        "description": "A warband and campaign tracker for the Mordheim tabletop game, with a guided post-battle sequence, shared campaign standings, a trading post, an offline rules reference and a printable roster sheet.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+
+    <!-- Fonts: matches the live app (spec §5.2). Swap when self-hosting lands. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+Sans:wght@400;500;700&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Pirata+One&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Pre-paint theme, duplicated verbatim from the app's index.html so a
+         parchment reader never flashes the dark theme, and the two front doors
+         open the same colour. -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('mordheim.theme');
+          if (t !== 'grimdark' && t !== 'parchment') t = 'grimdark';
+          document.documentElement.setAttribute('data-theme', t);
+          document.documentElement.classList.toggle('dark', t === 'grimdark');
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', t === 'parchment' ? '#e9e0cc' : '#0b0a09');
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'grimdark');
+        }
+      })();
+    </script>
+
+    <style>
+      /*
+        Tokens are the app's own (§5.1), pasted from src/index.css so the page
+        can't drift from the product. Space-separated RGB channels, used through
+        rgb(var(--x)) so the same value drives solid and translucent alike.
+      */
+      :root,
+      [data-theme='grimdark'] {
+        --ink-950: 11 10 9;
+        --ink-900: 20 18 16;
+        --ink-800: 31 28 25;
+        --ink-700: 43 39 36;
+        --bone-100: 242 234 217;
+        --bone-300: 216 198 161;
+        --bone-400: 168 152 122;
+        --ink: 242 234 217;
+        --ink-faded: 168 152 122;
+        --accent: 220 92 14;
+        --accent-bright: 242 117 26;
+        --on-accent: 11 10 9;
+        --page: 11 10 9;
+        --raised: 20 18 16;
+      }
+      [data-theme='parchment'] {
+        --ink-950: 232 222 196;
+        --ink-900: 241 233 210;
+        --ink-800: 199 185 155;
+        --ink-700: 168 152 119;
+        --bone-100: 34 26 18;
+        --bone-300: 90 76 60;
+        --bone-400: 106 90 68;
+        --ink: 34 26 18;
+        --ink-faded: 106 90 68;
+        --accent: 122 30 26;
+        --accent-bright: 122 30 26;
+        --on-accent: 255 255 255;
+        --page: 232 222 196;
+        --raised: 241 233 210;
+      }
+
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        background: rgb(var(--page));
+        color: rgb(var(--ink));
+        font-family: 'Alegreya', Georgia, 'Times New Roman', serif;
+        font-size: 18px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: inherit; }
+      h1, .display { font-family: 'Pirata One', Georgia, serif; font-weight: 400; letter-spacing: 0.02em; }
+      h2, h3 { font-family: 'IM Fell English', Georgia, serif; font-weight: 400; }
+      .ui { font-family: 'Alegreya Sans', system-ui, sans-serif; }
+      .tnum { font-variant-numeric: tabular-nums lining-nums; }
+
+      .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+      /* Top bar */
+      .topbar { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+      .wordmark { display: flex; align-items: center; gap: 10px; font-family: 'IM Fell English', serif; font-size: 20px; }
+      .wordmark .glyph {
+        width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        background: rgb(var(--ink-800)); color: rgb(var(--accent-bright));
+        border: 1px solid rgb(var(--ink-700));
+      }
+      .toggle { display: flex; gap: 6px; }
+      .toggle button {
+        font-family: 'Alegreya Sans', sans-serif; font-size: 12px; font-weight: 600;
+        padding: 6px 10px; border-radius: 6px; cursor: pointer; letter-spacing: 0.03em;
+        color: rgb(var(--ink-faded)); background: transparent;
+        border: 1px solid rgb(var(--ink-800) / 0.6);
+      }
+      .toggle button[aria-pressed='true'] {
+        color: rgb(var(--on-accent)); background: rgb(var(--accent)); border-color: transparent;
+      }
+
+      /* Hero */
+      .hero { padding: 28px 0 40px; }
+      .eyebrow {
+        font-family: 'Alegreya Sans', sans-serif; font-size: 13px; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.12em; color: rgb(var(--accent-bright));
+        margin: 0 0 14px;
+      }
+      .hero h1 { margin: 0; font-size: clamp(40px, 8vw, 68px); line-height: 1.02; }
+      .hero .lede { margin: 18px 0 0; font-size: clamp(18px, 2.4vw, 22px); color: rgb(var(--bone-100)); max-width: 40ch; }
+      .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px; min-height: 50px; padding: 0 22px;
+        border-radius: 10px; font-family: 'Alegreya Sans', sans-serif; font-size: 17px; font-weight: 700;
+        text-decoration: none; cursor: pointer; border: 1px solid transparent;
+      }
+      .btn-primary { background: rgb(var(--accent)); color: rgb(var(--on-accent)); }
+      .btn-ghost { background: rgb(var(--raised)); color: rgb(var(--ink)); border-color: rgb(var(--ink-800)); }
+      .note { margin-top: 14px; font-size: 15px; color: rgb(var(--ink-faded)); }
+
+      /* Wizard showcase — the killer feature, as one raised card */
+      .wizard {
+        margin-top: 40px; border-radius: 14px; background: rgb(var(--raised));
+        border: 1px solid rgb(var(--ink-800)); padding: 22px;
+      }
+      .wizard h2 { margin: 0 0 4px; font-size: 24px; }
+      .wizard p.sub { margin: 0 0 18px; color: rgb(var(--ink-faded)); font-size: 16px; }
+      .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+      .step {
+        display: flex; align-items: center; gap: 10px; padding: 12px;
+        border-radius: 10px; background: rgb(var(--ink-800) / 0.5); border: 1px solid rgb(var(--ink-800));
+      }
+      .step .n {
+        flex-shrink: 0; width: 24px; height: 24px; border-radius: 999px; display: flex;
+        align-items: center; justify-content: center; font-size: 13px; font-weight: 700;
+        font-family: 'Alegreya Sans', sans-serif;
+        background: rgb(var(--accent) / 0.15); color: rgb(var(--accent-bright));
+      }
+      .step span.label { font-family: 'Alegreya Sans', sans-serif; font-size: 15px; font-weight: 600; }
+
+      /* Feature grid */
+      .section-head { margin: 52px 0 18px; }
+      .section-head h2 { margin: 0; font-size: 28px; }
+      .section-head p { margin: 6px 0 0; color: rgb(var(--ink-faded)); }
+      .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+      .card { border-radius: 12px; background: rgb(var(--raised)); border: 1px solid rgb(var(--ink-800)); padding: 18px; }
+      .chip {
+        width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+        background: rgb(var(--accent) / 0.14); color: rgb(var(--accent-bright)); margin-bottom: 12px;
+      }
+      .chip svg { width: 22px; height: 22px; }
+      .card h3 { margin: 0 0 6px; font-size: 20px; color: rgb(var(--bone-100)); }
+      .card p { margin: 0; font-size: 16px; color: rgb(var(--ink-faded)); line-height: 1.5; }
+
+      /* Profile block — the one signature 2px-border element (§5.3), kept
+         identical to the app so the motif reads the same on the page. */
+      .plate { margin-top: 40px; display: flex; justify-content: center; }
+      .profile {
+        border: 2px solid rgb(var(--ink)); background: rgb(var(--raised));
+        box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.35);
+        overflow-x: auto; max-width: 100%;
+      }
+      table.stat { border-collapse: collapse; font-variant-numeric: tabular-nums lining-nums; }
+      table.stat th, table.stat td { padding: 6px 12px; text-align: center; font-size: 15px; }
+      table.stat th {
+        font-family: 'IM Fell English SC', 'IM Fell English', serif; text-transform: uppercase;
+        letter-spacing: 0.05em; border-bottom: 2px solid rgb(var(--ink)); color: rgb(var(--ink)); font-weight: 400;
+      }
+      table.stat td { color: rgb(var(--ink)); }
+      .plate-caption { text-align: center; color: rgb(var(--ink-faded)); font-size: 14px; margin-top: 8px; }
+
+      /* Footer */
+      footer { margin-top: 56px; border-top: 1px solid rgb(var(--ink-800)); padding: 24px 0 40px; }
+      footer .links { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 14px; }
+      footer .links a { font-family: 'Alegreya Sans', sans-serif; font-size: 15px; font-weight: 600; color: rgb(var(--accent-bright)); text-decoration: none; }
+      .disclaimer { font-size: 13px; color: rgb(var(--ink-faded)); line-height: 1.5; max-width: 70ch; }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="wordmark">
+          <span class="glyph display" aria-hidden="true">M</span>
+          <span>Mordheim Campaign Manager</span>
+        </div>
+        <div class="toggle" role="group" aria-label="Theme">
+          <button type="button" data-theme-set="grimdark" aria-pressed="true">Grimdark</button>
+          <button type="button" data-theme-set="parchment" aria-pressed="false">Rulebook</button>
+        </div>
+      </div>
+
+      <!-- HERO — leads with the post-battle wizard, the killer feature (§1). -->
+      <header class="hero">
+        <p class="eyebrow">Warband &amp; campaign tracker</p>
+        <h1>The post-battle bookkeeping, handled.</h1>
+        <p class="lede">
+          Mordheim's paperwork is where campaigns stall — injuries, experience, advances, income, upkeep,
+          all rolled or chosen and easy to miscount. This does it as a guided sequence, so your warband
+          is right before the next game.
+        </p>
+        <div class="cta">
+          <a class="btn btn-primary" href="/register">Create your warband</a>
+          <a class="btn btn-ghost" href="/gallery">Browse warbands</a>
+        </div>
+        <p class="note">Free. Runs in the browser, installs to your phone, and works at the table.</p>
+
+        <div class="wizard">
+          <h2>The Post-Battle Wizard</h2>
+          <p class="sub">Eight steps, in order, with the dice rolled in-app or entered by hand — and a single undo.</p>
+          <div class="steps">
+            <div class="step"><span class="n tnum">1</span><span class="label">Battle &amp; result</span></div>
+            <div class="step"><span class="n tnum">2</span><span class="label">Injuries</span></div>
+            <div class="step"><span class="n tnum">3</span><span class="label">Experience</span></div>
+            <div class="step"><span class="n tnum">4</span><span class="label">Advances</span></div>
+            <div class="step"><span class="n tnum">5</span><span class="label">Dead models</span></div>
+            <div class="step"><span class="n tnum">6</span><span class="label">Income &amp; exploration</span></div>
+            <div class="step"><span class="n tnum">7</span><span class="label">Upkeep</span></div>
+            <div class="step"><span class="n tnum">8</span><span class="label">Confirm</span></div>
+          </div>
+        </div>
+      </header>
+
+      <!-- FEATURES -->
+      <div class="section-head">
+        <h2>Everything a campaign needs, nothing it doesn't</h2>
+        <p>The app records what happened at the table — it never rolls or decides for you.</p>
+      </div>
+
+      <div class="features">
+        <div class="card">
+          <div class="chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/><circle cx="16" cy="16" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>
+          </div>
+          <h3>Roster &amp; warband tracker</h3>
+          <p>Heroes, henchmen groups and hired swords with full statlines, XP tracks, skills, injuries, equipment and photos. Twenty-two warband types.</p>
+        </div>
+
+        <div class="card">
+          <div class="chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="4.5"/><path d="M7 10v4"/><path d="M12 8h9M18 5l3 3-3 3"/><path d="M12 16h9M18 13l3 3-3 3"/></svg>
+          </div>
+          <h3>Trading Post</h3>
+          <p>Buy common and rare gear against your gold, roll for availability or resolve by hand, and sell back from the treasury. Prices from the rulebook.</p>
+        </div>
+
+        <div class="card">
+          <div class="chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v12H4z"/><path d="M4 9h16"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+          </div>
+          <h3>Shared campaigns</h3>
+          <p>A join code drops your group into one campaign — standings, a shared battle log, awards and rivalries, and game nights on a calendar.</p>
+        </div>
+
+        <div class="card">
+          <div class="chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <h3>Offline rules reference</h3>
+          <p>The full core rulebook, searchable and grouped by chapter, plus skills, scenarios and warband rules — with a dice roller for the table.</p>
+        </div>
+
+        <div class="card">
+          <div class="chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V4h12v5"/><rect x="6" y="13" width="12" height="7"/><path d="M6 17H4a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1h-2"/></svg>
+          </div>
+          <h3>Printable roster sheet</h3>
+          <p>The classic Mordheim roster, laid out from your data with the Experience boxes already ticked. Print it, or save it as a PDF.</p>
+        </div>
+
+        <div class="card">
+          <div class="chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5"/><path d="M16 5h3v3"/><path d="M8 19H5v-3"/><path d="M19 19 5 5"/><path d="M8 5H5v3"/><path d="M16 19h3v-3"/></svg>
+          </div>
+          <h3>Pre- &amp; during-battle</h3>
+          <p>Pick or roll a scenario, note the opponent, then track the turn, casualties and a timestamped event log — surviving a refresh mid-game.</p>
+        </div>
+      </div>
+
+      <!-- The signature statline plate — identical border treatment to the app. -->
+      <div class="plate">
+        <div>
+          <div class="profile">
+            <table class="stat">
+              <thead>
+                <tr><th>M</th><th>WS</th><th>BS</th><th>S</th><th>T</th><th>W</th><th>I</th><th>A</th><th>Ld</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>4</td><td>4</td><td>3</td><td>3</td><td>3</td><td>1</td><td>4</td><td>1</td><td>8</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="plate-caption">The rulebook's own profile block — the same table you'll read on every warrior.</p>
+        </div>
+      </div>
+
+      <footer>
+        <div class="links">
+          <a href="/register">Create a warband</a>
+          <a href="/gallery">Public gallery</a>
+          <a href="/login">Sign in</a>
+          <a href="/rules">Rules reference</a>
+        </div>
+        <p class="disclaimer">
+          Mordheim Campaign Manager is an unofficial, fan-made tool and is not associated with, endorsed
+          or sponsored by Games Workshop. Mordheim and all associated names, marks and content are the
+          property of Games Workshop Ltd. This tool records your own campaign; it is not a substitute for
+          the rulebooks.
+        </p>
+      </footer>
+    </div>
+
+    <!-- Progressive enhancement only: the page reads fully without it, and
+         crawlers/unfurlers get the whole thing from the static markup. -->
+    <script>
+      (function () {
+        var buttons = document.querySelectorAll('[data-theme-set]');
+        function apply(theme) {
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.classList.toggle('dark', theme === 'grimdark');
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', theme === 'parchment' ? '#e9e0cc' : '#0b0a09');
+          buttons.forEach(function (b) {
+            b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === theme));
+          });
+          try { localStorage.setItem('mordheim.theme', theme); } catch (e) {}
+        }
+        buttons.forEach(function (b) {
+          b.addEventListener('click', function () { apply(b.getAttribute('data-theme-set')); });
+        });
+        // Reflect whatever the pre-paint script already chose.
+        var current = document.documentElement.getAttribute('data-theme') || 'grimdark';
+        apply(current === 'parchment' ? 'parchment' : 'grimdark');
+      })();
+    </script>
+  </body>
+</html>

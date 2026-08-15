@@ -93,6 +93,15 @@ export const strings = {
     allCategories: 'All',
     noResults: 'No rules match your search.',
     noEntriesInCategory: 'No entries in this category yet.',
+    // Coarse groups above the chapter accordion (§ redesign). Fine chapters are
+    // the accordion rows; these bundle them for a quick narrow.
+    groupCore: 'Core Rules',
+    groupMagic: 'Magic',
+    groupPostBattle: 'Post-Battle',
+    groupTrading: 'Trading',
+    groupWarbands: 'Warbands & Scenarios',
+    diceRoller: 'Dice roller',
+    entryCount: (n: number) => `${n} rule${n === 1 ? '' : 's'}`,
     sourceLabel: 'Source',
     relatedSection: 'Related rules',
     resultCount: (n: number) => `${n} result${n === 1 ? '' : 's'}`,
