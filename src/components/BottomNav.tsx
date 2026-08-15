@@ -12,6 +12,7 @@ export default function BottomNav() {
           <NavLink
             key={tab.to}
             to={tab.to}
+            data-nav-to={tab.to}
             end={tab.end}
             className={({ isActive: linkActive }) =>
               `flex-1 min-w-0 min-h-[56px] flex items-center justify-center text-center text-xs font-semibold leading-tight px-0.5 truncate transition-colors ${

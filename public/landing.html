@@ -158,6 +158,10 @@
 
       /* Hero */
       .hero { padding: 28px 0 40px; }
+      /* The stone wordmark reads as light-on-dark; it keeps its dark outline on
+         parchment too, so it stays legible in both themes. Capped so it anchors
+         the hero without swallowing it, and scales down on a phone. */
+      .hero-banner { display: block; width: 100%; max-width: 520px; height: auto; margin: 4px auto 22px; }
       .eyebrow {
         font-family: 'Alegreya Sans', sans-serif; font-size: 13px; font-weight: 700;
         text-transform: uppercase; letter-spacing: 0.12em; color: rgb(var(--accent-bright));
@@ -253,6 +257,16 @@
 
       <!-- HERO — leads with the post-battle wizard, the killer feature (§1). -->
       <header class="hero">
+        <!-- The stone wordmark art. Dimensions given so the box is reserved
+             before it loads and the hero text doesn't jump. Alt carries the name
+             for the crawler, since the logo IS the product name. -->
+        <img
+          class="hero-banner"
+          src="/banner/mm-spear.png"
+          alt="Mordheim Manager"
+          width="1209"
+          height="399"
+        />
         <p class="eyebrow">Warband &amp; campaign tracker</p>
         <h1>The post-battle bookkeeping, handled.</h1>
         <p class="lede">
@@ -260,6 +274,7 @@
         </p>
         <div class="cta">
           <a class="btn btn-primary" href="/app">Go to app</a>
+          <a class="btn btn-ghost" href="/warbands">View warbands</a>
           <a class="btn btn-ghost" href="/app/register">Create an account</a>
         </div>
         <p class="note">Free. Runs in the browser, installs to your phone, and works at the table.</p>

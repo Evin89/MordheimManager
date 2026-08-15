@@ -1569,6 +1569,18 @@ Read-only and client-side: pick two warbands and render their `ProfileBlock`s (�
 
 A client-side filter on data already loaded — no schema, no query change. A toggle on the trading post list, filtering the fetched catalogue against the warband's current gold. For rare items, which carry a price *range* rather than a fixed price (§4.4), the filter uses the range's minimum, since the actual price is not known until it is rolled. ✅ **Built** as a checkbox above the Common/Rare tabs in `EquipmentShop` (so it also covers the buy-from-detail-screen flow). An item whose price can't be computed — a null cost, or a "4× base weapon price" multiplier `parseBasePrice` reports as 0 — is never hidden, since hiding something you might afford is worse than showing one you can't. Verified against a warband drained to 42 gold: items over 42 dropped, the rest stayed.
 
+### 20.4 Guided nav tour ("how-to") ✅
+
+A **?** button in the app's top-right corner that, on tap, runs a click-through tour: it highlights each navigation control in turn and says in a sentence what that tab does — Home, Warbands, Battle, Trading, Campaign, Rules, Account — with a Next button to step along and a dismiss to leave. Onboarding for a first-time visitor who lands on a screen of unlabelled-ish tabs and doesn't yet know the app's shape.
+
+- ✅ **No schema, no RLS, no persistence beyond a localStorage flag** (`mordheim.navTourSeen`) — a UI feature, the same class as §20.1–§20.3. Built as `components/NavTour.tsx`, mounted once in the app shell beside the report button.
+- ✅ **Drives off `components/navItems.tsx`**, the single list both `BottomNav` and `SideNav` render from, so the tour can never describe a tab the nav doesn't have (or miss one it does). Each item carries a one-line `help` string beside its label/icon, and both navs tag their links with `data-nav-to` so the tour locates the live control.
+- ✅ **Coachmark, not a dependency.** A full-screen overlay whose spotlight is a transparent box over the target with a `0 0 0 9999px` box-shadow — the highlighted control shows through the dimmed backdrop — and a card positioned from `getBoundingClientRect()`. No library.
+- ✅ **Two navs, one tour.** Below `md` the card sits above the bottom bar; at `md`+ it sits beside the sidebar rail, keyed off the same breakpoint the navs swap at. It spotlights whichever copy of the nav is actually visible (the hidden one measures as zero).
+- ✅ **Auto-offer once, re-openable forever.** It runs itself the first time a signed-in player reaches the app (the localStorage flag suppresses it after), and the **?** reopens it on demand.
+- ✅ **Resolved: the ? floats fixed top-right**, mirroring the bottom-anchored report button, per the owner's "right top corner" request — not a header slot, which the `BackHeader` sub-screens lack.
+- Verified in the browser both ways: on desktop it auto-ran and stepped through all seven tabs with the spotlight tracking the rail, Done set the flag and the **?** returned, and reopening worked; on a 375px phone the card sat above the bottom bar with the tab spotlit.
+
 ---
 
 ## 21. Bigger swings ◻️
@@ -1613,13 +1625,14 @@ Roughly by lift × risk, cheapest first.
 | 2 | ✅ §17.4 Awards, ⚠️ §17.2 Rivalries | Built. Awards full; rivalries grouped by opponent name (no persisted nemesis — opponents are text, not ids) |
 | 3 | ✅ §18.1 Nicknames & epitaphs | Built (epitaph in the battle log, since dead heroes leave the roster) |
 | 4 | §21.3 Scenario generator | One static file and a button |
-| 5 | §17.3 Narrative log, §19.3 Announcements | Small tables on an RLS pattern that exists |
-| 6 | ✅ §18.3 Rating history | Built (migration 0016; detail-screen chart) |
-| 7 | §19.1 Event RSVPs | Extends the events tables, now that their screens exist |
-| 8 | ✅ §18.2 Equipment history | Built (the three per-model gear write sites) |
-| 9 | §17.1 Territory | Real write contention; resolve the open question first |
-| 10 | §19.2 Gallery comments | Moderation cost — reconsider the need before building |
-| 11 | §19.4 Push notifications | First server-side compute the project has needed |
-| 12 | §21.2 Custom warband builder | Scope separately; conflicts with §3.3 unless narrowed to clone-and-rename |
+| 5 | ✅ §20.4 Guided nav tour ("how-to") | Built (`NavTour.tsx`; coachmark over the shared nav list, auto-once then ?-reopenable) |
+| 6 | §17.3 Narrative log, §19.3 Announcements | Small tables on an RLS pattern that exists |
+| 7 | ✅ §18.3 Rating history | Built (migration 0016; detail-screen chart) |
+| 8 | §19.1 Event RSVPs | Extends the events tables, now that their screens exist |
+| 9 | ✅ §18.2 Equipment history | Built (the three per-model gear write sites) |
+| 10 | §17.1 Territory | Real write contention; resolve the open question first |
+| 11 | §19.2 Gallery comments | Moderation cost — reconsider the need before building |
+| 12 | §19.4 Push notifications | First server-side compute the project has needed |
+| 13 | §21.2 Custom warband builder | Scope separately; conflicts with §3.3 unless narrowed to clone-and-rename |
 
 Done so far: per-model photos (§21.1, migration 0015), the campaign events UI that §19.1 extends (§4.5), and all of §20 Utility (the dice roller, comparison tool and afford-filter — row 1).

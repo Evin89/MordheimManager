@@ -1,6 +1,7 @@
 import { ReactElement, Suspense, lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
+import NavTour from './components/NavTour';
 import ReportIssueButton from './components/ReportIssueButton';
 import SideNav from './components/SideNav';
 import ConnectionBanner from './components/ConnectionBanner';
@@ -194,6 +195,9 @@ function AppShell() {
             page you're actually looking at. */}
         <ReportIssueButton />
       </div>
+      {/* The guided nav tour's ? button and overlay (§20.4). Outside the
+          content column so its fixed positioning is relative to the viewport. */}
+      <NavTour />
       <BottomNav />
     </div>
   );

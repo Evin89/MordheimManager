@@ -26,6 +26,7 @@ export default function SideNav() {
             <NavLink
               key={tab.to}
               to={tab.to}
+              data-nav-to={tab.to}
               end={tab.end}
               title={tab.label}
               className={({ isActive: linkActive }) =>

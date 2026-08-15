@@ -129,6 +129,8 @@ export type NavItem = {
   /** Claims a path its own `to` can't express, e.g. one with an id in the middle. */
   alsoActiveFor?: (pathname: string) => boolean;
   Icon: (props: IconProps) => JSX.Element;
+  /** One-line description shown by the guided tour (§20.4). */
+  help: string;
 };
 
 /** The battle flow, wherever it happens to be nested. */
@@ -147,14 +149,14 @@ export function isNavItemActive(item: NavItem, pathname: string, linkIsActive: b
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { to: '/', label: strings.nav.home, end: true, Icon: HomeIcon },
-  { to: '/warbands', label: strings.nav.warbands, notActiveFor: isBattlePath, Icon: WarbandIcon },
-  { to: '/post-battle', label: strings.nav.postBattle, alsoActiveFor: isBattlePath, Icon: BattleIcon },
-  { to: '/trading', label: strings.nav.trading, Icon: TradingIcon },
+  { to: '/', label: strings.nav.home, end: true, Icon: HomeIcon, help: strings.nav.help.home },
+  { to: '/warbands', label: strings.nav.warbands, notActiveFor: isBattlePath, Icon: WarbandIcon, help: strings.nav.help.warbands },
+  { to: '/post-battle', label: strings.nav.postBattle, alsoActiveFor: isBattlePath, Icon: BattleIcon, help: strings.nav.help.postBattle },
+  { to: '/trading', label: strings.nav.trading, Icon: TradingIcon, help: strings.nav.help.trading },
   // The overview, not a single campaign: a player can be in several, and the
   // list is what tells them which they lead and which is still being played.
   // Opening one from there sets it active, so /campaign stays the detail view.
-  { to: '/campaigns', label: strings.nav.campaign, activeFor: ['/campaign'], Icon: CampaignIcon },
-  { to: '/rules', label: strings.nav.rules, Icon: RulesIcon },
-  { to: '/account', label: strings.nav.settings, Icon: ProfileIcon },
+  { to: '/campaigns', label: strings.nav.campaign, activeFor: ['/campaign'], Icon: CampaignIcon, help: strings.nav.help.campaign },
+  { to: '/rules', label: strings.nav.rules, Icon: RulesIcon, help: strings.nav.help.rules },
+  { to: '/account', label: strings.nav.settings, Icon: ProfileIcon, help: strings.nav.help.settings },
 ];

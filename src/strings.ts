@@ -16,6 +16,27 @@ export const strings = {
     settings: 'Account',
     signIn: 'Sign in',
     signOut: 'Sign out',
+    // One line per tab, shown by the guided tour (§20.4). Kept beside the labels
+    // so the tour and the nav can't describe different things.
+    help: {
+      home: 'Your dashboard — the active campaign, every warband at a glance, and quick links into the rest.',
+      warbands: 'Build and manage your warbands here: heroes, henchmen and hired swords, their gear, XP and injuries.',
+      postBattle: 'Run a game end to end — set up the scenario, track the fight, then the guided post-battle sequence.',
+      trading: 'The Trading Post: buy common and rare equipment against your gold, and sell from the treasury.',
+      campaign: 'Your campaigns — shared standings and battle log, game nights, awards, and the code to invite your group.',
+      rules: 'The full rulebook, searchable and grouped by chapter, with a dice roller for the table.',
+      settings: 'Your account: theme, display name, a full data backup, and sign out.',
+    },
+  },
+  tour: {
+    /** The floating ? control, and its accessible name. */
+    open: 'How to use the app',
+    title: 'Getting around',
+    progress: (n: number, total: number) => `${n} / ${total}`,
+    next: 'Next',
+    back: 'Back',
+    done: 'Done',
+    skip: 'Skip',
   },
   dice: {
     title: 'Dice roller',
