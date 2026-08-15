@@ -69,19 +69,23 @@ function prettyType(slug) {
  * and never unfurls.
  */
 async function fetchPublicRoster(env, id) {
-  if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) return null;
+  // Accept either bare names or the VITE_-prefixed ones the client build uses,
+  // so whichever the Worker's runtime vars happen to be called, this finds them.
+  const supabaseUrl = env.SUPABASE_URL || env.VITE_SUPABASE_URL;
+  const supabaseKey = env.SUPABASE_ANON_KEY || env.VITE_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !supabaseKey) return null;
   if (!/^[0-9a-f-]{36}$/i.test(id)) return null; // only a uuid can be a warband id
 
   const url =
-    `${env.SUPABASE_URL}/rest/v1/warbands` +
+    `${supabaseUrl}/rest/v1/warbands` +
     `?id=eq.${id}&visibility=eq.public&deleted_at=is.null` +
     `&select=name,warband_type,rating,profiles(display_name)`;
 
   try {
     const res = await fetch(url, {
       headers: {
-        apikey: env.SUPABASE_ANON_KEY,
-        authorization: `Bearer ${env.SUPABASE_ANON_KEY}`,
+        apikey: supabaseKey,
+        authorization: `Bearer ${supabaseKey}`,
         accept: 'application/vnd.pgrst.object+json', // single row, or 406 if none
       },
       // The row changes rarely; let Cloudflare cache the lookup briefly so a
