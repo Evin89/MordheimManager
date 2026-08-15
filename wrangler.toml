@@ -11,11 +11,21 @@ compatibility_date = "2026-08-11"
 
 # A tiny Worker in front of the static assets, purely so crawlers and
 # link-unfurlers get real meta on the two shareable surfaces — see worker/index.js.
-# Requires two runtime vars on the Worker (Settings -> Variables and Secrets):
-# SUPABASE_URL and SUPABASE_ANON_KEY. Both are public — the anon key is already
-# in the client bundle — and only the roster-unfurl path uses them; without them
-# it degrades to serving the plain shell.
 main = "worker/index.js"
+
+# The Worker's runtime config, needed only by the roster-unfurl path.
+#
+# Here rather than in the dashboard on purpose: `wrangler deploy` treats this
+# file as the source of truth and clears any dashboard-set vars not listed here,
+# so a var set only in the UI is wiped on the next deploy — which is exactly why
+# roster injection kept coming back blank. Declaring them here makes every deploy
+# deterministic.
+#
+# Safe to commit: the anon key is designed to be public and already ships inside
+# the client bundle; row-level security, not this key, is what gates the data.
+[vars]
+SUPABASE_URL = "https://gkrekytyfvqyqubrsnov.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdrcmVreXR5ZnZxeXF1YnJzbm92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwODU4NzQsImV4cCI6MjEwMDY2MTg3NH0.699kQIKnw-_I3sxIB5zxmIdqSzpOdSY0DKZZuolJ_x4"
 
 [assets]
 # Vite's build output. Everything in public/ is copied in here verbatim, which is
