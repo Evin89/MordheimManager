@@ -156,7 +156,11 @@ export default {
     // has to substitute the landing. Any method other than GET is the app's
     // business and falls through.
     if (path === '/' && request.method === 'GET') {
-      return env.ASSETS.fetch(new Request(new URL('/landing.html', url), request));
+      // Fetch the extensionless `/landing`, not `/landing.html`: the assets layer
+      // canonicalises `.html` URLs with a 307 redirect, so fetching `/landing.html`
+      // would bounce the visitor to `/landing`. `/landing` resolves straight to
+      // the file at 200, served in place so the address bar stays `/`.
+      return env.ASSETS.fetch(new Request(new URL('/landing', url), request));
     }
 
     // Links shared before the move — /rosters/:id and /gallery — used to be the
