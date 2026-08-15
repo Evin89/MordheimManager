@@ -230,7 +230,11 @@
       footer { margin-top: 56px; border-top: 1px solid rgb(var(--ink-800)); padding: 24px 0 40px; }
       footer .links { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 14px; }
       footer .links a { font-family: 'Alegreya Sans', sans-serif; font-size: 15px; font-weight: 600; color: rgb(var(--accent-bright)); text-decoration: none; }
-      .disclaimer { font-size: 13px; color: rgb(var(--ink-faded)); line-height: 1.5; max-width: 70ch; }
+      .community-label { font-family: 'Alegreya Sans', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: rgb(var(--ink-faded)); margin: 4px 0 8px; }
+      /* Community peers, not app actions — muted so they don't compete with the
+         primary links above, but still clearly links. */
+      .links-community a { color: rgb(var(--ink-faded)); text-decoration: underline; text-underline-offset: 2px; }
+      .disclaimer { font-size: 13px; color: rgb(var(--ink-faded)); line-height: 1.5; max-width: 70ch; margin-top: 18px; }
     </style>
   </head>
 
@@ -252,9 +256,7 @@
         <p class="eyebrow">Warband &amp; campaign tracker</p>
         <h1>The post-battle bookkeeping, handled.</h1>
         <p class="lede">
-          Mordheim's paperwork is where campaigns stall — injuries, experience, advances, income, upkeep,
-          all rolled or chosen and easy to miscount. This does it as a guided sequence, so your warband
-          is right before the next game.
+          A free Mordheim warband and campaign manager with inbuild trading, campaigns, during-battle sequence (from rolling for scenario's to xp- and out-of-action management), images for each hero and henchmen and more.
         </p>
         <div class="cta">
           <a class="btn btn-primary" href="/register">Create your warband</a>
@@ -280,7 +282,7 @@
 
       <!-- FEATURES -->
       <div class="section-head">
-        <h2>Everything a campaign needs, nothing it doesn't</h2>
+        <h2>Features</h2>
         <p>The app records what happened at the table — it never rolls or decides for you.</p>
       </div>
 
@@ -357,6 +359,11 @@
           <a href="/gallery">Public gallery</a>
           <a href="/login">Sign in</a>
           <a href="/rules">Rules reference</a>
+        </div>
+        <p class="community-label">Other Mordheim resources</p>
+        <div class="links links-community">
+          <a href="https://mordheimer.net" target="_blank" rel="noopener external">Mordheimer</a>
+          <a href="https://broheim.net" target="_blank" rel="noopener external">Broheim</a>
         </div>
         <p class="disclaimer">
           Mordheim Campaign Manager is an unofficial, fan-made tool and is not associated with, endorsed
