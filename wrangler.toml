@@ -36,11 +36,11 @@ directory = "./dist/"
 # every non-bot request is passed straight through unchanged.
 binding = "ASSETS"
 
-# The Worker runs FIRST only for these two paths; everything else skips it
-# entirely and behaves exactly as it did with pure static assets — same caching,
-# same SPA fallback. `/` and `/rosters/*` are the only shareable surfaces, and
-# even there a human falls through to the SPA (the Worker checks the user-agent).
-run_worker_first = ["/", "/rosters/*"]
+# The Worker runs FIRST only for these paths; everything else — the whole app
+# under /app, and every hashed asset — skips it and behaves exactly as it did
+# with pure static assets. `/` is the landing; the two old public paths are
+# redirected to /app; the new roster path is where unfurl meta is injected.
+run_worker_first = ["/", "/rosters/*", "/gallery", "/app/rosters/*"]
 
 # SPA routing. Every path in this app is a client-side route, so a request with
 # no file behind it — a bookmark, a shared roster link, a refresh on

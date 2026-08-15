@@ -163,7 +163,11 @@ export default defineConfig(({ command, mode }) => {
         name: 'Mordheim Campaign Manager',
         short_name: 'Mordheim',
         description: 'Warband and campaign manager for Mordheim, including Border Town Burning.',
-        start_url: '/',
+        // Opens the app, not the marketing landing at `/`. `scope` keeps the
+        // installed PWA's navigation inside /app, so a tap that would leave it
+        // (a link to the landing) opens in the browser instead.
+        start_url: '/app',
+        scope: '/app',
         display: 'standalone',
         background_color: '#0b0a09',
         theme_color: '#0b0a09',

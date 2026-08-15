@@ -149,30 +149,36 @@ function injectRosterMeta(shell, roster, canonical) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const path = url.pathname;
 
-    // Only GET matters for a preview; anything else is the app's business.
-    if (request.method !== 'GET' || !isBot(request)) {
-      return env.ASSETS.fetch(request);
+    // The bare front door is the marketing landing, for everyone now — the app
+    // lives under /app. Static assets would serve index.html here, so the Worker
+    // has to substitute the landing. Any method other than GET is the app's
+    // business and falls through.
+    if (path === '/' && request.method === 'GET') {
+      return env.ASSETS.fetch(new Request(new URL('/landing.html', url), request));
     }
 
-    // The bare front door: give a bot the fully-baked static landing page,
-    // while a human still gets the SPA (handled by the guard above).
-    if (url.pathname === '/') {
-      const landing = new Request(new URL('/landing.html', url), request);
-      return env.ASSETS.fetch(landing);
+    // Links shared before the move — /rosters/:id and /gallery — used to be the
+    // public surfaces and may already be out in group chats. Send them to their
+    // /app home with a permanent redirect rather than letting them 404. An
+    // unfurler follows the redirect and then gets the enriched shell below.
+    if (path.startsWith('/rosters/') || path === '/gallery') {
+      return Response.redirect(`${url.origin}/app${path}${url.search}`, 301);
     }
 
-    // A shared roster: enrich the shell if the warband is public, otherwise
-    // serve it plain so a private warband unfurls as nothing.
-    if (url.pathname.startsWith('/rosters/')) {
-      const id = url.pathname.slice('/rosters/'.length).split('/')[0];
+    // A shared roster, at its new path: enrich the shell for a crawler/unfurler
+    // if the warband is public, otherwise serve it plain so a private warband
+    // unfurls as nothing. Humans fall straight through to the SPA.
+    if (path.startsWith('/app/rosters/') && request.method === 'GET' && isBot(request)) {
+      const id = path.slice('/app/rosters/'.length).split('/')[0];
       const shell = await env.ASSETS.fetch(request); // SPA fallback -> index.html
       const roster = await fetchPublicRoster(env, id);
       if (!roster) return shell;
 
       // .transform() streams the rewritten body while carrying the shell's own
       // status and headers, so it is already the response to return.
-      const canonical = `https://mordheimmanager.net/rosters/${id}`;
+      const canonical = `https://mordheimmanager.net/app/rosters/${id}`;
       return injectRosterMeta(shell, roster, canonical);
     }
 

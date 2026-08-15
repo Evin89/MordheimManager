@@ -87,9 +87,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function requestPasswordReset(email: string) {
-    // redirectTo must also be listed under Supabase's allowed redirect URLs.
+    // The `/app` prefix is spelled out because this is a real URL for Supabase,
+    // not a router path — `window.location.origin` stops at the domain, and the
+    // reset screen lives at /app/reset-password now the app is mounted there.
+    // This exact URL must also be on Supabase's allowed redirect list.
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: `${window.location.origin}/app/reset-password`,
     });
     return { error: error?.message ?? null };
   }

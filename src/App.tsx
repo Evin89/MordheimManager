@@ -201,7 +201,13 @@ function AppShell() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    // The whole app is mounted at /app, so the bare domain is free to be the
+    // marketing landing page (served statically by the Worker). `basename` means
+    // every Route path, Link and navigate() below stays written as `/warbands`,
+    // `/campaign`, … and react-router serves them under /app automatically —
+    // only things *outside* the router (the Supabase auth redirect, the PWA
+    // start_url, the landing's own links) name /app explicitly.
+    <BrowserRouter basename="/app">
       <Suspense fallback={<RouteFallback />}>
         <Routes>
         {/* Auth screens render outside the app shell — no nav on the sign-in flow. */}
