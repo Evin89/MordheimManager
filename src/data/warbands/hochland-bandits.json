@@ -176,7 +176,7 @@
       "specialRules": [
         {
           "name": "Convincing Manner",
-          "description": "Hucksters specialize in convincing strangers of their benevolent intentions. When an enemy warrior attempts to charge a member of the huckster’s warband within 12” of the huckster, the enemy must first pass a successful Leadership test. If the warrior fails the test he may not charge and remains stationary for the turn (treat as a failed charge), exactly as if he had failed a test to charge a Fear-causing enemy. Note that individuals subject to <Tooltip>stupidity</Tooltip> and animals are immune to this effect (they are too stupid to understand what the huckster is saying)."
+          "description": "Hucksters specialize in convincing strangers of their benevolent intentions. When an enemy warrior attempts to charge a member of the huckster’s warband within 12” of the huckster, the enemy must first pass a successful Leadership test. If the warrior fails the test he may not charge and remains stationary for the turn (treat as a failed charge), exactly as if he had failed a test to charge a Fear-causing enemy. Note that individuals subject to stupidity and animals are immune to this effect (they are too stupid to understand what the huckster is saying)."
         },
         {
           "name": "Slick Operator",
@@ -445,18 +445,18 @@
       "name": "Rapier",
       "category": "misc",
       "cost": 15,
-      "rarity": null,
+      "rarity": 5,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Like all swords, you may use a rapier to parry in hand to hand combat. When your opponent scores a hit you must roll a D6. If you can score greater than the highest 'to hit' roll you have parried the blow and the attack is discarded.\n\nA warrior armed with a rapier rolls to hit and wound as normal. However, if you mange to hit your opponent but fail to wound, you may attack again just as if you had another attack but at –1 to hit (down to a maximum to needing a 6 to hit). You may continue attacking as long as you hit and it is possible to strike your opponent many times, particularly if your warrior has more then one attack on his profile.\n\nBecause a rapier is a very light sword that lacks the thick armour breaking blade of the broadsword, armour saves are made at +1."
     },
     {
       "id": "mainGauche",
       "name": "Main gauche",
       "category": "misc",
       "cost": 7,
-      "rarity": null,
+      "rarity": 7,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Can parry enemy blows\n\nTarget gets +1 to armour save"
     }
   ],
   "specialRules": ""

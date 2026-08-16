@@ -253,45 +253,45 @@
       "name": "Cooking pot helmet",
       "category": "armour",
       "cost": 8,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "A Master Chef equipped with a cooking pot helmet has a special save of 5+ against being stunned. This save is never modified."
     },
     {
       "id": "kitchenKnife",
       "name": "Kitchen knife",
       "category": "misc",
       "cost": 2,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Kitchen knives are not the best weapons to use for penetrating an enemy model's armour. An enemy wounded by a kitchen knife gains a +1 bonus to his armour save, and a 6+ armour save if he has none normally.✏️"
     },
     {
       "id": "cleaver",
       "name": "Cleaver",
       "category": "melee",
       "cost": 3,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Target gets -1 to armour save"
     },
     {
       "id": "ladle",
       "name": "Ladle",
       "category": "misc",
       "cost": 2,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "A Master Chef knows exactly where to aim his ladle, helmets and breast plates are of little use against a ladle whacked across the hands. The only saving throws allowed are from shields or skills.\n\nIf a Master Chef manages to hit an enemy in close combat (a feat within itself) and scores a '6' in doing so he has rapped his enemy across the knuckles and forced him to drop his weapon."
     },
     {
       "id": "tenderiser",
       "name": "Tenderiser",
       "category": "misc",
       "cost": 3,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Stuns on 2-4"
     }
   ],
   "specialRules": ""

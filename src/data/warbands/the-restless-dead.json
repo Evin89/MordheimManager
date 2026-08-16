@@ -30,7 +30,7 @@
       "specialRules": [
         {
           "name": "Wizard",
-          "description": "A Liche is a powerful wizard and so is able to use Necromantic magic and starts with two spells randomly generated from the <a href=\"#necromancy-restless-dead\">Necromantic magic list</a>."
+          "description": "A Liche is a powerful wizard and so is able to use Necromantic magic and starts with two spells randomly generated from the Necromantic magic list."
         },
         {
           "name": "Cause Fear",
@@ -50,11 +50,11 @@
         },
         {
           "name": "Eternal",
-          "description": "A Liche can choose to ignore any result on the hero's Serious Injury chart except <em>Killed</em> by taking a permanent -1 on their starting Wound profile. Obviously, a Liche with 1 Wound remaining on their starting profile does not have this option. A Liche that gets a <em>Killed</em> result instead takes a permanent –D3 Wounds on their starting profile. If this takes their starting Wound total to 0 or less, the Liche is <em>Killed</em> as normal."
+          "description": "A Liche can choose to ignore any result on the hero's Serious Injury chart except Killed by taking a permanent -1 on their starting Wound profile. Obviously, a Liche with 1 Wound remaining on their starting profile does not have this option. A Liche that gets a Killed result instead takes a permanent –D3 Wounds on their starting profile. If this takes their starting Wound total to 0 or less, the Liche is Killed as normal."
         },
         {
           "name": "Feed Upon Magic",
-          "description": "A Liche can perform spells that, with the consumption of D3 Treasures, can give the Liche a permanent +1 Wound on their starting profile. This can <em>only</em> be used in between battles and cannot be used if the Liche searches for rare items or was put <em>out of action</em> in the previous battle. If the warband does not have enough Treasures to complete the spell, then the Treasures are consumed anyway and the Liche does not gain the Wound."
+          "description": "A Liche can perform spells that, with the consumption of D3 Treasures, can give the Liche a permanent +1 Wound on their starting profile. This can only be used in between battles and cannot be used if the Liche searches for rare items or was put out of action in the previous battle. If the warband does not have enough Treasures to complete the spell, then the Treasures are consumed anyway and the Liche does not gain the Wound."
         },
         {
           "name": "Warrior Wizard",
@@ -106,7 +106,7 @@
       "specialRules": [
         {
           "name": "Wizard",
-          "description": "Necromancers are wizards being trained by their Liche masters in the art of Necromancy and so are able to use Necromantic magic. They start out knowing one of the two spells known by their Liche masters.<sup><Tooltip content=\"faq153\">❓</Tooltip></sup>"
+          "description": "Necromancers are wizards being trained by their Liche masters in the art of Necromancy and so are able to use Necromantic magic. They start out knowing one of the two spells known by their Liche masters.❓"
         },
         {
           "name": "Apprentices",
@@ -451,7 +451,7 @@
         },
         {
           "name": "Animated Construct",
-          "description": "Powerful constructs such as scarecrows require much more concentration from their summoners than normal skeletons or zombies to remain animated. The scarecrow is controlled by either the Liche or the Necromancer (note down on the warband roster which), but each may only control one at a time, so only a warband with both a Liche and a Necromancer may ever take two Scarecrows. If the Liche or the Necromancer is for some reason unable to participate in a battle, their Scarecrow will also be unable to participate.<br /><br />Whenever the scarecrow's controller loses a wound he must pass an unmodified Leadership test or the magical bond is broken and the scarecrow is immediately taken out of action."
+          "description": "Powerful constructs such as scarecrows require much more concentration from their summoners than normal skeletons or zombies to remain animated. The scarecrow is controlled by either the Liche or the Necromancer (note down on the warband roster which), but each may only control one at a time, so only a warband with both a Liche and a Necromancer may ever take two Scarecrows. If the Liche or the Necromancer is for some reason unable to participate in a battle, their Scarecrow will also be unable to participate.\n\nWhenever the scarecrow's controller loses a wound he must pass an unmodified Leadership test or the magical bond is broken and the scarecrow is immediately taken out of action."
         }
       ]
     }

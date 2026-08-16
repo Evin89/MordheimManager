@@ -477,7 +477,10 @@ export type RulesCategoryId =
   | 'injuries'
   | 'scenarios'
   | 'warbandSpecial'
-  | 'btb';
+  | 'btb'
+  | 'glossary'
+  | 'errata'
+  | 'faq';
 
 export type RulesCategoryDef = {
   id: RulesCategoryId;

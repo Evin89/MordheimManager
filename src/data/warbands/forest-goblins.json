@@ -82,7 +82,7 @@
       "specialRules": [
         {
           "name": "Animosity",
-          "description": "Braves are subject to the rules for <Tooltip>Animosity</Tooltip>."
+          "description": "Braves are subject to the rules for Animosity."
         }
       ],
       "isLeader": false,
@@ -90,7 +90,8 @@
       "skillLists": [
         "combat",
         "shooting",
-        "speed"
+        "speed",
+        "orcsAndGoblinsHordes"
       ],
       "statMaximums": {
         "M": null,
@@ -129,7 +130,7 @@
       "specialRules": [
         {
           "name": "Wizard",
-          "description": "A Shaman begins with one spell randomly chosen from the <a href=\"#forest-goblin-magic\">Forest Goblin</a> Spell list."
+          "description": "A Shaman begins with one spell randomly chosen from the Forest Goblin Spell list."
         }
       ],
       "isLeader": false,
@@ -189,7 +190,7 @@
       "specialRules": [
         {
           "name": "Animosity",
-          "description": "Forest Goblins are subject to the rules for <Tooltip>Animosity</Tooltip>."
+          "description": "Forest Goblins are subject to the rules for Animosity."
         }
       ]
     },
@@ -229,11 +230,11 @@
       "specialRules": [
         {
           "name": "Animosity",
-          "description": "Red Toof Boyz are subject to the rules for <Tooltip>Animosity</Tooltip>."
+          "description": "Red Toof Boyz are subject to the rules for Animosity."
         },
         {
           "name": "Berserkers",
-          "description": "Forest Goblins of the Red Toof tribe allow themselves to be bitten by all sorts of poisonous wildlife before entering battle. The mingling venom drives them into frothing convulsions, making them extremely ferocious. Red Toof Boyz are affected by the rules for <Tooltip>Frenzy</Tooltip> as described in the Mordheim rulebook. In addition, if they begin their turn within charge range of an enemy, they are immune to animosity for that turn."
+          "description": "Forest Goblins of the Red Toof tribe allow themselves to be bitten by all sorts of poisonous wildlife before entering battle. The mingling venom drives them into frothing convulsions, making them extremely ferocious. Red Toof Boyz are affected by the rules for Frenzy as described in the Mordheim rulebook. In addition, if they begin their turn within charge range of an enemy, they are immune to animosity for that turn."
         }
       ]
     },
@@ -273,7 +274,7 @@
       "specialRules": [
         {
           "name": "Animosity",
-          "description": "Sluggas are subject to the rules for <Tooltip>Animosity</Tooltip>."
+          "description": "Sluggas are subject to the rules for Animosity."
         },
         {
           "name": "Sluggas",
@@ -315,7 +316,7 @@
       "specialRules": [
         {
           "name": "Fear:",
-          "description": "Gigantic Spiders cause <Tooltip>fear</Tooltip> as described in the Mordheim Rulebook."
+          "description": "Gigantic Spiders cause fear as described in the Mordheim Rulebook."
         },
         {
           "name": "Large Monster:",
@@ -331,11 +332,11 @@
         },
         {
           "name": "Non-sentient:",
-          "description": "Spiders are affected by the <Tooltip>stupidity</Tooltip> rules in the Mordheim rulebook. In addition, they never gain experience, as they are animals. Note however that they may climb as normal."
+          "description": "Spiders are affected by the stupidity rules in the Mordheim rulebook. In addition, they never gain experience, as they are animals. Note however that they may climb as normal."
         },
         {
           "name": "May Ride:",
-          "description": "The Forest Goblin Chieftain, may ride the Gigantic Spider.<sup><Tooltip content=\"err126\">✏️</Tooltip></sup> He gains +1 armour save, and shall\nmove at the Gigantic Spider’s rate of 6. Shooting attacks hit the Chieftain on a die roll of 1-2, and the\nGigantic Spider on a 3-6. In close combat, the opponent may choose which to hit. The Gigantic Spider no longer has to check for <Tooltip>stupidity</Tooltip> if it is being ridden, as the Chieftain is directing its actions."
+          "description": "The Forest Goblin Chieftain, may ride the Gigantic Spider.✏️ He gains +1 armour save, and shall\nmove at the Gigantic Spider’s rate of 6. Shooting attacks hit the Chieftain on a die roll of 1-2, and the\nGigantic Spider on a 3-6. In close combat, the opponent may choose which to hit. The Gigantic Spider no longer has to check for stupidity if it is being ridden, as the Chieftain is directing its actions."
         }
       ]
     }
@@ -370,18 +371,18 @@
       "name": "Boss pole",
       "category": "misc",
       "cost": 20,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "A warrior with a spear strikes first, even if charged. Note that this only applies in the first turn of hand-to-hand combat.\n\nA warrior with a spear may only use a shield or a buckler in his other hand. He may not use a second weapon.✏️\n\nIf using the optional rules for mounted models, a mounted warrior armed with a spear receives a +1 Strength bonus when he charges. This bonus only applies for that turn.\n\nHeroes and henchmen within 6\" ignore Animosity."
     },
     {
       "id": "blowpipe",
       "name": "Blowpipe",
       "category": "missile",
       "cost": 25,
-      "rarity": null,
+      "rarity": 7,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "The needles fired by a blowpipe are coated in a venom very similar in its effects to the Black Lotus (if you roll a 6 on the To Hit roll, the victim is automatically wounded). A blowpipe cannot cause critical hits. This weapon has a positive armour save modifier, so a model that normally has a save of 5+ will get a save of 4+ against a blowpipe dart. Even models that normally do not have an armour save will get a 6+ save to take into account protection offered by clothes, fur or the like.\n\nA model armed with a blowpipe can fire while hidden without revealing his position to the enemy. The target model can take an Initiative test in order to try to spot the firing model. If the test is successful, the model no longer counts as hidden."
     }
   ],
   "specialRules": ""

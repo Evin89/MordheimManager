@@ -34,7 +34,7 @@
         },
         {
           "name": "Undead",
-          "description": "The Tomb Lord is undead and follows all rules for the <a href=\"#special-rules\">Undead</a>."
+          "description": "The Tomb Lord is undead and follows all rules for the Undead."
         }
       ],
       "isLeader": true,
@@ -80,11 +80,11 @@
       "specialRules": [
         {
           "name": "Wizard",
-          "description": "The Liche Priest is a Wizard and uses <a href=\"#mortuary-cult-scrolls\">Mortuary Cult scrolls</a>."
+          "description": "The Liche Priest is a Wizard and uses Mortuary Cult scrolls."
         },
         {
           "name": "Undead",
-          "description": "The Liche Priest is undead and follows all rules for the <a href=\"#special-rules\">Undead</a>."
+          "description": "The Liche Priest is undead and follows all rules for the Undead."
         }
       ],
       "isLeader": false,
@@ -128,7 +128,7 @@
       "specialRules": [
         {
           "name": "Undead",
-          "description": "Acolytes are undead and follow all rules for the <a href=\"#special-rules\">Undead</a>."
+          "description": "Acolytes are undead and follow all rules for the Undead."
         }
       ],
       "isLeader": false,
@@ -187,7 +187,7 @@
       "specialRules": [
         {
           "name": "Undead",
-          "description": "Skeletons are undead and follow all rules for the <a href=\"#special-rules\">Undead</a>."
+          "description": "Skeletons are undead and follow all rules for the Undead."
         }
       ]
     },
@@ -227,7 +227,7 @@
       "specialRules": [
         {
           "name": "Undead",
-          "description": "The Tomb Guards are undead and follow all rules for the <a href=\"#special-rules\">Undead</a>."
+          "description": "The Tomb Guards are undead and follow all rules for the Undead."
         }
       ]
     },
@@ -273,7 +273,7 @@
         },
         {
           "name": "Scorpions sting*",
-          "description": "Scorpions attack using the poisonous sting in their tails. This attack is worked out exactly as if the scorpion was attacking with <Tooltip>Black Lotus</Tooltip>."
+          "description": "Scorpions attack using the poisonous sting in their tails. This attack is worked out exactly as if the scorpion was attacking with Black Lotus."
         }
       ]
     }
@@ -313,25 +313,25 @@
       "cost": 10,
       "rarity": null,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "These javelins receive +1 to hit when thrown."
     },
     {
       "id": "staff",
       "name": "Staff",
       "category": "melee",
       "cost": 3,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Hammers and other bludgeoning weapons are excellent to use for striking your enemy senseless. When using a hammer, club or mace, a roll of 2-4 is treated as stunned when rolling to see the extent of a model's injuries."
     },
     {
       "id": "serpentStaff",
       "name": "Serpent staff",
       "category": "melee",
       "cost": 30,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "The staff is used with two hands and may be used to Parry. However, the Liche Priest may forgo all his normal attacks and parries in a round to use the power contained within the staff. A single word of command brings the serpent to life to attack their enemy. The staff always attacks first in close combat and makes a single attack with WS4 and S4."
     }
   ],
   "specialRules": ""

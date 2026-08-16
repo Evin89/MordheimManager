@@ -175,7 +175,7 @@
       "specialRules": [
         {
           "name": "Wizard",
-          "description": "A Magician is a wizard and uses <a href=\"/docs/magic/lesser-magic\">Lesser Magic</a>. See the Magic section in the Mordheim rulebook for details."
+          "description": "A Magician is a wizard and uses Lesser Magic. See the Magic section in the Mordheim rulebook for details."
         },
         {
           "name": "Hireling",
@@ -365,18 +365,18 @@
       "name": "Rapier",
       "category": "misc",
       "cost": 15,
-      "rarity": null,
+      "rarity": 5,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Like all swords, you may use a rapier to parry in hand to hand combat. When your opponent scores a hit you must roll a D6. If you can score greater than the highest 'to hit' roll you have parried the blow and the attack is discarded.\n\nA warrior armed with a rapier rolls to hit and wound as normal. However, if you mange to hit your opponent but fail to wound, you may attack again just as if you had another attack but at –1 to hit (down to a maximum to needing a 6 to hit). You may continue attacking as long as you hit and it is possible to strike your opponent many times, particularly if your warrior has more then one attack on his profile.\n\nBecause a rapier is a very light sword that lacks the thick armour breaking blade of the broadsword, armour saves are made at +1."
     },
     {
       "id": "cathayanSilkCloak",
       "name": "Cathayan silk cloak",
       "category": "armour",
       "cost": 40,
-      "rarity": null,
+      "rarity": 9,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Any Mercenary warband whose leader is wearing silk clothes may re-roll the first failed Rout test. However, after each battle in which the leader is taken out of action, roll a D6. On a roll of 1-3 the clothes are ruined and must be discarded."
     },
     {
       "id": "tradeWagon",
@@ -392,18 +392,18 @@
       "name": "Pike",
       "category": "misc",
       "cost": 10,
-      "rarity": null,
+      "rarity": 7,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "A model wielding a pike can strike first in the first round of combat even when charged by a model wielding a spear. After the initial round of combat resolve strikes in Initiative order. The model can change to normal hand-to-hand weapons after the initial round.\n\nDue to its considerable length, a model that has a pike can attack another model from up to 3\" away without being a part of a hand-to-hand melee.\n\nPikes have to be used with both hands therefore only 1 attack is allowed. The model also cannot take advantage of a shield or buckler while using a pike.\n\nBecause of its length and weight only man-sized or larger creatures can use pikes. Skaven, Skinks, Halflings, etc cannot."
     },
     {
       "id": "dragonSword",
       "name": "Dragon sword",
       "category": "melee",
       "cost": 20,
-      "rarity": null,
+      "rarity": 10,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "A model armed with a Dragon Sword may not use a shield, buckler or additional weapon in close combat. It gets an additional +1 armour save bonus against ranged attacks if it carries a shield.\n\nDragon Swords, despite their great size, can be used for parrying like a sword. When his opponent rolls to hit, the model armed with it may roll a D6. If the score is greater than the highest to hit score of his opponent, the model has parried the blow, and that attack is discarded. A model may not parry attacks made with double or more its own Strength - they are simply too powerful to be stopped."
     }
   ],
   "specialRules": ""

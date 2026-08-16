@@ -39,7 +39,8 @@
         "combat",
         "shooting",
         "strength",
-        "speed"
+        "speed",
+        "nightGoblins"
       ],
       "statMaximums": {
         "M": null,
@@ -78,7 +79,7 @@
       "specialRules": [
         {
           "name": "Wizard",
-          "description": "A Shaman is a wizard and uses <a href=\"#waaaagh\">Waaagh! Magic</a>."
+          "description": "A Shaman is a wizard and uses Waaagh! Magic."
         }
       ],
       "isLeader": false,
@@ -128,7 +129,8 @@
       "skillLists": [
         "combat",
         "shooting",
-        "speed"
+        "speed",
+        "nightGoblins"
       ],
       "statMaximums": {
         "M": null,
@@ -224,7 +226,7 @@
         },
         {
           "name": "Looney",
-          "description": "Due to the effect of the Mushrooms he is subject to <Tooltip>frenzy</Tooltip> . He must also test for permanent damage after the battle as described in the rulebook."
+          "description": "Due to the effect of the Mushrooms he is subject to frenzy . He must also test for permanent damage after the battle as described in the rulebook."
         },
         {
           "name": "Frantic",
@@ -312,11 +314,11 @@
       "specialRules": [
         {
           "name": "Fear",
-          "description": "Trolls are frightening monsters which cause <Tooltip>fear</Tooltip>."
+          "description": "Trolls are frightening monsters which cause fear."
         },
         {
           "name": "Stupidity",
-          "description": "A Troll is subject to the rules for <Tooltip>stupidity</Tooltip>."
+          "description": "A Troll is subject to the rules for stupidity."
         },
         {
           "name": "Regeneration",
@@ -415,18 +417,18 @@
       "name": "Ball & chain",
       "category": "misc",
       "cost": 15,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Because the Ball and Chain is so heavy, normal armour does very little to protect against it. No armour saves are allowed against wounds caused by a Ball and Chain. In addition, any hit from a Ball and Chain is very likely to take off someone's head (or at least break some ribs!). Therefore, any hit that successfully wounds will do 1D3 wounds instead of 1.\n\nThe only way to wield a Ball and Chain is to swing it around in large circles, using your body as a counter-weight. Unfortunately this is not a very controllable fighting style, and as soon as he starts swinging his Ball and Chain, a warrior starts to lose control. The first turn he starts swinging the Ball and Chain, the model is moved 2D6\" in a direction nominated by the controlling player. In his subsequent Movement phases, roll a D6 to determine what the model does:\n\n  D6  Result1The model trips and strangles himself with the chain. The model is taken out of action. When rolling for Injury after the game, a roll of 1-3 means the model is out permanently, instead of the normal 1-2.2-5The model moves 2D6\" in a direction nominated by the controlling player.6The model moves 2D6\" in a random direction. If the player owns a Scatter dice (available from Games Workshop stores), roll that to determine direction. If not, then roll a D6: 1 – Straight Forward, 2-3 – Right, 4-5 – Left, 6 – Straight Back.\nIf the Ball and Chain wielding model moves into contact with another model (friend or foe), he counts as charging into close combat, and will engage in close combat until his next Movement phase. Opponents wishing to attack a Ball and Chain wielding model suffer a To Hit penalty of -1, as they must dodge the whirling ball to get close enough to strike. The Ball and Chain wielder cannot be held in close combat and will automatically move even if he starts the Movement phase in base contact with another model. If the model moves into contact with a building, wall, or other obstruction, he is automatically taken out of action. In addition, a ball and chain wielding Goblin is much too busy trying to control the spinning weapon to worry about what others are saying about him behind his back, so ignores the special rules for Animosity.\n\nBecause the Ball and Chain is so heavy, a model equipped with one may carry no other weapons or equipment. In addition, only a model under the influence of Mad Cap Mushrooms has the strength to wield a ball and chain.\n\nThe great weight of the Ball and Chain can easily tear ligaments or pull a wielder's arms out of their sockets. While someone under the influence of Mad Cap Mushrooms will not notice such effects, when the drug wears off he will be in great pain. To represent this, at the end of the battle the controlling player must roll for Injury for each model that used a Ball and Chain, just as if the model had been taken out of action. If the model was actually taken out of action normally, just roll once for Injury – there is no need to make a second roll."
     },
     {
       "id": "poisonDaggers",
       "name": "Poison daggers",
       "category": "melee",
       "cost": 25,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Poisoned Daggers are traditionally used in pairs, one in each hand. A warrior armed with Poisoned Daggers gets an additional attack.\n\nThese blades are coated in Death Cap Mushroom juice. The daggers are re-coated for free after every game, and they have the same effect as Black Lotus. For reference: they will wound the target automatically if you roll a 6 to hit. Note that you can still roll a dice for every wound inflicted in this way. If you roll a 6, you will inflict a critical hit with that roll. If you do not roll a 6, you will cause a normal wound. Take armour saves as normal.\n\nTarget gets +1 to armour save"
     }
   ],
   "specialRules": ""

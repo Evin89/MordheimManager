@@ -34,7 +34,7 @@
         },
         {
           "name": "Knights Virtue",
-          "description": "A Questing Knight is a chivalrous warrior who is superior to ordinary warriors. He will never panic and break from combat and so does not have to pass a Leadership test for being <Tooltip>all alone</Tooltip>."
+          "description": "A Questing Knight is a chivalrous warrior who is superior to ordinary warriors. He will never panic and break from combat and so does not have to pass a Leadership test for being all alone."
         }
       ],
       "isLeader": true,
@@ -42,7 +42,8 @@
       "skillLists": [
         "combat",
         "strength",
-        "speed"
+        "speed",
+        "bretonnianKnights"
       ],
       "statMaximums": {
         "M": null,
@@ -81,14 +82,15 @@
       "specialRules": [
         {
           "name": "Knights Virtue",
-          "description": "A Knight Errant is a chivalrous warrior who is superior to ordinary warriors. He will never panic and break from combat and so does not have to pass a Leadership test for being <Tooltip>all alone</Tooltip>."
+          "description": "A Knight Errant is a chivalrous warrior who is superior to ordinary warriors. He will never panic and break from combat and so does not have to pass a Leadership test for being all alone."
         }
       ],
       "isLeader": false,
       "startingXp": 8,
       "skillLists": [
         "combat",
-        "speed"
+        "speed",
+        "bretonnianKnights"
       ],
       "statMaximums": {
         "M": null,
@@ -275,9 +277,9 @@
       "name": "Bretonnian barding",
       "category": "armour",
       "cost": 30,
-      "rarity": null,
+      "rarity": 11,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "A model mounted on a barded horse receives an extra +1 to their armour save (+2 instead of the usual +1 for being mounted). In addition, a mount wearing barding will only be killed on a D6 roll of a 1 if the model is taken out of action (instead of a 1 or 2). Barding may only ever be bought for a warhorse."
     }
   ],
   "specialRules": ""

@@ -39,7 +39,8 @@
         "combat",
         "shooting",
         "academic",
-        "speed"
+        "speed",
+        "darkElf"
       ],
       "statMaximums": {
         "M": null,
@@ -85,7 +86,8 @@
       "startingXp": 8,
       "skillLists": [
         "combat",
-        "speed"
+        "speed",
+        "darkElf"
       ],
       "statMaximums": {
         "M": null,
@@ -131,7 +133,8 @@
       "startingXp": 12,
       "skillLists": [
         "combat",
-        "speed"
+        "speed",
+        "darkElf"
       ],
       "statMaximums": {
         "M": null,
@@ -170,14 +173,15 @@
       "specialRules": [
         {
           "name": "Wizard",
-          "description": "The Dark Elf Sorceress is a wizard and uses <a href=\"#dark-elf-magic\">Dark Elf Magic</a>."
+          "description": "The Dark Elf Sorceress is a wizard and uses Dark Elf Magic."
         }
       ],
       "isLeader": false,
       "startingXp": 12,
       "skillLists": [
         "academic",
-        "speed"
+        "speed",
+        "darkElf"
       ],
       "statMaximums": {
         "M": null,
@@ -358,18 +362,18 @@
       "name": "Beastlash",
       "category": "misc",
       "cost": 10,
-      "rarity": null,
+      "rarity": 8,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "The Beastmaster wielding a Beastlash causes Fear in animals, any animal charged or wishing to charge a Beastmaster with one of these weapons must first take a Fear test as mentioned in the psychology section of the Mordheim rules.\n\nThe Beastlash is a flexible weapon and the Beastmaster use it with great expertise. Attempts to parry its strikes are futile. A model attacked by a Beastlash may not make parries with swords or bucklers.\n\nWhen the wielder charges they gain +1A for that turn. This bonus attack is added after any other modifications. When the wielder is charged they gain +1A that they may only use against the charger. This additional attack will ‘strike first'. If the wielder is simultaneously charged by two or more opponents they will still only receive a total of +1A. If the wielder is using two whips at the same time then they get +1A for the additional hand weapon, but only the first whip gets the whipcrack +1A."
     },
     {
       "id": "darkElfBlade",
       "name": "Dark elf blade",
       "category": "melee",
       "cost": null,
-      "rarity": null,
+      "rarity": 9,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Dark Elf Blades inflict serious damage on their opponents. When rolling on the critical hit chart a Dark Elf Blade will add +1 to the result.\n\nDark Elf Blades are set with sharp protrusions and serrated edges which inflict serious damage on an opponent. A roll of 2-4 on the injury table is a Stunned result."
     }
   ],
   "specialRules": ""

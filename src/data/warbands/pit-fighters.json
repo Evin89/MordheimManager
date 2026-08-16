@@ -34,7 +34,7 @@
         },
         {
           "name": "Pit Fighter",
-          "description": "A Pit King has the <Tooltip>Pit Fighter</Tooltip> skill."
+          "description": "A Pit King has the Pit Fighter skill."
         }
       ],
       "isLeader": true,
@@ -42,7 +42,8 @@
       "skillLists": [
         "combat",
         "strength",
-        "speed"
+        "speed",
+        "pitFighters"
       ],
       "statMaximums": {
         "M": null,
@@ -81,7 +82,7 @@
       "specialRules": [
         {
           "name": "Pit Fighter",
-          "description": "A Dwarf Troll Slayer has the <Tooltip>Pit Fighter</Tooltip> skill."
+          "description": "A Dwarf Troll Slayer has the Pit Fighter skill."
         },
         {
           "name": "Hard to Kill",
@@ -93,7 +94,7 @@
         },
         {
           "name": "Hate Orcs and Goblins",
-          "description": "All Dwarfs <Tooltip>hate</Tooltip> Orcs and Goblins. See the psychology section of the Mordheim rules for details on the effects of <Tooltip>hatred</Tooltip>."
+          "description": "All Dwarfs hate Orcs and Goblins. See the psychology section of the Mordheim rules for details on the effects of hatred."
         },
         {
           "name": "Grudgebearers",
@@ -108,7 +109,8 @@
       "startingXp": 8,
       "skillLists": [
         "combat",
-        "strength"
+        "strength",
+        "pitFighters"
       ],
       "statMaximums": {
         "M": null,
@@ -147,7 +149,7 @@
       "specialRules": [
         {
           "name": "Pit Fighter",
-          "description": "Pit Veterans have the <Tooltip>Pit Fighter</Tooltip> skill."
+          "description": "Pit Veterans have the Pit Fighter skill."
         }
       ],
       "isLeader": false,
@@ -155,7 +157,8 @@
       "skillLists": [
         "combat",
         "strength",
-        "speed"
+        "speed",
+        "pitFighters"
       ],
       "statMaximums": {
         "M": null,
@@ -208,7 +211,7 @@
       "specialRules": [
         {
           "name": "Pit Fighter",
-          "description": "Pit Fighters have the <Tooltip>Pit Fighter</Tooltip> skill."
+          "description": "Pit Fighters have the Pit Fighter skill."
         }
       ]
     },
@@ -248,7 +251,7 @@
       "specialRules": [
         {
           "name": "Pit Fighter",
-          "description": "Pursuers have the <Tooltip>Pit Fighter</Tooltip> skill."
+          "description": "Pursuers have the Pit Fighter skill."
         },
         {
           "name": "Evade",
@@ -292,11 +295,11 @@
       "specialRules": [
         {
           "name": "Pit Fighter",
-          "description": "An Ogre Pit Fighter has the <Tooltip>Pit Fighter</Tooltip> skill."
+          "description": "An Ogre Pit Fighter has the Pit Fighter skill."
         },
         {
           "name": "Fear",
-          "description": "Ogre Pit Fighters are large, threatening creatures that cause <Tooltip>fear</Tooltip>."
+          "description": "Ogre Pit Fighters are large, threatening creatures that cause fear."
         },
         {
           "name": "Large",
@@ -398,18 +401,18 @@
       "name": "Dwarf axe",
       "category": "melee",
       "cost": 15,
-      "rarity": null,
+      "rarity": 8,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Dwarf axes have an extra save modifier of -1, so a model with Strength 4 using a Dwarf axe has a -2 save modifier when he hits an opponent with the axe in close combat.\n\nDwarf axes offer an excellent balance of defence and offense. A model armed with a Dwarf axe may parry blows. When his opponent rolls to hit, the model armed with a Dwarf axe may roll a D6. If the score is greater than the highest to hit score of his opponent, the model has parried the blow and that attack is discarded. A model may not parry attacks made with double or more its own Strength - they are simply too powerful to be stopped. A model may not parry more than one attack in a single Close Combat phase; a model armed with two Dwarf axes (or a Dwarf axe and a sword, etc) does not get to parry two attacks but may instead re-roll a failed parry."
     },
     {
       "id": "spikedGauntlet",
       "name": "Spiked gauntlet",
       "category": "misc",
       "cost": 15,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Can parry enemy blows"
     }
   ],
   "specialRules": ""

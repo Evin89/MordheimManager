@@ -80,7 +80,7 @@
         },
         {
           "name": "Mark of Chaos",
-          "description": "The Seer gets a <a href=\"#mark-of-the-dark-gods\">Mark of Chaos</a> when hired to determine the kind of magic he uses. He can have the Mark of the Serpent, the Mark of the Crow, the Mark of the Eagle, the Mark of Arkhar or the Mark of Chaos Undivided."
+          "description": "The Seer gets a Mark of Chaos when hired to determine the kind of magic he uses. He can have the Mark of the Serpent, the Mark of the Crow, the Mark of the Eagle, the Mark of Arkhar or the Mark of Chaos Undivided."
         }
       ],
       "isLeader": false,
@@ -167,11 +167,11 @@
         },
         {
           "name": "Fear",
-          "description": "The Condemned’s unnatural appearance makes him cause <Tooltip>fear</Tooltip> in his enemies."
+          "description": "The Condemned’s unnatural appearance makes him cause fear in his enemies."
         },
         {
           "name": "Experience",
-          "description": "Whenever the Condemned would increase one of his variable attributes the player rolls an appropriate die instead. If the player is satisfied with the result, he may set the attribute on that number (e.g. roll a D6 instead of increasing Strength, on a roll of 4 the player may choose to give the model S 4). Otherwise the attribute remains variable (and the advance is lost). The maximum attributes of the Marauders may be exceeded due to the special nature of the Condemned, and this carries through to when the player wishes to set an attribute instead of keeping it random.<sup><Tooltip content=\"faq148\">❓</Tooltip></sup>"
+          "description": "Whenever the Condemned would increase one of his variable attributes the player rolls an appropriate die instead. If the player is satisfied with the result, he may set the attribute on that number (e.g. roll a D6 instead of increasing Strength, on a roll of 4 the player may choose to give the model S 4). Otherwise the attribute remains variable (and the advance is lost). The maximum attributes of the Marauders may be exceeded due to the special nature of the Condemned, and this carries through to when the player wishes to set an attribute instead of keeping it random.❓"
         },
         {
           "name": "Fate",
@@ -367,18 +367,18 @@
       "name": "Barbed whip",
       "category": "melee",
       "cost": 15,
-      "rarity": null,
+      "rarity": 9,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "When the wielder charges they gain +1A for that turn. This bonus attack is added after any other modifications. When the wielder is charged they gain +1A that they may only use against the charger. This additional attack will 'strike first'. If the wielder is simultaneously charged by two or more opponents they will still only receive a total of +1A. If the wielder is using two whips at the same time then they get +1A for the additional hand weapon, but only the first whip gets the whipcrack +1A.✏️\n\nA model attacked by a barbed whip may not parry with a sword or buckler.\n\nThe Hero may use his whip to make the Warhounds charge wildly. As long as he is not involved in close combat all Warhounds of Chaos within 4\" gain +1 attack."
     },
     {
       "id": "greatAxe",
       "name": "Great axe",
       "category": "melee",
       "cost": 25,
-      "rarity": null,
+      "rarity": 8,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "As a great axe requires two hands to use, a model using a great axe may not use a shield, buckler or additional weapon in close combat. If the model has a shield he still gets a +1 bonus to his armour save against shooting.\n\nGreat Axes are so heavy that the model using them always strikes last, even when charging, unless it has the Strongman skill.\n\nA Great Axe has an extra save modifier of -1, so a model with Strength 4 using a Chaos Battle Axe has a -4 save modifier in hand-to-hand combat."
     }
   ],
   "specialRules": ""

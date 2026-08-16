@@ -125,7 +125,7 @@
         },
         {
           "name": "Disciple of Sigmar",
-          "description": "The Cleric has devoted his life in the constant service to Sigmar and as such he would start a campaign knowing one of the <a href=\"#prayers-of-sigmar\">Prayers of Sigmar</a>. As with a Witch-Hunter’s Warrior Priest, he is also subject to some of the restrictions of being a follower of the Lord Sigmar and may learn neither Sorcery nor Arcane Lore."
+          "description": "The Cleric has devoted his life in the constant service to Sigmar and as such he would start a campaign knowing one of the Prayers of Sigmar. As with a Witch-Hunter’s Warrior Priest, he is also subject to some of the restrictions of being a follower of the Lord Sigmar and may learn neither Sorcery nor Arcane Lore."
         }
       ],
       "isLeader": false,
@@ -285,9 +285,9 @@
       "name": "Staff",
       "category": "melee",
       "cost": 3,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Hammers and other bludgeoning weapons are excellent to use for striking your enemy senseless. When using a hammer, club or mace, a roll of 2-4 is treated as stunned when rolling to see the extent of a model's injuries."
     }
   ],
   "specialRules": ""

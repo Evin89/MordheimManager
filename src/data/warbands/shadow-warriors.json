@@ -39,7 +39,8 @@
         "combat",
         "shooting",
         "academic",
-        "speed"
+        "speed",
+        "shadowWarriors"
       ],
       "statMaximums": {
         "M": null,
@@ -81,7 +82,8 @@
       "skillLists": [
         "combat",
         "shooting",
-        "speed"
+        "speed",
+        "shadowWarriors"
       ],
       "statMaximums": {
         "M": null,
@@ -120,7 +122,7 @@
       "specialRules": [
         {
           "name": "Wizard",
-          "description": "The Shadow Weaver is a wizard and may use the <a href=\"#shadow-warrior-magic\">Shadow Magic</a>."
+          "description": "The Shadow Weaver is a wizard and may use the Shadow Magic."
         }
       ],
       "isLeader": false,
@@ -128,7 +130,8 @@
       "skillLists": [
         "combat",
         "academic",
-        "speed"
+        "speed",
+        "shadowWarriors"
       ],
       "statMaximums": {
         "M": null,

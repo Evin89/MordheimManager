@@ -40,7 +40,8 @@
         "shooting",
         "academic",
         "strength",
-        "speed"
+        "speed",
+        "skaven"
       ],
       "statMaximums": {
         "M": null,
@@ -79,14 +80,15 @@
       "specialRules": [
         {
           "name": "Spellcaster",
-          "description": "The Pestilens Sorcerer is a spellcaster and may cast spells from the <a href=\"#magic-of-the-horned-rat\">Horned Rat</a> spell list."
+          "description": "The Pestilens Sorcerer is a spellcaster and may cast spells from the Horned Rat spell list."
         }
       ],
       "isLeader": false,
       "startingXp": 8,
       "skillLists": [
         "academic",
-        "speed"
+        "speed",
+        "skaven"
       ],
       "statMaximums": {
         "M": null,
@@ -129,7 +131,8 @@
         "combat",
         "shooting",
         "strength",
-        "speed"
+        "speed",
+        "skaven"
       ],
       "statMaximums": {
         "M": null,
@@ -171,7 +174,8 @@
       "skillLists": [
         "combat",
         "shooting",
-        "speed"
+        "speed",
+        "skaven"
       ],
       "statMaximums": {
         "M": null,
@@ -295,11 +299,11 @@
       "specialRules": [
         {
           "name": "Fear",
-          "description": "Rat Ogres are so frightening they cause <Tooltip>fear</Tooltip>."
+          "description": "Rat Ogres are so frightening they cause fear."
         },
         {
           "name": "Stupidity",
-          "description": "A Rat Ogre is subject to <Tooltip>stupidity</Tooltip> unless a Skaven Hero is within 6\" of it."
+          "description": "A Rat Ogre is subject to stupidity unless a Skaven Hero is within 6\" of it."
         },
         {
           "name": "Experience",
@@ -344,18 +348,18 @@
       "name": "Disease dagger",
       "category": "melee",
       "cost": 15,
-      "rarity": null,
+      "rarity": 8,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Daggers are not the best weapons to use for penetrating an enemy model's armour. An enemy wounded by a dagger gains a +1 bonus to his armour save, and a 6+ armour save if he has none normally.\n\na natural 6 on an hit roll means that the model hit has been infected with the disease and that he must take a Toughness test. Roll a D6. If the result is higher than the Toughness of the model taking the test, he will suffer an automatic wound in addition to the dagger hit. Models of undead and possessed are immune to this disease and do not take the test. A model wielding two Disease Daggers gains a +1 Attack bonus for wielding two weapons and there is no further effect, except that the chances of rolling an infecting 6 on the hit rolls are higher."
     },
     {
       "id": "censer",
       "name": "Censer",
       "category": "misc",
       "cost": 40,
-      "rarity": null,
+      "rarity": 9,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "The +2 Strength bonus applies only to the first turn of hand to hand combat.\n\nA censer requires two hands to be used and the wielder cannot use a shield, buckler or additional weapon in close combat.\n\nA model hit by the censer must take a Toughness test. Roll a D6. If the result is higher than the Toughness of the model taking the test, he will suffer an automatic wound in addition to the censer hit. A result of 6 always inflicts a wound. Also the model wielding the censer must take the test and will suffer a wound with a result of 6. Models of undead and possessed are immune to the fog of death and do not take the test. If the model wielding the censer also has the fog-enhancing warpstone shards, he becomes a difficult target to shoot at, and models targeting him with missile weapons suffer a -1 penalty to hit."
     }
   ],
   "specialRules": ""

@@ -121,7 +121,7 @@
       "specialRules": [
         {
           "name": "Wizard",
-          "description": "A Mystic is a Wizard. He uses spells from the <a href=\"#arabian-elemental-magic\">Elemental Magic</a> list. He starts with a single spell chosen at random from the list."
+          "description": "A Mystic is a Wizard. He uses spells from the Elemental Magic list. He starts with a single spell chosen at random from the list."
         }
       ],
       "isLeader": false,
@@ -293,18 +293,18 @@
       "name": "Tufenk",
       "category": "misc",
       "cost": 15,
-      "rarity": null,
+      "rarity": 10,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "If you hit roll a D6, on a 4+ your opponent is set on fire. They must roll a D6 each Recovery phase, on a 4+ they extinguish the fire or they immediately suffer a S4 hit and may only move. Friendly models may help in extinguishing the model that is ablaze. They must be in base-to-base contact and need to roll a 4+ on a D6. Against dry targets like Mummies they are Strength 3 and on a 2+ on 1D6 the Mummy catches fire.\n\nThe Tufenk takes a complete turn to reload❓, so your model may only fire every other turn."
     },
     {
       "id": "katar",
       "name": "Katar",
       "category": "misc",
       "cost": 5,
-      "rarity": null,
+      "rarity": 4,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Target gets -1 to armour save"
     }
   ],
   "specialRules": ""

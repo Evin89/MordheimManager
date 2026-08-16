@@ -34,7 +34,7 @@
         },
         {
           "name": "Ride",
-          "description": "The Knight has the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride skill</a> as detailed in the Blazing Saddles article."
+          "description": "The Knight has the Ride skill as detailed in the Blazing Saddles article."
         }
       ],
       "isLeader": true,
@@ -84,7 +84,7 @@
       "specialRules": [
         {
           "name": "Ride",
-          "description": "Outriders have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride skill</a> as detailed in the Blazing Saddles article."
+          "description": "Outriders have the Ride skill as detailed in the Blazing Saddles article."
         }
       ],
       "isLeader": false,
@@ -132,7 +132,7 @@
       "specialRules": [
         {
           "name": "Ride",
-          "description": "Scouts have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride skill</a> as detailed in the Blazing Saddles article."
+          "description": "Scouts have the Ride skill as detailed in the Blazing Saddles article."
         }
       ],
       "isLeader": false,
@@ -194,7 +194,7 @@
       "specialRules": [
         {
           "name": "Ride",
-          "description": "Chasseurs have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride skill</a> as detailed in the Blazing Saddles article."
+          "description": "Chasseurs have the Ride skill as detailed in the Blazing Saddles article."
         }
       ]
     },
@@ -234,11 +234,11 @@
       "specialRules": [
         {
           "name": "Ride",
-          "description": "Horsemen have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride skill</a> as detailed in the Blazing Saddles article."
+          "description": "Horsemen have the Ride skill as detailed in the Blazing Saddles article."
         },
         {
           "name": "Combat Riding",
-          "description": "Horsemen have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#combat-riding\">Combat Riding skill</a> as detailed in the Blazing Saddles article."
+          "description": "Horsemen have the Combat Riding skill as detailed in the Blazing Saddles article."
         }
       ]
     },
@@ -279,11 +279,11 @@
       "specialRules": [
         {
           "name": "Ride",
-          "description": "Grooms have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride skill</a> as detailed in the Blazing Saddles article."
+          "description": "Grooms have the Ride skill as detailed in the Blazing Saddles article."
         },
         {
           "name": "Horse Handling",
-          "description": "Grooms have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#beast-handler--eg-dog-handler\">Animal Handling skill</a> as detailed in the Blazing Saddles article."
+          "description": "Grooms have the Animal Handling skill as detailed in the Blazing Saddles article."
         }
       ]
     }
@@ -322,9 +322,9 @@
       "name": "Hochland long rifle",
       "category": "missile",
       "cost": 200,
-      "rarity": null,
+      "rarity": 11,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "You may not move and fire a Hochland long rifle in the same turn, other than to pivot on the spot to face your target or stand up from knocked down.\n\nA Hochland long rifle takes a complete turn to reload❓, so you may only fire it every other turn.\n\nA model armed with a Hochland long rifle can target any enemy model in sight, not just the closest one.\n\nHochland long rifles are even better at penetrating armour than their Strength 4 suggests. A warrior wounded by a long rifle must make his armour save with a -2 modifier."
     }
   ],
   "specialRules": ""

@@ -41,6 +41,21 @@
       "id": "btb",
       "name": "Border Town Burning",
       "description": "Campaign objectives and Dramatis Personae from the Border Town Burning supplement."
+    },
+    {
+      "id": "glossary",
+      "name": "Glossary",
+      "description": "Key terms and their definitions, from The Mordheimer's glossary."
+    },
+    {
+      "id": "errata",
+      "name": "Errata",
+      "description": "Official corrections to the printed rules, cited to their source."
+    },
+    {
+      "id": "faq",
+      "name": "FAQ",
+      "description": "Frequently asked questions and their rulings, grouped by topic."
     }
   ],
   "entries": [
@@ -1441,6 +1456,9 @@
     "Income",
     "Trading",
     "Hired Swords",
-    "Border Town Burning"
+    "Border Town Burning",
+    "Glossary",
+    "Errata",
+    "FAQ"
   ]
 }

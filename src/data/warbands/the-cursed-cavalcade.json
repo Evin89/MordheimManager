@@ -34,7 +34,7 @@
         },
         {
           "name": "Expert Horseman",
-          "description": "the Aristocrat has the <Tooltip>Ride</Tooltip> (Nightmare) skill."
+          "description": "the Aristocrat has the Ride (Nightmare) skill."
         }
       ],
       "isLeader": true,
@@ -81,7 +81,7 @@
       "specialRules": [
         {
           "name": "Expert Swordsman",
-          "description": "As imperial nobles, the Companions have been taught the way of the sword since an early age. Companions all have <Tooltip>Expert Swordsman</Tooltip> Skill."
+          "description": "As imperial nobles, the Companions have been taught the way of the sword since an early age. Companions all have Expert Swordsman Skill."
         }
       ],
       "isLeader": false,
@@ -128,7 +128,7 @@
       "specialRules": [
         {
           "name": "Magical Adept",
-          "description": "When hiring a Twisted Scholar, you may pay 10 additional GC to upgrade it to a Wizard. If you do this then the twisted scholar uses <a href=\"#lesser-magic\">Lesser Magic</a> and knows 1 spell chosen randomly."
+          "description": "When hiring a Twisted Scholar, you may pay 10 additional GC to upgrade it to a Wizard. If you do this then the twisted scholar uses Lesser Magic and knows 1 spell chosen randomly."
         },
         {
           "name": "Story Teller",
@@ -176,7 +176,7 @@
       "specialRules": [
         {
           "name": "Danse Macabre",
-          "description": "The Piper plays the Danse Macabre in combat. During the shooting phase the Cursed Piper can direct the cursed melody of is flute against one enemy model he can see within 6” from the Piper. The enemy model must take a Ld test.<br /><br />If failed, the warrior is cursed by the Danse Macabre loses control of his body and forced to dance under the Piper’s will. The Piper can move the enemy model in any direction he wishes also out of close combat or force him to fall from height.<br /><br />At the beginning of the enemy’s turn, in the recovery phase the warrior will have to pass a Ld test or will continue to be under the Pipers’ control and cannot shoot, charge or cast spells. If engaged in close combat the model cannot attack (it is too busy dancing!).<br /><br />Only one enemy warrior at time can be controlled by the Danse Macabre. If the Piper targets another warrior the previous one is immediately free from the curse."
+          "description": "The Piper plays the Danse Macabre in combat. During the shooting phase the Cursed Piper can direct the cursed melody of is flute against one enemy model he can see within 6” from the Piper. The enemy model must take a Ld test.\n\nIf failed, the warrior is cursed by the Danse Macabre loses control of his body and forced to dance under the Piper’s will. The Piper can move the enemy model in any direction he wishes also out of close combat or force him to fall from height.\n\nAt the beginning of the enemy’s turn, in the recovery phase the warrior will have to pass a Ld test or will continue to be under the Pipers’ control and cannot shoot, charge or cast spells. If engaged in close combat the model cannot attack (it is too busy dancing!).\n\nOnly one enemy warrior at time can be controlled by the Danse Macabre. If the Piper targets another warrior the previous one is immediately free from the curse."
         }
       ],
       "isLeader": false,
@@ -315,7 +315,7 @@
         },
         {
           "name": "Large Target",
-          "description": "Great Bears are <Tooltip>Large Targets</Tooltip> as defined in the shooting rules."
+          "description": "Great Bears are Large Targets as defined in the shooting rules."
         },
         {
           "name": "Animal",
@@ -403,7 +403,7 @@
         },
         {
           "name": "Agile",
-          "description": "The Fighting Apes are fantastically agile and nimble, putting even the greatest acrobat or Skaven Assassin to shame. The Fighting Ape has the <Tooltip>Scale Sheer Surfaces</Tooltip> Skill, <Tooltip>Acrobat</Tooltip> Skill, and <Tooltip>Dodge</Tooltip> Skill. In addition, the Fighting Ape can make a <Tooltip>diving charge</Tooltip> from up to 10\" high."
+          "description": "The Fighting Apes are fantastically agile and nimble, putting even the greatest acrobat or Skaven Assassin to shame. The Fighting Ape has the Scale Sheer Surfaces Skill, Acrobat Skill, and Dodge Skill. In addition, the Fighting Ape can make a diving charge from up to 10\" high."
         },
         {
           "name": "Animal",
@@ -457,9 +457,9 @@
       "name": "Misericordia",
       "category": "misc",
       "cost": 5,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Daggers are not the best weapons to use for penetrating an enemy model's armour. An enemy wounded by a dagger gains a +1 bonus to his armour save, and a 6+ armour save if he has none normally.\n\nWhen attacking enemies that are Knocked-Down you get to roll 2D6 and pick the highest number on ‘to wound’ roll."
     },
     {
       "id": "boarSpear",
@@ -484,9 +484,9 @@
       "name": "Nightmare",
       "category": "misc",
       "cost": 95,
-      "rarity": null,
+      "rarity": 11,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "As an undead creature, a Nightmare may not run, but may charge as normal.\n\nNightmares are not affected by poison.\n\nAs an Undead creature, Nightmares are immune to psychology, never have to make Leadership tests, and will always stand still if left leaderless. However, if the rider suffers a wound, he must roll on the Whoa Boy! Table as normal."
     },
     {
       "id": "birdOfPrey",

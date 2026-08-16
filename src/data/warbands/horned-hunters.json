@@ -34,7 +34,7 @@
         },
         {
           "name": "Hang the Bandit!",
-          "description": "A Horned Hunter <em>hates</em> all Bandits and Outlaws."
+          "description": "A Horned Hunter hates all Bandits and Outlaws."
         }
       ],
       "isLeader": true,
@@ -82,7 +82,7 @@
       "specialRules": [
         {
           "name": "Prayers",
-          "description": "A Priest of Taal may use the <a href=\"#prayers-of-taal\">Prayers of Taal</a>."
+          "description": "A Priest of Taal may use the Prayers of Taal."
         },
         {
           "name": "Strictures",
@@ -134,11 +134,11 @@
       "specialRules": [
         {
           "name": "Infiltrator",
-          "description": "A warrior with this skill is always placed on the battlefield after the opposing warband and can be placed anywhere on the table as long as it is out of sight of the opposing warband and more than 12\" away from any enemy model.<br /><br />If both players have models which infiltrate, roll a D6 for each, and the lowest roll sets up first."
+          "description": "A warrior with this skill is always placed on the battlefield after the opposing warband and can be placed anywhere on the table as long as it is out of sight of the opposing warband and more than 12\" away from any enemy model.\n\nIf both players have models which infiltrate, roll a D6 for each, and the lowest roll sets up first."
         },
         {
           "name": "Hang the Bandit!",
-          "description": "Taal’s Initiates <em>hate</em> all Bandits and Outlaws."
+          "description": "Taal’s Initiates hate all Bandits and Outlaws."
         },
         {
           "name": "Strictures",
@@ -324,9 +324,9 @@
       "name": "Toughened leathers",
       "category": "misc",
       "cost": 5,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Toughened leathers cannot be combined with the effects of any other armour except a helmet or buckler (so not a shield).❓\n\nToughened leathers cannot be sold back at the Trading Posts; the stench alone is enough to drive away even the most desperate of buyers!\n\nEven though Toughened Leathers are purchased as miscellaneous equipment and need not be listed on a Hero’s starting armour list to be taken, they are still armour and prevent spell casting.✏️"
     }
   ],
   "specialRules": ""

@@ -233,7 +233,7 @@
       "specialRules": [
         {
           "name": "Cloak & Dagger",
-          "description": "Duellists are adept at fighting using their billowing cloaks to swirl at an enemy distracting him and warding off blows. The Duellist counts as using a buckler<sup><Tooltip customText=\"The Town Cryer 14 Tilean rules stated 'shield', but the original <a href='https://www.reddit.com/r/mordheim/comments/bdy14n/comment/el479by/?utm_source=share&utm_medium=web2x&context=3'>submission</a> for the warband informed the player: 'All duelists are subject to the special rules and items that appear in issue 13 of the Town Cryer...' where the duellist cloak counts as a buckler.\">✏️</Tooltip></sup> in close combat."
+          "description": "Duellists are adept at fighting using their billowing cloaks to swirl at an enemy distracting him and warding off blows. The Duellist counts as using a bucklersubmission for the warband informed the player: 'All duelists are subject to the special rules and items that appear in issue 13 of the Town Cryer...' where the duellist cloak counts as a buckler.\">✏️ in close combat."
         }
       ]
     }
@@ -282,18 +282,18 @@
       "name": "Pike",
       "category": "misc",
       "cost": 12,
-      "rarity": null,
+      "rarity": 7,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "A model wielding a pike can strike first in the first round of combat even when charged by a model wielding a spear. After the initial round of combat resolve strikes in Initiative order. The model can change to normal hand-to-hand weapons after the initial round.\n\nDue to its considerable length, a model that has a pike can attack another model from up to 3\" away without being a part of a hand-to-hand melee.\n\nPikes have to be used with both hands therefore only 1 attack is allowed. The model also cannot take advantage of a shield or buckler while using a pike.\n\nBecause of its length and weight only man-sized or larger creatures can use pikes. Skaven, Skinks, Halflings, etc cannot."
     },
     {
       "id": "rapier",
       "name": "Rapier",
       "category": "misc",
       "cost": 15,
-      "rarity": null,
+      "rarity": 5,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Like all swords, you may use a rapier to parry in hand to hand combat. When your opponent scores a hit you must roll a D6. If you can score greater than the highest 'to hit' roll you have parried the blow and the attack is discarded.\n\nA warrior armed with a rapier rolls to hit and wound as normal. However, if you mange to hit your opponent but fail to wound, you may attack again just as if you had another attack but at –1 to hit (down to a maximum to needing a 6 to hit). You may continue attacking as long as you hit and it is possible to strike your opponent many times, particularly if your warrior has more then one attack on his profile.\n\nBecause a rapier is a very light sword that lacks the thick armour breaking blade of the broadsword, armour saves are made at +1."
     }
   ],
   "specialRules": ""

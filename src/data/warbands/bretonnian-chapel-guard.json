@@ -38,7 +38,7 @@
         },
         {
           "name": "Ride",
-          "description": "A Questing Knight starts with the skill <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride Warhorse</a>."
+          "description": "A Questing Knight starts with the skill Ride Warhorse."
         },
         {
           "name": "Vow of Poverty",
@@ -51,7 +51,8 @@
         "combat",
         "academic",
         "strength",
-        "speed"
+        "speed",
+        "bretonnianKnights"
       ],
       "statMaximums": {
         "M": null,
@@ -90,7 +91,7 @@
       "specialRules": [
         {
           "name": "Prayercaster",
-          "description": "The Damsel starts with one prayer from the <a href=\"#ladys-prayers\">Lady's Prayers</a> list, and can learn additional prayers as outlined in the Magic section."
+          "description": "The Damsel starts with one prayer from the Lady's Prayers list, and can learn additional prayers as outlined in the Magic section."
         }
       ],
       "isLeader": false,
@@ -144,7 +145,7 @@
         },
         {
           "name": "Impetuous",
-          "description": "During each Movement Phase, after declaring charges, a Knight Errant that is not in combat and did not charge this turn must charge an opposing standing warrior (not knocked down or stunned) that is within range if they are able.<br /><br />Likewise, a Knight Errant that declared a charge against a knocked down or stunned opponent will be compelled to charge a viable standing opponent instead. If you wish, you may choose to have the Knight take a leadership test (they may use their Leader's Leadership if they are within range); if the test is passed, they may move as normal or charge their original target.<br /><br />When making a compelled charge, the Knight Errant automatically passes all fear tests or any other psychology tests that would prevent them from charging."
+          "description": "During each Movement Phase, after declaring charges, a Knight Errant that is not in combat and did not charge this turn must charge an opposing standing warrior (not knocked down or stunned) that is within range if they are able.\n\nLikewise, a Knight Errant that declared a charge against a knocked down or stunned opponent will be compelled to charge a viable standing opponent instead. If you wish, you may choose to have the Knight take a leadership test (they may use their Leader's Leadership if they are within range); if the test is passed, they may move as normal or charge their original target.\n\nWhen making a compelled charge, the Knight Errant automatically passes all fear tests or any other psychology tests that would prevent them from charging."
         }
       ],
       "isLeader": false,
@@ -152,7 +153,8 @@
       "skillLists": [
         "combat",
         "strength",
-        "speed"
+        "speed",
+        "bretonnianKnights"
       ],
       "statMaximums": {
         "M": null,
@@ -206,7 +208,7 @@
       "specialRules": [
         {
           "name": "Knighthood",
-          "description": "When a Squire rolls \"The Lad's Got Talent\", you may choose one of two options when promoting him to a hero: to have him remain a Squire, or to have him become a Knight Errant. <em>(Note: in this manner, you <strong>may</strong> have more than three Knights Errant in your Warband).</em><br /><br />If you choose to keep him a Squire, he may choose two skill lists from following lists: Combat, Academic, Strength, or Speed. He retains his normal Squire equipment tables.<br /><br />If you choose to make him a Knight Errant, he immediately gains the following rules/bonuses instead of receiving an immediate advancement: ‘Knight’, ‘Vain’ and ‘Impetuous’. The new knight may learn Special Skills, in addition to two other skill sets, but must immediately switch his equipment to Knight Equipment list. The new knight may never use missile weapons."
+          "description": "When a Squire rolls \"The Lad's Got Talent\", you may choose one of two options when promoting him to a hero: to have him remain a Squire, or to have him become a Knight Errant. (Note: in this manner, you may have more than three Knights Errant in your Warband).\n\nIf you choose to keep him a Squire, he may choose two skill lists from following lists: Combat, Academic, Strength, or Speed. He retains his normal Squire equipment tables.\n\nIf you choose to make him a Knight Errant, he immediately gains the following rules/bonuses instead of receiving an immediate advancement: ‘Knight’, ‘Vain’ and ‘Impetuous’. The new knight may learn Special Skills, in addition to two other skill sets, but must immediately switch his equipment to Knight Equipment list. The new knight may never use missile weapons."
         }
       ]
     },
@@ -250,7 +252,7 @@
         },
         {
           "name": "Hatred",
-          "description": "Battle Pilgrims suffer <Tooltip>Hatred</Tooltip> against all of their enemies, seeing them as enemies and heretics to the true Lady’s cause."
+          "description": "Battle Pilgrims suffer Hatred against all of their enemies, seeing them as enemies and heretics to the true Lady’s cause."
         },
         {
           "name": "Stubborn",
@@ -258,7 +260,7 @@
         },
         {
           "name": "Holy Relics",
-          "description": "Battle Pilgrims may be given a <Tooltip>Holy Relic</Tooltip>, regardless of the fact that henchman are not normally allowed to take Miscellaneous items. If a Battle Pilgrim owns a Holy Relic, he gains the ability <Tooltip>Frenzy</Tooltip> (Reminder: when frenzied, he is immune to Hatred.) It is possible to give a Holy Relic to Battle Pilgrim that is a part of a larger henchman group. If you do not have enough Holy Relics for every member of the group, the Pilgrim with the relic will break off and form his own individual henchman group."
+          "description": "Battle Pilgrims may be given a Holy Relic, regardless of the fact that henchman are not normally allowed to take Miscellaneous items. If a Battle Pilgrim owns a Holy Relic, he gains the ability Frenzy (Reminder: when frenzied, he is immune to Hatred.) It is possible to give a Holy Relic to Battle Pilgrim that is a part of a larger henchman group. If you do not have enough Holy Relics for every member of the group, the Pilgrim with the relic will break off and form his own individual henchman group."
         }
       ]
     },
@@ -357,36 +359,36 @@
       "name": "Broadsword",
       "category": "melee",
       "cost": 15,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "A model with a Broadsword may not use a second weapon or buckler in his other hand because it requires all his skill to wield it. He may carry a shield or a kite shield as normal though.\n\nBroadswords are so heavy that the model using them always strikes last, even when charging. Just like a Double-Handed weapon, learning the skill 'Strongman' negates 'Strike Last'."
     },
     {
       "id": "kiteShield",
       "name": "Kite shield",
       "category": "armour",
       "cost": 10,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "A model with a kite shield has a basic save of 5+ on a D6 while on foot, and 6+ while mounted (or, if the model is already wearing armour, as +2 on foot, and +1 save while mounted). This cannot bring a save over 1+. \n\n(Note: If your gaming group already uses house rules for enhanced shields [ex. Ones that provide +2 AS in combat], remove Kite Shield from the equipment list.)"
     },
     {
       "id": "shortsword",
       "name": "Shortsword",
       "category": "melee",
       "cost": 7,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Shortswords offer an excellent balance of defence and offence. A model armed with a sword may parry blows. When his opponent rolls to hit, the model armed with a sword may roll a D6. If the score is greater than the highest to hit score of his opponent, the model has parried the blow, and that attack is discarded. A model may not parry attacks made with double or more its own Strength – they are simply too powerful to be stopped.\n\nShortswords are not the best weapons to use for penetrating an enemy model's armour. An enemy wounded by a short sword gains a +1 bonus to his armour save, and a 6+ armour save if he has none normally."
     },
     {
       "id": "holyRelic",
       "name": "Holy relic",
       "category": "misc",
       "cost": 25,
-      "rarity": null,
+      "rarity": 8,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "A model with a holy relic will automatically pass the first Leadership test he is required to make in the game. If worn by the leader, it will allow him to automatically pass the first Rout test if he has not taken any Leadership tests before. \n\nYou can only ignore the first Leadership test in any single game – owning two or more holy relics will not allow you to ignore second and subsequent tests."
     }
   ],
   "specialRules": ""

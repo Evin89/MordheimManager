@@ -40,7 +40,8 @@
         "shooting",
         "academic",
         "strength",
-        "speed"
+        "speed",
+        "pirates"
       ],
       "statMaximums": {
         "M": null,
@@ -82,7 +83,8 @@
       "skillLists": [
         "combat",
         "shooting",
-        "strength"
+        "strength",
+        "pirates"
       ],
       "statMaximums": {
         "M": null,
@@ -124,7 +126,8 @@
       "skillLists": [
         "combat",
         "shooting",
-        "speed"
+        "speed",
+        "pirates"
       ],
       "statMaximums": {
         "M": null,
@@ -368,45 +371,45 @@
       "name": "Boat hook",
       "category": "misc",
       "cost": 8,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Boat Hooks are used in Close Combat. They allow the user to Strike First in the first round of any close combat, no matter which model charged, but require both hands to use.\n\nModels using a Boat Hook in combat cannot use any other weapons, or gain benefit from a shield or buckler, while in close combat."
     },
     {
       "id": "catONineTails",
       "name": "Cat o’ nine tails",
       "category": "misc",
       "cost": 8,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Like the Steel Whips of the Sisterhood, Cats cannot be parried by swords or bucklers.\n\nSince they are made of rope and not steel, they give the enemy model a +1 to his armour save (6+ for no armour), like a hit from a fist or dagger.\n\nWhen the wielder charges they gain +1A for that turn. This bonus attack is added after any other modifications. When the wielder is charged they gain +1A that they may only use against the charger. This additional attack will 'strike first'. If the wielder is simultaneously charged by two or more opponents they will still only receive a total of +1A. If the wielder is using two whips at the same time then they get +1A for the additional hand weapon, but only the first whip gets the whipcrack +1A.✏️"
     },
     {
       "id": "belayingPin",
       "name": "Belaying pin",
       "category": "misc",
       "cost": 3,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Models using Belaying Pins do not suffer any penalties for range, but still suffer a -1 to hit penalty if they use them after moving that turn.\n\nThey also do not hit very hard, so strike at User Strength -1 and give the target +1 to its armour save (or a 6+ if they have none), exactly as if the enemy had been hit by a bare fist."
     },
     {
       "id": "toughenedLeathers",
       "name": "Toughened leathers",
       "category": "misc",
       "cost": 5,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Toughened leathers cannot be combined with the effects of any other armour except a helmet or buckler (so not a shield).❓\n\nToughened leathers cannot be sold back at the Trading Posts; the stench alone is enough to drive away even the most desperate of buyers!\n\nEven though Toughened Leathers are purchased as miscellaneous equipment and need not be listed on a Hero’s starting armour list to be taken, they are still armour and prevent spell casting.✏️"
     },
     {
       "id": "swivelGun",
       "name": "Swivel gun",
       "category": "missile",
       "cost": 65,
-      "rarity": null,
+      "rarity": 8,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "A handgun takes a complete turn to reload❓, so you may only fire it every other turn.\n\nYou may not move and fire a handgun in the same turn, other than to pivot on the spot to face your target or stand up.\n\nA Pirate Warband may have only one Swivel Gun at a time, due to the time it takes the ship’s Master Gunner to construct one.\n\nThe user is at –1 Initiative and –1 Movement throughout the battle. Also, Swivel Guns may never be fired twice per turn, or fired if the user moved, no matter what Skills the user may have.\n\nThe normally optional rules for Blackpowder weapons are always in effect for Swivel Guns, due to unpredictable nature of the local materials used in their construction.\n\nSwivel Guns use nonstandard ammunition types, which must be bought for each game. Each type only lasts one game, so if it is used in a game it cannot be used again until another supply is bought. Before firing, the Gunner must declare which type is being used, if he has more than one type available in the game.\n\nBall ShotA Swivel Gun firing these heavy lead balls can stop even a charging Ogre dead in his tracks!Cost: 5 gcMaximum Range: 36\";\nStrength: 5;\nSpecial Rule: Armour Save -2, Concussion.Concussion: The impact of the heavy lead projectile is enough to rattle even the hardiest warrior. Treat any resulting Injury Rolls of 2-4 as a Stunned result.\nChain ShotThese lengths of chain and linked metal don't cause as much damage, but can entangle an enemy model and bring him to his knees.Cost: 2 gcMaximum Range: 24\";\nStrength: 4;\nSpecial Rule: Armour Save -1, All Wrapped Up!All Wrapped Up! Enemy hit by Chain Shot which are not wounded are Knocked Down on a roll of 4+, even if they normally can never be Knocked Down.\nGrape ShotVery small pellets, rocks, metal scrap, even rock salt are poured into the barrel from prepared canisters, producing a cloud of shrapnel when fired.Cost: 2 gcMaximum Range: 24\";\nStrength: 3;\nSpecial Rule: It's Everywhere!It's Everywhere! If a hit is scored, D6 other enemy models within 4\" of the target and also in Line of Sight will automatically take a single hit. If the original target was in the open, no hits can be applied to models in cover though (only if the original target was in cover can hits go to models in cover as well). The closest enemy model to the target must take the first hit, then the next closest, and so on. Models in Hiding will also count towards being close to the target, and can be hit as well. There is no Armour Save modifier from Grape Shot hits. Pirates know to duck out of the way when they hear a Swivel Gun going off, and thus are never hit by friendly Grape Shot."
     },
     {
       "id": "ballShot",

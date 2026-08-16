@@ -34,7 +34,7 @@
         },
         {
           "name": "Rituals of Chaos",
-          "description": "Chaos Dwarf spellcasters are wizards and can learn a random spell from the <a href=\"#chaos-dwarfs-magic\">Chaos Dwarf spell list</a>."
+          "description": "Chaos Dwarf spellcasters are wizards and can learn a random spell from the Chaos Dwarf spell list."
         }
       ],
       "isLeader": true,
@@ -303,27 +303,27 @@
       "name": "Obsidian weapon",
       "category": "misc",
       "cost": 30,
-      "rarity": null,
+      "rarity": 12,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Although not strictly tainted by Chaos, all artefacts of Obsidian are considered tinged with evil, by the same darkness associated with their artisans. Obsidian weapons may never be used by Dwarfs, Elves, Sisters of Sigmar, Witch Hunters or Priests.\n\nObsidian weapons are so heavy that the warrior using them always strikes last, even when charging."
     },
     {
       "id": "chaosDwarfBlunderbuss",
       "name": "Chaos dwarf blunderbuss",
       "category": "missile",
       "cost": 40,
-      "rarity": null,
+      "rarity": 9,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "When your model fires the blunderbuss, draw a line 16” long and 1” wide in any direction from the firer (the line must be absolutely straight). Any and all models in its path are automatically hit by a Strength 3 hit.❓\n\nA superior blunderbuss may be fired more than once per game; it takes a complete turn to reload❓, so you may only fire it every other turn."
     },
     {
       "id": "hobgoblinPoisonedDaggers",
       "name": "Hobgoblin poisoned daggers",
       "category": "melee",
       "cost": 15,
-      "rarity": null,
+      "rarity": 9,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Poisoned Daggers are traditionally used in pairs, one in each hand. A warrior armed with Poisoned Daggers gets an additional attack (for the offhand weapon attack).\n\nHobgoblins armed with Poisoned Daggers count as having +1 Initiative when determining combat order.\n\nThe venom of Poisoned Daggers will enter the blood of the victim and ravage his organs and muscles. The weapons count as being permanently coated in Black Lotus. No additional poison may be applied to Poisoned Daggers.\n\nPoisoned Daggers count as daggers, and thus an enemy wounded by a dagger gains a +1 bonus to his armour save, and a 6+ armour save if he has none normally."
     }
   ],
   "specialRules": ""

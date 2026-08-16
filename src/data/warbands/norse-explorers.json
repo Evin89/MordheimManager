@@ -77,7 +77,7 @@
       "specialRules": [
         {
           "name": "Berserkers",
-          "description": "Berserkers are subject to <Tooltip>frenzy</Tooltip> as detailed in the Psychology section of the Mordheim rulebook."
+          "description": "Berserkers are subject to frenzy as detailed in the Psychology section of the Mordheim rulebook."
         }
       ],
       "isLeader": false,
@@ -121,11 +121,11 @@
       "specialRules": [
         {
           "name": "Fear",
-          "description": "Wulfen are terrifying creatures to behold and cause <Tooltip>fear</Tooltip>."
+          "description": "Wulfen are terrifying creatures to behold and cause fear."
         },
         {
           "name": "Bestial",
-          "description": "Wulfen are ravenous beasts and therefore <em>immune to psychology</em>. Also despite being greatly revered by their barbarian kinsmen, Wulfen are too feral and uncontrolled to become the leader of the warband."
+          "description": "Wulfen are ravenous beasts and therefore immune to psychology. Also despite being greatly revered by their barbarian kinsmen, Wulfen are too feral and uncontrolled to become the leader of the warband."
         }
       ],
       "isLeader": false,
@@ -348,9 +348,9 @@
       "name": "Javelins",
       "category": "missile",
       "cost": 5,
-      "rarity": null,
+      "rarity": 0,
       "restriction": "",
-      "rulesText": ""
+      "rulesText": "Javelins are thrown weapons and the warrior suffers no penalty for range or moving."
     }
   ],
   "specialRules": ""

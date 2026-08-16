@@ -5,6 +5,9 @@ import scenariosData from '../data/scenarios.json';
 import explorationData from '../data/exploration.json';
 import btbObjectivesData from '../data/btb/objectives.json';
 import btbDramatisPersonaeData from '../data/btb/dramatisPersonae.json';
+import glossaryData from '../data/reference/glossary.json';
+import errataData from '../data/reference/errata.json';
+import faqData from '../data/reference/faq.json';
 import { warbandDefinitions, getWarbandTypeName } from '../data/warbandRegistry';
 import { getUniqueInjuries } from './injuryLookup';
 import {
@@ -290,6 +293,17 @@ function chapterRank(chapter: string): number {
   return index === -1 ? CHAPTER_ORDER.length : index;
 }
 
+// Glossary, errata and FAQ imported from MordheimerData/Sourcedata (spec §4.8),
+// markup stripped at conversion. Cast because a JSON import widens `category`
+// and `weapon` to plain strings/objects; the data itself conforms to RuleEntry.
+function referenceEntries(): RuleEntry[] {
+  return [
+    ...(glossaryData.entries as RuleEntry[]),
+    ...(errataData.entries as RuleEntry[]),
+    ...(faqData.entries as RuleEntry[]),
+  ];
+}
+
 const allEntries: RuleEntry[] = [
   ...typedRules.entries,
   ...skillEntries(),
@@ -299,6 +313,7 @@ const allEntries: RuleEntry[] = [
   ...warbandSpecialEntries(),
   ...btbObjectiveEntries(),
   ...btbDramatisPersonaEntries(),
+  ...referenceEntries(),
 ].sort((a, b) => chapterRank(a.chapter) - chapterRank(b.chapter));
 
 const entriesById = new Map(allEntries.map((entry) => [entry.id, entry]));

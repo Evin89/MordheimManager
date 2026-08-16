@@ -1,0 +1,1078 @@
+{
+  "schemaVersion": 1,
+  "source": "MordheimerData/Sourcedata (github.com/MordheimerData/Sourcedata), markup stripped.",
+  "entries": [
+    {
+      "id": "errata-0",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 42, “Strike First” rule",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 42, “Strike First” rule. — Add: “If the model is armed with a spear and another weapon, resolve any strikes with the other weapon according to when it would normally strike.”"
+    },
+    {
+      "id": "errata-1",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 46, Crossbow Pistol “Sh",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 46, Crossbow Pistol “Shoot in hand-to-hand combat” rule. — Add, “This bonus attack is in addition to any close combat weapon attacks.”"
+    },
+    {
+      "id": "errata-2",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 47 & 48, “Hand-to-Hand”",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 47 & 48, “Hand-to-Hand” rule. — Add, “These attacks are resolved with a model’s weapon skill like any normal close combat attack and likewise may be parried.”"
+    },
+    {
+      "id": "errata-3",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 48, “Accuracy” rule.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 48, “Accuracy” rule. — Change the last sentence to read, “All shots and close combat attacks from a duelling pistol have a +1 bonus to hit.”"
+    },
+    {
+      "id": "errata-4",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 52, “Bugman’s Ale”.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 52, “Bugman’s Ale”. — Add, “There is only enough ale to supply the warband for one battle.”"
+    },
+    {
+      "id": "errata-5",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 53, “Tome of Magic”.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 53, “Tome of Magic”. — Add, “The benefits from each tome of Magic apply to only one model.”"
+    },
+    {
+      "id": "errata-6",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 53, “Animals”.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 53, “Animals”. — Change, “Only Humans can buy horses and warhorses.” to, “Only Humans can buy or use horses and warhorses.”"
+    },
+    {
+      "id": "errata-7",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 57, “Hearts of Steel”.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 57, “Hearts of Steel”. — Add, “The effects of this spell last until the caster is knocked down, stunned or put out of action. If cast again the effects are not cumulative, i.e. the maximum bonus to Rout Tests remains +1.”"
+    },
+    {
+      "id": "errata-8",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 58, “Spell of Awakening",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 58, “Spell of Awakening”. — Add, “The new Zombie follows all the normal Zombie rules (immune to poison, causes fear) except for retaining his profile, weapons and armour.”"
+    },
+    {
+      "id": "errata-9",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 65, “Calculate the Warb",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 65, “Calculate the Warband Rating”. — Delete the reference to “Ogres” since they are Hired Swords and add to the warband rating based on their description, not this general rule."
+    },
+    {
+      "id": "errata-10",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 69.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 69. — The entry for marksmen should read, “Your warband may include no more than seven Marksmen.” in line with p.71."
+    },
+    {
+      "id": "errata-11",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 91.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 91. — The cost for a Blowpipe should be 25gc, in line with p.92."
+    },
+    {
+      "id": "errata-12",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 93.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 93. — The entry on the skill chart for “Warlock Engineer” should read “Eshin Sorcerer”."
+    },
+    {
+      "id": "errata-13",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, “The lad’s got tal",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, “The lad’s got talent” entry in the Henchmen advance table. — Replace the last sentence with, “The remaining members of the henchmen group, if any, roll again for the advance that they have earned, re-rolling any results of 10-12.”"
+    },
+    {
+      "id": "errata-14",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 134, 2nd paragraph.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 102",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 134, 2nd paragraph. — Replace the sentence, “If you won your last game, you may re-roll any one dice but you must accept the second result.” with, “If you won your last game, you may roll one extra dice.”"
+    },
+    {
+      "id": "errata-15",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 155, “Hire Fee”.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 155, “Hire Fee”. — Add, “A request for Bertha to aid the warband must be made for each battle you wish her to help the warband.”"
+    },
+    {
+      "id": "errata-16",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 163.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 163. — Add, “Armour may be purchased for a warhorse, called barding (refer to the Trading chart). It adds a further +1 bonus to the model’s armour save, but subtracts one from his movement. A normal horse may not wear barding. A barded warhorse is only killed on a serious injury roll of “1” if the model goes out of action.”"
+    },
+    {
+      "id": "errata-17",
+      "title": "Errata: Opulent Goods. Hammer of Witches.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Town Cryer 12, page 41",
+      "body": "Errata: Opulent Goods. Hammer of Witches. — To allow for other enemies of Sigmar, add Beastmen, Chaos, Daemons, Orcs and Goblins to the list of warbands and models hated."
+    },
+    {
+      "id": "errata-18",
+      "title": "Errata: Opulent Goods. Wyrdstone Pendulum.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Town Cryer 12, page 41",
+      "body": "Errata: Opulent Goods. Wyrdstone Pendulum. — Add “This dice may not be re-rolled”"
+    },
+    {
+      "id": "errata-19",
+      "title": "Errata: Opulent Goods. Toughened Leathers.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Town Cryer 12, page 41",
+      "body": "Errata: Opulent Goods. Toughened Leathers. — Add “Even though Toughened Leathers are purchased as miscellaneous equipment and need not be listed on a Hero’s starting armour list to be taken, they are still armour and prevent spell casting.”"
+    },
+    {
+      "id": "errata-20",
+      "title": "Errata: Town Cryer 8, “Bretonnian Warbands”.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Town Cryer 8, “Bretonnian Warbands”. — Change the cost of Bretonnian swords from 5gc to 10gc."
+    },
+    {
+      "id": "errata-21",
+      "title": "Errata: Town Cryer 8, “Bretonnian Warbands”.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Town Cryer 8, “Bretonnian Warbands”. — Add to the Knight’s Equipment list, “Axe...5gc”."
+    },
+    {
+      "id": "errata-22",
+      "title": "Errata: Town Cryer 8, “Bretonnian Warbands”.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Town Cryer 8, “Bretonnian Warbands”. — The Bretonnian Special Skills list has the further line “Bretonnian Questing Knights may use the following skills...” Since all of the skills are Knight’s Virtues, references to any Hero being able to take them should be deleted, and the list redefined as “Knight Virtues”."
+    },
+    {
+      "id": "errata-23",
+      "title": "Errata: Town Cryer 8, “At the Mouth of Madness” Rules for Insanity.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Town Cryer 8, “At the Mouth of Madness” Rules for Insanity. — Under “Going Insane” replace the sentence, “For each hero the normal experience track is used” with, “For each hero the normal experience track is used, but marked off from the opposite end.”"
+    },
+    {
+      "id": "errata-24",
+      "title": "Errata: Town Cryer 8, “At the Mouth of Madness” Rules for Insanity.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Town Cryer 8, “At the Mouth of Madness” Rules for Insanity. — In the Insanity Table:\n“Criminal Psychosis”: replace the reference to Animosity with Hatred.\n“Fear of Heights”: the warrior must make an All Alone test not a Fear test.\n“Panzaism/Quixotism”: delete the reference to failing a leadership test for Frenzy.\n“I hate you all”: replace, “...and Animosity to friendly warriors” with, “...and must roll for Animosity just like an Orc henchman at the start of each turn”"
+    },
+    {
+      "id": "errata-25",
+      "title": "Errata: Town Cryer 9, Pirate Warband, “Kidnapped!”.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Town Cryer 9, Pirate Warband, “Kidnapped!”. — Delete the reference to being captured on a serious injury roll of 62, that is a result of ‘Hardened’."
+    },
+    {
+      "id": "errata-26",
+      "title": "Errata: Town Cryer 9, Pirate Warband.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Town Cryer 9, Pirate Warband. — The Pirate Captain should have an Initiative of 4 and not 3"
+    },
+    {
+      "id": "errata-27",
+      "title": "Errata: Town Cryer 9, Pirate Warband.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Town Cryer 9, Pirate Warband. — Change the cost of Cat O’ Nine Tails on the price chart to 8gc, the same as on p.36."
+    },
+    {
+      "id": "errata-28",
+      "title": "Errata: Town Cryer 9, Pirate Warband.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Town Cryer 9, Pirate Warband. — Toughened Leathers should cost Pirates 5gc and not 7gc."
+    },
+    {
+      "id": "errata-29",
+      "title": "Errata: Town Cryer 9, Pirate Warband.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Town Cryer 9, Pirate Warband. — The cost for a Spy Glass should be 20gc and not 206gc! It’s obviously a typo."
+    },
+    {
+      "id": "errata-30",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 26, 2nd column.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 26",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 26, 2nd column. — Replace the third paragraph (“A model may charge... past the enemy!”) with the following: “If an unengaged (ie, not in hand-to-hand combat) enemy model lies within 2\" of the charge route, that model may choose to intercept the charger if he wishes. This ‘interception area’ is shown in the diagram above. Only one enemy model may attempt to intercept each charger. If the intercepting warrior would normally require a Fear test to engage the charger then he must pass one in order to be allowed to intercept. Failure means he will not move. If the intercepting warrior causes fear then move the models into contact and then take a Fear test for the original charger (assuming he would normally do so) as if he was the one being charged. Regardless of the results of this test it is still the original charger who counts as charging in the subsequent round of combat, not the intercepting warrior.”"
+    },
+    {
+      "id": "errata-31",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 26, 2nd column.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 26",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 26, 2nd column. — Add the following to the end of the last paragraph on the page: “A model that charges will ‘strike first’ in the first round of the ensuing combat.”"
+    },
+    {
+      "id": "errata-32",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 29, Closest Target.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 26",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 29, Closest Target. — Add the following sentence as a new paragraph after the first: “You may always choose to shoot at a Large Target if you can see it, whether it is in cover or not and even if it is not the closest target.”"
+    },
+    {
+      "id": "errata-33",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 30, 1st column.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 26",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 30, 1st column. — Insert the following new paragraph after the first paragraph and before the diagram: “If a shot misses its target by 1, and that target claimed the -1 modifier for cover, then the shot strikes the cover instead. Normally this doesn’t matter, but in the case where a model is concealed behind another warrior, or when the cover is a powder keg, it might be extremely important!”"
+    },
+    {
+      "id": "errata-34",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 31, Hit Modifiers.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 26",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 31, Hit Modifiers. — Change the definition of -1 Moving and shooting to: “If your model has moved at all (other than standing up, or turning to face your target) during this turn.”"
+    },
+    {
+      "id": "errata-35",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 31, Hit Modifiers.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 26",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 31, Hit Modifiers. — Change the definition of +1 Large Target to: “If either the target model has the Large Target special rule (such as an Ogre), or whose main ‘body’ is over 2\" tall or wide (such as most buildings).”"
+    },
+    {
+      "id": "errata-36",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 34, Who Strikes First.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 26",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 34, Who Strikes First. — Replace the paragraph with the following: “Normally, models fight in order of descending Initiative with the highest striking first. If their Initiatives are equal, roll a dice to see who fights first. \n\nIf a model stood up in the Recovery phase of that turn, then he will strike last irrespective of any other circumstances.\n\nSometimes a model will be allowed to ‘strike first’ for some reason. Most commonly this is because they charged in that turn, but some equipment, skills and spells produce the same effect. If only one model ‘strikes first’ then it does so and the remainder of the combatants strike in Initiative order as described above.\n\nIf there are several models who are each entitled to ‘strike first’, then they determine the order of combat between themselves by Initiative, as described above. Once all those that were eligible to ‘strike first’ have fought, any other combatants fight in Initiative order.”"
+    },
+    {
+      "id": "errata-37",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 38, Voluntary Rout.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 27",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 38, Voluntary Rout. — Replace the paragraph with: “A player may choose to voluntarily Rout at the start of any of his own turns if he wishes, but only if he was already required to take a Rout test or if a quarter (25%) or more of his warband are out of action.”"
+    },
+    {
+      "id": "errata-38",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 39, Fear.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 27",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 39, Fear. — In the paragraph labelled “a)”, replace the last sentence with: “If it is failed, the model must roll 6s to score hits in that round of combat.”"
+    },
+    {
+      "id": "errata-39",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 39, Stupidity.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 27",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 39, Stupidity. — Replace the third paragraph with: “If the test is failed all is not well. Until the start of his next turn (when it takes a new Stupidity test) the model will not cast spells or fight in hand-to-hand combat (though his opponent will still have to roll to hit him as normal).”"
+    },
+    {
+      "id": "errata-40",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 39, Stupidity.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 27",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 39, Stupidity. — Add the following paragraph at the end of the Stupidity section: “Regardless of whether the test is passed or failed, the result applies until the start of the model’s following turn (when it takes a new Stupidity test).”"
+    },
+    {
+      "id": "errata-41",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 42, Spear.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 27",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 42, Spear. — Replace the Strike First rule with: “Strike first: A warrior with a spear ‘strikes first’ in the first turn of a hand-to-hand combat.”"
+    },
+    {
+      "id": "errata-42",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 42, Spear.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 27",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 42, Spear. — Add a new special rule between “Strike First” and “Cavalry bonus”: “Unwieldy: A warrior with a spear may only use a shield or a buckler in his other hand. He may not use a second weapon.”"
+    },
+    {
+      "id": "errata-43",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 45, Sling.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 27",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 45, Sling. — Add the following sentence to the end of the Fire Twice at Half Range special rule: “If the model fires twice then each shot is at -1 to hit.”"
+    },
+    {
+      "id": "errata-44",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 53, Lucky Charm.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 27",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 53, Lucky Charm. — Replace the second paragraph with: “The first time a model with a Lucky Charm is hit in a battle they roll a D6. On a 4+ the hit is discarded and no damage is suffered. Owning two or more Charms does not confer any extra benefits, the model may still only try to discard the first hit.”"
+    },
+    {
+      "id": "errata-45",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 54, Halfling Cookbook.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 27",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 54, Halfling Cookbook. — Replace the brackets at the end of the second paragraph with: “(note that neither an Undead warband nor a Carnival of Chaos warband can use this item).”"
+    },
+    {
+      "id": "errata-46",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 58, Re-Animation.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 27",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 58, Re-Animation. — Replace the first sentence with: “One Zombie that went out of action during the last hand-to-hand combat or Shooting phase immediately returns to battle.”"
+    },
+    {
+      "id": "errata-47",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 60, Silver Arrows of Ar",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 27",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 60, Silver Arrows of Arha. — Replace the first sentence with: “Unlike other spells, this cannot be cast whilst in hand-to-hand combat. The spell summons D6+2 arrows which the wizard can use to shoot against one enemy model.”"
+    },
+    {
+      "id": "errata-48",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 65, 1st column, 1st par",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 27",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 65, 1st column, 1st paragraph of Weapons and Armour. — Replace the first sentence with: “Each warrior you recruit can be armed with up to two close combat weapons (in addition to his free dagger), up to two different missile weapons and any armour chosen from the appropriate list. For these purposes, a brace of pistols counts as a single missile weapon.”"
+    },
+    {
+      "id": "errata-49",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 85, Steel Whip weapon s",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 85, Steel Whip weapon stat line. — Under range, replace “4\\\"” with “Close combat”:\n\nErrata: Mordheim Rule book (English, 1st Printing), Page 85, Steel Whip weapon stat line. — Under special rules, replace “reach” with “whipcrack”:\n\nErrata: Mordheim Rule book (English, 1st Printing), Page 85, Steel Whip special rules. — Replace the reach special rule with: “Whipcrack: When the wielder charges they gain +1A for that turn. This bonus attack is added after any other modifications. When the wielder is charged they gain +1A that they may only use against the charger. This additional attack will ‘strike first’. If the wielder is simultaneously charged by two or more opponents they will still only receive a total of +1A. If the wielder is using two whips at the same time then they get +1A for the additional hand weapon, but only the first whip gets the whipcrack +1A.”"
+    },
+    {
+      "id": "errata-50",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 95, Rat Ogre.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 95, Rat Ogre. — Replace the Large special rule with: “Large Target: Rat Ogres are Large Targets as defined in the shooting rules.”"
+    },
+    {
+      "id": "errata-51",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 117, Post Battle Sequen",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 117, Post Battle Sequence. — Stages 1-3 remain as they are. Stage 5 is renumbered stage 10. Stage 4 is replaced by the following new stages:\n\n4 Sell wyrdstone. This can only be done once per Post Battle sequence.\n\n5 Check available veterans. Roll to see how much Experience worth of veterans is available for hire. You don’t have to commit to hiring any at this point.\n\n6 Make Rarity rolls and buy Rare items. Make rolls for any Rare items you intend to buy and pay for them. These items go into the warband’s stash.\n\n7 Look for Dramatis Personae, if you want to hire any.\n\n8 Hire new recruits & buy common items. New recruits come equipped with their free dagger and may be bought Common items. This is done in any order and may be done several times. Note that newly hired recruits cannot buy Rare items. They can, however, be equipped with Rare items if there are any in the warband’s stash in stage 9.\n\n9 Reallocate equipment. Swap equipment between models as desired (provided they are eligible to use it)."
+    },
+    {
+      "id": "errata-52",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 117, Death of a Leader.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 117, Death of a Leader. — Replace the last sentence of the second paragraph (“In the case of Undead warbands...”) with: “You can buy a Vampire after the next game, at which point the Necromancer will step down (whether he wants to or not) and lose the Leader skill.”"
+    },
+    {
+      "id": "errata-53",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 117, Death of a Leader.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 117, Death of a Leader. — Add the following paragraph at the end of this section: “If the leader of a Sisters of Sigmar, Possessed or Carnival of Chaos warband dies then their successor will be entitled to learn to use magic in their stead. The new leader may choose a prayer/spell from the appropriate list, instead of rolling on the Advance table, the first time they are eligible for an advance. After this they are considered to be a wizard/use prayers as appropriate for their warband and use the Advance table as normal.”"
+    },
+    {
+      "id": "errata-54",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, Henchmen.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, Henchmen. — In the first paragraph of this section, change the second sentence to read: “If the dice roll indicates an increase in a characteristic which has already been increased (or is at its racial maximum), roll again until an unincreased characteristic is rolled.”"
+    },
+    {
+      "id": "errata-55",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, Characteristic Inc",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, Characteristic Increase. — In the initial paragraph, change the third sentence to read: “If both are already at their racial maximum, you may increase any other (that is not already at its racial maximum) by +1 instead.”"
+    },
+    {
+      "id": "errata-56",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, Characteristic Inc",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, Characteristic Increase. — Replace the existing Ogre maximum characteristics with: Ogre (Ogre Bodyguard Hired Sword)\n\nProfileMWSBSSTWIALd665555659"
+    },
+    {
+      "id": "errata-57",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, Characteristic Inc",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, Characteristic Increase. — Add the maximum characteristics for Halflings: Halflings (Halfling Scout Hired Sword, et al)\n\nProfileMWSBSSTWIALd4573339410"
+    },
+    {
+      "id": "errata-58",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 122, Expert Swordsman s",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 122, Expert Swordsman skill description. — Add the following to the end: “Note that this only applies when they are armed with normal swords or weeping blades, and not with doublehanded swords or any other weapons.”"
+    },
+    {
+      "id": "errata-59",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 122, Quick Shot.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 122, Quick Shot. — Replace the description with: “Quick Shot: The warrior may shoot twice per turn with a bow or crossbow (but not a crossbow pistol).”"
+    },
+    {
+      "id": "errata-60",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 122, Pistolier.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 29",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 122, Pistolier. — Replace the second sentence of the description with: “If he is equipped with a brace of pistols of any type (including crossbow pistols), he may fire twice in the Shooting phase (though note that normal reloading rules apply). If he has a single pistol then he may fire it in the same turn it was reloaded.”"
+    },
+    {
+      "id": "errata-61",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 122, Hunter.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 29",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 122, Hunter. — Replace the second sentence of the description with: “He may fire each turn with a handgun or Hochland long rifle.”"
+    },
+    {
+      "id": "errata-62",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 123, Haggle.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 29",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 123, Haggle. — Replace the second sentence with: “He may deduct 2D6 gold crowns from the price of any single item (to a minimum cost of 1gc) once per Post Battle sequence.”"
+    },
+    {
+      "id": "errata-63",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 123, Pit Fighter.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 29",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 123, Pit Fighter. — Add the following at the end of the description: “It's a good idea to define which bits of your terrain collection count as ‘buildings or ruins’ at the start of a battle to avoid confusion later.”"
+    },
+    {
+      "id": "errata-64",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 123, Lightning Reflexes",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 29",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 123, Lightning Reflexes. — Replace the entry with: “If the warrior is charged he will ‘strike first’ against those that charged that turn. As the charger(s) will also normally ‘strike first’ (for charging), the order of attack between the charger(s) and the warrior with this skill will be determined by comparing Initiative values.”"
+    },
+    {
+      "id": "errata-65",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 123, Jump Up.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 29",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 123, Jump Up. — Replace the last sentence with: “The warrior may ignore knocked down results when rolling for injuries, unless he is knocked down because of a successful save from wearing a helmet or because he has the No Pain special rule.”"
+    },
+    {
+      "id": "errata-66",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 123, Dodge.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 29",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 123, Dodge. — Replace the last sentence with: “Note that this roll is taken against missiles as soon as a hit is scored to see whether the warrior dodges it or not, before rolling to wound, and before any effects from other skills or equipment (such as lucky charms).”"
+    },
+    {
+      "id": "errata-67",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 144, New recruits.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 29",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 144, New recruits. — Replace the first paragraph of this section (“New warriors... at least one battle”) with: “New warriors are recruited in the same way as the original warband with the notable exception of equipment. After the start of a campaign, a new hireling can only buy Common items from his warband’s equipment chart freely. He may only be given Rare items from his warband’s equipment chart if the warband can obtain them via the normal trading rules.”"
+    },
+    {
+      "id": "errata-68",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 147, Recruiting Hired S",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 29",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 147, Recruiting Hired Swords. — In the third paragraph of this section, replace the first two sentences with: “Hired Swords do not count towards the maximum number of warriors or Heroes a warband may have on its roster and don’t affect your income from selling wyrdstone. However, Hired Swords do count as part of the warband for purposes of Rout tests, etc whilst in battle.”"
+    },
+    {
+      "id": "errata-69",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 148, Ogre Bodyguard.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 29",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 148, Ogre Bodyguard. — Replace the Large special rule with: “Large Target: Ogres are Large Targets as defined in the shooting rules.”"
+    },
+    {
+      "id": "errata-70",
+      "title": "Errata: Mordheim Rule book (English, 1st Printing), Page 150, Freelancer.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 29",
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 150, Freelancer. — Under Equipment, replace the second sentence with: “If you are using the optional rules for mounted models, a Freelancer rides a warhorse (and has the Ride Warhorse skill from the Blazing Saddles article).”"
+    },
+    {
+      "id": "errata-71",
+      "title": "Errata: Mordheim Annual 2002, Page 3, Man-Eater.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 30",
+      "body": "Errata: Mordheim Annual 2002, Page 3, Man-Eater. — Replace the last sentence with: “Opponents are +1 to hit the tree in hand-to-hand combat, due to the fact that it is rooted to the spot. The Tree is a Large Target.”"
+    },
+    {
+      "id": "errata-72",
+      "title": "Errata: Mordheim Annual 2002, Page 6, Forbidden Fruit.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Mordheim Annual 2002, Page 6, Forbidden Fruit. — Add the following to the end of the paragraph: “The Tree is a Large Target.”"
+    },
+    {
+      "id": "errata-73",
+      "title": "Errata: Mordheim Annual 2002, Page 7, Itsy-Bitsy Spider.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Mordheim Annual 2002, Page 7, Itsy-Bitsy Spider. — Add a new special rule: “Large Target: Gigantic Spiders are Large Targets as defined in the shooting rules.”"
+    },
+    {
+      "id": "errata-74",
+      "title": "Errata: Mordheim Annual 2002, Page 9, Orc Equipment Lists.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Mordheim Annual 2002, Page 9, Orc Equipment Lists. — Add a club at 3gc to the list of hand-to-hand combat weapons available to the Orcs."
+    },
+    {
+      "id": "errata-75",
+      "title": "Errata: Mordheim Annual 2002, Page 11, Troll.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Mordheim Annual 2002, Page 11, Troll. — Add a new special rule: “Large Target: Trolls are Large Targets as defined in the shooting rules.”"
+    },
+    {
+      "id": "errata-76",
+      "title": "Errata: Mordheim Annual 2002, Page 21, Dwarf Warrior Equipment Lists.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Mordheim Annual 2002, Page 21, Dwarf Warrior Equipment Lists. — Add a brace of pistols at 30gc to the list of missile weapons available to the Dwarf Warriors."
+    },
+    {
+      "id": "errata-77",
+      "title": "Errata: Mordheim Annual 2002, Page 22, Dwarf Engineer.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Mordheim Annual 2002, Page 22, Dwarf Engineer. — Replace the Expert Weaponsmith special rule with: “Expert Weaponsmith: A Dwarf Engineer is a master of mechanical devices. By using stronger construction materials and time-tested secrets of Dwarf engineering, a Dwarf Engineer can increase the distance the warband’s missile weapons can shoot. Missile weapons bought from the warband’s basic equipment lists have their range increased by 3\" for pistols and 6\" for crossbows and handguns. Range increases only apply in battles in which the Engineer takes part (though they do apply even if he is yet to enter the battlefield or has already been taken out of action in this battle). He has no effect on the equipment of Hired Swords.”"
+    },
+    {
+      "id": "errata-78",
+      "title": "Errata: Mordheim Annual 2002, Page 25, Nicodemus.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Mordheim Annual 2002, Page 25, Nicodemus. — Add Witch Hunters to the list of warbands that cannot hire Nicodemus."
+    },
+    {
+      "id": "errata-79",
+      "title": "Errata: Mordheim Annual 2002, Page 34, Great Beasts in Mordheim.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Mordheim Annual 2002, Page 34, Great Beasts in Mordheim. — Insert a new sentence between the fourth and fifth (after “..a new lair in the ruined city.”): “Even so, all monsters count as Large Targets as defined in the shooting rules.”"
+    },
+    {
+      "id": "errata-80",
+      "title": "Errata: Mordheim Annual 2002, Page 66, 2nd column.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Mordheim Annual 2002, Page 66, 2nd column. — Add a new special rule between Armour Bonus and Bolting Mounts: “Large Target: All models mounted on a riding creature from this section count as Large Targets as defined in the shooting rules. Unridden riding creatures are not Large Targets.”"
+    },
+    {
+      "id": "errata-81",
+      "title": "Errata: Mordheim Annual 2002, Page 81, Trained Bear.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Mordheim Annual 2002, Page 81, Trained Bear. — Add a new special rule: “Large Target: Bears are Large Targets as defined in the shooting rules.”"
+    },
+    {
+      "id": "errata-82",
+      "title": "Errata: Empire in Flames, Page 17.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Empire in Flames, Page 17. — Change the price of a Horseman’s Hammer to 12gc."
+    },
+    {
+      "id": "errata-83",
+      "title": "Errata: Empire in Flames, Page 24, 2nd column.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Empire in Flames, Page 24, 2nd column. — Add a new special rule between Armour Bonus and Bolting Mounts: “Large Target: All models mounted on a riding creature from this section count as Large Targets as defined in the shooting rules. Unridden riding creatures are not Large Targets.”"
+    },
+    {
+      "id": "errata-84",
+      "title": "Errata: Empire in Flames, Page 60, Special Rules.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Empire in Flames, Page 60, Special Rules. — Add the following Special rule: “Tainted: The Carnival is a similarly unclean mass of mutation and Chaos to the Possessed and so counts as such for purposes of exploration and serious injuries.”"
+    },
+    {
+      "id": "errata-85",
+      "title": "Errata: Empire in Flames, Page 66, Nurgle’s Rot.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Empire in Flames, Page 66, Nurgle’s Rot. — Change the fifth sentence to read: “If the Tainted One makes a successful To Wound roll of a 6 with any of his hand-to-hand attacks, the target model will contract the Rot (note: Nurgle’s Rot only affects the living, so Undead, Daemons and Possessed are immune).”"
+    },
+    {
+      "id": "errata-86",
+      "title": "Errata: Empire in Flames, Page 71, Beastmen Skill tables.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Empire in Flames, Page 71, Beastmen Skill tables. — The ‘3s’ in the table should be ticks."
+    },
+    {
+      "id": "errata-87",
+      "title": "Errata: Empire in Flames, Page 71, Maximum Characteristics.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Empire in Flames, Page 71, Maximum Characteristics. — Replace the entry with:\n\nProfileMWSBSSTWIALdUngor666443747Centigors976454649Minotaur665555659Other Beastmen**576454649*This includes all the non-Centigor Heroes and the Gor Henchmen.”"
+    },
+    {
+      "id": "errata-88",
+      "title": "Errata: Empire in Flames, Page 73, Minotaur.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Empire in Flames, Page 73, Minotaur. — Replace the Large special rule with: “Large Target: Minotaurs are Large Targets as defined in the shooting rules.”"
+    },
+    {
+      "id": "errata-89",
+      "title": "Errata: Empire in Flames, Page 74, Shaggy Hide skill.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Empire in Flames, Page 74, Shaggy Hide skill. — Replace the existing definition with the following: “The Beastman’s massively shaggy hide acts as armour, deflecting sword strokes and protecting him from harm. The model gains a 6+ Armour Save that can be combined with other armour as normal.”"
+    },
+    {
+      "id": "errata-90",
+      "title": "Errata: Empire in Flames, Page 78, The Thing in the Woods.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
+      "body": "Errata: Empire in Flames, Page 78, The Thing in the Woods. — Replace the Large Beast special rule with: “Large Target: The Balewolf is a Large Target as defined in the shooting rules.”"
+    },
+    {
+      "id": "errata-91",
+      "title": "Town Cryer 12, page 18 Dark Elves",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Errata: Town Cryer 13, page 23",
+      "body": "Town Cryer 12, page 18 Dark Elves — Originally in Town Cryer 12, Light Armour was mistakenly costed at 50 gc, this was corrected to 20 gc in a small errata in Town Cryer 13.”"
+    },
+    {
+      "id": "errata-92",
+      "title": "Errata: Border Town Burning, Page 30, Obsidian Weapon.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 1",
+      "body": "Errata: Border Town Burning, Page 30, Obsidian Weapon. — Add an “Obsidian Weapon” to the new weapons. See the current PDF files for the full rules of this weapon. Also add this entry to the Price Chart (p.34): Obisidian Weapons, 4 x Price, Rare 12, (Marauders of Chaos, Norse, Beastmen, Chaos Dwarfs, Possessed and Carnival of Chaos only."
+    },
+    {
+      "id": "errata-93",
+      "title": "Errata: Border Town Burning, Page 31, Ladders.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 1",
+      "body": "Errata: Border Town Burning, Page 31, Ladders. — Adjust the following sentence to make clear that Henchmen may also use ladders: A Ladder requires two models, Heroes or Henchmen, (or a single large model) to carry it."
+    },
+    {
+      "id": "errata-94",
+      "title": "Errata: Border Town Burning, Page 34, Price Chart.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 1",
+      "body": "Errata: Border Town Burning, Page 34, Price Chart. — Add the following entry to the Price Chart: Steel Whip, 10gc, Common (Sisters of Sigmar and Chaos Dwarfs only)"
+    },
+    {
+      "id": "errata-95",
+      "title": "Errata: Border Town Burning, Page 37, Chaos Artefacts.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 1",
+      "body": "Errata: Border Town Burning, Page 37, Chaos Artefacts. — Add the following sentence to the rules for Ghartok’s Skull: Unlike other armour the helmet does not hinder its wearer from casting spells or rituals."
+    },
+    {
+      "id": "errata-96",
+      "title": "Errata: Border Town Burning, Page 40, The Scion of Chaos.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 1",
+      "body": "Errata: Border Town Burning, Page 40, The Scion of Chaos. — Replace “M 7” with “M 8” under the 35 Daemon Prince achievement."
+    },
+    {
+      "id": "errata-97",
+      "title": "Errata: Border Town Burning, Page 42, Celestial Protectorate.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 1",
+      "body": "Errata: Border Town Burning, Page 42, Celestial Protectorate. — Add the following sentence to +D3 Emissary’s Report: It would be too risky for the Emissary to take the Chaos Artefacts with him so they must remain with another Hero from the warband while he makes a report."
+    },
+    {
+      "id": "errata-98",
+      "title": "Errata: Border Town Burning, Page 49, Horrors of the Underground.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 1",
+      "body": "Errata: Border Town Burning, Page 49, Horrors of the Underground. — Add the following sentence to the “ending the game” section: If the egg has been found when one warband routs, the winner automatically acquires it."
+    },
+    {
+      "id": "errata-99",
+      "title": "Errata: Border Town Burning, Page 59, Chaos Dragon Hunt.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 1",
+      "body": "Errata: Border Town Burning, Page 59, Chaos Dragon Hunt. — Add the following sentence to the “ending the game” section: When there is only one warband left and the dragon is still alive, then the player may choose whether he wants to end the game as the winner or continue fighting until either the dragon is taken out of action or the warband fails a Rout test."
+    },
+    {
+      "id": "errata-100",
+      "title": "Errata: Border Town Burning, Page 80, Bear.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 1",
+      "body": "Errata: Border Town Burning, Page 80, Bear. — Replace “Beastmaster skill” with “Bear Handler skill”"
+    },
+    {
+      "id": "errata-101",
+      "title": "Errata: Border Town Burning, Page 87, Wild Boar.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 1",
+      "body": "Errata: Border Town Burning, Page 87, Wild Boar. — Add the following to the “May be Allied” section: “One of the Heroes must have the Boar Handler skill.”"
+    },
+    {
+      "id": "errata-102",
+      "title": "Errata: Border Town Burning, Page 126, Spawn of Chaos.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 126, Spawn of Chaos. — Change the last sentence of the ‘Spawn of Chaos’ rule under ‘Eye of the Gods’ to the following: His experience, skills, injuries and equipment are lost."
+    },
+    {
+      "id": "errata-103",
+      "title": "Errata: Border Town Burning, Page 126, Marauders of Chaos Hired Swords.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 126, Marauders of Chaos Hired Swords. — Replace the Hired Swords section with the following: Hired Swords: Marauders of Chaos may only hire the following Hired Swords: Pit Fighters, Ogres, Norse Shamans and Imperial Assassins plus any other Hired Swords which specify they may be hired by Marauders of Chaos. Witches and Warlocks may be hired except by warbands that include warriors with the Mark of Arkhar."
+    },
+    {
+      "id": "errata-104",
+      "title": "Errata: Border Town Burning, Page 127, Steel Whip.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 127, Steel Whip. — Replace all instances of “Steel whip” with “Barbed Whip” so as to avoid confusion with the Sisters of Sigmar weapon of that name."
+    },
+    {
+      "id": "errata-105",
+      "title": "Errata: Border Town Burning, Page 132, Touch of Onogal.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 132, Touch of Onogal. — Update the following sentence from the rules for the Touch of Onogal spell: If the model dies permanently, replace it with a Nurgle Plague Bearer (see Bestiary for rules) for the rest of the game under the Seer’s control."
+    },
+    {
+      "id": "errata-106",
+      "title": "Errata: Border Town Burning, Page 155, Daggers.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 155, Daggers. — Add Daggers for 2 gc to the Soldiers equipment list."
+    },
+    {
+      "id": "errata-107",
+      "title": "Errata: Border Town Burning, Page 158, Fish-hook Shot.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 158, Fish-hook Shot. — Add the following sentence after the Fish-hook Shot’s Caused Fall rule: Apply a +1 modifier to the Strength test against large models. When a mount gets knocked down, the rider falls off (see 3-4 on the Whoa Boy! table)."
+    },
+    {
+      "id": "errata-108",
+      "title": "Errata: Border Town Burning, Page 163, Gluttony special rule.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 163, Gluttony special rule. — Add mounts to the list of models that can be consumed for the Gluttony special rule: Any member or animal (including mounts) from your warband can be eaten in the same way!"
+    },
+    {
+      "id": "errata-109",
+      "title": "Errata: Border Town Burning, Page 163, Maximum profile.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 163, Maximum profile. — Change the maximum profile to that given on page 6 of the Rules Review:\n\nProfileMWSBSSTWIALdOgre665555659"
+    },
+    {
+      "id": "errata-110",
+      "title": "Errata: Border Town Burning, Page 167, Sabretusks.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 167, Sabretusks. — Add the following special rule: Animals: Sabretusks are animals and thus do not gain experience."
+    },
+    {
+      "id": "errata-111",
+      "title": "Errata: Border Town Burning, Page 158, Black Dwarf Special Rules.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 158, Black Dwarf Special Rules. — Add the following sentence after the warbands’ Special rules: The following special rules apply to all warriors in the warband excluding Informers."
+    },
+    {
+      "id": "errata-112",
+      "title": "Errata: Border Town Burning, Page 159, Chaos Dwarf equipment list.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 159, Chaos Dwarf equipment list. — Add “1st free” to the Dagger entry in the Chaos Dwarf equipment list as with other warbands."
+    },
+    {
+      "id": "errata-113",
+      "title": "Errata: Border Town Burning, Page 159, Chaos Engineer.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 159, Chaos Engineer. — Adjust the “Chaos Engineer” skill as follows: Whenever a Hero with this skill searches for Chaos armour (including Mechanical Suits) or Obsidian Weapons, he gets +3 on the roll."
+    },
+    {
+      "id": "errata-114",
+      "title": "Errata: Border Town Burning, Page 169, Ninja.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 169, Ninja. — May be Hired: Battle Monks of Cathay and any warband except Skaven, Orcs & Goblins, Beastmen, Marauders of Chaos, Norse and Chaos Dwarfs may hire a Ninja."
+    },
+    {
+      "id": "errata-115",
+      "title": "Errata: Border Town Burning, Page 170, Swordsmith.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 170, Swordsmith. — Add the following skill to the Swordsmith’s special skills: Farrier: Between each battle the Swordsmith freshly shoes all equine beasts in the warband. Newly shod equines are much less likely to suffer a fatal fall during battle! Whenever a Horse, Mule, Warhorse, Elven Steed or a Chaos Centaur is taken out of action, remove the creature from the warband roster on a 1 instead of a 1 or 2."
+    },
+    {
+      "id": "errata-116",
+      "title": "Errata: Border Town Burning, Page 171, Cathayan Merchant.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 171, Cathayan Merchant. — May be Hired: Any warband which includes Humans or Dwarfs may hire a Cathayan Merchant, including Battle Monks of Cathay."
+    },
+    {
+      "id": "errata-117",
+      "title": "Errata: Border Town Burning, Page 177, Ippan Shu.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Border Town Burning Errata & FAQ, Page 2",
+      "body": "Errata: Border Town Burning, Page 177, Ippan Shu. — May be Hired: Any warband which includes Humans or Elves, including Battle Monks, may hire Ippan Shu, not including Dark Elves, Outlaws and Bandits."
+    },
+    {
+      "id": "errata-118",
+      "title": "Erratum 119",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim errata (MordheimerData/Sourcedata)",
+      "body": "The author for the Lustria warband confirmed The Wulfen in Town Crier for Lustria was supposed to be 2 wounds like in Border Town Burning. It was a copy paste error by whoever did the layout."
+    },
+    {
+      "id": "errata-119",
+      "title": "Erratum 120",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim errata (MordheimerData/Sourcedata)",
+      "body": "The original Town Cryer Publication stated the warband may include up to 7 gunners in the \"Choice of Warriors\" section, but had 0 - 2 in the unit entry. The author, Tim Huckelbery, confirmed this was supposed to be 7 gunners, and that it was accidentally changed to 2 when published in Town Cryer."
+    },
+    {
+      "id": "errata-120",
+      "title": "Erratum 121",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim errata (MordheimerData/Sourcedata)",
+      "body": "A Pistol brace was printed as 60gc, but it most likely is meant to be 30gc (2 x pistol price)."
+    },
+    {
+      "id": "errata-121",
+      "title": "Errata: Town Cryer 8, “Bretonnian Warbands”.",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim Annual 2002, Page 103",
+      "body": "Errata: Town Cryer 8, “Bretonnian Warbands”. — The cost and rarity of Bretonnian barding differs radically from that listed on the trading chart. This is special Bretonnian blessed horse armour not normally available except to Bretonnian knights."
+    },
+    {
+      "id": "errata-122",
+      "title": "Erratum 123",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim errata (MordheimerData/Sourcedata)",
+      "body": "In the Original Town Cryer publication, the Norse Shaman had an Initiative of 1, this was confirmed an error by the author and was corrected in Border Town Burning to be Initiative 4."
+    },
+    {
+      "id": "errata-123",
+      "title": "Erratum 124",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Web Archive",
+      "body": "Replace the Giant Spider Mount with the Giant Spider from the Blazing Saddles article (see page 65 of the Mordheim Annual)."
+    },
+    {
+      "id": "errata-124",
+      "title": "Erratum 125",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Web Archive",
+      "body": "Delete the first sentence of the Gigantic Spider's May Ride rule. The reference to the optional rules from the rulebook is outdated. The extended rules for mounted warriors are in effect (see 'Blazing Saddles' article on page 65 of the Mordheim Annual, or 'Mounted Warriors' on page 24 of the Empire in Flames supplement)."
+    },
+    {
+      "id": "errata-125",
+      "title": "Erratum 126",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Web Archive",
+      "body": "Replace the rules for the Rapier with the official rules from the Mordheim Annual (page 84)."
+    },
+    {
+      "id": "errata-126",
+      "title": "Erratum 127",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim errata (MordheimerData/Sourcedata)",
+      "body": "The rules for the kitchen knife were clearly designed to reflect a dagger and not an axe (the cleaver does this), and thus should provide +1 to the save."
+    },
+    {
+      "id": "errata-127",
+      "title": "Almost all cavalry skills specify that you need the Ride skill to use them, howe",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim errata (MordheimerData/Sourcedata)",
+      "body": "Almost all cavalry skills specify that you need the Ride skill to use them, however, Athletic Mount doesn't say: \"Warriors without Ride may not use this skill.\" Is this correct? — It’s an omission by GW. All skills require Ride."
+    },
+    {
+      "id": "errata-128",
+      "title": "Erratum 129",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim errata (MordheimerData/Sourcedata)",
+      "body": "There is no Out of Action roll post game, this is supposed to say Serious Injury"
+    },
+    {
+      "id": "errata-129",
+      "title": "Erratum 130",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim errata (MordheimerData/Sourcedata)",
+      "body": "The original material had an upkeep of 40 which is directly contradicted by the Wanderer rule..."
+    },
+    {
+      "id": "errata-130",
+      "title": "Erratum 131",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim errata (MordheimerData/Sourcedata)",
+      "body": "The the unit entry states 0 - 2"
+    },
+    {
+      "id": "errata-131",
+      "title": "Erratum 132",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim errata (MordheimerData/Sourcedata)",
+      "body": "TC10 had this at 2D6, it was changed in the Annual to 1D6+1"
+    },
+    {
+      "id": "errata-132",
+      "title": "Erratum 133",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim errata (MordheimerData/Sourcedata)",
+      "body": "This said \"Serious Injuries chart\" in the material but it was supposed to reference the normal, in-game injury chart (Knocked Down, Stunned, OoA)"
+    },
+    {
+      "id": "errata-133",
+      "title": "Erratum 134",
+      "category": "errata",
+      "chapter": "Errata",
+      "source": "Mordheim errata (MordheimerData/Sourcedata)",
+      "body": "The maximum characteristic increase for henchmen is +1 to any stat, so even though their racial maximum is higher, as a henchman, they cannot achieve this, except for when they get promoted to a hero."
+    }
+  ]
+}

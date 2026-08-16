@@ -1,0 +1,1356 @@
+{
+  "schemaVersion": 1,
+  "source": "MordheimerData/Sourcedata (github.com/MordheimerData/Sourcedata), markup stripped.",
+  "entries": [
+    {
+      "id": "faq-0",
+      "title": "Q. Can a model run past an enemy model without engaging in HTH? (presuming of course that the enemy ",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Movement",
+      "source": "Mordheim Annual 2002 FAQ, Page 104",
+      "body": "Q. Can a model run past an enemy model without engaging in HTH? (presuming of course that the enemy model was more than 8\" away at the start of the turn). I would presume not for the same reasons as the intercept rule but unless I am blind the rule book does not specify and I was wondering how you played it? — A. No, it's quite legal to do so, But since the moving model has to start more than 8\" away from all enemy models (even ones he can't see) chances are he will be setting himself up to be charged by the enemy. He can't run so close to the enemy that he would be in base-to-base, though, as that would be a charge."
+    },
+    {
+      "id": "faq-1",
+      "title": "Q. Can you really climb up a wall and then charge someone? We made a house rule that said you can't,",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Movement",
+      "source": "Mordheim Annual 2002 FAQ, Page 104",
+      "body": "Q. Can you really climb up a wall and then charge someone? We made a house rule that said you can't, but is there something official? — A. You can, as otherwise buildings would be too good positions.\n\nQ. Can a model climb up a wall and slip into a window or hole in the wall rather than continue onto the next floor/roof? — A. Yes.\n\nQ. Is it possible to climb up walls diagonally (provided you have enough move to traverse the distance)? — A. Yeah, of course."
+    },
+    {
+      "id": "faq-2",
+      "title": "Q. Can the jumping (ed. \"Leap\") skill be used to allow a model to jump upwards (rather than just acr",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Movement",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Can the jumping (ed. \"Leap\") skill be used to allow a model to jump upwards (rather than just across gaps)? — A. No. Suggest house rule halving the distance when jumping up.\n\nTuomas Pirinen, Mordheim Yahoo! eGroups' FAQ\n\nQ. Can a horse jump over models the same way Leap can? — A. No."
+    },
+    {
+      "id": "faq-3",
+      "title": "Q. Does a warrior with Sprint and a Horse move 24\"?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Movement",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Does a warrior with Sprint and a Horse move 24\"? — A. The warrior has the Sprint skill, not the Horse."
+    },
+    {
+      "id": "faq-4",
+      "title": "Q. If you can see an enemy through the windows of a house, can you then charge him by: 1) going thro",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Charging",
+      "source": "Mordheim Annual 2002 FAQ, Page 104",
+      "body": "Q. If you can see an enemy through the windows of a house, can you then charge him by: 1) going through the windows? 2) going around the house? — A. 1) Yes, if the window is big enough. (things like Rat Ogres won't fit through most!);\n2) If the window is too small, yes. Remember you charge via the MOST DIRECT ROUTE.\n\nQ. Can you really climb up a wall and then charge someone? We made a house rule that said you can't, but is there something official? — A. You can, as otherwise buildings would be too good positions."
+    },
+    {
+      "id": "faq-5",
+      "title": "Q. Can I charge a model I cannot see by Climbing and then Diving over a wall?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Charging",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Can I charge a model I cannot see by Climbing and then Diving over a wall? — A. RAW: You have to be within 4\" to charge an opponent you cannot see.\nYou have to be next to a wall at the start of your move if you want to climb it if the wall is more than ...was it 2\" high.\nSo yes, you can do this charge IF you start your turn close enough to wall, IF you have enough M to do it and IF you succeed on your climb test and your diving charge test. Really difficult to pull off, but could be quite heroic."
+    },
+    {
+      "id": "faq-6",
+      "title": "Q. Are charges declared all at the same time, before moving any model, or are they executed one by o",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Charging",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Are charges declared all at the same time, before moving any model, or are they executed one by one with all steps taken (measure, fear, intercept, terrain rolls etc) for each model before moving on to declare another charge? — A. Declare charges and move models one by one (due the interception rule) is how I play. Stops you for measuring anything before rest of the charges are resolved, and still allows the other player to do interceptions. But if my opponent declared charges and did charge the moves one by one, I would not lose any sleep over it."
+    },
+    {
+      "id": "faq-7",
+      "title": "Q. The interception of the charge is not very clear for us. If we have two warriors aligned, the opp",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Charging",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. The interception of the charge is not very clear for us. If we have two warriors aligned, the opponent can't charge one of them because the other intercepts the charging path? — A. By RAW, if neither target model was not even 0.001mm in front of the other, neither could intercept.\nAlmost impossible to happen in a real game (remember the charger would have to come on a flat angle in regards to both models.\n\nQ. Does an intercepting warrior require line of sight to the charging model to intercept the charge? — A. No.\n\nQ. Can a model intercept a charge from above? — A. Not if a jumping test is involved, i.e. above 2\"."
+    },
+    {
+      "id": "faq-8",
+      "title": "Q. If an enemy model moves so that he can see a hidden warrior, the model is no longer hidden and th",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Hiding",
+      "source": "Mordheim Annual 2002 FAQ, Page 104",
+      "body": "Q. If an enemy model moves so that he can see a hidden warrior, the model is no longer hidden and the counter is removed. How much must he see to end the other model hiding? In Necromunda he had to see the whole model. In Mordheim it is not specified. Does he need to see all of the model, or is any part of the model (even a finger) enough? — A. If the players don't agree on a reasonable result, he must see the whole model."
+    },
+    {
+      "id": "faq-9",
+      "title": "Q. Should hidden models and models out of sight of the firer be able to be hit by a blunderbuss?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Hiding",
+      "source": "Mordheim Annual 2002 FAQ, Page 104",
+      "body": "Q. Should hidden models and models out of sight of the firer be able to be hit by a blunderbuss? — A. No.\n\nQ. Blunderbuss clarification. — A. No, you cannot fire through buildings. No line of sight needed as such, yes you can shoot at hidden targets since the rule is you can point it at ANY direction and let loose.\n\nTuomas Pirinen, Facebook\n\nQ. Does the Eagle Eye skill increase the range of a blunderbuss? This seems silly, since the weapon is not affected by Ballistic Skill. — A. No.\n\nQ1. For a Blunderbuss, does terrain block you 16\" line, or can you fire through buildings? Do you need line of sight to fire it? — A1. No, you cannot fire through buildings. I did not write that down separately as I thought it was self-evident. 😃\nNo line of sight needed as such, yes you can shoot at hidden targets since the rule is you can point it at ANY direction and let loose.\n\nQ2. Tuomas Pirinen you say ANY direction but I thought you had to target the closest enemy model with missiles — A2. No, the Blunderbuss has Special rules and I quote \"draw a line...in ANY direction.\" You don't strictly speaking aim Blunderbuss ever at anything or anybody."
+    },
+    {
+      "id": "faq-10",
+      "title": "Q. Can a model that is behind a low wall or adjacent to a corner charge even while declared as Hidde",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Hiding",
+      "source": "The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q. Can a model that is behind a low wall or adjacent to a corner charge even while declared as Hidden? — A. Yes. In the description of Hidden, he is “just peeking out of cover”. In other words, we can assume that he can indeed see his intended target.\n\nQ. How do the rules for Hiding and Out of Sight interact? — A. They don’t. Treat each of them as a separate issue even when they both apply."
+    },
+    {
+      "id": "faq-11",
+      "title": "Q. Given the dramatic, yet unfortunately static, poses of the models, what is the rule regarding mov",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Terrain",
+      "source": "Mordheim Annual 2002 FAQ, Page 104",
+      "body": "Q. Given the dramatic, yet unfortunately static, poses of the models, what is the rule regarding moving through doors and windows? Can it be assumed: a) Any model may pass through any portal (door, window, hole, etc)? b) The model must be able to reasonably fit through the portal? c) It's really up to those playing to agree on how that is to be handled. — A. c) is the only sensible answer, it's not possible to foresee every single conversion done by players. b) is also a good guideline."
+    },
+    {
+      "id": "faq-12",
+      "title": "Q. In regards to ladders (and other small terrain, actually), is it within reason to assume that the",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Terrain",
+      "source": "Mordheim Annual 2002 FAQ, Page 104",
+      "body": "Q. In regards to ladders (and other small terrain, actually), is it within reason to assume that they can be knocked down or pulled up or even carried around by models? — A. Strictly speaking by rules no, but what a great article that would make! I have to scribble something down..."
+    },
+    {
+      "id": "faq-13",
+      "title": "Q. Can Centigors use ladders?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Terrain",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Can Centigors use ladders? — A. Hmmm… interesting… I would say no since the lower half (the one that counts!) is a horse."
+    },
+    {
+      "id": "faq-14",
+      "title": "Q. If I fail a Fear test and need to roll 6s to hit, does that only apply against the model that cau",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Psychology",
+      "source": "The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q. If I fail a Fear test and need to roll 6s to hit, does that only apply against the model that caused the Fear test, or against anyone I attack that turn? — A. Against anyone."
+    },
+    {
+      "id": "faq-15",
+      "title": "Q. Is it possible to automatically pass a rout test with the leadership of fighters such as flagella",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Psychology",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Is it possible to automatically pass a rout test with the leadership of fighters such as flagellants who has the special rule that he will automatically pass any LD-test he has to take? — A. No, a Flagellant will automatically pass their own personal Leadership Tests, a rout test is taken by the Warband as a whole, not by an individual whose Ld is being used. So the rout test will use the Flagellants Ld10 but will not be automatic."
+    },
+    {
+      "id": "faq-16",
+      "title": "Q. Reikland Leadership range increase, does this bonus apply to any model in a Reikland warbands tha",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Psychology",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Reikland Leadership range increase, does this bonus apply to any model in a Reikland warbands that get the leadership skill after the captain is killed? Also, does the \"battle tongue\" academic skill apply to this special leadership skill variant? — A. RAW: Ld of Reikland war bands not led by Captains: No, the rules specifically say it only applies to the Captain, not any leader.\nBattle Tongue does combine with Reiklander ability: Again RAW it is not specified as 12\" but +6\" to your current Ld range. So Reikland captain with Battle Tongue would have Ld range go 18”.\nBetter keep that Captain alive!"
+    },
+    {
+      "id": "faq-17",
+      "title": "Q1. If a model is immune to psychology can it still become stupid if it rolls it on the injury table",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Psychology",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q1. If a model is immune to psychology can it still become stupid if it rolls it on the injury table post game? I look at it like they are immune to the effects of another characters psychological effects on them only. But, I could be wrong. — A1. Yes, you are. Note that this includes potentially positive Psychology as well, such as Hatred and Frenzy.\n\nQ2. Would you rule that it gets the Stupidity effect, but be immune to it (thus effectively no Serious Injury this time)? Or re-roll on the Serious Injury table? — A2. Yup. No re-rolls. You did indeed become stupid, but your immunity saved you. Rules as they are written."
+    },
+    {
+      "id": "faq-18",
+      "title": "Q. How do multiple wounds work? When a guy has a Wounds attribute of 2 or more how does it work? I u",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Combat",
+      "source": "Mordheim Annual 2002 FAQ, Page 103",
+      "body": "Q. How do multiple wounds work? When a guy has a Wounds attribute of 2 or more how does it work? I understand that he can't get knocked down/stunned/out of action until his wounds are reduced to zero. But when (if ever) does he regain both wounds? — A. A model will regain all wounds automatically after the battle, he starts his new battle with his full wounds. During a battle if he has healing herbs, he may use them to regain wounds."
+    },
+    {
+      "id": "faq-19",
+      "title": "Q. There are a number of items that say they add +1 to the injury chart roll. Am I correct that this",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Combat",
+      "source": "Mordheim FAQ (MordheimerData/Sourcedata)",
+      "body": "Q. There are a number of items that say they add +1 to the injury chart roll. Am I correct that this refers to the roll in the back of the book after the battle to determine what happened to the warrior, or is this for the roll to see if the warrior is taken Out Of Action, Knocked Down, or Stunned? — A. No, that's the SERIOUS injury chart. Would be really difficult to remember, as well. The second is correct.\n\nTuomas Pirinen, Mordheim Yahoo! eGroups' FAQ"
+    },
+    {
+      "id": "faq-20",
+      "title": "Q. If I attack with a pistol in hand-to-hand combat, do I use my WS or BS?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Melee",
+      "source": "The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q. If I attack with a pistol in hand-to-hand combat, do I use my WS or BS? — A. WS for all except the crossbow pistol (which uses BS)."
+    },
+    {
+      "id": "faq-21",
+      "title": "Q. If a model is already engaged in hand-to-hand combat with an enemy and a second enemy charges in ",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Melee",
+      "source": "The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q. If a model is already engaged in hand-to-hand combat with an enemy and a second enemy charges in on a subsequent turn, does this count as the ‘first turn of combat’ again for rules such as ‘strike first’? — A. No. ‘Strike first’ (and other similar rules that use this term) assume that the special feature of the first turn of a combat is that a warrior has had a degree of freedom to get himself ready for the fight, and once it’s started, he’s too busy fighting for his life to gain the benefit. That being the case, although it may be the first turn of combat against a particular foe, it doesn’t count for purposes of rules such as ‘strike first’."
+    },
+    {
+      "id": "faq-22",
+      "title": "Q. I have a question about Lance. Bonus to Strength: 1) +2 - once during the charge, or 2) +2 perman",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Melee",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. I have a question about Lance. Bonus to Strength: 1) +2 - once during the charge, or 2) +2 permanent, and does +4 work on a charge? — A. Only first turn, only when you charge. Remember, this was during 5th ed so the rules for lances were already widely familiar to the player base."
+    },
+    {
+      "id": "faq-23",
+      "title": "Q. How do Crossbow Pistols work in melee.",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Melee",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. How do Crossbow Pistols work in melee. — A. So, conceptually, I wanted the crossbow pistols to be like in the movies: dropping an incoming enemy at the last minute before they have a chance to make any attacks. The idea was that it would work just like Stand and Shoot in WFB -but WFB has no knocked over/stunned results.\n\nThe rule for not being able to use multiple attacks to first stun and then auto-kill a target was put in place due lots of play testing, but I intended to put in a rule that the Crossbow Pistol is an exception to this rule -but I never did it. My bad. I also wrote an errata that Crossbow Pistols are pistols.\n\nSo how should you play it?\n\nI suggest treating it as an additional close combat attack, and if it knocks down/stuns the enemy that is it - close combat round over for that enemy.\n\nTaking out the enemy obviously ends it as well. If the enemy survives the CP, then the player may fight with any melee weapons.\n\nNote that he may drop CP (due melee starting after the shot), but can use it in melee as well as it is a pistol and therefore can be used in Melee), but his other hand is free for any other melee attacks.\n\nAnd if I could, I would re-write the CP rules to follow my original intent and clarify it all. In a hindsight not my cleanest set of rules."
+    },
+    {
+      "id": "faq-24",
+      "title": "Q. Is Cloud of flies cumulative. What happen when two Nurglings fight against a single enemy? Does h",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Melee",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Is Cloud of flies cumulative. What happen when two Nurglings fight against a single enemy? Does he gets -1 or -2? — A. No stacking, same as WFB."
+    },
+    {
+      "id": "faq-25",
+      "title": "Q. If a model with more than one wound is attacked with a Thrusting Weapon (Spears, Halberds, Lances",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Melee",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. If a model with more than one wound is attacked with a Thrusting Weapon (Spears, Halberds, Lances, etc) and suffers the Critical Hit 3-4 Thrust, the model is Knocked Down, if it was wounded again as a Knocked Down model and still has Wounds left over, can he be taken OOA even though he still have Wounds? — A. If the model is Knocked Down but still has Wounds remaining, he will be taken Out of Action if another models causes a Wound and the Armour Save roll fails.\nIn the models next Recovery Phase, he will stand back up with all remaining Wounds still available.\nIf a Critical Hit explicitly says it causes an effect (Like Knocked Down) it does it regardless of the Wounds. See Club Weapons Critical 6, which takes you Out Of Action regardless of Wounds."
+    },
+    {
+      "id": "faq-26",
+      "title": "Q. It doesn't state whether a Troll (Ork warband, Town Cryer 6) or Minotaur (Beastmen warband) are l",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Shooting",
+      "source": "Mordheim Annual 2002 FAQ, Page 105",
+      "body": "Q. It doesn't state whether a Troll (Ork warband, Town Cryer 6) or Minotaur (Beastmen warband) are large targets. Are they? Also, is a rider on a horse a large target? — A. The rules say: Any model higher than 2\" or longer than 2\" is a large target, so yes, all of them, Troll, Minotaur and rider mounted on horse are large targets."
+    },
+    {
+      "id": "faq-27",
+      "title": "Q. Does a model with more than one shooting attack need to declare all of his target(s) before rolli",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Shooting",
+      "source": "The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q. Does a model with more than one shooting attack need to declare all of his target(s) before rolling any dice, or can he decide before each shot? — A. He may decide before each shot."
+    },
+    {
+      "id": "faq-28",
+      "title": "Q. The Quick Shot skill allows a model to fire twice per turn. Can a model armed with a sling and ha",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Shooting",
+      "source": "Mordheim FAQ (MordheimerData/Sourcedata)",
+      "body": "Q. The Quick Shot skill allows a model to fire twice per turn. Can a model armed with a sling and having the Quick Shot skill then fire four shots if they are less than half range? — A. No, the special rule and the skill do the same thing. They both change A into B, doing the same thing, end result is the same. No doubling doubles!\n\nTuomas Pirinen, Mordheim Yahoo! eGroups' FAQ"
+    },
+    {
+      "id": "faq-29",
+      "title": "Q. The Eagle Eye skill allows you to add 6\" to the range of a missile weapon. In regards to the Slin",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Shooting",
+      "source": "Mordheim FAQ (MordheimerData/Sourcedata)",
+      "body": "Q. The Eagle Eye skill allows you to add 6\" to the range of a missile weapon. In regards to the Sling, is this +6\" applied to both short and maximum ranges (thus allowing 2 shots at short range+6\")? — A. +3\" (The overall range increases 6\", increasing short range by 3).\n\nTuomas Pirinen, Mordheim Yahoo! eGroups' FAQ"
+    },
+    {
+      "id": "faq-30",
+      "title": "Q. Which models count as Large Targets, should the Centigor count as a Large Target?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Shooting",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Which models count as Large Targets, should the Centigor count as a Large Target? — A. Large Targets are specified under the rules for each model separately."
+    },
+    {
+      "id": "faq-31",
+      "title": "Q. Models with missile weapons that are up on a building or wall - can they trace a line of sight to",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Shooting",
+      "source": "Mordheim FAQ (MordheimerData/Sourcedata)",
+      "body": "Q. Models with missile weapons that are up on a building or wall - can they trace a line of sight to a model standing against the building or wall (assuming that the model with the missile weapon can lean over the edge and look down)? — A. Yes.\n\nTuomas Pirinen, Mordheim Yahoo! eGroups' FAQ"
+    },
+    {
+      "id": "faq-32",
+      "title": "Q. Can captured race specific weapons be used by models not of that race? If so, do they gain any of",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Weapons & Armour",
+      "source": "Mordheim Annual 2002 FAQ, Page 105",
+      "body": "Q. Can captured race specific weapons be used by models not of that race? If so, do they gain any of the special rules of said weapons? — A. Yes, but obviously you need a suitable skill to use the weapon."
+    },
+    {
+      "id": "faq-33",
+      "title": "Q. Can weapons be swapped during a combat?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Weapons & Armour",
+      "source": "The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q. Can weapons be swapped during a combat? — A. No, with the exceptions of pistols and lances which may be exchanged for a different weapon after their first turn special attack."
+    },
+    {
+      "id": "faq-34",
+      "title": "Q. What happens when a model (with a spear) charges another model with a spear?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Weapons & Armour",
+      "source": "2001 Warhammer World FAQ",
+      "body": "Q. What happens when a model (with a spear) charges another model with a spear? — A. The attacks go in Initiative order. Roll a d6 to see who goes first if both models have the same initiative."
+    },
+    {
+      "id": "faq-35",
+      "title": "Q. Is it legal to arm warriors with a longbow and a crossbow, so they can fire the heavy crossbow wh",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Weapons & Armour",
+      "source": "Mordheim Annual 2002 FAQ, Page 105",
+      "body": "Q. Is it legal to arm warriors with a longbow and a crossbow, so they can fire the heavy crossbow when they didn't move and fire the longbow whenever they did move... is that legal? — A. Yes, it is legal, but it is expensive. If you lose a Marksman and he leaves the warband after the battle, it will cost you the cost of the Marksman (25gc) plus the cost of the Longbow and the Crossbow (15gc + 25 gc). This is 65 gc plus twice the Henchmen group's experience to replace that Marksman. You'd be better off just buying extra Marksman, equipping all of them with crossbows, moving them into position and pounding your enemy."
+    },
+    {
+      "id": "faq-36",
+      "title": "Q. Can you use Gromril and Ithilmar for any weapon or does it have to be a common item like a sword?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Weapons & Armour",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Can you use Gromril and Ithilmar for any weapon or does it have to be a common item like a sword? — A. Any melee weapon normally available to you."
+    },
+    {
+      "id": "faq-37",
+      "title": "Q. Should Dwarfs be banned from taking spears in line with 6th edition Warhammer?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Weapons & Armour",
+      "source": "The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q. Should Dwarfs be banned from taking spears in line with 6th edition Warhammer? — A. No. Mordheim is set 500 years earlier and on a completely different scale. The lack of spear-wielding regiments in the Dwarf army should not be taken to mean that Dwarfs never use them."
+    },
+    {
+      "id": "faq-38",
+      "title": "Q. Does a helmet count as armour for preventing spell casting? Shields and bucklers are listed separ",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Weapons & Armour",
+      "source": "Mordheim Annual 2002 FAQ, Page 106",
+      "body": "Q. Does a helmet count as armour for preventing spell casting? Shields and bucklers are listed separately as doing so, but not helmets. — A. Yes, they are armour."
+    },
+    {
+      "id": "faq-39",
+      "title": "Q. A warband can only ever use the weapons and armour on their initial equipment list. A provision i",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Weapons & Armour",
+      "source": "2001 Warhammer World FAQ",
+      "body": "Q. A warband can only ever use the weapons and armour on their initial equipment list. A provision is made to get other weapons that aren't on the list later on (ie: the Weapons Training skill). However there is no provision for armour. — A. Gromril and Ithilmar are Materials. They are still suits of heavy armour, albeit made from expensive materials."
+    },
+    {
+      "id": "faq-40",
+      "title": "Q. 4+ Pavise combined with 4+ Gromril armour would provide immunity to missile fire from bows wieldi",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Weapons & Armour",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. 4+ Pavise combined with 4+ Gromril armour would provide immunity to missile fire from bows wielding opponents and a 2+ save against crossbows. It's understandable why you left this out. This is a question I've never been clear on, is 1 always a fail in Mordheim? — A. Heavy armour and pavise would be immune to S3 missiles. 1 is not always a fail unless spelled out clearly."
+    },
+    {
+      "id": "faq-41",
+      "title": "Q. 1 is definitely always a fail. That's how fantasy worked at the time. It was just a extra 1 for m",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Weapons & Armour",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. 1 is definitely always a fail. That's how fantasy worked at the time. It was just a extra 1 for modifiers. — A. I wrote Mordheim based on 5th ed Warhammer rules, I only put the 1 always fail rule into the 6th, IIRC."
+    },
+    {
+      "id": "faq-42",
+      "title": "Q1. If I use two single handed weapons, can I still use the shield for +1 Armour Save while in melee",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Weapons & Armour",
+      "source": "Q1: Tuomas Pirinen on Facebook",
+      "body": "Q1. If I use two single handed weapons, can I still use the shield for +1 Armour Save while in melee? — A1. Using shield requires the use of one hand. Source: Me. I wrote the book.\nIf anything I STRONGLY encourage house rules to limit the effectiveness of dual-wielding.\nI had to go with the standard Warhammer rules at the time.\n\nQ2. Does a buckler \"fill\" a hand slot or is treated as a small (often wrist-mounted) shield that frees up a hand? — A2. Look at the description of the Pit Fighter in the Hired Swords section.\nI explicitly made spiked gauntlet rules different on a purpose where it counts as an additional weapon with a parry where buckler does not."
+    },
+    {
+      "id": "faq-43",
+      "title": "Q. Can a daemon weapon from the shadow lord be stolen/given away?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Weapons & Armour",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Can a daemon weapon from the shadow lord be stolen/given away? — A. Yes. Weapon is a weapon according to the rules."
+    },
+    {
+      "id": "faq-44",
+      "title": "Q1. Does the 'free dagger' count as a close combat weapon against the 'No more than two Close Combat",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Free Dagger",
+      "source": "Q1: Mordheim Annual 2002 FAQ, Page 105",
+      "body": "Q1. Does the 'free dagger' count as a close combat weapon against the 'No more than two Close Combat Weapons' limit? — A1. We play that it doesn't. Models are supposed to have the dagger no matter what.\n\nQ2. Can a free dagger be given to another member of the warband or sold? — A2. No. A warrior will always keep his dagger as a last line of defence. It cannot be given away or sold."
+    },
+    {
+      "id": "faq-45",
+      "title": "Q. Can Flagellants use daggers, do they start with a free dagger?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Free Dagger",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Can Flagellants use daggers, do they start with a free dagger? — A. RAW, no. This has more to do with their mentality than \"inability\" to use daggers: using flails/morning stars to scourge themselves and the enemies is their way of serving Sigmar, and doing it with another weapon would require some serious mental training."
+    },
+    {
+      "id": "faq-46",
+      "title": "Q. Can a starting Dwarf Warband get Gromril Daggers for free? Since the first dagger you buy is free",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Free Dagger",
+      "source": "2001 Warhammer World FAQ",
+      "body": "Q. Can a starting Dwarf Warband get Gromril Daggers for free? Since the first dagger you buy is free and the cost of Gromril Weapons is 3x normal value - 3x0=0? — A. The first DAGGER is free, not the first Gromril Dagger."
+    },
+    {
+      "id": "faq-47",
+      "title": "Q. How do you define a brace of pistols? Must I purchase a brace or can I buy one pistol and later b",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Brace of Pistols",
+      "source": "Mordheim Annual 2002 FAQ, Page 105",
+      "body": "Q. How do you define a brace of pistols? Must I purchase a brace or can I buy one pistol and later buy a second one and use them as brace? — A. You can buy one now and the second one later and use them as brace.\n\nQ. What is a ‘brace’ of pistols? — A. A brace of pistols is two pistols of the same type, e.g., two dueling pistols, two crossbow pistols, etc.\n\nQ. If I buy two of the same type of pistol at different times, are they counted as a brace? — A. Yes, as long as they’re exactly the same type."
+    },
+    {
+      "id": "faq-48",
+      "title": "Q1. Is a Skaven warplock pistol treated like other pistols in all regards except the strength and ra",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "All Pistols Are Equal",
+      "source": "Q1: 2001 Warhammer World FAQ",
+      "body": "Q1. Is a Skaven warplock pistol treated like other pistols in all regards except the strength and range (ie: brace of pistols can fire every round, be used in close combat etc...)? — A1. Yes.\n\nQ2. Do the Hand-to-Hand rules for Black Powder pistols apply to Warplock pistols? — A2. Yes. A pistol is a pistol."
+    },
+    {
+      "id": "faq-49",
+      "title": "Q. Does the crossbow pistol count as a pistol in the case of the Pistolier skill?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "All Pistols Are Equal",
+      "source": "Mordheim Annual 2002 FAQ, Page 105",
+      "body": "Q. Does the crossbow pistol count as a pistol in the case of the Pistolier skill? — A. Yes. All weapons with the name pistol (Warplock, duelling, Crossbow) are pistols."
+    },
+    {
+      "id": "faq-50",
+      "title": "Q1. In the pistol rules, it says they give me +1A. Does that mean that a model with an additional ha",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Pistols in Combat",
+      "source": "Q1,3: The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q1. In the pistol rules, it says they give me +1A. Does that mean that a model with an additional hand weapon and a pistol gets +2A? — A1. No. Even if you’re carrying two hand weapons and a pistol, you’ve still (barring mutations, etc.) only got the ability to wield two of them at a time. So, you can either get the +1A from the additional hand weapon or the +1A from the pistol, but not both.\n\nQ2. Also, it says if a character has a brace of pistols they can fire both in the first round of hth combat resolved at the pistol's strength. After the first round can they fire a single shot each turn or none at all? — A2. None.\n\nQ3. Can weapons be swapped during a combat? — A3. No, with the exceptions of pistols and lances which may be exchanged for a different weapon after their first turn special attack.\n\nQ4. Is it permissable to holster the guns and fight with other weapons (say a sword and dagger) after the first round? — A3. Yes.\n\nQ5. Can a pistol be parried in hand-to-hand combat? — A4. Yes. Do not imagine it as stopping the bullet, but as pushing the pistol out of direction at the last moment."
+    },
+    {
+      "id": "faq-51",
+      "title": "Q. Can I reload a pistol (or handgun or whatever else) while running? Is it possible to fire from it",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Other Pistol Related",
+      "source": "Mordheim Annual 2002 FAQ, Page 105",
+      "body": "Q. Can I reload a pistol (or handgun or whatever else) while running? Is it possible to fire from it one turn, next to run, and the third turn to fire it again? — A. Yes, this is permitted. You reload it no matter what else you do that second turn."
+    },
+    {
+      "id": "faq-52",
+      "title": "Q. Does a Pistoleer with a brace of pistols shoot twice every turn, or (two - one - two), or (two - ",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Other Pistol Related",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Does a Pistoleer with a brace of pistols shoot twice every turn, or (two - one - two), or (two - zero - two)? — A. Honestly, I was just thinking of allowing you to shoot twice every shooting phase with pistols if you have a brace. But I really should have written that section clearer."
+    },
+    {
+      "id": "faq-53",
+      "title": "Q. Can a Dueling Pistol automatically hit on a Diving Charge?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Other Pistol Related",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Can a Dueling Pistol automatically hit on a Diving Charge? — A. Dueling pistols: Sure, Mordheim allows auto-hits.\n\nQ. Can a warrior with a dueling pistol suffering from Fear, hit on a natural 5 on the die? — A. The exact wording of the RAW is pretty clear AFAICS:\n\"the model must roll 6s to score hits in that round of combat.\"\nSo this ignores all other hitting rules and modifiers. 6s hit, nothing else does."
+    },
+    {
+      "id": "faq-54",
+      "title": "Q. With regards to blessed weapons which wound Undead and Possessed on a 2+. Do the list members her",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Miscellaneous Equipment",
+      "source": "Mordheim Annual 2002 FAQ, Page 106",
+      "body": "Q. With regards to blessed weapons which wound Undead and Possessed on a 2+. Do the list members here think that this would refer to all members of an Undead or Possessed warband (excluding Hired Swords) or just Undead like Vampires, Zombies, Dire Wolves, and maybe Ghouls but not Necromancers and Dregs? And with Possessed, just Possessed models, not Beastmen, Mutants, or Magisters etc, (which would seem odd)? — A. Blessed water and weapons only affect Undead that are dead! Since Dregs and Necromancers are human, they are not affected. The manual actually states that Zombies and Dire Wolves are undead, and therefore can be wounded. However it doesn't say in the book that Vampires are Undead but naturally they are. As for Possessed — Magister, The Possessed, Dark Souls and Mutants are all affected."
+    },
+    {
+      "id": "faq-55",
+      "title": "Q. When you buy Hunting Arrows, are they for one battle, for a campaign or are there a number of arr",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Miscellaneous Equipment",
+      "source": "Mordheim Annual 2002 FAQ, Page 106",
+      "body": "Q. When you buy Hunting Arrows, are they for one battle, for a campaign or are there a number of arrows (like say 20). — A. They last for the whole campaign."
+    },
+    {
+      "id": "faq-56",
+      "title": "Q. If I buy a Tome of Magic and my Wizard learns a spell from it, can I give it then to another mode",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Miscellaneous Equipment",
+      "source": "Mordheim Annual 2002 FAQ, Page 106",
+      "body": "Q. If I buy a Tome of Magic and my Wizard learns a spell from it, can I give it then to another model so he can learn magic later using the Arcane Lore skill? I mean will my wizard forget the spell he learned from Tome of Magic or not? — A. The Tome of Magic gives a one-off effect when it is found — you may transfer it to another character but it will have no added effect."
+    },
+    {
+      "id": "faq-57",
+      "title": "Q. Who can wear the Toughened Leathers from the Opulent Goods chart in White Dwarf #239?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Miscellaneous Equipment",
+      "source": "Mordheim Annual 2002 FAQ, Page 106",
+      "body": "Q. Who can wear the Toughened Leathers from the Opulent Goods chart in White Dwarf #239? — A. Since they are purchased as equipment, all Heroes can wear them. Henchmen cannot wear Toughened Leathers."
+    },
+    {
+      "id": "faq-58",
+      "title": "Q1. Can each Hero have a Halfling Cookbook and thus have six more Henchmen?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Miscellaneous Equipment",
+      "source": "Q1: Mordheim Annual 2002 FAQ, Page 106",
+      "body": "Q1. Can each Hero have a Halfling Cookbook and thus have six more Henchmen? — A1. No, you can only get a single extra member, multiple cookbooks are not cumulative. However, it does prevent you from losing that extra member when the Hero carrying a cookbook dies.\n\nQ2. If a warband has both a Halfling Scout and a Halfling Cookbook, does it add +2 to its maximum size or just +1? — A2. +2."
+    },
+    {
+      "id": "faq-59",
+      "title": "Q. Did you mean for nets to be one-time use items? Or are you assumed to recover thrown nets between",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Miscellaneous Equipment",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Did you mean for nets to be one-time use items? Or are you assumed to recover thrown nets between battles? — A. All one use only items are clearly identified as such. Net is not, so it can be recovered between battles. As indicated in the colour text, it can indeed be torn, cut etc. during battle, but the warrior will simply repair it. I mean swords get bent, shields splintered, armour battered, spear points get blunted during a typical Mordheim battle, and we simply consider the warriors have the basic skills to repair such damage. Same goes for the nets."
+    },
+    {
+      "id": "faq-60",
+      "title": "Q. Is Healing Herbs single use like Nets, Bugman's ale or Garlic?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Miscellaneous Equipment",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Is Healing Herbs single use like Nets, Bugman's ale or Garlic? — A. Healing Herbs were meant to be under poisons and drugs. This is an oversight. Should be one and done. But RAW, unlimited use, and therefore OP. Luckily this is Mordheim, and all the players should agree that this was an oversight."
+    },
+    {
+      "id": "faq-61",
+      "title": "Q. Regarding spells which have a range, is the 'area of effect' a plane or a sphere? (eg, does Soulf",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Magic",
+      "source": "Mordheim Annual 2002 FAQ, Page 106",
+      "body": "Q. Regarding spells which have a range, is the 'area of effect' a plane or a sphere? (eg, does Soulfire affect enemy models above the caster (or below) if they fall within the spell's radius). — A. It affects models above and below. (The wording is WITHIN the range).\n\nQ. Can spells be cast on a model out of line of sight to the caster or which are hidden? What about spells which simply affect all models within a certain radius of the caster? — A. Spells cannot be targeted at models which are out of sight. However, models which are out of sight may still be affected by spells with an area effect provided another model is targeted and they fall within the spell's radius.\n\nQ. If in the spell description there is written nothing about how long the spell lasts, well, how long does it last? To the end of the game? — A. The spell lasts until the model that cast it is taken out of action. Taking him out of action removes all effects of all spells he cast in the game.\n\nQ. Do spells (and prayers) that create a magical weapon allow the use of an additional hand weapon, buckler or shield in the other hand? Is it possible to cast such a spell twice to get an additional magical weapon? — A. Yes an additional weapon may be used. No, the spell may not be cast and maintained twice."
+    },
+    {
+      "id": "faq-62",
+      "title": "Q. Can spells cause critical hits?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Magic",
+      "source": "The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q. Can spells cause critical hits? — A. Directly, no. Indirectly, yes. The reference on page 56 to spells not causing critical hits specifically refers to spells that cause direct damage, such as Word of Pain. These spells never cause critical hits. However, if a warrior is benefiting from a spell that enhances his ability to fight, such as The Hammer of Sigmar, he will be able to cause critical hits with these attacks."
+    },
+    {
+      "id": "faq-63",
+      "title": "Q. Is it possible to cast Hearts of Steel several times to add several +1s to a Rout test? If yes, w",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Magic",
+      "source": "Mordheim Annual 2002 FAQ",
+      "body": "Q. Is it possible to cast Hearts of Steel several times to add several +1s to a Rout test? If yes, what's the maximum for the Rout test. — A. No, even when cast several times, the bonus for the Rout test is only +1. Rulebook errata: Hearts of Steel, remove reference to Terror tests."
+    },
+    {
+      "id": "faq-64",
+      "title": "Q. Each time a magic user gains a skill, instead they may roll for a new spell from their list. If t",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Magic",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Each time a magic user gains a skill, instead they may roll for a new spell from their list. If they get a spell they already had, then the roll to use that spell becomes easier by 1. Is there a limit to this? — A. There is no limit to the number of times you can reduce the difficulty of the spell. Of course after 2+ there would be no point. Luckily, you can choose to roll again instead."
+    },
+    {
+      "id": "faq-65",
+      "title": "Q. If your warlock hired sword has the Flight of Zimmerman spell (Move 12 inches immediately), can y",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Magic",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. If your warlock hired sword has the Flight of Zimmerman spell (Move 12 inches immediately), can you use it to leave combat? — A. Yes, you absolutely can. It is not \"Movement\" as defined by Movement rules, but a magical effect."
+    },
+    {
+      "id": "faq-66",
+      "title": "Q. How does casting and maintaining the Hammer of Sigmar work, why is the spell duration and maintai",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Magic",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. How does casting and maintaining the Hammer of Sigmar work, why is the spell duration and maintaining different from other Prayers? — A. The 'Hammer of Sigmar' can be maintained for many turns while still casting other Prayers. If you fail to maintain the Prayer 'Hammer of Sigmar' than you cannot try to cast it again in the same shooting phase."
+    },
+    {
+      "id": "faq-67",
+      "title": "Q. Is there any ruling about using the Silver Arrows of Ahra after running?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Magic",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Is there any ruling about using the Silver Arrows of Ahra after running? — A. Not being able to shoot is one of the Movement penalties. My intention was that you can shoot with this spell even after running, but I fully admit I should have made my intention clearer in the text."
+    },
+    {
+      "id": "faq-68",
+      "title": "Q1. If a model casts the Lure of Chaos spell, can either the caster or the target use their leader’s",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Lure of Chaos",
+      "source": "Q1: The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q1. If a model casts the Lure of Chaos spell, can either the caster or the target use their leader’s Leadership if he’s within 6\" (because of the Leader special rule)? — A1. No. The Leader special rule will only help with Leadership tests, and this isn’t one.\n\nQ2. Lure of Chaos: Does the controlled model move in it's original turn sequence, or does it now move in the controlling player's sequence? — A2. Controlling players. So immediate use of shooting is possible if the target has a missile weapon. Target those Blunderbusses!\n\nQ3. There’s nothing is the spell description that says Lure of Chaos ever ends, nor does it say the Magister has to cast it each round. Is that correct? If so, could the Magister cast it again on a different model? Could he cast a different spell? — A3. RAW, you can indeed cast it multiple times and control multiple models at once."
+    },
+    {
+      "id": "faq-69",
+      "title": "Q. In regards to the Spell of Awakening, how does the new Zombie model figure into the warband ratin",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Spell of Awakening",
+      "source": "Q1,2: 2001 Warhammer World FAQ",
+      "body": "Q. In regards to the Spell of Awakening, how does the new Zombie model figure into the warband rating? More specifically, does the Zombie's experience count towards the warband rating? — A. He counts for 5 points plus the experience he has gained towards the rating.\n\nQ. Does a Sister Superior that gets turned into a Zombie by the Spell of Awakening still get to use her Sigmarite Warhammers? Since these are holy weapons you would think no, but... — A. The answer is no, but the thought of it isn't unappealing.\n\nQ. When the Undead gain an enemy Hero as a Zombie (I can't recall the spell name) it says they get no other skills or equipment. Do they get to keep the skills they already have? — A. No, Zombies have no skills.\n\nQ. Can Skaven be raised as zombies, via Spell of Awakening? I don't know it all, but isn't part of the story of the Skaven is that they turn to goo when they die? If they can, if a Skaven has weeping blades when they die, do the blades keep the poison effect when the Skaven is a zombie? Same question for Chaos Possessed or mutants... — A. Yes, they all can be raised as zombies via Spell of Awakening. And for case of weeping blades, these are weapons that have the poison effect \"built-in itself\", it's not poison applied to the weapon, so yes, same rules apply for the weapon even if used by zombie.\n\nMordheim Yahoo! Group\n\nQ. Who keeps the Lustrian Reavers equipment when a Necromancer has Spell of Awakening? — A. It might be better to keep the spell as a priority as it would be otherwise quite useless."
+    },
+    {
+      "id": "faq-70",
+      "title": "Q. The Wolf Priest for Middenheimers from Town Cryer #8 — is he an additional Hero to your warband, ",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Mordheim Annual 2002 FAQ, Page 107",
+      "body": "Q. The Wolf Priest for Middenheimers from Town Cryer #8 — is he an additional Hero to your warband, is he Hired Sword or what? — A. On page 10 of TC 8 it states that the Wolf Priest replaces one of the Champions."
+    },
+    {
+      "id": "faq-71",
+      "title": "Q. If a model has Righteous Fury, does he have a hatred of Orcs?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Mordheim Annual 2002 FAQ, Page 107",
+      "body": "Q. If a model has Righteous Fury, does he have a hatred of Orcs? — A. The fluff says that the fury is toward 'evil that pollutes the soil of the holy Empire', so l agree yes as well. You can add Beastmen, Dark Elves and any other 'evil' race as well. Non-Chaos humans who just like to kill, loot, etc, should not be included."
+    },
+    {
+      "id": "faq-72",
+      "title": "Q. Under the Henchmen listing for Ghouls... can they ever use weapons if promoted?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Mordheim Annual 2002 FAQ, Page 107",
+      "body": "Q. Under the Henchmen listing for Ghouls... can they ever use weapons if promoted? — A. The letter of the rule is that Ghouls can have NO equipment. However, so many people enjoy equipping their Ghouls that I (Tuomas) rarely point this out. I hate seeing all of those Ghoul conversions going to waste!"
+    },
+    {
+      "id": "faq-73",
+      "title": "Q. Should Possessed warriors count as large creatures for the purpose of warband rating?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Mordheim Annual 2002 FAQ, Page 107",
+      "body": "Q. Should Possessed warriors count as large creatures for the purpose of warband rating? — A. No."
+    },
+    {
+      "id": "faq-74",
+      "title": "Q. What are the maximum racial characteristics for Shadow Elves or Lizardmen?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Mordheim Annual 2002 FAQ, Page 107",
+      "body": "Q. What are the maximum racial characteristics for Shadow Elves or Lizardmen? — A. Shadow Elves is simple — just use the Elven racial characteristic from page 121 of the rule book. Lizardmen, now that was an oversight so here you go:\n\n| Profile | M | WS | BS | S | T | W | I | A | Ld |\n| Skinks | 6 | 5 | 6 | 4 | 3 | 3 | 7 | 4 | 8 |\n| Saurus | 4 | 6 | 0 | 5 | 5 | 3 | 4 | 4+1 | 10 |"
+    },
+    {
+      "id": "faq-75",
+      "title": "Q1. Can a Lizardman Bite Attack take a model out of action if it was knocked down or stunned by the ",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Q1: Tuomas Pirinen on Facebook",
+      "body": "Q1. Can a Lizardman Bite Attack take a model out of action if it was knocked down or stunned by the normal attacks? — A1. No, you always have to roll if it is attacks coming from the same model during the same round of melee. Also, Lizardmen are already too good in Mordheim. I really don't think they need more help.\n\nQ2. Does Frenzy double the Lizardman bite attack? — A2. No, from the Rulebook \"Frenzied warriors fight with double their Attacks characteristic in hand-to-hand combat\". This is the ONLY doubling the Frenzy rules allow, ie. the Attack Characteristic. RAW."
+    },
+    {
+      "id": "faq-76",
+      "title": "Q. Do Squigs have to roll Fear tests when they end in base contact with a Fear-causing enemy?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Mordheim Annual 2002 FAQ, Page 108",
+      "body": "Q. Do Squigs have to roll Fear tests when they end in base contact with a Fear-causing enemy? — A. A Squig's movement is not voluntary. A Squig who ends up in base to base with a fearsome opponent must make a test and hits on 6s if it fails as all charging rules apply."
+    },
+    {
+      "id": "faq-77",
+      "title": "Q. Can an Orc warband purchase another Big 'Un if his first Big 'Un becomes the leader?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Mordheim Annual 2002 FAQ, Page 108",
+      "body": "Q. Can an Orc warband purchase another Big 'Un if his first Big 'Un becomes the leader? — A. No. The new Leader is still a Big 'Un, albeit with the Leader ability. You can fill the empty Hero spot with promoted Orcs, but you may never have more than 2 Big 'Uns."
+    },
+    {
+      "id": "faq-78",
+      "title": "Q. Skill Massive Strength. A Beastman Hero is titanic in size and may use a double-handed weapon in ",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Mordheim Annual 2002 FAQ, Page 108",
+      "body": "Q. Skill Massive Strength. A Beastman Hero is titanic in size and may use a double-handed weapon in one hand. Now, read literally, the means ONLY double-handed weapons (+2 Str, Strike Last) can be used one-handed. But, is it intended that other two-handed weapons (Halberd, Flail, etc) can be used one-handed with this skill? — A. No, those weapons rely more on skill. This skill simply represents the brutish strength of the aforesaid Beastman."
+    },
+    {
+      "id": "faq-79",
+      "title": "Q. Why do Beastmen in Possessed warband and Beastmen warband have different profiles?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q. Why do Beastmen in Possessed warband and Beastmen warband have different profiles? — A. No mistake. Possessed 'Beastmen' and Beastmen warband 'Ungors, Gors, Bestigors' are distinct types. Chaos corruption near Mordheim toughened them up."
+    },
+    {
+      "id": "faq-80",
+      "title": "Q. Do Augurs suffer Blind in One Eye injuries?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Do Augurs suffer Blind in One Eye injuries? — A. No. I forgot to put this in the Rulebook. Augurs are already blind. RAW yes, but RAI is that Augurs ignore eye wounds."
+    },
+    {
+      "id": "faq-81",
+      "title": "Q. What units are affected by Soul Fire, Blessed Water, Blessed Weapons and Holy Weapons?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. What units are affected by Soul Fire, Blessed Water, Blessed Weapons and Holy Weapons? — A. I actually originally wrote the word \"warband\" into the description. It was lost somewhere amongst the revisions. Don't recall if I ever Q&A.ed that. It seems that this has been well-covered by the answers. Ghouls are not Undead, and therefore not affected. Wish I would have come up with Keywords when I wrote Mordheim…"
+    },
+    {
+      "id": "faq-82",
+      "title": "Q. Why is the Witch Hunter warband limited to 12 models?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Mordheim FAQ (MordheimerData/Sourcedata)",
+      "body": "Q. Why is the Witch Hunter warband limited to 12 models? — A. Because Witch Hunters move in small bands. Get a Halfling cook for them. He gives +1 to the size of the warband.\n\nTuomas Pirinen, Mordheim Yahoo! eGroups' FAQ"
+    },
+    {
+      "id": "faq-83",
+      "title": "Q. Who keeps the Lustrian Reavers equipment when a Necromancer has Spell of Awakening?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Who keeps the Lustrian Reavers equipment when a Necromancer has Spell of Awakening? — A. It might be better to keep the spell as a priority as it would be otherwise quite useless."
+    },
+    {
+      "id": "faq-84",
+      "title": "Q. The Blowpipe is 30 gc in Skaven list and 25gc in description. Which is it?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Skaven",
+      "source": "Mordheim Annual 2002 FAQ, Page 107",
+      "body": "Q. The Blowpipe is 30 gc in Skaven list and 25gc in description. Which is it? — A. 25gc."
+    },
+    {
+      "id": "faq-85",
+      "title": "Q. Under Giant Rats 'Pack Size; You can recruit as many Giant Rats as you wish.' What does this mean",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Skaven",
+      "source": "Mordheim Annual 2002 FAQ, Page 107",
+      "body": "Q. Under Giant Rats 'Pack Size; You can recruit as many Giant Rats as you wish.' What does this mean? — A. It takes up less room on the warband roster sheet. Pragmatic and simple!"
+    },
+    {
+      "id": "faq-86",
+      "title": "Q. Which equipment lists do Skaven Nightrunners use?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Skaven",
+      "source": "Mordheim Annual 2002 FAQ, Page 108",
+      "body": "Q. Which equipment lists do Skaven Nightrunners use? — A. Nightrunners should use the Henchmen list."
+    },
+    {
+      "id": "faq-87",
+      "title": "Q. Can Skaven use equipment normally forbidden to them if found through Exploration?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Skaven",
+      "source": "Mordheim Annual 2002 FAQ, Page 108",
+      "body": "Q. Can Skaven use equipment normally forbidden to them if found through Exploration? — A. Yes, they can."
+    },
+    {
+      "id": "faq-88",
+      "title": "Q. How does Art of Silent Death criticals on 5+ interact with high-Toughness creatures?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Skaven",
+      "source": "Mordheim Annual 2002 FAQ, Page 108",
+      "body": "Q. How does Art of Silent Death criticals on 5+ interact with high-Toughness creatures? — As you can't make a critical hit on a 6 if you require a 6 to wound, play it the way that if a model with Art of Silent Death skill requires 5+ to wound, then the critical hit can be scored only when the die rolls 6. If you required 6+ to hit and score 5 you cause neither hit nor critical hit."
+    },
+    {
+      "id": "faq-89",
+      "title": "Q. Tail Fighting allows the model to use a shield, but most Skaven Heroes cannot get shields. How ca",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Skaven",
+      "source": "2001 Warhammer World FAQ",
+      "body": "Q. Tail Fighting allows the model to use a shield, but most Skaven Heroes cannot get shields. How can this skill be used? — A. Yes, you are right — Skaven Heroes other than Night Runners and promoted Verminkin cannot use shields.\n\nQ. A model with Fighting Claws may not use any other weapons for the entire battle. I assume that there is no exception for a model with Tail Fighting? The word \"any\" seems pretty exclusive. — A. With Tail Fighting, you can have an additional weapon (hooray!)."
+    },
+    {
+      "id": "faq-90",
+      "title": "Q. Can you take a multiple of the same mutation so that each one gives you a benefit? For example: T",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Mutations",
+      "source": "Mordheim Annual 2002 FAQ, Page 107",
+      "body": "Q. Can you take a multiple of the same mutation so that each one gives you a benefit? For example: Tentacle twice for -1 Attack per tentacle. — A. Yes."
+    },
+    {
+      "id": "faq-91",
+      "title": "Q1. Can the Third Arm mutation use restricted weapons (e.g., Steel Whip)?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Mutations",
+      "source": "Q1: Mordheim Annual 2002 FAQ, Page 109",
+      "body": "Q1. Can the Third Arm mutation use restricted weapons (e.g., Steel Whip)? — A1. Yes, if the Mutant has Weapons Training. Access to such weapons is only through capturing and enslaving enemies (or similar campaign events).\n\nQ1. How many attacks and save does a mutant with extra arm + 2 swords + shield get? — A2. 2 Attacks (1 base, 1 extra from second sword) and 6+ save for the shield."
+    },
+    {
+      "id": "faq-92",
+      "title": "Q1. How do extra arm + great claw + two-handed weapon interactions work?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Mutations",
+      "source": "Q1 Mordheim Annual 2002 FAQ, Page 109",
+      "body": "Q1. How do extra arm + great claw + two-handed weapon interactions work? — A1. The Great Claw replaces an arm. So you end with 1 Str 4 claw attack and two Str 3 attacks with arms. Extra arm may not wield a two-handed weapon.\n\nQ2. Dual Great Claws on a Possessed: do you get both +1 Attacks? — A2. Base attacks plus +1 S5 Attack per Great Claw."
+    },
+    {
+      "id": "faq-93",
+      "title": "Q. Can a tentacle mutation arm still hold a weapon as well as reducing attacks?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Mutations",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Can a tentacle mutation arm still hold a weapon as well as reducing attacks? — A. Not with the tentacle, no. Grappling means you are not striking."
+    },
+    {
+      "id": "faq-94",
+      "title": "Q. What triggers Blackblood? Multiple wounds at once?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Mutations",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. What triggers Blackblood? Multiple wounds at once? — A. It triggers on each unsaved wound until the warrior is Out of Action. Each injury roll is resolved separately."
+    },
+    {
+      "id": "faq-95",
+      "title": "Q. How does Daemon Soul interact with beneficial spells and self-cast effects?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Mutations",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. How does Daemon Soul interact with beneficial spells and self-cast effects? — A. No saves against Eye of God, Wings of Darkness, or Dark Blood. Should have been specified as only vs. enemy spells."
+    },
+    {
+      "id": "faq-96",
+      "title": "Q. Do racial maximum profiles include mutation benefits?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Mutations",
+      "source": "2001 Warhammer World FAQ",
+      "body": "Q. Do racial maximum profiles include mutation benefits? — A. No. Mutations are separate. Yes, a lucky mutant could end up with 6 attacks (profile + extra arms)."
+    },
+    {
+      "id": "faq-97",
+      "title": "Q. Do Hired Swords include the +5 points per warrior in warband rating?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Hired Swords",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Do Hired Swords include the +5 points per warrior in warband rating? — A. Yes, already included in Ratings increase."
+    },
+    {
+      "id": "faq-98",
+      "title": "Q. Do Ogres and othe Large Hired Swords include the +20 points per warrior in warband rating?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Hired Swords",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Do Ogres and othe Large Hired Swords include the +20 points per warrior in warband rating? — A. Yes, already included in Ratings increase."
+    },
+    {
+      "id": "faq-99",
+      "title": "Q. Does a Tilean Marksman benefit from Dwarf Engineer range bonus?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Hired Swords",
+      "source": "Mordheim Annual 2002 FAQ, Page 108",
+      "body": "Q. Does a Tilean Marksman benefit from Dwarf Engineer range bonus? — A. No, only Dwarfs benefit, not Hired Swords or Dramatis Personae."
+    },
+    {
+      "id": "faq-100",
+      "title": "Q. What happens if a Halfling Scout leaves/dies and warband loses +1 size?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Hired Swords",
+      "source": "2005 Mordheim Rules Review",
+      "body": "Q. What happens if a Halfling Scout leaves/dies and warband loses +1 size? — A. Warband must reduce to legal max at end of post-battle sequence."
+    },
+    {
+      "id": "faq-101",
+      "title": "Q. What happens if a Merchant’s bodyguard dies?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Hired Swords",
+      "source": "2005 Mordheim Rules Review",
+      "body": "Q. What happens if a Merchant’s bodyguard dies? — A. Bodyguard is a skill. Merchant will be without until he gains it again. If Merchant dies, bodyguard leaves.\n\nQ. Is a Merchant’s bodyguard a Hero or Henchman for injuries? — A. A Henchman."
+    },
+    {
+      "id": "faq-102",
+      "title": "Q. Dwarf Troll Slayer has Ferocious Charge & Berserker. How do they stack?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Hired Swords",
+      "source": "2001 Warhammer World FAQ",
+      "body": "Q. Dwarf Troll Slayer has Ferocious Charge & Berserker. How do they stack? — A. Both are correct. Ferocious Charge may be optional; Slayer can choose not to use it."
+    },
+    {
+      "id": "faq-103",
+      "title": "Q. Why does the Dwarf Pathfinder from Nemesis Crown have a human-like statline?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Hired Swords",
+      "source": "Stuart Cresswell on Facebook",
+      "body": "Q. Why does the Dwarf Pathfinder from Nemesis Crown have a human-like statline? — A. A cut & paste error. Revised profile available in the Hired Swords compendium."
+    },
+    {
+      "id": "faq-104",
+      "title": "Q. Can I use round bases?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "General",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Can I use round bases? — A. Yes. Minimal effect on gameplay. Originally all models were on squares, but times have changed."
+    },
+    {
+      "id": "faq-105",
+      "title": "Q. Which models may use Lamellar Armour?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Border Town Burning – Weapons & Armour",
+      "source": "Border Town Burning Errata & FAQ, Page 3",
+      "body": "Q. Which models may use Lamellar Armour? — A. Lamellar Armour follows the same rules as Gromril and Ithilmar Armour. Any model which has access to heavy armour via its Equipment list may also wear Lamellar (and Gromril and Ithilmar) Armour."
+    },
+    {
+      "id": "faq-106",
+      "title": "Q. How does the Dragon Scale Armour artefact interact with Chaos Armour (which cannot be removed onc",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Border Town Burning – Weapons & Armour",
+      "source": "Border Town Burning Errata & FAQ, Page 3",
+      "body": "Q. How does the Dragon Scale Armour artefact interact with Chaos Armour (which cannot be removed once equipped)? — A. A Chaotic warband leader wearing a suit of Chaos Armour may be equipped with the Dragon Scale Armour. This is obviously an exception to how armour normally works. Apply the rules for the Dragon Scale Armour (4+ armour save, that cannot be negated below 6+; spells failing on 4+). The model may unequip the armour during battles, so that he then only wears the Chaos Armour."
+    },
+    {
+      "id": "faq-107",
+      "title": "Q. What is the “Circle of Summoning” that is required for the Daemon Prince Dramatis Personae as men",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Objectives – The Scion of Chaos",
+      "source": "Border Town Burning Full Supplement FAQ, Page 184",
+      "body": "Q. What is the “Circle of Summoning” that is required for the Daemon Prince Dramatis Personae as mentioned in the Objectives? — A. This a spell that can be learned by any wizard enabling them to summon daemons of Chaos. Magical scrolls may contain the spell too. Rules for this spell, such items and other peculiar things will appear in a future Mordheim supplement. Look out for it in the future!"
+    },
+    {
+      "id": "faq-108",
+      "title": "Q. In our campaign there are two Celestial Protectorate warbands. Together we have all four Chaos Ar",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Objectives – The Celestial Protectorate",
+      "source": "Border Town Burning Full Supplement FAQ, Page 184",
+      "body": "Q. In our campaign there are two Celestial Protectorate warbands. Together we have all four Chaos Artefacts. Can we just share the victory? — A. The rules deal with this quite well. There are two possibilities. 1) If one of you has access to Ghartok’s Tomb, then both of you have to survive a few battles against the other warbands until you two can play the Ghartok’s Tomb scenario together. It then should be no problem to bring all artefacts to the tomb and capture a victory for all Celestial Protectorate warbands. 2) Another possibility is to hire a merchant as bearer. To do so one of you must play against/with a Merchant Caravan warband and sell the artefacts to them. Then the merchant can sell the artefacts to the other Protectorate so that that warband has all of them. Of course, you should only award the most trustworthy merchant with such a delicate contract!"
+    },
+    {
+      "id": "faq-109",
+      "title": "Q. Do Clan Pestilens Plague Censors weapons count as poisoned for the purpose of poisoning enemy Her",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Objectives – The Silent Threat",
+      "source": "Border Town Burning Full Supplement FAQ, Page 184",
+      "body": "Q. Do Clan Pestilens Plague Censors weapons count as poisoned for the purpose of poisoning enemy Heroes out of action? — A. Yes, of course! Weapons that come automatically poisoned – be it magically or not – do count. Besides normal poisons and venoms this includes the Skaven Clan Eshin’s Weeping Blades and the Clan Pestilens’ Decease Dagger and Censer."
+    },
+    {
+      "id": "faq-110",
+      "title": "Q. Where do I place the Trade Wagon when defending in “Horrors of the Underground”?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Scenarios – Horrors of the Underground",
+      "source": "Border Town Burning Full Supplement FAQ, Page 184",
+      "body": "Q. Where do I place the Trade Wagon when defending in “Horrors of the Underground”? — A. Assume the wagon is parked near the tunnel entrance but well hidden. You don’t need to place it at all. If you do, it must be on the entrance tile, as neither wagon nor horses may enter the tunnels. Same applies to other wagons/carts (including Opulent Coaches)."
+    },
+    {
+      "id": "faq-111",
+      "title": "Q. Can I set the tower on fire and force the defenders out? How do I win then?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Scenarios – Blockade",
+      "source": "Border Town Burning Full Supplement FAQ, Page 184",
+      "body": "Q. Can I set the tower on fire and force the defenders out? How do I win then? — A. Yes! It’s a legitimate and thematic tactic. Defenders should try to prevent this; if they fail and leave, winning becomes easier for the attackers."
+    },
+    {
+      "id": "faq-112",
+      "title": "Q. We found moving too many forest sections each turn tedious. How many should we use?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Scenarios – The Tainted Copse",
+      "source": "Border Town Burning Full Supplement FAQ, Page 185",
+      "body": "Q. We found moving too many forest sections each turn tedious. How many should we use? — A. Seven. It lets you roll a D6 to determine the other section on the ‘Er, are we lost?’ result, and it plays smoothly."
+    },
+    {
+      "id": "faq-113",
+      "title": "Q. Henchmen may use throwing axes but heroes may not. What happens to a Marauder Henchman with 'Lad'",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands – Marauders of Chaos",
+      "source": "Border Town Burning Full Supplement FAQ, Page 185",
+      "body": "Q. Henchmen may use throwing axes but heroes may not. What happens to a Marauder Henchman with 'Lad's got talent'? — A. He still uses his original Henchman equipment list and may use throwing axes. However, if he learns the Chosen of Chaos skill they must be put into the warband’s stored equipment immediately.\n\nQ. If we acquire the Beast Hunter throwing axe from Empire in Flames, can Marauders use it without Weapons Expert? — A. Yes. Throwing axes appear on the Norse Explorers and Marauders of Chaos lists. This is a unique situation of two rules sets for essentially the same weapon."
+    },
+    {
+      "id": "faq-114",
+      "title": "Q. How does Shornaal's Temptation interact with controllers of Restless Dead Scarecrows? And what ab",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands – Marauders of Chaos",
+      "source": "Border Town Burning Errata & FAQ, Page 3",
+      "body": "Q. How does Shornaal's Temptation interact with controllers of Restless Dead Scarecrows? And what about chained Temptations? — A. A Necromancer failing the test becomes controlled by the caster, immediately breaking any Scarecrow bond; the Scarecrow is taken out of action. The Liche is immune to psychology and thus auto-passes.\n\nFor chained cases: If Seer1 controls warriorX and Seer2 then Tempts Seer1, Seer1’s prior control breaks; Seer1 becomes controlled by Seer2; warriorX reverts to its original controller."
+    },
+    {
+      "id": "faq-115",
+      "title": "Q. How exactly does the Condemned increase his stats through experience?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands – The Condemned",
+      "source": "Border Town Burning Full Supplement FAQ, Page 185",
+      "body": "Q. How exactly does the Condemned increase his stats through experience? — A. When you gain an increase for a variable attribute, roll a D6 (D3 for Attacks) instead. You may set the attribute to that result (becomes fixed) or keep it variable. The advance is consumed either way. If kept variable, you can set it later if you roll the same advance again.\n\nQ. How are the Condemned's variable stats handled in one-off games? — A. Use the same method: roll for each bought increase and set the attribute once satisfied—with your opponent present."
+    },
+    {
+      "id": "faq-116",
+      "title": "Q. What happens when Tchar’s Reward (+1 W) ends after the Seer has been wounded?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands – Tchar Rituals",
+      "source": "Border Town Burning Full Supplement FAQ, Page 185",
+      "body": "Q. What happens when Tchar’s Reward (+1 W) ends after the Seer has been wounded? — A. When the temporary Wound is lost, the Seer must roll on the Injury chart (unless you re-cast the spell). After losing the first Wound a warrior is always on 0 W, so ending the spell counts as losing his last Wound. Generally, it’s not a good idea to increase Wounds with Tchar’s Reward."
+    },
+    {
+      "id": "faq-117",
+      "title": "Q. Bitter Enmity vs Hung Marauders: does the hatred apply to all Marauders or only Hung?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Warbands – Northern Tribes",
+      "source": "Border Town Burning Full Supplement FAQ, Page 185",
+      "body": "Q. Bitter Enmity vs Hung Marauders: does the hatred apply to all Marauders or only Hung? — A. Only to the specific tribe (e.g., Hung). Suggest treating Marauders of a Norse tribe and the Norse Explorers (Lustria) as the same type for this purpose."
+    },
+    {
+      "id": "faq-118",
+      "title": "Q. If I have more than one Trade Wagon, when is stored equipment lost?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Merchant Caravan – Trade Wagon & Additional Wagons",
+      "source": "Border Town Burning Full Supplement FAQ, Page 185–186",
+      "body": "Q. If I have more than one Trade Wagon, when is stored equipment lost? — A. Only when the last Trade Wagon is destroyed. Having additional wagons (with draft horses) prevents losing stored equipment, treasures and wyrdstone shards.\n\nQ. Do wagons belong to a specific Hero (re: Dead 11–15, Captured 61)? — A. Yes, by default a wagon belongs to one of your Heroes (not necessarily the Merchant). If that Hero dies, the wagon is normally lost; if captured and sold to slavers, captors keep all his equipment (including wagons/draft animals). Note: many groups house rule wagons as warband property—agree this beforehand."
+    },
+    {
+      "id": "faq-119",
+      "title": "Q. What magical weapons can a Liche realistically acquire?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "The Restless Dead – The Liche",
+      "source": "Border Town Burning Full Supplement FAQ, Page 186",
+      "body": "Q. What magical weapons can a Liche realistically acquire? — A. The Chaos Broadsword of Damnation (one of the four Artefacts) is in-setting; searching for Artefacts is a core goal. Lesser Magic’s Sword of Rezhebel creates a magical sword (requires tomes). A Merchant Caravan may access Artefacts; if it purchases The Count of Ventimiglia’s Misericordia, it could sell it to the Liche—at a price!"
+    },
+    {
+      "id": "faq-120",
+      "title": "Q. How does the Necromancer’s Apprentice rule work (learning spells from the Liche)?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "The Restless Dead – The Necromancer",
+      "source": "Border Town Burning Full Supplement FAQ, Page 186",
+      "body": "Q. How does the Necromancer’s Apprentice rule work (learning spells from the Liche)? — A. When the Necromancer takes a skill advance to learn a spell, randomly determine from those known by the Liche (map the Liche’s spells to 1–3 / 4–6, etc.). If only one unknown Liche spell remains, he learns it automatically. If both know the same number of spells, the Necromancer cannot roll for a spell and must choose another skill. If the Liche dies permanently, Apprentice no longer applies and normal rules resume.\n\nQ. Can the Necromancer learn Lesser Magic from a Tome of Magic? — A. No. He can learn Lesser Magic only if the Liche knows it first (still chosen from the Liche’s known spells). He cannot learn Lesser Magic directly from tomes."
+    },
+    {
+      "id": "faq-121",
+      "title": "Q. What if I need to buy a new Emissary leader but already have six Heroes?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Battle Monks of Cathay – The Emissary",
+      "source": "Border Town Burning Full Supplement FAQ, Page 186",
+      "body": "Q. What if I need to buy a new Emissary leader but already have six Heroes? — A. You must remove one of your current Heroes to make room. The Emissary’s Decree must be followed."
+    },
+    {
+      "id": "faq-122",
+      "title": "Q. If Black Dwarfs rout leaving the Engine of Chaos unmanned, does the winner capture it?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "The Black Dwarfs – Engine of Chaos",
+      "source": "Border Town Burning Full Supplement FAQ, Page 186",
+      "body": "Q. If Black Dwarfs rout leaving the Engine of Chaos unmanned, does the winner capture it? — A. Yes. The winners may sell it for half price (97 gc) or cut a deal per Captured Serious Injury rules."
+    },
+    {
+      "id": "faq-123",
+      "title": "Q. If Ogres eat a Hired Sword or a Dramatis Personae, do they get the equipment?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Maneaters – Gluttony",
+      "source": "Border Town Burning Full Supplement FAQ, Page 186",
+      "body": "Q. If Ogres eat a Hired Sword or a Dramatis Personae, do they get the equipment? — A. No. Equipment remains with the Hired Sword/DP. Ogres can eat Dramatis Personae using the same rules, but consider campaign impact; many groups treat this as the DP’s death for the rest of the campaign (or house-rule it as disallowed)."
+    },
+    {
+      "id": "faq-124",
+      "title": "Q. Exploration result 666 (Returning a Favour) gives a free Hired Sword. Choosing Bone Goliath for R",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Hired Swords – Bone Goliath",
+      "source": "Border Town Burning Errata & FAQ, Page 3",
+      "body": "Q. Exploration result 666 (Returning a Favour) gives a free Hired Sword. Choosing Bone Goliath for Restless Dead: does the Liche still lose D3 Wounds? Do I keep it afterward? — A. Yes, the Liche must still pay D3 Wounds to animate the Goliath. Once animated, you possess a Bone Goliath; it has no upkeep, so you keep it after the next battle."
+    },
+    {
+      "id": "faq-125",
+      "title": "Q. The Master Map result of the Mordheim map item gives a permanent re-roll in exploration, but unli",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "General Questions",
+      "source": "Mordheim Annual 2002 FAQ, Page 107",
+      "body": "Q. The Master Map result of the Mordheim map item gives a permanent re-roll in exploration, but unlike the other results does not say, \"the re-roll may not be re-rolled\". Is this a deliberate exception to the normal convention that a re-roll may not be re-rolled, or an omission? — A. You may never re-roll a re-roll under any circumstances."
+    },
+    {
+      "id": "faq-126",
+      "title": "Q. Does a model that is missing a game (for any reason) count towards the warband's rating?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "General Questions",
+      "source": "The 2005 Mordheim Rules Review, Page 32",
+      "body": "Q. Does a model that is missing a game (for any reason) count towards the warband's rating? — A. Yes. The opposing warband doesn't know exactly which warrior they're fighting today, but they do know it's the infamously bloodthirsty Black Spiders they've bumbed into and they've heard all the rumours about the last lot that crossed them..."
+    },
+    {
+      "id": "faq-127",
+      "title": "Q. Does a model that is missing a game (for any reason) count towards the number of models in a warb",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "General Questions",
+      "source": "The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q. Does a model that is missing a game (for any reason) count towards the number of models in a warband for the purposes of Rout tests? — A. No. His mates know he's lying in his sickbed at home and know he's not going to help them today."
+    },
+    {
+      "id": "faq-128",
+      "title": "Q. Can I take a Lucky Charm or another item before my first battle in a campaign, when I'm starting ",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "General Questions",
+      "source": "Mordheim Annual 2002 FAQ, Page 109",
+      "body": "Q. Can I take a Lucky Charm or another item before my first battle in a campaign, when I'm starting a new band? — A. No, you can't take Lucky Charms from the start. You can't take anything that isn't in your equipment list from the start."
+    },
+    {
+      "id": "faq-129",
+      "title": "Q. If I recruit a new warrior in the middle of the campaign, what price of equipment do I pay for hi",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "General Questions",
+      "source": "Mordheim Annual 2002 FAQ, Page 109",
+      "body": "Q. If I recruit a new warrior in the middle of the campaign, what price of equipment do I pay for him? The price that is listed at my gang rules (he brought the equipment with him from his homeland)? Or the price in the Trading section of the rulebook (he came without equipment, I hired him, and bought equipment in the local trading post and gave it to him)? Or can I freely choose? — A. You must always equip any newly hired warriors using the equipment list from your warband."
+    },
+    {
+      "id": "faq-130",
+      "title": "Q. If my hero leaves the board because of a failed all alone test, do I still get the exploration ro",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "General Questions",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. If my hero leaves the board because of a failed all alone test, do I still get the exploration roll for him? — A. RAW, hero can explore. The only condition mentioned in the rules is that they A) had to survive and B) did not go out of action."
+    },
+    {
+      "id": "faq-131",
+      "title": "Q. How do Warhounds count towards Warband size for Rout Tests, Selling Wyrdstone, etc?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "General Questions",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. How do Warhounds count towards Warband size for Rout Tests, Selling Wyrdstone, etc? — A. In combat it behaves just like every other warrior, including counting towards rout tests. In Warband campaign part (shopping, upkeep, exploration), it counts as equipment. That was my intent."
+    },
+    {
+      "id": "faq-132",
+      "title": "Q. Do Dwarves and Elves with a skill or rule to modify exploration dice by +1/-1 still work, even if",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "General Questions",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Do Dwarves and Elves with a skill or rule to modify exploration dice by +1/-1 still work, even if the warrior went out of action that game? — A. Yes, if not killed. (11-15 serious injury result)"
+    },
+    {
+      "id": "faq-133",
+      "title": "Q. In a campaign, after the initial creation of the warband, can you choose to arm Henchmen with wea",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "Tuomas Pirinen, Mordheim Yahoo! eGroups' FAQ",
+      "body": "Q. In a campaign, after the initial creation of the warband, can you choose to arm Henchmen with weapons that are not found on their list if you acquire them? (i.e. could you arm a Skaven Verminkin with Fighting Claws?) — A. No, see rulebook."
+    },
+    {
+      "id": "faq-134",
+      "title": "Q. Rulebook, page 144 says: As with other new Henchmen, you must pay for all their weapons and armou",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "Mordheim Annual 2002 FAQ, Page 109",
+      "body": "Q. Rulebook, page 144 says: As with other new Henchmen, you must pay for all their weapons and armour... OK, I just found a Fletcher with two bows. Does it mean that I can hire a new Marksman and give him one of the bows I have found? — A. Yes."
+    },
+    {
+      "id": "faq-135",
+      "title": "Q. I have a henchman group with 3 members. One dies after the battle. Does the rest of the group gai",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "Mordheim Annual 2002 FAQ, Page 108",
+      "body": "Q. I have a henchman group with 3 members. One dies after the battle. Does the rest of the group gain +1 experience for surviving (ie, does the whole group have to survive to gain + 1 Experience point for surviving the battle)? — A. Yes, if at least one member from the Henchman group survived, the group gets +1 experience for surviving."
+    },
+    {
+      "id": "faq-136",
+      "title": "Q. When you have more than one Henchman in a Henchman group, how does their experience affect your w",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "2001 Warhammer World FAQ",
+      "body": "Q. When you have more than one Henchman in a Henchman group, how does their experience affect your warband rating? — A. A LOT of people seem to be confused on this one. A Henchman group with five members and one experience point adds +5 to your warband rating, not +1 as a many players seem to believe."
+    },
+    {
+      "id": "faq-137",
+      "title": "Q. Rat Ogres and other large creatures are worth 20 points on a warband's rating. To calculate this ",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "2001 Warhammer World FAQ",
+      "body": "Q. Rat Ogres and other large creatures are worth 20 points on a warband's rating. To calculate this same rating, the formula is 5x the number of models in the warband. Does this mean large creatures are, in effect, worth more on the rating? — A. No, they only count as 20 (plus XP if any)."
+    },
+    {
+      "id": "faq-138",
+      "title": "Q. How do you guys handle racial maximum limits when you level up your henchmen?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. How do you guys handle racial maximum limits when you level up your henchmen? — A. I meant it that you can choose WS and roll again, as I try to err on the side of the players having meaningful stat increases. This was mainly due Warbands like Beastmen whose henchmen mainly have no use for stat like BS. Fully admit I should have written it more clearly."
+    },
+    {
+      "id": "faq-139",
+      "title": "Q. Is it possible to split a Henchmen group?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q. Is it possible to split a Henchmen group? — A. No. It can increase by hiring veteran warriors or decrease through losses, but it may not be split."
+    },
+    {
+      "id": "faq-140",
+      "title": "Q. If a Henchmen group limits the maximum number allowed, and one of them becomes a Hero, do they st",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. If a Henchmen group limits the maximum number allowed, and one of them becomes a Hero, do they still count towards the maximum allowed even though they became a Hero? — A. Halfling is still a Halfling. Marksmen is still a Marksman. Even if he or she becomes a hero, the limit applies."
+    },
+    {
+      "id": "faq-141",
+      "title": "Q. Does a henchmen that survives a battle and gets promoted to hero get to roll for exploration?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Does a henchmen that survives a battle and gets promoted to hero get to roll for exploration? — A. The promotion happens before exploration, so RAW yes they would take part in exploration. Though in here whatever way the gaming group plays is fine -this hardly is a game-changer."
+    },
+    {
+      "id": "faq-142",
+      "title": "Q. Does a promoted Henchman gain his warband’s specialist skill list AND two other lists, or does th",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "The 2005 Mordheim Rules Review, Page 33",
+      "body": "Q. Does a promoted Henchman gain his warband’s specialist skill list AND two other lists, or does the specialist skill list take up a slot? — A. The Lad’s Got Talent result says, “You may choose two skill lists available to Heroes in your warband”, and as your warband’s specialist skills ARE available to your Heroes, that list does indeed take up one of those two if it is one of those chosen."
+    },
+    {
+      "id": "faq-143",
+      "title": "Q. If you have the maximum number of heroes allowed by your warband list, how many \"lads got talent\"",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "Tuomas Pirinen, Mordheim Yahoo! eGroups' FAQ",
+      "body": "Q. If you have the maximum number of heroes allowed by your warband list, how many \"lads got talent\" heroes can you accumulate from your Henchmen? — A. Your warband has maximum number of 6 heroes. Re-roll any results that would give you more -or dismiss existing heroes."
+    },
+    {
+      "id": "faq-144",
+      "title": "Q. Does a heroes equipment stay with the Warband or with the Hero when you dismiss the Hero?",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Does a heroes equipment stay with the Warband or with the Hero when you dismiss the Hero? — A. Just follow the rules as you can see under the header \"Disbanding a Warband\" in the rulebook. You are allowed to dismiss any warrior at any time during the post-battle sequence. As you are allowed to swap and stash equipment during post-battle sequence, you can first transfer the wounded warrior's weapons and gear to your stash and then dismiss him/her."
+    },
+    {
+      "id": "faq-145",
+      "title": "Q. Could you dismiss a hero to make room for a Lad's Got Talent, directly after the LGT advancement ",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Henchmen",
+      "source": "Tuomas Pirinen on Facebook",
+      "body": "Q. Could you dismiss a hero to make room for a Lad's Got Talent, directly after the LGT advancement roll, and also keep that hero's equipment? — A. You want to dismiss the hero before you roll on the Henchmen advancement chart if you want to stick to the rules, as if the hero is on your roster at the exact moment you roll \"Lad's Got a Talent!” you have a full roster and the rules state clearly you have to re-roll. So dismiss BEFORE rolling on the Henchmen advancement chart. You'll lose the equipment as stashing and swapping happens later."
+    },
+    {
+      "id": "faq-146",
+      "title": "Druchii Assassin's Cloak",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Equipment",
+      "source": "Town Cryer 12",
+      "body": "Druchii Assassin's Cloak — The Dark Elf Assassin from Town Cryer 12 wears a \"Dark Cloak\" and is clarified to work the same as an Elven Cloak."
+    },
+    {
+      "id": "faq-147",
+      "title": "Question 148",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Equipment",
+      "source": "Mordheim FAQ (MordheimerData/Sourcedata)",
+      "body": "Though it says creatures it means all warriors (both humanoid and not) that are inherently incapable of using weapons, are exempt from the penalties. \n\nPractically speaking, this mean that fighting with fists is only ever relevant to groups who use the optional crits in the core rulebook or other methods that introduce a disarming effect."
+    },
+    {
+      "id": "faq-148",
+      "title": "Question 149",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Border Town Burning – Weapons & Armour",
+      "source": "Mordheim FAQ (MordheimerData/Sourcedata)",
+      "body": "This is not correct. The rules state a horse adds 3 warband rating and a warhorse 5. The model only starts being counted as 'Large' when the rider mounts the mount."
+    },
+    {
+      "id": "faq-149",
+      "title": "Question 150",
+      "category": "faq",
+      "chapter": "FAQ",
+      "subChapter": "Equipment",
+      "source": "Mordheim FAQ (MordheimerData/Sourcedata)",
+      "body": "Also applies to disarmed warriors using their fists"
+    }
+  ]
+}
