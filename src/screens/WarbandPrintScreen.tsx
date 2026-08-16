@@ -9,6 +9,7 @@ import { computeWarbandRating, isInWarband } from '../lib/rating';
 import { TRACK_LENGTH, getAdvanceThresholds } from '../lib/xpThresholds';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { getSpell } from '../lib/spellLookup';
+import { PrintReference, ReferenceEntry, collectPrintReference } from '../lib/printReference';
 import { modelDisplayName } from '../lib/modelNames';
 import { EquipmentItem, HenchmenGroup, Hero, HiredSword, Warband } from '../types';
 
@@ -502,10 +503,64 @@ export default function WarbandPrintScreen() {
           </div>
         </div>
 
+        <ReferenceAppendix reference={collectPrintReference(warband)} />
+
         <p className="mt-2 font-ui text-ink-faded text-xs text-right">
           {strings.print.printedOn(new Date().toLocaleDateString())}
         </p>
       </div>
+    </div>
+  );
+}
+
+/** One glossary group — a heading and its name/rules rows. Renders nothing when
+ * the warband uses nothing of that kind. */
+function ReferenceGroup({ title, entries }: { title: string; entries: ReferenceEntry[] }) {
+  if (entries.length === 0) return null;
+  return (
+    <section className="mt-3 break-inside-avoid">
+      <h3 className="font-heading-sc uppercase tracking-[0.08em] text-ink text-sm border-b border-ink/40 pb-0.5 mb-1.5">
+        {title}
+      </h3>
+      <dl className="space-y-1.5">
+        {entries.map((e) => (
+          <div key={e.name} className="break-inside-avoid">
+            <dt className="inline font-heading text-ink text-sm font-semibold">{e.name}. </dt>
+            <dd className="inline text-ink text-sm leading-snug">{e.text}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  );
+}
+
+/**
+ * The rules glossary, on its own page after the roster (§4.1.1).
+ *
+ * `break-before-page` starts it on a fresh sheet — the roster is what you carry,
+ * this is the reference you consult, and running them together would push the
+ * roster's own footer onto a second page for no reason. Renders nothing at all
+ * when the warband somehow uses no described gear, skills or rules, rather than
+ * printing an empty heading.
+ */
+function ReferenceAppendix({ reference }: { reference: PrintReference }) {
+  const empty =
+    reference.equipment.length === 0 &&
+    reference.skills.length === 0 &&
+    reference.spells.length === 0 &&
+    reference.specialRules.length === 0;
+  if (empty) return null;
+
+  return (
+    <div className="mt-4 break-before-page">
+      <header className="border-2 border-ink p-3 break-inside-avoid">
+        <p className="font-display text-ink text-xl leading-tight">{strings.print.referenceTitle}</p>
+        <p className="text-ink-faded text-sm mt-0.5">{strings.print.referenceHint}</p>
+      </header>
+      <ReferenceGroup title={strings.print.referenceEquipment} entries={reference.equipment} />
+      <ReferenceGroup title={strings.print.referenceSkills} entries={reference.skills} />
+      <ReferenceGroup title={strings.print.referenceSpells} entries={reference.spells} />
+      <ReferenceGroup title={strings.print.referenceSpecialRules} entries={reference.specialRules} />
     </div>
   );
 }

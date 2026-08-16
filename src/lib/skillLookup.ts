@@ -8,6 +8,34 @@ export function getSkillList(id: string): SkillList | undefined {
   );
 }
 
+/**
+ * Every skill by lower-cased name, built once.
+ *
+ * A model stores its skills as display names (that is what the picker writes),
+ * not ids, so resolving one back to its effect text — for the printed rules
+ * appendix — means a name lookup across every list, core and warband-specific.
+ */
+const skillByName = (() => {
+  const map = new Map<string, SkillEntry>();
+  const lists = [
+    ...Object.values(skillsData.lists),
+    ...Object.values(skillsData.warbandSpecific),
+  ] as SkillList[];
+  for (const list of lists) {
+    for (const skill of list.skills) {
+      const key = skill.name.trim().toLowerCase();
+      if (!map.has(key)) map.set(key, skill);
+    }
+  }
+  return map;
+})();
+
+/** The skill entry for a stored skill name, or undefined for an off-list one
+ * (a promoted henchman's ad-hoc skill, say). */
+export function getSkillByName(name: string): SkillEntry | undefined {
+  return skillByName.get(name.trim().toLowerCase());
+}
+
 export type SkillPrerequisiteCheck = {
   blocked: boolean;
   reason?: string; // shown when blocked — a hard, verifiable fact

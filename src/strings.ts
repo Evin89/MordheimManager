@@ -344,6 +344,14 @@ export const strings = {
     printedOn: (date: string) => `Printed ${date}`,
     nothingRecruited: 'Nothing recruited yet.',
     none: '—',
+    // The rules glossary printed after the roster, so the sheet stands on its
+    // own at the table.
+    referenceTitle: 'Rules reference',
+    referenceHint: 'The rules for every weapon, skill and special rule this warband uses — so you can leave the book at home.',
+    referenceEquipment: 'Weapons & equipment',
+    referenceSkills: 'Skills',
+    referenceSpells: 'Spells & prayers',
+    referenceSpecialRules: 'Special rules',
   },
 
   photo: {
