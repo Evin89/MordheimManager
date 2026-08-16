@@ -1,0 +1,502 @@
+{
+  "id": "the-cursed-cavalcade",
+  "name": "The Cursed Cavalcade",
+  "source": "Tuomas Pirinen",
+  "startingGold": null,
+  "minWarbandSize": null,
+  "maxWarbandSize": null,
+  "heroSlots": [
+    {
+      "id": "aristocrat",
+      "unitType": "Aristocrat",
+      "cost": 70,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "heroes-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any warrior of the Cavalcade Warband within 6\" of the Aristocrat may use his Leadership value when taking Leadership tests."
+        },
+        {
+          "name": "Expert Horseman",
+          "description": "the Aristocrat has the <Tooltip>Ride</Tooltip> (Nightmare) skill."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      }
+    },
+    {
+      "id": "companions",
+      "unitType": "Companion",
+      "cost": 45,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "heroes-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Expert Swordsman",
+          "description": "As imperial nobles, the Companions have been taught the way of the sword since an early age. Companions all have <Tooltip>Expert Swordsman</Tooltip> Skill."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      }
+    },
+    {
+      "id": "twisted-scholar",
+      "unitType": "Twisted Scholar",
+      "cost": 25,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "heroes-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Magical Adept",
+          "description": "When hiring a Twisted Scholar, you may pay 10 additional GC to upgrade it to a Wizard. If you do this then the twisted scholar uses <a href=\"#lesser-magic\">Lesser Magic</a> and knows 1 spell chosen randomly."
+        },
+        {
+          "name": "Story Teller",
+          "description": "When hiring a Twisted Scholar, if you did not upgrade it to a Wizard, you may pay 10 additional GC to make it a Chronicler. A Chronicler has in-depth knowledge of the city of Mordheim and may reroll an extra dice during Exploration phase and may decide which of the two dice to keep."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 4,
+      "skillLists": [
+        "academic"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      }
+    },
+    {
+      "id": "cursed-piper",
+      "unitType": "Cursed Piper",
+      "cost": 40,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "heroes-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Danse Macabre",
+          "description": "The Piper plays the Danse Macabre in combat. During the shooting phase the Cursed Piper can direct the cursed melody of is flute against one enemy model he can see within 6” from the Piper. The enemy model must take a Ld test.<br /><br />If failed, the warrior is cursed by the Danse Macabre loses control of his body and forced to dance under the Piper’s will. The Piper can move the enemy model in any direction he wishes also out of close combat or force him to fall from height.<br /><br />At the beginning of the enemy’s turn, in the recovery phase the warrior will have to pass a Ld test or will continue to be under the Pipers’ control and cannot shoot, charge or cast spells. If engaged in close combat the model cannot attack (it is too busy dancing!).<br /><br />Only one enemy warrior at time can be controlled by the Danse Macabre. If the Piper targets another warrior the previous one is immediately free from the curse."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 6,
+      "skillLists": [
+        "academic"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      }
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "thrall",
+      "unitType": "Thrall",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "thralls-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "captured-thrall",
+      "unitType": "Captured Thrall",
+      "cost": 0,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "thralls-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Extra servitors, worthless, but still precious",
+          "description": "Captured Thralls do not count toward the maximum number of models allowed in your warband, effectively increasing the maximum capacity from 13 to 18. You cannot dismiss any Captured Thrall you own."
+        },
+        {
+          "name": "Not really clever",
+          "description": "Captured Thralls cannot earn experience points, and therefore cannot gain any advancement."
+        }
+      ]
+    },
+    {
+      "id": "great-bear",
+      "unitType": "Great Bear",
+      "cost": 140,
+      "isAnimal": true,
+      "isLargeCreature": true,
+      "maxCount": 1,
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 0,
+        "S": 5,
+        "T": 5,
+        "W": 2,
+        "I": 3,
+        "A": 2,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Maddened With Pain",
+          "description": "As soon as the Great Bear suffers a single wound it gains an additional attack."
+        },
+        {
+          "name": "Large Target",
+          "description": "Great Bears are <Tooltip>Large Targets</Tooltip> as defined in the shooting rules."
+        },
+        {
+          "name": "Animal",
+          "description": "Great Bears are animals and thus do not gain experience."
+        }
+      ]
+    },
+    {
+      "id": "wild-beast",
+      "unitType": "Wild Beast",
+      "cost": 45,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 0,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 5,
+        "A": 2,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Charge",
+          "description": "When charging their enemies the Wild Beasts gain +1 Attack on the first turn of close combat."
+        },
+        {
+          "name": "Animal",
+          "description": "Wild Beasts are animals and thus do not gain experience."
+        }
+      ]
+    },
+    {
+      "id": "fighting-ape",
+      "unitType": "Fighting Ape",
+      "cost": 95,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 0,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 5,
+        "A": 2,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Cymbals",
+          "description": "when hiring a Fighting Ape, you may give her a pair of cymbals at 15 gc, which it frenziedly beats together to the forbidding tune of Danse Macabre. Any enemy model within 6\" will be so disturbed by the sound that they suffer a penalty of -1 to BS and Ld."
+        },
+        {
+          "name": "Agile",
+          "description": "The Fighting Apes are fantastically agile and nimble, putting even the greatest acrobat or Skaven Assassin to shame. The Fighting Ape has the <Tooltip>Scale Sheer Surfaces</Tooltip> Skill, <Tooltip>Acrobat</Tooltip> Skill, and <Tooltip>Dodge</Tooltip> Skill. In addition, the Fighting Ape can make a <Tooltip>diving charge</Tooltip> from up to 10\" high."
+        },
+        {
+          "name": "Animal",
+          "description": "Fighitng Apes are animals and thus do not gain experience, but can still climb and enter buildings as normal."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "heroes-equipment-list": [
+      "dagger",
+      "misericordia",
+      "sword",
+      "clubMaceHammer",
+      "doubleHandedWeapon",
+      "boarSpear",
+      "lance",
+      "longBow",
+      "duellingPistol",
+      "huntingRifle",
+      "blunderbuss",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet",
+      "cathayanQuiltedSilkArmour",
+      "superiorBlackpowder",
+      "nightmare",
+      "birdOfPrey"
+    ],
+    "thralls-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "shortBow",
+      "bow",
+      "crossbow",
+      "lightArmour",
+      "shield",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "misericordia",
+      "name": "Misericordia",
+      "category": "misc",
+      "cost": 5,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "boarSpear",
+      "name": "Boar spear",
+      "category": "melee",
+      "cost": 30,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "cathayanQuiltedSilkArmour",
+      "name": "Cathayan quilted silk armour",
+      "category": "armour",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "nightmare",
+      "name": "Nightmare",
+      "category": "misc",
+      "cost": 95,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "birdOfPrey",
+      "name": "Bird of prey",
+      "category": "misc",
+      "cost": 30,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

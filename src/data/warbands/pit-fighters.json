@@ -1,0 +1,416 @@
+{
+  "id": "pit-fighters",
+  "name": "Pit Fighters",
+  "source": "Town Cryer #21 (Revised from TC #14)",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "pit-king",
+      "unitType": "Pit King",
+      "cost": 80,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 4,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "pit-fighter-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any models in the Warband within 6\" of the King may use his Leadership instead of their own."
+        },
+        {
+          "name": "Pit Fighter",
+          "description": "A Pit King has the <Tooltip>Pit Fighter</Tooltip> skill."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "dwarf-troll-slayer",
+      "unitType": "Dwarf Troll Slayer",
+      "cost": 50,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "ogre-slayer-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Pit Fighter",
+          "description": "A Dwarf Troll Slayer has the <Tooltip>Pit Fighter</Tooltip> skill."
+        },
+        {
+          "name": "Hard to Kill",
+          "description": "Dwarfs are tough, resilient individuals who can only be taken out of action on a roll of a 6 instead of 5-6 when rolling on the Injury chart. Treat a roll of 1-2 as knocked down, 3-5 as stunned, and 6 as out of action."
+        },
+        {
+          "name": "Hard Head",
+          "description": "Dwarfs ignores the special rules for maces, clubs, etc. They are not easy to knock out!"
+        },
+        {
+          "name": "Hate Orcs and Goblins",
+          "description": "All Dwarfs <Tooltip>hate</Tooltip> Orcs and Goblins. See the psychology section of the Mordheim rules for details on the effects of <Tooltip>hatred</Tooltip>."
+        },
+        {
+          "name": "Grudgebearers",
+          "description": "Dwarfs hold an ancient grudge against Elves from the days when the two races fought for the supremacy of the Old World. If the Pit Fighters ever hire any kind of Elven Hired Sword, he will leave the Warband immediately, he refuses to fight alongside these pansy Elves!"
+        },
+        {
+          "name": "Death Wish",
+          "description": "Troll Slayers seek an honourable death in combat. They are completely immune to all psychology"
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "dwarf"
+    },
+    {
+      "id": "pit-veterans",
+      "unitType": "Pit Veteran",
+      "cost": 35,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "pit-fighter-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Pit Fighter",
+          "description": "Pit Veterans have the <Tooltip>Pit Fighter</Tooltip> skill."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "pit-fighters",
+      "unitType": "Pit Fighter",
+      "cost": 35,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "pit-fighter-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Pit Fighter",
+          "description": "Pit Fighters have the <Tooltip>Pit Fighter</Tooltip> skill."
+        }
+      ]
+    },
+    {
+      "id": "pursuers",
+      "unitType": "Pursuer",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 7,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "pursuer-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Pit Fighter",
+          "description": "Pursuers have the <Tooltip>Pit Fighter</Tooltip> skill."
+        },
+        {
+          "name": "Evade",
+          "description": "Pursuers are agile and athletic, well adept at avoiding the heavier Pit Fighters’ charges. When an enemy charges a Pursuer he may choose to try and evade. On a successful Initiative test it is considered a failed charge and the normal rules apply"
+        }
+      ]
+    },
+    {
+      "id": "ogre-pit-fighter",
+      "unitType": "Ogre Pit Fighter",
+      "cost": 165,
+      "isAnimal": true,
+      "isLargeCreature": true,
+      "maxCount": 1,
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 2,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 3,
+        "A": 2,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "ogre-slayer-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Pit Fighter",
+          "description": "An Ogre Pit Fighter has the <Tooltip>Pit Fighter</Tooltip> skill."
+        },
+        {
+          "name": "Fear",
+          "description": "Ogre Pit Fighters are large, threatening creatures that cause <Tooltip>fear</Tooltip>."
+        },
+        {
+          "name": "Large",
+          "description": "Ogre Pit Fighters are huge, lumbering creatures and therefore make tempting targets for archers. Any model may shoot at the Ogre Pit Fighter, even if he is not the closest target."
+        },
+        {
+          "name": "Skills",
+          "description": "An Ogre Pit Fighter who becomes a Hero as a result of The Lad’s Got Talent may choose from the Combat, Strength and Pit Fighter Special Skills."
+        },
+        {
+          "name": "Slow Witted",
+          "description": "Although Ogres are capable of earning experience and bettering themselves, they are not the smartest creatures. Ogres only gain advances at half the rate of everyone else (ie, they must accrue twice as much experience as normal to get an advance)."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "pit-fighter-equipment-list": [
+      "orcStyle",
+      "undeadStyle",
+      "empireStyle",
+      "chaosStyle"
+    ],
+    "pursuer-equipment-list": [
+      "skinkStyle",
+      "witchElfStyle"
+    ],
+    "ogre-slayer-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "clubMaceHammer",
+      "axe",
+      "dwarfAxe",
+      "sword",
+      "flail",
+      "spikedGauntlet",
+      "gromrilWeapon",
+      "lightArmour",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "orcStyle",
+      "name": "Orc style",
+      "category": "misc",
+      "cost": 20,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "undeadStyle",
+      "name": "Undead style",
+      "category": "misc",
+      "cost": 35,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "empireStyle",
+      "name": "Empire style",
+      "category": "misc",
+      "cost": 45,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "chaosStyle",
+      "name": "Chaos style",
+      "category": "misc",
+      "cost": 50,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "skinkStyle",
+      "name": "Skink style",
+      "category": "misc",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "witchElfStyle",
+      "name": "Witch elf style",
+      "category": "misc",
+      "cost": 30,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "dwarfAxe",
+      "name": "Dwarf axe",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "spikedGauntlet",
+      "name": "Spiked gauntlet",
+      "category": "misc",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

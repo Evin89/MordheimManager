@@ -1,0 +1,362 @@
+{
+  "id": "skaven-of-clan-pestilens",
+  "name": "Skaven of Clan Pestilens",
+  "source": "Town Cryer #29",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "plague-priest",
+      "unitType": "Plague Priest",
+      "cost": 85,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 4,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "heroes-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any warrior within 6\" of the Plague Priest may use his Leadership instead of his own."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "skaven"
+    },
+    {
+      "id": "pestilens-sorcerer",
+      "unitType": "Pestilens Sorcerer",
+      "cost": 45,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "heroes-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Spellcaster",
+          "description": "The Pestilens Sorcerer is a spellcaster and may cast spells from the <a href=\"#magic-of-the-horned-rat\">Horned Rat</a> spell list."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "academic",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "skaven"
+    },
+    {
+      "id": "plague-monks",
+      "unitType": "Plague Monk",
+      "cost": 45,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "heroes-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "skaven"
+    },
+    {
+      "id": "monk-initiates",
+      "unitType": "Monk Initiate",
+      "cost": 20,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 5,
+        "WS": 2,
+        "BS": 3,
+        "S": 2,
+        "T": 2,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 4
+      },
+      "equipmentOptions": [
+        "heroes-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [],
+      "isLeader": false,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "skaven"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "plague-novices",
+      "unitType": "Plague Novice",
+      "cost": 20,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "henchmen-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "giant-rats",
+      "unitType": "Giant Rat",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 6,
+        "WS": 2,
+        "BS": 0,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Experience",
+          "description": "Giant Rats are animals and do not gain experience."
+        }
+      ]
+    },
+    {
+      "id": "rat-ogre",
+      "unitType": "Rat Ogre",
+      "cost": 210,
+      "isAnimal": true,
+      "isLargeCreature": true,
+      "maxCount": 1,
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 3,
+        "S": 5,
+        "T": 5,
+        "W": 3,
+        "I": 4,
+        "A": 3,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Fear",
+          "description": "Rat Ogres are so frightening they cause <Tooltip>fear</Tooltip>."
+        },
+        {
+          "name": "Stupidity",
+          "description": "A Rat Ogre is subject to <Tooltip>stupidity</Tooltip> unless a Skaven Hero is within 6\" of it."
+        },
+        {
+          "name": "Experience",
+          "description": "Rat Ogres do not gain experience."
+        },
+        {
+          "name": "Large Target",
+          "description": "Rat Ogres are Large Targets as defined in the shooting rules."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "heroes-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "spear",
+      "halberd",
+      "flail",
+      "diseaseDagger",
+      "censer",
+      "sling",
+      "shield",
+      "helmet",
+      "lightArmour"
+    ],
+    "henchmen-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "spear",
+      "sling",
+      "lightArmour",
+      "shield",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "diseaseDagger",
+      "name": "Disease dagger",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "censer",
+      "name": "Censer",
+      "category": "misc",
+      "cost": 40,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

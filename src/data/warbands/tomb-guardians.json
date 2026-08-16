@@ -1,0 +1,338 @@
+{
+  "id": "tomb-guardians",
+  "name": "Tomb Guardians",
+  "source": "Town Cryer #18",
+  "startingGold": 500,
+  "minWarbandSize": null,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "tomb-lord",
+      "unitType": "Tomb Lord",
+      "cost": 150,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 5,
+        "W": 3,
+        "I": 3,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "undead-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "The Tomb Lord is the warband's Leader and follows all the rules for Leaders."
+        },
+        {
+          "name": "Undead",
+          "description": "The Tomb Lord is undead and follows all rules for the <a href=\"#special-rules\">Undead</a>."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": 4,
+        "WS": 6,
+        "BS": 6,
+        "S": 5,
+        "T": 5,
+        "W": 5,
+        "I": 5,
+        "A": 4,
+        "Ld": 9
+      }
+    },
+    {
+      "id": "liche-priest",
+      "unitType": "Liche Priest",
+      "cost": 55,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "liche-priest-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Wizard",
+          "description": "The Liche Priest is a Wizard and uses <a href=\"#mortuary-cult-scrolls\">Mortuary Cult scrolls</a>."
+        },
+        {
+          "name": "Undead",
+          "description": "The Liche Priest is undead and follows all rules for the <a href=\"#special-rules\">Undead</a>."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "academic"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      }
+    },
+    {
+      "id": "acolytes",
+      "unitType": "Acolyte",
+      "cost": 20,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "liche-priest-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Undead",
+          "description": "Acolytes are undead and follow all rules for the <a href=\"#special-rules\">Undead</a>."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "academic"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      }
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "skeleton-warriors",
+      "unitType": "Skeleton Warrior",
+      "cost": 20,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "undead-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Undead",
+          "description": "Skeletons are undead and follow all rules for the <a href=\"#special-rules\">Undead</a>."
+        }
+      ]
+    },
+    {
+      "id": "tomb-guardians",
+      "unitType": "Tomb Guardian",
+      "cost": 30,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 2,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "undead-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Undead",
+          "description": "The Tomb Guards are undead and follow all rules for the <a href=\"#special-rules\">Undead</a>."
+        }
+      ]
+    },
+    {
+      "id": "tomb-scorpions",
+      "unitType": "Tomb Scorpion",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 5,
+        "WS": 2,
+        "BS": null,
+        "S": null,
+        "T": 2,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Living",
+          "description": "Scorpions are living beings and are affected by Psychology as normal. However as they are small desert creatures they do not need water."
+        },
+        {
+          "name": "Animals",
+          "description": "Scorpions are animals and do not gain experience points."
+        },
+        {
+          "name": "Scorpions sting*",
+          "description": "Scorpions attack using the poisonous sting in their tails. This attack is worked out exactly as if the scorpion was attacking with <Tooltip>Black Lotus</Tooltip>."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "undead-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "halberd",
+      "spear",
+      "morningStar",
+      "doubleHandedWeapon",
+      "flail",
+      "bow",
+      "aspArrows",
+      "nehekharanJavelin",
+      "shield",
+      "lightArmour"
+    ],
+    "liche-priest-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "staff",
+      "axe",
+      "sword",
+      "morningStar",
+      "serpentStaff"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "nehekharanJavelin",
+      "name": "Nehekharan javelin",
+      "category": "missile",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "staff",
+      "name": "Staff",
+      "category": "melee",
+      "cost": 3,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "serpentStaff",
+      "name": "Serpent staff",
+      "category": "melee",
+      "cost": 30,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

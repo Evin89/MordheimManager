@@ -1,0 +1,331 @@
+{
+  "id": "imperial-outriders",
+  "name": "Imperial Outriders",
+  "source": "Nemesis Crown Supplement",
+  "startingGold": 500,
+  "minWarbandSize": null,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "knight",
+      "unitType": "Knight",
+      "cost": 85,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "imperial-outriders-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any warrior within 6” of the Knight may use his Leadership characteristic when taking a Leadership test."
+        },
+        {
+          "name": "Ride",
+          "description": "The Knight has the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride skill</a> as detailed in the Blazing Saddles article."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "outriders",
+      "unitType": "Outrider",
+      "cost": 65,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "imperial-outriders-equipment-list",
+        "outrider-missile-weapon-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Ride",
+          "description": "Outriders have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride skill</a> as detailed in the Blazing Saddles article."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "scouts",
+      "unitType": "Scout",
+      "cost": 45,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "imperial-outriders-equipment-list",
+        "scout-missile-weapon-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Ride",
+          "description": "Scouts have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride skill</a> as detailed in the Blazing Saddles article."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "chasseurs",
+      "unitType": "Chasseur",
+      "cost": 55,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "imperial-outriders-equipment-list",
+        "outrider-missile-weapon-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Ride",
+          "description": "Chasseurs have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride skill</a> as detailed in the Blazing Saddles article."
+        }
+      ]
+    },
+    {
+      "id": "hussars",
+      "unitType": "Hussar",
+      "cost": 60,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "imperial-outriders-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Ride",
+          "description": "Horsemen have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride skill</a> as detailed in the Blazing Saddles article."
+        },
+        {
+          "name": "Combat Riding",
+          "description": "Horsemen have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#combat-riding\">Combat Riding skill</a> as detailed in the Blazing Saddles article."
+        }
+      ]
+    },
+    {
+      "id": "grooms",
+      "unitType": "Groom",
+      "cost": 50,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "imperial-outriders-equipment-list",
+        "scout-missile-weapon-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Ride",
+          "description": "Grooms have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#ride-eg-ride-horse\">Ride skill</a> as detailed in the Blazing Saddles article."
+        },
+        {
+          "name": "Horse Handling",
+          "description": "Grooms have the <a href=\"/docs/optional-rules/mounted-combat/blazing-saddles#beast-handler--eg-dog-handler\">Animal Handling skill</a> as detailed in the Blazing Saddles article."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "imperial-outriders-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "morningStar",
+      "lance",
+      "buckler",
+      "shield",
+      "helmet",
+      "lightArmour",
+      "heavyArmour",
+      "barding",
+      "ithilmarArmour",
+      "gromrilArmour"
+    ],
+    "outrider-missile-weapon-list": [
+      "pistol",
+      "handgun",
+      "blunderbuss",
+      "hochlandLongRifle"
+    ],
+    "scout-missile-weapon-list": [
+      "throwingKnivesStars"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "hochlandLongRifle",
+      "name": "Hochland long rifle",
+      "category": "missile",
+      "cost": 200,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

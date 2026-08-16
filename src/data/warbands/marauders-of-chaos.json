@@ -1,0 +1,385 @@
+{
+  "id": "marauders-of-chaos",
+  "name": "Marauders of Chaos",
+  "source": "Border Town Burning",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "marauder-chieftain",
+      "unitType": "Marauder Chieftain",
+      "cost": 95,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 5,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any Warrior within 6“ of the Marauder Chieftain may use his Leadership instead of his own when taking Ld tests."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": 4,
+        "WS": 7,
+        "BS": 7,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 7,
+        "A": 4,
+        "Ld": 9
+      }
+    },
+    {
+      "id": "seer",
+      "unitType": "Seer",
+      "cost": 45,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Wizard",
+          "description": "A Seer is a Wizard and may use Magic as detailed in the Magic section."
+        },
+        {
+          "name": "Mark of Chaos",
+          "description": "The Seer gets a <a href=\"#mark-of-the-dark-gods\">Mark of Chaos</a> when hired to determine the kind of magic he uses. He can have the Mark of the Serpent, the Mark of the Crow, the Mark of the Eagle, the Mark of Arkhar or the Mark of Chaos Undivided."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "academic"
+      ],
+      "statMaximums": {
+        "M": 4,
+        "WS": 7,
+        "BS": 7,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 7,
+        "A": 4,
+        "Ld": 9
+      }
+    },
+    {
+      "id": "champions",
+      "unitType": "Champion",
+      "cost": 45,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": 4,
+        "WS": 7,
+        "BS": 7,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 7,
+        "A": 4,
+        "Ld": 9
+      }
+    },
+    {
+      "id": "condemned",
+      "unitType": "Condemned",
+      "cost": 55,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": null,
+        "BS": 3,
+        "S": null,
+        "T": null,
+        "W": 1,
+        "I": 4,
+        "A": null,
+        "Ld": 7
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Inconsistency",
+          "description": "The body of the Condemned is mutating permanently. The variable attributes WS, S, T and A are determined whenever needed, once every turn."
+        },
+        {
+          "name": "Fear",
+          "description": "The Condemned’s unnatural appearance makes him cause <Tooltip>fear</Tooltip> in his enemies."
+        },
+        {
+          "name": "Experience",
+          "description": "Whenever the Condemned would increase one of his variable attributes the player rolls an appropriate die instead. If the player is satisfied with the result, he may set the attribute on that number (e.g. roll a D6 instead of increasing Strength, on a roll of 4 the player may choose to give the model S 4). Otherwise the attribute remains variable (and the advance is lost). The maximum attributes of the Marauders may be exceeded due to the special nature of the Condemned, and this carries through to when the player wishes to set an attribute instead of keeping it random.<sup><Tooltip content=\"faq148\">❓</Tooltip></sup>"
+        },
+        {
+          "name": "Fate",
+          "description": "Once all variable attributes are set, the Condemned may use weapons, armour and miscellaneous equipment as usual. But, if he has 90 Experience and still variable attributes, his patron could not save him from his former god's wrath and his soul and body are lost. He turns into a terrifying Spawn of Chaos. If the warband already consists of a spawn, the doomed warrior wanders off into the wastes, never to be seen again."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": 4,
+        "WS": 7,
+        "BS": 7,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 7,
+        "A": 4,
+        "Ld": 9
+      }
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "chaos-marauders",
+      "unitType": "Chaos Marauder",
+      "cost": 35,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "henchmen-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "warhounds-of-chaos",
+      "unitType": "Warhound of Chaos",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 7,
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Animals",
+          "description": "Warhounds are animals and thus do not gain experience."
+        }
+      ]
+    },
+    {
+      "id": "spawn-of-chaos",
+      "unitType": "Spawn of Chaos",
+      "cost": 180,
+      "isAnimal": true,
+      "isLargeCreature": true,
+      "maxCount": 1,
+      "statLine": {
+        "M": null,
+        "WS": 3,
+        "BS": 0,
+        "S": 4,
+        "T": 5,
+        "W": 3,
+        "I": 2,
+        "A": null,
+        "Ld": 10
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Special Attacks",
+          "description": "Roll at the beginning of each Close Combat phase to determine the spawn’s number of Attacks for that phase."
+        },
+        {
+          "name": "Fear",
+          "description": "Spawn are disgusting and revolting blasphemies against nature and cause fear."
+        },
+        {
+          "name": "Special Movement",
+          "description": "The Spawn moves 2D6\" straight ahead in each of its Movement phases. Before it does so it’s player may turn it to give the direction. It does not double its movement for charging, instead if its movement takes it into contact with a model it counts as charging and engages that model in close combat."
+        },
+        {
+          "name": "Psychology",
+          "description": "Spawns are mindless creatures, knowing no fear of pain or death. Spawns automatically pass any Leadership based test they are required to make."
+        },
+        {
+          "name": "No Brain",
+          "description": "Spawns of Chaos are crazed creatures and therefore gain no experience."
+        },
+        {
+          "name": "Large",
+          "description": "Spawns of Chaos are huge tempting creatures and count as Large Targets as defined in the shooting rules."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "hero-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "halberd",
+      "morningStar",
+      "doubleHandedWeapon",
+      "flail",
+      "barbedWhip",
+      "greatAxe",
+      "shield",
+      "helmet",
+      "lightArmour",
+      "heavyArmour"
+    ],
+    "henchmen-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "morningStar",
+      "flail",
+      "throwingKnivesStars",
+      "shield",
+      "helmet",
+      "lightArmour"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "barbedWhip",
+      "name": "Barbed whip",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "greatAxe",
+      "name": "Great axe",
+      "category": "melee",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

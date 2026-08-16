@@ -1,0 +1,293 @@
+{
+  "id": "black-dwarfs",
+  "name": "Black Dwarfs",
+  "source": "Border Town Burning",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "sorcerer",
+      "unitType": "Sorcerer",
+      "cost": 85,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "chaos-dwarf-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any warrior within 6“ of the Sorcerer may use his Leadership when taking Ld tests."
+        },
+        {
+          "name": "Wizard",
+          "description": "The Sorcerer is a wizard and follows the rules for wizards in the magic section. Sorcerers may cast <a href=\"#rituals-of-hashut\">Rituals of Hashut</a>."
+        },
+        {
+          "name": "Priest",
+          "description": "The Sorcerer starts with two rituals. One of them is the <a href=\"#sacrificial-ritual\">Sacrificial Ritual</a>. The other spell is determined as usual from the <a href=\"#rituals-of-hashut\">Rituals of Hashut</a>."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "academic",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      }
+    },
+    {
+      "id": "bull-centaur",
+      "unitType": "Bull Centaur",
+      "cost": 100,
+      "isLargeCreature": true,
+      "maxCount": 1,
+      "statLine": {
+        "M": 8,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 3,
+        "A": 2,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "chaos-dwarf-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Large target",
+          "description": "Bull centaurs are large creatures and therefore make tempting targets for archers. Anyone shooting at the Bull Centaur gains a +1 ‘to hit’ and may shoot at it even if it is not the closest target. As large targets a Bull Centaur adds an extra +20 to the warband’s rating."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 10,
+      "skillLists": [
+        "combat",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": 8,
+        "WS": 7,
+        "BS": 6,
+        "S": 5,
+        "T": 5,
+        "W": 4,
+        "I": 6,
+        "A": 5,
+        "Ld": 10
+      }
+    },
+    {
+      "id": "gaolers",
+      "unitType": "Gaoler",
+      "cost": 50,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "chaos-dwarf-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Nasty Reputation",
+          "description": "Gaolers are known for their brutality. The dreaded sight of them and the very thought of being captured causes <Tooltip>fear</Tooltip> in Humans."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      }
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "informers",
+      "unitType": "Informer",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "informer-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Drudgery",
+          "description": "Informers have had their will broken by their masters. Informers may never become Heroes. Re-roll all results of ‘The lad’s got talent’ for them."
+        }
+      ]
+    },
+    {
+      "id": "chaos-dwarfs",
+      "unitType": "Chaos Dwarf",
+      "cost": 40,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "chaos-dwarf-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    }
+  ],
+  "equipmentLists": {
+    "chaos-dwarf-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "steelWhip",
+      "doubleHandedWeapon",
+      "mancatcher",
+      "pistol",
+      "blunderbuss",
+      "handgun",
+      "shield",
+      "helmet",
+      "lightArmour",
+      "heavyArmour",
+      "mechanicalSuit"
+    ],
+    "informer-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "spear",
+      "sling",
+      "bow",
+      "shield",
+      "helmet",
+      "lightArmour"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "steelWhip",
+      "name": "Steel whip",
+      "category": "melee",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "mancatcher",
+      "name": "Man-catcher",
+      "category": "misc",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "mechanicalSuit",
+      "name": "Mechanical suit",
+      "category": "misc",
+      "cost": 175,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

@@ -1,0 +1,284 @@
+{
+  "id": "bretonnians",
+  "name": "Bretonnians",
+  "source": "Town Cryer #8",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "questing-knight",
+      "unitType": "Questing Knight",
+      "cost": 80,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "knights-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any warrior within 6\" of the Questing Knight may use his Leadership characteristic when taking Leadership tests."
+        },
+        {
+          "name": "Knights Virtue",
+          "description": "A Questing Knight is a chivalrous warrior who is superior to ordinary warriors. He will never panic and break from combat and so does not have to pass a Leadership test for being <Tooltip>all alone</Tooltip>."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "knights-errant",
+      "unitType": "Knight Errant",
+      "cost": 50,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "knights-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Knights Virtue",
+          "description": "A Knight Errant is a chivalrous warrior who is superior to ordinary warriors. He will never panic and break from combat and so does not have to pass a Leadership test for being <Tooltip>all alone</Tooltip>."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "squires",
+      "unitType": "Squire",
+      "cost": 15,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "squires-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [],
+      "isLeader": false,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "men-at-arms",
+      "unitType": "Man-at-Arms",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 8,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "men-at-arms-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "bowmen",
+      "unitType": "Bowman",
+      "cost": 20,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "bowmen-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    }
+  ],
+  "equipmentLists": {
+    "knights-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "morningStar",
+      "lance",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet",
+      "bretonnianBarding",
+      "warhorse"
+    ],
+    "squires-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "bow",
+      "longBow",
+      "shield",
+      "buckler",
+      "helmet",
+      "lightArmour",
+      "horse"
+    ],
+    "men-at-arms-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "halberd",
+      "doubleHandedWeapon",
+      "shield",
+      "helmet",
+      "lightArmour"
+    ],
+    "bowmen-equipment-list": [
+      "dagger",
+      "axe",
+      "sword",
+      "bow",
+      "longBow",
+      "helmet",
+      "lightArmour"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "bretonnianBarding",
+      "name": "Bretonnian barding",
+      "category": "armour",
+      "cost": 30,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

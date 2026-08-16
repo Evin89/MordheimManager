@@ -22,6 +22,33 @@ import amazonsLustria from './warbands/amazons-lustria.json';
 import lizardmen from './warbands/lizardmen.json';
 import gunnerySchoolOfNuln from './warbands/gunnery-school-of-nuln.json';
 import battleMonksOfCathay from './warbands/battle-monks-of-cathay.json';
+import arabianTombRaiders from './warbands/arabian-tomb-raiders.json';
+import blackDwarfs from './warbands/black-dwarfs.json';
+import bretonnians from './warbands/bretonnians.json';
+import bretonnianChapelGuard from './warbands/bretonnian-chapel-guard.json';
+import courtOfTheProfanePleasures from './warbands/court-of-the-profane-pleasures.json';
+import theCursedCavalcade from './warbands/the-cursed-cavalcade.json';
+import darkElves from './warbands/dark-elves.json';
+import dwarfRangers from './warbands/dwarf-rangers.json';
+import forestGoblins from './warbands/forest-goblins.json';
+import hochlandBandits from './warbands/hochland-bandits.json';
+import hornedHunters from './warbands/horned-hunters.json';
+import imperialOutriders from './warbands/imperial-outriders.json';
+import lustrianReavers from './warbands/lustrian-reavers.json';
+import maraudersOfChaos from './warbands/marauders-of-chaos.json';
+import merchantCaravans from './warbands/merchant-caravans.json';
+import mootlanders from './warbands/mootlanders.json';
+import nightGoblins from './warbands/night-goblins.json';
+import norseExplorers from './warbands/norse-explorers.json';
+import outlawsOfStirwoodForest from './warbands/outlaws-of-stirwood-forest.json';
+import pirates from './warbands/pirates.json';
+import pitFighters from './warbands/pit-fighters.json';
+import shadowWarriors from './warbands/shadow-warriors.json';
+import skavenOfClanPestilens from './warbands/skaven-of-clan-pestilens.json';
+import theRestlessDead from './warbands/the-restless-dead.json';
+import theSonsOfHashut from './warbands/the-sons-of-hashut.json';
+import tileans from './warbands/tileans.json';
+import tombGuardians from './warbands/tomb-guardians.json';
 
 // Every playable warband definition, keyed by id. Add new warbands here as
 // their data files are populated.
@@ -48,6 +75,33 @@ export const warbandDefinitions: WarbandDefinition[] = [
   lizardmen,
   gunnerySchoolOfNuln,
   battleMonksOfCathay,
+  arabianTombRaiders,
+  blackDwarfs,
+  bretonnians,
+  bretonnianChapelGuard,
+  courtOfTheProfanePleasures,
+  theCursedCavalcade,
+  darkElves,
+  dwarfRangers,
+  forestGoblins,
+  hochlandBandits,
+  hornedHunters,
+  imperialOutriders,
+  lustrianReavers,
+  maraudersOfChaos,
+  merchantCaravans,
+  mootlanders,
+  nightGoblins,
+  norseExplorers,
+  outlawsOfStirwoodForest,
+  pirates,
+  pitFighters,
+  shadowWarriors,
+  skavenOfClanPestilens,
+  theRestlessDead,
+  theSonsOfHashut,
+  tileans,
+  tombGuardians,
 ] as WarbandDefinition[];
 
 export function getWarbandDefinition(id: string): WarbandDefinition | undefined {

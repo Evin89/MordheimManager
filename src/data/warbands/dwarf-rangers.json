@@ -1,0 +1,342 @@
+{
+  "id": "dwarf-rangers",
+  "name": "Dwarf Rangers",
+  "source": "Nemesis Crown Supplement",
+  "startingGold": null,
+  "minWarbandSize": null,
+  "maxWarbandSize": null,
+  "heroSlots": [
+    {
+      "id": "runesmith",
+      "unitType": "Runesmith",
+      "cost": 85,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 3,
+        "WS": 5,
+        "BS": 4,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 10
+      },
+      "equipmentOptions": [
+        "dwarf-warrior-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any models in the warband within 6\" of the Dwarf Runesmith may use his Leadership instead of their own."
+        },
+        {
+          "name": "Inscribe Runes",
+          "description": "A Runesmith knows one minor rune (see list at the end of this warband list), determined randomly when the warband is first created. He may inscribe the rune on an item carried by one of the warriors of his warband, and (if successful, see below) the item will gain a bonus from the rune for that game. When a Runesmith advances and rolls a skill on the Hero Advance table, he may choose to learn a new rune instead of learning a skill (exactly like a spellcaster advancing and learning a new spell)."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "dwarf"
+    },
+    {
+      "id": "apprentice-runesmith",
+      "unitType": "Apprentice Runesmith",
+      "cost": 40,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 3,
+        "WS": 3,
+        "BS": 2,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "dwarf-warrior-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Extra Set of Hands",
+          "description": "An Apprentice Runesmith helps his master fashion runic items, doing all the boring grunge-work that makes his master more efficient in his efforts. An Apprentice Runesmith in the warband allows a Master Runesmith to inscribe on two items before each game, instead of only one."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "dwarf"
+    },
+    {
+      "id": "dwarf-troll-slayers",
+      "unitType": "Dwarf Troll Slayers",
+      "cost": 50,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "dwarf-warrior-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Deathwish:",
+          "description": "Troll Slayers seek an honourable death in\ncombat. They are completely immune to all psychology and\nnever need to test if fighting alone."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "dwarf"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "dwarf-longbeards",
+      "unitType": "Dwarf Longbeard",
+      "cost": 50,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 3,
+        "WS": 5,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dwarf-warrior-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "dwarf-clansmen",
+      "unitType": "Dwarf Clansmen",
+      "cost": 40,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dwarf-warrior-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "dwarf-crossbowmen",
+      "unitType": "Dwarf Crossbowmen",
+      "cost": 40,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "crossbowmen-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "beardlings",
+      "unitType": "Beardling",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 3,
+        "WS": 3,
+        "BS": 2,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dwarf-warrior-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    }
+  ],
+  "equipmentLists": {
+    "dwarf-warrior-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "dwarfAxe",
+      "doubleHandedWeapon",
+      "spear",
+      "halberd",
+      "gromrilWeapon",
+      "pistol",
+      "lightArmour",
+      "heavyArmour",
+      "gromrilArmour",
+      "shield",
+      "helmet"
+    ],
+    "crossbowmen-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "crossbow",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "dwarfAxe",
+      "name": "Dwarf axe",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

@@ -1,0 +1,525 @@
+{
+  "id": "lustrian-reavers",
+  "name": "Lustrian Reavers",
+  "source": "Facebook (2024)",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 10,
+  "heroSlots": [
+    {
+      "id": "conqueror",
+      "unitType": "Conqueror",
+      "cost": 150,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 3,
+        "A": 2,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Starting Equipment",
+          "description": "<a href=\"#masterwork-heavy-armour\">Masterwork Heavy Armour</a>, <a href=\"#bec-de-corbin\">Bec de Corbin</a>, <Tooltip>Helmet</Tooltip>. Further weapons, armour and equipment can be bought from the Reavers Equipment list."
+        },
+        {
+          "name": "Survivor",
+          "description": "Cannot be taken out of Action unless the model is already Knocked Down or Stunned. Treat Out of Action as Stunned if the Conqueror is standing when receiving the Wound.<br /><br />In addition, the first time a Conqueror suffers a Dead result on the Serious Injury Chart, treat it as Multiple Injuries instead. This ability can save the Conqueror only one time."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 24,
+      "skillLists": [
+        "combat",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "saurus-slayer",
+      "unitType": "Saurus Slayer",
+      "cost": 135,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Starting Equipment",
+          "description": "<Tooltip>Heavy Armour</Tooltip>, <Tooltip>Misericordia</Tooltip>, 2 <Tooltip>Swords</Tooltip>, <Tooltip>Helmet</Tooltip>. Further weapons, armour and equipment can be bought from the Reavers Equipment list."
+        },
+        {
+          "name": "Duellist",
+          "description": "If the Saurus Slayer is engaged with only a single opponent in melee, they can re-roll missed hits on the first turn whether they charged the enemy or were charged."
+        },
+        {
+          "name": "Special Equipment Access",
+          "description": "Saurus-Slayers may purchase the following special equipment:<br /><br />- <strong>Lizardmen Skin Cloak</strong>: Grants 6+ <Tooltip>Ward save</Tooltip>, separate from Armour Save that is not reduced by enemy strength or other modifiers. (10 gc)<br />- <strong>Skull Mask</strong>: Causes <Tooltip>Fear</Tooltip>. (15 gc)<br />- <strong>Upgrade any sword into a Lizardman Sword</strong>: +1 to wound rolls due to Poison. (30 gc)<br />- <strong>Trophy Slann Holy Headdress</strong>: +2 bonus to armour saves. (35 gc)"
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "reaver-beastmaster",
+      "unitType": "Reaver Beastmaster",
+      "cost": 90,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Starting Equipment",
+          "description": "<Tooltip>Heavy Armour</Tooltip>, <Tooltip>Spear</Tooltip>, <Tooltip>Sword</Tooltip>. Further weapons, armour and equipment can be bought from the Reavers Equipment list."
+        },
+        {
+          "name": "War Beasts",
+          "description": "If your Warband includes a Beastmaster, you may include up to 2 War Beasts from the list below. These count towards the maximum size of the Warband. They must be bought when the Warband is created but can be replaced if killed. The War Beasts can use the Ld of the Beastmaster if they are within 6” of the Beastmaster."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 20,
+      "skillLists": [
+        "shooting",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "jungle-shadow",
+      "unitType": "Jungle Shadow",
+      "cost": 90,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Starting Equipment",
+          "description": "<Tooltip>Javelins</Tooltip>, <Tooltip>Light Armour</Tooltip>, two <Tooltip>Daggers</Tooltip>. Further weapons, armour and equipment can be bought from the Reavers Equipment list."
+        },
+        {
+          "name": "Wizard Upgrade",
+          "description": "At the cost of +30 Gold Crowns, you can make Jungle Shadow a Wizard. Jungle Shadow uses the <a href=\"/docs/magic/lesser-magic\">Lesser Magic</a> list. Generate a single Spell as standard for a wizard. If you make the Jungle Shadow a Wizard, remove the Light Armour from the equipment list when starting out, and generate 1 Lesser Magic spell they can use."
+        },
+        {
+          "name": "Silent Hunter",
+          "description": "Jungle Shadow is always considered to be <a href=\"/docs/rules/movement#hiding\">Hidden</a> if the model is touching any piece of terrain of 1” high. Shooting does not reveal Jungle Shadow’s position, though spellcasting does."
+        },
+        {
+          "name": "Surprise attack",
+          "description": "If the Shadow attacks an enemy that has its back turned to the Jungle Shadow (i.e. the shot is coming from 180 degree angle from behind its facing), the Shadow can re-roll missed to hit rolls."
+        },
+        {
+          "name": "Canopy Walker",
+          "description": "Jungle Shadow automatically passes all <a href=\"/docs/rules/movement#climbing\">climbing</a>, <a href=\"/docs/rules/movement#jumping-down\">jumping</a> and <a href=\"/docs/rules/movement#falling\">falling</a> off ledges tests."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 20,
+      "skillLists": [
+        "shooting",
+        "academic",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "trapmaster",
+      "unitType": "Trapmaster",
+      "cost": 140,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Starting Equipment",
+          "description": "<Tooltip>Heavy Armour</Tooltip>, <Tooltip>Sword</Tooltip>, Tilean Hunting Rifle (Treat as <Tooltip>Hochland Long Rifle</Tooltip>), <a href=\"#firepots-miragliano\">Firepots</a>, Leaf Coat (counts as an <Tooltip>Elven Cloak</Tooltip>). Further weapons, armour and equipment can be bought from the Reavers Equipment list."
+        },
+        {
+          "name": "Deadeye",
+          "description": "Trapmaster suffers no penalties for shooting at long range."
+        },
+        {
+          "name": "Traps",
+          "description": "The Trapmaster starts each game with 1 Trap and can buy up to 5 further of the following Traps before the start of the game at the cost of 5 GC each. Each trap is one use only. Traps are used in the Shooting Phase instead of shooting, 1 trap at a time, and cannot be used in Melee combat. When you use a trap, put 2 1” diameter Trap counters (one false, one real) anywhere within 3” of the Trapmaster, but at least 3” away from any other models. Any model that moves within 2” of the counter must flip it over. If it is a false one, nothing happens. If it is a real one, the model suffers D3 S5 Hits immediately. Traps do not cause Criticals. Remove the counters when the trap is sprung."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 17,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "prospects",
+      "unitType": "Prospect",
+      "cost": 35,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "prospect-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Promotion Only",
+          "description": "Re-roll any Lad’s Got Talent results on Henchmen Advancement table. When promoted, you can then hire a new Prospect as the model no longer counts as one of them."
+        }
+      ]
+    },
+    {
+      "id": "estalian-warhound",
+      "unitType": "Estalian Warhound",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 6,
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "5+ armour save",
+          "description": "Beastmasters raise savage Estalian warhounds: giant beasts trained to bring down any prey or enemy, and protected by padded armour to ward off arrows and iron collars against blades."
+        },
+        {
+          "name": "Animal",
+          "description": "All the War Beasts are subject to the rules of Animals and may not gain experience. They suffer injuries exactly as Henchmen (if taken out of action they are dead on a roll of 1-2 on D6)."
+        }
+      ]
+    },
+    {
+      "id": "barbary-monkey",
+      "unitType": "Barbary Monkey",
+      "cost": 40,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 6,
+        "WS": 4,
+        "BS": 0,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 2,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Nimble",
+          "description": "Can climb any sheer surfaces without taking Initiative tests. Can re-roll all failed <a href=\"/docs/rules/movement#diving-charge\">Diving Charge</a> tests. The Monkey can enter buildings unlike other animals. Due to its agility, the Monkey also has a 5+ <Tooltip>Ward save</Tooltip> which it can take against any and all wounds it suffers in Melee combat or from shooting/magic or even falling damage."
+        },
+        {
+          "name": "Animal",
+          "description": "All the War Beasts are subject to the rules of Animals and may not gain experience. They suffer injuries exactly as Henchmen (if taken out of action they are dead on a roll of 1-2 on D6)."
+        }
+      ]
+    },
+    {
+      "id": "tilean-hunting-hawk",
+      "unitType": "Tilean Hunting Hawk",
+      "cost": 30,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 12,
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 3,
+        "W": null,
+        "I": 5,
+        "A": 1,
+        "Ld": null
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Part of the Equipment",
+          "description": "Acts at the same time as the Beastmaster. Can attack any enemy within 12” as a melee attack, even those out of line of sight (unless Hidden), and return to the Beastmaster immediately. The hawk cannot be targeted separately by any attack or spell. The Hawk does not attack if the Beastmaster is engaged in hand-to-hand combat, being too busy to command the hawk!"
+        },
+        {
+          "name": "Animal",
+          "description": "All the War Beasts are subject to the rules of Animals and may not gain experience. They suffer injuries exactly as Henchmen (if taken out of action they are dead on a roll of 1-2 on D6)."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "hero-equipment-list": [
+      "dagger",
+      "sword",
+      "clubMaceHammer",
+      "misericordia",
+      "doubleHandedWeapon",
+      "lance",
+      "javelins",
+      "throwingKnivesStars",
+      "blowpipe",
+      "pistol",
+      "lightArmour",
+      "shield",
+      "helmet",
+      "buckler",
+      "ropeAndHook",
+      "crimsonShade",
+      "darkVenom",
+      "net",
+      "warhorse",
+      "warhound"
+    ],
+    "prospect-equipment-list": [
+      "dagger",
+      "sword",
+      "clubMaceHammer",
+      "spear",
+      "shortBow",
+      "lightArmour",
+      "shield",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "misericordia",
+      "name": "Misericordia",
+      "category": "misc",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "javelins",
+      "name": "Javelins",
+      "category": "missile",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "blowpipe",
+      "name": "Blowpipe",
+      "category": "missile",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "warhound",
+      "name": "Warhound",
+      "category": "misc",
+      "cost": 20,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

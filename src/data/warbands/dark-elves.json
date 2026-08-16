@@ -1,0 +1,376 @@
+{
+  "id": "dark-elves",
+  "name": "Dark Elves",
+  "source": "Town Cryer #12",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "high-born",
+      "unitType": "High Born",
+      "cost": 70,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 5,
+        "WS": 5,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 6,
+        "A": 1,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "dark-elf-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any models in the warband within 6\" of the High Born may use his Leadership instead of their own."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "elf"
+    },
+    {
+      "id": "beastmaster",
+      "unitType": "Beastmaster",
+      "cost": 45,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 6,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "dark-elf-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Cold One Beasthound",
+          "description": "The Beastmaster may be accompanied by up to two Cold One Beasthounds, these are bought as henchmen and follow all rules for listed for them."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "elf"
+    },
+    {
+      "id": "fellblades",
+      "unitType": "Fellblade",
+      "cost": 40,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 5,
+        "WS": 5,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 6,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "dark-elf-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Melee Specialists",
+          "description": "Fellblades live by a strict code of close quarter fighting. Fellblades may not use missile weapons of any sort."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 12,
+      "skillLists": [
+        "combat",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "elf"
+    },
+    {
+      "id": "dark-elf-sorceress",
+      "unitType": "Dark Elf Sorceress",
+      "cost": 55,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 6,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "dark-elf-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Wizard",
+          "description": "The Dark Elf Sorceress is a wizard and uses <a href=\"#dark-elf-magic\">Dark Elf Magic</a>."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 12,
+      "skillLists": [
+        "academic",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "elf"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "corsairs",
+      "unitType": "Corsair",
+      "cost": 35,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 6,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dark-elf-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "shades",
+      "unitType": "Shade",
+      "cost": 30,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "shades-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Natural Stealth",
+          "description": "The first thing that Dark Elf Scouts master is the art of moving without being seen or heard. If a Dark Elf is Hiding, enemy models suffer -1 to their Initiative value for determining if they can detect him."
+        }
+      ]
+    },
+    {
+      "id": "cold-one-beasthounds",
+      "unitType": "Cold One Beasthound",
+      "cost": 30,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 0,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 1,
+        "A": 1,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Animals",
+          "description": "Cold One Beasthounds are animals and all animal rules apply to them, they never gain experience."
+        },
+        {
+          "name": "Beastmaster",
+          "description": "Cold One Beasthounds are nasty viscous brutes that are barely kept under control. If the Beastmaster dies the beasts will immediately escape from the warband and they are removed from the warband roster. If the Beastmaster is unable to participate in a battle, then neither will the beasts."
+        },
+        {
+          "name": "Stupidity",
+          "description": "Cold One Beasthounds may use the basic Leadership of the Beastmaster if they are within 6\" of him. They may never use the Leadership of the warband leader, nor may they benefit from the Beastmaster’s increased Leadership if he is within 6\" of the leader."
+        },
+        {
+          "name": "Scaly Skin",
+          "description": "Cold One Beasthounds have tough scaly skin, and are considered to have a 6+ armour save. This save cannot be modified beyond 6 due to strength modifiers but any result of ‘no save’ on the Critical Hit chart will negate the unmodified 6+ save."
+        },
+        {
+          "name": "Fear",
+          "description": "Cold One Beasthounds cause Fear."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "dark-elf-equipment-list": [
+      "dagger",
+      "axe",
+      "sword",
+      "spear",
+      "halberd",
+      "beastlash",
+      "doubleHandedWeapon",
+      "darkElfBlade",
+      "repeaterCrossbow",
+      "crossbowPistol",
+      "buckler",
+      "shield",
+      "helmet",
+      "lightArmour",
+      "darkVenom",
+      "seaDragonCloak"
+    ],
+    "shades-equipment-list": [
+      "dagger",
+      "axe",
+      "sword",
+      "repeaterCrossbow",
+      "helmet",
+      "lightArmour"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "beastlash",
+      "name": "Beastlash",
+      "category": "misc",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "darkElfBlade",
+      "name": "Dark elf blade",
+      "category": "melee",
+      "cost": null,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

@@ -1,0 +1,357 @@
+{
+  "id": "norse-explorers",
+  "name": "Norse Explorers",
+  "source": "Town Cryer #13, Border Town Burning",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "jarl",
+      "unitType": "Jarl",
+      "cost": 70,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any Warrior within 6“ of the Jarl may use his Leadership instead of his own when taking Ld tests."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "berserkers",
+      "unitType": "Berserker",
+      "cost": 50,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Berserkers",
+          "description": "Berserkers are subject to <Tooltip>frenzy</Tooltip> as detailed in the Psychology section of the Mordheim rulebook."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 11,
+      "skillLists": [
+        "combat",
+        "strength"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "wulfen",
+      "unitType": "Wulfen",
+      "cost": 90,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 6,
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 4,
+        "A": 2,
+        "Ld": 7
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Fear",
+          "description": "Wulfen are terrifying creatures to behold and cause <Tooltip>fear</Tooltip>."
+        },
+        {
+          "name": "Bestial",
+          "description": "Wulfen are ravenous beasts and therefore <em>immune to psychology</em>. Also despite being greatly revered by their barbarian kinsmen, Wulfen are too feral and uncontrolled to become the leader of the warband."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 11,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      }
+    },
+    {
+      "id": "bondsmen",
+      "unitType": "Bondsman",
+      "cost": 15,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [],
+      "isLeader": false,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "marauders",
+      "unitType": "Marauder",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "henchmen-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "hunters",
+      "unitType": "Hunter",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "hunters-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "wolves",
+      "unitType": "Wolf",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 9,
+        "WS": 3,
+        "BS": 0,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Animals",
+          "description": "Wolves are animals and thus do not gain experience."
+        },
+        {
+          "name": "Pack Leader",
+          "description": "Wolves are feral animals that only respond to the strongest in their pack – the Wulfen. In the event that no Wulfen is included in the warband due to a death or an injury, the wolves cannot be used until the creature is replaced."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "hero-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "flail",
+      "throwingKnivesStars",
+      "shield",
+      "helmet",
+      "lightArmour"
+    ],
+    "henchmen-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "throwingKnivesStars",
+      "shield",
+      "helmet",
+      "lightArmour"
+    ],
+    "hunters-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "javelins",
+      "bow",
+      "shield",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "javelins",
+      "name": "Javelins",
+      "category": "missile",
+      "cost": 5,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

@@ -1,0 +1,388 @@
+{
+  "id": "forest-goblins",
+  "name": "Forest Goblins",
+  "source": "Nemesis Crown Supplement",
+  "startingGold": null,
+  "minWarbandSize": null,
+  "maxWarbandSize": null,
+  "heroSlots": [
+    {
+      "id": "chieftain",
+      "unitType": "Chieftain",
+      "cost": 50,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any warrior within 6\" of the Chieftain may use his Leadership characteristic when taking Leadership tests."
+        },
+        {
+          "name": "Ride Spiders",
+          "description": "The Chieftain can ride Giant Spiders and the Gigantic Spider as detailed in the ‘Blazing Saddles’ article."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 17,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "braves",
+      "unitType": "Braves",
+      "cost": 20,
+      "isLargeCreature": false,
+      "maxCount": 4,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Animosity",
+          "description": "Braves are subject to the rules for <Tooltip>Animosity</Tooltip>."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "shaman",
+      "unitType": "Shaman",
+      "cost": 20,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Wizard",
+          "description": "A Shaman begins with one spell randomly chosen from the <a href=\"#forest-goblin-magic\">Forest Goblin</a> Spell list."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 6,
+      "skillLists": [
+        "academic",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "forest-goblins",
+      "unitType": "Forest Goblin",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "henchmen-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Animosity",
+          "description": "Forest Goblins are subject to the rules for <Tooltip>Animosity</Tooltip>."
+        }
+      ]
+    },
+    {
+      "id": "red-toof-goblins",
+      "unitType": "Red Toof Goblin",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "henchmen-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Animosity",
+          "description": "Red Toof Boyz are subject to the rules for <Tooltip>Animosity</Tooltip>."
+        },
+        {
+          "name": "Berserkers",
+          "description": "Forest Goblins of the Red Toof tribe allow themselves to be bitten by all sorts of poisonous wildlife before entering battle. The mingling venom drives them into frothing convulsions, making them extremely ferocious. Red Toof Boyz are affected by the rules for <Tooltip>Frenzy</Tooltip> as described in the Mordheim rulebook. In addition, if they begin their turn within charge range of an enemy, they are immune to animosity for that turn."
+        }
+      ]
+    },
+    {
+      "id": "sluggas",
+      "unitType": "Slugga",
+      "cost": 20,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "henchmen-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Animosity",
+          "description": "Sluggas are subject to the rules for <Tooltip>Animosity</Tooltip>."
+        },
+        {
+          "name": "Sluggas",
+          "description": "In the shooting phase, the Sluggas may throw thrown weapons up to three times. This may not be combined with Quick Shot if they should be promoted to hero status."
+        }
+      ]
+    },
+    {
+      "id": "gigantic-spider",
+      "unitType": "Gigantic Spider",
+      "cost": 200,
+      "isAnimal": true,
+      "isLargeCreature": true,
+      "maxCount": 1,
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 0,
+        "S": 5,
+        "T": 5,
+        "W": 3,
+        "I": 4,
+        "A": 2,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Fear:",
+          "description": "Gigantic Spiders cause <Tooltip>fear</Tooltip> as described in the Mordheim Rulebook."
+        },
+        {
+          "name": "Large Monster:",
+          "description": "Gigantic Spiders are large targets, and may always be shot at."
+        },
+        {
+          "name": "Poisonous:",
+          "description": "The Gigantic Spider’s maw drips with vile poisons. When it wounds an enemy and a roll is made on the injury table, 1: knocked down, 2-4: stunned, and 5-6: Out of Action."
+        },
+        {
+          "name": "Native:",
+          "description": "Negotiating woodlands is no trouble for spiders. They move through any wooded terrain without penalty."
+        },
+        {
+          "name": "Non-sentient:",
+          "description": "Spiders are affected by the <Tooltip>stupidity</Tooltip> rules in the Mordheim rulebook. In addition, they never gain experience, as they are animals. Note however that they may climb as normal."
+        },
+        {
+          "name": "May Ride:",
+          "description": "The Forest Goblin Chieftain, may ride the Gigantic Spider.<sup><Tooltip content=\"err126\">✏️</Tooltip></sup> He gains +1 armour save, and shall\nmove at the Gigantic Spider’s rate of 6. Shooting attacks hit the Chieftain on a die roll of 1-2, and the\nGigantic Spider on a 3-6. In close combat, the opponent may choose which to hit. The Gigantic Spider no longer has to check for <Tooltip>stupidity</Tooltip> if it is being ridden, as the Chieftain is directing its actions."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "hero-equipment-list": [
+      "dagger",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "spear",
+      "halberd",
+      "bossPole",
+      "blowpipe",
+      "shortBow",
+      "lightArmour",
+      "shield"
+    ],
+    "henchmen-equipment-list": [
+      "dagger",
+      "sword",
+      "spear",
+      "blowpipe",
+      "throwingKnivesStars",
+      "bow",
+      "shield"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "bossPole",
+      "name": "Boss pole",
+      "category": "misc",
+      "cost": 20,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "blowpipe",
+      "name": "Blowpipe",
+      "category": "missile",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

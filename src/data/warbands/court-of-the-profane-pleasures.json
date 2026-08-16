@@ -1,0 +1,449 @@
+{
+  "id": "court-of-the-profane-pleasures",
+  "name": "Court of the Profane Pleasures",
+  "source": "Tuomas Pirinen",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "slaaneshi-whipmaster",
+      "unitType": "Slaaneshi Whipmaster",
+      "cost": 70,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "court-of-pleasures-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Agony and Ecstasy",
+          "description": "The Whipmaster who is armed with a Hedonist Whip may decide to use one of its attacks to scourge one friendly model within 3\". This attack automatically hits and has +1 on its rolls to wound. Roll for any injuries as standard. As a reward for such a pious act of devotion, Slaanesh rewards the Whipmaster with a surge of ecstasy that makes the Whipmaster all but invulnerable. The Whipmaster doubles its Toughness. Take a Leadership test at the start of each new turn of the Slaaneshi player. On a failure, this effect ends, though it can be re-activated."
+        },
+        {
+          "name": "Pain and Pleasure",
+          "description": "Whenever the Whipmaster suffers an unsaved wound, they will be subject to the rules of Frenzy until the end of their next turn — this Frenzy is not negated by being Knocked Down or Stunned."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "slaaneshi-danseuse",
+      "unitType": "Slaaneshi Danseuse",
+      "cost": 70,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "court-of-pleasures-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Strange Allure",
+          "description": "An enemy wishing to attack a Danseuse in melee combat or with a missile attack must pass a Leadership test to do so before making its attacks. On a failure, the model must re-roll any successful hits."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "slaaneshi-flesh-merchant",
+      "unitType": "Slaaneshi Flesh Merchant",
+      "cost": 65,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "court-of-pleasures-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Pound of Flesh",
+          "description": "Before the battle, you may decide to give one of the Wretches to the Flesh Merchant to carry as a “meat shield” as part of the Merchant’s Equipment. When the Flesh Merchant suffers a wound for any reason, you may elect to let the slave take the hit instead. In this case the Slave is taken Out of Action and removed from the game. The Wretch can make its normal Attacks in melee if used as a Meat Shield. The model does not have a base of its own, and cannot be targeted by enemy attacks. If the Merchant dies, the Wretch is lost with it."
+        },
+        {
+          "name": "Cruel Fate",
+          "description": "Any captives the warband gains through combat results or exploration can be turned into Wretches at no cost. This is achieved via lobotomy, torture and other acts of depravity."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "slaaneshi-priest-of-obscene",
+      "unitType": "Slaaneshi Priest of Obscene",
+      "cost": 50,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "court-of-pleasures-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Flesh Reserve",
+          "description": "Before the battle, you may decide to give one of the Wretches to the Priest to carry as a “sacrificial pawn” as part of the Priest’s Equipment. When the Priest fails to cast a spell, they can choose to sacrifice the Wretch to re-roll the spell roll. The Wretch can make its normal Attacks in melee until it’s alive. The model does not have a base of its own and cannot be targeted by enemy attacks. If the Priest dies, the Wretch is lost with it."
+        },
+        {
+          "name": "Wizard",
+          "description": "The Priest of Obscene is a Wizard and uses the Chaos Rituals Spell list."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 6,
+      "skillLists": [],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "slaaneshi-devout",
+      "unitType": "Slaaneshi Devout",
+      "cost": 65,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "court-of-pleasures-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Fluctuating Form",
+          "description": "At the beginning of the battle, and every turn in the Recovery phase, if not engaged in close combat, you may choose whether the Devout manifests in male or female aspect. If you choose male, the Devout gains +1 WS, S, A, and T. If you choose female aspect, you gain +1 BS, +2 I, +2 Ld and +2 M."
+        },
+        {
+          "name": "Immune to Psychology",
+          "description": "The Devout is immune to Psychology and all alone tests."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "slaaneshi-chaos-hounds",
+      "unitType": "Slaaneshi Chaos Hound",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 7,
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 3
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Animal",
+          "description": "Chaos Hounds are animals and never gain any experience."
+        }
+      ]
+    },
+    {
+      "id": "slaaneshi-beastmen",
+      "unitType": "Slaaneshi Beastman",
+      "cost": 35,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "court-of-pleasures-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "slaaneshi-wretches",
+      "unitType": "Slaaneshi Wretch",
+      "cost": 10,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "wretches-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Slaves to Darkness",
+          "description": "Wretches are Immune to all psychology and All Alone tests if within 6\" of a friendly Hero. Wretches can’t become Heroes. If you roll The Lad’s Got Talent result on the chart, and then roll it again, the model receives a Serious Injury as if it were a Hero (roll it immediately)."
+        }
+      ]
+    },
+    {
+      "id": "cultists",
+      "unitType": "Cultist",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "court-of-pleasures-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    }
+  ],
+  "equipmentLists": {
+    "court-of-pleasures-equipment-list": [
+      "dagger",
+      "sword",
+      "clubMaceHammer",
+      "hedonistWhip",
+      "slaaneshiMancatcher",
+      "doubleHandedWeapon",
+      "bow",
+      "pistol",
+      "longRifle",
+      "crossbowPistol",
+      "lightArmour",
+      "shield",
+      "buckler",
+      "helmet",
+      "crimsonShade"
+    ],
+    "wretches-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "spear",
+      "shortBow",
+      "shield",
+      "buckler"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "hedonistWhip",
+      "name": "Hedonist whip",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "slaaneshiMancatcher",
+      "name": "Slaaneshi man-catcher",
+      "category": "misc",
+      "cost": 30,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "longRifle",
+      "name": "Long rifle",
+      "category": "missile",
+      "cost": 200,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

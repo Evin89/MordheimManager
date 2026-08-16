@@ -1,0 +1,410 @@
+{
+  "id": "merchant-caravans",
+  "name": "Merchant Caravans",
+  "source": "Border Town Burning",
+  "startingGold": 600,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "merchant",
+      "unitType": "Merchant",
+      "cost": 50,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Merchant",
+          "description": "A Merchant is always the warband's leader. Refer to the special rules for when using a Merchant."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 20,
+      "skillLists": [
+        "shooting",
+        "academic"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "apprentice",
+      "unitType": "Apprentice",
+      "cost": 15,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [],
+      "isLeader": false,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "knights-vanguard",
+      "unitType": "Knights Vanguard",
+      "cost": 45,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "hero-equipment-list",
+        "cathayan-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Lightning Reflexes",
+          "description": "If the Knights Vanguard is charged, he will ‘strike first’ against those that charged that turn. As the charger(s) will also normally ‘strike first’ (for charging), the order of attack between the charger(s) and the Knights Vanguard will be determined by comparing Initiative values."
+        },
+        {
+          "name": "Ride Warhorse",
+          "description": "The Knights Vanguard is trained in riding Warhorses."
+        },
+        {
+          "name": "Hirelings",
+          "description": "The Knights Vanguard is a hireling, paid by the Merchant and therefore can never become the warband's leader."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "magician",
+      "unitType": "Magician",
+      "cost": 40,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "hero-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Wizard",
+          "description": "A Magician is a wizard and uses <a href=\"/docs/magic/lesser-magic\">Lesser Magic</a>. See the Magic section in the Mordheim rulebook for details."
+        },
+        {
+          "name": "Hireling",
+          "description": "The Magician is a hireling, paid by the Merchant. He can never become the warband's leader."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "academic",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "sell-swords",
+      "unitType": "Sell-sword",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "henchman-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "marksmen",
+      "unitType": "Marksmen",
+      "cost": 30,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "henchman-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "blackguards",
+      "unitType": "Blackguard",
+      "cost": 35,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "cathayan-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Strongman",
+          "description": "Blackguards are capable of great feats of strength. They may use a double-handed weapon without the usual penalty of always striking last. Work out the order of battle as you would with other weapons."
+        },
+        {
+          "name": "Unreliable Hirelings",
+          "description": "Blackguards are only hired by the Merchant to serve him by protecting his cargo. They are not much trusted or granted with any responsibilities. Therefore they may never become Heroes. Re-roll all results of ‘The lad’s got talent’ for them."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "hero-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "rapier",
+      "pistol",
+      "duellingPistol",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet",
+      "cathayanSilkCloak",
+      "warhorse",
+      "tradeWagon"
+    ],
+    "henchman-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "pike",
+      "halberd",
+      "crossbow",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet"
+    ],
+    "cathayan-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "doubleHandedWeapon",
+      "dragonSword",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "rapier",
+      "name": "Rapier",
+      "category": "misc",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "cathayanSilkCloak",
+      "name": "Cathayan silk cloak",
+      "category": "armour",
+      "cost": 40,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "tradeWagon",
+      "name": "Trade wagon\\*",
+      "category": "misc",
+      "cost": 180,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "pike",
+      "name": "Pike",
+      "category": "misc",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "dragonSword",
+      "name": "Dragon sword",
+      "category": "melee",
+      "cost": 20,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

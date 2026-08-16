@@ -1,0 +1,300 @@
+{
+  "id": "tileans",
+  "name": "Tileans",
+  "source": "Town Cryer #14",
+  "startingGold": 500,
+  "minWarbandSize": null,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "captain",
+      "unitType": "Captain",
+      "cost": 60,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "tilean-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any warrior within 6\" of the Captain may use his Leadership characteristic when taking Leadership tests."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "champions",
+      "unitType": "Champion",
+      "cost": 35,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "tilean-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "youngbloods",
+      "unitType": "Youngblood",
+      "cost": 15,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "tilean-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [],
+      "isLeader": false,
+      "startingXp": 0,
+      "skillLists": [],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "warriors",
+      "unitType": "Warrior",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "tilean-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "marksmen",
+      "unitType": "Marksman",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 7,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "marksman-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "duelists",
+      "unitType": "Duelist",
+      "cost": 35,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "tilean-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Cloak & Dagger",
+          "description": "Duellists are adept at fighting using their billowing cloaks to swirl at an enemy distracting him and warding off blows. The Duellist counts as using a buckler<sup><Tooltip customText=\"The Town Cryer 14 Tilean rules stated 'shield', but the original <a href='https://www.reddit.com/r/mordheim/comments/bdy14n/comment/el479by/?utm_source=share&utm_medium=web2x&context=3'>submission</a> for the warband informed the player: 'All duelists are subject to the special rules and items that appear in issue 13 of the Town Cryer...' where the duellist cloak counts as a buckler.\">✏️</Tooltip></sup> in close combat."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "tilean-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "halberd",
+      "pike",
+      "morningStar",
+      "doubleHandedWeapon",
+      "rapier",
+      "crossbow",
+      "pistol",
+      "duellingPistol",
+      "bow",
+      "lightArmour",
+      "shield",
+      "buckler",
+      "helmet"
+    ],
+    "marksman-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "crossbow",
+      "pistol",
+      "duellingPistol",
+      "longBow",
+      "handgun",
+      "huntingRifle",
+      "lightArmour",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "pike",
+      "name": "Pike",
+      "category": "misc",
+      "cost": 12,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "rapier",
+      "name": "Rapier",
+      "category": "misc",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

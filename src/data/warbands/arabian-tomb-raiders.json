@@ -1,0 +1,311 @@
+{
+  "id": "arabian-tomb-raiders",
+  "name": "Arabian Tomb Raiders",
+  "source": "Town Cryer #20",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "sheikh",
+      "unitType": "Sheikh",
+      "cost": 60,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "warrior-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "The Sheikh is the leader of the Warband and any Tomb Raiders within 6\" may use his Leadership characteristic for any Leadership tests."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "champion",
+      "unitType": "Champion",
+      "cost": 40,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "warrior-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "mystic",
+      "unitType": "Mystic",
+      "cost": 40,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "warrior-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Wizard",
+          "description": "A Mystic is a Wizard. He uses spells from the <a href=\"#arabian-elemental-magic\">Elemental Magic</a> list. He starts with a single spell chosen at random from the list."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "academic",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "bedouin",
+      "unitType": "Bedouin",
+      "cost": 35,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "warrior-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Desert Trader",
+          "description": "Add +1 to your search for Equipping/Trading result. Note that you only get +1 even if you have two Bedouins."
+        }
+      ]
+    },
+    {
+      "id": "nomad-warriors",
+      "unitType": "Nomad Warrior",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "warrior-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "slaves",
+      "unitType": "Slave",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "slave-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Life of Slavery",
+          "description": "A Slave may gain experience, but if he rolls Lad’s got Talent, the leader executes the Slave, and he is removed from the roster. The rest of the group may then re-roll their advance."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "warrior-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "spear",
+      "flail",
+      "doubleHandedWeapon",
+      "shortBow",
+      "bow",
+      "tufenk",
+      "handgun",
+      "shield",
+      "buckler",
+      "helmet",
+      "lightArmour"
+    ],
+    "slave-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "katar",
+      "sword",
+      "spear",
+      "shield"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "tufenk",
+      "name": "Tufenk",
+      "category": "misc",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "katar",
+      "name": "Katar",
+      "category": "misc",
+      "cost": 5,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}

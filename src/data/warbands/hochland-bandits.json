@@ -1,0 +1,463 @@
+{
+  "id": "hochland-bandits",
+  "name": "Hochland Bandits",
+  "source": "Nemesis Crown Supplement",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "bandit-prince",
+      "unitType": "Bandit Prince",
+      "cost": 60,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipmentOptions": [
+        "bandit-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Leader",
+          "description": "Any warrior within 6\" of the Bandit Prince may use his Leadership characteristic when taking any Leadership tests."
+        }
+      ],
+      "isLeader": true,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "footpads",
+      "unitType": "Footpad",
+      "cost": 45,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "bandit-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Concealment",
+          "description": "Enemy warriors often find it difficult to detect a Footpad until he strikes. If an enemy warrior wishes to charge a Footpad that he cannot see (but was not declared as Hidden), he must subtract 1 from his Initiative before making his Initiative test. Note that a roll of ‘6’ always fails when rolling to charge a Footpad that the warrior cannot see. Also, models halve their Initiative when checking the range to see if they can detect a Footpad who has been declared as Hiding."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "duelist",
+      "unitType": "Duelist",
+      "cost": 45,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "duelist-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Swordmaster",
+          "description": "In order to remain alive, a Duelist picks up swordfighting techniques that few others master. The Duelist successfully parries an enemy blow on a roll equal to or over the roll to hit, not just over the roll as with normal parries. Obviously a Duelist must first be armed with a weapon or armour that allows him to Parry in order to use this rule."
+        },
+        {
+          "name": "Weapon Knowledge",
+          "description": "A Duelist must be prepared to fight an opponent with any weapon at any time, so a working knowledge of even exotic weapons is critical for his survival. The weapons in the Bandit equipment chart merely represent the weapons a Duelist may start with. A Duelist may use any close combat or missile weapon that the warband members can get hold of."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 12,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    },
+    {
+      "id": "huckster",
+      "unitType": "Huckster",
+      "cost": 40,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 2,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "coward-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Convincing Manner",
+          "description": "Hucksters specialize in convincing strangers of their benevolent intentions. When an enemy warrior attempts to charge a member of the huckster’s warband within 12” of the huckster, the enemy must first pass a successful Leadership test. If the warrior fails the test he may not charge and remains stationary for the turn (treat as a failed charge), exactly as if he had failed a test to charge a Fear-causing enemy. Note that individuals subject to <Tooltip>stupidity</Tooltip> and animals are immune to this effect (they are too stupid to understand what the huckster is saying)."
+        },
+        {
+          "name": "Slick Operator",
+          "description": "In between games the player may choose to have the huckster run a con on the local inhabitants of the region. Roll a D6: On a result of 2-6, the con is successful and the warband gains 2D6 gold (the huckster keeps the rest). However, on a result of 1 the huckster’s con has backfired and he is on the run (he misses the next game and no gold is received by the warband)."
+        }
+      ],
+      "isLeader": false,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "academic"
+      ],
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "racialProfile": "human"
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "thugs",
+      "unitType": "Thug",
+      "cost": 30,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "bandit-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": []
+    },
+    {
+      "id": "looters",
+      "unitType": "Looter",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 4,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "coward-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Looting the Dead",
+          "description": "Normally when a warrior is killed or his wounds cause him to leave the warband and he is taken off the warband’s roster, all of his equipment is lost. However, some unscrupulous individuals will stoop to robbing a dead or incapacitated warrior, thereby gaining his equipment for themselves. When rolling for warriors who were taken Out of Action at the end of a battle, the Bandit player may roll a D6 for any warriors who are to be removed from their warband’s roster. On a roll of 4+ the looter has taken all of the warrior’s equipment — it is the Bandit player’s to keep. Failure indicates that the Looter either didn’t notice the warrior going down, or he didn’t get the opportunity to rob the body. Obviously any warrior can only be looted once, but multiple Looters allow the Bandit player multiple chances that his warband members got the equipment off of each downed warrior. Note also that warriors to be looted can be from any warband participating in the game, including the Bandit warband — Bandits are certainly not above looting their own dead!"
+        }
+      ]
+    },
+    {
+      "id": "blackhearts",
+      "unitType": "Blackheart",
+      "cost": 35,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "bandit-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Hardened",
+          "description": "Blackhearts are not as put off by the evils of the world when they come across them… in fact persons of this nature are often more uncomfortable around situations where warmth and love are in abundance! Blackhearts are immune to Fear, and never have to take All-Alone tests (they prefer to work alone anyway…)."
+        }
+      ]
+    },
+    {
+      "id": "poachers",
+      "unitType": "Poacher",
+      "cost": 35,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "poacher-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Trailblazers",
+          "description": "Poachers are experts at finding new game or safe campsites for the warband. In the game this is represented by allowing the warband to reroll one D6 for each Poacher in the Exploration phase. Poachers are not as good as Elf Rangers for scouting, but they are often darned close!"
+        }
+      ]
+    },
+    {
+      "id": "gutterscum",
+      "unitType": "Gutterscum",
+      "cost": 10,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "coward-equipment-list"
+      ],
+      "notes": "",
+      "specialRules": [
+        {
+          "name": "Utterly Inept",
+          "description": "Gutterscum have turned to a life of crime because they lack the ability to fit into normal society. They lack both the ambition and the capacity for self-improvement. Gutterscum do not gain experience."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "bandit-equipment-list": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "throwingKnivesStars",
+      "lightArmour",
+      "shield",
+      "helmet"
+    ],
+    "duelist-equipment-list": [
+      "dagger",
+      "rapier",
+      "mainGauche",
+      "sword",
+      "spear",
+      "pistol",
+      "duellingPistol",
+      "shield",
+      "buckler"
+    ],
+    "coward-equipment-list": [
+      "dagger",
+      "spear",
+      "sling"
+    ],
+    "poacher-equipment-list": [
+      "dagger",
+      "spear",
+      "shortBow",
+      "bow",
+      "longBow",
+      "crossbow",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "rapier",
+      "name": "Rapier",
+      "category": "misc",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    },
+    {
+      "id": "mainGauche",
+      "name": "Main gauche",
+      "category": "misc",
+      "cost": 7,
+      "rarity": null,
+      "restriction": "",
+      "rulesText": ""
+    }
+  ],
+  "specialRules": ""
+}
