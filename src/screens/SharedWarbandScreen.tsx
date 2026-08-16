@@ -2,8 +2,10 @@ import { Link, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import ProfileBlock from '../components/ProfileBlock';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
+import { WarbandThumb } from '../components/WarbandPhoto';
 import { strings } from '../strings';
 import { useSharedWarbandQuery, useWarband } from '../hooks/useWarbands';
+import { useRosterPhotos } from '../hooks/usePhotos';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { modelDisplayName } from '../lib/modelNames';
@@ -28,6 +30,7 @@ function SharedModelCard({
   xp,
   members,
   memberLabel,
+  photoUrl,
 }: {
   name: string;
   subtitle: string;
@@ -39,13 +42,19 @@ function SharedModelCard({
   /** Henchmen only: how many models stand behind this one card. */
   members?: number;
   memberLabel?: string;
+  /** Signed and resolved by the parent; absent for a viewer without read access
+   * to the photo (an anonymous gallery visitor — photos are signed-in only). */
+  photoUrl?: string;
 }) {
   return (
     <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
       <div className="flex items-center justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-bone-100 font-semibold truncate">{name}</p>
-          <p className="text-bone-300 text-sm truncate">{subtitle}</p>
+        <div className="flex items-center gap-3 min-w-0">
+          <WarbandThumb url={photoUrl} alt={strings.photo.alt(name)} shape="square" />
+          <div className="min-w-0">
+            <p className="text-bone-100 font-semibold truncate">{name}</p>
+            <p className="text-bone-300 text-sm truncate">{subtitle}</p>
+          </div>
         </div>
         <p className="text-bone-300 text-sm shrink-0">{xp} XP</p>
       </div>
@@ -98,6 +107,10 @@ export default function SharedWarbandScreen() {
   // The standings table links every warband here, including your own — so this
   // screen has to know when it's showing you back to yourself.
   const isMine = useWarband(warbandId) !== undefined;
+  // Keyed by model id (the group shot lives under ''). Resolves to nothing for
+  // an anonymous visitor, since photos are readable only when signed in (§11.5),
+  // so the cards simply show no portrait rather than erroring.
+  const photos = useRosterPhotos(warbandId);
 
   if (isLoading) {
     return (
@@ -159,6 +172,7 @@ export default function SharedWarbandScreen() {
                   skills={hero.skills}
                   injuries={hero.injuries}
                   xp={hero.xp}
+                  photoUrl={photos[hero.id]}
                 />
               ))}
             </div>
@@ -179,6 +193,7 @@ export default function SharedWarbandScreen() {
                   xp={group.xp}
                   members={group.count}
                   memberLabel={group.unitType}
+                  photoUrl={photos[group.id]}
                 />
               ))}
             </div>
@@ -199,6 +214,7 @@ export default function SharedWarbandScreen() {
                   skills={sword.skills}
                   injuries={sword.injuries}
                   xp={sword.xp}
+                  photoUrl={photos[sword.id]}
                 />
               ))}
             </div>

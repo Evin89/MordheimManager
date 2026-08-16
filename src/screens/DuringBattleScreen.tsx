@@ -3,6 +3,8 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import DiceRoller from '../components/DiceRoller';
 import ProfileBlock from '../components/ProfileBlock';
+import { WarbandThumb } from '../components/WarbandPhoto';
+import { useRosterPhotos } from '../hooks/usePhotos';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { strings } from '../strings';
 import {
@@ -84,6 +86,7 @@ function RosterCard({
   skills,
   detailLink,
   outOfAction,
+  photoUrl,
 }: {
   name: string;
   subtitle: string;
@@ -92,6 +95,8 @@ function RosterCard({
   skills?: string[];
   detailLink: string;
   outOfAction?: OutOfActionControl;
+  /** Signed model portrait, resolved by the parent; absent when there is none. */
+  photoUrl?: string;
 }) {
   const anyDown =
     outOfAction &&
@@ -104,9 +109,12 @@ function RosterCard({
       }`}
     >
       <div className="flex items-center justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-bone-100 font-semibold truncate">{name}</p>
-          <p className="text-bone-300 text-sm truncate">{subtitle}</p>
+        <div className="flex items-center gap-3 min-w-0">
+          <WarbandThumb url={photoUrl} alt={strings.photo.alt(name)} shape="square" />
+          <div className="min-w-0">
+            <p className="text-bone-100 font-semibold truncate">{name}</p>
+            <p className="text-bone-300 text-sm truncate">{subtitle}</p>
+          </div>
         </div>
         <Link to={detailLink} className="inline-flex items-center min-h-[44px] text-ember-400 text-xs font-semibold shrink-0">
           {strings.battle.duringBattle.viewFullDetails}
@@ -154,6 +162,9 @@ function RosterReference({
   onTallyChange?: (next: OutOfActionTally) => void;
 }) {
   const interactive = tally !== undefined && onTallyChange !== undefined;
+  // Keyed by model id (group shot under ''). Runs for the opponent's warband
+  // too — a campaign-mate can read it, so their portraits show here as well.
+  const photos = useRosterPhotos(warband.id);
 
   function toggleId(key: 'heroIds' | 'hiredSwordIds', id: string) {
     if (!tally || !onTallyChange) return;
@@ -180,6 +191,7 @@ function RosterReference({
           equipment={hero.equipment}
           skills={hero.skills}
           detailLink={`/warbands/${warband.id}/hero/${hero.id}`}
+          photoUrl={photos[hero.id]}
           outOfAction={
             interactive
               ? {
@@ -199,6 +211,7 @@ function RosterReference({
           stats={group.stats}
           equipment={group.equipment}
           detailLink={`/warbands/${warband.id}/henchmen/${group.id}`}
+          photoUrl={photos[group.id]}
           outOfAction={
             interactive
               ? {
@@ -220,6 +233,7 @@ function RosterReference({
           equipment={sword.equipment}
           skills={sword.skills}
           detailLink={`/warbands/${warband.id}/hired-sword/${sword.id}`}
+          photoUrl={photos[sword.id]}
           outOfAction={
             interactive
               ? {
