@@ -245,6 +245,9 @@ export function generateDemoDatabase(seed = 20260802): DemoDatabase {
       joinCode: joinCode(rng),
       createdBy: leader.id,
       notes: '',
+      pinnedAnnouncement:
+        c === 0 ? 'Next game night is Friday at the shop — bring your rosters!' : null,
+      pinnedAnnouncementAt: c === 0 ? new Date().toISOString() : null,
     });
 
     roster.forEach((u, i) => {

@@ -1,0 +1,774 @@
+{
+  "schemaVersion": 1,
+  "source": "The New Mordheimer scenario compendium (MordheimerData/Sourcedata scenarios.json). App-tracked Experience awards folded in from scenarios.json where the names match.",
+  "entries": [
+    {
+      "id": "scenario-defend-the-find",
+      "title": "Defend the Find",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Mordheim Rulebook",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nDefend a building from attackers.\n\nExperience:\n+1 — Winning Leader (The leader of the winning warband.)\n+1 — Per Enemy Out of Action (Any Hero, for each enemy he puts out of action.)\n+1 — Survives (applies to every scenario)"
+    },
+    {
+      "id": "scenario-skirmish",
+      "title": "Skirmish",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Mordheim Rulebook",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nBrawl between rival warbands.\n\nExperience:\n+1 — Winning Leader (The leader of the winning warband.)\n+1 — Per Enemy Out of Action (Any Hero, for each enemy he puts out of action.)\n+1 — Survives (applies to every scenario)"
+    },
+    {
+      "id": "scenario-wyrdstone-hunt",
+      "title": "Wyrdstone Hunt",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Mordheim Rulebook",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nGain wealth by picking up wyrdstone.\n\nExperience:\n+1 — Winning Leader (The leader of the winning warband.)\n+1 — Per Wyrdstone Counter (If carrying a Wyrdstone counter at the end of the battle.)\n+1 — Per Enemy Out of Action (Any Hero, for each enemy he puts out of action.)\n+1 — Survives (applies to every scenario)"
+    },
+    {
+      "id": "scenario-breakthrough",
+      "title": "Breakthrough",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Mordheim Rulebook",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nThe attacker needs to reach the other side of the board.\n\nExperience:\n+1 — Winning Leader (The leader of the winning warband.)\n+1 — Per Enemy Out of Action (Any Hero, for each enemy he puts out of action.)\n+1 — Breaking Through (Any warrior for breaking through enemy lines (whole group if a Henchman).)\n+1 — Survives (applies to every scenario)"
+    },
+    {
+      "id": "scenario-street-fight",
+      "title": "Street Fight",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Mordheim Rulebook",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nBoth warbands try to reach the other side of the street.\n\nExperience:\n+1 — Winning Leader (The leader of the winning warband.)\n+1 — Per Enemy Out of Action (Any Hero, for each enemy he puts out of action.)\n+1 — Escaping (The first Hero from either side (not both) who exits via the opposing table edge.)\n+1 — Survives (applies to every scenario)"
+    },
+    {
+      "id": "scenario-chance-encounter",
+      "title": "Chance Encounter",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Mordheim Rulebook",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nTwo warbands try to steal each other's wyrdstone.\n\nExperience:\n+1 — Winning Leader (The leader of the winning warband.)\n+1 — Per Enemy Out of Action (Any Hero, for each enemy he puts out of action.)\n+1 — Survives (applies to every scenario)"
+    },
+    {
+      "id": "scenario-hidden-treasure",
+      "title": "Hidden Treasure",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Mordheim Rulebook",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nSearch the buildings for a hidden treasure.\n\nExperience:\n+1 — Winning Leader (The leader of the winning warband.)\n+1 — Per Enemy Out of Action (Any Hero, for each enemy he puts out of action.)\n+2 — Finding the Chest (The Hero who finds the treasure chest.)\n+1 — Survives (applies to every scenario)"
+    },
+    {
+      "id": "scenario-occupy",
+      "title": "Occupy",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Mordheim Rulebook",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nBoth warbands try to capture as many buildings as they can.\n\nExperience:\n+1 — Winning Leader (The leader of the warband controlling the most buildings at the end (no bonus if tied).)\n+1 — Per Enemy Out of Action (Any Hero, for each enemy he puts out of action.)\n+1 — Survives (applies to every scenario)"
+    },
+    {
+      "id": "scenario-surprise-attack",
+      "title": "Surprise Attack",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Mordheim Rulebook",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nThe Defender tries to fend off the attacker and starts with limited numbers.\n\nExperience:\n+1 — Winning Leader (The leader of the winning warband.)\n+1 — Per Enemy Out of Action (A Hero, for each enemy he puts out of action.)\n+1 — Survives (applies to every scenario)"
+    },
+    {
+      "id": "scenario-treasure-hunt",
+      "title": "Treasure Hunt",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #5",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nMultiplayer. Similar to Wyrdstone Hunt."
+    },
+    {
+      "id": "scenario-street-brawl",
+      "title": "Street Brawl",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #5",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nMultiplayer. Similar to Skirmish."
+    },
+    {
+      "id": "scenario-the-lost-prince",
+      "title": "The Lost Prince",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #5",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nThe warbands have heard rumours that a powerful man's son has wandered into the ruins and a handsome reward will be paid for his return."
+    },
+    {
+      "id": "scenario-the-wizard-s-mansion",
+      "title": "The Wizard's Mansion",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #5",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nMultiplayer. Similar to Skirmish with items at stake."
+    },
+    {
+      "id": "scenario-the-pool",
+      "title": "The Pool",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #5",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nMultiplayer. Root around for Wyrdstone in a pool in the centre of the table."
+    },
+    {
+      "id": "scenario-ambush",
+      "title": "Ambush!",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #5",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nMultiplayer. Wyrdstone carrying defenders have to get off the table alive."
+    },
+    {
+      "id": "scenario-monster-hunt",
+      "title": "Monster Hunt",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #5",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nMultiplayer. Warbands team up (or not) to take on a monster."
+    },
+    {
+      "id": "scenario-kidnapped",
+      "title": "Kidnapped",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #6",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nPossessed vs. any warband. Rescue a fair maiden before she gets sacrificed or sacrifice a fair maiden before she gets rescued, depending on your mood."
+    },
+    {
+      "id": "scenario-rat-attack",
+      "title": "Rat Attack",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #7",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nSkaven vs. any warband. Sewers. Defender must escape from opposite table edge. Skaven uses a mixture of decoy counters and warband counters to confuse the enemy."
+    },
+    {
+      "id": "scenario-scourge-purge",
+      "title": "Scourge & Purge",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #7",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nWitch Hunters vs. any warband. Skirmish in the company of a possessed wizard."
+    },
+    {
+      "id": "scenario-surrounded",
+      "title": "Surrounded",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #7",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nSewers. Defender must escape from centre of sewer network."
+    },
+    {
+      "id": "scenario-forbidden-square",
+      "title": "Forbidden Square",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #8",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nA Witch Hunter Warband has been sent into a specific part of the City of the Damned by prominent members of the Order of the Templars of Sigmar."
+    },
+    {
+      "id": "scenario-stake-out",
+      "title": "Stake-Out",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #8",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nSneaky attackers must kill the leader of the startled defenders. Defenders' leader must escape from table."
+    },
+    {
+      "id": "scenario-the-lair-of-the-snake",
+      "title": "The Lair of the Snake",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #9",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nFour player scenario. Each player must take out his randomly specified enemy."
+    },
+    {
+      "id": "scenario-the-script-of-sigmar",
+      "title": "The Script of Sigmar",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #9",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nWitch Hunters vs. Sisters of Sigmar. Two linked scenarios involving burgling the Sisters' Abbey."
+    },
+    {
+      "id": "scenario-that-s-all-mine",
+      "title": "That's All Mine",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #10",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nAttackers blow up a mine using gunpowder rules from Archive Pestilens (shamefully not described in the magazine) amid some random zombie shenanigans."
+    },
+    {
+      "id": "scenario-the-caravan",
+      "title": "The Caravan",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #11",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nEscort or rob a merchant's caravan train."
+    },
+    {
+      "id": "scenario-the-secrets-of-beujuntae",
+      "title": "The Secrets of Beujuntae",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #12",
+      "body": "(Players: 1v1,Multiplayer · Setting: Lustria)\n\nWyrdstone Hunt while a Daemon spirit flits around possessing random Heroes."
+    },
+    {
+      "id": "scenario-jungle-skirmish-the-fog-of-war",
+      "title": "Jungle Skirmish / The Fog of War",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #12",
+      "body": "(Players: 1v1,Multiplayer · Setting: Lustria)\n\nLight fog affecting movement and missile range."
+    },
+    {
+      "id": "scenario-island-hopping",
+      "title": "Island Hopping",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #12",
+      "body": "(Players: 1v1,Multiplayer · Setting: Lustria)\n\nIslands in a fast flowing river connected by bridges. Control as many as possible."
+    },
+    {
+      "id": "scenario-the-night-of-the-headless-one",
+      "title": "The Night Of The Headless One",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #12",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nHidden Treasure except warbands look for skull of the Headless One while its awesome original owner creates carnage."
+    },
+    {
+      "id": "scenario-the-hunters-become-the-hunted",
+      "title": "The Hunters Become The Hunted",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #13",
+      "body": "(Players: 1v1,Multiplayer · Setting: Lustria)\n\nSimilar to Surprise Attack."
+    },
+    {
+      "id": "scenario-lost-temple-of-the-slann",
+      "title": "Lost Temple Of The Slann",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #13",
+      "body": "(Players: 1v1,Multiplayer · Setting: Lustria)\n\nSimilar to Wizard's Mansion."
+    },
+    {
+      "id": "scenario-the-sword-of-the-herald",
+      "title": "The Sword of the Herald",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #13",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nMultiplayer scenario involving a mean sword, huge chunks of Wyrdstone & those ever-popular random zombies."
+    },
+    {
+      "id": "scenario-finders-keepers",
+      "title": "Finders Keepers",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #14",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nRun the length of the table, grab the Wyrdstone & run back again while trying not to die. Designed for mounted warriors but doesn't have to be."
+    },
+    {
+      "id": "scenario-mule-train",
+      "title": "Mule Train",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #14",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nThe good guys try to lead the mule train along a country road while the bad guys try to steal them."
+    },
+    {
+      "id": "scenario-death-in-the-mists",
+      "title": "Death in the Mists",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #15",
+      "body": "(Players: 1v1 · Setting: Albion)\n\nVisibility reduced to 2D6\". Warriors might get lost."
+    },
+    {
+      "id": "scenario-gift-of-the-truthsayers",
+      "title": "Gift of the Truthsayers",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #15",
+      "body": "(Players: 1v1 · Setting: Albion)\n\nScrap over a magic item with random boggy happenings."
+    },
+    {
+      "id": "scenario-the-mummy",
+      "title": "The Mummy",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #15",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nHidden Treasure except warbands look for the stash of a mummy while its scary original owner plus friends have their say."
+    },
+    {
+      "id": "scenario-the-ogham-stones",
+      "title": "The Ogham Stones",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #15",
+      "body": "(Players: 1v1 · Setting: Albion)\n\nEnhance powers for spell-casters with Truthsayers & Dark Emissaries tagging along for good measure."
+    },
+    {
+      "id": "scenario-haunted-treasure",
+      "title": "Haunted Treasure",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #18",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nSerious treasure guarded by equally serious Banshee."
+    },
+    {
+      "id": "scenario-a-night-in-the-graveyard",
+      "title": "A Night In The Graveyard",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #19",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nWarbands compete to plunder a dead man's grave while his restless spirit attempts to stop them."
+    },
+    {
+      "id": "scenario-bar-room-brawl",
+      "title": "Bar Room Brawl",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #19",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nA bar room brawl. Players start with 3 warriors in bar with more arriving during battle."
+    },
+    {
+      "id": "scenario-defend-the-oasis",
+      "title": "Defend the Oasis",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #19",
+      "body": "(Players: 1v1 · Setting: Khemri)\n\nAttackers must get more men within 6\" of a well than the defenders. Defenders must cause a rout test."
+    },
+    {
+      "id": "scenario-tomb-raid",
+      "title": "Tomb Raid",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #19",
+      "body": "(Players: 1v1,Multiplayer · Setting: Khemri)\n\nAs Defend The Tomb except the chest begins in the middle of the complex while both warbands begin at the edges."
+    },
+    {
+      "id": "scenario-protect-the-prince",
+      "title": "Protect the Prince",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #19",
+      "body": "(Players: 1v1,Multiplayer · Setting: Khemri)\n\nProtect the Merchant's son."
+    },
+    {
+      "id": "scenario-burn-the-witches",
+      "title": "Burn the Witches",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #20",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nSet in a huge temple which burns to the ground during the battle. Defender's Heroes must carry three relics from the temple. Attackers must stop them."
+    },
+    {
+      "id": "scenario-one-man-s-rescue-is-another-man-s-kidnap",
+      "title": "One Man's Rescue is Another Man's Kidnap",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #20",
+      "body": "(Players: 1v1 · Setting: Khemri)\n\nA prisoner is being guarded within one of several tents. The attacker must find the prisoner by entering the correct tent and then escort him from the table."
+    },
+    {
+      "id": "scenario-the-gauntlet",
+      "title": "The Gauntlet",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #21",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nClassic Indiana Jones stuff. Warbands race along trap-laden corridors towards a great treasure. For 2+ warbands."
+    },
+    {
+      "id": "scenario-assault-on-the-rock",
+      "title": "Assault on the Rock",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #22",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nWarbands infiltrate the Sisters' rock and attempt to steal a magical tome."
+    },
+    {
+      "id": "scenario-in-the-dead-of-the-night",
+      "title": "In The Dead Of The Night",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #22",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nSet in Mordheim's Cemetery of Saint Voller. Graveyard battle with Undead warband, half is which is unavailable, as the defenders."
+    },
+    {
+      "id": "scenario-a-stroll-in-the-garden",
+      "title": "A Stroll In The Garden",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #23",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nSkirmish set in Mordheim's Steinhardt Memorial Gardens. Warriors within 2â€ of a tree or bush receive hits from the chaos-wracked foliage."
+    },
+    {
+      "id": "scenario-the-bodyguards",
+      "title": "The Bodyguards",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #23",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nTown Cryer edit of \"Now Keep Me Safe, You Hear!?\""
+    },
+    {
+      "id": "scenario-blood-hunt",
+      "title": "Blood Hunt",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #25",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nClashing warbands gain the help of a Dramatis Personae, most likely Johann The Knife & Marriana Chevaux, free of charge."
+    },
+    {
+      "id": "scenario-bounty-hunting",
+      "title": "Bounty Hunting",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #25",
+      "body": "(Players: 1v1,Multiplayer · Setting: The Empire)\n\nAn Empire In Flames scenario. Warbands attempt to round up a gang of bandits who are holed up in a remote hideout building."
+    },
+    {
+      "id": "scenario-down-at-the-docks",
+      "title": "Down At The Docks",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #25",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nWarbands must attempt to gain cargo crates from smugglers' ship by carrying them off."
+    },
+    {
+      "id": "scenario-lost-in-the-bogs",
+      "title": "Lost In The Bogs",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #25",
+      "body": "(Players: 1v1,Multiplayer · Setting: The Empire)\n\nAn Empire In Flames scenario. Highest rated warband is lost & must be deployed spread out."
+    },
+    {
+      "id": "scenario-stagecoash-ambush",
+      "title": "Stagecoash Ambush",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #25",
+      "body": "(Players: 1v1 · Setting: The Empire)\n\nAn Empire In Flames scenario. Defenders on horseback must protect a stagecoach from mounted attackers."
+    },
+    {
+      "id": "scenario-the-item-lost",
+      "title": "The Item Lost",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #25",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nNicodemus joins one warband in an attempt to retrieve a magic wand. Naturally the other warbands would like the wand for themselves."
+    },
+    {
+      "id": "scenario-the-thing-in-the-woods",
+      "title": "The Thing In The Woods",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #25",
+      "body": "(Players: 1v1,Multiplayer · Setting: The Empire)\n\nAn Empire In Flames scenario. At least 1/2 the terrain is spooky fear-inducing woods."
+    },
+    {
+      "id": "scenario-gathering-of-the-horde",
+      "title": "Gathering of the Horde",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #26",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nMassive multi-warband gang fight based upon the â€œGangs Of New Yorkâ€ film, complete with special rules for horde fighting."
+    },
+    {
+      "id": "scenario-the-watchers",
+      "title": "The Watchers",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #26",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nWarbands attempt to gather random treasures from the SE quarter of Mordheim (right next to where the comet landed)."
+    },
+    {
+      "id": "scenario-the-frenzied-mob",
+      "title": "The Frenzied Mob",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #27",
+      "body": "(Players: 1v1,Multiplayer · Setting: The Empire)\n\nAn Empire In Flames scenario. Warbands attempt to loot a village consisting of D3+1 buildings. Each building is staunchly defended by D3+1 frenzied villagers."
+    },
+    {
+      "id": "scenario-encampment-raid",
+      "title": "Encampment Raid",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #28",
+      "body": "(Players: 1v1 · Setting: The Empire)\n\nAttackers attempt to take the defenders' camp. Plays as Defend The Find except the defenders have a number of advantages due to being on home turf."
+    },
+    {
+      "id": "scenario-the-rat-s-lair",
+      "title": "The Rat's Lair",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Town Cryer #28",
+      "body": "(Players: Multiplayer #28 · Setting: Mordheim)\n\nDesigned for several warbands to ally against a pack of Skaven run by a moderator. The warbands descend into an ingenious multi-leveled underground lair."
+    },
+    {
+      "id": "scenario-upon-the-eerie-downs",
+      "title": "Upon the Eerie Downs",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Magazine #1",
+      "body": "(Players: 1v1,Multiplayer · Setting: The Empire)\n\nA sombre and mysterious place, the Eerie Downs holds a palpable dread for the folk of the Mark."
+    },
+    {
+      "id": "scenario-battle-for-the-farm",
+      "title": "Battle for the Farm",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Magazine #1",
+      "body": "(Players: 1v1,Multiplayer · Setting: The Empire)\n\nThere are many farmsteads around Ostermark. Mercenaries and brigands are drawn to them like moths to the flame as."
+    },
+    {
+      "id": "scenario-blood-on-the-pasturelands",
+      "title": "Blood on the Pasturelands",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Magazine #3",
+      "body": "(Players: 1v1,Multiplayer · Setting: The Empire)\n\nRival warbands attempt to rustle some horses from a pasture. The frightened horses run randomly and need taming once caught. They are defended by six Outriders."
+    },
+    {
+      "id": "scenario-through-black-fire-pass",
+      "title": "Through Black Fire Pass",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Magazine #3",
+      "body": "(Players: 1v1 · Setting: The Empire)\n\nOne warband ambushes another as they make their way along the treacherous trade route."
+    },
+    {
+      "id": "scenario-brigands-in-the-pasturelands",
+      "title": "Brigands in the Pasturelands",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Magazine #4",
+      "body": "(Players: 1v1 · Setting: The Empire)\n\nOne warband attempts to hunt down the other, a lawless band of brigands hiding out In the forest."
+    },
+    {
+      "id": "scenario-the-watchtower",
+      "title": "The Watchtower",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Magazine #4",
+      "body": "(Players: 1v1 · Setting: The Empire)\n\nHalf of the defending warband starts on or near a well-defended central tower (with special rules to reflect this)."
+    },
+    {
+      "id": "scenario-wolf-hunt",
+      "title": "Wolf Hunt!",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Magazine #6",
+      "body": "(Players: 1v1,Multiplayer · Setting: The Empire)\n\nBoth warbands have been offered a reward to kill a pack of troublesome wolves."
+    },
+    {
+      "id": "scenario-protect-hornsby-s-ferry",
+      "title": "Protect Hornsby's Ferry!",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Magazine #7",
+      "body": "(Players: 1v1,Multiplayer · Setting: The Empire)\n\nDefenders must protect a boat & pull-rope style river ferry-crossing from sabotage. Attackers must sabotage it."
+    },
+    {
+      "id": "scenario-stop-thief",
+      "title": "Stop Thief!",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Magazine #7",
+      "body": "(Players: 1v1,Multiplayer · Setting: The Empire)\n\nDefenders must protect Halfling Thief HS (featured In this issue) from attacking warband."
+    },
+    {
+      "id": "scenario-hunt-the-heretic",
+      "title": "Hunt the Heretic",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Magazine #9",
+      "body": "(Players: 1v1 · Setting: The Empire)\n\nFour members of the defenders' warband attempt to protect a tooled-up Warlock HS from the attackers plus an accompanying Witch Hunter Captain."
+    },
+    {
+      "id": "scenario-river-watch",
+      "title": "River Watch",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Magazine #9",
+      "body": "(Players: 1v1 · Setting: The Empire)\n\nAttackers at the south side must smuggle some loot across a east-west flowing river at night and get 25% of their band off the north edge."
+    },
+    {
+      "id": "scenario-night-of-the-dead",
+      "title": "Night Of The Dead",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Online",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nWarband members must venture to the centre of the board, grab a Wyrdstone shard and escape from the table."
+    },
+    {
+      "id": "scenario-happy-harpy-hunting-grounds",
+      "title": "Happy Harpy Hunting Grounds",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Online",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nA group of 3 Harpies have nested in one of the tall buildings and their scavenging and attacks on unfortunate warbands has ensured a sizable stash of valuables."
+    },
+    {
+      "id": "scenario-round-up-at-the-mordheim-corral",
+      "title": "Round-up at the Mordheim Corral",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Online",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nTwo to four wild boars have eaten a merchant's Wyrdstone. Warbands must kill randomly moving and aggressive boars to recover it. Optional suggestion of using mutations."
+    },
+    {
+      "id": "scenario-the-recipe",
+      "title": "The Recipe",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Fanatic Online",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nWarbands must attempt to abduct an esteemed pie-maker who is being stoutly defended by his ballistically adept bodyguard."
+    },
+    {
+      "id": "scenario-defend-the-village",
+      "title": "Defend the Village!",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1 · Setting: The Empire)\n\nThe Magnificent Seven without the cowboy hats."
+    },
+    {
+      "id": "scenario-don-t-wake-the-giant",
+      "title": "Don't Wake the Giant",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nTwo warbands fight for the giant's goodies while trying not to wake him."
+    },
+    {
+      "id": "scenario-grudge-match",
+      "title": "Grudge Match",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nHonorable duel between two rival heroes, watched by their warbands and with a serious chance of crowd trouble breaking out."
+    },
+    {
+      "id": "scenario-it-s-all-mine",
+      "title": "It's all MINE!!",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nAttackers blow up a mine using gunpowder rules from Archive Pestilens (shamefully not described in the magazine) amid some random zombie shenanigans."
+    },
+    {
+      "id": "scenario-raid",
+      "title": "Raid",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nAttack on warband's camp. Defender in centre, attacker on edges."
+    },
+    {
+      "id": "scenario-raids",
+      "title": "Raids",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1 · Setting: The Empire)\n\nBad warband vs. townsfolk; Raid a village for loot & slaves."
+    },
+    {
+      "id": "scenario-rawhide",
+      "title": "Rawhide",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1 · Setting: The Empire)\n\nGet a wagon train across the board using wagon rules from Wyrdstone Archive while your opponent tries to stop you."
+    },
+    {
+      "id": "scenario-rescue",
+      "title": "Rescue",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nRescue captive warrior. Defender in centre, attacker on edges."
+    },
+    {
+      "id": "scenario-romero-s-pride",
+      "title": "Romero's Pride",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nA variation on the random zombie invasion theme."
+    },
+    {
+      "id": "scenario-scourge-and-purge",
+      "title": "Scourge and Purge",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nNone"
+    },
+    {
+      "id": "scenario-scripts-of-sigmar",
+      "title": "Scripts of Sigmar",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1 · Setting: Mordheim)\n\nWitch Hunters vs. Sisters of Sigmar. Two linked scenarios involving burgling the Sisters' Abbey."
+    },
+    {
+      "id": "scenario-the-battle-at-koleshire-keep",
+      "title": "The Battle At Koleshire Keep",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1 · Setting: The Empire)\n\nSkirmish over a keep."
+    },
+    {
+      "id": "scenario-the-forbidden-square",
+      "title": "The Forbidden Square",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nNone"
+    },
+    {
+      "id": "scenario-the-restless-dead",
+      "title": "The Restless Dead",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: 1v1,Multiplayer · Setting: Mordheim)\n\nRandom zombies invade the table, attacking both players."
+    },
+    {
+      "id": "scenario-the-square-of-the-snake",
+      "title": "The Square Of The Snake",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nFour player scenario. Each player must take out his randomly specified enemy."
+    },
+    {
+      "id": "scenario-the-wizard-s-tower",
+      "title": "The Wizard's Tower",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Archive Pestilen",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nYour warband is peacefully making their way through the city to a Wyrdstone deposit when they are set upon be a rival warband. They have no choice but to fight their way through them to get to the Wyrdstone."
+    },
+    {
+      "id": "scenario-mordheim-s-burning",
+      "title": "Mordheim's Burning",
+      "category": "scenarios",
+      "chapter": "Scenarios",
+      "source": "Rynn Tyrr",
+      "body": "(Players: Multiplayer · Setting: Mordheim)\n\nThis scenario is set at the end of Mordheim's existence, and provides a very fitting ending to a campaign."
+    }
+  ]
+}

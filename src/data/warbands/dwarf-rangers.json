@@ -44,7 +44,8 @@
         "shooting",
         "academic",
         "strength",
-        "dwarves"
+        "dwarves",
+        "dwarfRangers"
       ],
       "statMaximums": {
         "M": null,
@@ -93,7 +94,8 @@
         "shooting",
         "academic",
         "strength",
-        "dwarves"
+        "dwarves",
+        "dwarfRangers"
       ],
       "statMaximums": {
         "M": null,
@@ -140,7 +142,8 @@
       "skillLists": [
         "combat",
         "strength",
-        "dwarves"
+        "dwarves",
+        "dwarfRangers"
       ],
       "statMaximums": {
         "M": null,

@@ -38,7 +38,8 @@
       "skillLists": [
         "combat",
         "strength",
-        "speed"
+        "speed",
+        "maraudersOfChaos"
       ],
       "statMaximums": {
         "M": 4,
@@ -87,7 +88,8 @@
       "startingXp": 8,
       "skillLists": [
         "combat",
-        "academic"
+        "academic",
+        "maraudersOfChaos"
       ],
       "statMaximums": {
         "M": 4,
@@ -127,7 +129,8 @@
       "startingXp": 8,
       "skillLists": [
         "combat",
-        "strength"
+        "strength",
+        "maraudersOfChaos"
       ],
       "statMaximums": {
         "M": 4,
@@ -182,7 +185,8 @@
       "startingXp": 8,
       "skillLists": [
         "strength",
-        "speed"
+        "speed",
+        "maraudersOfChaos"
       ],
       "statMaximums": {
         "M": 4,

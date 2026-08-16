@@ -39,7 +39,8 @@
         "combat",
         "shooting",
         "strength",
-        "speed"
+        "speed",
+        "hochlandBandits"
       ],
       "statMaximums": {
         "M": null,
@@ -86,7 +87,8 @@
       "skillLists": [
         "combat",
         "shooting",
-        "speed"
+        "speed",
+        "hochlandBandits"
       ],
       "statMaximums": {
         "M": null,
@@ -137,7 +139,8 @@
       "skillLists": [
         "combat",
         "shooting",
-        "speed"
+        "speed",
+        "hochlandBandits"
       ],
       "statMaximums": {
         "M": null,
@@ -187,7 +190,8 @@
       "startingXp": 8,
       "skillLists": [
         "combat",
-        "academic"
+        "academic",
+        "hochlandBandits"
       ],
       "statMaximums": {
         "M": null,

@@ -43,7 +43,8 @@
         "combat",
         "strength",
         "speed",
-        "bretonnianKnights"
+        "bretonnianKnights",
+        "bretonnians"
       ],
       "statMaximums": {
         "M": null,
@@ -90,7 +91,8 @@
       "skillLists": [
         "combat",
         "speed",
-        "bretonnianKnights"
+        "bretonnianKnights",
+        "bretonnians"
       ],
       "statMaximums": {
         "M": null,

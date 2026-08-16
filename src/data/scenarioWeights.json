@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "source": "App design choice, not a rulebook citation: scenario selection weighting is a matter of how a group likes its games to feel, not a printed rule, so this file says so honestly rather than inventing a page reference. Wyrdstone Hunt is the game's default meeting engagement and is weighted heavily; the rest are even. `minCampaignBattles` gates a scenario until the campaign has that many battles logged — none of the nine core scenarios use it, but the field exists so a late-campaign finale can be added later without a code change.",
+  "weights": [
+    { "scenarioId": "wyrdstoneHunt", "weight": 3 },
+    { "scenarioId": "skirmish", "weight": 2 },
+    { "scenarioId": "defendTheFind", "weight": 2 },
+    { "scenarioId": "breakthrough", "weight": 2 },
+    { "scenarioId": "streetFight", "weight": 2 },
+    { "scenarioId": "chanceEncounter", "weight": 2 },
+    { "scenarioId": "hiddenTreasure", "weight": 2 },
+    { "scenarioId": "occupy", "weight": 2 },
+    { "scenarioId": "surpriseAttack", "weight": 2 }
+  ]
+}

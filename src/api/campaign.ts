@@ -20,6 +20,8 @@ type CampaignRow = {
   created_by: string;
   notes: string;
   created_at: string;
+  pinned_announcement?: string | null;
+  pinned_announcement_at?: string | null;
 };
 
 function toCampaign(row: CampaignRow): Campaign {
@@ -31,6 +33,8 @@ function toCampaign(row: CampaignRow): Campaign {
     joinCode: row.join_code,
     createdBy: row.created_by,
     notes: row.notes,
+    pinnedAnnouncement: row.pinned_announcement ?? null,
+    pinnedAnnouncementAt: row.pinned_announcement_at ?? null,
   };
 }
 
@@ -130,6 +134,31 @@ export async function updateCampaign(campaign: Campaign): Promise<Campaign> {
       visibility: campaign.visibility,
     })
     .eq('id', campaign.id)
+    .select()
+    .single();
+  if (error) throw error;
+  return toCampaign(data as CampaignRow);
+}
+
+/**
+ * §19.3 — pin or clear the campaign's single announcement. Passing null (or an
+ * empty string) clears it. Only a leader gets past `campaigns_update_leader`;
+ * the client never has to check the role itself. The timestamp is stamped here
+ * so the banner can show how fresh the notice is.
+ */
+export async function setCampaignAnnouncement(
+  campaignId: string,
+  text: string | null,
+): Promise<Campaign> {
+  const trimmed = text?.trim() || null;
+  if (isDemoMode()) return demo.setCampaignAnnouncement(campaignId, trimmed);
+  const { data, error } = await supabase
+    .from('campaigns')
+    .update({
+      pinned_announcement: trimmed,
+      pinned_announcement_at: trimmed ? new Date().toISOString() : null,
+    })
+    .eq('id', campaignId)
     .select()
     .single();
   if (error) throw error;

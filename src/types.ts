@@ -189,6 +189,8 @@ export type Campaign = {
   joinCode: string | null;
   createdBy: string; // user id
   notes: string;
+  pinnedAnnouncement: string | null; // §19.3 — leader-pinned banner, null when cleared
+  pinnedAnnouncementAt: string | null;
 };
 
 /** The leader manages the campaign; everyone else plays in it. Held on the

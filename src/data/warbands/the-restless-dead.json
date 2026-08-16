@@ -68,7 +68,8 @@
       "isLeader": false,
       "startingXp": 20,
       "skillLists": [
-        "academic"
+        "academic",
+        "theRestlessDead"
       ],
       "statMaximums": {
         "M": 5,
@@ -121,7 +122,8 @@
       "startingXp": 8,
       "skillLists": [
         "academic",
-        "speed"
+        "speed",
+        "theRestlessDead"
       ],
       "statMaximums": {
         "M": null,

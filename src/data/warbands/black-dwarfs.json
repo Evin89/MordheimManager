@@ -46,7 +46,8 @@
       "skillLists": [
         "combat",
         "academic",
-        "strength"
+        "strength",
+        "blackDwarfs"
       ],
       "statMaximums": {
         "M": null,
@@ -137,7 +138,8 @@
       "skillLists": [
         "combat",
         "shooting",
-        "strength"
+        "strength",
+        "blackDwarfs"
       ],
       "statMaximums": {
         "M": null,

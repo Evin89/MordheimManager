@@ -52,7 +52,8 @@
         "academic",
         "strength",
         "speed",
-        "bretonnianKnights"
+        "bretonnianKnights",
+        "bretonnianChapelGuard"
       ],
       "statMaximums": {
         "M": null,
@@ -154,7 +155,8 @@
         "combat",
         "strength",
         "speed",
-        "bretonnianKnights"
+        "bretonnianKnights",
+        "bretonnianChapelGuard"
       ],
       "statMaximums": {
         "M": null,

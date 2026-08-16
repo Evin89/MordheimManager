@@ -40,7 +40,8 @@
         "shooting",
         "academic",
         "strength",
-        "speed"
+        "speed",
+        "arabianTombRaiders"
       ],
       "statMaximums": {
         "M": null,
@@ -82,7 +83,8 @@
       "skillLists": [
         "combat",
         "strength",
-        "speed"
+        "speed",
+        "arabianTombRaiders"
       ],
       "statMaximums": {
         "M": null,
@@ -128,7 +130,8 @@
       "startingXp": 8,
       "skillLists": [
         "academic",
-        "speed"
+        "speed",
+        "arabianTombRaiders"
       ],
       "statMaximums": {
         "M": null,

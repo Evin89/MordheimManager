@@ -8,8 +8,85 @@ import {
   useUpdateEventMutation,
 } from '../hooks/useEvents';
 import { useCampaignMembersQuery, useMyCampaignQuery } from '../hooks/useCampaign';
+import { useEventRsvpsQuery, useSetRsvpMutation } from '../hooks/useRsvps';
+import { RsvpStatus } from '../api/rsvps';
 import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
+
+/**
+ * §19.1 — Going / Maybe / Can't for one game night.
+ *
+ * Tapping the option you already chose withdraws it, so the row doubles as its
+ * own "un-RSVP". Names come from the campaign member list the screen already
+ * loaded rather than a per-row profile join. Anyone who can see the event sees
+ * the tally; only members can add their own row (the 0019 policy decides).
+ */
+function RsvpSection({
+  eventId,
+  members,
+  userId,
+}: {
+  eventId: string;
+  members: { userId: string; displayName: string }[];
+  userId: string | undefined;
+}) {
+  const { data: rsvps } = useEventRsvpsQuery(eventId);
+  const setRsvp = useSetRsvpMutation(eventId);
+  const mine = rsvps?.find((r) => r.userId === userId)?.status ?? null;
+  const nameOf = (id: string) =>
+    members.find((m) => m.userId === id)?.displayName || strings.campaign.unknownWarband;
+
+  const options: { value: RsvpStatus; label: string }[] = [
+    { value: 'going', label: strings.events.rsvp.going },
+    { value: 'maybe', label: strings.events.rsvp.maybe },
+    { value: 'cant', label: strings.events.rsvp.cant },
+  ];
+
+  const byStatus = (status: RsvpStatus) => (rsvps ?? []).filter((r) => r.status === status);
+
+  return (
+    <section className="space-y-3">
+      <h2 className="text-bone-100 font-semibold">{strings.events.rsvp.heading}</h2>
+
+      <div className="flex gap-2">
+        {options.map((o) => {
+          const active = mine === o.value;
+          return (
+            <button
+              key={o.value}
+              type="button"
+              onClick={() => setRsvp(active ? null : o.value)}
+              className={`flex-1 min-h-[44px] rounded-md border text-sm font-semibold transition-colors ${
+                active
+                  ? 'bg-ember-500 text-ink-950 border-ember-500'
+                  : 'border-ink-700 text-bone-200 hover:bg-ink-800'
+              }`}
+            >
+              {o.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {(rsvps?.length ?? 0) === 0 ? (
+        <p className="text-bone-300 text-sm">{strings.events.rsvp.noneYet}</p>
+      ) : (
+        <div className="space-y-2">
+          {options.map((o) => {
+            const people = byStatus(o.value);
+            if (people.length === 0) return null;
+            return (
+              <div key={o.value} className="text-sm">
+                <span className="text-bone-400">{o.label}: </span>
+                <span className="text-bone-200">{people.map((r) => nameOf(r.userId)).join(', ')}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </section>
+  );
+}
 
 /** `datetime-local` wants local wall-clock `YYYY-MM-DDTHH:mm`, not an ISO
  * instant. Building it from local parts keeps the value the user originally
@@ -130,6 +207,8 @@ export default function CampaignEventScreen() {
                 <p className="text-bone-400 text-sm">{strings.events.organisedBy(organiser)}</p>
               )}
             </section>
+
+            <RsvpSection eventId={event.id} members={members ?? []} userId={user?.id} />
 
             {event.notes && (
               <section className="space-y-2">

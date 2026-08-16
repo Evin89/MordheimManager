@@ -41,7 +41,8 @@
         "academic",
         "strength",
         "speed",
-        "skaven"
+        "skaven",
+        "skavenOfClanPestilens"
       ],
       "statMaximums": {
         "M": null,
@@ -88,7 +89,8 @@
       "skillLists": [
         "academic",
         "speed",
-        "skaven"
+        "skaven",
+        "skavenOfClanPestilens"
       ],
       "statMaximums": {
         "M": null,
@@ -132,7 +134,8 @@
         "shooting",
         "strength",
         "speed",
-        "skaven"
+        "skaven",
+        "skavenOfClanPestilens"
       ],
       "statMaximums": {
         "M": null,
@@ -175,7 +178,8 @@
         "combat",
         "shooting",
         "speed",
-        "skaven"
+        "skaven",
+        "skavenOfClanPestilens"
       ],
       "statMaximums": {
         "M": null,

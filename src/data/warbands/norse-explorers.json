@@ -38,7 +38,8 @@
       "skillLists": [
         "combat",
         "strength",
-        "speed"
+        "speed",
+        "norseExplorers"
       ],
       "statMaximums": {
         "M": null,
@@ -84,7 +85,8 @@
       "startingXp": 11,
       "skillLists": [
         "combat",
-        "strength"
+        "strength",
+        "norseExplorers"
       ],
       "statMaximums": {
         "M": null,
@@ -133,7 +135,8 @@
       "skillLists": [
         "combat",
         "strength",
-        "speed"
+        "speed",
+        "norseExplorers"
       ],
       "statMaximums": {
         "M": null,
@@ -174,7 +177,8 @@
       "skillLists": [
         "combat",
         "strength",
-        "speed"
+        "speed",
+        "norseExplorers"
       ],
       "statMaximums": {
         "M": null,

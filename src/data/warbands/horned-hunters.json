@@ -43,7 +43,8 @@
         "combat",
         "shooting",
         "strength",
-        "speed"
+        "speed",
+        "hornedHunters"
       ],
       "statMaximums": {
         "M": null,
@@ -95,7 +96,8 @@
         "combat",
         "academic",
         "strength",
-        "speed"
+        "speed",
+        "hornedHunters"
       ],
       "statMaximums": {
         "M": null,
@@ -151,7 +153,8 @@
         "combat",
         "shooting",
         "strength",
-        "speed"
+        "speed",
+        "hornedHunters"
       ],
       "statMaximums": {
         "M": null,

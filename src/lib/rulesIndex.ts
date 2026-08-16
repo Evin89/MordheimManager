@@ -1,7 +1,7 @@
 import rulesData from '../data/rules.json';
 import skillsData from '../data/skills.json';
 import injuriesData from '../data/injuries.json';
-import scenariosData from '../data/scenarios.json';
+import scenarioRefData from '../data/reference/scenarios.json';
 import explorationData from '../data/exploration.json';
 import btbObjectivesData from '../data/btb/objectives.json';
 import btbDramatisPersonaeData from '../data/btb/dramatisPersonae.json';
@@ -20,13 +20,11 @@ import {
   RulesCategoryDef,
   RulesCategoryId,
   RulesData,
-  ScenariosData,
   SkillsData,
 } from '../data/types';
 
 const typedRules = rulesData as RulesData;
 const typedSkills = skillsData as unknown as SkillsData;
-const typedScenarios = scenariosData as ScenariosData;
 const typedExploration = explorationData as ExplorationData;
 const typedBtbObjectives = btbObjectivesData as BtbObjectivesData;
 const typedBtbDramatisPersonae = btbDramatisPersonaeData as BtbDramatisPersonaeData;
@@ -95,18 +93,11 @@ function injuryEntries(): RuleEntry[] {
 }
 
 function scenarioEntries(): RuleEntry[] {
-  return typedScenarios.scenarios.map((s) => ({
-    id: `scenario-${s.id}`,
-    title: s.name,
-    category: 'scenarios',
-    chapter: 'Scenarios',
-    source: typedScenarios.source,
-    body: [
-      "This app only tracks this scenario's Experience awards, not its full terrain/deployment/victory-condition text.",
-      ...s.awards.map((a) => `${a.amount} — ${a.label}${a.note ? ` (${a.note})` : ''}`),
-      `${typedScenarios.universalAward.amount} — ${typedScenarios.universalAward.label} (applies to every scenario)`,
-    ].join('\n'),
-  }));
+  // The full scenario compendium (96 entries with terrain/deployment/victory
+  // text), with the app's own Experience awards folded into the nine core ones
+  // that carry them (see import_scenarios / reference/scenarios.json). Replaces
+  // the old awards-only stubs that apologised for having no scenario text.
+  return scenarioRefData.entries as RuleEntry[];
 }
 
 // Sub-headings the 30 Exploration chart results are grouped under, in the order the

@@ -5,6 +5,7 @@ import {
   useCampaignEventsQuery,
   useCreateEventMutation,
 } from '../hooks/useEvents';
+import { useEventRsvpsQuery } from '../hooks/useRsvps';
 import { strings } from '../strings';
 
 /** Splits on "now" rather than on the date, so tonight's game stays upcoming
@@ -53,6 +54,12 @@ function daysUntil(iso: string): string {
 export function NextEventBanner({ campaignId }: { campaignId: string | undefined }) {
   const { data: events } = useCampaignEventsQuery(campaignId);
   const next = events ? partition(events).upcoming[0] : undefined;
+  // Only the next game night's turnout is worth a query here; the rest are read
+  // on the event screen itself.
+  const { data: rsvps } = useEventRsvpsQuery(next?.id);
+  const goingCount = (rsvps ?? []).filter((r) => r.status === 'going').length;
+  const maybeCount = (rsvps ?? []).filter((r) => r.status === 'maybe').length;
+  const tally = strings.events.rsvp.bannerTally(goingCount, maybeCount);
 
   // Always rendered, even with nothing scheduled — the banner is the only way
   // into the events screen, so hiding it when the list is empty would make
@@ -81,6 +88,7 @@ export function NextEventBanner({ campaignId }: { campaignId: string | undefined
         {formatWhen(next.eventDateTime)}
         {next.location && ` · ${next.location}`}
       </p>
+      {tally && <p className="text-bone-400 text-xs mt-1">{tally}</p>}
     </Link>
   );
 }

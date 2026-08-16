@@ -4,8 +4,9 @@ import BackHeader from '../components/BackHeader';
 import { strings } from '../strings';
 import { BattleSession, defaultBattleSession, useAppStore } from '../store/useAppStore';
 import { useWarbandList, useWarbandLookup } from '../hooks/useWarbands';
-import { useCampaignWarbandsQuery, useMyCampaignQuery } from '../hooks/useCampaign';
+import { useBattlesQuery, useCampaignWarbandsQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import scenariosData from '../data/scenarios.json';
+import { suggestScenario } from '../lib/scenarioSuggest';
 
 export default function PreBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
@@ -15,6 +16,9 @@ export default function PreBattleScreen() {
   const otherWarbands = warbands.filter((w) => w.id !== warbandId);
   const { data: campaign } = useMyCampaignQuery();
   const { data: campaignWarbands } = useCampaignWarbandsQuery(campaign?.id);
+  // Gates scenarios with a minimum campaign-progress requirement; for a one-off
+  // game (no campaign) everything is eligible.
+  const { data: campaignBattles } = useBattlesQuery(campaign?.id);
   // Everything in the campaign that isn't already offered above: this warband,
   // and any of the player's own, which are listed in their own group.
   const ownIds = new Set(warbands.map((w) => w.id));
@@ -42,9 +46,12 @@ export default function PreBattleScreen() {
     setStoredSession(updated);
   }
 
+  // Weighted suggestion (§21.3): a group plays some scenarios far more than
+  // others, so this is not a uniform roll. Only ever fills the field the manual
+  // picker fills — the player keeps or changes it.
   function rollRandomScenario() {
-    const options = scenariosData.scenarios;
-    const picked = options[Math.floor(Math.random() * options.length)];
+    const picked = suggestScenario(campaign ? (campaignBattles?.length ?? 0) : undefined);
+    if (!picked) return;
     setLastRandomRoll(picked.name);
     updateSession({ scenario: picked.name });
   }

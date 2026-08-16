@@ -37,7 +37,8 @@
       "startingXp": 20,
       "skillLists": [
         "shooting",
-        "academic"
+        "academic",
+        "merchantCaravans"
       ],
       "statMaximums": {
         "M": null,

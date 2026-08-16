@@ -14,6 +14,7 @@ import {
   grantCampaignLeadership,
   revokeCampaignLeadership,
   updateCampaign,
+  setCampaignAnnouncement,
 } from '../api/campaign';
 import { deleteBattle, fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
 import { fetchCampaignWarbands } from '../api/warbands';
@@ -108,6 +109,22 @@ export function useSaveCampaignMutation() {
     onError: () => window.alert(strings.connection.lost),
   });
   return (campaign: Campaign) => mutation.mutate(campaign);
+}
+
+/**
+ * §19.3 — pin or clear the campaign announcement. Leader-only at the database;
+ * the campaigns list carries the pinned text, so invalidating it re-renders both
+ * the banner and the leader's editor.
+ */
+export function useSetAnnouncementMutation(campaignId: string | undefined) {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (text: string | null) => setCampaignAnnouncement(campaignId!, text),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) }),
+    onError: () => window.alert(strings.connection.lost),
+  });
+  return (text: string | null) => mutation.mutate(text);
 }
 
 /** Returns the error message on failure (bad code) rather than throwing, so the

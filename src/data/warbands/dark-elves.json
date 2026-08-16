@@ -40,7 +40,8 @@
         "shooting",
         "academic",
         "speed",
-        "darkElf"
+        "darkElf",
+        "darkElves"
       ],
       "statMaximums": {
         "M": null,
@@ -87,7 +88,8 @@
       "skillLists": [
         "combat",
         "speed",
-        "darkElf"
+        "darkElf",
+        "darkElves"
       ],
       "statMaximums": {
         "M": null,
@@ -134,7 +136,8 @@
       "skillLists": [
         "combat",
         "speed",
-        "darkElf"
+        "darkElf",
+        "darkElves"
       ],
       "statMaximums": {
         "M": null,
@@ -181,7 +184,8 @@
       "skillLists": [
         "academic",
         "speed",
-        "darkElf"
+        "darkElf",
+        "darkElves"
       ],
       "statMaximums": {
         "M": null,

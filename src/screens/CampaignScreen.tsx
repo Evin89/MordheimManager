@@ -11,6 +11,7 @@ import { useAuth } from '../auth/AuthProvider';
 import {
   useBattlesQuery,
   useCampaignMembersQuery,
+  useCampaignWarbandsQuery,
   useMyCampaignQuery,
   useMyCampaignsQuery,
   useRegenerateJoinCodeMutation,
@@ -22,9 +23,22 @@ import {
   useGrantLeadershipMutation,
   useRevokeLeadershipMutation,
   useSaveCampaignMutation,
+  useSetAnnouncementMutation,
   usePersonalBattlesQuery,
   useStandingsQuery,
 } from '../hooks/useCampaign';
+import {
+  useCampaignLogQuery,
+  useCreateLogEntryMutation,
+  useDeleteLogEntryMutation,
+} from '../hooks/useCampaignLog';
+import {
+  useTerritoriesQuery,
+  useCreateTerritoryMutation,
+  useSetTerritoryControllerMutation,
+  useDeleteTerritoryMutation,
+} from '../hooks/useTerritories';
+import { CampaignWarbandRow } from '../api/warbands';
 import { useObjectiveQuery, useSaveObjectiveMutation } from '../hooks/useObjective';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { computeAwards } from '../lib/awards';
@@ -34,7 +48,7 @@ import objectivesData from '../data/btb/objectives.json';
 import { BtbObjectivesData } from '../data/types';
 import { BattleRecord, BtbObjective, Campaign, StandingsRow, Warband } from '../types';
 
-type Tab = 'log' | 'standings' | 'players';
+type Tab = 'log' | 'standings' | 'players' | 'territory';
 
 /** The editable part of an objective — the row's id/warbandId are set server-side. */
 type ObjectiveFields = Omit<BtbObjective, 'id' | 'warbandId'>;
@@ -59,6 +73,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'log', label: strings.campaign.logTab },
   { id: 'standings', label: strings.campaign.standingsTab },
   { id: 'players', label: strings.campaign.membersTab },
+  { id: 'territory', label: strings.campaign.territory.section },
 ];
 
 function BattleRow({
@@ -651,6 +666,388 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
   );
 }
 
+/**
+ * The narrative log (§17.3) — a story between games, on the same Log tab as the
+ * battle records because both answer "what happened over time". A composer, then
+ * the entries newest-first. Any member may write; the author or a leader may
+ * remove (the 0017 policy decides, not this component).
+ */
+/**
+ * §19.3 — the campaign's single pinned announcement. Shown above the tabs to
+ * everyone who can see the campaign; a leader also gets the editor here. Kept
+ * out of the Log tab so a notice can't hide behind a tab nobody has open.
+ */
+function AnnouncementBanner({ campaign, isLeader }: { campaign: Campaign; isLeader: boolean }) {
+  const setAnnouncement = useSetAnnouncementMutation(campaign.id);
+  const current = campaign.pinnedAnnouncement;
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState('');
+  const s = strings.campaign.announcement;
+
+  function openEditor() {
+    setDraft(current ?? '');
+    setEditing(true);
+  }
+  function save() {
+    setAnnouncement(draft.trim() || null);
+    setEditing(false);
+  }
+  function clear() {
+    if (window.confirm(s.clearConfirm)) setAnnouncement(null);
+  }
+
+  // A player with nothing pinned sees nothing; only a leader gets the affordance.
+  if (!current && !isLeader && !editing) return null;
+
+  if (editing) {
+    return (
+      <section className="rounded-lg bg-ink-900 border border-ember-500/40 p-4 space-y-2">
+        <label className="text-bone-300 text-sm">{s.label}</label>
+        <textarea
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          placeholder={s.placeholder}
+          rows={2}
+          className="w-full rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
+        />
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={save}
+            className="flex-1 min-h-[40px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm"
+          >
+            {current ? s.update : s.save}
+          </button>
+          <button
+            type="button"
+            onClick={() => setEditing(false)}
+            className="flex-1 min-h-[40px] rounded-md border border-ink-700 text-bone-200 text-sm"
+          >
+            {s.cancel}
+          </button>
+        </div>
+      </section>
+    );
+  }
+
+  if (!current) {
+    // Leader, nothing pinned yet.
+    return (
+      <button
+        type="button"
+        onClick={openEditor}
+        className="w-full rounded-lg border border-dashed border-ink-700 text-bone-300 text-sm py-2 hover:border-ember-500 hover:text-bone-100"
+      >
+        + {s.pin}
+      </button>
+    );
+  }
+
+  return (
+    <section className="rounded-lg bg-ember-500/10 border border-ember-500/40 p-4 space-y-1">
+      <div className="flex items-start justify-between gap-3">
+        <span className="text-ember-400 text-xs font-semibold uppercase tracking-wide">{s.label}</span>
+        {isLeader && (
+          <div className="flex gap-3 shrink-0">
+            <button type="button" onClick={openEditor} className="text-bone-300 text-xs font-semibold">
+              {s.update}
+            </button>
+            <button type="button" onClick={clear} className="text-blood-500 text-xs font-semibold">
+              {s.clear}
+            </button>
+          </div>
+        )}
+      </div>
+      <p className="text-bone-100 whitespace-pre-wrap">{current}</p>
+      {campaign.pinnedAnnouncementAt && (
+        <p className="text-bone-400 text-xs">
+          {s.posted(new Date(campaign.pinnedAnnouncementAt).toLocaleDateString())}
+        </p>
+      )}
+    </section>
+  );
+}
+
+/**
+ * §17.1 — the territories a campaign's warbands hold.
+ *
+ * Any member can add a territory, claim it for any warband in the campaign, or
+ * reassign it after a battle — the 0020 policy allows the whole table to
+ * members, so the map is a shared board rather than a leader's ledger. Removing
+ * one is type-to-confirm, the same guard the rest of the app uses for deletes.
+ */
+function TerritoryTab({ campaignId }: { campaignId: string }) {
+  const { data: territories } = useTerritoriesQuery(campaignId);
+  const { data: warbands } = useCampaignWarbandsQuery(campaignId);
+  const createTerritory = useCreateTerritoryMutation(campaignId);
+  const setController = useSetTerritoryControllerMutation(campaignId);
+  const removeTerritory = useDeleteTerritoryMutation(campaignId);
+  const s = strings.campaign.territory;
+
+  const [adding, setAdding] = useState(false);
+  const [name, setName] = useState('');
+  const [kind, setKind] = useState('');
+  const [notes, setNotes] = useState('');
+  const [confirmingId, setConfirmingId] = useState<string | null>(null);
+
+  const warbandName = (id: string | null) =>
+    id ? (warbands ?? []).find((w: CampaignWarbandRow) => w.id === id)?.name ?? strings.campaign.unknownWarband : null;
+
+  function add() {
+    if (name.trim().length === 0) return;
+    createTerritory({ name, kind, notes }, () => {
+      setName('');
+      setKind('');
+      setNotes('');
+      setAdding(false);
+    });
+  }
+
+  return (
+    <section className="space-y-3">
+      <h2 className="text-bone-100 font-semibold">{s.section}</h2>
+      <p className="text-bone-300 text-xs">{s.hint}</p>
+
+      {!adding ? (
+        <button
+          type="button"
+          onClick={() => setAdding(true)}
+          className="w-full min-h-[44px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
+        >
+          {s.addButton}
+        </button>
+      ) : (
+        <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder={s.namePlaceholder}
+            className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
+          />
+          <input
+            type="text"
+            value={kind}
+            onChange={(e) => setKind(e.target.value)}
+            placeholder={s.kindPlaceholder}
+            className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
+          />
+          <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder={s.notesLabel}
+            rows={2}
+            className="w-full rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
+          />
+          <div className="flex gap-2">
+            <button
+              type="button"
+              disabled={name.trim().length === 0}
+              onClick={add}
+              className="flex-1 min-h-[40px] rounded-md bg-ember-500 hover:bg-ember-600 disabled:opacity-40 text-ink-950 font-semibold text-sm"
+            >
+              {s.add}
+            </button>
+            <button
+              type="button"
+              onClick={() => setAdding(false)}
+              className="flex-1 min-h-[40px] rounded-md border border-ink-700 text-bone-200 text-sm"
+            >
+              {s.cancel}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {(territories?.length ?? 0) === 0 ? (
+        <p className="text-bone-300 text-sm">{s.empty}</p>
+      ) : (
+        <div className="space-y-2">
+          {(territories ?? []).map((t) => (
+            <div key={t.id} className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-bone-100 font-semibold">{t.name}</p>
+                  {t.kind && <p className="text-bone-400 text-xs">{t.kind}</p>}
+                </div>
+                <span
+                  className={`shrink-0 text-xs font-semibold ${
+                    t.controlledByWarbandId ? 'text-ember-400' : 'text-bone-400'
+                  }`}
+                >
+                  {t.controlledByWarbandId ? s.controlledBy(warbandName(t.controlledByWarbandId)!) : s.unclaimed}
+                </span>
+              </div>
+              {t.notes && <p className="text-bone-300 text-sm whitespace-pre-wrap">{t.notes}</p>}
+
+              <div className="space-y-1">
+                <label className="text-bone-400 text-xs">{s.claimLabel}</label>
+                <select
+                  value={t.controlledByWarbandId ?? ''}
+                  onChange={(e) => setController(t.id, e.target.value || null)}
+                  className="w-full min-h-[40px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 text-sm focus:outline-none focus:border-ember-500"
+                >
+                  <option value="">{s.unclaimed}</option>
+                  {(warbands ?? []).map((w: CampaignWarbandRow) => (
+                    <option key={w.id} value={w.id}>
+                      {w.name}
+                      {w.playerName ? ` — ${w.playerName}` : ''}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {confirmingId === t.id ? (
+                <div className="space-y-2">
+                  <ConfirmByTyping
+                    phrase={t.name}
+                    label={s.removeTypeLabel(t.name)}
+                    action={s.remove}
+                    onConfirm={() => {
+                      removeTerritory(t.id);
+                      setConfirmingId(null);
+                    }}
+                    impact={<p>{s.removeImpact}</p>}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setConfirmingId(null)}
+                    className="w-full min-h-[40px] rounded-md text-bone-300 text-sm"
+                  >
+                    {s.cancel}
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setConfirmingId(t.id)}
+                  className="text-blood-500 text-xs font-semibold"
+                >
+                  {s.remove}
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function NarrativeLog({
+  campaignId,
+  battles,
+  isLeader,
+  userId,
+}: {
+  campaignId: string;
+  battles: BattleRecord[];
+  isLeader: boolean;
+  userId: string | undefined;
+}) {
+  const { data: entries } = useCampaignLogQuery(campaignId);
+  const create = useCreateLogEntryMutation(campaignId);
+  const remove = useDeleteLogEntryMutation(campaignId);
+  const [title, setTitle] = useState('');
+  const [body, setBody] = useState('');
+  const [battleId, setBattleId] = useState('');
+
+  // The last handful of battles are the ones you'd narrate; the full log would
+  // make the picker a scroll of its own.
+  const recentBattles = [...battles].slice(-10).reverse();
+  const scenarioOf = (id: string | null) =>
+    id ? (battles.find((b) => b.id === id)?.scenario ?? '') : '';
+  const canAdd = title.trim().length > 0 && !create.isPending;
+
+  function add() {
+    if (!canAdd) return;
+    create.mutate(
+      { title, body, battleId: battleId || null },
+      { onSuccess: () => { setTitle(''); setBody(''); setBattleId(''); } },
+    );
+  }
+
+  return (
+    <section className="space-y-3">
+      <h2 className="text-bone-100 font-semibold">{strings.campaign.narrative.section}</h2>
+      <p className="text-bone-300 text-xs">{strings.campaign.narrative.hint}</p>
+
+      <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder={strings.campaign.narrative.titlePlaceholder}
+          className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
+        />
+        <textarea
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+          placeholder={strings.campaign.narrative.bodyPlaceholder}
+          rows={3}
+          className="w-full rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
+        />
+        {recentBattles.length > 0 && (
+          <select
+            value={battleId}
+            onChange={(e) => setBattleId(e.target.value)}
+            className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 text-sm focus:outline-none focus:border-ember-500"
+          >
+            <option value="">{strings.campaign.narrative.noBattleOption}</option>
+            {recentBattles.map((b) => (
+              <option key={b.id} value={b.id}>
+                {b.scenario} — {new Date(b.date).toLocaleDateString()}
+              </option>
+            ))}
+          </select>
+        )}
+        <button
+          type="button"
+          disabled={!canAdd}
+          onClick={add}
+          className="w-full min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm disabled:opacity-40"
+        >
+          {create.isPending ? strings.campaign.narrative.adding : strings.campaign.narrative.add}
+        </button>
+      </div>
+
+      {(entries?.length ?? 0) === 0 ? (
+        <p className="text-bone-300 text-sm">{strings.campaign.narrative.empty}</p>
+      ) : (
+        <div className="space-y-2">
+          {(entries ?? []).map((e) => {
+            const canRemove = isLeader || e.authorId === userId;
+            const linked = scenarioOf(e.battleId);
+            return (
+              <div key={e.id} className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-1">
+                <div className="flex items-start justify-between gap-3">
+                  <p className="text-bone-100 font-semibold">{e.title}</p>
+                  {canRemove && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (window.confirm(strings.campaign.narrative.removeConfirm)) remove.mutate(e.id);
+                      }}
+                      className="shrink-0 text-blood-500 text-xs font-semibold"
+                    >
+                      {strings.campaign.narrative.remove}
+                    </button>
+                  )}
+                </div>
+                <p className="text-bone-400 text-xs">
+                  {strings.campaign.narrative.by(e.authorDisplayName, new Date(e.createdAt).toLocaleDateString())}
+                  {linked && ` · ${strings.campaign.narrative.linkedTo(linked)}`}
+                </p>
+                {e.body && <p className="text-bone-300 text-sm whitespace-pre-wrap pt-1">{e.body}</p>}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </section>
+  );
+}
+
 export default function CampaignScreen() {
   const { user } = useAuth();
   const { data: campaigns } = useMyCampaignsQuery();
@@ -720,6 +1117,7 @@ export default function CampaignScreen() {
       <main className="flex-1 px-4 py-4 space-y-6">
         {/* Above the tabs: "are we playing, and when" is what people open
             the campaign screen to find out. */}
+        {campaign && <AnnouncementBanner campaign={campaign} isLeader={isLeader} />}
         {campaign && <NextEventBanner campaignId={campaign.id} />}
         {!campaign ? (
           <CampaignEntry />
@@ -798,6 +1196,13 @@ export default function CampaignScreen() {
                   )}
                 </section>
 
+                <NarrativeLog
+                  campaignId={campaign.id}
+                  battles={battles ?? []}
+                  isLeader={isLeader}
+                  userId={user?.id}
+                />
+
                 {campaign.usesBTB && (
                   <section className="space-y-3">
                     <h2 className="text-bone-100 font-semibold">{strings.campaign.btbSection}</h2>
@@ -835,6 +1240,8 @@ export default function CampaignScreen() {
                 {isLeader && <DeleteCampaign campaign={campaign} memberCount={(members ?? []).length} />}
               </>
             )}
+
+            {tab === 'territory' && <TerritoryTab campaignId={campaign.id} />}
           </>
         )}
       </main>

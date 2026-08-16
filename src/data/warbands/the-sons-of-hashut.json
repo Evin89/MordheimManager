@@ -41,7 +41,8 @@
       "startingXp": 20,
       "skillLists": [
         "combat",
-        "academic"
+        "academic",
+        "theSonsOfHashut"
       ],
       "statMaximums": {
         "M": null,
@@ -87,7 +88,8 @@
       "startingXp": 12,
       "skillLists": [
         "combat",
-        "strength"
+        "strength",
+        "theSonsOfHashut"
       ],
       "statMaximums": {
         "M": 8,
@@ -128,7 +130,8 @@
       "skillLists": [
         "combat",
         "shooting",
-        "strength"
+        "strength",
+        "theSonsOfHashut"
       ],
       "statMaximums": {
         "M": null,

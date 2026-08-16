@@ -108,6 +108,8 @@ export async function createCampaign(name: string, usesBtb: boolean): Promise<Ca
     joinCode: `MRDH-NEW${database.campaigns.length}`,
     createdBy: database.viewerId,
     notes: '',
+    pinnedAnnouncement: null,
+    pinnedAnnouncementAt: null,
   };
   database.campaigns.push(campaign);
   // The RPC adds the creator as leader in the same transaction; so does this.
@@ -125,6 +127,18 @@ export async function updateCampaign(campaign: Campaign): Promise<Campaign> {
   const index = database.campaigns.findIndex((c) => c.id === campaign.id);
   if (index >= 0) database.campaigns[index] = { ...campaign };
   return campaign;
+}
+
+export async function setCampaignAnnouncement(
+  campaignId: string,
+  text: string | null,
+): Promise<Campaign> {
+  const database = db();
+  const campaign = database.campaigns.find((c) => c.id === campaignId);
+  if (!campaign) throw new Error('No such campaign.');
+  campaign.pinnedAnnouncement = text;
+  campaign.pinnedAnnouncementAt = text ? new Date().toISOString() : null;
+  return { ...campaign };
 }
 
 export async function joinCampaignByCode(code: string): Promise<string> {
@@ -864,6 +878,134 @@ export async function updateCampaignEvent(
   event.location = fields.location.trim();
   event.notes = fields.notes.trim();
   return event;
+}
+
+// --- campaign narrative log (§17.3) ----------------------------------------
+
+const logEntries: {
+  id: string;
+  campaignId: string;
+  authorId: string;
+  authorDisplayName: string;
+  title: string;
+  body: string;
+  battleId: string | null;
+  createdAt: string;
+}[] = [];
+
+export async function fetchCampaignLog(campaignId: string) {
+  return logEntries
+    .filter((e) => e.campaignId === campaignId)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function createCampaignLogEntry(
+  campaignId: string,
+  authorId: string,
+  fields: { title: string; body: string; battleId: string | null },
+) {
+  const entry = {
+    id: `demo-log-${logEntries.length + 1}`,
+    campaignId,
+    authorId,
+    authorDisplayName: displayName(authorId),
+    title: fields.title.trim(),
+    body: fields.body.trim(),
+    battleId: fields.battleId,
+    createdAt: new Date().toISOString(),
+  };
+  logEntries.unshift(entry);
+  return entry;
+}
+
+export async function deleteCampaignLogEntry(id: string): Promise<void> {
+  const i = logEntries.findIndex((e) => e.id === id);
+  if (i >= 0) logEntries.splice(i, 1);
+}
+
+// --- event RSVPs (§19.1) ----------------------------------------------------
+
+type DemoRsvpStatus = 'going' | 'maybe' | 'cant';
+
+const rsvps: { eventId: string; userId: string; status: DemoRsvpStatus }[] = [
+  { eventId: 'demo-event-1', userId: 'demo-user-1', status: 'going' },
+  { eventId: 'demo-event-1', userId: 'demo-user-2', status: 'maybe' },
+];
+
+export async function fetchEventRsvps(eventId: string) {
+  return rsvps.filter((r) => r.eventId === eventId).map((r) => ({ ...r }));
+}
+
+export async function setEventRsvp(eventId: string, userId: string, status: DemoRsvpStatus) {
+  const existing = rsvps.find((r) => r.eventId === eventId && r.userId === userId);
+  if (existing) existing.status = status;
+  else rsvps.push({ eventId, userId, status });
+  return { eventId, userId, status };
+}
+
+export async function clearEventRsvp(eventId: string, userId: string): Promise<void> {
+  const i = rsvps.findIndex((r) => r.eventId === eventId && r.userId === userId);
+  if (i >= 0) rsvps.splice(i, 1);
+}
+
+// --- territories (§17.1) ----------------------------------------------------
+
+const territories: {
+  id: string;
+  campaignId: string;
+  name: string;
+  kind: string;
+  notes: string;
+  controlledByWarbandId: string | null;
+}[] = [
+  {
+    id: 'demo-territory-1',
+    campaignId: 'demo-campaign-0',
+    name: 'The Marketplace',
+    kind: 'Trading',
+    notes: 'A wyrdstone shard turns up here after every fair.',
+    controlledByWarbandId: null,
+  },
+  {
+    id: 'demo-territory-2',
+    campaignId: 'demo-campaign-0',
+    name: 'The Docks',
+    kind: 'Waterfront',
+    notes: '',
+    controlledByWarbandId: null,
+  },
+];
+
+export async function fetchTerritories(campaignId: string) {
+  return territories.filter((t) => t.campaignId === campaignId).map((t) => ({ ...t }));
+}
+
+export async function createTerritory(
+  campaignId: string,
+  fields: { name: string; kind: string; notes: string },
+) {
+  const territory = {
+    id: `demo-territory-${territories.length + 1}`,
+    campaignId,
+    name: fields.name.trim(),
+    kind: fields.kind.trim(),
+    notes: fields.notes.trim(),
+    controlledByWarbandId: null,
+  };
+  territories.push(territory);
+  return { ...territory };
+}
+
+export async function setTerritoryController(id: string, warbandId: string | null) {
+  const territory = territories.find((t) => t.id === id);
+  if (!territory) throw new Error('Territory not found.');
+  territory.controlledByWarbandId = warbandId;
+  return { ...territory };
+}
+
+export async function deleteTerritory(id: string): Promise<void> {
+  const i = territories.findIndex((t) => t.id === id);
+  if (i >= 0) territories.splice(i, 1);
 }
 
 export async function deleteCampaign(campaignId: string): Promise<void> {
