@@ -4,6 +4,7 @@ import BackHeader from '../components/BackHeader';
 import { CampaignEvent } from '../api/events';
 import { useCampaignEventsQuery } from '../hooks/useEvents';
 import { useMyCampaignQuery } from '../hooks/useCampaign';
+import { SectionHeading } from '../components/ui';
 import { strings } from '../strings';
 
 /** Local calendar day key, `YYYY-MM-DD`. Deliberately built from the local
@@ -186,7 +187,7 @@ export default function CampaignCalendarScreen() {
         </div>
 
         <section className="space-y-2">
-          <h2 className="text-bone-100 font-semibold">
+          <SectionHeading>
             {selected
               ? new Date(selected).toLocaleDateString(undefined, {
                   weekday: 'long',
@@ -194,7 +195,7 @@ export default function CampaignCalendarScreen() {
                   month: 'long',
                 })
               : strings.events.pickADay}
-          </h2>
+          </SectionHeading>
           {selectedEvents.length === 0 ? (
             <p className="text-bone-300 text-sm">{strings.events.nothingOnThisDay}</p>
           ) : (

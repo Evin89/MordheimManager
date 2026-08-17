@@ -12,6 +12,7 @@ import { useEventRsvpsQuery, useSetRsvpMutation } from '../hooks/useRsvps';
 import { RsvpStatus } from '../api/rsvps';
 import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
+import { Button, Card, SectionHeading, Field, TextField, Textarea } from '../components/ui';
 
 /**
  * §19.1 — Going / Maybe / Can't for one game night.
@@ -46,24 +47,22 @@ function RsvpSection({
 
   return (
     <section className="space-y-3">
-      <h2 className="text-bone-100 font-semibold">{strings.events.rsvp.heading}</h2>
+      <SectionHeading>{strings.events.rsvp.heading}</SectionHeading>
 
       <div className="flex gap-2">
         {options.map((o) => {
           const active = mine === o.value;
           return (
-            <button
+            <Button
               key={o.value}
-              type="button"
+              variant={active ? 'primary' : 'secondary'}
+              size="dense"
+              fullWidth={false}
               onClick={() => setRsvp(active ? null : o.value)}
-              className={`flex-1 min-h-[44px] rounded-md border text-sm font-semibold transition-colors ${
-                active
-                  ? 'bg-ember-500 text-ink-950 border-ember-500'
-                  : 'border-ink-700 text-bone-200 hover:bg-ink-800'
-              }`}
+              className="flex-1"
             >
               {o.label}
-            </button>
+            </Button>
           );
         })}
       </div>
@@ -190,7 +189,7 @@ export default function CampaignEventScreen() {
       <main className="flex-1 px-4 py-4 space-y-6">
         {!editing ? (
           <>
-            <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
+            <Card as="section" gap="sm">
               <p className="text-bone-100 font-semibold">
                 {when.toLocaleString(undefined, {
                   weekday: 'long',
@@ -206,33 +205,25 @@ export default function CampaignEventScreen() {
               {organiser && (
                 <p className="text-bone-400 text-sm">{strings.events.organisedBy(organiser)}</p>
               )}
-            </section>
+            </Card>
 
             <RsvpSection eventId={event.id} members={members ?? []} userId={user?.id} />
 
             {event.notes && (
               <section className="space-y-2">
-                <h2 className="text-bone-100 font-semibold">{strings.events.notesLabel}</h2>
+                <SectionHeading>{strings.events.notesLabel}</SectionHeading>
                 <p className="text-bone-300 whitespace-pre-line">{event.notes}</p>
               </section>
             )}
 
             {canEdit && !confirmingDelete && (
               <div className="space-y-2">
-                <button
-                  type="button"
-                  onClick={startEditing}
-                  className="w-full min-h-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
-                >
+                <Button variant="secondary" onClick={startEditing}>
                   {strings.events.editButton}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setConfirmingDelete(true)}
-                  className="w-full min-h-[48px] rounded-md border border-blood-600 text-blood-500 font-semibold hover:bg-blood-600 hover:text-bone-100 transition-colors"
-                >
+                </Button>
+                <Button variant="danger" onClick={() => setConfirmingDelete(true)}>
                   {strings.events.deleteButton}
-                </button>
+                </Button>
               </div>
             )}
 
@@ -259,69 +250,51 @@ export default function CampaignEventScreen() {
             )}
           </>
         ) : (
-          <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-            <div className="space-y-1">
-              <label htmlFor="edit-title" className="block text-bone-300 text-sm">
-                {strings.events.titleLabel}
-              </label>
-              <input
+          <Card as="section">
+            <Field label={strings.events.titleLabel} htmlFor="edit-title">
+              <TextField
                 id="edit-title"
                 type="text"
                 value={draft?.title ?? ''}
                 onChange={(e) => setDraft((d) => (d ? { ...d, title: e.target.value } : d))}
-                className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
               />
-            </div>
+            </Field>
 
-            <div className="space-y-1">
-              <label htmlFor="edit-when" className="block text-bone-300 text-sm">
-                {strings.events.whenLabel}
-              </label>
-              <input
+            <Field label={strings.events.whenLabel} htmlFor="edit-when">
+              <TextField
                 id="edit-when"
                 type="datetime-local"
                 value={draft?.when ?? ''}
                 onChange={(e) => setDraft((d) => (d ? { ...d, when: e.target.value } : d))}
-                className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
               />
-            </div>
+            </Field>
 
-            <div className="space-y-1">
-              <label htmlFor="edit-where" className="block text-bone-300 text-sm">
-                {strings.events.locationLabel}
-              </label>
-              <input
+            <Field label={strings.events.locationLabel} htmlFor="edit-where">
+              <TextField
                 id="edit-where"
                 type="text"
                 value={draft?.location ?? ''}
                 onChange={(e) => setDraft((d) => (d ? { ...d, location: e.target.value } : d))}
-                className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
               />
-            </div>
+            </Field>
 
-            <div className="space-y-1">
-              <label htmlFor="edit-notes" className="block text-bone-300 text-sm">
-                {strings.events.notesLabel}
-              </label>
-              <textarea
+            <Field label={strings.events.notesLabel} htmlFor="edit-notes">
+              <Textarea
                 id="edit-notes"
                 rows={3}
                 value={draft?.notes ?? ''}
                 onChange={(e) => setDraft((d) => (d ? { ...d, notes: e.target.value } : d))}
-                className="w-full rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100 focus:outline-none focus:border-ember-500"
               />
-            </div>
+            </Field>
 
             {error && <p className="text-blood-500 text-sm">{error}</p>}
 
-            <button
-              type="button"
+            <Button
               disabled={!draft?.title.trim() || !draft?.when || saving}
               onClick={save}
-              className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 disabled:opacity-50 text-ink-950 font-semibold transition-colors"
             >
               {saving ? strings.common.loading : strings.common.save}
-            </button>
+            </Button>
             <button
               type="button"
               onClick={() => setEditing(false)}
@@ -329,7 +302,7 @@ export default function CampaignEventScreen() {
             >
               {strings.common.cancel}
             </button>
-          </section>
+          </Card>
         )}
       </main>
     </div>

@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
+import { Button, Card, Field, TextField } from '../components/ui';
 
 export default function ForgotPasswordScreen() {
   const { requestPasswordReset } = useAuth();
@@ -35,36 +36,28 @@ export default function ForgotPasswordScreen() {
         </header>
 
         {sent ? (
-          <p className="text-sm text-bone-200 rounded-md bg-ink-900 border border-ink-800 p-4">
-            {strings.auth.forgotSent}
-          </p>
+          <Card gap="none">
+            <p className="text-sm text-bone-200">{strings.auth.forgotSent}</p>
+          </Card>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <p className="text-sm text-bone-300">{strings.auth.forgotIntro}</p>
-            <div className="space-y-1">
-              <label htmlFor="email" className="text-sm text-bone-300">
-                {strings.auth.emailLabel}
-              </label>
-              <input
+            <Field label={strings.auth.emailLabel} htmlFor="email">
+              <TextField
                 id="email"
                 type="email"
                 required
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100"
               />
-            </div>
+            </Field>
 
-            {error && <p className="text-sm text-red-400">{error}</p>}
+            {error && <p className="text-sm text-blood-500">{error}</p>}
 
-            <button
-              type="submit"
-              disabled={submitting}
-              className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 active:bg-ember-600 disabled:opacity-60 text-ink-950 font-semibold px-4 transition-colors"
-            >
+            <Button type="submit" disabled={submitting}>
               {submitting ? strings.auth.forgotSubmitting : strings.auth.forgotButton}
-            </button>
+            </Button>
           </form>
         )}
 

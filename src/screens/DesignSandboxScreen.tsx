@@ -2,6 +2,7 @@ import ProfileBlock from '../components/ProfileBlock';
 import { warbandDefinitions } from '../data/warbandRegistry';
 import { resolveStatLine } from '../lib/statLine';
 import { StatLine } from '../types';
+import { Button, Card, SectionHeading, Eyebrow, Field, TextField, Textarea, Select } from '../components/ui';
 
 /**
  * A workbench for the Rulebook design language (spec §5), not a product screen.
@@ -170,6 +171,63 @@ export default function DesignSandboxScreen() {
             >
               Confirm
             </button>
+          </div>
+        </Section>
+
+        {/*
+         * The shared UI kit (src/components/ui). Rendered here inside the app
+         * shell — unlike the profile-block sections above, these primitives use
+         * the *numbered* theme tokens (ember/ink-900/bone), so this block is set
+         * back to the app's own surface to judge them as they'll actually ship,
+         * and flip the theme toggle to see both.
+         */}
+        <Section title="UI kit — shared primitives">
+          <div className="not-prose rounded-lg bg-ink-950 p-4 space-y-6 font-ui" data-kit>
+            <div className="space-y-2">
+              <Eyebrow>Buttons</Eyebrow>
+              <div className="grid grid-cols-2 gap-3 max-w-md">
+                <Button variant="primary">Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="danger">Danger</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="primary" disabled>
+                  Disabled
+                </Button>
+                <Button variant="primary" size="dense">
+                  Dense (40px)
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Eyebrow>Card + section heading</Eyebrow>
+              <Card>
+                <SectionHeading>A raised card</SectionHeading>
+                <p className="text-bone-300 text-sm">
+                  One canonical surface: rounded-lg on ink-900 with a hairline ink-800 border.
+                </p>
+              </Card>
+              <Card interactive>
+                <SectionHeading className="text-sm">Interactive card</SectionHeading>
+                <p className="text-bone-300 text-sm">Hover me — the border lifts.</p>
+              </Card>
+            </div>
+
+            <div className="space-y-3">
+              <Eyebrow>Form controls</Eyebrow>
+              <Field label="Text field">
+                <TextField placeholder="Type here…" />
+              </Field>
+              <Field label="Select">
+                <Select defaultValue="a">
+                  <option value="a">Reiklanders</option>
+                  <option value="b">Maneaters</option>
+                </Select>
+              </Field>
+              <Field label="Textarea">
+                <Textarea placeholder="Longer notes…" />
+              </Field>
+            </div>
           </div>
         </Section>
       </main>

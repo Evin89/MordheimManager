@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
+import { Button, Card, Field, TextField } from '../components/ui';
 
 const MIN_PASSWORD_LENGTH = 6;
 
@@ -61,9 +62,9 @@ export default function ResetPasswordScreen() {
 
         {!user ? (
           <>
-            <p className="text-sm text-bone-200 rounded-md bg-ink-900 border border-ink-800 p-4">
-              {strings.auth.resetNoSession}
-            </p>
+            <Card gap="none">
+              <p className="text-sm text-bone-200">{strings.auth.resetNoSession}</p>
+            </Card>
             <p className="text-center text-sm">
               <Link to="/forgot-password" className="text-ember-400 font-semibold">
                 {strings.auth.forgotTitle}
@@ -73,44 +74,32 @@ export default function ResetPasswordScreen() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <p className="text-sm text-bone-300">{strings.auth.resetIntro}</p>
-            <div className="space-y-1">
-              <label htmlFor="new-password" className="text-sm text-bone-300">
-                {strings.auth.newPasswordLabel}
-              </label>
-              <input
+            <Field label={strings.auth.newPasswordLabel} htmlFor="new-password">
+              <TextField
                 id="new-password"
                 type="password"
                 required
                 autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100"
               />
-            </div>
-            <div className="space-y-1">
-              <label htmlFor="confirm-password" className="text-sm text-bone-300">
-                {strings.auth.confirmPasswordLabel}
-              </label>
-              <input
+            </Field>
+            <Field label={strings.auth.confirmPasswordLabel} htmlFor="confirm-password">
+              <TextField
                 id="confirm-password"
                 type="password"
                 required
                 autoComplete="new-password"
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
-                className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100"
               />
-            </div>
+            </Field>
 
-            {error && <p className="text-sm text-red-400">{error}</p>}
+            {error && <p className="text-sm text-blood-500">{error}</p>}
 
-            <button
-              type="submit"
-              disabled={submitting}
-              className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 active:bg-ember-600 disabled:opacity-60 text-ink-950 font-semibold px-4 transition-colors"
-            >
+            <Button type="submit" disabled={submitting}>
               {submitting ? strings.auth.resetSubmitting : strings.auth.resetButton}
-            </button>
+            </Button>
           </form>
         )}
       </div>

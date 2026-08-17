@@ -10,6 +10,7 @@ import { ImportValidationError, downloadExport, importAllData, parseImportFile }
 import { isDemoMode, setDemoMode } from '../dev/demoMode';
 import { MAX_DISPLAY_NAME } from '../api/profile';
 import { useMyProfileQuery, useUpdateDisplayNameMutation } from '../hooks/useProfile';
+import { Button, Card, SectionHeading, Field, TextField, buttonClasses } from '../components/ui';
 
 
 /**
@@ -38,28 +39,24 @@ function DisplayNameField() {
 
   return (
     <div className="space-y-2">
-      <label htmlFor="display-name" className="block text-bone-300 text-sm">
-        {strings.settings.displayNameLabel}
-      </label>
-      <input
-        id="display-name"
-        type="text"
-        value={value}
-        maxLength={MAX_DISPLAY_NAME}
-        onChange={(e) => setDraft(e.target.value)}
-        className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
-      />
+      <Field label={strings.settings.displayNameLabel} htmlFor="display-name">
+        <TextField
+          id="display-name"
+          type="text"
+          value={value}
+          maxLength={MAX_DISPLAY_NAME}
+          onChange={(e) => setDraft(e.target.value)}
+        />
+      </Field>
       <p className="text-bone-400 text-xs">{strings.settings.displayNameHint}</p>
 
       {dirty && (
-        <button
-          type="button"
+        <Button
           disabled={!trimmed || mutation.isPending}
           onClick={() => mutation.mutate(trimmed, { onSuccess: () => setDraft(null) })}
-          className="min-h-[48px] w-full rounded-md bg-ember-500 hover:bg-ember-600 disabled:opacity-50 text-ink-950 font-semibold px-4 transition-colors"
         >
           {mutation.isPending ? strings.common.loading : strings.settings.displayNameSave}
-        </button>
+        </Button>
       )}
 
       {!trimmed && <p className="text-blood-500 text-xs">{strings.settings.displayNameEmpty}</p>}
@@ -123,35 +120,25 @@ export default function SettingsScreen() {
       <main className="flex-1 px-4 py-6 space-y-6">
         {/* Above the account sections deliberately: it works signed out, and
             it's the one setting someone might want before anything else. */}
-        <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.settings.appearanceSection}</h2>
+        <Card as="section">
+          <SectionHeading>{strings.settings.appearanceSection}</SectionHeading>
           <ThemeToggle theme={theme} onChange={setTheme} />
           {/* One line describing the *selected* theme, rather than a caption
               under each option — the slider already shows both. */}
           <p className="text-bone-300 text-sm">{strings.settings.themeHints[theme]}</p>
-        </section>
+        </Card>
 
         {/* Export/import move real rows in and out of the account, so they only
             make sense (and only work) when signed in. */}
-        <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.settings.dataSection}</h2>
+        <Card as="section">
+          <SectionHeading>{strings.settings.dataSection}</SectionHeading>
           {user ? (
             <>
               <div className="flex flex-col gap-3">
-                <button
-                  type="button"
-                  onClick={handleExport}
-                  className="min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 active:bg-ember-600 text-ink-950 font-semibold px-4 transition-colors"
-                >
-                  {strings.settings.exportButton}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleImportClick}
-                  className="min-h-[48px] rounded-md border border-ink-700 hover:bg-ink-800 text-bone-100 font-semibold px-4 transition-colors"
-                >
+                <Button onClick={handleExport}>{strings.settings.exportButton}</Button>
+                <Button variant="secondary" onClick={handleImportClick}>
                   {strings.settings.importButton}
-                </button>
+                </Button>
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -165,33 +152,26 @@ export default function SettingsScreen() {
           ) : (
             <p className="text-bone-300 text-sm">{strings.settings.signedOutHint}</p>
           )}
-        </section>
+        </Card>
 
-        <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.settings.accountSection}</h2>
+        <Card as="section">
+          <SectionHeading>{strings.settings.accountSection}</SectionHeading>
           {user ? (
             <>
               {user.email && <p className="text-bone-300 text-sm">{strings.settings.signedInAs(user.email)}</p>}
 
               <DisplayNameField />
 
-              <button
-                type="button"
-                onClick={() => signOut()}
-                className="min-h-[48px] w-full rounded-md border border-blood-600 text-blood-500 font-semibold px-4 hover:bg-blood-600 hover:text-bone-100 transition-colors"
-              >
+              <Button variant="danger" onClick={() => signOut()}>
                 {strings.settings.signOutButton}
-              </button>
+              </Button>
             </>
           ) : (
-            <Link
-              to="/login"
-              className="block text-center min-h-[48px] leading-[48px] w-full rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold px-4 transition-colors"
-            >
+            <Link to="/login" className={buttonClasses('primary')}>
               {strings.settings.signInButton}
             </Link>
           )}
-        </section>
+        </Card>
 
         {/* Only rendered for an admin, but that's presentation, not protection:
             `issue_reports` and `admin_stats()` are admin-gated in the database,
@@ -199,16 +179,13 @@ export default function SettingsScreen() {
             an unlinked route you have to remember the URL of is a bad way to
             reach a screen you use. */}
         {isAdmin && (
-          <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-            <h2 className="text-bone-100 font-semibold">{strings.settings.adminSection}</h2>
+          <Card as="section">
+            <SectionHeading>{strings.settings.adminSection}</SectionHeading>
             <p className="text-bone-300 text-sm">{strings.settings.adminHint}</p>
-            <Link
-              to="/admin"
-              className="block text-center min-h-[48px] leading-[48px] w-full rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold px-4 transition-colors"
-            >
+            <Link to="/admin" className={buttonClasses('primary')}>
               {strings.settings.adminLink}
             </Link>
-          </section>
+          </Card>
         )}
 
         {/* Admins only, and dev builds only.
@@ -226,21 +203,17 @@ export default function SettingsScreen() {
             once on, would need it to turn the thing back off. `?demo=0` still
             works as an escape hatch either way. */}
         {import.meta.env.DEV && (isAdmin || isDemoMode()) && (
-          <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-            <h2 className="text-bone-100 font-semibold">Demo data</h2>
+          <Card as="section">
+            <SectionHeading>Demo data</SectionHeading>
             <p className="text-bone-300 text-sm">
               Fills the app with 50 players, 100 warbands and 10 campaigns so the screens can be
               judged at volume. Nothing is written to the database — reloading with this off
               returns you to your own account.
             </p>
-            <button
-              type="button"
-              onClick={() => setDemoMode(!isDemoMode())}
-              className="min-h-[48px] w-full rounded-md border border-ink-700 hover:bg-ink-800 text-bone-100 font-semibold px-4 transition-colors"
-            >
+            <Button variant="secondary" onClick={() => setDemoMode(!isDemoMode())}>
               {isDemoMode() ? 'Leave demo mode' : 'Enter demo mode'}
-            </button>
-          </section>
+            </Button>
+          </Card>
         )}
 
       </main>

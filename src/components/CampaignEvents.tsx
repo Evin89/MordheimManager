@@ -7,6 +7,7 @@ import {
 } from '../hooks/useEvents';
 import { useEventRsvpsQuery } from '../hooks/useRsvps';
 import { strings } from '../strings';
+import { Button, Card, SectionHeading, Field, TextField, Textarea } from './ui';
 
 /** Splits on "now" rather than on the date, so tonight's game stays upcoming
  * until it has actually happened. */
@@ -160,84 +161,65 @@ export default function CampaignEvents({ campaignId }: { campaignId: string }) {
 
   return (
     <section className="space-y-3">
-      <h2 className="text-bone-100 font-semibold">{strings.events.section}</h2>
+      <SectionHeading>{strings.events.section}</SectionHeading>
 
       {!adding ? (
-        <button
-          type="button"
-          onClick={() => setAdding(true)}
-          className="w-full min-h-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
-        >
+        <Button variant="secondary" onClick={() => setAdding(true)}>
           {strings.events.addButton}
-        </button>
+        </Button>
       ) : (
-        <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-          <div className="space-y-1">
-            <label htmlFor="event-title" className="block text-bone-300 text-sm">
-              {strings.events.titleLabel}
-            </label>
-            <input
+        <Card>
+          <Field label={strings.events.titleLabel} htmlFor="event-title">
+            <TextField
               id="event-title"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder={strings.events.titlePlaceholder}
-              className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
             />
-          </div>
+          </Field>
 
-          <div className="space-y-1">
-            <label htmlFor="event-when" className="block text-bone-300 text-sm">
-              {strings.events.whenLabel}
-            </label>
-            {/* datetime-local, so phones give their native date+time pickers
-                rather than asking anyone to type a timestamp. */}
-            <input
+          {/* datetime-local, so phones give their native date+time pickers
+              rather than asking anyone to type a timestamp. */}
+          <Field label={strings.events.whenLabel} htmlFor="event-when">
+            <TextField
               id="event-when"
               type="datetime-local"
               value={when}
               onChange={(e) => setWhen(e.target.value)}
-              className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
             />
-          </div>
+          </Field>
 
-          <div className="space-y-1">
-            <label htmlFor="event-location" className="block text-bone-300 text-sm">
-              {strings.events.locationLabel}
-            </label>
-            <input
+          <Field label={strings.events.locationLabel} htmlFor="event-location">
+            <TextField
               id="event-location"
               type="text"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               placeholder={strings.events.locationPlaceholder}
-              className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
             />
-          </div>
+          </Field>
 
-          <div className="space-y-1">
-            <label htmlFor="event-notes" className="block text-bone-300 text-sm">
-              {strings.events.notesLabel}
-            </label>
-            <textarea
+          <Field label={strings.events.notesLabel} htmlFor="event-notes">
+            <Textarea
               id="event-notes"
+              rows={2}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full min-h-[60px] rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100 focus:outline-none focus:border-ember-500"
             />
-          </div>
+          </Field>
 
           {error && <p className="text-blood-500 text-sm">{error}</p>}
 
           <div className="flex gap-2">
-            <button
-              type="button"
+            <Button
+              fullWidth={false}
               disabled={!canSave || saving}
               onClick={save}
-              className="flex-1 min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 disabled:opacity-50 text-ink-950 font-semibold transition-colors"
+              className="flex-1"
             >
               {saving ? strings.common.loading : strings.events.saveButton}
-            </button>
+            </Button>
             <button
               type="button"
               onClick={() => {
@@ -249,7 +231,7 @@ export default function CampaignEvents({ campaignId }: { campaignId: string }) {
               {strings.common.cancel}
             </button>
           </div>
-        </div>
+        </Card>
       )}
 
       {upcoming.length === 0 && past.length === 0 && (

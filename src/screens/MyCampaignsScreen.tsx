@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { CreateCampaignForm, JoinCampaignForm } from '../components/CampaignForms';
+import { Button } from '../components/ui';
 import { strings } from '../strings';
 import { useCampaignSummariesQuery, useSetActiveCampaign } from '../hooks/useCampaign';
 import { readActiveCampaignId } from '../lib/activeCampaign';
@@ -86,17 +87,9 @@ function CampaignCard({
         </Link>
       )}
 
-      <button
-        type="button"
-        onClick={onOpen}
-        className={`w-full min-h-[48px] rounded-md font-semibold transition-colors ${
-          isActive
-            ? 'border border-ink-700 text-bone-100 hover:bg-ink-800'
-            : 'bg-ember-500 hover:bg-ember-600 text-ink-950'
-        }`}
-      >
+      <Button variant={isActive ? 'secondary' : 'primary'} onClick={onOpen}>
         {isActive ? strings.campaign.openActive : strings.campaign.switchToThis}
-      </button>
+      </Button>
     </div>
   );
 }

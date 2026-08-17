@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
+import { Button, Field, TextField } from '../components/ui';
 
 export default function RegisterScreen() {
   const { signUp } = useAuth();
@@ -34,39 +35,28 @@ export default function RegisterScreen() {
         </header>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-1">
-            <label htmlFor="displayName" className="text-sm text-bone-300">
-              {strings.auth.displayNameLabel}
-            </label>
-            <input
+          <Field label={strings.auth.displayNameLabel} htmlFor="displayName">
+            <TextField
               id="displayName"
               type="text"
               required
               autoComplete="nickname"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100"
             />
-          </div>
-          <div className="space-y-1">
-            <label htmlFor="email" className="text-sm text-bone-300">
-              {strings.auth.emailLabel}
-            </label>
-            <input
+          </Field>
+          <Field label={strings.auth.emailLabel} htmlFor="email">
+            <TextField
               id="email"
               type="email"
               required
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100"
             />
-          </div>
-          <div className="space-y-1">
-            <label htmlFor="password" className="text-sm text-bone-300">
-              {strings.auth.passwordLabel}
-            </label>
-            <input
+          </Field>
+          <Field label={strings.auth.passwordLabel} htmlFor="password">
+            <TextField
               id="password"
               type="password"
               required
@@ -74,19 +64,14 @@ export default function RegisterScreen() {
               autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100"
             />
-          </div>
+          </Field>
 
-          {error && <p className="text-sm text-red-400">{error}</p>}
+          {error && <p className="text-sm text-blood-500">{error}</p>}
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 active:bg-ember-600 disabled:opacity-60 text-ink-950 font-semibold px-4 transition-colors"
-          >
+          <Button type="submit" disabled={submitting}>
             {submitting ? strings.auth.registerSubmitting : strings.auth.registerButton}
-          </button>
+          </Button>
         </form>
 
         <p className="text-center text-sm text-bone-400">

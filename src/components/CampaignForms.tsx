@@ -2,6 +2,7 @@ import { useState } from 'react';
 import DisclosureChevron from './DisclosureChevron';
 import { strings } from '../strings';
 import { useCreateCampaignMutation, useJoinCampaignMutation } from '../hooks/useCampaign';
+import { Button, Card, SectionHeading, Field, TextField } from './ui';
 
 /**
  * Entering a code someone shared with you.
@@ -28,7 +29,7 @@ export function JoinCampaignForm({ title, compact = false }: { title: string; co
   }
 
   const field = (
-    <input
+    <TextField
       type="text"
       value={code}
       onChange={(e) => setCode(e.target.value)}
@@ -37,19 +38,8 @@ export function JoinCampaignForm({ title, compact = false }: { title: string; co
       autoCapitalize="characters"
       autoCorrect="off"
       spellCheck={false}
-      className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 font-mono tracking-widest uppercase focus:outline-none focus:border-ember-500"
+      className="font-mono tracking-widest uppercase"
     />
-  );
-
-  const submit = (
-    <button
-      type="button"
-      onClick={handleJoin}
-      disabled={joining || !code.trim()}
-      className="min-h-[48px] px-4 rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 disabled:opacity-50 transition-colors shrink-0"
-    >
-      {strings.campaign.joinButton}
-    </button>
   );
 
   // Compact: one row above the tabs, so it's visible without hunting for it but
@@ -60,33 +50,31 @@ export function JoinCampaignForm({ title, compact = false }: { title: string; co
         <label className="block text-bone-300 text-sm">{title}</label>
         <div className="flex gap-2">
           {field}
-          {submit}
+          <Button
+            variant="secondary"
+            fullWidth={false}
+            onClick={handleJoin}
+            disabled={joining || !code.trim()}
+            className="shrink-0"
+          >
+            {strings.campaign.joinButton}
+          </Button>
         </div>
-        {joinError && <p className="text-sm text-red-400">{joinError}</p>}
+        {joinError && <p className="text-sm text-blood-500">{joinError}</p>}
       </section>
     );
   }
 
   return (
-    <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-      <h2 className="text-bone-100 font-semibold">{title}</h2>
+    <Card as="section">
+      <SectionHeading>{title}</SectionHeading>
       <p className="text-bone-300 text-sm">{strings.campaign.joinHint}</p>
-      <div className="space-y-1">
-        <label className="text-bone-300 text-sm">{strings.campaign.joinCodeLabel}</label>
-        {field}
-      </div>
-      {joinError && <p className="text-sm text-red-400">{joinError}</p>}
-      <div className="flex">
-        <button
-          type="button"
-          onClick={handleJoin}
-          disabled={joining || !code.trim()}
-          className="w-full min-h-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 disabled:opacity-50 transition-colors"
-        >
-          {strings.campaign.joinButton}
-        </button>
-      </div>
-    </section>
+      <Field label={strings.campaign.joinCodeLabel}>{field}</Field>
+      {joinError && <p className="text-sm text-blood-500">{joinError}</p>}
+      <Button variant="secondary" onClick={handleJoin} disabled={joining || !code.trim()}>
+        {strings.campaign.joinButton}
+      </Button>
+    </Card>
   );
 }
 
@@ -109,16 +97,14 @@ export function CreateCampaignForm({ title, hint, compact = false }: { title: st
   const body = (
     <>
       <p className="text-bone-300 text-sm">{hint}</p>
-      <div className="space-y-1">
-        <label className="text-bone-300 text-sm">{strings.campaign.nameLabel}</label>
-        <input
+      <Field label={strings.campaign.nameLabel}>
+        <TextField
           type="text"
           value={draftName}
           onChange={(e) => setDraftName(e.target.value)}
           placeholder={strings.campaign.namePlaceholder}
-          className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
         />
-      </div>
+      </Field>
       <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm">
         <input
           type="checkbox"
@@ -128,22 +114,18 @@ export function CreateCampaignForm({ title, hint, compact = false }: { title: st
         />
         {strings.campaign.usesBtbLabel}
       </label>
-      <button
-        type="button"
-        onClick={() => createCampaign(draftName.trim() || 'My Campaign', draftUsesBtb)}
-        className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
-      >
+      <Button onClick={() => createCampaign(draftName.trim() || 'My Campaign', draftUsesBtb)}>
         {strings.campaign.startButton}
-      </button>
+      </Button>
     </>
   );
 
   if (!compact) {
     return (
-      <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-        <h2 className="text-bone-100 font-semibold">{title}</h2>
+      <Card as="section">
+        <SectionHeading>{title}</SectionHeading>
         {body}
-      </section>
+      </Card>
     );
   }
 
