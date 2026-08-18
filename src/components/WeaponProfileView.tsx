@@ -7,6 +7,10 @@ type Props = {
   cost?: string;
   /** "Common" or "Rare N" — omitted when unknown/ambiguous. */
   availability?: string;
+  /** Suppress the Cost/Availability line entirely — used where price and rarity
+   * are noise rather than information (the during-battle quick reference), so the
+   * same profile can be shown for its rules without the shop framing. */
+  hidePricing?: boolean;
 };
 
 /**
@@ -15,11 +19,11 @@ type Props = {
  * each rule's name in bold. Shared by the shop/roster dropdowns, the Rules tab's
  * inline expanders, and the rule detail page.
  */
-export default function WeaponProfileView({ profile, cost, availability }: Props) {
+export default function WeaponProfileView({ profile, cost, availability, hidePricing }: Props) {
   const labels = strings.weaponRules;
   return (
     <div className="space-y-2 text-sm">
-      {(cost || availability) && (
+      {!hidePricing && (cost || availability) && (
         <div>
           {cost && (
             <p className="text-bone-200">

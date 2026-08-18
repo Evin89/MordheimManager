@@ -18,6 +18,9 @@ type Props = {
   action?: ReactNode;
   /** Borderless, tighter layout for embedding inside another card (e.g. the battle roster). */
   compact?: boolean;
+  /** Hide Cost/Availability in the expanded profile — for the during-battle
+   * reference, where price and rarity aren't what you're checking mid-game. */
+  hidePricing?: boolean;
 };
 
 /**
@@ -26,7 +29,7 @@ type Props = {
  * the full Rules Reference entry. Items with no matching rules render as a plain
  * (non-expandable) row so the same component can be dropped in everywhere.
  */
-export default function WeaponRulesDisclosure({ name, rule, toggleLabel, subtitle, action, compact }: Props) {
+export default function WeaponRulesDisclosure({ name, rule, toggleLabel, subtitle, action, compact, hidePricing }: Props) {
   const resolved = rule ?? getWeaponRuleByName(name);
   const [open, setOpen] = useState(false);
   const canExpand = !!resolved;
@@ -69,7 +72,12 @@ export default function WeaponRulesDisclosure({ name, rule, toggleLabel, subtitl
       {canExpand && open && (
         <div className={bodyPad}>
           {resolved!.profile ? (
-            <WeaponProfileView profile={resolved!.profile} cost={resolved!.cost} availability={resolved!.availability} />
+            <WeaponProfileView
+              profile={resolved!.profile}
+              cost={resolved!.cost}
+              availability={resolved!.availability}
+              hidePricing={hidePricing}
+            />
           ) : (
             <p className="text-bone-200 text-sm whitespace-pre-line">{resolved!.body}</p>
           )}

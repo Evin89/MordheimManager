@@ -390,6 +390,10 @@ export const strings = {
     heroesSection: 'Heroes',
     henchmenSection: 'Henchmen Groups',
     hiredSwordsSection: 'Hired Swords',
+    // Compact loadout summary on each roster card (names only — no cost or rarity).
+    weaponsLabel: 'Weapons',
+    skillsLabel: 'Skills',
+    rulesLabel: 'Rules',
     noHeroes: 'No heroes yet.',
     noHenchmen: 'No henchmen groups yet.',
     // Every member of a group carries the same Experience total — saying "each"

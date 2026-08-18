@@ -125,7 +125,7 @@ function RosterCard({
       {equipment.length > 0 ? (
         <div className="space-y-0.5">
           {equipment.map((e) => (
-            <WeaponRulesDisclosure key={e.id} name={e.name} compact />
+            <WeaponRulesDisclosure key={e.id} name={e.name} compact hidePricing />
           ))}
         </div>
       ) : (

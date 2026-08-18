@@ -23,8 +23,43 @@ import {
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
 import { useMyCampaignsQuery } from '../hooks/useCampaign';
 import { computeWarbandRating, countModels } from '../lib/rating';
-import { getWarbandTypeName } from '../data/warbandRegistry';
+import { getWarbandTypeName, getUnitSpecialRules } from '../data/warbandRegistry';
 import { HenchmenGroup, Hero, HiredSword, ModelStatus } from '../types';
+
+/**
+ * The compact "what does this model carry" summary shown on each roster card:
+ * weapons, skills and unit rules as plain name lists. Deliberately names only —
+ * no weapon cost or rarity, which is shop information, not what you check when
+ * scanning the roster. The card links through to the detail screen for the full,
+ * expandable version (stat lines, rule text, prices).
+ */
+function LoadoutLines({
+  weapons,
+  skills,
+  rules,
+}: {
+  weapons: string[];
+  skills?: string[];
+  rules: string[];
+}) {
+  const rows: [string, string[]][] = [
+    [strings.roster.weaponsLabel, weapons],
+    [strings.roster.skillsLabel, skills ?? []],
+    [strings.roster.rulesLabel, rules],
+  ];
+  const shown = rows.filter(([, items]) => items.length > 0);
+  if (shown.length === 0) return null;
+  return (
+    <dl className="mt-3 space-y-1">
+      {shown.map(([label, items]) => (
+        <div key={label} className="flex gap-2 text-xs leading-snug">
+          <dt className="text-bone-400 shrink-0 w-16">{label}</dt>
+          <dd className="text-bone-300 min-w-0">{items.join(', ')}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
 
 const STATUS_BADGE: Partial<Record<ModelStatus, string>> = {
   missNextGame: strings.roster.missNextGameBadge,
@@ -36,10 +71,12 @@ const STATUS_BADGE: Partial<Record<ModelStatus, string>> = {
 function ModelRow({
   to,
   model,
+  warbandType,
   photoUrl,
 }: {
   to: string;
   model: Hero | HiredSword;
+  warbandType: string;
   photoUrl?: string;
 }) {
   const badge = STATUS_BADGE[model.status];
@@ -75,6 +112,12 @@ function ModelRow({
       <div className="mt-3 overflow-x-auto">
         <ProfileBlock stats={model.stats} variant="collapsed" />
       </div>
+
+      <LoadoutLines
+        weapons={model.equipment.map((e) => e.name)}
+        skills={model.skills}
+        rules={getUnitSpecialRules(warbandType, unitTypeLabel).map((r) => r.name)}
+      />
     </Link>
   );
 }
@@ -91,10 +134,12 @@ function ModelRow({
  */
 function HenchmenGroupCard({
   warbandId,
+  warbandType,
   group,
   photoUrl,
 }: {
   warbandId: string;
+  warbandType: string;
   group: HenchmenGroup;
   photoUrl?: string;
 }) {
@@ -120,6 +165,11 @@ function HenchmenGroupCard({
         <div className="mt-3 overflow-x-auto">
           <ProfileBlock stats={group.stats} variant="collapsed" />
         </div>
+
+        <LoadoutLines
+          weapons={group.equipment.map((e) => e.name)}
+          rules={getUnitSpecialRules(warbandType, group.unitType).map((r) => r.name)}
+        />
       </Link>
 
       {group.count > 0 && (
@@ -270,6 +320,7 @@ export default function RosterScreen() {
                 key={hero.id}
                 to={`/warbands/${warband.id}/hero/${hero.id}`}
                 model={hero}
+                warbandType={warband.warbandType}
                 photoUrl={photos[hero.id]}
               />
             ))}
@@ -291,6 +342,7 @@ export default function RosterScreen() {
               <HenchmenGroupCard
                 key={group.id}
                 warbandId={warband.id}
+                warbandType={warband.warbandType}
                 group={group}
                 photoUrl={photos[group.id]}
               />
@@ -314,6 +366,7 @@ export default function RosterScreen() {
                 key={sword.id}
                 to={`/warbands/${warband.id}/hired-sword/${sword.id}`}
                 model={sword}
+                warbandType={warband.warbandType}
                 photoUrl={photos[sword.id]}
               />
             ))}
