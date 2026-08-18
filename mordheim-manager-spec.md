@@ -1110,7 +1110,7 @@ Also confirm: removing a player drops their warband out of the standings via the
 
 ## 15. Magic, prayers & rituals ✅
 
-Wizards, priests and shamans carry a list of spells or prayers the way a fighter carries weapons. **Built**: ten lists, 60 entries in `src/data/spells.json`, wired to twelve caster hero slots and the Warlock hired sword, rendered on the unit entry and rolled or chosen in place.
+Wizards, priests and shamans carry a list of spells or prayers the way a fighter carries weapons. **Built and since expanded**: `src/data/spells.json` now holds **30 lists (182 entries)** — the original ten curated lists plus twenty converted from the Mordheimer Sourcedata (markup and mojibake scrubbed at conversion), wired to **26 caster hero slots** across the imported warbands (Arabian Mystic, Chaos-Dwarf Sorcerers, Dark Elf Sorceress, the Marauder Seer's four mark-rituals, and so on) plus the Warlock hired sword, rendered on the unit entry and rolled or chosen in place. All 30 lists are also browsable and searchable in the Rules Reference under a **Magic** category (`spellEntries()` in `rulesIndex.ts`), which previously had no content behind its filter.
 
 **The model rolls in-app, or the player chooses.** Both, side by side, exactly as injuries, advances, rare items and Exploration already work (§1). This is not a new principle; it is the established one applied to one more table.
 
@@ -1283,7 +1283,9 @@ Four additions to make a campaign read as a story, not just a stat sheet. All fo
 
 **Suggested build order:** 17.4 (Awards) → 17.2 (Rivalries) → 17.3 (Narrative log) → 17.1 (Territory). Awards need zero new tables and validate the read patterns; rivalries are read-mostly with one small write; the narrative log is a straightforward new table on a well-worn RLS shape; territory is the only one with real write contention (several players claiming the same thing) and benefits from going last.
 
-### 17.1 Territory control ◻️
+### 17.1 Territory control ✅
+
+Built — migration `0020_territories.sql`, `src/api/territories.ts`, `src/hooks/useTerritories.ts`, and the `TerritoryTab` fourth tab on `/campaign`. The open write-contention question resolved as designed below: the map is a **shared, members-writable board** — any member adds a territory or reassigns its holder (no leader-approval step, since it changes hands at the table), and removal uses the §10.1 type-to-confirm panel. `controlled_by_warband_id` is a FK with `ON DELETE SET NULL`, so a departing warband returns its territory to unclaimed rather than orphaning it.
 
 Mordheim's territory rules are themselves campaign-variant and often house-ruled, so the app tracks **who controls what**, not income or effects — matching the treatment Exploration already gets in §16 ("persistent effects ... not fed back ... doing it properly means real fields and a migration, deferred").
 
@@ -1349,7 +1351,9 @@ nemesisWarbandId?: string;   // player-designated; never implied by battle count
 
 ⚠️ **Built, but grouped by opponent *name*, not warband id** — because the premise didn't hold. `BattleRecord.opponents` is `string[]`: the names typed or picked in the pre-battle flow, never the opponent's warband id. So `lib/rivalries.ts` groups by that name and tallies W/L/D per opponent, shown as a card per the viewer's own campaign warband on the Standings tab (a rivalry is *yours*, and the log holds every player's battles). The persisted `nemesisWarbandId` is **not built**: there is no id to point at until the battle record starts capturing the opponent's warband id, which is a separate change to the pre-battle flow and its commit. The derived view — the valuable half — is what shipped.
 
-### 17.3 Campaign narrative log ◻️
+### 17.3 Campaign narrative log ✅
+
+Built — migration `0017_campaign_log_entries.sql`, `src/api/campaignLog.ts`, `src/hooks/useCampaignLog.ts`, and the `NarrativeLog` composer on the campaign Log tab. Each entry may optionally link a recent battle; the author's display name is denormalised onto the row (the way standings denormalise player names) rather than joined per entry; the RLS mirrors `campaign_events` (author-or-leader to remove).
 
 A free-text log distinct from `BattleRecord`: entries between games, side notes, things that happened at the table that are not a win or a loss. The same instinct as `campaign_events` splitting off from the Players tab (§4.5) — battle records are a tally, this is a story, and the two do not want the same screen.
 
@@ -1489,7 +1493,9 @@ Written by a trigger on `warbands` `AFTER UPDATE OF rating` — append-only, nev
 
 ## 19. Social & multiplayer ◻️
 
-### 19.1 Event RSVPs ◻️
+### 19.1 Event RSVPs ✅
+
+Built — migration `0019_event_rsvps.sql`, `src/api/rsvps.ts`, `src/hooks/useRsvps.ts`. A Going / Maybe / Can't row on each game night's detail screen (self-only writes; tapping your current choice withdraws it), a per-status roster of who's coming, and a `going · maybe` tally on the next-event banner. Names come from the member list the event screen already loads, not a per-row profile join.
 
 Extends `campaign_events`, whose three screens are now built (§4.5), rather than adding a table.
 
@@ -1522,7 +1528,9 @@ warband_comments   id, warband_id, author_id, body, created_at, deleted_at (null
 
 ❓ **Recommendation** — given the moderation cost, and that this is the one feature here with no precedent for a solo-maintained app absorbing ongoing abuse handling, ship RSVPs, announcements and the §17.3 narrative log first. Revisit comments only if the gallery grows past the size where an admin can plausibly handle them by hand.
 
-### 19.3 Leader announcements ◻️
+### 19.3 Leader announcements ✅
+
+Built — migration `0018_campaign_announcement.sql` (two nullable columns on `campaigns`, no new table), the `setCampaignAnnouncement` API, and the `AnnouncementBanner` pinned above the campaign tabs. Reading rides the existing `campaigns_select` policy and writing rides `campaigns_update_leader`, so only a leader can pin or clear it and no new RLS was needed.
 
 A single pinned note per campaign, not a feed — deliberately smaller than a comment system, and a field rather than a table.
 
@@ -1597,7 +1605,9 @@ The largest undertaking on any list so far, and **in tension with the project's 
 
 If pursued, **scope narrowly first.** A "custom" type that clones an existing warband's slot, equipment and racial-maximum structure — clone-and-rename, not build-from-scratch — is a far smaller lift and sidesteps most of the sourcing-integrity problem, because the numbers are still ones the rulebook printed, merely reassigned. A true from-scratch builder with custom stat lines and costs is a different and much larger feature, and wants its own spec document rather than a subsection here.
 
-### 21.3 Scenario generator ◻️
+### 21.3 Scenario generator ✅
+
+Built — `src/data/scenarioWeights.json` and `src/lib/scenarioSuggest.ts`, wired into the pre-battle screen as a "Suggest a scenario" button. A weighted pick (a group plays some scenarios far more than others, so not a uniform roll), respecting a per-scenario `minCampaignBattles` gate so a story scenario can't be suggested before the campaign has earned it. It only ever fills the field the manual picker fills — the player keeps or changes it.
 
 Smaller than it sounds, and fits the roll-or-pick pattern exactly (§1, §15.3): a picker feeding the existing pre-battle screen (§4.3), not a new subsystem.
 
@@ -1624,15 +1634,15 @@ Roughly by lift × risk, cheapest first.
 | 1 | ✅ §20 Utility — dice roller, comparison, afford-filter | Built. No schema at all |
 | 2 | ✅ §17.4 Awards, ⚠️ §17.2 Rivalries | Built. Awards full; rivalries grouped by opponent name (no persisted nemesis — opponents are text, not ids) |
 | 3 | ✅ §18.1 Nicknames & epitaphs | Built (epitaph in the battle log, since dead heroes leave the roster) |
-| 4 | §21.3 Scenario generator | One static file and a button |
+| 4 | ✅ §21.3 Scenario generator | Built (`scenarioWeights.json` + `scenarioSuggest.ts`; weighted "Suggest a scenario" in the pre-battle flow, gated on campaign progress) |
 | 5 | ✅ §20.4 Guided nav tour ("how-to") | Built (`NavTour.tsx`; coachmark over the shared nav list, auto-once then ?-reopenable) |
-| 6 | §17.3 Narrative log, §19.3 Announcements | Small tables on an RLS pattern that exists |
+| 6 | ✅ §17.3 Narrative log, ✅ §19.3 Announcements | Built (migrations 0017/0018; both on the campaign_events RLS shape) |
 | 7 | ✅ §18.3 Rating history | Built (migration 0016; detail-screen chart) |
-| 8 | §19.1 Event RSVPs | Extends the events tables, now that their screens exist |
+| 8 | ✅ §19.1 Event RSVPs | Built (migration 0019; Going/Maybe/Can't per game night, banner tally) |
 | 9 | ✅ §18.2 Equipment history | Built (the three per-model gear write sites) |
-| 10 | §17.1 Territory | Real write contention; resolve the open question first |
+| 10 | ✅ §17.1 Territory | Built (migration 0020; the write-contention question resolved as a shared members-writable board — see §17.1) |
 | 11 | §19.2 Gallery comments | Moderation cost — reconsider the need before building |
 | 12 | §19.4 Push notifications | First server-side compute the project has needed |
 | 13 | §21.2 Custom warband builder | Scope separately; conflicts with §3.3 unless narrowed to clone-and-rename |
 
-Done so far: per-model photos (§21.1, migration 0015), the campaign events UI that §19.1 extends (§4.5), and all of §20 Utility (the dice roller, comparison tool and afford-filter — row 1).
+Done so far: per-model photos (§21.1, migration 0015), all of §20 Utility (dice roller, comparison, afford-filter — row 1), and the whole campaign-collaboration set that built on the §4.5 events UI — the scenario generator (§21.3), narrative log (§17.3, migration 0017), leader announcements (§19.3, 0018), event RSVPs (§19.1, 0019) and territory control (§17.1, 0020). Rows 11–13 remain, all deliberately deferred. Also landed outside this table: the full magic expansion (§15 — 30 lists, all warband casters wired, spells browsable in the Rules Reference) and the shared design-system UI kit (§5).
