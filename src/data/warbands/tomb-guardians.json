@@ -102,7 +102,11 @@
         "I": null,
         "A": null,
         "Ld": null
-      }
+      },
+      "spellLists": [
+        "mortuaryCultScrolls"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "acolytes",

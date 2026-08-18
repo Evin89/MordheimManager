@@ -8,6 +8,11 @@
       "description": "Movement, combat, shooting, close combat, and psychology — the tabletop rules used during a battle."
     },
     {
+      "id": "magic",
+      "name": "Magic",
+      "description": "Spell, prayer and ritual lists for warband wizards, priests and shamans."
+    },
+    {
       "id": "postBattle",
       "name": "Post-Battle Sequence",
       "description": "What happens between games: injuries, experience, advances, exploration, wyrdstone, and warband rating."

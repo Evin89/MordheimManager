@@ -151,7 +151,11 @@
         "A": null,
         "Ld": null
       },
-      "racialProfile": "human"
+      "racialProfile": "human",
+      "spellLists": [
+        "forestGoblinMagic"
+      ],
+      "startingSpells": 1
     }
   ],
   "henchmenTypes": [

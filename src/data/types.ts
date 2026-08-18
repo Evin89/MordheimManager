@@ -471,6 +471,7 @@ export type ExplorationData = {
 
 export type RulesCategoryId =
   | 'core'
+  | 'magic'
   | 'postBattle'
   | 'trading'
   | 'skills'

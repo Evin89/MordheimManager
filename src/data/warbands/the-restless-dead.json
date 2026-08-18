@@ -81,7 +81,11 @@
         "I": 6,
         "A": 3,
         "Ld": 10
-      }
+      },
+      "spellLists": [
+        "necromancyRestlessDead"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "necromancer",
@@ -136,7 +140,11 @@
         "A": null,
         "Ld": null
       },
-      "racialProfile": "human"
+      "racialProfile": "human",
+      "spellLists": [
+        "necromancyRestlessDead"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "grave-guard",

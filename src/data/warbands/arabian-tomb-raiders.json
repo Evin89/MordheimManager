@@ -144,7 +144,11 @@
         "A": null,
         "Ld": null
       },
-      "racialProfile": "human"
+      "racialProfile": "human",
+      "spellLists": [
+        "arabianElementalMagic"
+      ],
+      "startingSpells": 1
     }
   ],
   "henchmenTypes": [

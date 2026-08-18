@@ -59,7 +59,11 @@
         "I": null,
         "A": null,
         "Ld": null
-      }
+      },
+      "spellLists": [
+        "ritualsOfHashut"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "bull-centaur",

@@ -144,7 +144,11 @@
         "A": null,
         "Ld": null
       },
-      "racialProfile": "elf"
+      "racialProfile": "elf",
+      "spellLists": [
+        "shadowWarriorMagic"
+      ],
+      "startingSpells": 1
     }
   ],
   "henchmenTypes": [

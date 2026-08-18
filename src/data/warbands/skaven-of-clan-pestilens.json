@@ -103,7 +103,11 @@
         "A": null,
         "Ld": null
       },
-      "racialProfile": "skaven"
+      "racialProfile": "skaven",
+      "spellLists": [
+        "magicOfTheHornedRat"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "plague-monks",

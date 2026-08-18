@@ -100,7 +100,11 @@
         "A": null,
         "Ld": null
       },
-      "racialProfile": "goblin"
+      "racialProfile": "goblin",
+      "spellLists": [
+        "goblinMagic"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "bosses",

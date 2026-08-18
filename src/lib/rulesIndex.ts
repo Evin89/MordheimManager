@@ -1,6 +1,7 @@
 import rulesData from '../data/rules.json';
 import skillsData from '../data/skills.json';
 import injuriesData from '../data/injuries.json';
+import spellsData from '../data/spells.json';
 import scenarioRefData from '../data/reference/scenarios.json';
 import explorationData from '../data/exploration.json';
 import btbObjectivesData from '../data/btb/objectives.json';
@@ -21,10 +22,12 @@ import {
   RulesCategoryId,
   RulesData,
   SkillsData,
+  SpellsData,
 } from '../data/types';
 
 const typedRules = rulesData as RulesData;
 const typedSkills = skillsData as unknown as SkillsData;
+const typedSpells = spellsData as unknown as SpellsData;
 const typedExploration = explorationData as ExplorationData;
 const typedBtbObjectives = btbObjectivesData as BtbObjectivesData;
 const typedBtbDramatisPersonae = btbDramatisPersonaeData as BtbDramatisPersonaeData;
@@ -75,6 +78,34 @@ function skillEntries(): RuleEntry[] {
         subChapter: list.name,
         source: list.name,
         body: skill.prerequisite ? `${skill.effect}\n\nPrerequisite: ${skill.prerequisite.text}` : skill.effect,
+      });
+    }
+  }
+  return entries;
+}
+
+/**
+ * Every spell, prayer and ritual as a searchable entry (§4.8), grouped by its
+ * list under the Magic chapter. Per-spell rather than per-list so a search for
+ * "Doombolt" lands on the spell, the way skills resolve — the list name rides
+ * along as the subChapter. Difficulty leads the body because it is the first
+ * thing read at the table; `usedBy` says which casters draw on the list.
+ */
+function spellEntries(): RuleEntry[] {
+  const entries: RuleEntry[] = [];
+  for (const list of Object.values(typedSpells.lists)) {
+    for (const spell of list.spells) {
+      const difficulty = spell.difficulty === null ? 'Automatic' : `${spell.difficulty}+ on 2D6`;
+      const casters = list.usedBy.length ? `\n\nUsed by: ${list.usedBy.join(', ')}` : '';
+      const errata = spell.errata ? `\n\nErrata: ${spell.errata}` : '';
+      entries.push({
+        id: `spell-${slugify(spell.id)}`,
+        title: spell.name,
+        category: 'magic',
+        chapter: 'Magic',
+        subChapter: list.name,
+        source: `${list.name} — ${typedSpells.source}`,
+        body: `Difficulty: ${difficulty}\n\n${spell.effect}${errata}${casters}`,
       });
     }
   }
@@ -298,6 +329,7 @@ function referenceEntries(): RuleEntry[] {
 const allEntries: RuleEntry[] = [
   ...typedRules.entries,
   ...skillEntries(),
+  ...spellEntries(),
   ...injuryEntries(),
   ...scenarioEntries(),
   ...explorationEntries(),

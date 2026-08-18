@@ -112,7 +112,11 @@
         "A": null,
         "Ld": null
       },
-      "racialProfile": "human"
+      "racialProfile": "human",
+      "spellLists": [
+        "ladysPrayers"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "knight-errant",

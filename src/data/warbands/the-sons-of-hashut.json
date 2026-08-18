@@ -55,7 +55,11 @@
         "A": null,
         "Ld": null
       },
-      "racialProfile": "dwarf"
+      "racialProfile": "dwarf",
+      "spellLists": [
+        "chaosDwarfsMagic"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "bull-centaur",

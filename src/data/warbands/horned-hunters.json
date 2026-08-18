@@ -110,7 +110,11 @@
         "A": null,
         "Ld": null
       },
-      "racialProfile": "human"
+      "racialProfile": "human",
+      "spellLists": [
+        "prayersOfTaal"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "initiates",

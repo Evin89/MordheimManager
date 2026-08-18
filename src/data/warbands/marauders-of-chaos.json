@@ -101,7 +101,14 @@
         "I": 7,
         "A": 4,
         "Ld": 9
-      }
+      },
+      "spellLists": [
+        "chaosRituals",
+        "onogalRituals",
+        "shornaalRituals",
+        "tcharRituals"
+      ],
+      "startingSpells": 1
     },
     {
       "id": "champions",

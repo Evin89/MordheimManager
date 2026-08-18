@@ -198,7 +198,11 @@
         "A": null,
         "Ld": null
       },
-      "racialProfile": "elf"
+      "racialProfile": "elf",
+      "spellLists": [
+        "darkElfMagic"
+      ],
+      "startingSpells": 1
     }
   ],
   "henchmenTypes": [
