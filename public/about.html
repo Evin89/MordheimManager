@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en" data-theme="grimdark" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>About &amp; changelog — Mordheim Campaign Manager</title>
+    <meta
+      name="description"
+      content="About the Mordheim Campaign Manager, and a running changelog of every notable change — newest first."
+    />
+    <link rel="canonical" href="https://mordheimmanager.net/about.html" />
+    <meta name="theme-color" content="#0b0a09" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+Sans:wght@400;500;700&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Pirata+One&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Pre-paint theme, matching landing.html and the app so a parchment
+         reader never flashes the dark theme. -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('mordheim.theme');
+          if (t !== 'grimdark' && t !== 'parchment') t = 'grimdark';
+          document.documentElement.setAttribute('data-theme', t);
+          document.documentElement.classList.toggle('dark', t === 'grimdark');
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', t === 'parchment' ? '#e9e0cc' : '#0b0a09');
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'grimdark');
+        }
+      })();
+    </script>
+
+    <style>
+      /*
+        Tokens are the app's own (§5.1), pasted from src/index.css so the page
+        can't drift from the product. Space-separated RGB channels, used through
+        rgb(var(--x)) so the same value drives solid and translucent alike.
+      */
+      :root,
+      [data-theme='grimdark'] {
+        --ink-950: 11 10 9;
+        --ink-900: 20 18 16;
+        --ink-800: 31 28 25;
+        --ink-700: 43 39 36;
+        --bone-100: 242 234 217;
+        --bone-300: 216 198 161;
+        --bone-400: 168 152 122;
+        --ink: 242 234 217;
+        --ink-faded: 168 152 122;
+        --accent: 220 92 14;
+        --accent-bright: 242 117 26;
+        --on-accent: 11 10 9;
+        --page: 11 10 9;
+        --raised: 20 18 16;
+      }
+      [data-theme='parchment'] {
+        --ink-950: 232 222 196;
+        --ink-900: 241 233 210;
+        --ink-800: 199 185 155;
+        --ink-700: 168 152 119;
+        --bone-100: 34 26 18;
+        --bone-300: 90 76 60;
+        --bone-400: 106 90 68;
+        --ink: 34 26 18;
+        --ink-faded: 106 90 68;
+        --accent: 122 30 26;
+        --accent-bright: 122 30 26;
+        --on-accent: 255 255 255;
+        --page: 232 222 196;
+        --raised: 241 233 210;
+      }
+
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        background: rgb(var(--page));
+        color: rgb(var(--ink));
+        font-family: 'Alegreya', Georgia, 'Times New Roman', serif;
+        font-size: 18px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: inherit; }
+      h1, .display { font-family: 'Pirata One', Georgia, serif; font-weight: 400; letter-spacing: 0.02em; }
+      h2, h3 { font-family: 'IM Fell English', Georgia, serif; font-weight: 400; }
+      .ui { font-family: 'Alegreya Sans', system-ui, sans-serif; }
+      .tnum { font-variant-numeric: tabular-nums lining-nums; }
+
+      .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+      /* Top bar */
+      .topbar { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+      .wordmark { display: flex; align-items: center; gap: 10px; font-family: 'IM Fell English', serif; font-size: 20px; }
+      .wordmark .glyph {
+        width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        background: rgb(var(--ink-800)); color: rgb(var(--accent-bright));
+        border: 1px solid rgb(var(--ink-700));
+      }
+      .toggle { display: flex; gap: 6px; }
+      .toggle button {
+        font-family: 'Alegreya Sans', sans-serif; font-size: 12px; font-weight: 600;
+        padding: 6px 10px; border-radius: 6px; cursor: pointer; letter-spacing: 0.03em;
+        color: rgb(var(--ink-faded)); background: transparent;
+        border: 1px solid rgb(var(--ink-800) / 0.6);
+      }
+      .toggle button[aria-pressed='true'] {
+        color: rgb(var(--on-accent)); background: rgb(var(--accent)); border-color: transparent;
+      }
+
+      /* Hero */
+      .hero { padding: 28px 0 40px; }
+      /* The stone wordmark reads as light-on-dark; it keeps its dark outline on
+         parchment too, so it stays legible in both themes. Capped so it anchors
+         the hero without swallowing it, and scales down on a phone. */
+      .hero-banner { display: block; width: 100%; max-width: 520px; height: auto; margin: 4px auto 22px; }
+      .eyebrow {
+        font-family: 'Alegreya Sans', sans-serif; font-size: 13px; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.12em; color: rgb(var(--accent-bright));
+        margin: 0 0 14px;
+      }
+      .hero h1 { margin: 0; font-size: clamp(40px, 8vw, 68px); line-height: 1.02; }
+      .hero .lede { margin: 18px 0 0; font-size: clamp(18px, 2.4vw, 22px); color: rgb(var(--bone-100)); max-width: 40ch; }
+      .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px; min-height: 50px; padding: 0 22px;
+        border-radius: 10px; font-family: 'Alegreya Sans', sans-serif; font-size: 17px; font-weight: 700;
+        text-decoration: none; cursor: pointer; border: 1px solid transparent;
+      }
+      .btn-primary { background: rgb(var(--accent)); color: rgb(var(--on-accent)); }
+      .btn-ghost { background: rgb(var(--raised)); color: rgb(var(--ink)); border-color: rgb(var(--ink-800)); }
+      .note { margin-top: 14px; font-size: 15px; color: rgb(var(--ink-faded)); }
+
+      /* Wizard showcase — the killer feature, as one raised card */
+      .wizard {
+        margin-top: 40px; border-radius: 14px; background: rgb(var(--raised));
+        border: 1px solid rgb(var(--ink-800)); padding: 22px;
+      }
+      .wizard h2 { margin: 0 0 4px; font-size: 24px; }
+      .wizard p.sub { margin: 0 0 18px; color: rgb(var(--ink-faded)); font-size: 16px; }
+      .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+      .step {
+        display: flex; align-items: center; gap: 10px; padding: 12px;
+        border-radius: 10px; background: rgb(var(--ink-800) / 0.5); border: 1px solid rgb(var(--ink-800));
+      }
+      .step .n {
+        flex-shrink: 0; width: 24px; height: 24px; border-radius: 999px; display: flex;
+        align-items: center; justify-content: center; font-size: 13px; font-weight: 700;
+        font-family: 'Alegreya Sans', sans-serif;
+        background: rgb(var(--accent) / 0.15); color: rgb(var(--accent-bright));
+      }
+      .step span.label { font-family: 'Alegreya Sans', sans-serif; font-size: 15px; font-weight: 600; }
+
+      /* Feature grid */
+      .section-head { margin: 52px 0 18px; }
+      .section-head h2 { margin: 0; font-size: 28px; }
+      .section-head p { margin: 6px 0 0; color: rgb(var(--ink-faded)); }
+      .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+      .card { border-radius: 12px; background: rgb(var(--raised)); border: 1px solid rgb(var(--ink-800)); padding: 18px; }
+      .chip {
+        width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+        background: rgb(var(--accent) / 0.14); color: rgb(var(--accent-bright)); margin-bottom: 12px;
+      }
+      .chip svg { width: 22px; height: 22px; }
+      .card h3 { margin: 0 0 6px; font-size: 20px; color: rgb(var(--bone-100)); }
+      .card p { margin: 0; font-size: 16px; color: rgb(var(--ink-faded)); line-height: 1.5; }
+
+      /* Profile block — the one signature 2px-border element (§5.3), kept
+         identical to the app so the motif reads the same on the page. */
+      .plate { margin-top: 40px; display: flex; justify-content: center; }
+      .profile {
+        border: 2px solid rgb(var(--ink)); background: rgb(var(--raised));
+        box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.35);
+        overflow-x: auto; max-width: 100%;
+      }
+      table.stat { border-collapse: collapse; font-variant-numeric: tabular-nums lining-nums; }
+      table.stat th, table.stat td { padding: 6px 12px; text-align: center; font-size: 15px; }
+      table.stat th {
+        font-family: 'IM Fell English SC', 'IM Fell English', serif; text-transform: uppercase;
+        letter-spacing: 0.05em; border-bottom: 2px solid rgb(var(--ink)); color: rgb(var(--ink)); font-weight: 400;
+      }
+      table.stat td { color: rgb(var(--ink)); }
+      .plate-caption { text-align: center; color: rgb(var(--ink-faded)); font-size: 14px; margin-top: 8px; }
+
+      /* Footer */
+      footer { margin-top: 56px; border-top: 1px solid rgb(var(--ink-800)); padding: 24px 0 40px; }
+      footer .links { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 14px; }
+      footer .links a { font-family: 'Alegreya Sans', sans-serif; font-size: 15px; font-weight: 600; color: rgb(var(--accent-bright)); text-decoration: none; }
+      .community-label { font-family: 'Alegreya Sans', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: rgb(var(--ink-faded)); margin: 4px 0 8px; }
+      /* Community peers, not app actions — muted so they don't compete with the
+         primary links above, but still clearly links. */
+      .links-community a { color: rgb(var(--ink-faded)); text-decoration: underline; text-underline-offset: 2px; }
+      .disclaimer { font-size: 13px; color: rgb(var(--ink-faded)); line-height: 1.5; max-width: 70ch; margin-top: 18px; }
+    </style>
+
+    <style>
+      /* About-specific layout, on top of landing's shared classes. */
+      .about-hero { padding: 24px 0 8px; }
+      .about-hero h1 { margin: 6px 0 0; font-size: clamp(34px, 6vw, 52px); line-height: 1.05; }
+      .about-hero .lede { margin: 16px 0 0; font-size: clamp(17px, 2.2vw, 20px); color: rgb(var(--bone-100)); max-width: 60ch; }
+      .changelog { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+      .entry { border-radius: 12px; background: rgb(var(--raised)); border: 1px solid rgb(var(--ink-800)); padding: 16px 18px; }
+      .entry-date { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: rgb(var(--ink-faded)); margin: 0; }
+      .entry h3 { margin: 3px 0 6px; font-size: 20px; }
+      .entry p { margin: 0; font-size: 16px; color: rgb(var(--ink-faded)); line-height: 1.5; }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <a class="wordmark" href="/" style="text-decoration: none;">
+          <span class="glyph display" aria-hidden="true">M</span>
+          <span>Mordheim Campaign Manager</span>
+        </a>
+        <div class="toggle" role="group" aria-label="Theme">
+          <button type="button" data-theme-set="grimdark" aria-pressed="true">Grimdark</button>
+          <button type="button" data-theme-set="parchment" aria-pressed="false">Rulebook</button>
+        </div>
+      </div>
+
+      <header class="about-hero">
+        <p class="eyebrow">About</p>
+        <h1>Mordheim Campaign Manager</h1>
+        <p class="lede">
+          A free, mobile-first tracker for Mordheim warbands and campaigns — a guided post-battle
+          sequence (injuries, experience, advances, income and upkeep, rolled or chosen), shared
+          campaign standings, a trading post, an offline rules reference and a printable roster
+          sheet. It runs in the browser, installs to your phone, and works at the table. An
+          unofficial, fan-made tool, not associated with Games Workshop.
+        </p>
+        <div class="cta">
+          <a class="btn btn-primary" href="/app">Open the app</a>
+          <a class="btn btn-ghost" href="/">Home</a>
+        </div>
+      </header>
+
+      <section class="section-head">
+        <h2>Changelog</h2>
+        <p>Every notable change, newest first.</p>
+      </section>
+
+      <div class="changelog">
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-14</p>
+        <h3>Awards &amp; Rivalries</h3>
+        <p>The campaign's Standings tab gains two flourishes drawn straight from the battle log. Campaign awards hand out titles as the campaign runs — Wyrdstone Baron for the most shards found, On a Roll for the longest win streak, Old Campaigner for the most battles, and Top Dogs for the highest rating — each a snapshot of where things stand, not a locked-in prize. And a Rivalries card tallies your warband's head-to-head record against everyone it has faced: wins, losses and draws per opponent, so you can see who has your number and who you own.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-14</p>
+        <h3>Nicknames, Kit History &amp; the Rising Line</h3>
+        <p>Warriors feel a little more lived-in. Every hero and hired sword can carry a nickname — &quot;One-Eye&quot;, &quot;the Lucky&quot; — shown in brackets after their name on the roster, the shared roster and the printed sheet. A dead hero can be given last words in the post-battle wizard, which are written into the battle log so they aren't forgotten. Each model now keeps an equipment history under its gear — what was bought, assigned or sold, and when — filling in from here forward. And a warband's rating over time appears as a small chart on its roster, once it has changed at least once. The dice roller is also now tucked into the during-battle screen, folded away until you need it.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-12</p>
+        <h3>Dice, Compare &amp; Afford</h3>
+        <p>Three small tools for the table. A dice roller lives at the top of the Rules tab — D3, D6, D66, 2D6 or D100, with a count and a modifier, for a house rule or any moment the app doesn't roll for you. A compare screen, reached from your warband list once you have two, puts two warbands' profiles side by side with their ratings and model counts. And the trading post gains an &quot;only what I can afford&quot; tickbox that hides anything your gold won't cover — rare items by their cheapest possible price, since the real one isn't known until you roll.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-11</p>
+        <h3>Deleted Warbands Are Now Really Deleted</h3>
+        <p>Deleting a warband has always kept it hidden rather than destroying it, so a mistake could be reversed on request. What was missing was the other half: after 30 days it is now permanently removed, along with its photo. If you delete something by accident you still have a month to ask for it back — after that it really is gone.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-11</p>
+        <h3>Warband Photos</h3>
+        <p>Add a photo of your warband from its roster screen — the painted group shot, which is half the reason anyone builds one. It shows at the top of the roster and as a thumbnail in your warband list, and you can replace or remove it whenever you like. Photos are shrunk on your phone before they upload, so a 5 MB camera shot becomes a few kilobytes and does not eat your data at the game store. If your iPhone hands over a HEIC file the app cannot read, it will tell you which camera setting to change instead of quietly failing. Photos are only visible to players with an account, even on a warband you have made public.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-11</p>
+        <h3>More Than One Leader</h3>
+        <p>A campaign can now have as many leaders as you like. If the person who set it up stops turning up, nobody else could rename it, hand out a new join code, schedule a game night or close it down — and there was no way to take over. On the Players tab a leader can now Make co-leader, which promotes someone while you stay a leader too, or Hand over, which passes the campaign to them and drops you back to a player. There is also Step down as leader, separate from leaving the campaign, so you can give up running it without giving up your seat. Any leader can take the role back off any other leader, and the app will not let the last one go while there are still players in the campaign.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-10</p>
+        <h3>Print Your Roster</h3>
+        <p>Every warband now has a Print roster sheet button, laid out after the original Mordheim roster sheet: the same sections in the same order, and its field names, so if you have ever filled one in by hand you already know where to look. The Experience track is the real one — 90 boxes for a Hero, 14 for a Henchman, with the thick-bordered advance boxes in the right places — and because the app already knows your totals, the boxes come pre-ticked. Dead, captured and departed warriors are left off, since the sheet is what you carry to a game. It prints black on white to save your ink, and the screen shows you exactly what will come out. Choose Save as PDF in the print dialog if you would rather keep a copy than print one.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-10</p>
+        <h3>Statlines On The Roster</h3>
+        <p>Roster rows used to show a name and an Experience total, so checking a warrior's Toughness while deploying meant opening him. Every row now carries his full profile, in the same table used everywhere else in the app. On a laptop it takes the roomier spacing of the printed book instead of staying squeezed to phone size.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-09</p>
+        <h3>Safer Deletions</h3>
+        <p>A campaign leader could delete a campaign at any moment, taking everyone else's battle log, standings and game nights with it. That now waits until you are the last one in it, and the screen tells you why rather than hiding the button. Deleting a warband that is entered in a campaign asks you to tick that you know it will drop out of that campaign's standings, as well as typing its name. And a mistyped battle result is no longer permanent — a leader can remove a single entry from the campaign log.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-08</p>
+        <h3>Game Nights</h3>
+        <p>Campaigns can schedule game nights: a date and time, where you are playing, and any notes. They have their own screen, a month calendar for working out whether a weekend is free, and a detail page for each one. Anyone in the campaign can see what is coming up; the leader adds and edits.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-02</p>
+        <h3>Six New Warbands</h3>
+        <p>Black Orcs, Amazons (Mordheim), Amazons (Lustria), Lizardmen, the Gunnery School of Nuln and the Battle Monks of Cathay all join the roster, bringing the total to 22. Each comes with its full hero and henchmen list, equipment lists, special rules and its own skill table — Waaagh! and 'eadbasher for the Black Orcs, Mesmerising Dance for the Amazons, Infiltration and Toughened Hide for the Lizardmen, Leap of Faith and Human Shield for the Monks. Their unique gear is in too: choppas, sunstaffs, starswords, bolas, blowpipes, Sacred Markings, chain sticks, and Nuln's double-barrelled and repeater blackpowder weapons.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-02</p>
+        <h3>Clubs and Hammers Are Buyable Again</h3>
+        <p>Seven warbands could not buy a club, mace or hammer. Their equipment lists named those weapons separately while the price chart carries them as one combined entry, so once each warrior started being offered only his own list, the weapon fell through the gap entirely. Reiklanders, Middenheimers, Marienburgers, Witch Hunters, Sisters of Sigmar, Undead and the Cult of the Possessed all have them back.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-02</p>
+        <h3>Play in as Many Campaigns as You Like</h3>
+        <p>There's a new My Campaigns screen behind the Campaign tab, listing every campaign you're in with your role, how many players and battles it has, and how many of your warbands are entered. Leaders see their join code on the card. You could already join other people's campaigns, but there was no way to start a second one of your own — now you can, and both the code field and the start form sit right on that screen. Opening a campaign from the list makes it the one the rest of the app follows.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-02</p>
+        <h3>Two Weapons, and the Dagger's Free</h3>
+        <p>A warrior can now carry only what the rules allow: two close combat weapons on top of his free dagger, and two different missile weapons. A brace of pistols counts as one, so a second pistol is still fine. Armour and miscellaneous gear are unlimited. Each warrior's page shows what he's carrying against those limits, so you can see a full slot before you go shopping rather than being turned away at the till. Your treasury is untouched — the rules cap what a warrior carries, not what the warband owns.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-31</p>
+        <h3>Equipment That Knows Its Own Rules</h3>
+        <p>Warband-specific gear — the Ogre club, the hand-held mortar, the harpoon crossbow, Weeping Blades, the mutations and Blessings — always had its rules written down, but the app could never show them. Tap any of them now and the rules are there. The equipment list also grew from 60 items to 142, taking in the whole Miscellaneous Equipment section: torches, garlic, lucky charms, poisons and drugs, ladders, powder kegs, maps, and the rest. Items belonging to warbands the app doesn't carry yet are in the catalogue but stay out of your shop.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-31</p>
+        <h3>Buying by the Book</h3>
+        <p>Kitting out a Henchmen group used to charge for one item however many warriors were in it — five swordsmen cost one sword. Every model in a group must be armed the same way, so it now buys one per model and says so before you commit. Miscellaneous equipment is Heroes-only, as the rules have it, with the handful of exceptions the book names (rain coats, winter furs, wheelbarrows, victuals). And each warrior is now offered only the weapons and armour from his own entry — unless he has learned Weapons Training or Weapons Expert, which open up hand-to-hand and missile weapons respectively.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-31</p>
+        <h3>Special Rules, Listed Properly</h3>
+        <p>A warrior's special rules used to sit buried in a paragraph that also held his hire cost. Leader, Large, Bloodgreed, Feral Instinct and 107 others are now a proper list on his page, each one tapping open to its full text. Anything from the source that hasn't been split out yet is still there, marked &quot;to do&quot; so you can tell a finished rule from one that still needs work.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-30</p>
+        <h3>Easier to Hit, Easier to Read</h3>
+        <p>A pass over every screen for the things that matter with a phone in one hand at a cluttered table. The characteristic boxes on a warrior's page were only 15 pixels tall — the single hardest thing in the app to tap — and are now full-height fields. The same goes for &quot;Move to treasury&quot;, the weapon rule expanders, the checkboxes and the changelog link, all of which were too small to hit reliably. Screen titles are back at their proper size, and the smallest text anywhere in the app is now 12 pixels.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-30</p>
+        <h3>The Rulebook Look</h3>
+        <p>The app now comes in two looks, switchable under Settings. Rulebook is the new one: aged parchment, heavy black ink, blackletter titles and the blood red of the 1999 book. Grimdark, the black-and-orange theme, is unchanged and still there. The centrepiece is the profile block — every statline is now the rulebook's own M WS BS S T W I A Ld table, framed in ink, wherever it appears: rosters, model pages, the battle reference and shared warbands. The numbers line up in proper columns and can be typed into directly on detail screens, with racial maximums on the row beneath.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-30</p>
+        <h3>Opening a Warband by Link No Longer Bounces</h3>
+        <p>Refreshing a roster page, bookmarking one, or following a link straight into a warband threw you back to the warband list. The app couldn't tell &quot;this warband doesn't exist&quot; from &quot;we haven't loaded it yet&quot;, so it gave up a fraction of a second too early. Every screen behind a warband — roster, models, henchmen, trading, both battle screens, the post-battle sequence and the recruit pages — now waits for the answer.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-29</p>
+        <h3>Explore Mordheim From the Wizard</h3>
+        <p>The Income step no longer asks how much wyrdstone you found — it rolls for it. The app counts the dice you're owed (one per Hero who came through without going out of action, plus one for a win) and you can add more for skills or equipment. Rolled real dice at the table? Tap any die and set it to what you actually threw; the same works for an Elf Ranger's +1/-1 or a re-roll. Roll more than six and you choose which six count. Doubles and up are looked up for you, including the ones your warband resolves differently — Skaven sell the Straggler, Witch Hunters seal the Graveyard rather than loot it. Gold and shards are added straight to the warband. Anything the app can't do for you, like gaining a Zombie or a wardog, is written into the battle notes, and results that matter next game are added to your warband's notes.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-29</p>
+        <h3>A Rulebook Theme, and a New Icon</h3>
+        <p>Settings now has an Appearance section with two looks. Grimdark is the dark one you already know. Rulebook turns the whole app into aged paper and black ink with a serif face, closer to reading the printed book — handy under bright light, where a dark screen is hardest to read. Your choice is remembered per device, so your phone at the game store and your laptop at home can differ. The app also has a proper icon now when you add it to your home screen.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-29</p>
+        <h3>Save When You're Ready, and Rules That Work Offline</h3>
+        <p>Editing a characteristic used to save on every keystroke — one write per digit, with no way to change your mind. Typed fields on the roster, hero, henchmen and campaign screens are now yours until you press Save, with a bar that appears only when something is pending and a Discard next to it. Buying, recruiting, selling and deleting still take effect straight away, because those already are the decision. The rules are also readable without a connection now: once you've opened the app on a device, the full Rules Reference stays available at the table even with no signal. A new version still takes effect the moment you're back online — the old problem of a stale app sticking around cannot happen again.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-29</p>
+        <h3>Laid Out Like the Book</h3>
+        <p>The Trading Post and your treasury now group gear the way the price chart does — Hand-to-hand Combat Weapons, Missile Weapons, Armour, Miscellaneous — instead of one long list. Henchmen are listed out individually under their group, so four Swordsmen read as four models rather than a multiplier, and their Experience now says &quot;each&quot; because that is how it works. The Rules Reference opens as a chapter list you can expand and collapse, with the number of entries in each; searching still shows a flat list of matches. The Exploration chart is in there too — all 30 results, the wyrdstone shards table and the magical artefacts table.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-29</p>
+        <h3>Pick Your Opponent From the Campaign</h3>
+        <p>Before a battle you can now choose any warband entered in your campaign as the opponent, not just your own, and their roster is available for reference during the game. Casualties are the big one: tap a Hero out of action, or count how many of a henchmen group went down, and those numbers are waiting for you in the post-battle Injuries step instead of being re-entered from memory afterwards. Stepping the turn counter back now asks first.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-29</p>
+        <h3>Advances Follow the Experience Track</h3>
+        <p>The post-battle Advances step used to offer an advance to anyone who gained a single point of Experience, which is why it handed out far more than a campaign should. It now counts how many Experience boxes a warrior actually crossed, and each card says how many advances are still to record. Characteristics at their racial maximum can no longer be raised — the old warning triangle looked serious but applied the increase anyway — and rolling one that's already maxed now tells you to roll again, as the rulebook says. Made a mistake? Every recorded advance can be tapped away, instead of restarting the whole wizard. Dead warriors no longer collect Experience or advances, and &quot;That Lad's Got Talent&quot; can finally be recorded: the promoted henchman leaves his group and joins your Heroes with his characteristics and Experience intact.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-29</p>
+        <h3>Recruiting Follows the Rules (and Costs Gold)</h3>
+        <p>Heroes and henchmen now cost gold when you recruit them, and the warband's maximum size is respected — a henchmen group could previously be sized straight past it. Units you've filled up are greyed out instead of silently accepting more. Hired Swords can finally be hired, with their fee, upkeep, stats and special rules shown before you commit, and they correctly don't take up a warband slot. Every warrior now starts with the free dagger the rules give them, and each unit arrives carrying its own special rules from the book — Leader, Large, Ranger and the rest — instead of a blank card. Warbands are listed A–Z with their source and grade. One rating bug fixed: a henchmen group's Experience counted once for the whole group instead of once per model, so five veterans with 4 XP each scored 29 instead of 45.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-29</p>
+        <h3>Browse Public Warbands Without an Account</h3>
+        <p>Warbands that players have marked public can now be viewed by anyone, no sign-in needed — so you can send someone a link to your roster and they can actually read it. Find them under &quot;Browse Public Warbands&quot; on the home page. Campaigns changed too: the join-code field is always visible now instead of hidden away, so joining a second campaign is straightforward, and the app no longer invents a campaign called &quot;My Campaign&quot; behind your back the first time you finish a battle. Battles fought outside a campaign are kept as your own.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-28</p>
+        <h3>Updates Arrive Straight Away</h3>
+        <p>The app used to keep a copy of itself on your device, which meant a new version could sit there unnoticed while the old one kept loading — you'd have had to clear your browser data to see changes. That copy is gone, so you always get the current version. Adding the app to your home screen still works exactly as before. The app has needed an internet connection since accounts arrived, so there was nothing to gain by keeping it.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-28</p>
+        <h3>Browse Other Players' Warbands</h3>
+        <p>Warbands you mark public now have somewhere to be seen. The Warbands tab has a Public view listing every shared warband with its player, type and rating — search by any of those, filter by warband type, and tap through to a read-only roster. Mark your own warband public from its roster screen, under Campaign &amp; Sharing. Warband types also now read properly everywhere: &quot;Cult of the Possessed&quot; instead of &quot;cult-of-the-possessed&quot;.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-28</p>
+        <h3>Buying Things Actually Works Now</h3>
+        <p>Buying two items in a row could fail with a false &quot;changed elsewhere&quot; warning, and only the first purchase would stick. Saves are now queued so a run of purchases, stat edits, or gold changes all land in order. Number fields across the app — henchmen group size, sell and purchase prices, characteristics, wyrdstone, casualty counts — can now be cleared and typed into properly instead of snapping back to a minimum the moment you empty them. The Standings table also lists every player in the campaign, including the leader and anyone who hasn't entered a warband yet.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-27</p>
+        <h3>Play a Campaign Together</h3>
+        <p>Campaigns can now have more than one player. Start one and you get a join code like MRDH-7F2K to share — send it straight to WhatsApp, or copy a ready-to-paste message for Discord. Anyone who enters it joins your campaign, and you can issue a fresh code at any time to stop further joins. Enter a warband from its roster screen and it appears in the Standings table alongside everyone else's, with ratings and win/loss records, and you can open any campaign-mate's roster to see their warriors, gear, and skills. Your Border Town Burning objectives stay secret — nobody else can see them, even for a warband you've shared. Paste a code under Campaign, then Players.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-27</p>
+        <h3>Sign In From the Menu, and Reset a Forgotten Password</h3>
+        <p>The navigation now has a Sign in / Sign out button, so you don't have to dig through Settings to switch accounts. Forgotten your password? There's a link on the sign-in screen — enter your email and we'll send you a link to set a new one. The separate Skills tab is gone, but nothing was lost: all 133 skills are still in the Rules Reference under Skills, grouped by list.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-27</p>
+        <h3>The Rules Are Free to Browse</h3>
+        <p>You no longer need an account to read the rules. The home page, the full Rules Reference, and every skill list are open to everyone, so you can look something up at the table without signing in. An account is still needed for your own warbands, battles, trading, and campaign log.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-27</p>
+        <h3>Accounts &amp; Multi-Device Sync</h3>
+        <p>Your warbands now live in an online database behind an email-and-password account instead of being stored in one browser. The same campaign follows you between phone, tablet, and desktop, and clearing your browser no longer wipes everything. Heads-up: warbands you created before this change were stored only on your device and don't carry over automatically — if you still have them in the old browser, export a backup from Settings first, then import it once you've signed in. The app now needs an internet connection to show or change your data.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-06</p>
+        <h3>Five More Warbands</h3>
+        <p>Added Averlanders, Beastmen Raiders, Carnival of Chaos, Dwarf Treasure Hunters, and Kislevites, bringing the roster to 14 warbands. Each comes with its full hero and henchmen list, equipment options, and special rules.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-06</p>
+        <h3>Built for Tablet &amp; Desktop</h3>
+        <p>On a bigger screen the app now uses a left sidebar instead of the bottom tab bar, and keeps the content in a comfortable reading column rather than stretching across the whole window. Phones are unchanged.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-06</p>
+        <h3>See When a Warrior Earns an Advance</h3>
+        <p>Hero and henchmen screens now show how much Experience is left until the next advance, and say &quot;Ready for an advance!&quot; when one is due. The thresholds were read straight off the official roster sheet's Experience track.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-06</p>
+        <h3>Clearer Navigation</h3>
+        <p>The bottom tabs now use icons — a home, three warriors for Warbands, crossed swords for Battle, a coin for Trading, and a map for Campaign — so the labels stop crowding each other on narrow phones.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-05</p>
+        <h3>Weapons, Armour &amp; More Rules</h3>
+        <p>Added the Weapons &amp; Armour and Miscellaneous Equipment chapters to the Rules Reference, plus the Underdog experience bonus table. Fixed every rule's page citation to match the real rulebook, and reordered everything to follow its actual chapter structure. Warbands, Trading, and Campaign each got a &quot;Rules&quot; toggle showing just what's relevant there, and a new Skills tab lists every skill.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-05</p>
+        <h3>Rules Reference &amp; Offline Verification</h3>
+        <p>Added a full searchable, offline Rules Reference covering Characteristics, Movement, Shooting, Close Combat, Leadership &amp; Psychology, Magic, the Post-Battle Sequence, Trading, Skills, Injuries, Scenarios, warband-specific rules, and Border Town Burning. Verified the app genuinely works with no network connection once it's been opened once, and polished the &quot;Add to Home Screen&quot; experience on iOS.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-04</p>
+        <h3>Pre-Battle, During-Battle &amp; a Real Skills System</h3>
+        <p>Added a Pre-Battle setup step (pick or randomly roll a scenario, note your opponent) and a During-Battle tracker (turn counter, event log, quick roster reference for either side). Built a proper skills system with prerequisite checking, wired into both the roster screens and the Post-Battle Wizard.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-04</p>
+        <h3>Dice Rolls for Post-Battle &amp; Trading</h3>
+        <p>Added real roll buttons for Serious Injuries, Henchmen casualties, Hired Sword fate, Advances, and Rare item purchases — no more needing physical dice for the app to track.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-04</p>
+        <h3>Home Dashboard</h3>
+        <p>Added a Home tab summarizing your campaign and all your warbands at a glance, and cleaned up the bottom navigation so it stops crowding as more tabs get added.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-04</p>
+        <h3>Campaign Log</h3>
+        <p>Added a screen to track your campaign's battle history and, if you're using Border Town Burning, each warband's chosen objective and progress.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-04</p>
+        <h3>Direct Equipment Purchases</h3>
+        <p>You can now buy equipment straight from a Hero, Hired Sword, or Henchmen Group's own detail screen, instead of always routing through the Trading Post.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-04</p>
+        <h3>Trading Post</h3>
+        <p>Added buying Common and Rare equipment (including the Rare item availability roll) and selling gear back from the treasury.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-04</p>
+        <h3>Post-Battle Wizard</h3>
+        <p>Added the guided 8-step post-battle sequence — injuries, experience, advances, dead models, income, upkeep — with a staged summary and undo, plus all 9 playable warband types.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-03</p>
+        <h3>Warband Roster Management</h3>
+        <p>Added the ability to create a warband and manage its roster: Heroes, Henchmen Groups, and Hired Swords, with stats, XP, skills, and injuries.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-07-03</p>
+        <h3>First Release</h3>
+        <p>Scaffolded the app and populated the core game data: warbands, equipment, skills, injuries, and advance tables, sourced from the rulebook.</p>
+      </article>
+      </div>
+
+      <footer>
+        <div class="links">
+          <a href="/app">Open the app</a>
+          <a href="/app/gallery">Public gallery</a>
+          <a href="/app/rules">Rules reference</a>
+          <a href="/">Home</a>
+        </div>
+        <p class="community-label">Other Mordheim resources</p>
+        <div class="links links-community">
+          <a href="https://mordheimer.net" target="_blank" rel="noopener external">Mordheimer</a>
+          <a href="https://broheim.net" target="_blank" rel="noopener external">Broheim</a>
+          <a href="https://discord.gg/mordheim-682102252080857148" target="_blank" rel="noopener external">Mordheim Discord</a>
+        </div>
+        <p class="disclaimer">
+          Mordheim Campaign Manager is an unofficial, fan-made tool and is not associated with, endorsed
+          or sponsored by Games Workshop. Mordheim and all associated names, marks and content are the
+          property of Games Workshop Ltd. This tool records your own campaign; it is not a substitute for
+          the rulebooks.
+        </p>
+      </footer>
+    </div>
+
+    <!-- Progressive enhancement only: the page reads fully without it. -->
+    <script>
+      (function () {
+        var buttons = document.querySelectorAll('[data-theme-set]');
+        function apply(theme) {
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.classList.toggle('dark', theme === 'grimdark');
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', theme === 'parchment' ? '#e9e0cc' : '#0b0a09');
+          buttons.forEach(function (b) {
+            b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === theme));
+          });
+          try { localStorage.setItem('mordheim.theme', theme); } catch (e) {}
+        }
+        buttons.forEach(function (b) {
+          b.addEventListener('click', function () { apply(b.getAttribute('data-theme-set')); });
+        });
+        var current = document.documentElement.getAttribute('data-theme') || 'grimdark';
+        apply(current === 'parchment' ? 'parchment' : 'grimdark');
+      })();
+    </script>
+  </body>
+</html>
