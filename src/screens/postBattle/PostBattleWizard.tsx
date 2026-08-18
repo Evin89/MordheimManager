@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../../components/BackHeader';
+import { Button } from '../../components/ui';
 import { strings } from '../../strings';
 import { useAppStore } from '../../store/useAppStore';
 import { useCommitBattleWarbandMutation, useWarbandList } from '../../hooks/useWarbands';
@@ -124,22 +125,11 @@ export default function PostBattleWizard() {
 
         <div className="pt-6">
           {isLastStep ? (
-            <button
-              type="button"
-              onClick={handleCommit}
-              disabled={committing}
-              className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 disabled:opacity-50 text-ink-950 font-semibold transition-colors"
-            >
+            <Button onClick={handleCommit} disabled={committing}>
               {strings.postBattle.commitBattle}
-            </button>
+            </Button>
           ) : (
-            <button
-              type="button"
-              onClick={goNext}
-              className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
-            >
-              {strings.postBattle.next}
-            </button>
+            <Button onClick={goNext}>{strings.postBattle.next}</Button>
           )}
         </div>
       </main>

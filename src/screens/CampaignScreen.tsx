@@ -6,6 +6,7 @@ import InviteShareButtons from '../components/InviteShareButtons';
 import { NextEventBanner } from '../components/CampaignEvents';
 import SaveBar from '../components/SaveBar';
 import ConfirmByTyping from '../components/ConfirmByTyping';
+import { Button, Card, SectionHeading, Field, TextField, Textarea, Select } from '../components/ui';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
 import {
@@ -168,12 +169,11 @@ function ObjectiveCard({ warband }: { warband: Warband }) {
   }
 
   return (
-    <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+    <Card>
       <p className="text-bone-100 font-semibold">{warband.name}</p>
 
-      <div className="space-y-1">
-        <label className="text-bone-300 text-sm">{strings.campaign.objectiveLabel}</label>
-        <select
+      <Field label={strings.campaign.objectiveLabel}>
+        <Select
           value={current?.name ?? ''}
           onChange={(e) => {
             const name = e.target.value;
@@ -183,7 +183,6 @@ function ObjectiveCard({ warband }: { warband: Warband }) {
             }
             updateField({ name });
           }}
-          className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
         >
           <option value="">{strings.campaign.noObjective}</option>
           {objectives.map((o) => (
@@ -191,22 +190,21 @@ function ObjectiveCard({ warband }: { warband: Warband }) {
               {o.name}
             </option>
           ))}
-        </select>
-      </div>
+        </Select>
+      </Field>
 
       {chosen && <p className="text-bone-300 text-xs">{chosen.description}</p>}
 
       {current && (
         <>
-          <div className="space-y-1">
-            <label className="text-bone-300 text-sm">{strings.campaign.progressLabel}</label>
-            <textarea
+          <Field label={strings.campaign.progressLabel}>
+            <Textarea
               value={current.progress}
               onChange={(e) => updateField({ progress: e.target.value })}
               placeholder={strings.campaign.progressPlaceholder}
-              className="w-full min-h-[60px] rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100"
+              rows={2}
             />
-          </div>
+          </Field>
           <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm">
             <input
               type="checkbox"
@@ -218,7 +216,7 @@ function ObjectiveCard({ warband }: { warband: Warband }) {
           </label>
         </>
       )}
-    </div>
+    </Card>
   );
 }
 
@@ -242,18 +240,14 @@ function DeleteCampaign({ campaign, memberCount }: { campaign: Campaign; memberC
 
   return (
     <section className="space-y-3">
-      <h2 className="text-bone-100 font-semibold">{strings.campaign.dangerSection}</h2>
+      <SectionHeading>{strings.campaign.dangerSection}</SectionHeading>
 
       {others > 0 ? (
         <p className="text-bone-300 text-sm">{strings.campaign.deleteCampaignBlocked(others)}</p>
       ) : !confirming ? (
-        <button
-          type="button"
-          onClick={() => setConfirming(true)}
-          className="w-full min-h-[48px] rounded-md border border-blood-600 text-blood-500 font-semibold hover:bg-blood-600 hover:text-bone-100 transition-colors"
-        >
+        <Button variant="danger" onClick={() => setConfirming(true)}>
           {strings.campaign.deleteCampaignAction}
-        </button>
+        </Button>
       ) : (
         <div className="space-y-2">
           <ConfirmByTyping
@@ -312,7 +306,7 @@ function CampaignEntry() {
           listed here so the history is still reachable. */}
       {(personalBattles?.length ?? 0) > 0 && (
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.campaign.personalBattlesSection}</h2>
+          <SectionHeading>{strings.campaign.personalBattlesSection}</SectionHeading>
           <p className="text-bone-300 text-xs">{strings.campaign.personalBattlesHint}</p>
           <div className="space-y-2">
             {[...(personalBattles ?? [])].reverse().map((battle) => (
@@ -346,20 +340,15 @@ function JoinCodeCard({ campaign, isLeader }: { campaign: Campaign; isLeader: bo
 
   return (
     <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-      <h2 className="text-bone-100 font-semibold">{strings.campaign.shareCodeSection}</h2>
+      <SectionHeading>{strings.campaign.shareCodeSection}</SectionHeading>
       <p className="text-bone-300 text-sm">{strings.campaign.shareCodeHint}</p>
       <div className="flex items-center gap-2 flex-wrap">
         <code className="flex-1 min-w-[8rem] min-h-[48px] leading-[48px] text-center rounded-md bg-ink-800 border border-ink-700 text-ember-400 font-mono text-lg tracking-widest">
           {campaign.joinCode ?? strings.campaign.noCodeYet}
         </code>
-        <button
-          type="button"
-          onClick={copy}
-          disabled={!campaign.joinCode}
-          className="min-h-[48px] px-4 rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 disabled:opacity-50 transition-colors"
-        >
+        <Button variant="secondary" fullWidth={false} onClick={copy} disabled={!campaign.joinCode}>
           {copied ? strings.campaign.codeCopied : strings.campaign.copyCode}
-        </button>
+        </Button>
       </div>
       {campaign.joinCode && (
         <InviteShareButtons campaignName={campaign.name} joinCode={campaign.joinCode} />
@@ -399,7 +388,7 @@ function CampaignAwards({ battles, standings }: { battles: BattleRecord[]; stand
 
   return (
     <div className="space-y-3">
-      <h2 className="text-bone-100 font-semibold">{strings.campaign.awardsSection}</h2>
+      <SectionHeading>{strings.campaign.awardsSection}</SectionHeading>
       {awards.length === 0 ? (
         <p className="text-bone-300 text-sm">{strings.campaign.awardsEmpty}</p>
       ) : (
@@ -445,7 +434,7 @@ function CampaignRivalries({
 
   return (
     <div className="space-y-3">
-      <h2 className="text-bone-100 font-semibold">{strings.campaign.rivalriesSection}</h2>
+      <SectionHeading>{strings.campaign.rivalriesSection}</SectionHeading>
       {blocks.length === 0 ? (
         <p className="text-bone-300 text-sm">{strings.campaign.rivalriesEmpty}</p>
       ) : (
@@ -543,7 +532,7 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
 
   return (
     <section className="space-y-3">
-      <h2 className="text-bone-100 font-semibold">{strings.campaign.membersSection}</h2>
+      <SectionHeading>{strings.campaign.membersSection}</SectionHeading>
       {/* Names the way out rather than only the wall: the point of co-leaders
           is that being the only one is now a fixable state. */}
       {iAmOnlyLeader && <p className="text-bone-400 text-xs">{strings.campaign.onlyLeaderHint}</p>}
@@ -703,28 +692,19 @@ function AnnouncementBanner({ campaign, isLeader }: { campaign: Campaign; isLead
     return (
       <section className="rounded-lg bg-ink-900 border border-ember-500/40 p-4 space-y-2">
         <label className="text-bone-300 text-sm">{s.label}</label>
-        <textarea
+        <Textarea
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder={s.placeholder}
           rows={2}
-          className="w-full rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
         />
         <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={save}
-            className="flex-1 min-h-[40px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm"
-          >
+          <Button size="dense" fullWidth={false} onClick={save} className="flex-1">
             {current ? s.update : s.save}
-          </button>
-          <button
-            type="button"
-            onClick={() => setEditing(false)}
-            className="flex-1 min-h-[40px] rounded-md border border-ink-700 text-bone-200 text-sm"
-          >
+          </Button>
+          <Button size="dense" variant="secondary" fullWidth={false} onClick={() => setEditing(false)} className="flex-1">
             {s.cancel}
-          </button>
+          </Button>
         </div>
       </section>
     );
@@ -805,58 +785,42 @@ function TerritoryTab({ campaignId }: { campaignId: string }) {
 
   return (
     <section className="space-y-3">
-      <h2 className="text-bone-100 font-semibold">{s.section}</h2>
+      <SectionHeading>{s.section}</SectionHeading>
       <p className="text-bone-300 text-xs">{s.hint}</p>
 
       {!adding ? (
-        <button
-          type="button"
-          onClick={() => setAdding(true)}
-          className="w-full min-h-[44px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
-        >
+        <Button variant="secondary" onClick={() => setAdding(true)}>
           {s.addButton}
-        </button>
+        </Button>
       ) : (
-        <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
-          <input
+        <Card gap="sm">
+          <TextField
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={s.namePlaceholder}
-            className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
           />
-          <input
+          <TextField
             type="text"
             value={kind}
             onChange={(e) => setKind(e.target.value)}
             placeholder={s.kindPlaceholder}
-            className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
           />
-          <textarea
+          <Textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             placeholder={s.notesLabel}
             rows={2}
-            className="w-full rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
           />
           <div className="flex gap-2">
-            <button
-              type="button"
-              disabled={name.trim().length === 0}
-              onClick={add}
-              className="flex-1 min-h-[40px] rounded-md bg-ember-500 hover:bg-ember-600 disabled:opacity-40 text-ink-950 font-semibold text-sm"
-            >
+            <Button size="dense" fullWidth={false} disabled={name.trim().length === 0} onClick={add} className="flex-1">
               {s.add}
-            </button>
-            <button
-              type="button"
-              onClick={() => setAdding(false)}
-              className="flex-1 min-h-[40px] rounded-md border border-ink-700 text-bone-200 text-sm"
-            >
+            </Button>
+            <Button size="dense" variant="secondary" fullWidth={false} onClick={() => setAdding(false)} className="flex-1">
               {s.cancel}
-            </button>
+            </Button>
           </div>
-        </div>
+        </Card>
       )}
 
       {(territories?.length ?? 0) === 0 ? (
@@ -864,7 +828,7 @@ function TerritoryTab({ campaignId }: { campaignId: string }) {
       ) : (
         <div className="space-y-2">
           {(territories ?? []).map((t) => (
-            <div key={t.id} className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
+            <Card key={t.id} gap="sm">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-bone-100 font-semibold">{t.name}</p>
@@ -880,12 +844,10 @@ function TerritoryTab({ campaignId }: { campaignId: string }) {
               </div>
               {t.notes && <p className="text-bone-300 text-sm whitespace-pre-wrap">{t.notes}</p>}
 
-              <div className="space-y-1">
-                <label className="text-bone-400 text-xs">{s.claimLabel}</label>
-                <select
+              <Field label={s.claimLabel}>
+                <Select
                   value={t.controlledByWarbandId ?? ''}
                   onChange={(e) => setController(t.id, e.target.value || null)}
-                  className="w-full min-h-[40px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 text-sm focus:outline-none focus:border-ember-500"
                 >
                   <option value="">{s.unclaimed}</option>
                   {(warbands ?? []).map((w: CampaignWarbandRow) => (
@@ -894,8 +856,8 @@ function TerritoryTab({ campaignId }: { campaignId: string }) {
                       {w.playerName ? ` — ${w.playerName}` : ''}
                     </option>
                   ))}
-                </select>
-              </div>
+                </Select>
+              </Field>
 
               {confirmingId === t.id ? (
                 <div className="space-y-2">
@@ -926,7 +888,7 @@ function TerritoryTab({ campaignId }: { campaignId: string }) {
                   {s.remove}
                 </button>
               )}
-            </div>
+            </Card>
           ))}
         </div>
       )}
@@ -969,47 +931,36 @@ function NarrativeLog({
 
   return (
     <section className="space-y-3">
-      <h2 className="text-bone-100 font-semibold">{strings.campaign.narrative.section}</h2>
+      <SectionHeading>{strings.campaign.narrative.section}</SectionHeading>
       <p className="text-bone-300 text-xs">{strings.campaign.narrative.hint}</p>
 
-      <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
-        <input
+      <Card gap="sm">
+        <TextField
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder={strings.campaign.narrative.titlePlaceholder}
-          className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
         />
-        <textarea
+        <Textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
           placeholder={strings.campaign.narrative.bodyPlaceholder}
           rows={3}
-          className="w-full rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
         />
         {recentBattles.length > 0 && (
-          <select
-            value={battleId}
-            onChange={(e) => setBattleId(e.target.value)}
-            className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 text-sm focus:outline-none focus:border-ember-500"
-          >
+          <Select value={battleId} onChange={(e) => setBattleId(e.target.value)}>
             <option value="">{strings.campaign.narrative.noBattleOption}</option>
             {recentBattles.map((b) => (
               <option key={b.id} value={b.id}>
                 {b.scenario} — {new Date(b.date).toLocaleDateString()}
               </option>
             ))}
-          </select>
+          </Select>
         )}
-        <button
-          type="button"
-          disabled={!canAdd}
-          onClick={add}
-          className="w-full min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm disabled:opacity-40"
-        >
+        <Button size="dense" disabled={!canAdd} onClick={add}>
           {create.isPending ? strings.campaign.narrative.adding : strings.campaign.narrative.add}
-        </button>
-      </div>
+        </Button>
+      </Card>
 
       {(entries?.length ?? 0) === 0 ? (
         <p className="text-bone-300 text-sm">{strings.campaign.narrative.empty}</p>
@@ -1019,7 +970,7 @@ function NarrativeLog({
             const canRemove = isLeader || e.authorId === userId;
             const linked = scenarioOf(e.battleId);
             return (
-              <div key={e.id} className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-1">
+              <Card key={e.id} gap="sm">
                 <div className="flex items-start justify-between gap-3">
                   <p className="text-bone-100 font-semibold">{e.title}</p>
                   {canRemove && (
@@ -1039,7 +990,7 @@ function NarrativeLog({
                   {linked && ` · ${strings.campaign.narrative.linkedTo(linked)}`}
                 </p>
                 {e.body && <p className="text-bone-300 text-sm whitespace-pre-wrap pt-1">{e.body}</p>}
-              </div>
+              </Card>
             );
           })}
         </div>
@@ -1134,17 +1085,16 @@ export default function CampaignScreen() {
                 entirely. */}
             {tab === 'log' && (
               <>
-                <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-                  <div className="space-y-1">
-                    <label className="text-bone-300 text-sm">{strings.campaign.nameLabel}</label>
-                    <input
+                <Card as="section">
+                  <Field label={strings.campaign.nameLabel}>
+                    <TextField
                       type="text"
                       value={campaignDraft!.name}
                       disabled={!isLeader}
                       onChange={(e) => updateCampaignDraft({ name: e.target.value })}
-                      className="w-full min-h-[48px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100 disabled:opacity-60 focus:outline-none focus:border-ember-500"
+                      className="disabled:opacity-60"
                     />
-                  </div>
+                  </Field>
                   <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm">
                     <input
                       type="checkbox"
@@ -1155,15 +1105,14 @@ export default function CampaignScreen() {
                     />
                     {strings.campaign.usesBtbLabel}
                   </label>
-                  <div className="space-y-1">
-                    <label className="text-bone-300 text-sm">{strings.campaign.notesLabel}</label>
-                    <textarea
+                  <Field label={strings.campaign.notesLabel}>
+                    <Textarea
                       value={campaignDraft!.notes}
                       disabled={!isLeader}
                       onChange={(e) => updateCampaignDraft({ notes: e.target.value })}
-                      className="w-full min-h-[70px] rounded-md bg-ink-800 border border-ink-700 px-3 py-2 text-bone-100 disabled:opacity-60 focus:outline-none focus:border-ember-500"
+                      className="disabled:opacity-60"
                     />
-                  </div>
+                  </Field>
                   {!isLeader && <p className="text-bone-400 text-xs">{strings.campaign.leaderOnlyHint}</p>}
                   {isLeader && (
                     <SaveBar
@@ -1172,10 +1121,10 @@ export default function CampaignScreen() {
                       onDiscard={discardCampaignDraft}
                     />
                   )}
-                </section>
+                </Card>
 
                 <section className="space-y-3">
-                  <h2 className="text-bone-100 font-semibold">{strings.campaign.battleLogSection}</h2>
+                  <SectionHeading>{strings.campaign.battleLogSection}</SectionHeading>
                   {(battles?.length ?? 0) === 0 ? (
                     <p className="text-bone-300 text-sm">{strings.campaign.noBattles}</p>
                   ) : (
@@ -1205,7 +1154,7 @@ export default function CampaignScreen() {
 
                 {campaign.usesBTB && (
                   <section className="space-y-3">
-                    <h2 className="text-bone-100 font-semibold">{strings.campaign.btbSection}</h2>
+                    <SectionHeading>{strings.campaign.btbSection}</SectionHeading>
                     <p className="text-bone-300 text-xs">{strings.campaign.btbHint}</p>
                     {warbands.length === 0 ? (
                       <p className="text-bone-300 text-sm">{strings.trading.noWarbands}</p>
@@ -1224,7 +1173,7 @@ export default function CampaignScreen() {
             {tab === 'standings' && (
               <section className="space-y-6">
                 <div className="space-y-3">
-                  <h2 className="text-bone-100 font-semibold">{strings.campaign.standingsSection}</h2>
+                  <SectionHeading>{strings.campaign.standingsSection}</SectionHeading>
                   <StandingsTable rows={standings ?? []} />
                 </div>
                 <CampaignAwards battles={battles ?? []} standings={standings ?? []} />

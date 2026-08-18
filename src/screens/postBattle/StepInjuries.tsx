@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import NumberInput from '../../components/NumberInput';
+import { Button } from '../../components/ui';
 import { useAppStore } from '../../store/useAppStore';
 import { hasCarriedCasualties } from './draftHelpers';
 import { strings } from '../../strings';
@@ -65,13 +66,9 @@ function HeroInjuryCard({
                 </div>
               ))}
 
-              <button
-                type="button"
-                onClick={rollInjury}
-                className="w-full min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm"
-              >
+              <Button size="dense" onClick={rollInjury}>
                 {strings.postBattle.injuries.rollD66Button}
-              </button>
+              </Button>
               {lastRoll && (
                 <p className="text-bone-300 text-xs">
                   {strings.postBattle.injuries.d66ResultLabel(lastRoll.tens, lastRoll.units, lastRoll.name)}
@@ -179,13 +176,9 @@ function HenchmenInjuryCard({
 
       {state.outOfActionCount > 0 && (
         <div className="space-y-1">
-          <button
-            type="button"
-            onClick={rollCasualties}
-            className="w-full min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm"
-          >
+          <Button size="dense" onClick={rollCasualties}>
             {strings.postBattle.injuries.rollCasualtiesButton}
-          </button>
+          </Button>
           {lastRolls && (
             <p className="text-bone-300 text-xs">
               {strings.postBattle.injuries.diceRollsLabel(lastRolls)} —{' '}
@@ -240,13 +233,9 @@ function HiredSwordInjuryCard({
           {state.outOfAction && (
             <div className="space-y-2 pl-1">
               <p className="text-bone-300 text-xs">{strings.postBattle.injuries.hiredSwordLostHint}</p>
-              <button
-                type="button"
-                onClick={rollFate}
-                className="w-full min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm"
-              >
+              <Button size="dense" onClick={rollFate}>
                 {strings.postBattle.injuries.rollD6Button}
-              </button>
+              </Button>
               {lastRoll !== null && (
                 <p className="text-bone-300 text-xs">
                   {strings.postBattle.injuries.d6ResultLabel(lastRoll, state.removed)}

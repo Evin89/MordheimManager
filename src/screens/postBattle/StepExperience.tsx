@@ -1,3 +1,4 @@
+import { Card } from '../../components/ui';
 import { strings } from '../../strings';
 import scenariosData from '../../data/scenarios.json';
 import { StepProps } from './types';
@@ -23,7 +24,7 @@ type XpCardProps = {
 
 function XpCard({ title, subtitle, xpAwarded, onDelta, scenarioAwards, showWinningLeader }: XpCardProps) {
   return (
-    <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+    <Card>
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-bone-100 font-semibold">{title}</p>
@@ -83,7 +84,7 @@ function XpCard({ title, subtitle, xpAwarded, onDelta, scenarioAwards, showWinni
           </button>
         ))}
       </div>
-    </div>
+    </Card>
   );
 }
 

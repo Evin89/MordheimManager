@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import NumberInput from '../../components/NumberInput';
+import { Button, TextField, Textarea, Select } from '../../components/ui';
 import { strings } from '../../strings';
 import scenariosData from '../../data/scenarios.json';
 import { BattleResult } from '../../types';
@@ -23,7 +24,7 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
         <label className="block text-bone-200 text-sm font-semibold" htmlFor="scenario-select">
           {strings.postBattle.battleInfo.scenarioLabel}
         </label>
-        <select
+        <Select
           id="scenario-select"
           value={useCustomScenario ? '__custom__' : draft.scenario}
           onChange={(e) => {
@@ -35,7 +36,6 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
               updateDraft({ scenario: e.target.value });
             }
           }}
-          className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
         >
           <option value="">—</option>
           {scenariosData.scenarios.map((s) => (
@@ -44,14 +44,13 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
             </option>
           ))}
           <option value="__custom__">{strings.postBattle.battleInfo.scenarioCustom}</option>
-        </select>
+        </Select>
         {useCustomScenario && (
-          <input
+          <TextField
             type="text"
             value={draft.scenario}
             onChange={(e) => updateDraft({ scenario: e.target.value })}
             placeholder={strings.postBattle.battleInfo.scenarioCustomLabel}
-            className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
           />
         )}
       </div>
@@ -60,13 +59,12 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
         <label className="block text-bone-200 text-sm font-semibold" htmlFor="opponents">
           {strings.postBattle.battleInfo.opponentsLabel}
         </label>
-        <input
+        <TextField
           id="opponents"
           type="text"
           value={draft.opponents}
           onChange={(e) => updateDraft({ opponents: e.target.value })}
           placeholder={strings.postBattle.battleInfo.opponentsPlaceholder}
-          className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
         />
       </div>
 
@@ -74,16 +72,15 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
         <label className="block text-bone-200 text-sm font-semibold">{strings.postBattle.battleInfo.resultLabel}</label>
         <div className="flex gap-2">
           {RESULTS.map((result) => (
-            <button
+            <Button
               key={result}
-              type="button"
+              variant={draft.result === result ? 'primary' : 'secondary'}
+              fullWidth={false}
               onClick={() => updateDraft({ result })}
-              className={`flex-1 min-h-[48px] rounded-md border font-semibold ${
-                draft.result === result ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
-              }`}
+              className="flex-1"
             >
               {RESULT_LABEL[result]}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -92,12 +89,11 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
         <label className="block text-bone-200 text-sm font-semibold" htmlFor="battle-date">
           {strings.postBattle.battleInfo.dateLabel}
         </label>
-        <input
+        <TextField
           id="battle-date"
           type="date"
           value={draft.date}
           onChange={(e) => updateDraft({ date: e.target.value })}
-          className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
         />
       </div>
 
@@ -119,11 +115,10 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
         <label className="block text-bone-200 text-sm font-semibold" htmlFor="battle-notes">
           {strings.postBattle.battleInfo.notesLabel}
         </label>
-        <textarea
+        <Textarea
           id="battle-notes"
           value={draft.notes}
           onChange={(e) => updateDraft({ notes: e.target.value })}
-          className="w-full min-h-[80px] rounded-md bg-ink-900 border border-ink-700 px-3 py-2 text-bone-100 focus:outline-none focus:border-ember-500"
         />
       </div>
     </div>

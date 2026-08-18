@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '../../components/ui';
 import { strings } from '../../strings';
 import SkillPicker from '../../components/SkillPicker';
 import SpellBlock from '../../components/SpellBlock';
@@ -163,13 +164,9 @@ function AdvanceRecorder({
         </p>
       )}
 
-      <button
-        type="button"
-        onClick={rollAdvance}
-        className="w-full min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm"
-      >
+      <Button size="dense" onClick={rollAdvance}>
         {strings.postBattle.advances.rollButton}
-      </button>
+      </Button>
 
       {lastRoll && (
         <div className="space-y-2 rounded-md bg-ink-800 border border-ink-700 p-3">

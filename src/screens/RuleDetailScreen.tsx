@@ -1,6 +1,7 @@
 import { Link, Navigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import WeaponProfileView from '../components/WeaponProfileView';
+import { SectionHeading } from '../components/ui';
 import { strings } from '../strings';
 import { getRuleEntry, getRulesCategories } from '../lib/rulesIndex';
 import { getCostForRuleId } from '../lib/weaponRules';
@@ -38,7 +39,7 @@ export default function RuleDetailScreen() {
 
         {related.length > 0 && (
           <section className="space-y-2 pt-2">
-            <h2 className="text-bone-100 font-semibold text-sm">{strings.rules.relatedSection}</h2>
+            <SectionHeading className="text-sm">{strings.rules.relatedSection}</SectionHeading>
             <div className="flex flex-wrap gap-2">
               {related.map((r) => (
                 <Link

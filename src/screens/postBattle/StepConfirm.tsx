@@ -1,3 +1,4 @@
+import { Card, SectionHeading } from '../../components/ui';
 import { strings } from '../../strings';
 import { buildDiffSummary } from './draftHelpers';
 import { StepProps } from './types';
@@ -7,15 +8,15 @@ export default function StepConfirm({ warband, draft }: StepProps) {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-lg bg-ink-900 border border-ink-800 p-4">
+      <Card gap="none">
         <p className="text-bone-100 font-semibold">{draft.scenario || '(no scenario set)'}</p>
         <p className="text-bone-300 text-sm">
           vs {draft.opponents || '—'} · {draft.result} · {draft.date}
         </p>
-      </div>
+      </Card>
 
       <section className="space-y-2">
-        <h2 className="text-bone-100 font-semibold">{strings.postBattle.confirm.summaryTitle}</h2>
+        <SectionHeading>{strings.postBattle.confirm.summaryTitle}</SectionHeading>
         {lines.length === 0 ? (
           <p className="text-bone-300 text-sm">{strings.postBattle.confirm.noChanges}</p>
         ) : (

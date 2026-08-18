@@ -6,6 +6,7 @@ import ProfileBlock from '../components/ProfileBlock';
 import { WarbandThumb } from '../components/WarbandPhoto';
 import { useRosterPhotos } from '../hooks/usePhotos';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
+import { Button, Card, SectionHeading, TextField } from '../components/ui';
 import { strings } from '../strings';
 import {
   BattleSession,
@@ -306,7 +307,7 @@ export default function DuringBattleScreen() {
       <BackHeader title={strings.battle.duringBattle.title} subtitle={warband.name} />
 
       <main className="flex-1 px-4 py-6 space-y-6">
-        <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+        <Card as="section">
           <p className="text-bone-200 text-sm font-semibold text-center">{strings.battle.duringBattle.turnLabel}</p>
           <div className="flex items-center justify-center gap-4">
             <button
@@ -334,7 +335,7 @@ export default function DuringBattleScreen() {
               +
             </button>
           </div>
-        </section>
+        </Card>
 
         {/* Collapsed by default — the dice are at hand during the game without
             crowding the tracker, and folded away when you're reading the roster.
@@ -349,9 +350,9 @@ export default function DuringBattleScreen() {
         </details>
 
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.battle.duringBattle.eventLogSection}</h2>
+          <SectionHeading>{strings.battle.duringBattle.eventLogSection}</SectionHeading>
           <div className="flex gap-2">
-            <input
+            <TextField
               type="text"
               value={newEventText}
               onChange={(e) => setNewEventText(e.target.value)}
@@ -359,15 +360,11 @@ export default function DuringBattleScreen() {
                 if (e.key === 'Enter') addEvent();
               }}
               placeholder={strings.battle.duringBattle.addEventPlaceholder}
-              className="flex-1 min-h-[44px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
+              className="flex-1"
             />
-            <button
-              type="button"
-              onClick={addEvent}
-              className="min-h-[44px] px-4 rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm shrink-0"
-            >
+            <Button size="dense" fullWidth={false} onClick={addEvent} className="shrink-0">
               {strings.battle.duringBattle.addEvent}
-            </button>
+            </Button>
           </div>
 
           {session.events.length === 0 ? (
@@ -397,7 +394,7 @@ export default function DuringBattleScreen() {
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-bone-100 font-semibold">{strings.battle.duringBattle.rosterSection}</h2>
+            <SectionHeading>{strings.battle.duringBattle.rosterSection}</SectionHeading>
             {opponentWarband && (
               <div className="flex gap-2">
                 <button
@@ -434,13 +431,9 @@ export default function DuringBattleScreen() {
           )}
         </section>
 
-        <button
-          type="button"
-          onClick={() => navigate(`/warbands/${warband.id}/post-battle`)}
-          className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
-        >
+        <Button onClick={() => navigate(`/warbands/${warband.id}/post-battle`)}>
           {strings.battle.duringBattle.goToPostBattle}
-        </button>
+        </Button>
       </main>
     </div>
   );

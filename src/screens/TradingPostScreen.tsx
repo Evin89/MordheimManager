@@ -3,6 +3,7 @@ import { Navigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import EquipmentShop from '../components/EquipmentShop';
 import NumberInput from '../components/NumberInput';
+import { Button, Card, SectionHeading } from '../components/ui';
 import { strings } from '../strings';
 
 // Lazy: see TabRules — keeps the rules catalogues out of this chunk too.
@@ -29,7 +30,7 @@ function TreasuryRow({
   const [price, setPrice] = useState(defaultPrice);
 
   return (
-    <div className="rounded-md bg-ink-900 border border-ink-800 p-3 space-y-2">
+    <Card padding="sm" gap="sm">
       <div className="flex items-center justify-between gap-3">
         <p className="text-bone-100">{item.name}</p>
         {!selling && (
@@ -55,28 +56,24 @@ function TreasuryRow({
               className="min-h-[40px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
             />
           </label>
-          <button
-            type="button"
+          <Button
+            size="dense"
+            fullWidth={false}
             onClick={() => {
               if (window.confirm(strings.trading.sellConfirm(item.name, price))) {
                 onSell(item.id, price);
               }
               setSelling(false);
             }}
-            className="min-h-[40px] px-3 rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm"
           >
             {strings.trading.sellButton}
-          </button>
-          <button
-            type="button"
-            onClick={() => setSelling(false)}
-            className="min-h-[40px] px-3 rounded-md border border-ink-700 text-bone-200 text-sm"
-          >
+          </Button>
+          <Button size="dense" variant="secondary" fullWidth={false} onClick={() => setSelling(false)}>
             {strings.common.cancel}
-          </button>
+          </Button>
         </div>
       )}
-    </div>
+    </Card>
   );
 }
 
@@ -153,11 +150,11 @@ export default function TradingPostScreen() {
       <main className="flex-1 px-4 py-4 space-y-6">
         {tab === 'shop' ? (
           <>
-            <div className="rounded-lg bg-ink-900 border border-ink-800 p-4">
+            <Card gap="none">
               <p className="text-ember-400 font-semibold text-lg">
                 {strings.trading.goldLabel}: {warband.gold} {strings.common.gold}
               </p>
-            </div>
+            </Card>
 
             <EquipmentShop
               warband={warband}
@@ -166,7 +163,7 @@ export default function TradingPostScreen() {
             />
 
             <section className="space-y-2">
-              <h2 className="text-bone-100 font-semibold">{strings.trading.treasurySection}</h2>
+              <SectionHeading>{strings.trading.treasurySection}</SectionHeading>
               {warband.treasury.length === 0 ? (
                 <p className="text-bone-300 text-sm">{strings.trading.treasuryEmpty}</p>
               ) : (
