@@ -11,6 +11,7 @@ import { modelDisplayName } from '../lib/modelNames';
 import WarbandSharingCard from '../components/WarbandSharingCard';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import SaveBar from '../components/SaveBar';
+import { Button, Card, SectionHeading, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
 import {
   useCanUndoLastBattle,
@@ -208,7 +209,7 @@ export default function RosterScreen() {
       <BackHeader title={warband.name} subtitle={getWarbandTypeName(warband.warbandType)} />
 
       <main className="flex-1 px-4 py-6 space-y-6">
-        <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-4">
+        <Card as="section" gap="lg">
           <p className="text-ember-400 font-semibold">
             {strings.roster.ratingLabel}: {computeWarbandRating(draft)}
           </p>
@@ -226,28 +227,19 @@ export default function RosterScreen() {
           </div>
 
           <RatingHistory warbandId={warband.id} />
-        </section>
+        </Card>
 
         <WarbandPhotoEditor warbandId={warband.id} warbandName={warband.name} />
 
-        <Link
-          to={`/warbands/${warband.id}/pre-battle`}
-          className="block text-center w-full min-h-[48px] leading-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
-        >
+        <Link to={`/warbands/${warband.id}/pre-battle`} className={buttonClasses('primary')}>
           {strings.battle.startBattleButton}
         </Link>
 
-        <Link
-          to={`/warbands/${warband.id}/trading`}
-          className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
-        >
+        <Link to={`/warbands/${warband.id}/trading`} className={buttonClasses('secondary')}>
           {strings.roster.visitTrading}
         </Link>
 
-        <Link
-          to={`/warbands/${warband.id}/print`}
-          className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
-        >
+        <Link to={`/warbands/${warband.id}/print`} className={buttonClasses('secondary')}>
           {strings.print.rosterLink}
         </Link>
 
@@ -259,18 +251,14 @@ export default function RosterScreen() {
         </Link>
 
         {canUndo && (
-          <button
-            type="button"
-            onClick={handleUndo}
-            className="w-full min-h-[48px] rounded-md border border-ink-700 text-bone-200 font-semibold hover:bg-ink-800 transition-colors"
-          >
+          <Button variant="secondary" onClick={handleUndo}>
             {strings.postBattle.undoLastBattle}
-          </button>
+          </Button>
         )}
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-bone-100 font-semibold">{strings.roster.heroesSection}</h2>
+            <SectionHeading>{strings.roster.heroesSection}</SectionHeading>
             <Link to={`/warbands/${warband.id}/add-hero`} className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
               {strings.roster.addHero}
             </Link>
@@ -290,7 +278,7 @@ export default function RosterScreen() {
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-bone-100 font-semibold">{strings.roster.henchmenSection}</h2>
+            <SectionHeading>{strings.roster.henchmenSection}</SectionHeading>
             <Link to={`/warbands/${warband.id}/add-henchmen`} className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
               {strings.roster.addHenchmen}
             </Link>
@@ -312,7 +300,7 @@ export default function RosterScreen() {
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-bone-100 font-semibold">{strings.roster.hiredSwordsSection}</h2>
+            <SectionHeading>{strings.roster.hiredSwordsSection}</SectionHeading>
             <Link to={`/warbands/${warband.id}/add-hired-sword`} className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
               {strings.roster.addHiredSword}
             </Link>
@@ -336,13 +324,9 @@ export default function RosterScreen() {
 
         {/* Opens in place rather than as a dialog — see ConfirmByTyping. */}
         {!confirmingDelete ? (
-          <button
-            type="button"
-            onClick={() => setConfirmingDelete(true)}
-            className="w-full min-h-[48px] rounded-md border border-blood-600 text-blood-500 font-semibold hover:bg-blood-600 hover:text-bone-100 transition-colors"
-          >
+          <Button variant="danger" onClick={() => setConfirmingDelete(true)}>
             {strings.roster.deleteWarband}
-          </button>
+          </Button>
         ) : (
           <div className="space-y-2">
             <ConfirmByTyping

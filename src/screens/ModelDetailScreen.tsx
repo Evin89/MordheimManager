@@ -13,6 +13,7 @@ import SkillPicker from '../components/SkillPicker';
 import SpellBlock from '../components/SpellBlock';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import SaveBar from '../components/SaveBar';
+import { Button, Card, SectionHeading } from '../components/ui';
 import { strings } from '../strings';
 import { useWarbandLookup } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
@@ -330,12 +331,12 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
         {/* §11.4: above the profile block. A painted model is how you recognise
             him on the table; the numbers are what you look up once you have. */}
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.photo.modelSection}</h2>
+          <SectionHeading>{strings.photo.modelSection}</SectionHeading>
           <WarbandPhotoEditor warbandId={warbandId!} warbandName={model.name} modelId={model.id} />
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.modelDetail.statsSection}</h2>
+          <SectionHeading>{strings.modelDetail.statsSection}</SectionHeading>
           <ProfileBlock
             stats={model.stats}
             maximums={model.statMaximums}
@@ -351,7 +352,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
         />
 
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.modelDetail.xpSection}</h2>
+          <SectionHeading>{strings.modelDetail.xpSection}</SectionHeading>
           <div className="flex items-center gap-3">
             <button
               type="button"
@@ -385,17 +386,11 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           })()}
 
           {advanceMode === null && (
-            <button
-              type="button"
-              onClick={() => setAdvanceMode('stat')}
-              className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
-            >
-              {strings.modelDetail.recordAdvance}
-            </button>
+            <Button onClick={() => setAdvanceMode('stat')}>{strings.modelDetail.recordAdvance}</Button>
           )}
 
           {advanceMode !== null && (
-            <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+            <Card>
               <div className="flex gap-2">
                 <button
                   type="button"
@@ -480,12 +475,12 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
               >
                 {strings.common.cancel}
               </button>
-            </div>
+            </Card>
           )}
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-bone-100 font-semibold">{strings.modelDetail.skillsSection}</h2>
+          <SectionHeading>{strings.modelDetail.skillsSection}</SectionHeading>
           {model.skills.length === 0 ? (
             <p className="text-bone-300 text-sm">{strings.modelDetail.noSkills}</p>
           ) : (
@@ -510,7 +505,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-bone-100 font-semibold">{strings.modelDetail.injuriesSection}</h2>
+            <SectionHeading>{strings.modelDetail.injuriesSection}</SectionHeading>
             {!addingInjury && (
               <button type="button" onClick={() => setAddingInjury(true)} className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
                 {strings.modelDetail.addInjury}
@@ -562,13 +557,9 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
               )}
 
               <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={addInjury}
-                  className="flex-1 min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold"
-                >
+                <Button fullWidth={false} onClick={addInjury} className="flex-1">
                   {strings.common.add}
-                </button>
+                </Button>
                 <button
                   type="button"
                   onClick={() => setAddingInjury(false)}
@@ -583,7 +574,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-bone-100 font-semibold">{strings.modelDetail.equipmentSection}</h2>
+            <SectionHeading>{strings.modelDetail.equipmentSection}</SectionHeading>
             {/* Shown rather than only enforced: knowing a slot is full before
                 you go shopping beats being refused at the till. */}
             <p className="text-ink-faded text-sm">
@@ -675,13 +666,9 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           />
         </div>
 
-        <button
-          type="button"
-          onClick={handleDelete}
-          className="w-full min-h-[48px] rounded-md border border-blood-600 text-blood-500 font-semibold hover:bg-blood-600 hover:text-bone-100 transition-colors"
-        >
+        <Button variant="danger" onClick={handleDelete}>
           {strings.modelDetail.deleteModel}
-        </button>
+        </Button>
 
         <SaveBar dirty={dirty} onSave={save} onDiscard={discard} />
       </main>

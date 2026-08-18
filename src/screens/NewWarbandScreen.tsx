@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import DisclosureChevron from '../components/DisclosureChevron';
+import { Button, TextField } from '../components/ui';
 import { strings } from '../strings';
 import { getWarbandProvenance, warbandDefinitionsByName } from '../data/warbandRegistry';
 import { createWarband } from '../lib/warbandFactory';
@@ -145,7 +146,7 @@ export default function NewWarbandScreen() {
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="warband-name">
             {strings.newWarband.nameLabel}
           </label>
-          <input
+          <TextField
             id="warband-name"
             type="text"
             value={name}
@@ -154,7 +155,6 @@ export default function NewWarbandScreen() {
               setError(null);
             }}
             placeholder={strings.newWarband.namePlaceholder}
-            className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
           />
           {error && <p className="text-blood-500 text-sm">{error}</p>}
         </div>
@@ -180,13 +180,7 @@ export default function NewWarbandScreen() {
           )}
         </div>
 
-        <button
-          type="button"
-          onClick={handleCreate}
-          className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold px-4 transition-colors"
-        >
-          {strings.newWarband.createButton}
-        </button>
+        <Button onClick={handleCreate}>{strings.newWarband.createButton}</Button>
       </main>
     </div>
   );

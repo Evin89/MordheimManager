@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import AppBanner from '../components/AppBanner';
+import { Card, SectionHeading, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
 import { useWarbandList } from '../hooks/useWarbands';
@@ -18,7 +19,7 @@ import { getWarbandTypeName } from '../data/warbandRegistry';
 function AboutSection() {
   return (
     <section className="space-y-3">
-      <h2 className="text-bone-100 font-semibold">{strings.settings.aboutSection}</h2>
+      <SectionHeading>{strings.settings.aboutSection}</SectionHeading>
       <Link
         to="/account/changelog"
         className="inline-flex items-center min-h-[44px] text-ember-400 font-semibold"
@@ -39,38 +40,26 @@ function SignedOutHome() {
       </header>
 
       <main className="flex-1 px-4 py-6 space-y-6">
-        <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.home.signedOutTitle}</h2>
+        <Card as="section">
+          <SectionHeading>{strings.home.signedOutTitle}</SectionHeading>
           <p className="text-bone-300 text-sm">{strings.home.signedOutBody}</p>
           <div className="flex flex-col gap-2 pt-1">
-            <Link
-              to="/login"
-              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
-            >
+            <Link to="/login" className={buttonClasses('primary')}>
               {strings.home.signInButton}
             </Link>
-            <Link
-              to="/register"
-              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
-            >
+            <Link to="/register" className={buttonClasses('secondary')}>
               {strings.home.createAccountButton}
             </Link>
           </div>
-        </section>
+        </Card>
 
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.home.noAccountNeeded}</h2>
+          <SectionHeading>{strings.home.noAccountNeeded}</SectionHeading>
           <div className="space-y-2">
-            <Link
-              to="/rules"
-              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
-            >
+            <Link to="/rules" className={buttonClasses('secondary')}>
               {strings.home.browseRules}
             </Link>
-            <Link
-              to="/gallery"
-              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
-            >
+            <Link to="/gallery" className={buttonClasses('secondary')}>
               {strings.home.browseGallery}
             </Link>
           </div>
@@ -107,8 +96,8 @@ export default function HomeScreen() {
       </header>
 
       <main className="flex-1 px-4 py-6 space-y-6">
-        <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
-          <h2 className="text-bone-100 font-semibold">{strings.home.campaignSection}</h2>
+        <Card as="section" gap="sm">
+          <SectionHeading>{strings.home.campaignSection}</SectionHeading>
           {campaign ? (
             <>
               <div className="flex items-center gap-2 flex-wrap">
@@ -152,11 +141,11 @@ export default function HomeScreen() {
               {strings.campaign.myCampaignsLink}
             </Link>
           </div>
-        </section>
+        </Card>
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-bone-100 font-semibold">{strings.home.warbandsSection}</h2>
+            <SectionHeading>{strings.home.warbandsSection}</SectionHeading>
             <Link to="/warbands/new" className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
               {strings.warbandList.newWarband}
             </Link>
@@ -194,24 +183,15 @@ export default function HomeScreen() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.home.quickActionsSection}</h2>
+          <SectionHeading>{strings.home.quickActionsSection}</SectionHeading>
           <div className="space-y-2">
-            <Link
-              to="/post-battle"
-              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
-            >
+            <Link to="/post-battle" className={buttonClasses('primary')}>
               {strings.postBattle.startButton}
             </Link>
-            <Link
-              to="/trading"
-              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
-            >
+            <Link to="/trading" className={buttonClasses('secondary')}>
               {strings.roster.visitTrading}
             </Link>
-            <Link
-              to="/campaign"
-              className="block text-center w-full min-h-[48px] leading-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold hover:bg-ink-800 transition-colors"
-            >
+            <Link to="/campaign" className={buttonClasses('secondary')}>
               {strings.home.viewCampaignLog}
             </Link>
           </div>

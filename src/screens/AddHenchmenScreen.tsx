@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import NumberInput from '../components/NumberInput';
+import { Button, TextField, Select } from '../components/ui';
 import { strings } from '../strings';
 import { useSaveWarbandMutation, useWarbandLookup } from '../hooks/useWarbands';
 import { getWarbandDefinition } from '../data/warbandRegistry';
@@ -98,7 +99,7 @@ export default function AddHenchmenScreen() {
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="henchmen-type">
             {strings.addHenchmen.pickType}
           </label>
-          <select
+          <Select
             id="henchmen-type"
             value={typeId}
             onChange={(e) => {
@@ -106,7 +107,6 @@ export default function AddHenchmenScreen() {
               setExistingGroupId('');
               setError(null);
             }}
-            className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
           >
             {definition.henchmenTypes.map((t) => {
               const left = remainingHenchmenSlots(warband!, t);
@@ -117,7 +117,7 @@ export default function AddHenchmenScreen() {
                 </option>
               );
             })}
-          </select>
+          </Select>
           {type && (
             <p className="text-bone-300 text-sm">
               {slotsLeft === null
@@ -139,24 +139,24 @@ export default function AddHenchmenScreen() {
 
         {existingGroupsOfType.length > 0 && (
           <div className="flex gap-2">
-            <button
-              type="button"
+            <Button
+              variant={mode === 'new' ? 'primary' : 'secondary'}
+              size="dense"
+              fullWidth={false}
               onClick={() => setMode('new')}
-              className={`flex-1 min-h-[44px] rounded-md text-sm font-semibold border ${
-                mode === 'new' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
-              }`}
+              className="flex-1"
             >
               {strings.addHenchmen.newGroup}
-            </button>
-            <button
-              type="button"
+            </Button>
+            <Button
+              variant={mode === 'existing' ? 'primary' : 'secondary'}
+              size="dense"
+              fullWidth={false}
               onClick={() => setMode('existing')}
-              className={`flex-1 min-h-[44px] rounded-md text-sm font-semibold border ${
-                mode === 'existing' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
-              }`}
+              className="flex-1"
             >
               {strings.addHenchmen.addToExisting}
-            </button>
+            </Button>
           </div>
         )}
 
@@ -165,7 +165,7 @@ export default function AddHenchmenScreen() {
             <label className="block text-bone-200 text-sm font-semibold" htmlFor="group-name">
               {strings.addHenchmen.groupNameLabel}
             </label>
-            <input
+            <TextField
               id="group-name"
               type="text"
               value={groupName}
@@ -174,7 +174,6 @@ export default function AddHenchmenScreen() {
                 setError(null);
               }}
               placeholder={strings.addHenchmen.groupNamePlaceholder}
-              className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
             />
           </div>
         ) : (
@@ -182,14 +181,13 @@ export default function AddHenchmenScreen() {
             <label className="block text-bone-200 text-sm font-semibold" htmlFor="existing-group">
               {strings.addHenchmen.pickType}
             </label>
-            <select
+            <Select
               id="existing-group"
               value={existingGroupId}
               onChange={(e) => {
                 setExistingGroupId(e.target.value);
                 setError(null);
               }}
-              className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
             >
               <option value="">—</option>
               {existingGroupsOfType.map((g) => (
@@ -197,7 +195,7 @@ export default function AddHenchmenScreen() {
                   {g.groupName} ({g.count})
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
         )}
 
@@ -216,13 +214,7 @@ export default function AddHenchmenScreen() {
 
         {error && <p className="text-blood-500 text-sm">{error}</p>}
 
-        <button
-          type="button"
-          onClick={handleAdd}
-          className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold px-4 transition-colors"
-        >
-          {strings.common.add}
-        </button>
+        <Button onClick={handleAdd}>{strings.common.add}</Button>
       </main>
     </div>
   );

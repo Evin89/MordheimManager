@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import { Button, TextField, Select } from '../components/ui';
 import { strings } from '../strings';
 import { useSaveWarbandMutation, useWarbandLookup } from '../hooks/useWarbands';
 import { getWarbandDefinition } from '../data/warbandRegistry';
@@ -73,12 +74,7 @@ export default function AddHeroScreen() {
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="hero-slot">
             {strings.addHero.pickSlot}
           </label>
-          <select
-            id="hero-slot"
-            value={slotId}
-            onChange={(e) => setSlotId(e.target.value)}
-            className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
-          >
+          <Select id="hero-slot" value={slotId} onChange={(e) => setSlotId(e.target.value)}>
             {definition.heroSlots.map((s) => {
               const left = remainingHeroSlots(warband!, s);
               return (
@@ -91,7 +87,7 @@ export default function AddHeroScreen() {
                 </option>
               );
             })}
-          </select>
+          </Select>
           {slot && (
             <p className="text-bone-300 text-sm">
               {slotsLeft === null
@@ -112,7 +108,7 @@ export default function AddHeroScreen() {
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="hero-name">
             {strings.addHero.nameLabel}
           </label>
-          <input
+          <TextField
             id="hero-name"
             type="text"
             value={name}
@@ -121,18 +117,11 @@ export default function AddHeroScreen() {
               setError(null);
             }}
             placeholder={strings.addHero.namePlaceholder}
-            className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 placeholder:text-bone-300/50 focus:outline-none focus:border-ember-500"
           />
           {error && <p className="text-blood-500 text-sm">{error}</p>}
         </div>
 
-        <button
-          type="button"
-          onClick={handleAdd}
-          className="w-full min-h-[48px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold px-4 transition-colors"
-        >
-          {strings.common.add}
-        </button>
+        <Button onClick={handleAdd}>{strings.common.add}</Button>
       </main>
     </div>
   );

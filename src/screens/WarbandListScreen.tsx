@@ -1,6 +1,7 @@
 import { Suspense, lazy, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PublicWarbandBrowser from '../components/PublicWarbandBrowser';
+import { buttonClasses } from '../components/ui';
 import { strings } from '../strings';
 import { useWarbandList } from '../hooks/useWarbands';
 import { useWarbandThumbnails } from '../hooks/usePhotos';
@@ -30,10 +31,7 @@ export default function WarbandListScreen() {
       <header className="px-4 pt-6 pb-4 border-b border-ink-800 flex items-center justify-between gap-3">
         <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{strings.warbandList.title}</h1>
         {tab === 'warbands' && (
-          <Link
-            to="/warbands/new"
-            className="min-h-[44px] flex items-center rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold px-4 transition-colors shrink-0"
-          >
+          <Link to="/warbands/new" className={`${buttonClasses('primary', 'dense', false)} shrink-0`}>
             {strings.warbandList.newWarband}
           </Link>
         )}

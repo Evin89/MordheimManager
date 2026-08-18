@@ -1,6 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import ProfileBlock from '../components/ProfileBlock';
+import { Card, SectionHeading, Select } from '../components/ui';
 import { strings } from '../strings';
 import { useSharedWarbandQuery, useWarbandList } from '../hooks/useWarbands';
 import { computeWarbandRating, countModels } from '../lib/rating';
@@ -29,7 +30,7 @@ function SummaryColumn({ warband }: { warband: Warband }) {
     [strings.compare.hiredSwordsLabel, warband.hiredSwords.length],
   ];
   return (
-    <div className="rounded-lg bg-ink-900 border border-ink-800 p-4">
+    <Card gap="none">
       <p className="text-bone-100 font-semibold truncate">{warband.name}</p>
       <p className="text-bone-300 text-sm truncate mb-3">{getWarbandTypeName(warband.warbandType)}</p>
       <dl className="space-y-1">
@@ -40,7 +41,7 @@ function SummaryColumn({ warband }: { warband: Warband }) {
           </div>
         ))}
       </dl>
-    </div>
+    </Card>
   );
 }
 
@@ -59,15 +60,15 @@ function RosterColumn({ warband }: { warband: Warband }) {
   ];
   return (
     <div className="space-y-2">
-      <h2 className="text-bone-100 font-semibold truncate">{warband.name}</h2>
+      <SectionHeading className="truncate">{warband.name}</SectionHeading>
       {rows.map((row) => (
-        <div key={row.id} className="rounded-lg bg-ink-900 border border-ink-800 p-3">
+        <Card key={row.id} padding="sm" gap="none">
           <p className="text-bone-100 text-sm font-semibold truncate">{row.name}</p>
           <p className="text-bone-300 text-xs truncate mb-2">{row.sub}</p>
           <div className="overflow-x-auto">
             <ProfileBlock stats={row.stats} variant="collapsed" />
           </div>
-        </div>
+        </Card>
       ))}
     </div>
   );
@@ -93,11 +94,7 @@ function WarbandPicker({
   return (
     <label className="flex flex-col gap-1 flex-1 min-w-0">
       <span className="text-bone-300 text-xs font-semibold uppercase tracking-wide">{label}</span>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
-      >
+      <Select value={value} onChange={(e) => onChange(e.target.value)}>
         <option value="">{strings.compare.choose}</option>
         {value && !valueIsOwn && (
           <option value={value}>{externalName ?? strings.compare.choose}</option>
@@ -107,7 +104,7 @@ function WarbandPicker({
             {w.name}
           </option>
         ))}
-      </select>
+      </Select>
     </label>
   );
 }
@@ -184,9 +181,9 @@ function ComparePane({ loading, warband }: { loading: boolean; warband: Warband 
   if (loading) return <p className="text-bone-300 text-sm">{strings.common.loading}</p>;
   if (!warband)
     return (
-      <p className="text-bone-200 text-sm rounded-md bg-ink-900 border border-ink-800 p-4">
-        {strings.compare.unavailable}
-      </p>
+      <Card gap="none">
+        <p className="text-bone-200 text-sm">{strings.compare.unavailable}</p>
+      </Card>
     );
   return <SummaryColumn warband={warband} />;
 }

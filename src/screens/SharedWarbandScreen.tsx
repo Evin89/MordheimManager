@@ -3,6 +3,7 @@ import BackHeader from '../components/BackHeader';
 import ProfileBlock from '../components/ProfileBlock';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { WarbandThumb } from '../components/WarbandPhoto';
+import { Card, SectionHeading } from '../components/ui';
 import { strings } from '../strings';
 import { useSharedWarbandQuery, useWarband } from '../hooks/useWarbands';
 import { useRosterPhotos } from '../hooks/usePhotos';
@@ -47,7 +48,7 @@ function SharedModelCard({
   photoUrl?: string;
 }) {
   return (
-    <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
+    <Card gap="sm">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
           <WarbandThumb url={photoUrl} alt={strings.photo.alt(name)} shape="square" />
@@ -97,7 +98,7 @@ function SharedModelCard({
           ))}
         </ul>
       )}
-    </div>
+    </Card>
   );
 }
 
@@ -128,9 +129,9 @@ export default function SharedWarbandScreen() {
       <div className="min-h-full flex flex-col">
         <BackHeader title={strings.campaign.sharedRosterTitle} />
         <main className="flex-1 px-4 py-6">
-          <p className="text-bone-200 text-sm rounded-md bg-ink-900 border border-ink-800 p-4">
-            {strings.campaign.sharedRosterUnavailable}
-          </p>
+          <Card gap="none">
+            <p className="text-bone-200 text-sm">{strings.campaign.sharedRosterUnavailable}</p>
+          </Card>
         </main>
       </div>
     );
@@ -141,7 +142,7 @@ export default function SharedWarbandScreen() {
       <BackHeader title={warband.name} subtitle={getWarbandTypeName(warband.warbandType)} />
 
       <main className="flex-1 px-4 py-6 space-y-6">
-        <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-1">
+        <Card as="section" gap="sm">
           <p className="text-ember-400 font-semibold">
             {strings.roster.ratingLabel}: {computeWarbandRating(warband)}
           </p>
@@ -156,11 +157,11 @@ export default function SharedWarbandScreen() {
               {strings.campaign.sharedRosterEditMine}
             </Link>
           )}
-        </section>
+        </Card>
 
         {warband.heroes.length > 0 && (
           <section className="space-y-3">
-            <h2 className="text-bone-100 font-semibold">{strings.campaign.sharedHeroes}</h2>
+            <SectionHeading>{strings.campaign.sharedHeroes}</SectionHeading>
             <div className="space-y-2">
               {warband.heroes.map((hero) => (
                 <SharedModelCard
@@ -181,7 +182,7 @@ export default function SharedWarbandScreen() {
 
         {warband.henchmenGroups.length > 0 && (
           <section className="space-y-3">
-            <h2 className="text-bone-100 font-semibold">{strings.campaign.sharedHenchmen}</h2>
+            <SectionHeading>{strings.campaign.sharedHenchmen}</SectionHeading>
             <div className="space-y-2">
               {warband.henchmenGroups.map((group) => (
                 <SharedModelCard
@@ -202,7 +203,7 @@ export default function SharedWarbandScreen() {
 
         {warband.hiredSwords.length > 0 && (
           <section className="space-y-3">
-            <h2 className="text-bone-100 font-semibold">{strings.campaign.sharedHiredSwords}</h2>
+            <SectionHeading>{strings.campaign.sharedHiredSwords}</SectionHeading>
             <div className="space-y-2">
               {warband.hiredSwords.map((sword) => (
                 <SharedModelCard

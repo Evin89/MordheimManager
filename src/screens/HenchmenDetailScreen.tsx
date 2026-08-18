@@ -10,6 +10,7 @@ import { STAT_KEYS } from '../lib/statLine';
 import EquipmentShop from '../components/EquipmentShop';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import SaveBar from '../components/SaveBar';
+import { Button, SectionHeading, Textarea } from '../components/ui';
 import { strings } from '../strings';
 import { useWarbandLookup } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
@@ -187,7 +188,7 @@ export default function HenchmenDetailScreen() {
         />
 
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.photo.modelSection}</h2>
+          <SectionHeading>{strings.photo.modelSection}</SectionHeading>
           <WarbandPhotoEditor
             warbandId={warbandId!}
             warbandName={group.groupName}
@@ -196,7 +197,7 @@ export default function HenchmenDetailScreen() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-bone-100 font-semibold">{strings.modelDetail.statsSection}</h2>
+          <SectionHeading>{strings.modelDetail.statsSection}</SectionHeading>
           <p className="text-bone-300 text-xs">
             {group.isAnimal ? 'Animal — does not gain Experience.' : 'Shared by the whole group.'}
           </p>
@@ -205,7 +206,7 @@ export default function HenchmenDetailScreen() {
 
         {!group.isAnimal && (
           <section className="space-y-3">
-            <h2 className="text-bone-100 font-semibold">{strings.modelDetail.xpSection}</h2>
+            <SectionHeading>{strings.modelDetail.xpSection}</SectionHeading>
             <div className="flex items-center gap-3">
               <button
                 type="button"
@@ -260,7 +261,7 @@ export default function HenchmenDetailScreen() {
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-bone-100 font-semibold">{strings.modelDetail.equipmentSection}</h2>
+            <SectionHeading>{strings.modelDetail.equipmentSection}</SectionHeading>
             <p className="text-ink-faded text-sm">
               {(() => {
                 const usage = countWeaponSlots(group.equipment);
@@ -339,21 +340,17 @@ export default function HenchmenDetailScreen() {
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="group-notes">
             {strings.modelDetail.notesLabel}
           </label>
-          <textarea
+          <Textarea
             id="group-notes"
+            rows={3}
             value={group.notes}
             onChange={(e) => updateGroup({ notes: e.target.value })}
-            className="w-full min-h-[80px] rounded-md bg-ink-900 border border-ink-700 px-3 py-2 text-bone-100 focus:outline-none focus:border-ember-500"
           />
         </div>
 
-        <button
-          type="button"
-          onClick={handleDelete}
-          className="w-full min-h-[48px] rounded-md border border-blood-600 text-blood-500 font-semibold hover:bg-blood-600 hover:text-bone-100 transition-colors"
-        >
+        <Button variant="danger" onClick={handleDelete}>
           {strings.modelDetail.deleteModel}
-        </button>
+        </Button>
 
         <SaveBar dirty={dirty} onSave={save} onDiscard={discard} />
       </main>
