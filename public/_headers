@@ -22,3 +22,11 @@
 # assumes; without it the CDN re-validates on every load for no reason.
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Self-hosted font subsets (scripts/fetch-fonts.mjs). The filenames aren't
+# content-hashed, but a given weight/subset's bytes don't change — re-running
+# the script to add a weight writes new names. Long-lived like /assets/, and the
+# SW keeps them offline. fonts.css itself (no rule here) stays revalidated so a
+# new weight is picked up.
+/fonts/*.woff2
+  Cache-Control: public, max-age=31536000, immutable

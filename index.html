@@ -11,15 +11,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Mordheim" />
-    <!-- Spec §5.2. Preconnect first: these are render-blocking for every
-         heading, and `display=swap` means a slow fetch shows fallback text
-         rather than nothing. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+Sans:wght@400;500;700&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Pirata+One&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Spec §5.2 / §12.4. Self-hosted (scripts/fetch-fonts.mjs) rather than the
+         Google CDN, so the Rulebook look survives offline and on flaky
+         game-store wifi, and no third-party request is made. `font-display:swap`
+         in fonts.css shows fallback text rather than nothing during the fetch;
+         the two dominant above-the-fold faces (body + UI) are preloaded. -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/alegreya-400-normal-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/alegreya-sans-400-normal-latin.woff2" crossorigin />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
     <title>Mordheim Campaign Manager</title>
     <script>
       // Runs before the first paint so a parchment user never sees a flash of

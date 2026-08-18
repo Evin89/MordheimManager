@@ -53,12 +53,11 @@
     </script>
 
     <!-- Fonts: matches the live app (spec §5.2). Swap when self-hosting lands. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+Sans:wght@400;500;700&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Pirata+One&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Self-hosted fonts (scripts/fetch-fonts.mjs), matching the app. The hero
+         headline is blackletter, so Pirata One is preloaded here. -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/pirata-one-400-normal-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/alegreya-400-normal-latin.woff2" crossorigin />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
 
     <!-- Pre-paint theme, duplicated verbatim from the app's index.html so a
          parchment reader never flashes the dark theme, and the two front doors

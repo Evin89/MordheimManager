@@ -132,24 +132,37 @@ export default defineConfig(({ command, mode }) => {
             },
           },
           {
+            // Self-hosted fonts (spec §5.2 / §12.4). Subset woff2 under /fonts/,
+            // whose contents are stable per URL like /assets/ — so CacheFirst,
+            // and offline the moment they've been fetched once, which is the
+            // point of self-hosting them. (Previously these came from the Google
+            // CDN and rode the media rule below; that hostname branch is gone.)
+            urlPattern: ({ url, request }) =>
+              url.origin === self.location.origin &&
+              /\/fonts\//.test(url.pathname) &&
+              request.destination === 'font',
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'app-fonts',
+              expiration: { maxEntries: 30, maxAgeSeconds: 365 * 24 * 60 * 60 },
+            },
+          },
+          {
             // Warbands, campaigns and battles must never come from a stale
             // copy. Nothing below would match a Supabase call today, but this
             // is stated as a rule rather than left to the absence of one — the
-            // font/image rule below matches on `destination` alone, and the
-            // moment model photos (spec §11) are served from Supabase Storage
-            // that would start quietly caching private images.
+            // image rule below matches on `destination` alone, and the moment
+            // model photos (spec §11) are served from Supabase Storage that
+            // would start quietly caching private images.
             urlPattern: ({ url }) =>
               url.hostname.endsWith('.supabase.co') || url.hostname.endsWith('.supabase.in'),
             handler: 'NetworkOnly',
           },
           {
-            // Scoped to our own origin and the Google Fonts CDN. Matching on
+            // Same-origin images only (the banner, og-card, icons). Matching on
             // `destination` alone would reach any host that serves an image.
             urlPattern: ({ url, request }) =>
-              (url.origin === self.location.origin ||
-                url.hostname === 'fonts.gstatic.com' ||
-                url.hostname === 'fonts.googleapis.com') &&
-              (request.destination === 'font' || request.destination === 'image'),
+              url.origin === self.location.origin && request.destination === 'image',
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'app-media',

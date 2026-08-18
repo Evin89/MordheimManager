@@ -27,7 +27,7 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 | 5 | `Campaign.joinCode: string` | **Nullable in build** — the leader can revoke rather than only rotate. §3.1 |
 | 6 | `HiredSword` without `countsTowardMax` | **Built version wins.** §3.1 |
 | 7 | Six bottom tabs incl. "Browse" | ⚠️ **Seven tabs shipped**, gallery reached from Home rather than a tab. The crowding concern is real and recorded. §4 |
-| 8 | Fonts self-hosted woff2 | ◻️ **Not done** — still the Google CDN, 4 families. The argument is sound; it's a genuine gap. §12.4, §16 |
+| 8 | Fonts self-hosted woff2 | ✅ **Done** — `scripts/fetch-fonts.mjs` pulls the Latin woff2 subsets to `public/fonts/`, `font-display: swap`, no CDN request; SW caches them CacheFirst so they survive offline. §5.2, §12.4 |
 | 9 | Dark theme "optional later, not v1" | ⚠️ **Shipped first, as the default.** §5.5 |
 | 10 | "Requires login throughout, no logged-out mode" | ⚠️ **The gallery is anon-readable** (migration 0004). This has consequences for photos — see conflict 11. §8.1, §4.7 |
 | 11 | Photos on public warbands are "visible to all authenticated users" | **Wrong given conflict 10** — they would be visible to the *entire internet*. Raises the moderation bar before §11 ships. §11.5 |
@@ -506,7 +506,7 @@ Three roles:
 
 ⚠️ **`lining-nums` alongside `tabular-nums`.** Alegreya defaults to oldstyle figures, where zero sits at x-height and reads as a lowercase "o" — which made statlines wrong at a glance. All numeric data uses `font-variant-numeric: tabular-nums lining-nums`.
 
-◻️ **Self-hosting is still outstanding** (conflict 8). Four families are currently loaded from the Google Fonts CDN in one stylesheet link, including Alegreya italic and three Alegreya Sans weights. Target: self-hosted **woff2**, subset to Latin, only the weights actually used, the blackletter face subset aggressively since it appears only in titles, `font-display: swap`, and preload only the face used above the fold. See §12.4.
+✅ **Self-hosted** (conflict 8). `scripts/fetch-fonts.mjs` pulls the Latin (and latin-ext) woff2 subsets Google itself serves for exactly the four families and weights used — 19 faces, ~640 kB — to `public/fonts/`, and writes `public/fonts/fonts.css` with `font-display: swap`. The app, landing page and About page all link that local stylesheet; nothing requests the Google CDN. The two dominant above-the-fold faces are preloaded (body + UI in the app; blackletter + body on the landing hero). The whole "Rulebook" look now survives offline and on flaky game-store wifi, which the CDN version did not. See §12.4.
 
 ### 5.3 Signature element: the profile block ✅
 
@@ -926,7 +926,7 @@ Target (conflict 15):
 
 ### 12.4 Static assets
 
-- ◻️ **Fonts are the hidden cost.** §5.2 specifies four families, currently loaded naively from the Google CDN — easily 400–600 KB. Required: self-host **woff2**, subset to Latin, ship only the weights used, subset the blackletter face aggressively (titles only), `font-display: swap`, preload only the above-the-fold face. This is the single largest unclaimed win on first load.
+- ✅ **Fonts self-hosted.** §5.2's four families now ship as Latin woff2 subsets from our own origin (`scripts/fetch-fonts.mjs` → `public/fonts/`, ~640 kB across 19 faces), `font-display: swap`, above-the-fold faces preloaded, and cached CacheFirst by the service worker for offline. No Google CDN request is made — closing the largest unclaimed first-load win and removing a third-party dependency from every page.
 - ✅ **Service worker: already correct** (conflict 2). The incoming draft read "no precaching" as "no asset caching" and recommended enabling precache. The app instead uses **runtime caching** — `CacheFirst` on content-hashed `/assets/*.js|css`, `StaleWhileRevalidate` on fonts and images, `NetworkFirst` on the HTML shell, Supabase never cached. That achieves the repeat-visit saving *without* a precache manifest, which is what pinned a stale `index.html` through two deploys. See the table in §2. Do not reintroduce a manifest for HTML.
 - Verify Netlify actually serves hashed build assets with immutable cache headers rather than assuming it.
 - ◻️ Check bundle size with `vite-bundle-visualizer`. The production bundle is currently **1,068 kB raw / 285 kB gzipped** in one chunk, which already trips Vite's 500 kB warning. Look for full-library imports, a date library where `Intl` would do, and wholesale icon sets — then consider route-level code splitting, since the post-battle wizard and the rules browser are both large and rarely on the critical path.
@@ -940,7 +940,7 @@ Run against the current code on 2026-08-03. This is the incoming §13.6 checklis
 | 1 | Query cache wired, or `supabase.from` in `useEffect`? | ✅ **Clean.** No `supabase.from` anywhere outside `src/api`; every screen goes through a TanStack Query hook. |
 | 2 | `staleTime` / `refetchOnWindowFocus` configured? | ⚠️ Configured globally (30s / true), not tiered. Target in §12.1. |
 | 3 | `select('*')` in list contexts? | ⚠️ **One real hit:** `fetchWarbands` (owner's list). `battles` and `objectives` also use it but return small, fully-rendered rows. The two big list views are already narrow. |
-| 4 | Fonts from the Google CDN? | ⚠️ **Yes** — one stylesheet link, 4 families, including Alegreya italic and three Alegreya Sans weights. Not subset, not self-hosted. |
+| 4 | Fonts from the Google CDN? | ✅ **No longer** — self-hosted Latin woff2 subsets (`scripts/fetch-fonts.mjs` → `public/fonts/`), `font-display: swap`, no third-party request. |
 | 5 | Originals or thumbnails? `loading="lazy"`? | N/A — one `<img>` in the whole app (the banner). Revisit the moment §11 ships. |
 | 6 | Duplicate requests per screen load? | Not yet measured; needs the seeded dataset and a Network-tab pass (§13.3). |
 | 7 | Service worker, and what does it cache? | ✅ Registered, runtime-caching only, no precache manifest. Correct as built — see §12.4. |
@@ -1262,7 +1262,7 @@ Deliberate, with reasons. Kept here rather than in a tracker so the spec and the
 - **Offline.** There is none, by design — data is server-side and the app requires a connection. Asset caching is a separate question, and is handled (§2).
 - **The RLS matrix has never been run with a second account.** §14.4. The single-player half is verified live. Untested: two accounts against each other, and specifically that a campaign-mate *cannot* see the owner's BTB objective — the claim the separate objectives table exists to make.
 - **`fetchWarbands` selects the full jsonb blob** for the owner's list view. §12.2.
-- **Fonts load from the Google CDN**, four families, unsubset. §12.4.
+- **Fonts are self-hosted** — Latin woff2 subsets under `/fonts/`, no Google CDN request. §12.4.
 - ⚠️ **The entry bundle is 666 kB** (180 kB gzipped), still over Vite's 500 kB warning. Down from a single 1,112 kB chunk: routes off the first-paint path are lazy, and the rules catalogues moved behind a chunk of their own rather than riding in because a primary tab imported them. What remains is mostly the 22 warband data files, pulled in by `getWarbandTypeName` on the list screens — a name lookup dragging 227 kB of definitions. Splitting that needs a generated id→name map with a drift check, not another lazy boundary. §12.4.
 - ⚠️ **Pagination is on the two unbounded lists, not everywhere.** The public gallery (24/page) and the admin issue inbox (25/page) load incrementally with a Load more button. Deliberately **not** paginated: campaign members, standings and a user's own warbands are bounded by campaign or account size, and the campaign battle log is left whole because standings derive W/L/D from that same array — paging it would silently show wrong records. Doing the log properly means a separate aggregate query for the record, which is a larger change than the list itself.
 - ⚠️ **Gallery paging uses `.range()`, not the keyset cursor §13.4 asks for.** The sort key is `rating`, which changes whenever a warband gains Experience, so a cursor over it is no more stable than an offset — a row can cross the page boundary either way. Neither is exact under concurrent edits and the offset version is much harder to get wrong. The inbox orders by `created_at`, which never changes after insert, so its paging *is* exact. Revisit if the gallery reaches thousands of rows, where OFFSET's cost starts to matter.
