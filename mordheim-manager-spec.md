@@ -543,6 +543,10 @@ Every colour resolves through a CSS variable (`rgb(var(--color-x) / <alpha-value
 
 A design sandbox at `/design` judges components against both themes before migrating screens. It is how the missing-token bug was caught: `parchment` was defined without `ink`, so `text-ink` didn't exist and the page rendered cream on cream — invisible in the CSS, obvious in a screenshot.
 
+### 5.6 Shared UI kit ✅
+
+The tokens and fonts were always consistent; the *components* were not — the same button was hand-written ~11 ways, the card surface 20-odd, and errors sometimes used a raw `text-red-400` that neither palette owns. `src/components/ui/` settles each into one primitive — `Button` (primary/secondary/danger/ghost, md/dense), `Card`, `SectionHeading`/`Eyebrow`, `Field`/`TextField`/`Textarea`/`Select`, with `buttonClasses`/`fieldClasses` for `<Link>`-as-button cases. The primary button's label resolves through the `on-accent` token so it stays legible on the accent in both themes (near-black on Grimdark ember, white on Rulebook blood). Every product screen was migrated onto the kit — including the admin screens, which had been written in the full parchment/ink idiom and were reconciled to the app's dark tokens (a border-and-fill swap, since the role tokens already resolved correctly). The `/design` sandbox carries a live gallery of the kit in both themes. The landing page (`public/landing.html`) is a separate static file that already mirrors the §5.1 token *values* with its own `data-theme` toggle, so it shares the design without importing the bundle.
+
 ---
 
 ## 6. Build order (as executed)
@@ -1562,6 +1566,8 @@ The largest infrastructure lift here. The PWA groundwork (§2) supports it, but 
 No schema, no RLS, no persistence — a component, not a feature with state.
 
 **Screen:** a small persistent control opening a picker: die type (D3 / D6 / D66 / 2D6 / D100), count, modifier. Shows the result large and keeps a short in-memory history for the session, cleared on navigation. Reuses `src/lib/dice.ts`, already built for spells, injuries, advances and exploration (§15.3) — a UI wrapper around an existing utility, not new roll logic.
+
+**Reachable from anywhere.** Beyond the `/dice` route, a floating dice button (`src/components/DiceButton.tsx`) stacks directly under the nav tour's `?` in the top-right corner and opens the same `DiceRoller` in a dismissible overlay (backdrop / X / Escape) — so a house-rule roll never means leaving the screen you're on. Public, like the route it mirrors.
 
 **Why it is separate** from the roll-or-pick pattern elsewhere: every other roller in the app is scoped to a table and writes its result into a model. This one writes nothing. It is for a house rule or a moment the app does not model, which is exactly why it needs no state.
 
