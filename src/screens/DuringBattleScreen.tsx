@@ -8,6 +8,8 @@ import { useRosterPhotos } from '../hooks/usePhotos';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { Button, Card, SectionHeading, TextField } from '../components/ui';
 import { strings } from '../strings';
+import { rollD6, rollD66 } from '../lib/dice';
+import { getInjuryByRoll } from '../lib/injuryLookup';
 import {
   BattleSession,
   OutOfActionTally,
@@ -250,6 +252,55 @@ function RosterReference({
   );
 }
 
+/**
+ * Rolls the two injury results the game asks for and drops each into the event
+ * log, so the screen does the bookkeeping the physical dice were doing beside
+ * it. The wound result (D6) is the fixed 1–2/3–4/5–6 rule; the serious injury
+ * (D66) reads the same table the post-battle wizard uses. Neither mutates a
+ * roster — that's the wizard's job after the game — this only records what was
+ * rolled at the table.
+ */
+function InjuryRoller({ onLog }: { onLog: (text: string) => void }) {
+  const t = strings.battle.duringBattle.injury;
+  const [last, setLast] = useState<string | null>(null);
+
+  function rollWound() {
+    const r = rollD6();
+    const result = r <= 2 ? t.knockedDown : r <= 4 ? t.stunned : t.outOfAction;
+    const text = t.combatLog(r, result);
+    onLog(text);
+    setLast(text);
+  }
+
+  function rollSerious() {
+    const { key } = rollD66();
+    const entry = getInjuryByRoll(key);
+    const name = entry?.name ?? key;
+    onLog(t.seriousLog(key, name));
+    setLast(entry ? `${t.seriousLog(key, name)} — ${entry.effect}` : t.seriousLog(key, name));
+  }
+
+  return (
+    <div className="px-4 pb-4 space-y-3">
+      <p className="text-bone-300 text-xs">{t.hint}</p>
+      <div className="flex gap-2">
+        <Button variant="secondary" size="dense" fullWidth={false} onClick={rollWound} className="flex-1">
+          {t.rollCombat}
+        </Button>
+        <Button variant="secondary" size="dense" fullWidth={false} onClick={rollSerious} className="flex-1">
+          {t.rollSerious}
+        </Button>
+      </div>
+      {last && (
+        <div className="rounded-md bg-ink-950 border border-ink-700 p-3 space-y-1">
+          <p className="text-bone-100 text-sm">{last}</p>
+          <p className="text-verdigris text-xs">{t.logged}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function DuringBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
@@ -300,6 +351,11 @@ export default function DuringBattleScreen() {
     updateSession({ events: session.events.filter((e) => e.id !== id) });
   }
 
+  /** Append a pre-formed line (an injury roll) to the log at the current turn. */
+  function logEvent(text: string) {
+    updateSession({ events: [...session.events, { id: generateId(), turn: session.turn, text }] });
+  }
+
   const displayedWarband = viewSide === 'opponent' && opponentWarband ? opponentWarband : warband;
 
   return (
@@ -347,6 +403,15 @@ export default function DuringBattleScreen() {
           <div className="px-4 pb-4">
             <DiceRoller compact />
           </div>
+        </details>
+
+        {/* Injury rolls, logged straight into the events above — the D6 wound
+            result and the D66 serious-injury table, at hand mid-fight. */}
+        <details className="rounded-lg bg-ink-900 border border-ink-800">
+          <summary className="min-h-[48px] flex items-center px-4 text-bone-100 font-semibold cursor-pointer select-none">
+            {strings.battle.duringBattle.injury.section}
+          </summary>
+          <InjuryRoller onLog={logEvent} />
         </details>
 
         <section className="space-y-3">

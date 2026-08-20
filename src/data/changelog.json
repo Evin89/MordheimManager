@@ -1,5 +1,30 @@
 [
   {
+    "date": "2026-08-20",
+    "title": "Custom Warbands",
+    "description": "Bring your homebrew to the table. You can now clone any warband as a custom type, rename it and its units, and reassign its limits — starting gold, warband size, and how many of each fighter you may recruit — then build warbands from it like any other. The stat lines and prices stay the ones the rulebook printed, merely reassigned, so nothing is invented. Your custom types sync to your account and appear in the New Warband list under \"Your custom types\"; manage them from New Warband → Manage custom types."
+  },
+  {
+    "date": "2026-08-20",
+    "title": "Campaign Activity Feed",
+    "description": "A campaign is more than a set of tabs. The Log tab now opens with Recent activity — one timeline merging battles, log entries, scheduled game nights, the pinned announcement and territory claims, newest first — so you can catch up on everything that has happened since you last looked without hunting through the other tabs."
+  },
+  {
+    "date": "2026-08-20",
+    "title": "Shareable Warband Cards",
+    "description": "Show off your warband. A new Share card button on the roster renders a clean image of it — name, type, rating, full roster and treasury — ready to drop into Discord or a group chat. On a phone it opens the share sheet directly; everywhere else it downloads a PNG."
+  },
+  {
+    "date": "2026-08-20",
+    "title": "Head-to-Head Match Logs",
+    "description": "Rivalries go deeper. Each opponent on your Rivalries card now expands to the full head-to-head — every game against them with its date, scenario and result, plus the total wyrdstone you found across the rivalry. The running win/loss/draw record is still there at a glance."
+  },
+  {
+    "date": "2026-08-20",
+    "title": "Table Tools: Injury Rolls, Warband Check & Loadouts",
+    "description": "Three things to make game night smoother. The during-battle screen gains an Injury rolls panel — the D6 wound result and the D66 serious-injury table, each logged straight into the event log. Every roster now carries a Warband check that flags anything off — over the size limit, too many of a unit, an advance waiting to be spent, upkeep due next battle — and lists each fighter's weapons, skills and special rules right on their card. Weapon cost and rarity are hidden where they only add noise, such as the during-battle reference."
+  },
+  {
     "date": "2026-08-14",
     "title": "Awards & Rivalries",
     "description": "The campaign's Standings tab gains two flourishes drawn straight from the battle log. Campaign awards hand out titles as the campaign runs — Wyrdstone Baron for the most shards found, On a Roll for the longest win streak, Old Campaigner for the most battles, and Top Dogs for the highest rating — each a snapshot of where things stand, not a locked-in prize. And a Rivalries card tallies your warband's head-to-head record against everyone it has faced: wins, losses and draws per opponent, so you can see who has your number and who you own."

@@ -171,6 +171,24 @@
       /* Profile block — the one signature 2px-border element (§5.3), kept
          identical to the app so the motif reads the same on the page. */
       .plate { margin-top: 40px; display: flex; justify-content: center; }
+      /* Portrait placeholder + statline sit side by side, exactly the pairing a
+         warrior's detail screen shows. The row wraps and centres on a phone so
+         the frame stacks above the table instead of squeezing it. */
+      .plate-row {
+        display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+        gap: 20px;
+      }
+      /* The model-portrait frame — the same 2px ink border and inset rule as the
+         profile block, since §11.4 gives photos the profile's book-plate framing.
+         Empty here on purpose: a silhouette standing in for the picture the app
+         would hold once you upload one. */
+      .portrait {
+        width: 132px; height: 132px; flex: none;
+        border: 2px solid rgb(var(--ink)); background: rgb(var(--raised));
+        box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.35);
+        display: flex; align-items: center; justify-content: center;
+      }
+      .portrait svg { width: 74px; height: 74px; color: rgb(var(--ink-faded)); }
       .profile {
         border: 2px solid rgb(var(--ink)); background: rgb(var(--raised));
         box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.35);
@@ -244,6 +262,31 @@
       </section>
 
       <div class="changelog">
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-20</p>
+        <h3>Custom Warbands</h3>
+        <p>Bring your homebrew to the table. You can now clone any warband as a custom type, rename it and its units, and reassign its limits — starting gold, warband size, and how many of each fighter you may recruit — then build warbands from it like any other. The stat lines and prices stay the ones the rulebook printed, merely reassigned, so nothing is invented. Your custom types sync to your account and appear in the New Warband list under &quot;Your custom types&quot;; manage them from New Warband → Manage custom types.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-20</p>
+        <h3>Campaign Activity Feed</h3>
+        <p>A campaign is more than a set of tabs. The Log tab now opens with Recent activity — one timeline merging battles, log entries, scheduled game nights, the pinned announcement and territory claims, newest first — so you can catch up on everything that has happened since you last looked without hunting through the other tabs.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-20</p>
+        <h3>Shareable Warband Cards</h3>
+        <p>Show off your warband. A new Share card button on the roster renders a clean image of it — name, type, rating, full roster and treasury — ready to drop into Discord or a group chat. On a phone it opens the share sheet directly; everywhere else it downloads a PNG.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-20</p>
+        <h3>Head-to-Head Match Logs</h3>
+        <p>Rivalries go deeper. Each opponent on your Rivalries card now expands to the full head-to-head — every game against them with its date, scenario and result, plus the total wyrdstone you found across the rivalry. The running win/loss/draw record is still there at a glance.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-08-20</p>
+        <h3>Table Tools: Injury Rolls, Warband Check &amp; Loadouts</h3>
+        <p>Three things to make game night smoother. The during-battle screen gains an Injury rolls panel — the D6 wound result and the D66 serious-injury table, each logged straight into the event log. Every roster now carries a Warband check that flags anything off — over the size limit, too many of a unit, an advance waiting to be spent, upkeep due next battle — and lists each fighter's weapons, skills and special rules right on their card. Weapon cost and rarity are hidden where they only add noise, such as the during-battle reference.</p>
+      </article>
       <article class="entry">
         <p class="entry-date ui tnum">2026-08-14</p>
         <h3>Awards &amp; Rivalries</h3>

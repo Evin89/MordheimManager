@@ -104,8 +104,26 @@ export const warbandDefinitions: WarbandDefinition[] = [
   tombGuardians,
 ] as WarbandDefinition[];
 
+/**
+ * Custom (clone-and-rename) types registered at runtime from the signed-in
+ * user's rows (§21.2). Held in a module map so the pure resolvers below — used
+ * by the factory, roster, health check and rules — find a custom type the same
+ * way they find a bundled one, without every caller learning about a second
+ * source. Populated by `useRegisterCustomWarbands` once the query resolves.
+ */
+const customById = new Map<string, WarbandDefinition>();
+
+export function registerCustomWarbandTypes(definitions: WarbandDefinition[]): void {
+  customById.clear();
+  for (const def of definitions) customById.set(def.id, def);
+}
+
+export function getCustomWarbandDefinitions(): WarbandDefinition[] {
+  return [...customById.values()];
+}
+
 export function getWarbandDefinition(id: string): WarbandDefinition | undefined {
-  return warbandDefinitions.find((def) => def.id === id);
+  return warbandDefinitions.find((def) => def.id === id) ?? customById.get(id);
 }
 
 /**

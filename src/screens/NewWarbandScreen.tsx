@@ -1,15 +1,20 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import DisclosureChevron from '../components/DisclosureChevron';
 import { Button, TextField } from '../components/ui';
 import { strings } from '../strings';
 import { getWarbandProvenance, warbandDefinitionsByName } from '../data/warbandRegistry';
+import { WarbandDefinition } from '../data/types';
+import { isCustomWarbandType } from '../lib/customWarband';
 import { createWarband } from '../lib/warbandFactory';
 import { useCreateWarbandMutation } from '../hooks/useWarbands';
+import { useCustomWarbandTypesQuery } from '../hooks/useCustomWarbands';
 
-/** Provenance as one short label, e.g. "The New Mordheimer · Grade 1a". */
-function provenanceLabel(def: (typeof warbandDefinitionsByName)[number]): string {
+/** Provenance as one short label, e.g. "The New Mordheimer · Grade 1a". A custom
+ * type is labelled plainly as one rather than echoing its long cloned-from note. */
+function provenanceLabel(def: WarbandDefinition): string {
+  if (isCustomWarbandType(def.id)) return strings.newWarband.customSectionLabel;
   const { source, grade } = getWarbandProvenance(def);
   return grade ? `${source} · ${grade}` : source;
 }
@@ -25,21 +30,21 @@ function provenanceLabel(def: (typeof warbandDefinitionsByName)[number]): string
 function WarbandTypePicker({
   value,
   onChange,
+  definitions,
 }: {
   value: string;
   onChange: (id: string) => void;
+  definitions: WarbandDefinition[];
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const selected = warbandDefinitionsByName.find((d) => d.id === value);
+  const selected = definitions.find((d) => d.id === value);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return warbandDefinitionsByName;
-    return warbandDefinitionsByName.filter((d) =>
-      `${d.name} ${provenanceLabel(d)}`.toLowerCase().includes(q),
-    );
-  }, [query]);
+    if (!q) return definitions;
+    return definitions.filter((d) => `${d.name} ${provenanceLabel(d)}`.toLowerCase().includes(q));
+  }, [query, definitions]);
 
   return (
     <div className="relative">
@@ -109,12 +114,18 @@ function WarbandTypePicker({
 export default function NewWarbandScreen() {
   const navigate = useNavigate();
   const createWarbandOnServer = useCreateWarbandMutation();
+  const { data: customTypes } = useCustomWarbandTypesQuery();
   const [name, setName] = useState('');
   const [typeId, setTypeId] = useState(warbandDefinitionsByName[0]?.id ?? '');
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
-  const definition = warbandDefinitionsByName.find((def) => def.id === typeId);
+  // Your custom types sort to the top, then the bundled lists A–Z.
+  const allDefinitions = useMemo(
+    () => [...(customTypes ?? []).map((c) => c.definition), ...warbandDefinitionsByName],
+    [customTypes],
+  );
+  const definition = allDefinitions.find((def) => def.id === typeId);
 
   async function handleCreate() {
     if (!name.trim()) {
@@ -163,7 +174,13 @@ export default function NewWarbandScreen() {
           <label className="block text-bone-200 text-sm font-semibold" id="warband-type-label">
             {strings.newWarband.typeLabel}
           </label>
-          <WarbandTypePicker value={typeId} onChange={setTypeId} />
+          <WarbandTypePicker value={typeId} onChange={setTypeId} definitions={allDefinitions} />
+          <Link
+            to="/custom-warbands"
+            className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+          >
+            {strings.newWarband.manageCustomLink}
+          </Link>
           {definition && (
             <>
               <p className="text-bone-300 text-sm">

@@ -4,6 +4,7 @@ import BackHeader from '../components/BackHeader';
 import { CreateCampaignForm, JoinCampaignForm } from '../components/CampaignForms';
 import InviteShareButtons from '../components/InviteShareButtons';
 import { NextEventBanner } from '../components/CampaignEvents';
+import CampaignActivityFeed from '../components/CampaignActivityFeed';
 import SaveBar from '../components/SaveBar';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import { Button, Card, SectionHeading, Field, TextField, Textarea, Select } from '../components/ui';
@@ -47,7 +48,7 @@ import { computeRivalries } from '../lib/rivalries';
 import { useWarbandList } from '../hooks/useWarbands';
 import objectivesData from '../data/btb/objectives.json';
 import { BtbObjectivesData } from '../data/types';
-import { BattleRecord, BtbObjective, Campaign, StandingsRow, Warband } from '../types';
+import { BattleRecord, BattleResult, BtbObjective, Campaign, StandingsRow, Warband } from '../types';
 
 type Tab = 'log' | 'standings' | 'players' | 'territory';
 
@@ -439,18 +440,49 @@ function CampaignRivalries({
         <p className="text-bone-300 text-sm">{strings.campaign.rivalriesEmpty}</p>
       ) : (
         blocks.map((block) => (
-          <div key={block.warbandId} className="rounded-lg bg-ink-900 border border-ink-800 p-3 space-y-2">
-            <ul className="space-y-1">
-              {block.rivalries.map((r) => (
-                <li key={r.opponentName} className="flex items-baseline justify-between gap-3">
-                  <span className="text-bone-100 truncate">{r.opponentName}</span>
-                  <span className="text-bone-400 text-xs tabular-nums shrink-0">
-                    {strings.campaign.rivalryRecord(r.wins, r.losses, r.draws)} ·{' '}
-                    {strings.campaign.rivalryBattles(r.battles)}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          <div key={block.warbandId} className="rounded-lg bg-ink-900 border border-ink-800 p-3 space-y-1">
+            {block.rivalries.map((r) => {
+              const resultLabel = (result: BattleResult) =>
+                result === 'win'
+                  ? strings.campaign.rivalryResultWin
+                  : result === 'loss'
+                    ? strings.campaign.rivalryResultLoss
+                    : strings.campaign.rivalryResultDraw;
+              const resultColor = (result: BattleResult) =>
+                result === 'win' ? 'text-verdigris' : result === 'loss' ? 'text-blood-500' : 'text-bone-400';
+              return (
+                <details key={r.opponentName} className="group border-b border-ink-800/60 last:border-b-0">
+                  <summary className="min-h-[44px] flex items-baseline justify-between gap-3 cursor-pointer select-none list-none">
+                    <span className="text-bone-100 truncate">{r.opponentName}</span>
+                    <span className="text-bone-400 text-xs tabular-nums shrink-0">
+                      {strings.campaign.rivalryRecord(r.wins, r.losses, r.draws)} ·{' '}
+                      {strings.campaign.rivalryBattles(r.battles)}
+                    </span>
+                  </summary>
+                  <div className="pb-2 pl-1 space-y-1">
+                    <p className="text-bone-400 text-xs">{strings.campaign.rivalryShardsSwung(r.wyrdstoneFound)}</p>
+                    {r.matches.map((m) => (
+                      <div
+                        key={m.battleId}
+                        className="flex items-baseline justify-between gap-3 text-xs"
+                      >
+                        <span className="text-bone-300 truncate">
+                          {new Date(m.date).toLocaleDateString()} · {m.scenario}
+                        </span>
+                        <span className="shrink-0 tabular-nums">
+                          {m.wyrdstoneFound > 0 && (
+                            <span className="text-bone-400 mr-2">
+                              {strings.campaign.rivalryMatchShards(m.wyrdstoneFound)}
+                            </span>
+                          )}
+                          <span className={`font-semibold ${resultColor(m.result)}`}>{resultLabel(m.result)}</span>
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              );
+            })}
           </div>
         ))
       )}
@@ -1085,6 +1117,8 @@ export default function CampaignScreen() {
                 entirely. */}
             {tab === 'log' && (
               <>
+                <CampaignActivityFeed campaign={campaign} />
+
                 <Card as="section">
                   <Field label={strings.campaign.nameLabel}>
                     <TextField

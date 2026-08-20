@@ -14,6 +14,8 @@ export type Territory = {
   kind: string;
   notes: string;
   controlledByWarbandId: string | null;
+  /** When the territory was added — its claim time, used by the activity feed. */
+  createdAt: string;
 };
 
 type TerritoryRow = {
@@ -23,7 +25,10 @@ type TerritoryRow = {
   kind: string | null;
   notes: string | null;
   controlled_by_warband_id: string | null;
+  created_at?: string;
 };
+
+const COLUMNS = 'id, campaign_id, name, kind, notes, controlled_by_warband_id, created_at';
 
 function toTerritory(row: TerritoryRow): Territory {
   return {
@@ -33,6 +38,7 @@ function toTerritory(row: TerritoryRow): Territory {
     kind: row.kind ?? '',
     notes: row.notes ?? '',
     controlledByWarbandId: row.controlled_by_warband_id,
+    createdAt: row.created_at ?? '',
   };
 }
 
@@ -40,7 +46,7 @@ export async function fetchTerritories(campaignId: string): Promise<Territory[]>
   if (isDemoMode()) return demo.fetchTerritories(campaignId);
   const { data, error } = await supabase
     .from('territories')
-    .select('id, campaign_id, name, kind, notes, controlled_by_warband_id')
+    .select(COLUMNS)
     .eq('campaign_id', campaignId)
     .order('created_at', { ascending: true });
   if (error) throw error;
@@ -60,7 +66,7 @@ export async function createTerritory(
       kind: fields.kind.trim() || null,
       notes: fields.notes.trim() || null,
     })
-    .select('id, campaign_id, name, kind, notes, controlled_by_warband_id')
+    .select(COLUMNS)
     .single();
   if (error) throw error;
   return toTerritory(data as TerritoryRow);
@@ -76,7 +82,7 @@ export async function setTerritoryController(
     .from('territories')
     .update({ controlled_by_warband_id: warbandId })
     .eq('id', id)
-    .select('id, campaign_id, name, kind, notes, controlled_by_warband_id')
+    .select(COLUMNS)
     .single();
   if (error) throw error;
   return toTerritory(data as TerritoryRow);

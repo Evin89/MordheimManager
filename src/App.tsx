@@ -7,6 +7,7 @@ import ReportIssueButton from './components/ReportIssueButton';
 import SideNav from './components/SideNav';
 import ConnectionBanner from './components/ConnectionBanner';
 import RequireAuth from './auth/RequireAuth';
+import { useRegisterCustomWarbands } from './hooks/useCustomWarbands';
 import { strings } from './strings';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
@@ -63,6 +64,10 @@ const AddHiredSwordScreen = lazy(() => import('./screens/AddHiredSwordScreen'));
 
 const NewWarbandScreen = lazy(() => import('./screens/NewWarbandScreen'));
 
+const CustomWarbandsScreen = lazy(() => import('./screens/CustomWarbandsScreen'));
+
+const CustomWarbandEditScreen = lazy(() => import('./screens/CustomWarbandEditScreen'));
+
 const WarbandPickerScreen = lazy(() => import('./screens/WarbandPickerScreen'));
 
 const ForgotPasswordScreen = lazy(() => import('./screens/ForgotPasswordScreen'));
@@ -100,6 +105,9 @@ function guarded(element: ReactElement) {
  * `guarded`, since those rows are owned by a user and RLS-scoped.
  */
 function AppShell() {
+  // Load the signed-in user's custom warband types into the module registry so
+  // the factory, roster and health check resolve them like a bundled type.
+  useRegisterCustomWarbands();
   return (
     <div className="min-h-full md:flex md:items-start">
       <SideNav />
@@ -143,6 +151,8 @@ function AppShell() {
             <Route path="/warbands" element={guarded(<WarbandListScreen />)} />
             <Route path="/compare" element={guarded(<WarbandCompareScreen />)} />
             <Route path="/warbands/new" element={guarded(<NewWarbandScreen />)} />
+            <Route path="/custom-warbands" element={guarded(<CustomWarbandsScreen />)} />
+            <Route path="/custom-warbands/:id" element={guarded(<CustomWarbandEditScreen />)} />
             <Route path="/warbands/:warbandId" element={guarded(<RosterScreen />)} />
             <Route path="/warbands/:warbandId/add-hero" element={guarded(<AddHeroScreen />)} />
             <Route path="/warbands/:warbandId/add-henchmen" element={guarded(<AddHenchmenScreen />)} />

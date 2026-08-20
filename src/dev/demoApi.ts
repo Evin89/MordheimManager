@@ -11,6 +11,10 @@ import {
   WarbandVisibility,
 } from '../types';
 import { DemoDatabase, DemoWarbandRow, generateDemoDatabase, ratingOf } from './demoData';
+import type { CustomWarbandType } from '../api/customWarbands';
+import { WarbandDefinition } from '../data/types';
+import { getWarbandDefinition } from '../data/warbandRegistry';
+import { CUSTOM_ID_PREFIX, cloneWarbandDefinition } from '../lib/customWarband';
 
 /**
  * The demo stand-in for `src/api`. Same signatures, same return shapes, backed
@@ -957,6 +961,7 @@ const territories: {
   kind: string;
   notes: string;
   controlledByWarbandId: string | null;
+  createdAt: string;
 }[] = [
   {
     id: 'demo-territory-1',
@@ -965,6 +970,7 @@ const territories: {
     kind: 'Trading',
     notes: 'A wyrdstone shard turns up here after every fair.',
     controlledByWarbandId: null,
+    createdAt: new Date(2026, 6, 30, 18, 0).toISOString(),
   },
   {
     id: 'demo-territory-2',
@@ -973,6 +979,7 @@ const territories: {
     kind: 'Waterfront',
     notes: '',
     controlledByWarbandId: null,
+    createdAt: new Date(2026, 7, 2, 12, 30).toISOString(),
   },
 ];
 
@@ -991,6 +998,7 @@ export async function createTerritory(
     kind: fields.kind.trim(),
     notes: fields.notes.trim(),
     controlledByWarbandId: null,
+    createdAt: new Date().toISOString(),
   };
   territories.push(territory);
   return { ...territory };
@@ -1006,6 +1014,56 @@ export async function setTerritoryController(id: string, warbandId: string | nul
 export async function deleteTerritory(id: string): Promise<void> {
   const i = territories.findIndex((t) => t.id === id);
   if (i >= 0) territories.splice(i, 1);
+}
+
+// --- Custom warband types (§21.2) --------------------------------------------
+const customWarbandTypes: CustomWarbandType[] = (() => {
+  const base = getWarbandDefinition('reiklanders');
+  if (!base) return [];
+  const id = 'demo-custom-1';
+  const name = 'Reikland Free Company';
+  return [
+    {
+      id,
+      baseType: 'reiklanders',
+      name,
+      definition: cloneWarbandDefinition(base, CUSTOM_ID_PREFIX + id, name),
+      updatedAt: new Date(2026, 7, 10, 12, 0).toISOString(),
+    },
+  ];
+})();
+
+export async function fetchCustomWarbandTypes(): Promise<CustomWarbandType[]> {
+  return customWarbandTypes.map((t) => ({ ...t }));
+}
+
+export async function createCustomWarbandType(
+  id: string,
+  baseType: string,
+  name: string,
+  definition: WarbandDefinition,
+): Promise<CustomWarbandType> {
+  const t: CustomWarbandType = { id, baseType, name, definition, updatedAt: new Date().toISOString() };
+  customWarbandTypes.push(t);
+  return { ...t };
+}
+
+export async function updateCustomWarbandType(
+  id: string,
+  name: string,
+  definition: WarbandDefinition,
+): Promise<CustomWarbandType> {
+  const t = customWarbandTypes.find((x) => x.id === id);
+  if (!t) throw new Error('Custom warband type not found.');
+  t.name = name;
+  t.definition = definition;
+  t.updatedAt = new Date().toISOString();
+  return { ...t };
+}
+
+export async function deleteCustomWarbandType(id: string): Promise<void> {
+  const i = customWarbandTypes.findIndex((x) => x.id === id);
+  if (i >= 0) customWarbandTypes.splice(i, 1);
 }
 
 export async function deleteCampaign(campaignId: string): Promise<void> {

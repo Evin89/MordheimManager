@@ -9,6 +9,8 @@ import { useRatingHistoryQuery } from '../hooks/useRatingHistory';
 import RatingHistoryChart from '../components/RatingHistoryChart';
 import { modelDisplayName } from '../lib/modelNames';
 import WarbandSharingCard from '../components/WarbandSharingCard';
+import ShareableWarbandCard from '../components/ShareableWarbandCard';
+import WarbandHealthPanel from '../components/WarbandHealthPanel';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import SaveBar from '../components/SaveBar';
 import { Button, Card, SectionHeading, buttonClasses } from '../components/ui';
@@ -279,6 +281,10 @@ export default function RosterScreen() {
           <RatingHistory warbandId={warband.id} />
         </Card>
 
+        {/* Legality + housekeeping at a glance — reads the draft so a treasury
+            or roster change is reflected before it's even saved. */}
+        <WarbandHealthPanel warband={draft} />
+
         <WarbandPhotoEditor warbandId={warband.id} warbandName={warband.name} />
 
         <Link to={`/warbands/${warband.id}/pre-battle`} className={buttonClasses('primary')}>
@@ -374,6 +380,8 @@ export default function RosterScreen() {
         </section>
 
         <WarbandSharingCard warbandId={warband.id} />
+
+        <ShareableWarbandCard warband={draft} />
 
         {/* Opens in place rather than as a dialog — see ConfirmByTyping. */}
         {!confirmingDelete ? (
