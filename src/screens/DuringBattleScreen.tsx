@@ -17,6 +17,7 @@ import {
   useAppStore,
 } from '../store/useAppStore';
 import { useSharedWarbandQuery, useWarbandList, useWarbandLookup } from '../hooks/useWarbands';
+import { useEnsureWarbandType } from '../hooks/useCustomWarbands';
 import { generateId } from '../lib/id';
 import { EquipmentItem, StatLine, Warband } from '../types';
 
@@ -324,6 +325,10 @@ export default function DuringBattleScreen() {
     ownOpponent ? undefined : (session.opponentWarbandId ?? undefined),
   );
   const opponentWarband = ownOpponent ?? sharedOpponent ?? undefined;
+  // Resolve the opponent's custom type if they built on one (readable since
+  // 0022), so their roster's type name and unit rules fill in. Not gated on —
+  // the opponent reference filling in a moment late never blocks your own turn.
+  useEnsureWarbandType(opponentWarband?.warbandType);
 
   if (loading) {
     return (

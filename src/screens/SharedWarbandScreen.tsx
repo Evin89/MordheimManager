@@ -6,6 +6,7 @@ import { WarbandThumb } from '../components/WarbandPhoto';
 import { Card, SectionHeading } from '../components/ui';
 import { strings } from '../strings';
 import { useSharedWarbandQuery, useWarband } from '../hooks/useWarbands';
+import { useEnsureWarbandType } from '../hooks/useCustomWarbands';
 import { useRosterPhotos } from '../hooks/usePhotos';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
@@ -108,12 +109,16 @@ export default function SharedWarbandScreen() {
   // The standings table links every warband here, including your own — so this
   // screen has to know when it's showing you back to yourself.
   const isMine = useWarband(warbandId) !== undefined;
+  // A warband built on the owner's *custom* type: fetch and register that type
+  // (readable since 0022) so its name and unit rules resolve here the same as a
+  // bundled one, rather than showing a raw `custom-<id>` and blank rules.
+  const { loading: typeLoading } = useEnsureWarbandType(warband?.warbandType);
   // Keyed by model id (the group shot lives under ''). Resolves to nothing for
   // an anonymous visitor, since photos are readable only when signed in (§11.5),
   // so the cards simply show no portrait rather than erroring.
   const photos = useRosterPhotos(warbandId);
 
-  if (isLoading) {
+  if (isLoading || typeLoading) {
     return (
       <div className="min-h-full flex items-center justify-center">
         <p className="text-bone-300">{strings.common.loading}</p>

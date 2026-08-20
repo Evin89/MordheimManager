@@ -113,9 +113,23 @@ export const warbandDefinitions: WarbandDefinition[] = [
  */
 const customById = new Map<string, WarbandDefinition>();
 
+/**
+ * Custom types owned by *other* people, resolved on demand when reading a shared
+ * roster or a public warband built on one (readable since migration 0022). Kept
+ * in a separate map that only ever grows — the owner's map is cleared and
+ * rebuilt whenever their own types refetch, and a foreign type loaded to render
+ * a campaign-mate's roster must survive that.
+ */
+const foreignById = new Map<string, WarbandDefinition>();
+
 export function registerCustomWarbandTypes(definitions: WarbandDefinition[]): void {
   customById.clear();
   for (const def of definitions) customById.set(def.id, def);
+}
+
+/** Add one foreign custom type (see `foreignById`). Never clears. */
+export function registerForeignCustomType(definition: WarbandDefinition): void {
+  foreignById.set(definition.id, definition);
 }
 
 export function getCustomWarbandDefinitions(): WarbandDefinition[] {
@@ -123,7 +137,9 @@ export function getCustomWarbandDefinitions(): WarbandDefinition[] {
 }
 
 export function getWarbandDefinition(id: string): WarbandDefinition | undefined {
-  return warbandDefinitions.find((def) => def.id === id) ?? customById.get(id);
+  return (
+    warbandDefinitions.find((def) => def.id === id) ?? customById.get(id) ?? foreignById.get(id)
+  );
 }
 
 /**

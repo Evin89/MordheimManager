@@ -47,6 +47,24 @@ export async function fetchCustomWarbandTypes(): Promise<CustomWarbandType[]> {
 }
 
 /**
+ * One custom type by its row id, for resolving *someone else's* type when
+ * reading a shared roster or a public warband built on it. Readable by anyone
+ * since 0022; returns null when the id is unknown (a deleted type) so the caller
+ * can fall back rather than throw. The id here is the bare row id — strip the
+ * `custom-` prefix off a warband's `warbandType` before calling.
+ */
+export async function fetchCustomWarbandTypeById(id: string): Promise<CustomWarbandType | null> {
+  if (isDemoMode()) return demo.fetchCustomWarbandTypeById(id);
+  const { data, error } = await supabase
+    .from('custom_warband_types')
+    .select('id, base_type, name, definition, updated_at')
+    .eq('id', id)
+    .maybeSingle();
+  if (error) throw error;
+  return data ? toType(data as Row) : null;
+}
+
+/**
  * Creates a custom type by cloning a built-in one. The row id is generated
  * client-side so the definition's own `id` (`custom-<id>`) can be baked in on
  * the single insert — the id a warband will store as its `warbandType`.

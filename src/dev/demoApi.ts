@@ -1037,6 +1037,11 @@ export async function fetchCustomWarbandTypes(): Promise<CustomWarbandType[]> {
   return customWarbandTypes.map((t) => ({ ...t }));
 }
 
+export async function fetchCustomWarbandTypeById(id: string): Promise<CustomWarbandType | null> {
+  const found = customWarbandTypes.find((t) => t.id === id);
+  return found ? { ...found } : null;
+}
+
 export async function createCustomWarbandType(
   id: string,
   baseType: string,

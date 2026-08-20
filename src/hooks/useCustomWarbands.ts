@@ -5,10 +5,16 @@ import {
   CustomWarbandType,
   createCustomWarbandType,
   deleteCustomWarbandType,
+  fetchCustomWarbandTypeById,
   fetchCustomWarbandTypes,
   updateCustomWarbandType,
 } from '../api/customWarbands';
-import { registerCustomWarbandTypes } from '../data/warbandRegistry';
+import {
+  getWarbandDefinition,
+  registerCustomWarbandTypes,
+  registerForeignCustomType,
+} from '../data/warbandRegistry';
+import { CUSTOM_ID_PREFIX, isCustomWarbandType } from '../lib/customWarband';
 import { WarbandDefinition } from '../data/types';
 
 const KEY = ['customWarbandTypes'] as const;
@@ -33,6 +39,43 @@ export function useRegisterCustomWarbands(): void {
   useEffect(() => {
     registerCustomWarbandTypes((data ?? []).map((t) => t.definition));
   }, [data]);
+}
+
+/**
+ * Ensures a warband's type is resolvable, fetching it when it's a custom type
+ * owned by someone else (a shared roster, an opponent, a public warband).
+ *
+ * Bundled types and the signed-in user's own customs are already in the
+ * registry, so those need no fetch and `ready` is immediately true. A foreign
+ * custom id is fetched by its bare row id and registered; `ready` flips true on
+ * the re-render that follows, which is the caller's cue that the type name and
+ * unit rules will now resolve. Returns ready for `undefined` so a screen can
+ * call it unconditionally before its warband has loaded.
+ */
+export function useEnsureWarbandType(warbandType: string | undefined): {
+  ready: boolean;
+  loading: boolean;
+} {
+  const alreadyResolvable = warbandType === undefined || getWarbandDefinition(warbandType) !== undefined;
+  const isForeignCustom = !!warbandType && isCustomWarbandType(warbandType) && !alreadyResolvable;
+  const rowId = isForeignCustom ? warbandType!.slice(CUSTOM_ID_PREFIX.length) : '';
+
+  const query = useQuery({
+    queryKey: ['foreignCustomType', rowId],
+    queryFn: async () => {
+      const type = await fetchCustomWarbandTypeById(rowId);
+      if (type) registerForeignCustomType(type.definition);
+      // Null (a deleted type) is a valid, cached answer — don't retry forever.
+      return type ?? null;
+    },
+    enabled: isForeignCustom,
+    staleTime: Infinity,
+  });
+
+  return {
+    ready: alreadyResolvable || query.isFetched,
+    loading: isForeignCustom && query.isLoading,
+  };
 }
 
 export function useCreateCustomWarbandMutation() {
