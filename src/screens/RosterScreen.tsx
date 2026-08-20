@@ -23,6 +23,7 @@ import {
   useWarbandSharing,
 } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
+import { useEnsureWarbandType } from '../hooks/useCustomWarbands';
 import { useMyCampaignsQuery } from '../hooks/useCampaign';
 import { computeWarbandRating, countModels } from '../lib/rating';
 import { getWarbandTypeName, getUnitSpecialRules } from '../data/warbandRegistry';
@@ -229,8 +230,13 @@ export default function RosterScreen() {
   // id -- see useRosterPhotos. Asking per row would be two requests per warrior.
   const photos = useRosterPhotos(warbandId);
   useUnsavedChangesWarning(dirty);
+  // A warband built on a custom type needs that type in the registry before its
+  // name, unit rules and health check resolve. Bundled types are ready at once;
+  // a custom one (own or a stale reference) gates the screen briefly rather than
+  // flashing a raw id and an empty check while it loads.
+  const { ready: typeReady } = useEnsureWarbandType(warband?.warbandType);
 
-  if (loading) {
+  if (loading || (warband && !typeReady)) {
     return (
       <div className="min-h-full flex items-center justify-center">
         <p className="text-ink-faded">{strings.common.loading}</p>

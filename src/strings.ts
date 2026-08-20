@@ -444,6 +444,7 @@ export const strings = {
     health: {
       title: 'Warband check',
       allClear: 'All legal — nothing outstanding.',
+      unresolved: "Can't check this warband — its type isn't loaded (a custom type still syncing, or one that was removed).",
       overSize: (n: number, max: number) => `Over the maximum warband size — ${n} of ${max} models.`,
       understrength: (n: number, min: number) =>
         `Understrength — ${n} models, below the ${min}-model minimum. Recruit before your next game.`,

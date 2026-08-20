@@ -77,7 +77,12 @@ export default function CampaignActivityFeed({ campaign }: { campaign: Campaign 
       });
     }
 
+    // Only game nights that have already happened — a future one is "upcoming",
+    // shown by the NextEventBanner, and its future date would otherwise sort to
+    // the very top of a panel about what has *happened*.
+    const now = Date.now();
     for (const ev of events ?? []) {
+      if (new Date(ev.eventDateTime).getTime() > now) continue;
       out.push({
         id: `event-${ev.id}`,
         timestamp: ev.eventDateTime,

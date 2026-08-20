@@ -1,8 +1,7 @@
 import { Warband } from '../types';
-import { computeWarbandRating } from './rating';
+import { computeWarbandRating, isInWarband } from './rating';
 import { modelDisplayName } from './modelNames';
 import { getWarbandTypeName } from '../data/warbandRegistry';
-import { isInWarband } from './rating';
 
 /**
  * Renders a warband to a shareable card image, drawn straight onto a canvas —
@@ -127,7 +126,11 @@ export async function renderWarbandCard(
   const typeName = getWarbandTypeName(warband.warbandType);
 
   // --- Measure: header block, then each group (title + rows). ---
-  const headerH = (photo ? 360 : 300);
+  // The header draws the rating badge at baseline ~298; the divider sits 30px
+  // above headerH, so headerH must clear that baseline with margin (360 with a
+  // photo, and no less than ~344 without — 300 put the divider through the
+  // rating text).
+  const headerH = photo ? 360 : 348;
   const groupTitleH = 64;
   const rowH = 52;
   const bodyH = groups.reduce((sum, g) => sum + groupTitleH + g.rows.length * rowH, 0);
@@ -192,10 +195,6 @@ export async function renderWarbandCard(
   ctx.fillStyle = C.emberBright;
   ctx.font = "700 30px 'Alegreya Sans', sans-serif";
   ctx.fillText(`Rating ${rating}`, PAD, y + 6);
-  ctx.fillStyle = C.inkFaint;
-  ctx.font = "26px 'Alegreya Sans', sans-serif";
-  const ratingW = ctx.measureText(`Rating ${rating}`).width;
-  void ratingW;
   y = headerH;
 
   // Divider under the header.

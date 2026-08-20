@@ -52,7 +52,10 @@ export default function ShareableWarbandCard({ warband }: { warband: Warband }) 
     document.body.appendChild(a);
     a.click();
     a.remove();
-    URL.revokeObjectURL(url);
+    // Revoke on the next tick, not synchronously: some browsers (Firefox, some
+    // mobile WebViews) process the download asynchronously, and revoking the
+    // blob URL on the same tick as the click aborts the save.
+    setTimeout(() => URL.revokeObjectURL(url), 10_000);
   }
 
   const file = blobRef.current

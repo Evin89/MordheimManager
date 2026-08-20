@@ -1,5 +1,6 @@
 import { Warband } from '../types';
 import { checkWarband, HealthSeverity } from '../lib/warbandHealth';
+import { getWarbandDefinition } from '../data/warbandRegistry';
 import { strings } from '../strings';
 
 /**
@@ -18,6 +19,10 @@ const STYLE: Record<HealthSeverity, { dot: string; text: string; icon: string }>
 };
 
 export default function WarbandHealthPanel({ warband }: { warband: Warband }) {
+  // A warband whose type won't resolve (a custom type still syncing, or removed)
+  // can't be checked — `checkWarband` returns [] there, which must not be shown
+  // as the reassuring all-clear.
+  const unresolved = getWarbandDefinition(warband.warbandType) === undefined;
   const findings = checkWarband(warband);
   // Errors and warnings first, then nudges; stable within a severity.
   const order: HealthSeverity[] = ['error', 'warn', 'info'];
@@ -27,7 +32,12 @@ export default function WarbandHealthPanel({ warband }: { warband: Warband }) {
     <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
       <h2 className="text-bone-100 font-semibold">{strings.roster.health.title}</h2>
 
-      {sorted.length === 0 ? (
+      {unresolved ? (
+        <div className="flex items-start gap-2">
+          <span className="mt-0.5 h-2 w-2 rounded-full bg-ember-500 shrink-0" aria-hidden="true" />
+          <p className="text-bone-300 text-sm">{strings.roster.health.unresolved}</p>
+        </div>
+      ) : sorted.length === 0 ? (
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-verdigris shrink-0" aria-hidden="true" />
           <p className="text-bone-300 text-sm">{strings.roster.health.allClear}</p>
