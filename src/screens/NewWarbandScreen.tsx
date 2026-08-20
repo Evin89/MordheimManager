@@ -8,6 +8,7 @@ import { getWarbandProvenance, warbandDefinitionsByName } from '../data/warbandR
 import { WarbandDefinition } from '../data/types';
 import { isCustomWarbandType } from '../lib/customWarband';
 import { createWarband } from '../lib/warbandFactory';
+import { quickBuildStarterRoster, describeStarter } from '../lib/quickBuild';
 import { useCreateWarbandMutation } from '../hooks/useWarbands';
 import { useCustomWarbandTypesQuery } from '../hooks/useCustomWarbands';
 
@@ -117,6 +118,7 @@ export default function NewWarbandScreen() {
   const { data: customTypes } = useCustomWarbandTypesQuery();
   const [name, setName] = useState('');
   const [typeId, setTypeId] = useState(warbandDefinitionsByName[0]?.id ?? '');
+  const [quickBuild, setQuickBuild] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -127,6 +129,13 @@ export default function NewWarbandScreen() {
   );
   const definition = allDefinitions.find((def) => def.id === typeId);
 
+  // Preview the starter for the selected type; reused on create so the roster
+  // shown matches what's inserted.
+  const starter = useMemo(
+    () => (definition ? quickBuildStarterRoster(definition) : null),
+    [definition],
+  );
+
   async function handleCreate() {
     if (!name.trim()) {
       setError(strings.newWarband.nameRequired);
@@ -135,6 +144,13 @@ export default function NewWarbandScreen() {
     if (!definition || saving) return;
 
     const warband = createWarband(definition, name.trim());
+    if (quickBuild && starter) {
+      // Rebuild here for fresh ids rather than reusing the preview's objects.
+      const roster = quickBuildStarterRoster(definition);
+      warband.heroes = roster.heroes;
+      warband.henchmenGroups = roster.henchmenGroups;
+      warband.gold = (definition.startingGold ?? 0) - roster.goldSpent;
+    }
     setSaving(true);
     try {
       // Only navigate once the insert succeeded — the roster screen reads from
@@ -196,6 +212,30 @@ export default function NewWarbandScreen() {
             </>
           )}
         </div>
+
+        {definition && (starter?.heroes.length || starter?.henchmenGroups.length) ? (
+          <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
+            <label className="flex items-start gap-3 min-h-[44px] cursor-pointer">
+              <input
+                type="checkbox"
+                checked={quickBuild}
+                onChange={(e) => setQuickBuild(e.target.checked)}
+                className="h-5 w-5 shrink-0 mt-0.5"
+              />
+              <span>
+                <span className="block text-bone-100 font-semibold text-sm">
+                  {strings.newWarband.quickBuildLabel}
+                </span>
+                <span className="block text-bone-400 text-xs">{strings.newWarband.quickBuildHint}</span>
+              </span>
+            </label>
+            {quickBuild && (
+              <p className="text-bone-300 text-xs pl-8">
+                {strings.newWarband.quickBuildPreview(describeStarter(definition, starter))}
+              </p>
+            )}
+          </div>
+        ) : null}
 
         <Button onClick={handleCreate}>{strings.newWarband.createButton}</Button>
       </main>

@@ -8,8 +8,9 @@ import { useRosterPhotos } from '../hooks/usePhotos';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { Button, Card, SectionHeading, TextField } from '../components/ui';
 import { strings } from '../strings';
-import { rollD6, rollD66 } from '../lib/dice';
+import { rollD6, rollD66, roll2D6 } from '../lib/dice';
 import { getInjuryByRoll } from '../lib/injuryLookup';
+import { countModels } from '../lib/rating';
 import {
   BattleSession,
   OutOfActionTally,
@@ -254,6 +255,78 @@ function RosterReference({
 }
 
 /**
+ * Rout test helper — the screen already tallies who's out of action, so it can
+ * do the arithmetic the rule asks for: a warband must test when a quarter of it
+ * is down. Shows the live down/total and, at the threshold, prompts the test and
+ * rolls it against the best Leadership on the table (a good-enough figure — the
+ * player knows if that model is itself down), logging the result to the events.
+ *
+ * Only for your own warband: `tally` is your bookkeeping, and the opponent's
+ * roster here is a read-only reference.
+ */
+function RoutTestPanel({
+  warband,
+  tally,
+  onLog,
+}: {
+  warband: Warband;
+  tally: OutOfActionTally;
+  onLog: (text: string) => void;
+}) {
+  const t = strings.battle.duringBattle.rout;
+  const total = countModels(warband);
+  const down =
+    tally.heroIds.length +
+    tally.hiredSwordIds.length +
+    Object.values(tally.henchmenCounts).reduce((s, n) => s + n, 0);
+  const pct = total > 0 ? Math.round((down / total) * 100) : 0;
+  // Integer 25% test, not the rounded percentage: exactly a quarter counts.
+  const mustTest = total > 0 && down * 4 >= total;
+  const bestLd = Math.max(
+    0,
+    ...warband.heroes.map((h) => h.stats.Ld ?? 0),
+    ...warband.henchmenGroups.map((g) => g.stats.Ld ?? 0),
+    ...warband.hiredSwords.map((s) => s.stats.Ld ?? 0),
+  );
+
+  function rollRout() {
+    const { total: rolled } = roll2D6();
+    const passed = rolled <= bestLd;
+    onLog(passed ? t.passLog(rolled, bestLd) : t.failLog(rolled, bestLd));
+  }
+
+  return (
+    <div
+      className={`rounded-lg border p-4 space-y-2 ${
+        mustTest ? 'border-blood-600 bg-blood-600/10' : 'border-ink-800 bg-ink-900'
+      }`}
+    >
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-bone-100 font-semibold text-sm">{t.section}</p>
+        <p className={`text-sm tabular-nums ${mustTest ? 'text-blood-500 font-semibold' : 'text-bone-300'}`}>
+          {t.status(down, total, pct)}
+        </p>
+      </div>
+      {mustTest ? (
+        <>
+          <p className="text-bone-200 text-sm">{t.required}</p>
+          <p className="text-bone-400 text-xs">{t.bestLd(bestLd)}</p>
+          <button
+            type="button"
+            onClick={rollRout}
+            className="w-full min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 text-on-accent font-semibold text-sm"
+          >
+            {t.roll}
+          </button>
+        </>
+      ) : (
+        <p className="text-bone-400 text-xs">{t.safe}</p>
+      )}
+    </div>
+  );
+}
+
+/**
  * Rolls the two injury results the game asks for and drops each into the event
  * log, so the screen does the bookkeeping the physical dice were doing beside
  * it. The wound result (D6) is the fixed 1–2/3–4/5–6 rule; the serious injury
@@ -491,11 +564,14 @@ export default function DuringBattleScreen() {
             )}
           </div>
           {viewSide === 'mine' ? (
-            <RosterReference
-              warband={warband}
-              tally={session.outOfAction}
-              onTallyChange={(outOfAction) => updateSession({ outOfAction })}
-            />
+            <>
+              <RoutTestPanel warband={warband} tally={session.outOfAction} onLog={logEvent} />
+              <RosterReference
+                warband={warband}
+                tally={session.outOfAction}
+                onTallyChange={(outOfAction) => updateSession({ outOfAction })}
+              />
+            </>
           ) : (
             <RosterReference warband={displayedWarband} />
           )}

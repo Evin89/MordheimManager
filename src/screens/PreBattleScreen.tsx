@@ -8,6 +8,8 @@ import { useWarbandList, useWarbandLookup } from '../hooks/useWarbands';
 import { useBattlesQuery, useCampaignWarbandsQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import scenariosData from '../data/scenarios.json';
 import { suggestScenario } from '../lib/scenarioSuggest';
+import { computeWarbandRating } from '../lib/rating';
+import ScenarioSetupPanel from '../components/ScenarioSetupPanel';
 
 export default function PreBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
@@ -31,6 +33,7 @@ export default function PreBattleScreen() {
     () => storedSession ?? defaultBattleSession(warbandId ?? ''),
   );
   const [lastRandomRoll, setLastRandomRoll] = useState<string | null>(null);
+  const [showFairPairing, setShowFairPairing] = useState(false);
 
   if (loading) {
     return (
@@ -45,6 +48,30 @@ export default function PreBattleScreen() {
     const updated = { ...session, ...patch };
     setSession(updated);
     setStoredSession(updated);
+  }
+
+  // Fair-pairing: every opponent you could pick, ranked by how close its rating
+  // is to yours. Your own warbands compute their rating; a campaign opponent's
+  // is carried on its row. A close match is a fair game; a big gap tells you
+  // who'd be the underdog before you commit.
+  const myRating = computeWarbandRating(warband);
+  const pairingCandidates = [
+    ...otherWarbands.map((w) => ({
+      id: w.id,
+      name: w.name,
+      rating: computeWarbandRating(w),
+      sub: strings.battle.preBattle.opponentGroupMine,
+    })),
+    ...campaignOpponents.map((w) => ({
+      id: w.id,
+      name: w.name,
+      rating: w.rating,
+      sub: w.playerName || strings.campaign.unnamedPlayer,
+    })),
+  ].sort((a, b) => Math.abs(a.rating - myRating) - Math.abs(b.rating - myRating));
+
+  function pickOpponent(id: string, name: string) {
+    updateSession({ opponentWarbandId: id, opponentName: name });
   }
 
   // Weighted suggestion (§21.3): a group plays some scenarios far more than
@@ -90,6 +117,8 @@ export default function PreBattleScreen() {
           {/* The data cites the chapter, not a page per scenario, so this points
               at the range rather than inventing a precise number. */}
           <p className="text-bone-400 text-xs">{strings.battle.preBattle.scenarioPageHint}</p>
+
+          {session.scenario && <ScenarioSetupPanel scenarioName={session.scenario} />}
         </section>
 
         <section className="space-y-2">
@@ -144,6 +173,75 @@ export default function PreBattleScreen() {
           </Select>
           {campaign && campaignOpponents.length === 0 && (
             <p className="text-bone-400 text-xs">{strings.battle.preBattle.noCampaignOpponents}</p>
+          )}
+
+          {pairingCandidates.length > 0 && (
+            <div className="pt-1">
+              <button
+                type="button"
+                onClick={() => setShowFairPairing((v) => !v)}
+                className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+              >
+                {strings.battle.preBattle.fairPairing.toggle}
+              </button>
+
+              {showFairPairing && (
+                <div className="mt-1 rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <p className="text-bone-300 text-xs uppercase tracking-wide">
+                      {strings.battle.preBattle.fairPairing.heading}
+                    </p>
+                    <p className="text-bone-400 text-xs tabular-nums">
+                      {strings.battle.preBattle.fairPairing.myRating(myRating)}
+                    </p>
+                  </div>
+                  <ul className="space-y-2">
+                    {pairingCandidates.map((c) => {
+                      const gap = c.rating - myRating;
+                      const gapLabel =
+                        gap === 0
+                          ? strings.battle.preBattle.fairPairing.even
+                          : gap > 0
+                            ? strings.battle.preBattle.fairPairing.theyFavoured(gap)
+                            : strings.battle.preBattle.fairPairing.youFavoured(-gap);
+                      const selected = session.opponentWarbandId === c.id;
+                      return (
+                        <li
+                          key={c.id}
+                          className={`flex items-center justify-between gap-3 rounded-md border p-3 ${
+                            selected ? 'border-ember-500 bg-ink-800' : 'border-ink-700'
+                          }`}
+                        >
+                          <div className="min-w-0">
+                            <p className="text-bone-100 text-sm font-semibold truncate">{c.name}</p>
+                            <p className="text-bone-400 text-xs truncate">
+                              {c.sub} · {strings.battle.preBattle.fairPairing.ratingLabel(c.rating)}
+                            </p>
+                            <p
+                              className={`text-xs ${
+                                gap > 0 ? 'text-ember-400' : gap < 0 ? 'text-bone-300' : 'text-verdigris'
+                              }`}
+                            >
+                              {gapLabel}
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => pickOpponent(c.id, c.name)}
+                            disabled={selected}
+                            className="shrink-0 min-h-[40px] px-3 rounded-md border border-ink-700 text-bone-100 text-sm font-semibold disabled:opacity-50 disabled:border-ember-500 disabled:text-ember-400"
+                          >
+                            {selected
+                              ? strings.battle.preBattle.fairPairing.picked
+                              : strings.battle.preBattle.fairPairing.pick}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+            </div>
           )}
         </section>
 
