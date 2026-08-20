@@ -5,6 +5,8 @@ import { CreateCampaignForm, JoinCampaignForm } from '../components/CampaignForm
 import InviteShareButtons from '../components/InviteShareButtons';
 import { NextEventBanner } from '../components/CampaignEvents';
 import CampaignActivityFeed from '../components/CampaignActivityFeed';
+import HouseRulesPanel from '../components/HouseRulesPanel';
+import CampaignRecap from '../components/CampaignRecap';
 import SaveBar from '../components/SaveBar';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import { Button, Card, SectionHeading, Field, TextField, Textarea, Select } from '../components/ui';
@@ -1100,6 +1102,13 @@ export default function CampaignScreen() {
       <main className="flex-1 px-4 py-4 space-y-6">
         {/* Above the tabs: "are we playing, and when" is what people open
             the campaign screen to find out. */}
+        {campaign?.concludedAt && (
+          <div className="rounded-lg border border-ember-500/40 bg-ember-500/10 px-4 py-2">
+            <p className="text-ember-400 text-sm font-semibold">
+              {strings.campaign.recap.concludedBanner(new Date(campaign.concludedAt).toLocaleDateString())}
+            </p>
+          </div>
+        )}
         {campaign && <AnnouncementBanner campaign={campaign} isLeader={isLeader} />}
         {campaign && <NextEventBanner campaignId={campaign.id} />}
         {!campaign ? (
@@ -1186,6 +1195,8 @@ export default function CampaignScreen() {
                   userId={user?.id}
                 />
 
+                <HouseRulesPanel campaign={campaign} isLeader={isLeader} />
+
                 {campaign.usesBTB && (
                   <section className="space-y-3">
                     <SectionHeading>{strings.campaign.btbSection}</SectionHeading>
@@ -1212,6 +1223,12 @@ export default function CampaignScreen() {
                 </div>
                 <CampaignAwards battles={battles ?? []} standings={standings ?? []} />
                 <CampaignRivalries battles={battles ?? []} myWarbandIds={warbands.map((w) => w.id)} />
+                <CampaignRecap
+                  campaign={campaign}
+                  standings={standings ?? []}
+                  battles={battles ?? []}
+                  isLeader={isLeader}
+                />
               </section>
             )}
 

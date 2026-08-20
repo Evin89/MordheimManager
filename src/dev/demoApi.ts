@@ -114,6 +114,8 @@ export async function createCampaign(name: string, usesBtb: boolean): Promise<Ca
     notes: '',
     pinnedAnnouncement: null,
     pinnedAnnouncementAt: null,
+    houseRules: {},
+    concludedAt: null,
   };
   database.campaigns.push(campaign);
   // The RPC adds the creator as leader in the same transaction; so does this.
@@ -142,6 +144,28 @@ export async function setCampaignAnnouncement(
   if (!campaign) throw new Error('No such campaign.');
   campaign.pinnedAnnouncement = text;
   campaign.pinnedAnnouncementAt = text ? new Date().toISOString() : null;
+  return { ...campaign };
+}
+
+export async function setCampaignHouseRules(
+  campaignId: string,
+  houseRules: Record<string, boolean>,
+): Promise<Campaign> {
+  const database = db();
+  const campaign = database.campaigns.find((c) => c.id === campaignId);
+  if (!campaign) throw new Error('No such campaign.');
+  campaign.houseRules = houseRules;
+  return { ...campaign };
+}
+
+export async function setCampaignConcluded(
+  campaignId: string,
+  concluded: boolean,
+): Promise<Campaign> {
+  const database = db();
+  const campaign = database.campaigns.find((c) => c.id === campaignId);
+  if (!campaign) throw new Error('No such campaign.');
+  campaign.concludedAt = concluded ? new Date().toISOString() : null;
   return { ...campaign };
 }
 

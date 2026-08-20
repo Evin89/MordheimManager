@@ -248,6 +248,8 @@ export function generateDemoDatabase(seed = 20260802): DemoDatabase {
       pinnedAnnouncement:
         c === 0 ? 'Next game night is Friday at the shop — bring your rosters!' : null,
       pinnedAnnouncementAt: c === 0 ? new Date().toISOString() : null,
+      houseRules: c === 0 ? { henchmenInjuries: true, permadeath: true } : {},
+      concludedAt: null,
     });
 
     roster.forEach((u, i) => {

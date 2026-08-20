@@ -15,6 +15,8 @@ import {
   revokeCampaignLeadership,
   updateCampaign,
   setCampaignAnnouncement,
+  setCampaignHouseRules,
+  setCampaignConcluded,
 } from '../api/campaign';
 import { deleteBattle, fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
 import { fetchCampaignWarbands } from '../api/warbands';
@@ -125,6 +127,33 @@ export function useSetAnnouncementMutation(campaignId: string | undefined) {
     onError: () => window.alert(strings.connection.lost),
   });
   return (text: string | null) => mutation.mutate(text);
+}
+
+/** Leader-only: set the campaign's optional-rule toggles. */
+export function useSetHouseRulesMutation(campaignId: string | undefined) {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (houseRules: Record<string, boolean>) => setCampaignHouseRules(campaignId!, houseRules),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) }),
+    onError: () => window.alert(strings.connection.lost),
+  });
+  return (houseRules: Record<string, boolean>) => mutation.mutate(houseRules);
+}
+
+/** Leader-only: conclude the campaign (true) or reopen it (false). */
+export function useSetConcludedMutation(campaignId: string | undefined) {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (concluded: boolean) => setCampaignConcluded(campaignId!, concluded),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });
+      queryClient.invalidateQueries({ queryKey: ['campaignSummaries', user?.id] });
+    },
+    onError: () => window.alert(strings.connection.lost),
+  });
+  return (concluded: boolean) => mutation.mutate(concluded);
 }
 
 /** Returns the error message on failure (bad code) rather than throwing, so the

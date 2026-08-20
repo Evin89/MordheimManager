@@ -22,6 +22,8 @@ type CampaignRow = {
   created_at: string;
   pinned_announcement?: string | null;
   pinned_announcement_at?: string | null;
+  house_rules?: Record<string, boolean> | null;
+  concluded_at?: string | null;
 };
 
 function toCampaign(row: CampaignRow): Campaign {
@@ -35,6 +37,8 @@ function toCampaign(row: CampaignRow): Campaign {
     notes: row.notes,
     pinnedAnnouncement: row.pinned_announcement ?? null,
     pinnedAnnouncementAt: row.pinned_announcement_at ?? null,
+    houseRules: row.house_rules ?? {},
+    concludedAt: row.concluded_at ?? null,
   };
 }
 
@@ -158,6 +162,38 @@ export async function setCampaignAnnouncement(
       pinned_announcement: trimmed,
       pinned_announcement_at: trimmed ? new Date().toISOString() : null,
     })
+    .eq('id', campaignId)
+    .select()
+    .single();
+  if (error) throw error;
+  return toCampaign(data as CampaignRow);
+}
+
+/** Per-campaign house-rule toggles (leader-only via RLS). Replaces the whole map. */
+export async function setCampaignHouseRules(
+  campaignId: string,
+  houseRules: Record<string, boolean>,
+): Promise<Campaign> {
+  if (isDemoMode()) return demo.setCampaignHouseRules(campaignId, houseRules);
+  const { data, error } = await supabase
+    .from('campaigns')
+    .update({ house_rules: houseRules })
+    .eq('id', campaignId)
+    .select()
+    .single();
+  if (error) throw error;
+  return toCampaign(data as CampaignRow);
+}
+
+/** Conclude a campaign (stamp now) or reopen it (null). Leader-only via RLS. */
+export async function setCampaignConcluded(
+  campaignId: string,
+  concluded: boolean,
+): Promise<Campaign> {
+  if (isDemoMode()) return demo.setCampaignConcluded(campaignId, concluded);
+  const { data, error } = await supabase
+    .from('campaigns')
+    .update({ concluded_at: concluded ? new Date().toISOString() : null })
     .eq('id', campaignId)
     .select()
     .single();

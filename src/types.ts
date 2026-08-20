@@ -191,6 +191,8 @@ export type Campaign = {
   notes: string;
   pinnedAnnouncement: string | null; // §19.3 — leader-pinned banner, null when cleared
   pinnedAnnouncementAt: string | null;
+  houseRules: Record<string, boolean>; // enabled optional-rule ids (see data/houseRules)
+  concludedAt: string | null; // set when the campaign is wrapped up; null while live
 };
 
 /** The leader manages the campaign; everyone else plays in it. Held on the
