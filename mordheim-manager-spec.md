@@ -1267,7 +1267,7 @@ Deliberate, with reasons. Kept here rather than in a tracker so the spec and the
 - ⚠️ **Pagination is on the two unbounded lists, not everywhere.** The public gallery (24/page) and the admin issue inbox (25/page) load incrementally with a Load more button. Deliberately **not** paginated: campaign members, standings and a user's own warbands are bounded by campaign or account size, and the campaign battle log is left whole because standings derive W/L/D from that same array — paging it would silently show wrong records. Doing the log properly means a separate aggregate query for the record, which is a larger change than the list itself.
 - ⚠️ **Gallery paging uses `.range()`, not the keyset cursor §13.4 asks for.** The sort key is `rating`, which changes whenever a warband gains Experience, so a cursor over it is no more stable than an offset — a row can cross the page boundary either way. Neither is exact under concurrent edits and the offset version is much harder to get wrong. The inbox orders by `created_at`, which never changes after insert, so its paging *is* exact. Revisit if the gallery reaches thousands of rows, where OFFSET's cost starts to matter.
 - ⚠️ **Gallery search and filter run over loaded pages, not the whole table.** Matching resolves a warband type's *display* name against the local registry ("possessed" finds `cult-of-the-possessed`), which the database cannot do — the column stores the slug. The row count states how many are loaded while more remain, so an empty result reads as "not in what's loaded" rather than "doesn't exist". Server-side search would need the type names denormalised into the table or a search view.
-- **Settings (now Profile).** Data-file version display and the strict-validation toggle are unbuilt. The "report a data error" link is superseded by the report button in §17, which files to a table with the page and build attached rather than opening a mail client.
+- **Settings (now Profile).** Data-file version display and the strict-validation toggle are unbuilt. The "report a data error" link is superseded by the report button in §4.9, which files to a table with the page and build attached rather than opening a mail client.
 - **Static-data versioning.** Every data file has a `schemaVersion`, but nothing compares them across releases, so a corrected weapon price can't announce itself in the changelog. Doing it properly means a build-time diff, not a hand-maintained number.
 - **Exploration results the app can't apply.** The wizard rolls the chart and banks gold and shards. A result handing you a Zombie, a wardog, a free Hired Sword, a training manual or a blessed weapon is reported as text in the battle notes, not applied to the roster. Persistent effects (the Catacombs re-roll, the Straggler's extra die, a Graveyard that makes Witch Hunters hate you) go into the warband's notes and are **not** fed back into the next Exploration roll — nothing reads those notes. Doing it properly means real fields on the warband and a migration, which is why it's deferred rather than half-modelled.
 - **Jewelsmith and Merchant's House gold is left to the player.** Both are worth money only if you sell what you found — the Jewelsmith's gems can instead be kept for +1 on rare item rolls, and the Merchant's House pays nothing if the 2D6 comes up a double. Auto-applying either would assume a choice the player hasn't made.
@@ -1654,3 +1654,208 @@ Roughly by lift × risk, cheapest first.
 | 13 | ✅ §21.2 Custom warband builder | Built in the clone-and-rename scope (migration 0021; owner-scoped, resolved via a runtime registry map). From-scratch remains out of scope |
 
 Done so far: per-model photos (§21.1, migration 0015), all of §20 Utility (dice roller, comparison, afford-filter — row 1), and the whole campaign-collaboration set that built on the §4.5 events UI — the scenario generator (§21.3), narrative log (§17.3, migration 0017), leader announcements (§19.3, 0018), event RSVPs (§19.1, 0019) and territory control (§17.1, 0020). Row 13 (§21.2 custom warband builder) is now done in its clone-and-rename scope (migration 0021); rows 11 (gallery comments) and 12 (push notifications) remain, both deliberately deferred. Also landed outside this table: the full magic expansion (§15 — 30 lists, all warband casters wired, spells browsable in the Rules Reference), the self-hosted fonts (§5.2 / §12.4), the shared design-system UI kit (§5), and a set of table/QoL tools — a campaign activity feed, head-to-head match logs, shareable warband cards, in-battle injury rolls, and a per-warband legality/health check.
+
+---
+
+## 23. Admin analytics & growth insight ◻️
+
+_Renumbered from the drafted §17 because the feature-expansion block (§17–22) landed first; the one dangling "§17" reference in §16 (which meant §4.9's report button) has been fixed. This is a top-level section in the shape of §11/§13 — it carries a data model, migrations and a build order, not just a screen description. The screen work in §23.5 extends the existing admin back-end at §4.9._
+
+The app crossed into organic growth — a Discord-driven influx (11 users in 6 days, all word-of-mouth). The admin screen (§4.9, `admin_stats()`) answers **how much exists**: players, warbands, campaigns, battles, a 30-day signup series, warband-type distribution. It cannot answer the two questions growth actually raises: **where do users come from, and where do new users stall or leave.**
+
+Two layers, and the order matters:
+
+- **§23.1–§23.6 — DB-derived insight.** Everything here is aggregate SQL over tables the app already owns, in the same `SECURITY DEFINER`, admin-gated family as `admin_stats()`. No third party, no bundle cost, no new privacy surface. **Build this now.**
+- **§23.7 — Behavioural analytics (PostHog). Deferred.** It answers only what SQL genuinely can't — session-level funnels, replay, retention curves without hand-maintained queries. The decision and integration shape are captured so they aren't relitigated, but nothing ships until the DB layer is in.
+
+**Principle** (an extension of §3.3's discipline to metrics): derive from owned data first; reach for a third-party processor only for questions the database cannot answer. A metric computed from your own rows is verifiable and free; one shipped to an external tool is neither.
+
+### 23.1 What's missing today
+
+`admin_stats()` and `admin_user_overview()` (§4.9) give counts, last activity, and a signup series. The gaps, each a question a growing app needs answered:
+
+| Missing | Question it leaves unanswered |
+| --- | --- |
+| Activation funnel | Of everyone who signs up, how many create a warband? Enter a campaign? Run a battle? Where do they stall? |
+| Retention cohorts | Of the users who joined this week, how many are still active next week? Are the 11 sticking or evaporating? |
+| Activity time series | Signups are counted, but not warbands created or battles logged per day — arrival is not the same as use |
+| Time-to-activation | How long from signup to first warband, to first battle? |
+| Rolling growth | The 7-day number was counted by hand. It should be on the screen |
+| Acquisition source | Is it actually Discord? Nothing captures where a signup came from (§23.4) |
+
+### 23.2 Metrics to add
+
+| Metric | Source (all owned tables) | Marker |
+| --- | --- | --- |
+| Activation funnel | `profiles`, `warbands`, `campaign_members`/`warbands.campaign_id`, `battles` | ◻️ |
+| Retention cohorts | `profiles.created_at` × activity signal (§23.3) | ◻️ |
+| Activity series (battles/day, warbands/day) | `battles.created_at`, `warbands.created_at` | ◻️ |
+| Time-to-activation (median) | `profiles.created_at` vs first `warbands`/`battles` row | ◻️ |
+| Rolling new users (7/30-day) | `profiles.created_at` — extend `admin_stats()` | ◻️ |
+| Acquisition channel | new capture, §23.4 | ◻️ |
+
+The **funnel definition** is the lever, so pin it explicitly. Proposed stages, each strictly narrowing:
+
+1. **Registered** — a `profiles` row.
+2. **Created a warband** — distinct `owner_id` in non-deleted warbands.
+3. **Entered a campaign** — owns a warband with `campaign_id IS NOT NULL` (the stronger engagement signal — "linked a warband" over "joined by code and did nothing").
+4. **Ran a battle** — distinct `reported_by` in `battles`.
+
+The interesting number is the drop between 1→2 and 2→4. If Discord users register and never build a roster, the onboarding is the problem, not acquisition.
+
+### 23.3 Data model & SQL
+
+New RPCs, same pattern as §4.9: `SECURITY DEFINER`, first line asserts the caller is in `admins`, returns aggregates and counts only — never row data, email, jsonb, or objectives (§23.6). At current scale these run live; no materialised views needed until §23.8 says so.
+
+**Extend `admin_stats()`** with rolling counts (cheap, additive):
+
+```sql
+-- inside admin_stats(), add to the returned json:
+--   new_users_7d,  new_users_30d,  new_users_prev_7d  (for a delta arrow)
+select
+  count(*) filter (where created_at >= now() - interval '7 days')                    as new_users_7d,
+  count(*) filter (where created_at >= now() - interval '30 days')                   as new_users_30d,
+  count(*) filter (where created_at >= now() - interval '14 days'
+                     and created_at <  now() - interval '7 days')                    as new_users_prev_7d
+from profiles;
+```
+
+**Activation funnel** — one row per stage, ordered, with a count:
+
+```sql
+create or replace function admin_activation_funnel()
+returns table (stage text, ordinal int, n bigint)
+language sql security definer set search_path = public as $$
+  -- assert admin first (see admin_stats); omitted here for brevity
+  select 'registered', 1, count(*) from profiles
+  union all
+  select 'created_warband', 2, count(distinct owner_id)
+    from warbands where deleted_at is null
+  union all
+  select 'entered_campaign', 3, count(distinct owner_id)
+    from warbands where deleted_at is null and campaign_id is not null
+  union all
+  select 'ran_battle', 4, count(distinct reported_by) from battles;
+$$;
+```
+
+**Retention cohorts** — signup week × weeks-since, % still active. "Active" needs a definition; the cleanest single signal is a logged battle, but that undercounts roster-only sessions, so union it with a warband edit:
+
+```sql
+-- activity = a battle reported OR a warband updated, in the window.
+-- Reuse admin_user_overview's canonical last_activity if it has one rather than
+-- redefining "active" twice; confirm warbands.updated_at moves on roster edits.
+create or replace function admin_retention_cohorts(weeks int default 8)
+returns table (cohort_week date, weeks_since int, cohort_size bigint, active bigint)
+language sql security definer set search_path = public as $$
+  with signup as (
+    select id as user_id, date_trunc('week', created_at)::date as cohort_week
+    from profiles
+    where created_at >= now() - make_interval(weeks => weeks)
+  ),
+  activity as (
+    select reported_by as user_id, date_trunc('week', created_at) as wk from battles
+    union all
+    select owner_id,    date_trunc('week', updated_at) from warbands where deleted_at is null
+  )
+  select s.cohort_week,
+         (extract(week from a.wk) - extract(week from s.cohort_week))::int as weeks_since,
+         count(distinct s.user_id) over (partition by s.cohort_week)       as cohort_size,
+         count(distinct a.user_id)                                         as active
+  from signup s
+  join activity a on a.user_id = s.user_id and a.wk >= s.cohort_week
+  group by s.cohort_week, weeks_since;
+$$;
+```
+
+**Activity series** — extend the existing 30-day signup series into a small multi-metric daily series (signups, warbands created, battles logged) so one query feeds one chart:
+
+```sql
+create or replace function admin_activity_series(days int default 30)
+returns table (day date, signups bigint, warbands bigint, battles bigint)
+language sql security definer set search_path = public as $$
+  with d as (
+    select generate_series(current_date - (days-1), current_date, '1 day')::date as day
+  )
+  select d.day,
+    (select count(*) from profiles p where p.created_at::date = d.day),
+    (select count(*) from warbands w where w.created_at::date = d.day and w.deleted_at is null),
+    (select count(*) from battles  b where b.created_at::date = d.day)
+  from d order by d.day;
+$$;
+```
+
+**Time-to-activation** — return medians (in hours) alongside the funnel or in `admin_stats()`:
+
+```sql
+percentile_cont(0.5) within group (order by extract(epoch from (first_wb - signup))/3600)
+-- first_wb = min(warbands.created_at) per owner; signup = profiles.created_at
+```
+
+**Indexes.** These queries scan by timestamp and group by owner. Fold into the §8.2 pre-scale index set: `profiles (created_at)`, `warbands (owner_id, created_at)`, `battles (reported_by, created_at)`. Trivial at today's volume; add before the §13 scale test, not after.
+
+### 23.4 Acquisition capture — the one new write path
+
+Referrer is the only thing SQL can't reconstruct after the fact, so it must be captured at signup and never after. Two hard truths shape the design:
+
+- **Referrer headers are unreliable for exactly your channel.** Discord's client, mobile apps and many redirects send an empty or generic `Referer`. So `document.referrer` alone files most Discord arrivals as "direct/unknown" — the opposite of what you want to learn.
+- **The reliable signal is a tagged link.** A `?ref=discord` (or UTM) on the links you actually post is unambiguous and survives app-to-app navigation. This makes it a first-class recommendation, not a nicety:
+  - Tag the link on the mordheimer.net Tools page referral and anything posted in the Discord channel (`?ref=discord`, `?ref=mordheimer`).
+  - Add a `ref` param to the invite share links (§8.5 already builds WhatsApp/Discord share cards — have them carry `?ref=share-whatsapp` / `?ref=share-discord`).
+  - Once OG unfurling ships, the shared roster links are the main spread vector — tag those too.
+
+**Capture, client-side at the register screen:** read `utm_*` and `ref` from the URL and `document.referrer`; classify into a small closed set (`discord`, `whatsapp`, `reddit`, `mordheimer`, `share`, `organic_search`, `direct`, `other`); persist once on profile creation. Store the **host and channel, not the full referrer URL** — a full URL can carry a path or query that leaks context, and the classified channel is all the screen needs.
+
+**Migration `0025_acquisition.sql`** — nullable columns on `profiles`, written once and never updated:
+
+```sql
+alter table profiles
+  add column acquisition_channel     text,            -- classified, closed set
+  add column acquisition_ref         text,            -- the raw ?ref / utm_source, if any
+  add column acquisition_host        text,            -- document.referrer host only
+  add column acquisition_captured_at timestamptz;
+-- No backfill: everyone before this ships is acquisition_channel = null ('unknown').
+-- Say so on the screen rather than guessing.
+```
+
+**RLS.** No new read exposure. A user must not read anyone's acquisition fields — including their own — and the breakdown is admin-only: surface it through `admin_acquisition_breakdown()` (counts per channel, last N days), never by selecting the columns. The write happens in the same insert/RPC that creates the profile, so no client `UPDATE` path is opened.
+
+### 23.5 Screen changes (extends §4.9)
+
+New panels on `/admin`, all behind the existing admin gate, all reading the RPCs above:
+
+- **Growth** — the rolling 7/30-day number with a delta against the previous period (the thing counted by hand), plus the retention cohort grid (weeks down, weeks-since across, cell = % active). This is the single most useful addition.
+- **Funnel** — the four stages as a horizontal bar, each labelled with count and the drop-off % from the prior stage.
+- **Acquisition** — channel breakdown for the last 30 days, with "unknown" shown honestly as its own bar (it will dominate until §23.4's tagged links have been live a while).
+- **Activity** — the multi-metric daily series (signups / warbands / battles), replacing the single signup sparkline.
+
+Reuse the existing chart path rather than adding a charting dependency — bundle discipline (§12.4, §16) applies to the admin screen too, even though it's behind a login.
+
+### 23.6 What stays out (unchanged discipline)
+
+The §4.9 exclusions hold without exception: no email addresses, no roster data jsonb, no BTB objectives, no per-user row access. Everything here is counts and aggregates. Acquisition channel is the one new per-user field and it is admin-aggregate-only, never surfaced to the user or to other members. Owner-only objectives are the whole reason that table is separate (§8.3); an analytics feature that reads them would undo it.
+
+### 23.7 Deferred — behavioural analytics (PostHog) ◻️
+
+Captured so the decision survives. Not built; build §23.1–§23.6 first.
+
+**Why it's a real tool and not a duplicate.** PostHog answers what the DB layer structurally can't: session-level funnels, where in a flow a user hesitates or rage-clicks, retention curves without hand-maintained SQL, and session replay to actually watch a confused new user. It is a different question from "how many rows exist".
+
+**Why it's deferred, not declined.** At this scale cost is a non-issue — the free tier is ~1M analytics events and thousands of session replays per month. The real costs are specific to this project:
+
+- **Bundle.** `posthog-js` is a non-trivial addition to a bundle already over Vite's warning (§16). Load it lazily / off the first-paint path, and measure the delta with `vite-bundle-visualizer` before committing.
+- **Privacy surface.** The gallery is anon-readable (§8.1) and the community is heavily European, so any client-side tracker touches GDPR. Use EU cloud for data residency and cookieless mode (or a light consent) to likely avoid a banner.
+- **A third-party processor seeing app traffic.** Scope autocapture so warband names, GW-sourced content, and any PII never leave the app — §3.3's IP discipline applied to telemetry. Anonymous IDs and event names only.
+
+**Why it slots in cleanly here.** The Cloudflare Worker already serving the landing page and per-roster OG meta is exactly the place to reverse-proxy PostHog: requests hit Cloudflare first, then PostHog, which hides the endpoint from ad blockers, keeps ingestion first-party, and (with EU endpoints) keeps residency intact. Use a non-obvious proxy path — not `/analytics`, `/ingest`, `/track`, which blockers catch. Set per-product billing caps as a backstop even on the free tier.
+
+**Scope, when it's built:** pageviews + a handful of named product events mirroring the §23.2 funnel (`warband_created`, `campaign_entered`, `battle_committed`), so the DB funnel and the behavioural funnel can be reconciled. Not a firehose of autocaptured clicks — event discipline is what keeps the free tier free.
+
+### 23.8 Build order
+
+1. ◻️ **Tagged links first (§23.4)** — zero code in the app, pure link hygiene, and every day untagged is acquisition data lost forever. Tag the mordheimer.net referral, the Discord posts, and the §8.5 share cards.
+2. ◻️ **Migration 0025** — acquisition columns + the register-screen capture and classifier.
+3. ◻️ **The RPCs (§23.3)** — funnel, cohorts, activity series, rolling counts, acquisition breakdown. Add the §23.3 indexes in the same migration.
+4. ◻️ **Admin panels (§23.5)** — growth, funnel, acquisition, activity.
+5. ◻️ **Fold into the §13 scale test** — the cohort and funnel queries are `group by` over the whole user table, exactly the kind of thing that's instant at 50 rows and slow at 5,000. Measure them on the seeded dataset (§13.2) before assuming they hold.
+6. ◻️ **PostHog (§23.7)** — only after the above, and only if the DB funnel proves it needs the behavioural depth.

@@ -9,6 +9,12 @@ import {
   fetchIssueReports,
   updateIssueStatus,
 } from '../api/issues';
+import {
+  fetchActivationFunnel,
+  fetchRetentionCohorts,
+  fetchActivitySeries,
+  fetchAcquisitionBreakdown,
+} from '../api/adminAnalytics';
 
 /**
  * Whether the signed-in user is an admin.
@@ -48,6 +54,27 @@ export function useAdminStatsQuery() {
     queryFn: fetchAdminStats,
     enabled: isAdmin === true,
   });
+}
+
+/** §23 growth-insight queries, all admin-gated like the stats above. */
+export function useAdminFunnelQuery() {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({ queryKey: ['adminFunnel'], queryFn: fetchActivationFunnel, enabled: isAdmin === true });
+}
+
+export function useAdminRetentionQuery() {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({ queryKey: ['adminRetention'], queryFn: () => fetchRetentionCohorts(8), enabled: isAdmin === true });
+}
+
+export function useAdminActivitySeriesQuery() {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({ queryKey: ['adminActivitySeries'], queryFn: () => fetchActivitySeries(30), enabled: isAdmin === true });
+}
+
+export function useAdminAcquisitionQuery() {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({ queryKey: ['adminAcquisition'], queryFn: () => fetchAcquisitionBreakdown(30), enabled: isAdmin === true });
 }
 
 /** Per-player activity, paged. Admin-gated in the database, so this stays

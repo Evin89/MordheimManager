@@ -42,12 +42,15 @@ export default function InviteShareButtons({
   const [copied, setCopied] = useState(false);
 
   // Includes the app's own URL, since a bare code is useless to someone who
-  // hasn't been told where to enter it.
-  const message = strings.campaign.inviteMessage(campaignName, joinCode, window.location.origin);
+  // hasn't been told where to enter it. The link carries a `?ref` tag (§23.4) so
+  // a signup that came through it is attributed to the shared invite rather than
+  // filed as "unknown" — captured on load and stashed until registration.
+  const link = (ref: string) => `${window.location.origin}/app?ref=${ref}`;
+  const message = strings.campaign.inviteMessage(campaignName, joinCode, link('share-whatsapp'));
   const discordMessage = strings.campaign.inviteMessageDiscord(
     campaignName,
     joinCode,
-    window.location.origin,
+    link('share-discord'),
   );
 
   async function copyForDiscord() {

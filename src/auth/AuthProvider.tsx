@@ -3,6 +3,11 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 import { supabase } from '../lib/supabaseClient';
 import { isDemoMode, setDemoMode } from '../dev/demoMode';
 import { demoViewer } from '../dev/demoApi';
+import {
+  acquisitionMetadata,
+  getAcquisitionForSignup,
+  initAcquisitionCapture,
+} from '../lib/acquisition';
 
 type AuthState = {
   session: Session | null;
@@ -47,6 +52,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
   const [loading, setLoading] = useState(!isDemoMode());
 
+  // §23.4 — stash any acquisition tag on the first app URL before it's lost to
+  // in-app navigation, so it's still there when the user reaches /register.
+  useEffect(() => {
+    initAcquisitionCapture();
+  }, []);
+
   useEffect(() => {
     if (isDemoMode()) return;
 
@@ -68,10 +79,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signUp(email: string, password: string, displayName: string) {
+    // §23.4 — where this signup came from, passed through the auth metadata so
+    // `handle_new_user` writes it onto the profile atomically (migration 0025).
+    // Best-effort: a capture failure must never block a registration.
+    let acquisition: Record<string, string> = {};
+    try {
+      acquisition = acquisitionMetadata(getAcquisitionForSignup());
+    } catch {
+      /* ignore */
+    }
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { display_name: displayName } },
+      options: { data: { display_name: displayName, ...acquisition } },
     });
     return { error: error?.message ?? null };
   }

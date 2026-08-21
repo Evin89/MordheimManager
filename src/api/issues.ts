@@ -274,6 +274,11 @@ export type AdminStats = {
   campaigns: number;
   battles: number;
   open_issues: number;
+  // §23.3 rolling growth (extended admin_stats); optional so an un-migrated
+  // backend that returns the old shape still parses.
+  new_users_7d?: number;
+  new_users_30d?: number;
+  new_users_prev_7d?: number;
   warband_types: { type: string; count: number }[];
   signups: { day: string; count: number }[];
 };

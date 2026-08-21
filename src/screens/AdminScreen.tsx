@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import AdminGrowth from '../components/AdminGrowth';
 import DisclosureChevron from './../components/DisclosureChevron';
 import { IssueReport, IssueStatus } from '../api/issues';
 import {
@@ -398,6 +399,8 @@ export default function AdminScreen() {
             </>
           )}
         </section>
+
+        <AdminGrowth />
 
         <section className="space-y-3">
           <h2 className="text-bone-100 font-semibold">Players</h2>

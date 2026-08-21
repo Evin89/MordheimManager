@@ -539,11 +539,74 @@ export async function fetchAdminStats() {
     campaigns: database.campaigns.length,
     battles: database.battles.length,
     open_issues: issues.filter((i) => i.status === 'open').length,
+    // §23.3 rolling growth — synthetic, mirroring the Discord-influx story.
+    new_users_7d: 11,
+    new_users_30d: 18,
+    new_users_prev_7d: 4,
     warband_types: [...types.entries()]
       .map(([type, count]) => ({ type, count }))
       .sort((a, b) => b.count - a.count || a.type.localeCompare(b.type)),
     signups,
   };
+}
+
+// --- §23 growth analytics (demo) -------------------------------------------
+
+export async function fetchActivationFunnel() {
+  const d = db();
+  const withWarband = new Set(d.warbands.map((w) => w.ownerId));
+  const inCampaign = new Set(d.warbands.filter((w) => w.campaignId).map((w) => w.ownerId));
+  const battled = new Set(d.battles.map((b) => b.ownerId));
+  return [
+    { stage: 'registered', ordinal: 1, n: d.users.length },
+    { stage: 'created_warband', ordinal: 2, n: withWarband.size },
+    { stage: 'entered_campaign', ordinal: 3, n: inCampaign.size },
+    { stage: 'ran_battle', ordinal: 4, n: battled.size },
+  ];
+}
+
+export async function fetchActivitySeries(days = 30) {
+  return Array.from({ length: days }, (_, i) => {
+    const dt = new Date();
+    dt.setDate(dt.getDate() - (days - 1 - i));
+    return {
+      day: dt.toISOString().slice(0, 10),
+      signups: (i * 7) % 5,
+      warbands: (i * 5) % 6,
+      battles: (i * 3) % 4,
+    };
+  });
+}
+
+export async function fetchRetentionCohorts(weeks = 8) {
+  const out: { cohort_week: string; weeks_since: number; cohort_size: number; active: number }[] = [];
+  const cohorts = Math.min(weeks, 5);
+  for (let c = 0; c < cohorts; c += 1) {
+    const cw = new Date();
+    cw.setDate(cw.getDate() - (cohorts - 1 - c) * 7);
+    const week = cw.toISOString().slice(0, 10);
+    const size = 8 + c * 2;
+    // weeks_since 0..(this cohort's age): a decaying retention curve.
+    for (let w = 0; w <= cohorts - 1 - c; w += 1) {
+      out.push({
+        cohort_week: week,
+        weeks_since: w,
+        cohort_size: size,
+        active: Math.max(1, Math.round(size * Math.pow(0.62, w))),
+      });
+    }
+  }
+  return out;
+}
+
+export async function fetchAcquisitionBreakdown(_days = 30) {
+  const total = db().users.length;
+  return [
+    { channel: 'unknown', n: Math.max(0, total - 15) },
+    { channel: 'discord', n: 9 },
+    { channel: 'share', n: 4 },
+    { channel: 'mordheimer', n: 2 },
+  ].filter((r) => r.n > 0);
 }
 
 // --- profile ---------------------------------------------------------------
