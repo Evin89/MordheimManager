@@ -473,6 +473,102 @@ Deliberately excluded from every admin function: **email addresses, roster `data
 
 The gate is a row in an `admins` table checked by a `SECURITY DEFINER` function, so an unlinked route is not what protects it — a non-admin who types the URL gets a rendered screen with nothing in it.
 
+### 4.9 (revised) — Admin back-end, split into sub-screens ⚠️
+
+_Amends the §4.9 above. The admin screen grew past one screen's worth once the §23 analytics landed. It is now split the same way the events panel split into three (§4.5): by the question each part answers, not by size. One `/admin` page was answering four unrelated operator questions — how are we doing, what's breaking, who is this user, and what chores are pending — and mixing a metrics dashboard with destructive purge actions, which cuts against §10.1's "deliberate, where it lives."_
+
+This split is also a §12.2 fetch-narrowly win, not just cosmetics. On one combined page, opening admin to triage a single issue fires every query — stats, funnel, cohorts, acquisition, activity, inbox, player list. The cohort and funnel aggregates are exactly the ones §23.8 flags as instant-now / slow-at-scale. After the split each screen runs only its own queries, so the heavy `group by`s stop executing when you only want the inbox.
+
+#### 4.9.1 Route structure & the shared gate ◻️
+
+| Route | Screen | Answers |
+| --- | --- | --- |
+| `/admin` | → redirect to `/admin/overview` | — |
+| `/admin/overview` | Overview — `admin_stats()` counts + the §23 analytics (growth, retention cohorts, funnel, acquisition, activity) | "How are we doing?" |
+| `/admin/issues` | Issues — the inbox (§4.9.3), paginated | "What's breaking / being reported?" |
+| `/admin/players` · `/admin/players/:id` | Players — list + per-player detail (`admin_user_overview()`) | "Who is this user?" |
+| `/admin/campaigns` · `/admin/campaigns/:id` | Campaigns — list + per-campaign detail (§4.9.5) | "What is this campaign, and is it healthy?" |
+| `/admin/maintenance` | Maintenance — purge-queue drain (§10.5), manual purge trigger, photo cleanup (§11.5) | "What operator chores are pending?" |
+
+The gate lives on a **shared layout route, once**. A single `/admin` element with an `<Outlet>` checks `admins` membership via the `SECURITY DEFINER` function (§4.9, unchanged); every sub-route inherits it. This keeps the §4.9 model intact — the gate is the function check, not the URL — so a non-admin who deep-links `/admin/campaigns/:id` still gets a rendered shell with nothing in it.
+
+Navigate with a **tab strip at the top of the admin area, not a second left rail** — the app already uses a left rail for main nav (§4), and rail-on-rail is the thing to avoid. Highlighting goes through the existing `isNavItemActive` (§4): the sub-routes (`/admin/players/:id`) must light the Players tab, the prefix problem `activeFor`/`notActiveFor` already solves.
+
+**Attention counts surface as badges on Overview**, not by making the operator open each screen: "open issues: N", "purge queue: N", "stranded campaigns: N" (§4.9.5). Same move as the next-event banner (§4.5) — the count on the glance screen, the full list on its own.
+
+Maintenance is the one ❓. For a single-operator hobby admin, four tabs plus Overview may be one more than needed; if so, fold Maintenance into a section at the foot of Overview and ship four. **Recommendation: keep it separate** — destructive purge actions do not belong in a metrics dashboard.
+
+#### 4.9.2 Overview ◻️
+
+The §23.5 analytics panels move here — this is now their home. Glanceable, read-only: headline counts, rolling 7/30-day growth with delta, the retention cohort grid, the activation funnel, the acquisition breakdown, the activity series. **No destructive controls on this screen.**
+
+#### 4.9.3 Issues ✅ → moved
+
+The existing inbox (filter open/triaged/closed, expand for captured context, mark triaged/closed), unchanged except that it is now its own route and fetches only its own rows. Already paginated (25/page, §16).
+
+#### 4.9.4 Players ✅ → moved
+
+The existing player list (`admin_user_overview()`) and per-player detail, unchanged except for the route move. Paginated. This is the per-user drill-down; §4.9.5 is its per-campaign mirror.
+
+#### 4.9.5 Campaigns ◻️ — the missing symmetric view
+
+There is a per-player drill-down but no per-campaign one, even though a campaign is the other first-class object an operator needs to inspect. New, shaped exactly like Players: a paginated, searchable list and a metadata detail screen.
+
+**Why it cannot just link to `/campaign/:id`.** An admin is deliberately not a member of every campaign and, by §8.3, cannot walk into a private one — campaign SELECT is `visibility = 'public' OR member`. A private campaign is invisible to an admin through the normal client path, and that is correct: member-level access would also expose the battle log and the BTB objectives, the one line that can never be crossed (§8.3). So this view goes through a new `SECURITY DEFINER` function that bypasses RLS to return **metadata and counts only** — the same shape as `admin_stats()`, and for the same reason an inline subquery would be filtered by the caller's own membership and could recurse through the membership policies.
+
+- **List** (`/admin/campaigns`): name, visibility, creator, created date, member/battle/event/warband counts, leader count, last activity. Searchable by name, paginated (§13.3 — any list past ~50 rows needs a search field, not just paging).
+- **Detail** (`/admin/campaigns/:id`): the metadata above, plus the member list with roles, display names, their entered warband's name/type/rating, and the leader badge — the same join the members panel (§4.5) already renders, reached as operator rather than member.
+
+The content-blind boundary (§4.9.7) applies in full. Shows counts; never battle-log narratives, campaign-event content, or objectives.
+
+**Stranded-campaign diagnostic.** This view is where §10.3.1's stranded campaign — a single leader who stopped showing up, which the app has no petition or timeout for — becomes visible: `leader_count = 1` and stale `last_activity` flags them, surfaced as a filter on the list and a count badge on Overview. **Seeing them is all this does.** Whether an admin should get a lever to fix one — a `SECURITY DEFINER` escape hatch granting leadership to another member, bypassing §10.3.1's "caller must be a leader" check — is a separate ❓ deliberately not decided here. Surfacing is the safe, in-grain first step; an admin who can silently promote members inside campaigns they aren't in is a real power that wants its own justification, not a rider on a diagnostic screen.
+
+Function signatures:
+
+```sql
+-- List. Order by created_at desc for a stable keyset cursor: last_activity
+-- changes as battles are reported, so a cursor over it is as unstable as the
+-- gallery's rating cursor (§16). Range paging is also acceptable here given
+-- admin-only, low-frequency access.
+create or replace function admin_campaign_overview(
+  search  text default null,
+  before  timestamptz default null,   -- keyset cursor on created_at
+  lim     int default 25
+)
+returns table (
+  id uuid, name text, visibility text,
+  creator_id uuid, creator_name text, created_at timestamptz,
+  member_count int, battle_count int, event_count int, warband_count int,
+  leader_count int, last_activity timestamptz
+)
+language sql security definer set search_path = public as $$
+  -- assert caller is in admins first (see admin_stats).
+  -- last_activity = greatest(latest battle, latest member join). Events are
+  -- future-dated (schedule, not activity), so they must NOT feed last_activity
+  -- or every campaign with an upcoming game night reads as "active".
+$$;
+
+-- Detail. Metadata + member rows + counts for one campaign. Content-blind: no
+-- battle jsonb, no event bodies, no objectives.
+create or replace function admin_campaign_detail(p_campaign_id uuid)
+returns json
+language sql security definer set search_path = public as $$
+  -- assert admin first.
+  -- json: { campaign: {...counts, leader_count, last_activity},
+  --         members: [ {user_id, display_name, role, warband_name, warband_type, rating} ] }
+$$;
+```
+
+#### 4.9.6 Maintenance ◻️
+
+The operator chores with no "where the thing lives" home (§4.6) because they are operator-global rather than attached to a resource: the storage purge-queue drain (§10.5 — still outstanding, the "actions out of cloud" item, since it needs a session Postgres can't hold), the manual `admin_purge_deleted_warbands()` trigger, and the §11.5 photo/quota cleanup once it exists. Destructive actions here follow §10.1 — **type-to-confirm, not a bare button** — because "drain the queue" and "purge now" are irreversible.
+
+#### 4.9.7 What every admin function must never return
+
+Restated because it now governs five screens and two new functions, not one: **no email addresses, no roster `data` jsonb, no campaign-event or battle content, and no BTB objectives** — ever, for any admin, regardless of the campaign's visibility. Owner-only objectives are the entire reason that table is separate (§8.3); an admin function that returned them would undo it. Admin functions return aggregates, counts, and metadata — never content, never row access to the secret table. `admin_campaign_overview` and `admin_campaign_detail` are held to this exactly like `admin_stats` and `admin_user_overview` before them.
+
+_(Folded into §23.5: the analytics panels now live on `/admin/overview`, behind the same shared gate (§4.9.1), reading the same RPCs.)_
+
 ---
 
 ## 5. Design language — "Rulebook"
@@ -1822,7 +1918,7 @@ alter table profiles
 
 ### 23.5 Screen changes (extends §4.9)
 
-New panels on `/admin`, all behind the existing admin gate, all reading the RPCs above:
+New panels on **`/admin/overview`** (the admin screen was split into sub-screens — see the revised §4.9), all behind the same shared gate (§4.9.1), all reading the RPCs above:
 
 - **Growth** — the rolling 7/30-day number with a delta against the previous period (the thing counted by hand), plus the retention cohort grid (weeks down, weeks-since across, cell = % active). This is the single most useful addition.
 - **Funnel** — the four stages as a horizontal bar, each labelled with count and the drop-off % from the prior stage.

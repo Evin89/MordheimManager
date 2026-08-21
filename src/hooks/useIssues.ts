@@ -15,6 +15,11 @@ import {
   fetchActivitySeries,
   fetchAcquisitionBreakdown,
 } from '../api/adminAnalytics';
+import {
+  fetchAdminCampaigns,
+  fetchAdminCampaignDetail,
+  fetchStrandedCampaignCount,
+} from '../api/adminCampaigns';
 
 /**
  * Whether the signed-in user is an admin.
@@ -75,6 +80,34 @@ export function useAdminActivitySeriesQuery() {
 export function useAdminAcquisitionQuery() {
   const { data: isAdmin } = useIsAdminQuery();
   return useQuery({ queryKey: ['adminAcquisition'], queryFn: () => fetchAcquisitionBreakdown(30), enabled: isAdmin === true });
+}
+
+/** §4.9.5 admin campaign list + detail + the stranded-count badge. */
+export function useAdminCampaignsQuery(search: string) {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['adminCampaigns', search],
+    queryFn: () => fetchAdminCampaigns(search || undefined),
+    enabled: isAdmin === true,
+  });
+}
+
+export function useAdminCampaignDetailQuery(id: string | undefined) {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['adminCampaignDetail', id],
+    queryFn: () => fetchAdminCampaignDetail(id!),
+    enabled: isAdmin === true && !!id,
+  });
+}
+
+export function useStrandedCampaignCountQuery() {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['strandedCampaigns'],
+    queryFn: fetchStrandedCampaignCount,
+    enabled: isAdmin === true,
+  });
 }
 
 /** Per-player activity, paged. Admin-gated in the database, so this stays

@@ -1,6 +1,5 @@
-import { Navigate, useParams } from 'react-router-dom';
-import BackHeader from '../components/BackHeader';
-import { useAdminUserDetailQuery, useIsAdminQuery } from '../hooks/useIssues';
+import { Link, useParams } from 'react-router-dom';
+import { useAdminUserDetailQuery } from '../hooks/useIssues';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { strings } from '../strings';
 
@@ -22,37 +21,29 @@ function when(iso: string | null): string {
  */
 export default function AdminUserScreen() {
   const { userId } = useParams<{ userId: string }>();
-  const { data: isAdmin, isPending: adminPending } = useIsAdminQuery();
   const { data: user, isError, error } = useAdminUserDetailQuery(userId);
 
-  if (adminPending) {
-    return (
-      <div className="min-h-full flex items-center justify-center">
-        <p className="text-bone-400">{strings.common.loading}</p>
-      </div>
-    );
-  }
-  if (!isAdmin) return <Navigate to="/" replace />;
-
+  // Content-only: the admin gate, header and tab strip come from AdminLayout.
   return (
-    <div className="min-h-full flex flex-col">
-      <BackHeader title={user?.displayName || 'Player'} />
+    <section className="space-y-6">
+      <Link to="/admin/players" className="inline-flex items-center min-h-[40px] text-ember-400 text-sm font-semibold">
+        ← All players
+      </Link>
 
-      <main className="flex-1 px-4 py-4 space-y-6">
-        {isError && (
-          <div className="space-y-1">
-            <p className="text-blood text-sm">Could not load this player.</p>
-            <p className="font-ui text-xs text-bone-400">
-              {(error as Error).message} — if this mentions <code>admin_user_detail</code>,
-              migration 0008 has not been applied yet.
-            </p>
-          </div>
-        )}
+      {isError && (
+        <div className="space-y-1">
+          <p className="text-blood-500 text-sm">Could not load this player.</p>
+          <p className="font-ui text-xs text-bone-400">
+            {(error as Error).message} — if this mentions <code>admin_user_detail</code>, migration 0008 has
+            not been applied yet.
+          </p>
+        </div>
+      )}
 
-        {!user && !isError && <p className="text-bone-400 text-sm">{strings.common.loading}</p>}
+      {!user && !isError && <p className="text-bone-400 text-sm">{strings.common.loading}</p>}
 
-        {user && (
-          <>
+      {user && (
+        <>
             <section className="space-y-1">
               <p className="text-bone-100">
                 {user.displayName || 'Unnamed'}
@@ -127,13 +118,12 @@ export default function AdminUserScreen() {
 
             {/* Says what is missing, so its absence reads as a decision rather
                 than an oversight to someone extending this screen later. */}
-            <p className="font-ui text-xs text-bone-400">
-              Rosters and BTB objectives are not shown here — a warband's contents stay between its
-              owner and their campaign-mates.
-            </p>
-          </>
-        )}
-      </main>
-    </div>
+          <p className="font-ui text-xs text-bone-400">
+            Rosters and BTB objectives are not shown here — a warband's contents stay between its
+            owner and their campaign-mates.
+          </p>
+        </>
+      )}
+    </section>
   );
 }

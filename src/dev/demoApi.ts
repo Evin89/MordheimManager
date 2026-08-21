@@ -609,6 +609,70 @@ export async function fetchAcquisitionBreakdown(_days = 30) {
   ].filter((r) => r.n > 0);
 }
 
+// --- §4.9.5 admin campaign view (demo) -------------------------------------
+
+export async function fetchAdminCampaigns(search?: string) {
+  const d = db();
+  const rows = d.campaigns.map((c, i) => {
+    const members = d.memberships.filter((m) => m.campaignId === c.id);
+    const camBattles = d.battles.filter((b) => b.campaignId === c.id);
+    const lastBattle = camBattles.map((b) => b.battle.date).sort().pop() ?? null;
+    const creator = d.users.find((u) => u.id === c.createdBy);
+    return {
+      id: c.id,
+      name: c.name,
+      visibility: c.visibility,
+      creator_id: c.createdBy,
+      creator_name: creator?.displayName ?? null,
+      // Synthetic ages so the newest sort and the stranded filter have something
+      // to bite on; the last campaign is left inactive to demo a stranded row.
+      created_at: new Date(Date.now() - (i + 1) * 5 * 86_400_000).toISOString(),
+      member_count: members.length,
+      leader_count: members.filter((m) => m.role === 'campaign_leader').length,
+      battle_count: camBattles.length,
+      event_count: events.filter((e) => e.campaignId === c.id).length,
+      warband_count: d.warbands.filter((w) => w.campaignId === c.id).length,
+      last_activity:
+        i === d.campaigns.length - 1
+          ? new Date(Date.now() - 45 * 86_400_000).toISOString()
+          : lastBattle
+            ? new Date(lastBattle).toISOString()
+            : null,
+    };
+  });
+  const q = (search ?? '').trim().toLowerCase();
+  return q ? rows.filter((r) => r.name.toLowerCase().includes(q)) : rows;
+}
+
+export async function fetchAdminCampaignDetail(id: string) {
+  const d = db();
+  const campaign = (await fetchAdminCampaigns()).find((r) => r.id === id)!;
+  const members = d.memberships
+    .filter((m) => m.campaignId === id)
+    .map((m) => {
+      const u = d.users.find((x) => x.id === m.userId);
+      const wb = d.warbands.find((w) => w.campaignId === id && w.ownerId === m.userId);
+      return {
+        user_id: m.userId,
+        display_name: u?.displayName ?? null,
+        role: m.role,
+        warband_name: wb?.warband.name ?? null,
+        warband_type: wb?.warband.warbandType ?? null,
+      };
+    })
+    .sort((a, b) => (b.role === 'campaign_leader' ? 1 : 0) - (a.role === 'campaign_leader' ? 1 : 0));
+  return { campaign, members };
+}
+
+export async function fetchStrandedCampaignCount() {
+  const rows = await fetchAdminCampaigns();
+  return rows.filter(
+    (r) =>
+      r.leader_count <= 1 &&
+      (!r.last_activity || Date.now() - new Date(r.last_activity).getTime() > 30 * 86_400_000),
+  ).length;
+}
+
 // --- profile ---------------------------------------------------------------
 
 export async function fetchMyProfile(userId: string): Promise<{ id: string; displayName: string } | null> {

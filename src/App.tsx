@@ -16,7 +16,13 @@ import WarbandListScreen from './screens/WarbandListScreen';
 import RosterScreen from './screens/RosterScreen';
 import SettingsScreen from './screens/SettingsScreen';
 
-const AdminScreen = lazy(() => import('./screens/AdminScreen'));
+const AdminLayout = lazy(() => import('./screens/admin/AdminLayout'));
+const AdminOverviewScreen = lazy(() => import('./screens/admin/AdminOverviewScreen'));
+const AdminIssuesScreen = lazy(() => import('./screens/admin/AdminIssuesScreen'));
+const AdminPlayersScreen = lazy(() => import('./screens/admin/AdminPlayersScreen'));
+const AdminCampaignsScreen = lazy(() => import('./screens/admin/AdminCampaignsScreen'));
+const AdminCampaignDetailScreen = lazy(() => import('./screens/admin/AdminCampaignDetailScreen'));
+const AdminMaintenanceScreen = lazy(() => import('./screens/admin/AdminMaintenanceScreen'));
 const AdminUserScreen = lazy(() => import('./screens/AdminUserScreen'));
 
 const DesignSandboxScreen = lazy(() => import('./screens/DesignSandboxScreen'));
@@ -137,8 +143,20 @@ function AppShell() {
             {/* Not linked from the nav. The gate is in the database —
                 `issue_reports` and `admin_stats()` are admin-only, so a
                 non-admin reaching this URL gets nothing to read. */}
-            <Route path="/admin" element={guarded(<AdminScreen />)} />
-            <Route path="/admin/users/:userId" element={guarded(<AdminUserScreen />)} />
+            {/* §4.9.1 — the admin area is a nested layout: the gate + tab strip
+                live on the shell once, every sub-route inherits them. */}
+            <Route path="/admin" element={guarded(<AdminLayout />)}>
+              <Route index element={<Navigate to="/admin/overview" replace />} />
+              <Route path="overview" element={<AdminOverviewScreen />} />
+              <Route path="issues" element={<AdminIssuesScreen />} />
+              <Route path="players" element={<AdminPlayersScreen />} />
+              <Route path="players/:userId" element={<AdminUserScreen />} />
+              <Route path="campaigns" element={<AdminCampaignsScreen />} />
+              <Route path="campaigns/:id" element={<AdminCampaignDetailScreen />} />
+              <Route path="maintenance" element={<AdminMaintenanceScreen />} />
+            </Route>
+            {/* Old per-player URL, before the split. */}
+            <Route path="/admin/users/:userId" element={<Navigate to="/admin/players" replace />} />
             <Route path="/account/changelog" element={<ChangelogScreen />} />
             {/* Warbands their owners chose to publish, plus the read-only roster
                 behind each one. Public by design — an opted-in roster you can't
