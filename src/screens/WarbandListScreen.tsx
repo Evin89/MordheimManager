@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PublicWarbandBrowser from '../components/PublicWarbandBrowser';
 import { buttonClasses } from '../components/ui';
 import { strings } from '../strings';
-import { useWarbandList } from '../hooks/useWarbands';
+import { useWarbandList, useWarbandsQuery } from '../hooks/useWarbands';
 import { useWarbandThumbnails } from '../hooks/usePhotos';
 import { WarbandThumb } from '../components/WarbandPhoto';
 import { computeWarbandRating } from '../lib/rating';
@@ -22,6 +22,7 @@ const TABS: { id: Tab; label: string }[] = [
 
 export default function WarbandListScreen() {
   const warbands = useWarbandList();
+  const { isLoading: warbandsLoading } = useWarbandsQuery();
   const [tab, setTab] = useState<Tab>('warbands');
   // One records fetch and one signing call for the page, not two per row.
   const thumbnails = useWarbandThumbnails(warbands.map((w) => w.id));
@@ -57,7 +58,20 @@ export default function WarbandListScreen() {
           <PublicWarbandBrowser />
         ) : tab === 'warbands' ? (
           <>
-            {warbands.length === 0 && <p className="text-bone-300">{strings.warbandList.empty}</p>}
+            {warbands.length === 0 &&
+              (warbandsLoading ? (
+                <p className="text-bone-300">{strings.common.loading}</p>
+              ) : (
+                // A real empty state, not a dead-end line: this is the register →
+                // warband step the funnel flags, so lead straight into it.
+                <div className="rounded-lg bg-ink-900 border border-ink-800 p-6 text-center space-y-3">
+                  <p className="text-bone-100 font-semibold">{strings.home.getStarted.warband.title}</p>
+                  <p className="text-bone-300 text-sm">{strings.home.getStarted.warband.body}</p>
+                  <Link to="/warbands/new" className={`${buttonClasses('primary', 'md', false)} mx-auto`}>
+                    {strings.home.getStarted.warband.cta}
+                  </Link>
+                </div>
+              ))}
 
             {/* Comparison needs two warbands, so the entry only appears once
                 there are two to compare. */}

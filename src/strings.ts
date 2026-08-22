@@ -86,6 +86,30 @@ export const strings = {
   },
   home: {
     title: 'Home',
+    // A guided next-step card for a player who hasn't finished setting up — the
+    // three activation stages (warband -> campaign -> battle) the funnel tracks.
+    getStarted: {
+      eyebrow: 'Getting started',
+      steps: ['Warband', 'Campaign', 'Battle'],
+      warband: {
+        title: 'Create your first warband',
+        body: "Pick a warband type and we'll fill a legal starter roster within your gold — rename, re-equip and adjust it however you like.",
+        cta: 'Create a warband',
+        to: '/warbands/new',
+      },
+      campaign: {
+        title: 'Start or join a campaign',
+        body: 'A campaign tracks standings, awards and rivalries across your group. Start your own, or join a friend’s with their code.',
+        cta: 'Go to campaigns',
+        to: '/campaigns',
+      },
+      battle: {
+        title: 'Play your first battle',
+        body: 'Set up the game, track it as you play, then let the post-battle wizard handle injuries, experience, advances and income — nothing miscounted.',
+        cta: 'Start a battle',
+        to: '/warbands',
+      },
+    },
     warbandCount: (n: number) => `${n} warband${n === 1 ? '' : 's'} in your account`,
     noCampaign: 'No campaign started yet',
     campaignSection: 'Campaign',

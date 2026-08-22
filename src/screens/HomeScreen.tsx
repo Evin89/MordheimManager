@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import AppBanner from '../components/AppBanner';
+import GetStartedCard from '../components/GetStartedCard';
 import { Card, SectionHeading, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
-import { useWarbandList } from '../hooks/useWarbands';
+import { useWarbandList, useWarbandsQuery } from '../hooks/useWarbands';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
@@ -74,8 +75,15 @@ function SignedOutHome() {
 export default function HomeScreen() {
   const { user, loading } = useAuth();
   const warbands = useWarbandList();
+  const { isLoading: warbandsLoading } = useWarbandsQuery();
   const { data: campaign, isLoading: campaignLoading } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
+
+  // Only judge the onboarding stage once every query it depends on has settled,
+  // so a returning player never flashes "create your first warband" on a cold
+  // load. Battles are only awaited when there's a campaign to have them.
+  const battlesReady = !campaign || battles !== undefined;
+  const onboardingReady = !warbandsLoading && !campaignLoading && battlesReady;
 
   // Wait for the session check before choosing a view, so a signed-in user
   // reloading the page doesn't flash the signed-out landing first.
@@ -96,6 +104,14 @@ export default function HomeScreen() {
       </header>
 
       <main className="flex-1 px-4 py-6 space-y-6">
+        {onboardingReady && (
+          <GetStartedCard
+            warbandCount={warbands.length}
+            hasCampaign={!!campaign}
+            battleCount={battles?.length ?? 0}
+          />
+        )}
+
         <Card as="section" gap="sm">
           <SectionHeading>{strings.home.campaignSection}</SectionHeading>
           {campaign ? (
