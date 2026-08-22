@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import AppBanner from '../components/AppBanner';
+import DiscordLink from '../components/DiscordLink';
 import GetStartedCard from '../components/GetStartedCard';
 import { Card, SectionHeading, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
@@ -21,9 +22,12 @@ function AboutSection() {
   return (
     <section className="space-y-3">
       <SectionHeading>{strings.settings.aboutSection}</SectionHeading>
+      {/* Community entry point (§4.10) — reaches signed-out visitors too, since
+          AboutSection is on both Home views. */}
+      <DiscordLink />
       <Link
         to="/account/changelog"
-        className="inline-flex items-center min-h-[44px] text-ember-400 font-semibold"
+        className="block min-h-[44px] leading-[44px] text-ember-400 font-semibold"
       >
         {strings.settings.changelogLink}
       </Link>

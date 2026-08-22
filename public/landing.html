@@ -176,6 +176,21 @@
       .btn-primary { background: rgb(var(--accent)); color: rgb(var(--on-accent)); }
       .btn-ghost { background: rgb(var(--raised)); color: rgb(var(--ink)); border-color: rgb(var(--ink-800)); }
       .note { margin-top: 14px; font-size: 15px; color: rgb(var(--ink-faded)); }
+      /* §4.10 community button — ink border, accent only on hover; rides the
+         theme tokens so it resolves in both Grimdark and Rulebook. */
+      .discord-link {
+        display: inline-flex; align-items: center; gap: 0.625rem; margin-top: 18px;
+        min-height: 48px; padding: 0.75rem 1.25rem; box-sizing: border-box;
+        border: 2px solid rgb(var(--ink)); border-radius: 8px;
+        background: rgb(var(--raised)); color: rgb(var(--ink));
+        font-family: 'Alegreya Sans', sans-serif; font-size: 16px; text-decoration: none;
+        transition: background-color .15s, color .15s, border-color .15s;
+      }
+      .discord-link:hover {
+        background: rgb(var(--accent)); color: rgb(var(--on-accent)); border-color: rgb(var(--accent));
+      }
+      .discord-link:focus-visible { outline: none; box-shadow: 0 0 0 2px rgb(var(--accent)); }
+      @media (prefers-reduced-motion: reduce) { .discord-link { transition: none; } }
 
       /* Wizard showcase — the killer feature, as one raised card */
       .wizard {
@@ -294,6 +309,19 @@
           <a class="btn btn-ghost" href="/app/register">Create an account</a>
         </div>
         <p class="note">Free. Runs in the browser, installs to your phone, and works at the table.</p>
+
+        <!-- Community entry point (§4.10). Server invite (discord.gg), which works
+             for non-members — a channel deep link would dead-end every stranger. -->
+        <a
+          class="discord-link"
+          href="https://discord.gg/mordheim-682102252080857148"
+          target="_blank"
+          rel="noopener external"
+          aria-label="Join the Mordheim Manager Discord for questions and suggestions"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>
+          <span>Questions or ideas? Join the Discord</span>
+        </a>
 
         <div class="wizard">
           <h2>The Post-Battle Wizard</h2>

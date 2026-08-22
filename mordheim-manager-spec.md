@@ -569,6 +569,21 @@ Restated because it now governs five screens and two new functions, not one: **n
 
 _(Folded into §23.5: the analytics panels now live on `/admin/overview`, behind the same shared gate (§4.9.1), reading the same RPCs.)_
 
+### 4.10 Discord link — community entry point ✅
+
+A link to the Mordheim Manager Discord, so people know where to take questions and suggestions. Two placements, two URLs, because the audience differs by surface.
+
+| Surface | URL type | Why |
+| --- | --- | --- |
+| In-app Home | Channel deep link (`discord.com/channels/{guild}/{channel}`) | The user is almost certainly already in the server, so the deep link drops them straight into the app channel. |
+| Public landing page | Server invite (`discord.gg/…`) | A stranger here usually isn't a member yet; a channel deep link resolves only for members and hits a join-wall for everyone else. The invite is the one that works cold. |
+
+This split is why the URL isn't a single shared constant — a channel deep link on the public page is the failure mode to avoid (fine for the owner, a silent dead-end for every new visitor). **As shipped**, both placements use the server invite (`discord.gg/mordheim-682102252080857148`, already the landing footer's link) via the exported `DISCORD_INVITE`; the in-app channel deep link is a documented TODO in `DiscordLink.tsx` awaiting the guild/channel ids.
+
+**Design.** Rides the tokens (§5.1, §5.5), resolves in both themes, and is deliberately *not* Discord blurple (a social-media card in the woodcut look, the mismatch §11.4 rejects for photos) nor a second blood-fill button (that colour is used sparingly and means danger in §10; a filled Discord button beside the real primary CTA halves the emphasis of both). Instead: a 2px ink border on `parchment-raised`, bringing the accent in only on hover — the resting state carries the button signal on its own, which matters because there's no hover on touch. 48px min (§5.4), label in the UI font (§5.2). Icon is a Lucide `messages-square`, never a hand-copied Discord mark (§3.3 sourcing discipline for a vector). Hover foreground is the `on-accent` token, since white on Grimdark's ember fails AA (§5.1).
+
+**Implementation.** `src/components/DiscordLink.tsx` (React, on Home's community section via `AboutSection`, so it reaches signed-out visitors too). On the landing page it's a plain `<a>` + CSS — that page runs off `data-theme` and inline SVG, not Tailwind or a sprite, so it uses the landing's own token names (`--ink`, `--raised`, `--accent`, `--on-accent`) and an inline Lucide path. The accent resolves through the app's `blood` token (the Tailwind alias for the theme accent), not a non-existent `accent` colour.
+
 ---
 
 ## 5. Design language — "Rulebook"

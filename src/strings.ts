@@ -84,6 +84,10 @@ export const strings = {
     unsavedChanges: 'Unsaved changes',
     discard: 'Discard',
   },
+  discord: {
+    cta: 'Questions or ideas? Join the Discord',
+    aria: 'Join the Mordheim Manager Discord for questions and suggestions',
+  },
   home: {
     title: 'Home',
     // A guided next-step card for a player who hasn't finished setting up — the
