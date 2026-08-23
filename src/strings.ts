@@ -76,6 +76,7 @@ export const strings = {
     save: 'Save',
     cancel: 'Cancel',
     delete: 'Delete',
+    remove: 'Remove',
     back: 'Back',
     add: 'Add',
     gold: 'gc',
@@ -610,6 +611,26 @@ export const strings = {
     todoBadge: 'To do',
     skillsSection: 'Skills',
     noSkills: 'No skills learned yet.',
+    // Hand-editing skills/spells/advances (§4.2.1).
+    addSkill: 'Add skill',
+    removeSkillAction: 'Remove skill',
+    removeSkillPrompt: (skill: string, model: string) => `Remove ${skill} from ${model}?`,
+    removeSkillImpact: (model: string, items: string) =>
+      `${model} is carrying ${items} under this skill; it will be flagged as ineligible on the roster.`,
+    removeSpellAction: 'Remove',
+    removeSpellPrompt: (spell: string, model: string) => `Remove ${spell} from ${model}?`,
+    advancesSection: 'Advances',
+    noAdvances: 'No advances recorded yet.',
+    advanceStatLabel: (detail: string) => `Characteristic — ${detail}`,
+    advanceSkillLabel: (detail: string) => `New skill — ${detail}`,
+    removeAdvanceAction: 'Remove advance',
+    removeAdvancePrompt: (model: string) => `Remove this advance from ${model}'s record?`,
+    removeAdvanceNote:
+      'This removes the advance from the record. It does not change the statline — edit that directly if needed.',
+    removeAdvanceGrantOption: (grant: string) => `Also remove the granted skill or spell: ${grant}`,
+    ineligibleEquipmentWarning: (items: string) =>
+      `Not on this model's equipment list: ${items}. Unassign it, or re-add a skill that allows it.`,
+    removedToast: (what: string) => `Removed: ${what}`,
     spells: {
       // The heading itself comes from the list's kind — a priest prays rather
       // than casts — so these take the word rather than hardcoding "spell".

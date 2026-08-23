@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
-import { getUnitSpecialRules, getUnitNotes } from '../data/warbandRegistry';
+import { getUnitSpecialRules, getUnitNotes, getWarbandDefinition } from '../data/warbandRegistry';
 import SpecialRulesList from '../components/SpecialRulesList';
+import ConfirmAction from '../components/ConfirmAction';
+import { allowedEquipmentIds, checkEligibility } from '../lib/equipmentEligibility';
 import ProfileBlock from '../components/ProfileBlock';
 import WarbandPhotoEditor from '../components/WarbandPhoto';
 import { STAT_KEYS } from '../lib/statLine';
@@ -25,7 +27,10 @@ import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
 import { MAX_MELEE, MAX_MISSILE_TYPES, canAddWeapon, countWeaponSlots } from '../lib/weaponSlots';
 import { getAdvanceProgress } from '../lib/xpThresholds';
-import { EquipmentItem, Hero, HiredSword, ModelStatus, StatLine, Warband } from '../types';
+import { Advance, EquipmentItem, Hero, HiredSword, ModelStatus, StatLine, Warband } from '../types';
+
+/** Weapon categories a skill can un-restrict (§9.3): Weapons Training / Expert. */
+const LIST_LIFTING_SKILLS = ['Weapons Training', 'Weapons Expert'];
 
 type EditableModel = Hero | HiredSword;
 
@@ -50,11 +55,25 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const { data: battles } = useBattlesQuery(campaign?.id);
 
   const [advanceMode, setAdvanceMode] = useState<'stat' | 'skill' | 'spell' | null>(null);
+  // §4.2.1 hand-editing: which skill/advance is mid-confirm, the add-skill picker,
+  // and a transient toast naming what was removed.
+  const [confirmSkill, setConfirmSkill] = useState<string | null>(null);
+  const [addingSkill, setAddingSkill] = useState(false);
+  const [confirmAdvanceId, setConfirmAdvanceId] = useState<string | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
   const [addingInjury, setAddingInjury] = useState(false);
   const [injuryChoice, setInjuryChoice] = useState('custom');
   const [customInjuryName, setCustomInjuryName] = useState('');
   const [customInjuryEffect, setCustomInjuryEffect] = useState('');
   const [shoppingOpen, setShoppingOpen] = useState(false);
+
+  // The removed-toast clears itself; a removal is re-derivable, so it's a note,
+  // not something to dismiss.
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 3500);
+    return () => clearTimeout(t);
+  }, [toast]);
 
   if (loading) {
     return (
@@ -75,6 +94,34 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   // From the game data, not from the model's stored copy — a caster recruited
   // before spell lists existed has an empty one, and would show no magic.
   const spellLists = resolveSpellLists(draft.warbandType, model);
+
+  const unitType = 'unitType' in model ? model.unitType : model.type;
+  const buyer = kind === 'hero' ? ('hero' as const) : ('hiredSword' as const);
+  const allowedIds = allowedEquipmentIds(getWarbandDefinition(draft.warbandType), unitType);
+
+  /**
+   * §4.2.1 / §9.3 flag — assigned weapons a lifting skill (Weapons Training /
+   * Expert) is the only reason the model may carry. Given a hypothetical skill
+   * set, returns those now ineligible: carried, priced (the free dagger is off
+   * the list rule), in a liftable category, off the unit's list, and only made
+   * legal by a lifting skill the set lacks. Used both to preview the impact of
+   * removing a skill and to flag the roster after one is gone.
+   */
+  const currentModel = model;
+  function flaggedEquipment(skills: string[]): EquipmentItem[] {
+    if (!allowedIds) return [];
+    const ctx = { buyer, warbandType: draft!.warbandType, allowedIds, skills };
+    return currentModel.equipment.filter((e) => {
+      if (!e.cost) return false;
+      if (checkEligibility({ id: e.id, category: e.category }, ctx).allowed) return false;
+      const lifted = checkEligibility(
+        { id: e.id, category: e.category },
+        { ...ctx, skills: [...skills, ...LIST_LIFTING_SKILLS] },
+      );
+      return lifted.allowed;
+    });
+  }
+  const flaggedNow = flaggedEquipment(model.skills);
 
   function modelPatch(patch: Partial<EditableModel>) {
     return (current: Warband) => ({
@@ -147,6 +194,45 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   function removeSpell(spellId: string) {
     if (!model) return;
     commitModel({ spells: (model.spells ?? []).filter((id) => id !== spellId) });
+    setToast(strings.modelDetail.removedToast(spellName(spellId)));
+  }
+
+  // §4.2.1 — skills by hand: add (not gated, adding isn't destructive) and
+  // remove (through ConfirmAction, since it's re-derivable).
+  function addSkillByHand(skillName: string) {
+    if (!model || model.skills.includes(skillName)) return;
+    commitModel({ skills: [...model.skills, skillName] });
+    setAddingSkill(false);
+  }
+
+  function removeSkill(skillName: string) {
+    if (!model) return;
+    commitModel({ skills: model.skills.filter((s) => s !== skillName) });
+    setToast(strings.modelDetail.removedToast(skillName));
+    setConfirmSkill(null);
+  }
+
+  /**
+   * §4.2.1 — removing an advance is a pure log correction: it does not touch the
+   * statline (authoritative, edited directly) and, by default, not a granted
+   * skill/spell either. The opt-in drops the linked grant in the same action —
+   * a `skill`-type advance's `detail` names the skill it granted, or the spell
+   * (matched by name) where a caster spent the advance on a spell instead.
+   */
+  function removeAdvance(adv: Advance, alsoRemoveGrant: boolean) {
+    if (!model) return;
+    const patch: Partial<EditableModel> = { advances: model.advances.filter((a) => a.id !== adv.id) };
+    if (alsoRemoveGrant && adv.type === 'skill') {
+      if (model.skills.includes(adv.detail)) {
+        patch.skills = model.skills.filter((s) => s !== adv.detail);
+      } else {
+        const spellId = (model.spells ?? []).find((id) => spellName(id) === adv.detail);
+        if (spellId) patch.spells = (model.spells ?? []).filter((id) => id !== spellId);
+      }
+    }
+    commitModel(patch);
+    setToast(strings.modelDetail.removedToast(adv.detail));
+    setConfirmAdvanceId(null);
   }
 
   function addInjury() {
@@ -480,17 +566,87 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
         </section>
 
         <section className="space-y-2">
-          <SectionHeading>{strings.modelDetail.skillsSection}</SectionHeading>
+          <div className="flex items-center justify-between">
+            <SectionHeading>{strings.modelDetail.skillsSection}</SectionHeading>
+            {!addingSkill && (
+              <button
+                type="button"
+                onClick={() => setAddingSkill(true)}
+                className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+              >
+                {strings.modelDetail.addSkill}
+              </button>
+            )}
+          </div>
+
           {model.skills.length === 0 ? (
             <p className="text-bone-300 text-sm">{strings.modelDetail.noSkills}</p>
           ) : (
-            <ul className="flex flex-wrap gap-2">
+            <ul className="space-y-1">
               {model.skills.map((skill, i) => (
-                <li key={`${skill}-${i}`} className="px-2 py-1 rounded bg-ink-800 border border-ink-700 text-bone-200 text-sm">
-                  {skill}
+                <li key={`${skill}-${i}`} className="space-y-2">
+                  <div className="flex items-center justify-between gap-3 px-2 py-1 rounded bg-ink-800 border border-ink-700">
+                    <span className="text-bone-200 text-sm">{skill}</span>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmSkill(skill)}
+                      className="shrink-0 text-blood-500 text-xs font-semibold"
+                    >
+                      {strings.common.remove}
+                    </button>
+                  </div>
+                  {confirmSkill === skill &&
+                    (() => {
+                      // §9.3: name the weapons this skill is the only reason the
+                      // model may carry — they'll be flagged once it's gone.
+                      const affected = flaggedEquipment(model.skills.filter((s) => s !== skill));
+                      return (
+                        <ConfirmAction
+                          prompt={strings.modelDetail.removeSkillPrompt(skill, model.name)}
+                          impact={
+                            affected.length > 0
+                              ? strings.modelDetail.removeSkillImpact(
+                                  model.name,
+                                  affected.map((e) => e.name).join(', '),
+                                )
+                              : undefined
+                          }
+                          action={strings.modelDetail.removeSkillAction}
+                          onConfirm={() => removeSkill(skill)}
+                          onCancel={() => setConfirmSkill(null)}
+                        />
+                      );
+                    })()}
                 </li>
               ))}
             </ul>
+          )}
+
+          {/* Persistent §9.3 flag — remains until the item is unassigned or a
+              lifting skill is re-added. */}
+          {flaggedNow.length > 0 && (
+            <p className="text-blood-500 text-sm">
+              {strings.modelDetail.ineligibleEquipmentWarning(flaggedNow.map((e) => e.name).join(', '))}
+            </p>
+          )}
+
+          {addingSkill && (
+            <Card>
+              <SkillPicker
+                skillLists={model.skillLists}
+                knownSkills={model.skills}
+                warbandType={draft.warbandType}
+                isLeader={model.isLeader}
+                onAdd={addSkillByHand}
+              />
+              <button
+                type="button"
+                onClick={() => setAddingSkill(false)}
+                className="w-full min-h-[40px] rounded-md text-bone-300 text-sm"
+              >
+                {strings.common.cancel}
+              </button>
+            </Card>
           )}
         </section>
 
@@ -499,9 +655,55 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
         <SpellBlock
           spellLists={spellLists}
           known={model.spells ?? []}
+          modelName={model.name}
           onAdd={addSpell}
           onRemove={removeSpell}
         />
+
+        {/* §4.2.1 — the advance log, now correctable by hand. */}
+        <section className="space-y-2">
+          <SectionHeading>{strings.modelDetail.advancesSection}</SectionHeading>
+          {model.advances.length === 0 ? (
+            <p className="text-bone-300 text-sm">{strings.modelDetail.noAdvances}</p>
+          ) : (
+            <ul className="space-y-1">
+              {model.advances.map((adv) => (
+                <li key={adv.id} className="space-y-2">
+                  <div className="flex items-center justify-between gap-3 px-2 py-1 rounded bg-ink-800 border border-ink-700">
+                    <span className="text-bone-200 text-sm">
+                      {adv.type === 'stat'
+                        ? strings.modelDetail.advanceStatLabel(adv.detail)
+                        : strings.modelDetail.advanceSkillLabel(adv.detail)}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmAdvanceId(adv.id)}
+                      className="shrink-0 text-blood-500 text-xs font-semibold"
+                    >
+                      {strings.common.remove}
+                    </button>
+                  </div>
+                  {confirmAdvanceId === adv.id && (
+                    <ConfirmAction
+                      prompt={strings.modelDetail.removeAdvancePrompt(model.name)}
+                      impact={strings.modelDetail.removeAdvanceNote}
+                      // A skill-type advance links its grant by name; offer to
+                      // drop it too, defaulted off (§4.2.1).
+                      option={
+                        adv.type === 'skill'
+                          ? { label: strings.modelDetail.removeAdvanceGrantOption(adv.detail) }
+                          : undefined
+                      }
+                      action={strings.modelDetail.removeAdvanceAction}
+                      onConfirm={(alsoGrant) => removeAdvance(adv, alsoGrant)}
+                      onCancel={() => setConfirmAdvanceId(null)}
+                    />
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">
@@ -672,6 +874,17 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
         <SaveBar dirty={dirty} onSave={save} onDiscard={discard} />
       </main>
+
+      {/* §4.2.1 — names what was removed; self-dismissing, since re-adding
+          reverses it. */}
+      {toast && (
+        <div
+          role="status"
+          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 rounded-md bg-ink-800 border border-ink-700 px-4 py-2 text-bone-100 text-sm shadow-lg"
+        >
+          {toast}
+        </div>
+      )}
     </div>
   );
 }

@@ -388,6 +388,68 @@ Those overrides sit **outside** `@media print`, so the sheet is black on white o
 - Hired swords share the screen, showing hire fee and upkeep, excluded from slot limits.
 - ✅ **Spells, prayers or rituals** for casters — its own block after skills, rolled or chosen in place. §15.
 
+### 4.2.1 Hand-editing a model's skills, spells & advances ◻️
+
+The unit detail screen (§4.2) lets you edit the statline, XP, injuries and equipment by hand, but **skills only ever arrived through the advance flow** — there was no way to remove one. Copying an existing paper roster into the app is exactly where this bites: a mis-tapped skill during data entry had no correction path short of deleting and rebuilding the model. Spells already had hand-editing (§15.3, point 3); skills did not, and the two are the same shape.
+
+This section adds hand removal for skills, formalises it for spells, extends it to advances, and puts **one designed confirm** in front of all three.
+
+#### The confirm tier — `<ConfirmAction>`
+
+§5.4 requires every destructive action to carry a confirm step. These three are destructive but **re-derivable** — a removed skill, spell or advance can be added straight back — so they do **not** use §10.1's `<ConfirmByTyping>` (that tier is for the unrecoverable: warbands, campaigns, players). They also must **not** use the browser's `confirm()`, which §5.4 rules out. The right weight is a new lighter sibling in the same confirm family:
+
+`<ConfirmAction>` — a designed inline confirm, sharing `ConfirmByTyping`'s design language minus the text-input gate:
+
+- **Inline expanding panel, not a modal.** Rendered in place on the row being edited, so the user is looking at the thing they are removing. Pop-ups get dismissed reflexively.
+- Shows **what is being removed** (the skill/spell/advance name) and **what else it affects** — the impact lines below. Where there is no downstream effect, the impact line is omitted rather than padded.
+- A single confirm button carrying the `blood` accent (§5.1), sitting alone with no competing primary button — the same rule §10.1 gives for its delete button. Cancel is the plain, default, safe action.
+- On mobile, scroll the panel into view on open so the confirm isn't under the fold or the keyboard.
+- Respects `prefers-reduced-motion` for the expand (§5.4).
+- After success: apply the change, collapse the panel, and show a toast naming what was removed ("Removed skill: *Quick Shot*") so the action is legible and — since it's re-derivable — obviously reversible by re-adding.
+
+`<ConfirmAction>` is reused for all three removals below and is available to any future re-derivable destructive action, the way `<ConfirmByTyping>` is for the unrecoverable ones. Between them they satisfy §5.4 for the whole app: type-to-confirm for what can't be re-derived, `ConfirmAction` for what can.
+
+#### What each removal shows and touches
+
+| Ability | Trigger | Impact text | Downstream |
+| --- | --- | --- | --- |
+| **Skill** | Remove control on the skills block | "Remove *[skill]* from *[model]*?" | ❓ §9.3 — see below. Impact line appears **only** when the skill is lifting an equipment restriction that assigned gear currently relies on. |
+| **Spell / prayer / ritual** | Remove control on the magic block (§15.4) | "Remove *[spell]* from *[model]*?" | None. Spells don't affect rating (§3.2, §15.5) and nothing else references a known spell. Plain confirm, no impact line. |
+| **Advance** | Remove control on an entry in the advance list | "Remove this advance from *[model]*'s record?" | ❓ Advance semantics — see below. |
+
+#### ❓ Skill removal and the §9.3 equipment interaction
+
+A skill can be the only reason a model may *use* a weapon: **Weapons Training** lifts the per-model list restriction for hand-to-hand weapons, **Weapons Expert** for missile weapons (§9.3, rule 3). Remove that skill while such a weapon is assigned and the loadout silently becomes ineligible.
+
+Three ways to handle it; the confirm design is the same, only the impact line and the post-action differ:
+
+- **(a) Warn and let stand** — name the now-ineligible items in the impact line, remove anyway. Simplest; leaves the roster in a state the shop wouldn't have allowed.
+- **(b) Block while dependent gear is assigned** — refuse removal until the items are unassigned, and say which. Safest for rules-correctness; traps a user who is *correcting* an entry and knows the paper roster is right.
+- **(c) Remove and flag** — remove the skill, and surface the newly-ineligible items as a warning badge on the roster row (reusing the §9.3 eligibility check that already exists), left for the player to resolve.
+
+**Recommended default: (c) remove-and-flag.** It matches the app's settled stance everywhere outside the two §9.2/§9.3 *assign-step* refusals: warn, don't block (§1). Removal is not an assign step, so it inherits the warn side of that line. The impact line inside the confirm names the affected items ("*[model]* is carrying *[item]* under this skill; it will be flagged as ineligible"), and the flag persists on the roster until the player unassigns the item or re-adds a lifting skill.
+
+#### ❓ Advance removal semantics
+
+Advances are a **log** (`Advance[]`), stored separately from the effects they granted: a stat advance's number lives in `stats` (edited directly per §4.2), and a skill/spell advance's grant lives in `skills`/`spells`. Removing a log entry therefore does **not** automatically undo its effect, and it shouldn't try to guess — the current statline is authoritative and the user may already have hand-corrected it.
+
+**Advance removal is a pure log correction, with one opt-in.** By default it touches neither the statline nor a granted skill/spell — the current statline is authoritative (§4.2). The confirm says so plainly:
+
+> "This removes the advance from *[model]*'s record. It does **not** change the statline — edit that directly if needed."
+
+Two settled behaviours:
+
+1. **Skill/spell advances (`type: 'skill'`) offer to remove the linked grant.** §15.3 records a spell taken via advance as a skill advance whose `detail` names the entry, so the advance and its grant are linked by `detail`. When the advance being removed is a `skill` type, `ConfirmAction` shows an **optional second line, defaulted off** — "Also remove the granted skill/spell: *[grant]*" — and the user ticks it to drop the grant in the same action. Off by default keeps removal predictable; the tick handles the mis-tap case in one panel. If the tick removes a *skill* that lifts an equipment restriction, the §9.3 flag applies exactly as for a direct skill removal.
+2. **Removal re-opens "Advance due!".** `advanceEligibility` (§3.2) counts advances-owed as *(thresholds crossed) − (advances taken)*, so removing an advance while keeping the XP re-surfaces the "Advance due!" banner (§4.2). This is the honest state — the record would otherwise disagree with the XP — and the banner is a prompt, not a forced action. The confirm does not mention it; the banner reappearing is self-explanatory.
+
+#### Add-by-hand, to match spells
+
+Spells already have a by-hand add path (§15.3, point 3: "add or remove by hand, for corrections and house rules"). Skills get the mirror of it on the same skills block: a picker over the model's own `skillLists` (§9.3's list-restriction rules apply — a model adds from its own lists unless a skill lifts that), so a roster copied from paper can be reconstructed exactly without going through the advance flow. **Adding is not gated by `ConfirmAction`** — adding is not destructive; only removal is.
+
+#### Build note
+
+New reusable component `<ConfirmAction>` alongside `<ConfirmByTyping>`. Skills block on the unit entry gains add + remove controls mirroring `<SpellPicker>`'s by-hand path (§15.3); the magic block's existing remove wraps in `ConfirmAction`; the advance list gains a remove control, with the opt-in grant-removal line for `skill`-type advances. The §9.3 flag reuses `equipmentEligibility.ts` — no new eligibility logic, only a new place that reads it. One open call: §9.3 skill→equipment handling defaults to **(c) remove-and-flag**.
+
 ### 4.3 Battle flow ✅
 
 ⚠️ Wider than the single wizard originally specced. Three screens, because players wanted the roster in front of them *during* the game:
