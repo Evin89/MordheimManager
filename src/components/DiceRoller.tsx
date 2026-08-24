@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import { Volume2, VolumeX } from 'lucide-react';
 import NumberInput from './NumberInput';
 import { rollD66, rollDie } from '../lib/dice';
+import { diceSoundEnabled, playDiceRoll, setDiceSoundEnabled } from '../lib/diceSound';
 import { strings } from '../strings';
 
 /** One die face in the result — cycles random pips while the roll settles. */
@@ -71,6 +73,7 @@ export default function DiceRoller({ compact = false }: { compact?: boolean }) {
   // shown during that window; `rolling` gates the animation and the live total.
   const [rolling, setRolling] = useState(false);
   const [rollingFaces, setRollingFaces] = useState<number[]>([]);
+  const [soundOn, setSoundOn] = useState(diceSoundEnabled());
   const timer = useRef<number | null>(null);
 
   useEffect(() => () => {
@@ -109,6 +112,10 @@ export default function DiceRoller({ compact = false }: { compact?: boolean }) {
         total: sum + modifier,
       };
     }
+
+    // The rattle plays whether or not the dice tumble — it's sound, not motion,
+    // and it's gated by its own mute toggle instead.
+    playDiceRoll(result.rolls.length);
 
     // No tumble under reduced motion, and none for flashing dice either — land
     // straight on the result (§5.4).
@@ -149,9 +156,24 @@ export default function DiceRoller({ compact = false }: { compact?: boolean }) {
   return (
     <div className="space-y-4">
       <div>
-        <p className="text-bone-300 text-xs font-semibold uppercase tracking-wide mb-2">
-          {strings.dice.dieLabel}
-        </p>
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-bone-300 text-xs font-semibold uppercase tracking-wide">
+            {strings.dice.dieLabel}
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              const next = !soundOn;
+              setSoundOn(next);
+              setDiceSoundEnabled(next);
+            }}
+            aria-pressed={soundOn}
+            aria-label={soundOn ? strings.dice.soundOff : strings.dice.soundOn}
+            className="min-h-[36px] min-w-[36px] flex items-center justify-center rounded-md text-bone-400 hover:text-bone-200"
+          >
+            {soundOn ? <Volume2 size={18} aria-hidden="true" /> : <VolumeX size={18} aria-hidden="true" />}
+          </button>
+        </div>
         <div className="flex flex-wrap gap-2">
           {DICE.map((d) => (
             <button
