@@ -1,7 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import NumberInput from './NumberInput';
 import { rollD66, rollDie } from '../lib/dice';
 import { strings } from '../strings';
+
+/** One die face in the result — cycles random pips while the roll settles. */
+function DieFace({ value, rolling, wide }: { value: number; rolling: boolean; wide?: boolean }) {
+  return (
+    <span
+      className={`inline-flex items-center justify-center h-11 rounded-md border-2 bg-ink-950 font-bold text-lg tabular-nums lining-nums ${
+        wide ? 'min-w-[3rem] px-2' : 'w-11'
+      } ${rolling ? 'border-ember-500 text-bone-100 die-rolling' : 'border-ember-500/60 text-ember-400'}`}
+    >
+      {value}
+    </span>
+  );
+}
+
+// How long the dice tumble before settling, and how fast the faces cycle.
+const ROLL_MS = 520;
+const TICK_MS = 60;
 
 /**
  * The dice roller itself, without a screen around it (spec §20.1).
@@ -50,11 +67,28 @@ export default function DiceRoller({ compact = false }: { compact?: boolean }) {
   const [count, setCount] = useState(1);
   const [modifier, setModifier] = useState(0);
   const [history, setHistory] = useState<RollResult[]>([]);
+  // The dice tumble briefly before landing: `rollingFaces` are the cycling pips
+  // shown during that window; `rolling` gates the animation and the live total.
+  const [rolling, setRolling] = useState(false);
+  const [rollingFaces, setRollingFaces] = useState<number[]>([]);
+  const timer = useRef<number | null>(null);
+
+  useEffect(() => () => {
+    if (timer.current) window.clearInterval(timer.current);
+  }, []);
 
   const effectiveCount = die.count ?? Math.max(1, count);
   const modifierApplies = !die.isD66;
 
+  function commit(result: Omit<RollResult, 'id'>) {
+    // Id derived from the list inside the updater, so two rolls in one render
+    // batch (a double-tap) can't share a React key.
+    setHistory((h) => [{ ...result, id: (h[0]?.id ?? 0) + 1 }, ...h].slice(0, compact ? 8 : 20));
+  }
+
   function roll() {
+    if (timer.current) window.clearInterval(timer.current);
+
     let result: Omit<RollResult, 'id'>;
     if (die.isD66) {
       const { tens, units } = rollD66();
@@ -75,12 +109,42 @@ export default function DiceRoller({ compact = false }: { compact?: boolean }) {
         total: sum + modifier,
       };
     }
-    // Id derived from the list inside the updater, so two rolls in one render
-    // batch (a double-tap) can't share a React key.
-    setHistory((h) => [{ ...result, id: (h[0]?.id ?? 0) + 1 }, ...h].slice(0, compact ? 8 : 20));
+
+    // No tumble under reduced motion, and none for flashing dice either — land
+    // straight on the result (§5.4).
+    const reduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      setRolling(false);
+      commit(result);
+      return;
+    }
+
+    setRolling(true);
+    setRollingFaces(result.rolls.map((n) => n)); // start on real pips, then cycle
+    const sides = die.sides;
+    const n = result.rolls.length;
+    const start = Date.now();
+    timer.current = window.setInterval(() => {
+      if (Date.now() - start >= ROLL_MS) {
+        window.clearInterval(timer.current!);
+        timer.current = null;
+        setRolling(false);
+        commit(result);
+      } else {
+        setRollingFaces(Array.from({ length: n }, () => rollDie(sides)));
+      }
+    }, TICK_MS);
   }
 
   const latest = history[0];
+  // What the result panel draws: the tumbling pips mid-roll, else the last roll.
+  const shownFaces = rolling ? rollingFaces : (latest?.rolls ?? []);
+  const liveTotal = die.isD66
+    ? `${rollingFaces[0] ?? ''}${rollingFaces[1] ?? ''}`
+    : rollingFaces.reduce((a, x) => a + x, 0) + (modifierApplies ? modifier : 0);
+  const wideFace = die.sides > 66;
 
   return (
     <div className="space-y-4">
@@ -146,19 +210,30 @@ export default function DiceRoller({ compact = false }: { compact?: boolean }) {
         {strings.dice.rollButton}
       </button>
 
-      {latest && (
-        <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 text-center space-y-1">
+      {(latest || rolling) && (
+        <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 text-center space-y-2">
+          {shownFaces.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-2" aria-hidden="true">
+              {shownFaces.map((f, i) => (
+                <DieFace key={i} value={f} rolling={rolling} wide={wideFace} />
+              ))}
+            </div>
+          )}
           <p
             className={`text-ember-400 font-bold tabular-nums lining-nums leading-none ${
               compact ? 'text-4xl' : 'text-5xl'
             }`}
           >
-            {latest.d66 ?? latest.total}
+            {rolling ? liveTotal : (latest?.d66 ?? latest?.total)}
           </p>
           <p className="text-bone-400 text-sm tabular-nums">
-            {latest.d66
-              ? `${latest.dieLabel} · ${latest.d66}`
-              : `${latest.dieLabel} · ${strings.dice.breakdown(latest.rolls, latest.modifier)}`}
+            {rolling
+              ? die.label
+              : latest?.d66
+                ? `${latest.dieLabel} · ${latest.d66}`
+                : latest
+                  ? `${latest.dieLabel} · ${strings.dice.breakdown(latest.rolls, latest.modifier)}`
+                  : ''}
           </p>
         </div>
       )}

@@ -222,6 +222,25 @@ body,
   }
 }
 
+/* The dice roller's tumble (§20.1): a slight wobble while the pips cycle to a
+ * result. Kept subtle, and disabled by the reduced-motion block below (the
+ * roller also skips the cycling entirely there). */
+@keyframes dieWobble {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-2px) rotate(-7deg);
+  }
+  75% {
+    transform: translateY(1px) rotate(6deg);
+  }
+}
+.die-rolling {
+  animation: dieWobble 0.18s linear infinite;
+}
+
 /* §5.4 — honour the OS setting, and keep motion slight regardless. */
 @media (prefers-reduced-motion: reduce) {
   *,

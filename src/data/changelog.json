@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-08-24",
+    "title": "Dice That Tumble",
+    "description": "The dice roller now rolls. Tap Roll and one die per die rolled tumbles across the result — faces cycling for a moment before landing — so a handful of dice reads as a handful, not a bare total, and the running total counts along as they settle. It honours your reduced-motion setting: with that on, the dice land straight on the result without the tumble."
+  },
+  {
+    "date": "2026-08-24",
     "title": "See What's Changed",
     "description": "When the app updates, you'll now get a short “What's new” note on your next visit, listing what's changed since you were last here. Dismiss it and it's gone until the next update — and the full history is always a tap away under About › Changelog."
   },
