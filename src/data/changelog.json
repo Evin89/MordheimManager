@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-08-24",
+    "title": "See What's Changed",
+    "description": "When the app updates, you'll now get a short “What's new” note on your next visit, listing what's changed since you were last here. Dismiss it and it's gone until the next update — and the full history is always a tap away under About › Changelog."
+  },
+  {
+    "date": "2026-08-24",
+    "title": "Edit Skills, Spells & Advances by Hand",
+    "description": "Copying a roster from paper is easier to correct now. You can add and remove a model's skills by hand — not only through the advance flow — and remove spells and advance-log entries too, each behind a quick inline confirm you can undo by re-adding. Removing an advance is a pure record fix: it never touches the statline, with an option to also drop the skill or spell it granted. And if a weapon was only legal because of a Weapons Training or Expert skill, removing that skill flags the weapon on the roster rather than silently leaving an illegal loadout."
+  },
+  {
     "date": "2026-08-20",
     "title": "End-of-Campaign Recap",
     "description": "Every campaign can now wrap up. The leader can conclude a campaign — its standings become a final recap, with a banner marking when it ended (and it can be reopened later). Anyone can then render the season to a shareable image: the champion, the final standings and the campaign's honours, drawn onto a clean card ready for Discord. A concluded campaign's standings don't change, so nothing is lost."

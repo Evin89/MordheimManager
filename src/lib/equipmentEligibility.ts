@@ -1,5 +1,5 @@
 import { WarbandDefinition } from '../data/types';
-import { ResolvedEquipmentItem } from './equipmentLookup';
+import { ResolvedEquipmentItem, resolveEquipmentItem } from './equipmentLookup';
 
 /** Who is being equipped. Hired Swords count as Heroes for equipment purposes. */
 export type BuyerKind = 'hero' | 'hiredSword' | 'henchmenGroup' | 'treasury';
@@ -48,6 +48,30 @@ export function allowedEquipmentIds(
     for (const id of definition.equipmentLists[listKey] ?? []) ids.add(id);
   }
   return ids;
+}
+
+/**
+ * The unit's allowed equipment as a set of lower-cased *names*, or null when it
+ * can't be judged.
+ *
+ * A stored `EquipmentItem` keeps a fresh instance id at purchase (so two swords
+ * are distinct rows), not the catalogue id — so an assigned item can only be
+ * matched back to a unit's list by name, not by id. Used by the §9.3 roster flag
+ * (§4.2.1), which reads gear the model already carries rather than catalogue
+ * entries the shop is offering.
+ */
+export function allowedEquipmentNames(
+  definition: WarbandDefinition | undefined,
+  unitType: string,
+): Set<string> | null {
+  const ids = allowedEquipmentIds(definition, unitType);
+  if (!ids) return null;
+  const names = new Set<string>();
+  for (const id of ids) {
+    const resolved = resolveEquipmentItem(id, definition);
+    if (resolved) names.add(resolved.name.trim().toLowerCase());
+  }
+  return names;
 }
 
 export type EligibilityContext = {

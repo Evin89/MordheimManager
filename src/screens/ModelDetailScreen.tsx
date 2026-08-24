@@ -4,7 +4,7 @@ import BackHeader from '../components/BackHeader';
 import { getUnitSpecialRules, getUnitNotes, getWarbandDefinition } from '../data/warbandRegistry';
 import SpecialRulesList from '../components/SpecialRulesList';
 import ConfirmAction from '../components/ConfirmAction';
-import { allowedEquipmentIds, checkEligibility } from '../lib/equipmentEligibility';
+import { allowedEquipmentNames } from '../lib/equipmentEligibility';
 import ProfileBlock from '../components/ProfileBlock';
 import WarbandPhotoEditor from '../components/WarbandPhoto';
 import { STAT_KEYS } from '../lib/statLine';
@@ -28,9 +28,6 @@ import { hasFoughtFirstBattle } from '../lib/battleHistory';
 import { MAX_MELEE, MAX_MISSILE_TYPES, canAddWeapon, countWeaponSlots } from '../lib/weaponSlots';
 import { getAdvanceProgress } from '../lib/xpThresholds';
 import { Advance, EquipmentItem, Hero, HiredSword, ModelStatus, StatLine, Warband } from '../types';
-
-/** Weapon categories a skill can un-restrict (§9.3): Weapons Training / Expert. */
-const LIST_LIFTING_SKILLS = ['Weapons Training', 'Weapons Expert'];
 
 type EditableModel = Hero | HiredSword;
 
@@ -96,29 +93,35 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const spellLists = resolveSpellLists(draft.warbandType, model);
 
   const unitType = 'unitType' in model ? model.unitType : model.type;
-  const buyer = kind === 'hero' ? ('hero' as const) : ('hiredSword' as const);
-  const allowedIds = allowedEquipmentIds(getWarbandDefinition(draft.warbandType), unitType);
+  const allowedNames = allowedEquipmentNames(getWarbandDefinition(draft.warbandType), unitType);
 
   /**
    * §4.2.1 / §9.3 flag — assigned weapons a lifting skill (Weapons Training /
-   * Expert) is the only reason the model may carry. Given a hypothetical skill
-   * set, returns those now ineligible: carried, priced (the free dagger is off
-   * the list rule), in a liftable category, off the unit's list, and only made
-   * legal by a lifting skill the set lacks. Used both to preview the impact of
-   * removing a skill and to flag the roster after one is gone.
+   * Expert) is the only reason the model may carry.
+   *
+   * Matched by *name*, not id: a purchased `EquipmentItem` carries a fresh
+   * instance id, not the catalogue id, so an id-based check flagged every bought
+   * weapon on any established warband. Flags a carried, priced (the free dagger
+   * is off the list rule), liftable-category weapon that is off the unit's list
+   * and whose lifting skill the given set lacks — used to preview a skill
+   * removal's impact and to flag the roster once it's gone. Skipped entirely
+   * where the unit can't be judged (a custom or renamed type), so it never
+   * false-flags what it can't check.
    */
   const currentModel = model;
   function flaggedEquipment(skills: string[]): EquipmentItem[] {
-    if (!allowedIds) return [];
-    const ctx = { buyer, warbandType: draft!.warbandType, allowedIds, skills };
+    if (!allowedNames) return [];
     return currentModel.equipment.filter((e) => {
       if (!e.cost) return false;
-      if (checkEligibility({ id: e.id, category: e.category }, ctx).allowed) return false;
-      const lifted = checkEligibility(
-        { id: e.id, category: e.category },
-        { ...ctx, skills: [...skills, ...LIST_LIFTING_SKILLS] },
-      );
-      return lifted.allowed;
+      const lifter =
+        e.category === 'melee'
+          ? 'Weapons Training'
+          : e.category === 'missile'
+            ? 'Weapons Expert'
+            : null;
+      if (!lifter) return false; // only melee/missile are liftable (§9.3)
+      if (allowedNames.has(e.name.trim().toLowerCase())) return false; // on the list
+      return !skills.includes(lifter); // off list, and no skill lifting it
     });
   }
   const flaggedNow = flaggedEquipment(model.skills);

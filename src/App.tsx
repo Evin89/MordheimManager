@@ -2,6 +2,7 @@ import { ReactElement, Suspense, lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
 import NavTour from './components/NavTour';
+import WhatsNewOverlay from './components/WhatsNewOverlay';
 import DiceButton from './components/DiceButton';
 import ReportIssueButton from './components/ReportIssueButton';
 import SideNav from './components/SideNav';
@@ -227,6 +228,9 @@ function AppShell() {
       {/* The guided nav tour's ? button and overlay (§20.4). Outside the
           content column so its fixed positioning is relative to the viewport. */}
       <NavTour />
+      {/* Catches a returning player up on changelog entries since their last
+          visit; suppressed while the tour above would show. */}
+      <WhatsNewOverlay />
       {/* A dice roller in reach from any screen, stacked just under the ? . */}
       <DiceButton />
       <BottomNav />

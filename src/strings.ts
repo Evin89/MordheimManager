@@ -89,6 +89,12 @@ export const strings = {
     cta: 'Questions or ideas? Join the Discord',
     aria: 'Join the Mordheim Manager Discord for questions and suggestions',
   },
+  whatsNew: {
+    title: "What's new",
+    dismiss: 'Got it',
+    seeAll: 'Full changelog',
+    more: (n: number) => `+${n} more in the changelog`,
+  },
   home: {
     title: 'Home',
     // A guided next-step card for a player who hasn't finished setting up — the
