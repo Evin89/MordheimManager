@@ -12,7 +12,9 @@ This document started as a design brief written before any code existed. It is n
 
 **Conventions:** ✅ built · ◻️ not built · ⚠️ built differently from the design · ❓ open decision.
 
-**Built and deployed:** milestones 1–6 plus the v2 account/campaign work (§8), the Rulebook design language (§5), and the shared-campaign screens. Twenty-two warband lists, 142 equipment entries, the full post-battle wizard, trading post, exploration, rules browser, public gallery, and multi-campaign membership.
+**Built and deployed:** milestones 1–6, the v2 account/campaign work (§8), the Rulebook design language (§5) with a shared UI kit and self-hosted fonts, and the shared-campaign screens. **49 warband lists** (20 curated + 27 imported from mordheimer.net) with warband-specific skill lists, **30 spell/prayer/ritual lists**, the full post-battle wizard (with the exploration roller), trading post, rules browser, public gallery, printable roster sheet, and multi-campaign membership.
+
+Most of the feature-expansion block has since shipped too: the campaign-collaboration set (§17, §19.1/§19.3 — territory, narrative log, awards/rivalries, RSVPs, announcements, plus a campaign activity feed and end-of-campaign recap), roster/model depth (§18), all of §20 Utility (dice roller with tumble + sound, comparison, afford-filter, nav tour), the §21 bigger swings (per-model photos, custom warbands, scenario generator), the admin analytics DB layer with the split admin back-end (§23, §4.9 revised), shareable warband cards, in-battle injury/rout rolls, a per-warband legality check, hand-editing of skills/spells/advances, a Discord community link (§4.10) and a static landing page (§4.11). Still unbuilt: gallery comments (§19.2), push notifications (§19.4), PostHog (§23.7), and AI battle reports.
 
 ### 0.1 Conflict register
 
@@ -521,6 +523,8 @@ This is the first screen to use an **icon library** (`lucide-react`), a delibera
 
 ### 4.9 Issue reports & the admin back-end ✅
 
+> **The admin back-end described here was since split into sub-screens — see the revised §4.9 below (§4.9.1–§4.9.7), which supersedes the "one `/admin` page" model. This section stands for the issue-reporting feature (still accurate) and as the history of the original single-screen back-end.**
+
 Not in either original draft. It exists because feedback was arriving as prose in a group chat, which had to be interviewed back into a reproducible report.
 
 **Reporting** — a button at the foot of every screen opens a textbox in place and files to `issue_reports`. Filing rather than opening a mail client is the whole point: the row carries the path, the build, the user agent and a small context blob (which warband type, which unit), so "the Necromancer has no spells" arrives *with* `{warbandType: undead, unitType: Necromancer}` attached. It works signed out — the rules are public, so a stranger finding a wrong weapon price is exactly who you want to hear from — and insert is anonymous-friendly while **reading** is admin-only, so nobody can enumerate other people's reports.
@@ -644,7 +648,27 @@ This split is why the URL isn't a single shared constant — a channel deep link
 
 **Design.** Rides the tokens (§5.1, §5.5), resolves in both themes, and is deliberately *not* Discord blurple (a social-media card in the woodcut look, the mismatch §11.4 rejects for photos) nor a second blood-fill button (that colour is used sparingly and means danger in §10; a filled Discord button beside the real primary CTA halves the emphasis of both). Instead: a 2px ink border on `parchment-raised`, bringing the accent in only on hover — the resting state carries the button signal on its own, which matters because there's no hover on touch. 48px min (§5.4), label in the UI font (§5.2). Icon is a Lucide `messages-square`, never a hand-copied Discord mark (§3.3 sourcing discipline for a vector). Hover foreground is the `on-accent` token, since white on Grimdark's ember fails AA (§5.1).
 
-**Implementation.** `src/components/DiscordLink.tsx` (React, on Home's community section via `AboutSection`, so it reaches signed-out visitors too). On the landing page it's a plain `<a>` + CSS — that page runs off `data-theme` and inline SVG, not Tailwind or a sprite, so it uses the landing's own token names (`--ink`, `--raised`, `--accent`, `--on-accent`) and an inline Lucide path. The accent resolves through the app's `blood` token (the Tailwind alias for the theme accent), not a non-existent `accent` colour.
+**Implementation.** `src/components/DiscordLink.tsx` (React, on Home's community section via `AboutSection`, so it reaches signed-out visitors too). On the landing page (§4.11) it's a plain `<a>` + CSS — that page runs off `data-theme` and inline SVG, not Tailwind or a sprite, so it uses the landing's own token names (`--ink`, `--raised`, `--accent`, `--on-accent`) and an inline Lucide path. The accent resolves through the app's `blood` token (the Tailwind alias for the theme accent), not a non-existent `accent` colour.
+
+---
+
+### 4.11 Landing page ✅
+
+The public front door at `/` — the page a stranger sees before anything else. Deliberately separate from the app, which is a client-rendered SPA mounted under `/app` (BrowserRouter `basename="/app"`): everyone lands on the marketing page first, and the app lives behind `/app`. This is the surface §4.10's Discord link, §5.5's token note and the §16/§12.4 font work each refer to as "the landing page".
+
+**A single static file, no bundle.** `public/landing.html` is self-contained HTML + inline CSS — no React, no Tailwind, no JavaScript bundle. (The live `/` has no `#root` and loads zero scripts.) An unfurler or crawler reads it directly; there's no JS to wait on.
+
+**Design parity without importing the bundle.** It can't use the app's Tailwind, so it mirrors the design by hand:
+
+- Runs off `data-theme` on `<html>`, with a **pre-paint theme script** (reads the saved theme and sets `data-theme` before first paint, so a parchment reader never flashes the dark theme) and its own Grimdark/Rulebook toggle.
+- **Pastes the §5.1 token _values_** as CSS custom properties under the page's own names (`--ink`, `--raised`, `--accent`, `--on-accent`, `--page`, `--ink-faded`, …) — space-separated RGB channels, matching the `<alpha-value>` setup in §5.5 — so the look tracks the app without the Tailwind names (`--color-*`) the app uses. Anything reading these must use the landing's names, not the app's (the §4.10 fix).
+- Icons are **inline Lucide `<svg>` paths**, not a sprite. Fonts are the **self-hosted woff2** subsets (§5.2, §12.4), the same files the app and the About page link.
+
+**Content.** A blackletter hero and tagline; CTAs into the app (Go to app / View warbands / Create an account); a short features + post-battle-wizard summary; the §4.10 Discord button; and a footer of links — app entry points, external Mordheim resources (mordheimer.net, broheim.net, the Discord), and About & changelog.
+
+**SEO and link-unfurling.** Because it's static, all the meta lives in the markup: title, description, canonical, a full Open Graph + Twitter large-image card (pointing at `og-card.png`, 1200×630), and JSON-LD typing the site as a `WebApplication` — a *tool*, not a rules database, which is the positioning that keeps it out of the rules-reference lane. The Cloudflare **Worker** in front of the static assets (`worker/index.js`, `run_worker_first` scoped to `/` and `/rosters/*` in `wrangler.toml`) exists purely for this: a human falls straight through to the static asset, while an automated client (crawler/unfurler, matched by user-agent) is served real meta — the landing's own baked-in tags at `/`, and per-roster Open Graph tags injected into the SPA shell for `/rosters/:id`, so a shared warband link unfurls as *that warband's* card. A private warband is never enriched — it falls through to the plain shell and unfurls as nothing, which is the point. Serving a bot the same content a human sees is not cloaking. This is SEO path A; see the deployment notes.
+
+**About page.** `public/about.html` — the changelog rendered to a static page by `scripts/build-about.mjs`, linked from the footer — is a sibling static surface sharing the landing's tokens and self-hosted fonts.
 
 ---
 
@@ -1454,11 +1478,13 @@ Deliberate, with reasons. Kept here rather than in a tracker so the spec and the
 
 ---
 
-## 17. Campaign flavour features ◻️
+## 17. Campaign flavour features ✅
+
+**All four shipped** — 17.1 Territory (migration 0020), 17.2 Rivalries (extended to full head-to-head match logs), 17.3 Narrative log (0017), 17.4 Awards. What follows is kept as the as-built record, not a plan.
 
 Four additions to make a campaign read as a story, not just a stat sheet. All four follow §1's non-goal — no automated rules enforcement, warnings only where a mistake is silent — and reuse the existing patterns: campaign-membership RLS (§8.3), the `Campaign`/`CampaignMember` shapes already in `src/types.ts`, and `ConfirmByTyping` (§10.1) for anything destructive.
 
-**Suggested build order:** 17.4 (Awards) → 17.2 (Rivalries) → 17.3 (Narrative log) → 17.1 (Territory). Awards need zero new tables and validate the read patterns; rivalries are read-mostly with one small write; the narrative log is a straightforward new table on a well-worn RLS shape; territory is the only one with real write contention (several players claiming the same thing) and benefits from going last.
+**Build order as executed:** 17.4 (Awards) → 17.2 (Rivalries) → 17.3 (Narrative log) → 17.1 (Territory). Awards need zero new tables and validate the read patterns; rivalries are read-mostly with one small write; the narrative log is a straightforward new table on a well-worn RLS shape; territory is the only one with real write contention (several players claiming the same thing) and benefits from going last.
 
 ### 17.1 Territory control ✅
 
@@ -1496,7 +1522,7 @@ territories   id, campaign_id, name, territory_type, controlled_by_warband_id (n
 - A list of territories, each showing its current holder (or "Unclaimed") and a Claim / Reassign action: a simple picker of the campaign's warbands, with no confirm step, since it is non-destructive and any member can reverse it.
 - The leader can add and remove entries; the type-to-confirm panel (§10.1) applies to removal, which *is* destructive to campaign state.
 
-❓ **Open question** — whether claiming should be leader-gated (so disputes are settled at the table rather than in-app) or open to any member. Leaning **open**, consistent with §1: the app records the outcome of a decision made elsewhere, it does not adjudicate one.
+✅ **Resolved (as shipped):** claiming is **open to any member** — the territory board is members-writable, consistent with §1: the app records the outcome of a decision made at the table, it does not adjudicate one.
 
 ### 17.2 Rivalries / nemesis tracking ⚠️
 
@@ -1524,7 +1550,7 @@ nemesisWarbandId?: string;   // player-designated; never implied by battle count
 - A Rivalries card on the warband detail screen and/or the campaign Standings tab: opponents ranked by battles fought, with W/L/D each, computed client-side from the campaign's `battles` array — the same array `useStandingsQuery` already derives W/L/D from (§4.5), so this reuses a fetch that is already happening.
 - A "Mark as nemesis" action on any row past a small threshold (2+ battles). Purely cosmetic — a badge on the standings row — so it needs no enforcement and no confirm.
 
-❓ **Open question** — campaign-scoped only, or across a player's standalone battles too? **Recommend campaign-scoped.** Cross-campaign rivalry needs a canonical "same person" identity that opponents-as-text cannot guarantee.
+✅ **Resolved (as shipped):** **campaign-scoped**, and extended to a full head-to-head match log per opponent. Cross-campaign rivalry needs a canonical "same person" identity that opponents-as-text cannot guarantee, so it stays out.
 
 ⚠️ **Built, but grouped by opponent *name*, not warband id** — because the premise didn't hold. `BattleRecord.opponents` is `string[]`: the names typed or picked in the pre-battle flow, never the opponent's warband id. So `lib/rivalries.ts` groups by that name and tallies W/L/D per opponent, shown as a card per the viewer's own campaign warband on the Standings tab (a rivalry is *yours*, and the log holds every player's battles). The persisted `nemesisWarbandId` is **not built**: there is no id to point at until the battle record starts capturing the opponent's warband id, which is a separate change to the pre-battle flow and its commit. The derived view — the valuable half — is what shipped.
 
@@ -1648,7 +1674,7 @@ equipmentLog: EquipmentLogEntry[];
 
 ✅ **Built.** `appendEquipmentLog` is called from the three per-model gear write sites on the detail screen — buying onto a model, assigning from the treasury, moving to the treasury — each stamping a dated entry with context ("Bought for 5 gc", "Assigned from treasury"). The Trading Post's own buy/sell is deliberately *not* logged: it moves gear to and from the **treasury**, which has no model to attribute a line to. Dead-model cleanup is likewise moot as a write site, for the same reason 18.1's epitaph moved — the model is removed, so there is nothing left to log against.
 
-❓ **Open question** — existing warbands have no history to backfill. Either leave it empty and let it fill from here forward (**recommended**, matching how `xpThresholds` and `racialMaximums` gaps were closed forward rather than invented), or seed one entry per current item stamped "as of". Prefer the former: a fabricated history is worse than a short one.
+✅ **Resolved (as shipped):** left empty to fill forward — matching how `xpThresholds` and `racialMaximums` gaps were closed forward rather than invented. A fabricated history is worse than a short one; the chart renders nothing until there are two real points.
 
 ### 18.3 Warband rating over time ✅
 
@@ -1668,7 +1694,9 @@ Written by a trigger on `warbands` `AFTER UPDATE OF rating` — append-only, nev
 
 ---
 
-## 19. Social & multiplayer ◻️
+## 19. Social & multiplayer ⚠️ (RSVPs + announcements built; gallery comments + push deferred)
+
+**Status:** 19.1 Event RSVPs and 19.3 Leader announcements are **built** (migrations 0019 / 0018). 19.2 Gallery comments and 19.4 Push notifications remain **deferred** — the two below whose costs (moderation; the project's first server-side compute) put them last.
 
 ### 19.1 Event RSVPs ✅
 
@@ -1770,9 +1798,11 @@ A **?** button in the app's top-right corner that, on tap, runs a click-through 
 
 ---
 
-## 21. Bigger swings ◻️
+## 21. Bigger swings ✅
 
-Kept separate because each is a different order of magnitude from §17–§20 and deserves its own scoping pass.
+**All three shipped** — 21.1 per-model photos (migration 0015), 21.2 custom warband builder (clone-and-rename, 0021, made shareable in 0022), 21.3 scenario generator. Kept as the as-built record.
+
+Kept separate because each was a different order of magnitude from §17–§20 and deserved its own scoping pass.
 
 ### 21.1 Per-model photos ✅ — built
 
@@ -1830,9 +1860,11 @@ Done so far: per-model photos (§21.1, migration 0015), all of §20 Utility (dic
 
 ---
 
-## 23. Admin analytics & growth insight ◻️
+## 23. Admin analytics & growth insight ⚠️ (DB-derived layer built; PostHog deferred)
 
 _Renumbered from the drafted §17 because the feature-expansion block (§17–22) landed first; the one dangling "§17" reference in §16 (which meant §4.9's report button) has been fixed. This is a top-level section in the shape of §11/§13 — it carries a data model, migrations and a build order, not just a screen description. The screen work in §23.5 extends the existing admin back-end at §4.9._
+
+**Status:** the DB-derived layer (§23.1–§23.6) is **built** — migration 0025 (acquisition capture, the extended `admin_stats`, the funnel/cohort/activity/acquisition RPCs, indexes) and the admin growth panels, now living on `/admin/overview` (§4.9 revised). §23.7 (PostHog) remains deferred; §23.8's tagged-links step is external link hygiene. The rest is the as-built record.
 
 The app crossed into organic growth — a Discord-driven influx (11 users in 6 days, all word-of-mouth). The admin screen (§4.9, `admin_stats()`) answers **how much exists**: players, warbands, campaigns, battles, a 30-day signup series, warband-type distribution. It cannot answer the two questions growth actually raises: **where do users come from, and where do new users stall or leave.**
 
