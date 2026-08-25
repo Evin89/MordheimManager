@@ -19,7 +19,7 @@ function DieFace({ value, rolling, wide }: { value: number; rolling: boolean; wi
 }
 
 // How long the dice tumble before settling, and how fast the faces cycle.
-const ROLL_MS = 2500;
+const ROLL_MS = 1250;
 const TICK_MS = 70;
 
 /**
