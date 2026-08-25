@@ -52,7 +52,7 @@ import objectivesData from '../data/btb/objectives.json';
 import { BtbObjectivesData } from '../data/types';
 import { BattleRecord, BattleResult, BtbObjective, Campaign, StandingsRow, Warband } from '../types';
 
-type Tab = 'log' | 'standings' | 'players' | 'territory';
+type Tab = 'activity' | 'standings' | 'players' | 'territory' | 'settings';
 
 /** The editable part of an objective — the row's id/warbandId are set server-side. */
 type ObjectiveFields = Omit<BtbObjective, 'id' | 'warbandId'>;
@@ -73,11 +73,15 @@ const RESULT_CLASSES: Record<BattleRecord['result'], string> = {
 
 // No Rules tab: the campaign rules are in the Rules Reference, and duplicating
 // an entry point here pushed the tabs that do something into a cramped row.
+// Activity is the living record (feed, battles, story); Settings holds the
+// leader's config (name, house rules, delete) so the record isn't buried under
+// forms nobody but the leader can touch.
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'log', label: strings.campaign.logTab },
+  { id: 'activity', label: strings.campaign.activityTab },
   { id: 'standings', label: strings.campaign.standingsTab },
   { id: 'players', label: strings.campaign.membersTab },
   { id: 'territory', label: strings.campaign.territory.section },
+  { id: 'settings', label: strings.campaign.settingsTab },
 ];
 
 function BattleRow({
@@ -1058,7 +1062,7 @@ export default function CampaignScreen() {
   function discardCampaignDraft() {
     setCampaignEdits(null);
   }
-  const [tab, setTab] = useState<Tab>('log');
+  const [tab, setTab] = useState<Tab>('activity');
 
   const isLeader = (members ?? []).some((m) => m.userId === user?.id && m.role === 'campaign_leader');
 
@@ -1124,11 +1128,98 @@ export default function CampaignScreen() {
                 here as well, they sat above whichever tab was open, pushing the
                 standings and the log down behind a form about other campaigns
                 entirely. */}
-            {tab === 'log' && (
+            {/* Activity — the living record: what's happened, the battles that
+                made it happen, and the story written around them. The leader's
+                config used to sit in the middle of this; it now lives on
+                Settings so the record isn't buried under a form. */}
+            {tab === 'activity' && (
               <>
                 <CampaignActivityFeed campaign={campaign} />
 
+                <section className="space-y-3">
+                  <SectionHeading>{strings.campaign.battleLogSection}</SectionHeading>
+                  {(battles?.length ?? 0) === 0 ? (
+                    <p className="text-bone-300 text-sm">{strings.campaign.noBattles}</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {[...(battles ?? [])].reverse().map((battle) => (
+                        <BattleRow
+                          key={battle.id}
+                          battle={battle}
+                          warbandName={warbandName(battle.warbandId)}
+                          onDelete={isLeader ? () => {
+                            if (window.confirm(strings.campaign.deleteBattleConfirm(battle.scenario))) {
+                              deleteBattle(battle.id);
+                            }
+                          } : undefined}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </section>
+
+                <NarrativeLog
+                  campaignId={campaign.id}
+                  battles={battles ?? []}
+                  isLeader={isLeader}
+                  userId={user?.id}
+                />
+              </>
+            )}
+
+            {tab === 'standings' && (
+              <section className="space-y-6">
+                <div className="space-y-3">
+                  <SectionHeading>{strings.campaign.standingsSection}</SectionHeading>
+                  <StandingsTable rows={standings ?? []} />
+                </div>
+                <CampaignAwards battles={battles ?? []} standings={standings ?? []} />
+                <CampaignRivalries battles={battles ?? []} myWarbandIds={warbands.map((w) => w.id)} />
+
+                {/* Secret objectives are a player's own campaign progress, so
+                    they sit with the standings rather than in the leader's
+                    settings. Only shown when the campaign runs Battle-to-Battle. */}
+                {campaign.usesBTB && (
+                  <section className="space-y-3">
+                    <SectionHeading>{strings.campaign.btbSection}</SectionHeading>
+                    <p className="text-bone-300 text-xs">{strings.campaign.btbHint}</p>
+                    {warbands.length === 0 ? (
+                      <p className="text-bone-300 text-sm">{strings.trading.noWarbands}</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {warbands.map((warband) => (
+                          <ObjectiveCard key={warband.id} warband={warband} />
+                        ))}
+                      </div>
+                    )}
+                  </section>
+                )}
+
+                <CampaignRecap
+                  campaign={campaign}
+                  standings={standings ?? []}
+                  battles={battles ?? []}
+                  isLeader={isLeader}
+                />
+              </section>
+            )}
+
+            {tab === 'players' && (
+              <>
+                <JoinCodeCard campaign={campaign} isLeader={isLeader} />
+                <MembersList campaign={campaign} isLeader={isLeader} />
+              </>
+            )}
+
+            {tab === 'territory' && <TerritoryTab campaignId={campaign.id} />}
+
+            {/* Settings — the leader's config in one predictable place: the
+                campaign's name/notes/mode, its house rules, and the destructive
+                delete at the very bottom. Members see it read-only. */}
+            {tab === 'settings' && (
+              <>
                 <Card as="section">
+                  <SectionHeading>{strings.campaign.settingsSection}</SectionHeading>
                   <Field label={strings.campaign.nameLabel}>
                     <TextField
                       type="text"
@@ -1166,82 +1257,11 @@ export default function CampaignScreen() {
                   )}
                 </Card>
 
-                <section className="space-y-3">
-                  <SectionHeading>{strings.campaign.battleLogSection}</SectionHeading>
-                  {(battles?.length ?? 0) === 0 ? (
-                    <p className="text-bone-300 text-sm">{strings.campaign.noBattles}</p>
-                  ) : (
-                    <div className="space-y-2">
-                      {[...(battles ?? [])].reverse().map((battle) => (
-                        <BattleRow
-                          key={battle.id}
-                          battle={battle}
-                          warbandName={warbandName(battle.warbandId)}
-                          onDelete={isLeader ? () => {
-                            if (window.confirm(strings.campaign.deleteBattleConfirm(battle.scenario))) {
-                              deleteBattle(battle.id);
-                            }
-                          } : undefined}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </section>
-
-                <NarrativeLog
-                  campaignId={campaign.id}
-                  battles={battles ?? []}
-                  isLeader={isLeader}
-                  userId={user?.id}
-                />
-
                 <HouseRulesPanel campaign={campaign} isLeader={isLeader} />
-
-                {campaign.usesBTB && (
-                  <section className="space-y-3">
-                    <SectionHeading>{strings.campaign.btbSection}</SectionHeading>
-                    <p className="text-bone-300 text-xs">{strings.campaign.btbHint}</p>
-                    {warbands.length === 0 ? (
-                      <p className="text-bone-300 text-sm">{strings.trading.noWarbands}</p>
-                    ) : (
-                      <div className="space-y-2">
-                        {warbands.map((warband) => (
-                          <ObjectiveCard key={warband.id} warband={warband} />
-                        ))}
-                      </div>
-                    )}
-                  </section>
-                )}
-              </>
-            )}
-
-            {tab === 'standings' && (
-              <section className="space-y-6">
-                <div className="space-y-3">
-                  <SectionHeading>{strings.campaign.standingsSection}</SectionHeading>
-                  <StandingsTable rows={standings ?? []} />
-                </div>
-                <CampaignAwards battles={battles ?? []} standings={standings ?? []} />
-                <CampaignRivalries battles={battles ?? []} myWarbandIds={warbands.map((w) => w.id)} />
-                <CampaignRecap
-                  campaign={campaign}
-                  standings={standings ?? []}
-                  battles={battles ?? []}
-                  isLeader={isLeader}
-                />
-              </section>
-            )}
-
-            {tab === 'players' && (
-              <>
-                <JoinCodeCard campaign={campaign} isLeader={isLeader} />
-                <MembersList campaign={campaign} isLeader={isLeader} />
 
                 {isLeader && <DeleteCampaign campaign={campaign} memberCount={(members ?? []).length} />}
               </>
             )}
-
-            {tab === 'territory' && <TerritoryTab campaignId={campaign.id} />}
           </>
         )}
       </main>

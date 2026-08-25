@@ -939,7 +939,9 @@ export const strings = {
   },
   campaign: {
     title: 'Campaign',
-    logTab: 'Log',
+    activityTab: 'Activity',
+    settingsTab: 'Settings',
+    settingsSection: 'Campaign settings',
     rulesTab: 'Campaign Rules',
     startTitle: 'Start a Campaign',
     startHint: "Set this up once — you can change it later. Battles you commit from the Post-Battle Sequence will log here automatically.",
@@ -1139,7 +1141,8 @@ export const strings = {
       section: 'Recent activity',
       empty: 'Nothing has happened here yet.',
       battle: (warband: string, result: string) => `${warband} — ${result}`,
-      battleVs: (opponents: string) => `vs ${opponents}`,
+      battleVs: (warband: string, opponents: string, result: string) =>
+        `${warband} vs ${opponents} — ${result}`,
       log: (author: string) => `${author || 'A player'} added a log entry`,
       logTitle: (title: string) => `“${title}”`,
       // The title already names the game night; a prefix would double it.

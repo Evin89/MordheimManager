@@ -62,8 +62,9 @@ export default function CampaignActivityFeed({ campaign }: { campaign: Campaign 
         id: `battle-${b.id}`,
         timestamp: b.date,
         kind: 'battle',
-        title: t.battle(warband, result),
-        sub: opponents ? t.battleVs(opponents) : undefined,
+        // Who fought whom in the headline; the scenario they played beneath it.
+        title: opponents ? t.battleVs(warband, opponents, result) : t.battle(warband, result),
+        sub: b.scenario || undefined,
       });
     }
 
