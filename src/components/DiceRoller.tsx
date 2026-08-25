@@ -19,8 +19,8 @@ function DieFace({ value, rolling, wide }: { value: number; rolling: boolean; wi
 }
 
 // How long the dice tumble before settling, and how fast the faces cycle.
-const ROLL_MS = 520;
-const TICK_MS = 60;
+const ROLL_MS = 2500;
+const TICK_MS = 70;
 
 /**
  * The dice roller itself, without a screen around it (spec §20.1).
@@ -114,8 +114,8 @@ export default function DiceRoller({ compact = false }: { compact?: boolean }) {
     }
 
     // The rattle plays whether or not the dice tumble — it's sound, not motion,
-    // and it's gated by its own mute toggle instead.
-    playDiceRoll(result.rolls.length);
+    // and it's gated by its own mute toggle instead. Spread over the tumble.
+    playDiceRoll(result.rolls.length, ROLL_MS);
 
     // No tumble under reduced motion, and none for flashing dice either — land
     // straight on the result (§5.4).
@@ -167,11 +167,17 @@ export default function DiceRoller({ compact = false }: { compact?: boolean }) {
               setSoundOn(next);
               setDiceSoundEnabled(next);
             }}
-            aria-pressed={soundOn}
-            aria-label={soundOn ? strings.dice.soundOff : strings.dice.soundOn}
-            className="min-h-[36px] min-w-[36px] flex items-center justify-center rounded-md text-bone-400 hover:text-bone-200"
+            role="switch"
+            aria-checked={soundOn}
+            aria-label={strings.dice.soundToggle}
+            className={`min-h-[36px] px-2.5 flex items-center gap-1.5 rounded-md border text-xs font-semibold ${
+              soundOn
+                ? 'border-ember-500/60 text-ember-400'
+                : 'border-ink-700 text-bone-400 hover:text-bone-200'
+            }`}
           >
-            {soundOn ? <Volume2 size={18} aria-hidden="true" /> : <VolumeX size={18} aria-hidden="true" />}
+            {soundOn ? <Volume2 size={16} aria-hidden="true" /> : <VolumeX size={16} aria-hidden="true" />}
+            <span>{soundOn ? strings.dice.soundStateOn : strings.dice.soundStateOff}</span>
           </button>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -276,7 +282,9 @@ export default function DiceRoller({ compact = false }: { compact?: boolean }) {
         {history.length === 0 ? (
           <p className="text-bone-300 text-sm">{strings.dice.historyEmpty}</p>
         ) : (
-          <ul className="space-y-1">
+          // Capped and scrollable, so a long session's rolls don't push the
+          // roll button (or the overlay's edges) off the screen.
+          <ul className="space-y-1 max-h-[40vh] overflow-y-auto pr-1">
             {history.map((r) => (
               <li
                 key={r.id}

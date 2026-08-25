@@ -55,7 +55,7 @@ export default function DiceButton() {
             onClick={() => setOpen(false)}
             className="absolute inset-0 w-full h-full bg-ink-950/70 backdrop-blur-sm cursor-default"
           />
-          <div className="relative w-full max-w-sm rounded-xl bg-ink-900 border border-ink-800 shadow-2xl p-4">
+          <div className="relative w-full max-w-sm max-h-[85vh] overflow-y-auto rounded-xl bg-ink-900 border border-ink-800 shadow-2xl p-4">
             <div className="flex items-center justify-between gap-3 mb-3">
               <h2 className="text-bone-100 font-semibold">{strings.dice.title}</h2>
               <button

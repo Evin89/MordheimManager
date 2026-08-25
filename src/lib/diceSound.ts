@@ -58,19 +58,22 @@ export function setDiceSoundEnabled(on: boolean): void {
   }
 }
 
-/** Plays the rattle for a roll of `diceCount` dice. No-op when muted or when the
- * browser has no audio. */
-export function playDiceRoll(diceCount: number): void {
+/** Plays the rattle for a roll of `diceCount` dice across the tumble window
+ * (`durationMs`). No-op when muted or when the browser has no audio. */
+export function playDiceRoll(diceCount: number, durationMs = 500): void {
   if (!diceSoundEnabled()) return;
   const c = context();
   if (!c) return;
 
   const buf = noiseBuffer(c);
-  const clacks = Math.min(12, 3 + diceCount * 2);
+  const spread = (durationMs / 1000) * 0.92; // rattle over most of the tumble
+  // ~11 clacks a second, plus a little per die; capped so a long roll of many
+  // dice can't schedule an absurd number of nodes.
+  const clacks = Math.min(48, Math.round(spread * 11) + diceCount * 2);
   const now = c.currentTime;
 
   for (let i = 0; i < clacks; i += 1) {
-    const t = now + Math.random() * 0.45; // spread across the ~0.5s tumble
+    const t = now + Math.random() * spread;
     const dur = 0.025 + Math.random() * 0.03;
 
     const src = c.createBufferSource();
