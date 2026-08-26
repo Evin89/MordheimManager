@@ -14,7 +14,7 @@ This document started as a design brief written before any code existed. It is n
 
 **Built and deployed:** milestones 1–6, the v2 account/campaign work (§8), the Rulebook design language (§5) with a shared UI kit and self-hosted fonts, and the shared-campaign screens. **49 warband lists** (20 curated + 27 imported from mordheimer.net) with warband-specific skill lists, **30 spell/prayer/ritual lists**, the full post-battle wizard (with the exploration roller), trading post, rules browser, public gallery, printable roster sheet, and multi-campaign membership.
 
-Most of the feature-expansion block has since shipped too: the campaign-collaboration set (§17, §19.1/§19.3 — territory, narrative log, awards/rivalries, RSVPs, announcements, plus a campaign activity feed and end-of-campaign recap), roster/model depth (§18), all of §20 Utility (dice roller with tumble + sound, comparison, afford-filter, nav tour), the §21 bigger swings (per-model photos, custom warbands, scenario generator), the admin analytics DB layer with the split admin back-end (§23, §4.9 revised), shareable warband cards, in-battle injury/rout rolls, a per-warband legality check, hand-editing of skills/spells/advances, a Discord community link (§4.10) and a static landing page (§4.11). Still unbuilt: gallery comments (§19.2), push notifications (§19.4), PostHog (§23.7), and AI battle reports.
+Most of the feature-expansion block has since shipped too: the campaign-collaboration set (§17, §19.1/§19.3 — territory, narrative log, awards/rivalries, RSVPs, announcements, plus a campaign activity feed and end-of-campaign recap), roster/model depth (§18), all of §20 Utility (dice roller with tumble + sound, comparison, afford-filter, nav tour), the §21 bigger swings (per-model photos, custom warbands, scenario generator), the admin analytics DB layer with the split admin back-end (§23, §4.9 revised), shareable warband cards, in-battle injury/rout rolls, a per-warband legality check, hand-editing of skills/spells/advances, a Discord community link (§4.10), a static landing page (§4.11) and the privacy-scoped PostHog client (§23.7, its reverse-proxy still pending). Still unbuilt: gallery comments (§19.2), push notifications (§19.4), and AI battle reports.
 
 ### 0.1 Conflict register
 
@@ -1860,18 +1860,18 @@ Done so far: per-model photos (§21.1, migration 0015), all of §20 Utility (dic
 
 ---
 
-## 23. Admin analytics & growth insight ⚠️ (DB-derived layer built; PostHog deferred)
+## 23. Admin analytics & growth insight ⚠️ (DB-derived layer built; PostHog client shipped, reverse-proxy pending)
 
 _Renumbered from the drafted §17 because the feature-expansion block (§17–22) landed first; the one dangling "§17" reference in §16 (which meant §4.9's report button) has been fixed. This is a top-level section in the shape of §11/§13 — it carries a data model, migrations and a build order, not just a screen description. The screen work in §23.5 extends the existing admin back-end at §4.9._
 
-**Status:** the DB-derived layer (§23.1–§23.6) is **built** — migration 0025 (acquisition capture, the extended `admin_stats`, the funnel/cohort/activity/acquisition RPCs, indexes) and the admin growth panels, now living on `/admin/overview` (§4.9 revised). §23.7 (PostHog) remains deferred; §23.8's tagged-links step is external link hygiene. The rest is the as-built record.
+**Status:** the DB-derived layer (§23.1–§23.6) is **built** — migration 0025 (acquisition capture, the extended `admin_stats`, the funnel/cohort/activity/acquisition RPCs, indexes) and the admin growth panels, now living on `/admin/overview` (§4.9 revised). §23.7 (PostHog) now has its **client-side integration built** — privacy-scoped, direct-to-host — with the Cloudflare reverse-proxy the one remaining piece; §23.8's tagged-links step is external link hygiene. The rest is the as-built record.
 
 The app crossed into organic growth — a Discord-driven influx (11 users in 6 days, all word-of-mouth). The admin screen (§4.9, `admin_stats()`) answers **how much exists**: players, warbands, campaigns, battles, a 30-day signup series, warband-type distribution. It cannot answer the two questions growth actually raises: **where do users come from, and where do new users stall or leave.**
 
 Two layers, and the order matters:
 
 - **§23.1–§23.6 — DB-derived insight.** Everything here is aggregate SQL over tables the app already owns, in the same `SECURITY DEFINER`, admin-gated family as `admin_stats()`. No third party, no bundle cost, no new privacy surface. **Build this now.**
-- **§23.7 — Behavioural analytics (PostHog). Deferred.** It answers only what SQL genuinely can't — session-level funnels, replay, retention curves without hand-maintained queries. The decision and integration shape are captured so they aren't relitigated, but nothing ships until the DB layer is in.
+- **§23.7 — Behavioural analytics (PostHog). Client built (proxy pending).** It answers only what SQL genuinely can't — session-level funnels, replay, retention curves without hand-maintained queries. Held until the DB layer was in; the client-side integration has since shipped, privacy-scoped and direct-to-host, with the Cloudflare reverse-proxy the remaining step.
 
 **Principle** (an extension of §3.3's discipline to metrics): derive from owned data first; reach for a third-party processor only for questions the database cannot answer. A metric computed from your own rows is verifiable and free; one shipped to an external tool is neither.
 
@@ -2040,21 +2040,24 @@ Reuse the existing chart path rather than adding a charting dependency — bundl
 
 The §4.9 exclusions hold without exception: no email addresses, no roster data jsonb, no BTB objectives, no per-user row access. Everything here is counts and aggregates. Acquisition channel is the one new per-user field and it is admin-aggregate-only, never surfaced to the user or to other members. Owner-only objectives are the whole reason that table is separate (§8.3); an analytics feature that reads them would undo it.
 
-### 23.7 Deferred — behavioural analytics (PostHog) ◻️
+### 23.7 Behavioural analytics (PostHog) — client shipped ✅ (reverse-proxy pending ⚠️)
 
-Captured so the decision survives. Not built; build §23.1–§23.6 first.
+The client-side integration is built and privacy-scoped; the Cloudflare reverse-proxy (below) is the one deliberately-deferred piece. Configured by `VITE_POSTHOG_KEY` / `VITE_POSTHOG_HOST` and a no-op in every build when they're unset — a dev or self-host without a project just runs, nothing throws.
 
 **Why it's a real tool and not a duplicate.** PostHog answers what the DB layer structurally can't: session-level funnels, where in a flow a user hesitates or rage-clicks, retention curves without hand-maintained SQL, and session replay to actually watch a confused new user. It is a different question from "how many rows exist".
 
-**Why it's deferred, not declined.** At this scale cost is a non-issue — the free tier is ~1M analytics events and thousands of session replays per month. The real costs are specific to this project:
+**As built — one narrow, enforced surface.** `src/lib/posthog.ts` is the whole surface through which telemetry can leave the app, and it enforces the shape rather than trusting each call site — the reverse of the PostHog setup wizard's default of arbitrary `posthog.capture()` calls on a default export:
 
-- **Bundle.** `posthog-js` is a non-trivial addition to a bundle already over Vite's warning (§16). Load it lazily / off the first-paint path, and measure the delta with `vite-bundle-visualizer` before committing.
-- **Privacy surface.** The gallery is anon-readable (§8.1) and the community is heavily European, so any client-side tracker touches GDPR. Use EU cloud for data residency and cookieless mode (or a light consent) to likely avoid a banner.
-- **A third-party processor seeing app traffic.** Scope autocapture so warband names, GW-sourced content, and any PII never leave the app — §3.3's IP discipline applied to telemetry. Anonymous IDs and event names only.
+- **Off the first-paint bundle (§16).** `posthog-js` loads via a dynamic `import()` — its own chunk — triggered from a post-paint effect (the first SPA pageview via `usePageviews`), never during render.
+- **Anonymous, event-names-only (§3.3 applied to telemetry).** `autocapture: false`, session replay off, manual pageviews carrying the **path only** (the query string is stripped so a `?join=…` can't ride along), `person_profiles: 'identified_only'`, `localStorage` persistence (no tracking cookie), `respect_dnt`, and a hard no-op under Do-Not-Track or demo mode. Identify is by the **opaque Supabase user id with zero properties** — never the email or display name the wizard's `personProperties` attached, which was the one genuine privacy defect it shipped and is now removed.
+- **A closed event union.** Nine curated events (`warband_created`, `battle_committed`, `campaign_created`, `campaign_joined`, `campaign_selected`, `campaign_invite_shared`, `warband_campaign_assignment_changed`, `warband_visibility_changed`, `issue_report_submitted`) with scrubbed properties — enums, counts and booleans, never a name or free text. A typo or a casually-added event is a compile error, not silent drift.
+- **A `before_send` backstop.** Runs on every outgoing event: strips query strings from the URL autoprops PostHog attaches to *everything*, and — because error tracking is enabled (`capture_exceptions`, console errors excluded) — redacts exception message text while keeping the error type and stack, which are code, not data.
 
-**Why it slots in cleanly here.** The Cloudflare Worker already serving the landing page and per-roster OG meta is exactly the place to reverse-proxy PostHog: requests hit Cloudflare first, then PostHog, which hides the endpoint from ad blockers, keeps ingestion first-party, and (with EU endpoints) keeps residency intact. Use a non-obvious proxy path — not `/analytics`, `/ingest`, `/track`, which blockers catch. Set per-product billing caps as a backstop even on the free tier.
+This realises the original scope: pageviews + named product events mirroring the §23.2 funnel, reconcilable against the DB funnel, and no firehose of autocaptured clicks — event discipline is what keeps the free tier free. (Names landed as `campaign_joined`/`campaign_selected` rather than the drafted `campaign_entered`.)
 
-**Scope, when it's built:** pageviews + a handful of named product events mirroring the §23.2 funnel (`warband_created`, `campaign_entered`, `battle_committed`), so the DB funnel and the behavioural funnel can be reconciled. Not a firehose of autocaptured clicks — event discipline is what keeps the free tier free.
+**Still pending — the reverse-proxy.** Ingestion currently points directly at the configured host, which ad blockers can catch and which pins residency to whichever region the host is in. The Cloudflare Worker already serving the landing page and per-roster OG meta is exactly the place to reverse-proxy PostHog: requests hit Cloudflare first, then PostHog, hiding the endpoint from blockers, keeping ingestion first-party, and (with EU endpoints) keeping residency intact. Use a non-obvious proxy path — not `/analytics`, `/ingest`, `/track`, which blockers catch. Set per-product billing caps as a backstop even on the free tier.
+
+**Privacy surface / residency (open).** The gallery is anon-readable (§8.1) and the community is heavily European, so any client-side tracker touches GDPR. The current posture — anonymous, cookieless (`localStorage`, no cookie), DNT-respecting, PII-free — is the lightweight path that likely avoids a consent banner; the EU-vs-US host choice (residency) is settled by which `VITE_POSTHOG_HOST` is configured and rides on the reverse-proxy work above.
 
 ### 23.8 Build order
 
@@ -2063,4 +2066,5 @@ Captured so the decision survives. Not built; build §23.1–§23.6 first.
 3. ◻️ **The RPCs (§23.3)** — funnel, cohorts, activity series, rolling counts, acquisition breakdown. Add the §23.3 indexes in the same migration.
 4. ◻️ **Admin panels (§23.5)** — growth, funnel, acquisition, activity.
 5. ◻️ **Fold into the §13 scale test** — the cohort and funnel queries are `group by` over the whole user table, exactly the kind of thing that's instant at 50 rows and slow at 5,000. Measure them on the seeded dataset (§13.2) before assuming they hold.
-6. ◻️ **PostHog (§23.7)** — only after the above, and only if the DB funnel proves it needs the behavioural depth.
+6. ✅ **PostHog client (§23.7)** — shipped after the above: privacy-scoped, direct-to-host, a closed nine-event union plus pageviews.
+7. ◻️ **PostHog reverse-proxy (§23.7)** — route ingestion through the Cloudflare Worker on a non-obvious path; settles the ad-blocker and residency questions.
