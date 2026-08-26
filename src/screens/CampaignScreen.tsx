@@ -393,6 +393,10 @@ function CampaignAwards({ battles, standings }: { battles: BattleRecord[]; stand
     mostBattlesValue: strings.campaign.awardMostBattlesValue,
     highestRating: strings.campaign.awardHighestRating,
     highestRatingValue: strings.campaign.awardHighestRatingValue,
+    mostModelsLost: strings.campaign.awardMostModelsLost,
+    mostModelsLostValue: strings.campaign.awardMostModelsLostValue,
+    mostKilled: strings.campaign.awardMostKilled,
+    mostKilledValue: strings.campaign.awardMostKilledValue,
   });
 
   return (

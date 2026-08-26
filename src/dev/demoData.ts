@@ -290,6 +290,8 @@ export function generateDemoDatabase(seed = 20260802): DemoDatabase {
             wyrdstoneFound: Math.floor(rng() * 4),
             goldChange: Math.floor(rng() * 120) - 20,
             casualtiesSummary: pick(rng, CASUALTIES),
+            modelsLost: Math.floor(rng() * 3),
+            enemiesTakenOut: Math.floor(rng() * 5),
             notes: '',
           },
         });

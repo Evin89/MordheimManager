@@ -67,11 +67,10 @@ function longestWinStreak(battles: BattleRecord[]): { warbandId: string; streak:
 /**
  * Every award that currently has a holder, in a stable order.
  *
- * "Bloodiest" (most models lost) is deliberately absent: it needs a structured
- * casualty count, and `casualtiesSummary` is free text today (§3.1). Counting
- * models out of a prose sentence would be a guess dressed as a statistic, so the
- * award waits for the data rather than inventing it — the spec's own open
- * question, resolved by leaving it out.
+ * The two attrition awards — most models lost, most enemies felled — read the
+ * structured `modelsLost` / `enemiesTakenOut` counts the post-battle wizard now
+ * records, rather than trying to parse a number out of the free-text casualty
+ * summary. Records from before those fields existed simply read as 0.
  */
 export function computeAwards(
   battles: BattleRecord[],
@@ -85,6 +84,10 @@ export function computeAwards(
     mostBattlesValue: (n: number) => string;
     highestRating: string;
     highestRatingValue: (n: number) => string;
+    mostModelsLost: string;
+    mostModelsLostValue: (n: number) => string;
+    mostKilled: string;
+    mostKilledValue: (n: number) => string;
   },
 ): CampaignAward[] {
   const names = nameLookup(standings);
@@ -137,6 +140,30 @@ export function computeAwards(
       holderWarbandId: rated.warbandId!,
       holderWarbandName: rated.warbandName!,
       value: strings.highestRatingValue(rated.rating),
+    });
+  }
+
+  // Now that battles carry structured counts (§3.1 resolved), the two attrition
+  // awards the summary used to make impossible: models lost, and enemies felled.
+  const lost = topBySum(battles, (b) => b.modelsLost ?? 0);
+  if (lost && named(lost.warbandId)) {
+    awards.push({
+      id: 'most-models-lost',
+      title: strings.mostModelsLost,
+      holderWarbandId: lost.warbandId,
+      holderWarbandName: named(lost.warbandId),
+      value: strings.mostModelsLostValue(lost.total),
+    });
+  }
+
+  const killed = topBySum(battles, (b) => b.enemiesTakenOut ?? 0);
+  if (killed && named(killed.warbandId)) {
+    awards.push({
+      id: 'most-killed',
+      title: strings.mostKilled,
+      holderWarbandId: killed.warbandId,
+      holderWarbandName: named(killed.warbandId),
+      value: strings.mostKilledValue(killed.total),
     });
   }
 

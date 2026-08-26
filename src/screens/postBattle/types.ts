@@ -83,6 +83,8 @@ export type PostBattleDraft = {
   result: BattleResult;
   date: string;
   underdogBonus: number;
+  /** Enemy models this warband took out of action — self-reported, not derivable. */
+  enemiesTakenOut: number;
   notes: string;
   heroes: Record<string, HeroBattleState>;
   henchmenGroups: Record<string, HenchmenBattleState>;

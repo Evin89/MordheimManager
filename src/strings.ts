@@ -785,6 +785,8 @@ export const strings = {
       dateLabel: 'Date',
       underdogLabel: 'Underdog bonus (per surviving model)',
       underdogHint: 'From the rulebook\'s underdog table: 0 if the rating gap is 0-50, +1 for 51-75, +2 for 76-100, +3 for 101-150, +4 for 151-300, +5 for 301+.',
+      enemiesTakenOutLabel: 'Enemy models taken out',
+      enemiesTakenOutHint: 'How many enemy models your warband took out of action this battle. Powers the campaign "Slayer" award; leave at 0 if you\'d rather not track it.',
       notesLabel: 'Battle notes',
     },
     injuries: {
@@ -1135,6 +1137,10 @@ export const strings = {
     awardMostBattlesValue: (n: number) => `${n} battle${n === 1 ? '' : 's'} fought`,
     awardHighestRating: 'Top Dogs',
     awardHighestRatingValue: (n: number) => `rating ${n}`,
+    awardMostModelsLost: 'Bloodiest',
+    awardMostModelsLostValue: (n: number) => `${n} model${n === 1 ? '' : 's'} lost`,
+    awardMostKilled: 'Slayer',
+    awardMostKilledValue: (n: number) => `${n} taken out`,
     awardsEmpty: 'Awards appear once a few battles have been fought.',
     // §17.4 (manual) — honours the leader grants by hand, beside the computed
     // "Campaign awards" badges above. Named "Honours" so the two don't collide.

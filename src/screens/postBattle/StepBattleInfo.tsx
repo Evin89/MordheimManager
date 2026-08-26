@@ -112,6 +112,20 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
       </div>
 
       <div className="space-y-2">
+        <label className="block text-bone-200 text-sm font-semibold" htmlFor="enemies-taken-out">
+          {strings.postBattle.battleInfo.enemiesTakenOutLabel}
+        </label>
+        <NumberInput
+          id="enemies-taken-out"
+          min={0}
+          value={draft.enemiesTakenOut}
+          onChange={(enemiesTakenOut) => updateDraft({ enemiesTakenOut })}
+          className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
+        />
+        <p className="text-bone-300 text-xs">{strings.postBattle.battleInfo.enemiesTakenOutHint}</p>
+      </div>
+
+      <div className="space-y-2">
         <label className="block text-bone-200 text-sm font-semibold" htmlFor="battle-notes">
           {strings.postBattle.battleInfo.notesLabel}
         </label>

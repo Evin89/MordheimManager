@@ -14,4 +14,6 @@ export const AWARD_ART: Record<string, string> = {
   'most-wyrdstone': '/awards/award_most_wyrdstone_found.png',
   'longest-streak': '/awards/award_longest_winning_streak.png',
   'highest-rating': '/awards/award_highest_ranking.png',
+  'most-models-lost': '/awards/award_most_models_lost.png',
+  'most-killed': '/awards/award_most_killed.png',
 };

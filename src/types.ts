@@ -172,6 +172,13 @@ export type BattleRecord = {
   wyrdstoneFound: number;
   goldChange: number;
   casualtiesSummary: string;
+  /** Own models that died this battle (heroes + henchmen + hired swords) — the
+   * structured count behind the "most models lost" award. Optional: records from
+   * before the field existed have no count, read as 0. */
+  modelsLost?: number;
+  /** Enemy models this warband took out of action — self-reported in the
+   * post-battle wizard, behind the "most kills" award. Optional, as above. */
+  enemiesTakenOut?: number;
   notes: string;
 };
 

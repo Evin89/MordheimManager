@@ -128,6 +128,7 @@ export function createInitialDraft(warband: Warband): PostBattleDraft {
     result: 'win',
     date: todayIso(),
     underdogBonus: 0,
+    enemiesTakenOut: 0,
     notes: '',
     heroes,
     henchmenGroups,
@@ -401,6 +402,16 @@ export function applyDraftToWarband(
   if (deadHenchmenSummaries.length > 0) casualtiesParts.push(`Henchmen lost: ${deadHenchmenSummaries.join(', ')}`);
   if (removedSwordNames.length > 0) casualtiesParts.push(`Hired Swords lost: ${removedSwordNames.join(', ')}`);
 
+  // Deaths only — the structured mirror of the summary above: dead heroes, dead
+  // henchmen, and hired swords that fell (not those dropped for unpaid upkeep).
+  // Captured/retired heroes leave the roster but aren't casualties, so they don't count.
+  let modelsLost = 0;
+  for (const state of Object.values(draft.heroes)) if (state.resultingStatus === 'dead') modelsLost++;
+  for (const state of Object.values(draft.henchmenGroups)) modelsLost += state.diedCount;
+  for (const state of Object.values(draft.hiredSwords)) {
+    if (state.removed && state.removalReason === 'diedInBattle') modelsLost++;
+  }
+
   const battleRecord: BattleRecord = {
     id: generateId(),
     warbandId: warband.id,
@@ -415,6 +426,8 @@ export function applyDraftToWarband(
     wyrdstoneFound: draft.wyrdstoneFound,
     goldChange,
     casualtiesSummary: casualtiesParts.join(' · ') || 'No casualties',
+    modelsLost: modelsLost || undefined,
+    enemiesTakenOut: draft.enemiesTakenOut || undefined,
     notes: [draft.notes, draft.exploration.resolved?.note].filter(Boolean).join('\n'),
   };
 
