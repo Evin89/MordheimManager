@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import posthog from '../lib/posthog';
+import { capture } from '../lib/posthog';
 import { strings } from '../strings';
 
 type IconProps = { className?: string };
@@ -57,7 +57,7 @@ export default function InviteShareButtons({
   async function copyForDiscord() {
     try {
       await navigator.clipboard.writeText(discordMessage);
-      posthog.capture('campaign_invite_shared', { channel: 'discord' });
+      void capture('campaign_invite_shared', { channel: 'discord' });
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch {
@@ -71,7 +71,7 @@ export default function InviteShareButtons({
         href={`https://wa.me/?text=${encodeURIComponent(message)}`}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={() => posthog.capture('campaign_invite_shared', { channel: 'whatsapp' })}
+        onClick={() => void capture('campaign_invite_shared', { channel: 'whatsapp' })}
         className={BUTTON_CLASSES}
       >
         <WhatsAppIcon className="h-5 w-5 text-[#25D366]" />

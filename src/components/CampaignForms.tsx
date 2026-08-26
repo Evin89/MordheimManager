@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import posthog from '../lib/posthog';
+import { capture } from '../lib/posthog';
 import DisclosureChevron from './DisclosureChevron';
 import { strings } from '../strings';
 import { useCreateCampaignMutation, useJoinCampaignMutation } from '../hooks/useCampaign';
@@ -27,7 +27,7 @@ export function JoinCampaignForm({ title, compact = false }: { title: string; co
     setJoining(false);
     if (error) setJoinError(error);
     else {
-      posthog.capture('campaign_joined');
+      void capture('campaign_joined');
       setCode('');
     }
   }
@@ -100,7 +100,7 @@ export function CreateCampaignForm({ title, hint, compact = false }: { title: st
 
   function handleCreate() {
     createCampaign(draftName.trim() || 'My Campaign', draftUsesBtb, () => {
-      posthog.capture('campaign_created', { uses_btb: draftUsesBtb });
+      void capture('campaign_created', { uses_btb: draftUsesBtb });
     });
   }
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import posthog from '../lib/posthog';
+import { capture } from '../lib/posthog';
 import DisclosureChevron from './DisclosureChevron';
 import { useAuth } from '../auth/AuthProvider';
 import { insertIssueReport } from '../api/issues';
@@ -52,7 +52,7 @@ export default function ReportIssueButton() {
         appVersion: __APP_VERSION__,
         userAgent: navigator.userAgent,
       });
-      posthog.capture('issue_report_submitted', {
+      void capture('issue_report_submitted', {
         path: location.pathname,
         signed_in: Boolean(user),
       });

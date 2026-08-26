@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import posthog from '../lib/posthog';
+import { capture } from '../lib/posthog';
 import { CreateCampaignForm, JoinCampaignForm } from '../components/CampaignForms';
 import { Button } from '../components/ui';
 import { strings } from '../strings';
@@ -111,7 +111,7 @@ export default function MyCampaignsScreen() {
 
   function open(campaignId: string) {
     setActiveCampaign(campaignId);
-    posthog.capture('campaign_selected');
+    void capture('campaign_selected');
     navigate('/campaign');
   }
 

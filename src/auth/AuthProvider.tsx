@@ -1,6 +1,6 @@
 import { Session, User } from '@supabase/supabase-js';
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
-import posthog from '../lib/posthog';
+import { identifyUser, resetAnalytics } from '../lib/posthog';
 import { supabase } from '../lib/supabaseClient';
 import { isDemoMode, setDemoMode } from '../dev/demoMode';
 import { demoViewer } from '../dev/demoApi';
@@ -47,14 +47,6 @@ function demoSession(): Session {
   return { access_token: 'demo', user } as unknown as Session;
 }
 
-function personProperties(user: User): Record<string, string> {
-  const displayName = user.user_metadata.display_name;
-  return {
-    ...(user.email ? { email: user.email } : {}),
-    ...(typeof displayName === 'string' ? { name: displayName } : {}),
-  };
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(() =>
     isDemoMode() ? demoSession() : null,
@@ -76,7 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (!user) {
       if (identifiedUserId.current) {
-        posthog.reset();
+        resetAnalytics();
         identifiedUserId.current = null;
       }
       return;
@@ -85,8 +77,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (identifiedUserId.current === user.id) return;
 
     // A direct account switch must not retain the previous person's identity.
-    if (identifiedUserId.current) posthog.reset();
-    posthog.identify(user.id, personProperties(user));
+    if (identifiedUserId.current) resetAnalytics();
+    // By opaque id only — never the email or display name (§23.7 / §4.9).
+    void identifyUser(user.id);
     identifiedUserId.current = user.id;
   }, [session]);
 
@@ -132,7 +125,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Signing out of the demo account means leaving demo mode — there is no
     // Supabase session to end, and reloading is how the flag is applied.
     if (isDemoMode()) {
-      posthog.reset();
+      resetAnalytics();
       identifiedUserId.current = null;
       setDemoMode(false);
       return;

@@ -239,6 +239,13 @@ function AppShell() {
   );
 }
 
+/** Emits a `$pageview` on each route change. Rendered inside the router so it
+ * can read the location; returns nothing. */
+function RouteAnalytics() {
+  usePageviews();
+  return null;
+}
+
 export default function App() {
   return (
     // The whole app is mounted at /app, so the bare domain is free to be the
@@ -248,6 +255,7 @@ export default function App() {
     // only things *outside* the router (the Supabase auth redirect, the PWA
     // start_url, the landing's own links) name /app explicitly.
     <BrowserRouter basename="/app">
+      <RouteAnalytics />
       <Suspense fallback={<RouteFallback />}>
         <Routes>
         {/* Auth screens render outside the app shell — no nav on the sign-in flow. */}
