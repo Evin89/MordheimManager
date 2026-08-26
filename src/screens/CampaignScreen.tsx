@@ -47,6 +47,7 @@ import { CampaignWarbandRow } from '../api/warbands';
 import { useObjectiveQuery, useSaveObjectiveMutation } from '../hooks/useObjective';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { computeAwards } from '../lib/awards';
+import { AWARD_ART } from '../lib/awardArt';
 import { computeRivalries } from '../lib/rivalries';
 import { useWarbandList } from '../hooks/useWarbands';
 import objectivesData from '../data/btb/objectives.json';
@@ -401,13 +402,26 @@ function CampaignAwards({ battles, standings }: { battles: BattleRecord[]; stand
         <p className="text-bone-300 text-sm">{strings.campaign.awardsEmpty}</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {awards.map((award) => (
-            <div key={award.id} className="rounded-lg bg-ink-900 border border-ink-800 p-3">
-              <p className="text-ember-400 font-semibold text-sm">{award.title}</p>
-              <p className="text-bone-100 truncate">{award.holderWarbandName}</p>
-              <p className="text-bone-400 text-xs tabular-nums">{award.value}</p>
-            </div>
-          ))}
+          {awards.map((award) => {
+            // When a badge design exists (src/lib/awardArt.ts) it replaces the
+            // text title — the banner already names the award — and the holder
+            // and value sit beneath it. Awards without art keep the text card.
+            const art = AWARD_ART[award.id];
+            return (
+              <div
+                key={award.id}
+                className="rounded-lg bg-ink-900 border border-ink-800 p-3 flex flex-col items-center justify-center text-center gap-1"
+              >
+                {art ? (
+                  <img src={art} alt={award.title} loading="lazy" className="h-28 w-auto" />
+                ) : (
+                  <p className="text-ember-400 font-semibold text-sm">{award.title}</p>
+                )}
+                <p className="text-bone-100 font-semibold truncate max-w-full">{award.holderWarbandName}</p>
+                <p className="text-bone-400 text-xs tabular-nums">{award.value}</p>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
