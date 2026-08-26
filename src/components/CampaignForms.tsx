@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import posthog from '../lib/posthog';
 import DisclosureChevron from './DisclosureChevron';
 import { strings } from '../strings';
 import { useCreateCampaignMutation, useJoinCampaignMutation } from '../hooks/useCampaign';
@@ -25,7 +26,10 @@ export function JoinCampaignForm({ title, compact = false }: { title: string; co
     const error = await joinCampaign(code);
     setJoining(false);
     if (error) setJoinError(error);
-    else setCode('');
+    else {
+      posthog.capture('campaign_joined');
+      setCode('');
+    }
   }
 
   const field = (
@@ -94,6 +98,12 @@ export function CreateCampaignForm({ title, hint, compact = false }: { title: st
   const [draftName, setDraftName] = useState('My Campaign');
   const [draftUsesBtb, setDraftUsesBtb] = useState(false);
 
+  function handleCreate() {
+    createCampaign(draftName.trim() || 'My Campaign', draftUsesBtb, () => {
+      posthog.capture('campaign_created', { uses_btb: draftUsesBtb });
+    });
+  }
+
   const body = (
     <>
       <p className="text-bone-300 text-sm">{hint}</p>
@@ -114,7 +124,7 @@ export function CreateCampaignForm({ title, hint, compact = false }: { title: st
         />
         {strings.campaign.usesBtbLabel}
       </label>
-      <Button onClick={() => createCampaign(draftName.trim() || 'My Campaign', draftUsesBtb)}>
+      <Button onClick={handleCreate}>
         {strings.campaign.startButton}
       </Button>
     </>

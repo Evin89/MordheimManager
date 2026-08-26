@@ -6,6 +6,7 @@ import { useConnectionStatus } from './store/useConnectionStatus';
 import { missingConfig } from './lib/supabaseClient';
 import StartupError from './StartupError';
 import App from './App';
+import { initAnalytics } from './lib/posthog';
 import './index.css';
 
 function reportConnectionError(error: unknown) {
@@ -55,4 +56,14 @@ if (missingConfig.length > 0) {
       </QueryClientProvider>
     </React.StrictMode>,
   );
+
+  // Analytics loads after first paint, off the critical path (§23.7). It's a
+  // no-op unless a PostHog project is configured, so this costs nothing in dev
+  // or a self-host without one.
+  const startAnalytics = () => void initAnalytics();
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(startAnalytics);
+  } else {
+    window.setTimeout(startAnalytics, 2000);
+  }
 }

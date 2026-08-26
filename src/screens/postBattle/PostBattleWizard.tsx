@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import posthog from '../../lib/posthog';
 import BackHeader from '../../components/BackHeader';
 import { Button } from '../../components/ui';
 import { strings } from '../../strings';
@@ -93,6 +94,10 @@ export default function PostBattleWizard() {
       // an undoable warband rather than a battle with no matching roster change.
       await commitBattleWarband({ previous: warband, next: updatedWarband });
       await logBattle(battleRecord);
+      posthog.capture('battle_committed', {
+        result: battleRecord.result,
+        scenario_selected: Boolean(battleRecord.scenario),
+      });
       clearBattleSession(warband.id);
       navigate(`/warbands/${warband.id}`, { replace: true });
     } finally {

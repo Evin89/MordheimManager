@@ -1,5 +1,6 @@
 import { Session, User } from '@supabase/supabase-js';
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import posthog from '../lib/posthog';
 import { supabase } from '../lib/supabaseClient';
 import { isDemoMode, setDemoMode } from '../dev/demoMode';
 import { demoViewer } from '../dev/demoApi';
@@ -46,17 +47,48 @@ function demoSession(): Session {
   return { access_token: 'demo', user } as unknown as Session;
 }
 
+function personProperties(user: User): Record<string, string> {
+  const displayName = user.user_metadata.display_name;
+  return {
+    ...(user.email ? { email: user.email } : {}),
+    ...(typeof displayName === 'string' ? { name: displayName } : {}),
+  };
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(() =>
     isDemoMode() ? demoSession() : null,
   );
   const [loading, setLoading] = useState(!isDemoMode());
+  const identifiedUserId = useRef<string | null>(null);
 
   // §23.4 — stash any acquisition tag on the first app URL before it's lost to
   // in-app navigation, so it's still there when the user reaches /register.
   useEffect(() => {
     initAcquisitionCapture();
   }, []);
+
+  // Identifying at the auth boundary merges the anonymous session with the
+  // authenticated Supabase user and persists it for all later captures and
+  // errors. It also covers a returning user's restored session after refresh.
+  useEffect(() => {
+    const user = session?.user;
+
+    if (!user) {
+      if (identifiedUserId.current) {
+        posthog.reset();
+        identifiedUserId.current = null;
+      }
+      return;
+    }
+
+    if (identifiedUserId.current === user.id) return;
+
+    // A direct account switch must not retain the previous person's identity.
+    if (identifiedUserId.current) posthog.reset();
+    posthog.identify(user.id, personProperties(user));
+    identifiedUserId.current = user.id;
+  }, [session]);
 
   useEffect(() => {
     if (isDemoMode()) return;
@@ -100,6 +132,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Signing out of the demo account means leaving demo mode — there is no
     // Supabase session to end, and reloading is how the flag is applied.
     if (isDemoMode()) {
+      posthog.reset();
+      identifiedUserId.current = null;
       setDemoMode(false);
       return;
     }

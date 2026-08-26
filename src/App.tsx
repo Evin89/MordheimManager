@@ -9,6 +9,7 @@ import SideNav from './components/SideNav';
 import ConnectionBanner from './components/ConnectionBanner';
 import RequireAuth from './auth/RequireAuth';
 import { useRegisterCustomWarbands } from './hooks/useCustomWarbands';
+import { usePageviews } from './lib/usePageviews';
 import { strings } from './strings';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';

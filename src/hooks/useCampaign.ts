@@ -99,7 +99,8 @@ export function useCreateCampaignMutation() {
       queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });
     },
   });
-  return (name: string, usesBtb: boolean) => mutation.mutate({ name, usesBtb });
+  return (name: string, usesBtb: boolean, onSuccess?: () => void) =>
+    mutation.mutate({ name, usesBtb }, { onSuccess });
 }
 
 export function useSaveCampaignMutation() {

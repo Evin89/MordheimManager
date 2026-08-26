@@ -1,3 +1,4 @@
+import posthog from '../lib/posthog';
 import { strings } from '../strings';
 import { useMyCampaignsQuery } from '../hooks/useCampaign';
 import {
@@ -36,7 +37,14 @@ export default function WarbandSharingCard({ warbandId }: { warbandId: string })
             <label className="text-bone-300 text-sm">{strings.campaign.inCampaignLabel}</label>
             <select
               value={campaignId ?? ''}
-              onChange={(e) => setCampaign(warbandId, e.target.value || null)}
+              onChange={(e) => {
+                const nextCampaignId = e.target.value || null;
+                setCampaign(warbandId, nextCampaignId, () => {
+                  posthog.capture('warband_campaign_assignment_changed', {
+                    assigned_to_campaign: Boolean(nextCampaignId),
+                  });
+                });
+              }}
               className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
             >
               <option value="">{strings.campaign.notInCampaign}</option>
@@ -52,7 +60,12 @@ export default function WarbandSharingCard({ warbandId }: { warbandId: string })
             <label className="text-bone-300 text-sm">{strings.campaign.visibilityLabel}</label>
             <select
               value={visibility}
-              onChange={(e) => setVisibility(warbandId, e.target.value === 'public' ? 'public' : 'private')}
+              onChange={(e) => {
+                const nextVisibility = e.target.value === 'public' ? 'public' : 'private';
+                setVisibility(warbandId, nextVisibility, () => {
+                  posthog.capture('warband_visibility_changed', { visibility: nextVisibility });
+                });
+              }}
               className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
             >
               <option value="private">{strings.campaign.visibilityPrivate}</option>

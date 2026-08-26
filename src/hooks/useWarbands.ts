@@ -225,7 +225,8 @@ export function useSetWarbandCampaignMutation() {
     },
     onError: () => window.alert(strings.connection.lost),
   });
-  return (warbandId: string, campaignId: string | null) => mutation.mutate({ warbandId, campaignId });
+  return (warbandId: string, campaignId: string | null, onSuccess?: () => void) =>
+    mutation.mutate({ warbandId, campaignId }, { onSuccess });
 }
 
 export function useSetWarbandVisibilityMutation() {
@@ -237,7 +238,8 @@ export function useSetWarbandVisibilityMutation() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: warbandsKey(user?.id) }),
     onError: () => window.alert(strings.connection.lost),
   });
-  return (warbandId: string, visibility: WarbandVisibility) => mutation.mutate({ warbandId, visibility });
+  return (warbandId: string, visibility: WarbandVisibility, onSuccess?: () => void) =>
+    mutation.mutate({ warbandId, visibility }, { onSuccess });
 }
 
 /**

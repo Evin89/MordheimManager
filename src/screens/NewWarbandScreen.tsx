@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import posthog from '../lib/posthog';
 import BackHeader from '../components/BackHeader';
 import DisclosureChevron from '../components/DisclosureChevron';
 import { Button, TextField } from '../components/ui';
@@ -156,6 +157,10 @@ export default function NewWarbandScreen() {
       // Only navigate once the insert succeeded — the roster screen reads from
       // the server, so routing early would land on a "warband not found" redirect.
       await createWarbandOnServer(warband);
+      posthog.capture('warband_created', {
+        warband_type_id: definition.id,
+        quick_build: quickBuild,
+      });
       navigate(`/warbands/${warband.id}`, { replace: true });
     } catch {
       setError(strings.connection.lost);
