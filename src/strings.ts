@@ -1136,6 +1136,27 @@ export const strings = {
     awardHighestRating: 'Top Dogs',
     awardHighestRatingValue: (n: number) => `rating ${n}`,
     awardsEmpty: 'Awards appear once a few battles have been fought.',
+    // §17.4 (manual) — honours the leader grants by hand, beside the computed
+    // "Campaign awards" badges above. Named "Honours" so the two don't collide.
+    honours: {
+      section: 'Honours',
+      hint: 'Awards the campaign leader grants to a warband — Best Painted, MVP, and the like.',
+      empty: 'No honours granted yet.',
+      add: 'Grant an honour',
+      warbandLabel: 'Warband',
+      choosePlaceholder: 'Choose a warband…',
+      titleLabel: 'Award',
+      titlePlaceholder: 'e.g. Best Painted',
+      noteLabel: 'Note (optional)',
+      notePlaceholder: 'Why it was awarded',
+      grant: 'Grant',
+      granting: 'Granting…',
+      cancel: 'Cancel',
+      remove: 'Remove',
+      removeConfirm: (title: string) => `Remove the “${title}” honour?`,
+      granted: (date: string) => `Granted ${date}`,
+      unknownWarband: 'a warband no longer in the campaign',
+    },
     // §17.2 Rivalries — head-to-head from the shared battle log.
     activity: {
       section: 'Recent activity',
@@ -1149,6 +1170,8 @@ export const strings = {
       event: (title: string) => title,
       territory: (name: string) => `Territory claimed — ${name}`,
       territoryBy: (warband: string) => `held by ${warband}`,
+      honour: (title: string) => `Honour granted — ${title}`,
+      honourTo: (warband: string) => `to ${warband}`,
       announcement: 'Announcement pinned',
       more: (n: number) => `+ ${n} more`,
     },

@@ -4,6 +4,7 @@ import { useBattlesQuery, useCampaignWarbandsQuery } from '../hooks/useCampaign'
 import { useCampaignLogQuery } from '../hooks/useCampaignLog';
 import { useCampaignEventsQuery } from '../hooks/useEvents';
 import { useTerritoriesQuery } from '../hooks/useTerritories';
+import { useCampaignAwardsQuery } from '../hooks/useCampaignAwards';
 import { SectionHeading } from './ui';
 import { strings } from '../strings';
 
@@ -19,7 +20,7 @@ import { strings } from '../strings';
  * activity left out: they have no campaign-wide query yet, only per-event.
  */
 
-type Kind = 'battle' | 'log' | 'event' | 'announcement' | 'territory';
+type Kind = 'battle' | 'log' | 'event' | 'announcement' | 'territory' | 'honour';
 
 type FeedItem = {
   id: string;
@@ -35,6 +36,7 @@ const DOT: Record<Kind, string> = {
   event: 'bg-verdigris',
   announcement: 'bg-ember-400',
   territory: 'bg-bone-300',
+  honour: 'bg-ember-400',
 };
 
 const INITIAL_SHOWN = 12;
@@ -45,6 +47,7 @@ export default function CampaignActivityFeed({ campaign }: { campaign: Campaign 
   const { data: logEntries } = useCampaignLogQuery(campaign.id);
   const { data: events } = useCampaignEventsQuery(campaign.id);
   const { data: territories } = useTerritoriesQuery(campaign.id);
+  const { data: awards } = useCampaignAwardsQuery(campaign.id);
   const { data: campaignWarbands } = useCampaignWarbandsQuery(campaign.id);
 
   const [showAll, setShowAll] = useState(false);
@@ -105,6 +108,18 @@ export default function CampaignActivityFeed({ campaign }: { campaign: Campaign 
       });
     }
 
+    for (const award of awards ?? []) {
+      if (!award.createdAt) continue;
+      const holder = names.get(award.warbandId);
+      out.push({
+        id: `honour-${award.id}`,
+        timestamp: award.createdAt,
+        kind: 'honour',
+        title: t.honour(award.title),
+        sub: holder ? t.honourTo(holder) : undefined,
+      });
+    }
+
     if (campaign.pinnedAnnouncement && campaign.pinnedAnnouncementAt) {
       out.push({
         id: 'announcement',
@@ -116,7 +131,7 @@ export default function CampaignActivityFeed({ campaign }: { campaign: Campaign 
     }
 
     return out.sort((a, z) => z.timestamp.localeCompare(a.timestamp));
-  }, [battles, logEntries, events, territories, campaignWarbands, campaign, t]);
+  }, [battles, logEntries, events, territories, awards, campaignWarbands, campaign, t]);
 
   const shown = showAll ? items : items.slice(0, INITIAL_SHOWN);
 

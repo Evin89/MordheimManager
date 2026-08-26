@@ -1617,9 +1617,11 @@ Candidates, all derivable from `battles` plus `warbands.rating`:
 
 **Screen** — a small Campaign Awards card on the Standings tab, beside or above the table. A handful of badges, not a screen of its own, recomputed on every Standings load from the `battles` array already fetched.
 
-**No persistence:** an award is a snapshot of current standings, not an achievement earned and locked in, so nothing needs to survive a warband's stats changing later.
+**No persistence (for the computed badges):** a computed award is a snapshot of current standings, not an achievement earned and locked in, so nothing needs to survive a warband's stats changing later.
 
 ❓ **Open question** — "Bloodiest" needs `casualtiesSummary` to stop being free text before it can be computed honestly. Either drop it, or add a `casualtiesCount` number alongside the existing prose. Additive, with no migration of old rows needed: it defaults to null and simply does not participate until populated.
+
+**Manual honours (added later) ✅** — the computed badges answer "who leads on the numbers"; they can't record the things a group actually hands out at the table — Best Painted, MVP, a one-off title for the bloodiest night. So a second, *persisted* strand sits beside them: **honours a campaign leader grants to a warband by hand.** A new `campaign_awards` table (migration 0027 — `campaign_id`, `warband_id` ON DELETE CASCADE, `title`, optional `note`, `created_by`, `created_at`), on the same RLS shape as territories except **writes are leader-only** (`is_campaign_leader`, `created_by` pinned to the granter against spoofing); every member reads them. The `CampaignHonours` card renders on the Standings tab under the computed "Campaign awards" badges — leaders get a grant form (pick a warband, title, optional note) and a per-honour remove; members see the list read-only. A grant also surfaces in the campaign activity feed ("Honour granted — {title} · to {warband}"). Deliberately named **"Honours"** in the UI so the two award strands — computed snapshots vs. granted distinctions — don't collide. Files: `api/campaignAwards.ts`, `hooks/useCampaignAwards.ts`, `components/CampaignHonours.tsx`.
 
 ### 17.5 Cross-cutting notes
 

@@ -6,6 +6,7 @@ import InviteShareButtons from '../components/InviteShareButtons';
 import { NextEventBanner } from '../components/CampaignEvents';
 import CampaignActivityFeed from '../components/CampaignActivityFeed';
 import HouseRulesPanel from '../components/HouseRulesPanel';
+import CampaignHonours from '../components/CampaignHonours';
 import CampaignRecap from '../components/CampaignRecap';
 import SaveBar from '../components/SaveBar';
 import ConfirmByTyping from '../components/ConfirmByTyping';
@@ -1174,6 +1175,7 @@ export default function CampaignScreen() {
                   <StandingsTable rows={standings ?? []} />
                 </div>
                 <CampaignAwards battles={battles ?? []} standings={standings ?? []} />
+                <CampaignHonours campaign={campaign} isLeader={isLeader} />
                 <CampaignRivalries battles={battles ?? []} myWarbandIds={warbands.map((w) => w.id)} />
 
                 {/* Secret objectives are a player's own campaign progress, so

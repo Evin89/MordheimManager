@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-08-26",
+    "title": "Hand Out Honours",
+    "description": "Campaign leaders can now grant awards to warbands by hand — Best Painted, MVP, the bloodiest night's title, whatever your group hands out at the table. They live in a new Honours card on the campaign Standings tab, beside the automatic badges: pick a warband, name the award, add a note if you like. Every member sees them, and a grant shows up in the campaign's recent activity. Only the leader can grant or remove them."
+  },
+  {
     "date": "2026-08-24",
     "title": "Dice That Tumble",
     "description": "The dice roller now rolls. Tap Roll and one die per die rolled tumbles across the result — faces cycling for a moment before landing — so a handful of dice reads as a handful, not a bare total, and the running total counts along as they settle. It honours your reduced-motion setting: with that on, the dice land straight on the result without the tumble."

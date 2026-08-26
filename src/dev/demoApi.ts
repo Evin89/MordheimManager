@@ -1167,6 +1167,76 @@ export async function deleteTerritory(id: string): Promise<void> {
   if (i >= 0) territories.splice(i, 1);
 }
 
+// --- campaign awards (§17.4 manual) ----------------------------------------
+
+const campaignAwards: {
+  id: string;
+  campaignId: string;
+  warbandId: string;
+  title: string;
+  note: string;
+  createdAt: string;
+}[] = [];
+let awardsSeeded = false;
+
+// Seeded lazily against the demo campaign's actual warband ids (they're
+// generated, not fixed), so the two example honours point at real warbands.
+function seedAwards() {
+  if (awardsSeeded) return;
+  awardsSeeded = true;
+  const wbs = db().warbands.filter((w) => w.campaignId === 'demo-campaign-0');
+  if (wbs[0]) {
+    campaignAwards.push({
+      id: 'demo-award-1',
+      campaignId: 'demo-campaign-0',
+      warbandId: wbs[0].id,
+      title: 'Best Painted',
+      note: 'Voted at the summer meetup.',
+      createdAt: new Date(2026, 7, 10, 19, 0).toISOString(),
+    });
+  }
+  if (wbs[1]) {
+    campaignAwards.push({
+      id: 'demo-award-2',
+      campaignId: 'demo-campaign-0',
+      warbandId: wbs[1].id,
+      title: 'Bloodiest Battle',
+      note: '',
+      createdAt: new Date(2026, 7, 18, 20, 30).toISOString(),
+    });
+  }
+}
+
+export async function fetchCampaignAwards(campaignId: string) {
+  seedAwards();
+  return campaignAwards
+    .filter((a) => a.campaignId === campaignId)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .map((a) => ({ ...a }));
+}
+
+export async function createCampaignAward(
+  campaignId: string,
+  fields: { warbandId: string; title: string; note: string },
+) {
+  seedAwards();
+  const award = {
+    id: `demo-award-${campaignAwards.length + 1}`,
+    campaignId,
+    warbandId: fields.warbandId,
+    title: fields.title.trim(),
+    note: fields.note.trim(),
+    createdAt: new Date().toISOString(),
+  };
+  campaignAwards.push(award);
+  return { ...award };
+}
+
+export async function deleteCampaignAward(id: string): Promise<void> {
+  const i = campaignAwards.findIndex((a) => a.id === id);
+  if (i >= 0) campaignAwards.splice(i, 1);
+}
+
 // --- Custom warband types (§21.2) --------------------------------------------
 const customWarbandTypes: CustomWarbandType[] = (() => {
   const base = getWarbandDefinition('reiklanders');
