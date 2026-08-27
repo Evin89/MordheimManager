@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-08-27",
+    "title": "Never Miss a Game Night",
+    "description": "The app can now reach you between sessions. Turn on notifications in Settings and this device gets a reminder the day before any campaign game night you've said you're going to — and a heads-up when a campaign-mate logs a battle, so the standings never move behind your back. It's opt-in and per device; on iPhone or iPad, add the app to your Home Screen first for notifications to work. The in-app next-game-night banner is still there for everyone."
+  },
+  {
+    "date": "2026-08-27",
+    "title": "Comment on Shared Warbands",
+    "description": "Every warband in the public gallery now has a comments section. Signed in, you can leave a note on anyone's roster — a word on a nice conversion, a question about a loadout — and delete your own. Comments are for signed-in players (the gallery stays open to everyone for the rosters themselves), and anything out of line can be reported with a tap for review."
+  },
+  {
     "date": "2026-08-26",
     "title": "Hand Out Honours",
     "description": "Campaign leaders can now grant awards to warbands by hand — Best Painted, MVP, the bloodiest night's title, whatever your group hands out at the table. They live in a new Honours card on the campaign Standings tab, beside the automatic badges: pick a warband, name the award, add a note if you like. Every member sees them, and a grant shows up in the campaign's recent activity. Only the leader can grant or remove them."

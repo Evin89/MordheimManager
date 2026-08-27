@@ -14,7 +14,7 @@ This document started as a design brief written before any code existed. It is n
 
 **Built and deployed:** milestones 1–6, the v2 account/campaign work (§8), the Rulebook design language (§5) with a shared UI kit and self-hosted fonts, and the shared-campaign screens. **49 warband lists** (20 curated + 27 imported from mordheimer.net) with warband-specific skill lists, **30 spell/prayer/ritual lists**, the full post-battle wizard (with the exploration roller), trading post, rules browser, public gallery, printable roster sheet, and multi-campaign membership.
 
-Most of the feature-expansion block has since shipped too: the campaign-collaboration set (§17, §19.1/§19.3 — territory, narrative log, awards/rivalries, RSVPs, announcements, plus a campaign activity feed and end-of-campaign recap), roster/model depth (§18), all of §20 Utility (dice roller with tumble + sound, comparison, afford-filter, nav tour), the §21 bigger swings (per-model photos, custom warbands, scenario generator), the admin analytics DB layer with the split admin back-end (§23, §4.9 revised), shareable warband cards, in-battle injury/rout rolls, a per-warband legality check, hand-editing of skills/spells/advances, a Discord community link (§4.10), a static landing page (§4.11) and the privacy-scoped PostHog client (§23.7, its reverse-proxy still pending). Still unbuilt: gallery comments (§19.2), push notifications (§19.4), and AI battle reports.
+Most of the feature-expansion block has since shipped too: the campaign-collaboration set (§17, §19.1/§19.3 — territory, narrative log, awards/rivalries, RSVPs, announcements, plus a campaign activity feed and end-of-campaign recap), roster/model depth (§18), all of §20 Utility (dice roller with tumble + sound, comparison, afford-filter, nav tour), the §21 bigger swings (per-model photos, custom warbands, scenario generator), the admin analytics DB layer with the split admin back-end (§23, §4.9 revised), shareable warband cards, in-battle injury/rout rolls, a per-warband legality check, hand-editing of skills/spells/advances, a Discord community link (§4.10), a static landing page (§4.11), the privacy-scoped PostHog client (§23.7, its reverse-proxy still pending), gallery comments (§19.2) and push notifications (§19.4 — the project's first server-side sending). Still unbuilt: AI battle reports.
 
 ### 0.1 Conflict register
 
@@ -1698,7 +1698,7 @@ Written by a trigger on `warbands` `AFTER UPDATE OF rating` — append-only, nev
 
 ## 19. Social & multiplayer ⚠️ (RSVPs + announcements built; gallery comments + push deferred)
 
-**Status:** 19.1 Event RSVPs and 19.3 Leader announcements are **built** (migrations 0019 / 0018). 19.2 Gallery comments and 19.4 Push notifications remain **deferred** — the two below whose costs (moderation; the project's first server-side compute) put them last.
+**Status:** all four are now **built**. 19.1 Event RSVPs and 19.3 Leader announcements first (migrations 0019 / 0018); 19.2 Gallery comments (migration 0029) and 19.4 Push notifications (migration 0028) shipped last, their costs — moderation, and the project's first server-side sending — finally taken on rather than deferred further.
 
 ### 19.1 Event RSVPs ✅
 
@@ -1721,7 +1721,9 @@ type EventRsvp = {
 
 **Screen:** a three-button row (Going / Maybe / Can't make it) on `/campaign/events/:id` and inline on the list row. The next-upcoming banner gains a "4 going, 1 maybe" count.
 
-### 19.2 Gallery comments ◻️
+### 19.2 Gallery comments ✅
+
+**Built** — migration `0029_warband_comments`, exactly to the shape below: the table, the signed-in-only-plus-admin SELECT, the any-authenticated INSERT, and the author-or-admin soft-delete UPDATE. A `WarbandComments` section renders on the shared roster (`/rosters/:id`); a signed-out visitor sees a sign-in prompt rather than the thread, and Report files into `issue_reports` (§4.9) so an admin's hide is the same soft-delete write the author can make. The rest is the as-built record.
 
 The riskiest item on this list. Moderation is why §11.5 spent a paragraph narrowing photo visibility to signed-in users, and a comment box is a strictly larger moderation surface than a photo: unbounded free text attached to a resource that anonymous visitors can read.
 
@@ -1752,7 +1754,9 @@ pinnedAnnouncement?: { body: string; postedAt: string; postedBy: string };
 
 **Screen:** a banner at the top of `/campaign/:id`, above the tabs, dismissible **per session rather than per account** — it reappears next visit, deliberately, so a leader can always reach the group without anyone building a notification system.
 
-### 19.4 Push notifications ◻️
+### 19.4 Push notifications ✅
+
+**Built** — migration `0028_push_notifications` (the `push_subscriptions` table + a `reminder_sent_at` marker) and the project's first server-side sending, in the two phases the open question below called for. **Phase 1**, the reminder: a `pg_cron`-driven Edge Function (`send-event-reminders`) finds events ≤24h out and pushes to their Going/Maybe RSVPs, once per event. **Phase 2**, the battle: a second function (`notify-battle-logged`) on a `battles`-insert database webhook alerts the campaign's other members. Both sign Web Push with VAPID and prune dead subscriptions on 404/410. The push handler is a separate file imported into the tuned caching worker (`workbox.importScripts`) so §2's carefully-built SW is untouched; a Settings toggle subscribes per device, honest that iOS needs a Home-Screen install (16.4+). What follows is the plan it was built from.
 
 The largest infrastructure lift here. The PWA groundwork (§2) supports it, but nothing in the stack sends anything today. Two triggers are worth having: an event within 24 hours, and a campaign-mate reporting a battle. Both read data that already exists.
 
@@ -1854,11 +1858,11 @@ Roughly by lift × risk, cheapest first.
 | 8 | ✅ §19.1 Event RSVPs | Built (migration 0019; Going/Maybe/Can't per game night, banner tally) |
 | 9 | ✅ §18.2 Equipment history | Built (the three per-model gear write sites) |
 | 10 | ✅ §17.1 Territory | Built (migration 0020; the write-contention question resolved as a shared members-writable board — see §17.1) |
-| 11 | §19.2 Gallery comments | Moderation cost — reconsider the need before building |
-| 12 | §19.4 Push notifications | First server-side compute the project has needed |
+| 11 | ✅ §19.2 Gallery comments | Built (migration 0029); moderation reuses the existing issue_reports inbox |
+| 12 | ✅ §19.4 Push notifications | Built (migration 0028); the project's first server-side sending, two Edge Functions |
 | 13 | ✅ §21.2 Custom warband builder | Built in the clone-and-rename scope (migration 0021; owner-scoped, resolved via a runtime registry map). From-scratch remains out of scope |
 
-Done so far: per-model photos (§21.1, migration 0015), all of §20 Utility (dice roller, comparison, afford-filter — row 1), and the whole campaign-collaboration set that built on the §4.5 events UI — the scenario generator (§21.3), narrative log (§17.3, migration 0017), leader announcements (§19.3, 0018), event RSVPs (§19.1, 0019) and territory control (§17.1, 0020). Row 13 (§21.2 custom warband builder) is now done in its clone-and-rename scope (migration 0021); rows 11 (gallery comments) and 12 (push notifications) remain, both deliberately deferred. Also landed outside this table: the full magic expansion (§15 — 30 lists, all warband casters wired, spells browsable in the Rules Reference), the self-hosted fonts (§5.2 / §12.4), the shared design-system UI kit (§5), and a set of table/QoL tools — a campaign activity feed, head-to-head match logs, shareable warband cards, in-battle injury rolls, and a per-warband legality/health check.
+Done so far: per-model photos (§21.1, migration 0015), all of §20 Utility (dice roller, comparison, afford-filter — row 1), and the whole campaign-collaboration set that built on the §4.5 events UI — the scenario generator (§21.3), narrative log (§17.3, migration 0017), leader announcements (§19.3, 0018), event RSVPs (§19.1, 0019) and territory control (§17.1, 0020). Row 13 (§21.2 custom warband builder) is now done in its clone-and-rename scope (migration 0021); rows 11 (gallery comments, migration 0029) and 12 (push notifications, migration 0028 — the project's first server-side sending) are now done too. Also landed outside this table: the full magic expansion (§15 — 30 lists, all warband casters wired, spells browsable in the Rules Reference), the self-hosted fonts (§5.2 / §12.4), the shared design-system UI kit (§5), and a set of table/QoL tools — a campaign activity feed, head-to-head match logs, shareable warband cards, in-battle injury rolls, and a per-warband legality/health check.
 
 ---
 

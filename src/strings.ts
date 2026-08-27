@@ -178,6 +178,22 @@ export const strings = {
     attachedTo: (path: string) => `Attached: ${path}`,
   },
 
+  comments: {
+    section: 'Comments',
+    signedOut: 'Sign in to read and leave comments.',
+    placeholder: 'Leave a comment on this warband…',
+    post: 'Post comment',
+    posting: 'Posting…',
+    empty: 'No comments yet.',
+    by: (name: string, date: string) => `${name || 'A player'} · ${date}`,
+    remove: 'Delete',
+    removeConfirm: 'Delete this comment?',
+    report: 'Report',
+    reported: 'Reported',
+    reportMessage: 'Reported gallery comment',
+    failed: 'That could not be sent. Check your connection and try again.',
+  },
+
   settings: {
     title: 'Account',
     appearanceSection: 'Appearance',
@@ -197,9 +213,9 @@ export const strings = {
     importError: (message: string) => `Import failed: ${message}`,
     notifications: {
       section: 'Notifications',
-      hint: 'Get a reminder on this device the day before a campaign game night you’re going to.',
-      on: 'Reminders on',
-      off: 'Turn on game-night reminders',
+      hint: 'Get notified on this device about your campaigns — a reminder the day before a game night you’re going to, and when a campaign-mate logs a battle.',
+      on: 'Notifications on',
+      off: 'Turn on campaign notifications',
       denied: 'Notifications were blocked. You can re-enable them in your browser’s site settings, then try again.',
       blocked: 'Notifications are blocked for this site. Re-enable them in your browser’s site settings to turn reminders on.',
       unsupportedHint:
