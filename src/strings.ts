@@ -195,6 +195,16 @@ export const strings = {
     importOverwriteWarning: 'Importing will overwrite all warbands and campaign data currently stored on this device. This cannot be undone. Continue?',
     importSuccess: 'Import complete.',
     importError: (message: string) => `Import failed: ${message}`,
+    notifications: {
+      section: 'Notifications',
+      hint: 'Get a reminder on this device the day before a campaign game night you’re going to.',
+      on: 'Reminders on',
+      off: 'Turn on game-night reminders',
+      denied: 'Notifications were blocked. You can re-enable them in your browser’s site settings, then try again.',
+      blocked: 'Notifications are blocked for this site. Re-enable them in your browser’s site settings to turn reminders on.',
+      unsupportedHint:
+        'This device can’t receive push notifications. On iPhone or iPad, add the app to your Home Screen first, then reminders become available.',
+    },
     aboutSection: 'About',
     changelogLink: "What's New (Changelog)",
     accountSection: 'Your details',

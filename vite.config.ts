@@ -84,6 +84,10 @@ export default defineConfig(({ command, mode }) => {
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       workbox: {
+        // Web Push handlers (§19.4) live in their own file, imported into this
+        // generated worker so the tuned caching below is untouched — the SW has
+        // broken releases before, and push should not risk it.
+        importScripts: ['/push-sw.js'],
         // Deliberately NO precache manifest. Precaching is what made two
         // correct deploys look broken: workbox served the previous index.html
         // out of `workbox-precache-v2` indefinitely, so the app kept booting an

@@ -10,6 +10,7 @@ import { ImportValidationError, downloadExport, importAllData, parseImportFile }
 import { isDemoMode, setDemoMode } from '../dev/demoMode';
 import { MAX_DISPLAY_NAME } from '../api/profile';
 import { useMyProfileQuery, useUpdateDisplayNameMutation } from '../hooks/useProfile';
+import { usePush } from '../hooks/usePush';
 import { Button, Card, SectionHeading, Field, TextField, buttonClasses } from '../components/ui';
 
 
@@ -67,6 +68,55 @@ function DisplayNameField() {
         <p className="text-blood-500 text-xs">{(mutation.error as Error).message}</p>
       )}
     </div>
+  );
+}
+
+/**
+ * §19.4 — the game-night reminder toggle. Per device (a push subscription is a
+ * browser's, not an account's), so the copy speaks about "this device". Hidden
+ * where push can't work — no VAPID key, or plain mobile Safari that hasn't been
+ * added to the Home Screen — with a hint instead of a dead switch.
+ */
+function NotificationsSection() {
+  const { supported, subscribed, permission, busy, enable, disable } = usePush();
+  const [message, setMessage] = useState<string | null>(null);
+  const s = strings.settings.notifications;
+
+  async function toggle() {
+    setMessage(null);
+    if (subscribed) {
+      await disable();
+      return;
+    }
+    const result = await enable();
+    if (result === 'denied') setMessage(s.denied);
+    else if (result === 'unsupported') setMessage(s.unsupportedHint);
+  }
+
+  return (
+    <Card as="section">
+      <SectionHeading>{s.section}</SectionHeading>
+      <p className="text-bone-300 text-sm">{s.hint}</p>
+      {!supported ? (
+        <p className="text-bone-400 text-xs">{s.unsupportedHint}</p>
+      ) : permission === 'denied' ? (
+        <p className="text-bone-400 text-xs">{s.blocked}</p>
+      ) : (
+        <button
+          type="button"
+          onClick={toggle}
+          disabled={busy}
+          role="switch"
+          aria-checked={subscribed}
+          className={`min-h-[44px] px-4 rounded-md border font-semibold ${
+            subscribed ? 'border-ember-500 text-ember-400' : 'border-ink-700 text-bone-200 hover:bg-ink-800'
+          } disabled:opacity-60`}
+        >
+          {busy ? strings.common.loading : subscribed ? s.on : s.off}
+        </button>
+      )}
+      {message && <p className="text-bone-400 text-xs">{message}</p>}
+    </Card>
   );
 }
 
@@ -153,6 +203,10 @@ export default function SettingsScreen() {
             <p className="text-bone-300 text-sm">{strings.settings.signedOutHint}</p>
           )}
         </Card>
+
+        {/* Signed-in only: a reminder has to be stored against an account to be
+            sent, and there's nothing to subscribe when signed out. */}
+        {user && <NotificationsSection />}
 
         <Card as="section">
           <SectionHeading>{strings.settings.accountSection}</SectionHeading>
