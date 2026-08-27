@@ -3,6 +3,7 @@ import BackHeader from '../components/BackHeader';
 import ProfileBlock from '../components/ProfileBlock';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import { WarbandThumb } from '../components/WarbandPhoto';
+import WarbandAwards from '../components/WarbandAwards';
 import WarbandComments from '../components/WarbandComments';
 import { Card, SectionHeading } from '../components/ui';
 import { strings } from '../strings';
@@ -228,6 +229,7 @@ export default function SharedWarbandScreen() {
           </section>
         )}
 
+        <WarbandAwards warbandId={warband.id} />
         <WarbandComments warbandId={warband.id} />
       </main>
     </div>

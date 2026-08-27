@@ -1175,6 +1175,8 @@ const campaignAwards: {
   warbandId: string;
   title: string;
   note: string;
+  kind: 'honour' | 'computed';
+  awardKey: string | null;
   createdAt: string;
 }[] = [];
 let awardsSeeded = false;
@@ -1192,7 +1194,21 @@ function seedAwards() {
       warbandId: wbs[0].id,
       title: 'Best Painted',
       note: 'Voted at the summer meetup.',
+      kind: 'honour',
+      awardKey: null,
       createdAt: new Date(2026, 7, 10, 19, 0).toISOString(),
+    });
+    // A frozen computed award, as if a past campaign had concluded — so the
+    // roster's awards section shows a badge alongside the honour.
+    campaignAwards.push({
+      id: 'demo-award-3',
+      campaignId: 'demo-campaign-0',
+      warbandId: wbs[0].id,
+      title: 'Old Campaigner',
+      note: '',
+      kind: 'computed',
+      awardKey: 'most-battles',
+      createdAt: new Date(2026, 6, 30, 21, 0).toISOString(),
     });
   }
   if (wbs[1]) {
@@ -1202,6 +1218,8 @@ function seedAwards() {
       warbandId: wbs[1].id,
       title: 'Bloodiest Battle',
       note: '',
+      kind: 'honour',
+      awardKey: null,
       createdAt: new Date(2026, 7, 18, 20, 30).toISOString(),
     });
   }
@@ -1226,6 +1244,8 @@ export async function createCampaignAward(
     warbandId: fields.warbandId,
     title: fields.title.trim(),
     note: fields.note.trim(),
+    kind: 'honour' as const,
+    awardKey: null,
     createdAt: new Date().toISOString(),
   };
   campaignAwards.push(award);
@@ -1235,6 +1255,15 @@ export async function createCampaignAward(
 export async function deleteCampaignAward(id: string): Promise<void> {
   const i = campaignAwards.findIndex((a) => a.id === id);
   if (i >= 0) campaignAwards.splice(i, 1);
+}
+
+export async function fetchWarbandAwards(warbandId: string) {
+  seedAwards();
+  const name = (id: string) => db().campaigns.find((c) => c.id === id)?.name ?? '';
+  return campaignAwards
+    .filter((a) => a.warbandId === warbandId)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .map((a) => ({ ...a, campaignName: name(a.campaignId) }));
 }
 
 // --- Custom warband types (§21.2) --------------------------------------------

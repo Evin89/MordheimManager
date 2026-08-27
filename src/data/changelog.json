@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-08-27",
+    "title": "Awards That Stick",
+    "description": "Your warbands now keep the awards they earn. Every roster has an Awards & honours section showing the honours a leader has granted it and — once a campaign concludes — the automatic awards it won, badges and all (Most Battles, Bloodiest, Slayer, and the rest), each stamped with the campaign it came from. Concluding a campaign freezes those awards permanently onto the winning warbands; reopen it and they clear again, in case the season isn't really over."
+  },
+  {
+    "date": "2026-08-27",
     "title": "Never Miss a Game Night",
     "description": "The app can now reach you between sessions. Turn on notifications in Settings and this device gets a reminder the day before any campaign game night you've said you're going to — and a heads-up when a campaign-mate logs a battle, so the standings never move behind your back. It's opt-in and per device; on iPhone or iPad, add the app to your Home Screen first for notifications to work. The in-app next-game-night banner is still there for everyone."
   },

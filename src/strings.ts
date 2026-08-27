@@ -194,6 +194,10 @@ export const strings = {
     failed: 'That could not be sent. Check your connection and try again.',
   },
 
+  warbandAwards: {
+    section: 'Awards & honours',
+  },
+
   notFound: {
     title: 'Not found',
     heading: 'This page doesn’t exist',

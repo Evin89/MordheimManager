@@ -4,6 +4,7 @@ import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
 import WarbandPhotoEditor, { WarbandThumb } from '../components/WarbandPhoto';
+import WarbandAwards from '../components/WarbandAwards';
 import { useRosterPhotos } from '../hooks/usePhotos';
 import { useRatingHistoryQuery } from '../hooks/useRatingHistory';
 import RatingHistoryChart from '../components/RatingHistoryChart';
@@ -384,6 +385,8 @@ export default function RosterScreen() {
             ))}
           </div>
         </section>
+
+        <WarbandAwards warbandId={warband.id} />
 
         <WarbandSharingCard warbandId={warband.id} />
 

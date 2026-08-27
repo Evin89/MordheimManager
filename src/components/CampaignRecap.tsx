@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { BattleRecord, Campaign, StandingsRow } from '../types';
 import { computeAwards } from '../lib/awards';
 import { renderCampaignRecap } from '../lib/campaignRecap';
 import { useSetConcludedMutation } from '../hooks/useCampaign';
+import { useAuth } from '../auth/AuthProvider';
+import {
+  deleteComputedCampaignAwards,
+  saveComputedCampaignAwards,
+} from '../api/campaignAwards';
 import { Button, SectionHeading } from './ui';
 import { strings } from '../strings';
 
@@ -42,7 +48,39 @@ export default function CampaignRecap({
 }) {
   const t = strings.campaign.recap;
   const setConcluded = useSetConcludedMutation(campaign.id);
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
   const hasData = battles.length > 0 && standings.some((r) => r.warbandName);
+
+  // Concluding freezes the live §17.4 awards onto their winning warbands, so a
+  // warband keeps what it earned once the campaign is over; reopening clears
+  // them again. The awards are a bonus on top of concluding — a failure to
+  // persist them must not block the conclude itself.
+  async function conclude() {
+    if (!window.confirm(t.concludeConfirm)) return;
+    try {
+      if (user) {
+        const awards = computeAwards(battles, standings, AWARD_STRINGS)
+          .filter((a) => a.holderWarbandId)
+          .map((a) => ({ warbandId: a.holderWarbandId, title: a.title, awardKey: a.id }));
+        await saveComputedCampaignAwards(campaign.id, user.id, awards);
+      }
+    } catch {
+      /* non-fatal — conclude anyway; a reopen-then-reconclude can refresh them. */
+    }
+    setConcluded(true);
+    queryClient.invalidateQueries({ queryKey: ['warband-awards'] });
+  }
+
+  async function reopen() {
+    try {
+      await deleteComputedCampaignAwards(campaign.id);
+    } catch {
+      /* non-fatal */
+    }
+    setConcluded(false);
+    queryClient.invalidateQueries({ queryKey: ['warband-awards'] });
+  }
 
   const [state, setState] = useState<'idle' | 'building' | 'ready' | 'error'>('idle');
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -109,16 +147,11 @@ export default function CampaignRecap({
         <>
           {!campaign.concludedAt && <p className="text-bone-400 text-xs">{t.concludeHint}</p>}
           {campaign.concludedAt ? (
-            <Button variant="secondary" onClick={() => setConcluded(false)}>
+            <Button variant="secondary" onClick={reopen}>
               {t.reopenButton}
             </Button>
           ) : (
-            <Button
-              variant="secondary"
-              onClick={() => {
-                if (window.confirm(t.concludeConfirm)) setConcluded(true);
-              }}
-            >
+            <Button variant="secondary" onClick={conclude}>
               {t.concludeButton}
             </Button>
           )}
