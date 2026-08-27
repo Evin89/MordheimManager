@@ -8,6 +8,7 @@ import ReportIssueButton from './components/ReportIssueButton';
 import SideNav from './components/SideNav';
 import ConnectionBanner from './components/ConnectionBanner';
 import RequireAuth from './auth/RequireAuth';
+import NotFoundScreen from './screens/NotFoundScreen';
 import { useRegisterCustomWarbands } from './hooks/useCustomWarbands';
 import { usePageviews } from './lib/usePageviews';
 import { strings } from './strings';
@@ -218,7 +219,9 @@ function AppShell() {
             {/* Where standings used to link; kept so older in-app links still land. */}
             <Route path="/campaign/warbands/:warbandId" element={guarded(<SharedWarbandScreen />)} />
 
-            <Route path="*" element={<Navigate to="/" replace />} />
+            {/* An unknown in-app route lands on a handled Not Found page (keeping
+                the header and nav) rather than silently redirecting to Home. */}
+            <Route path="*" element={<NotFoundScreen />} />
           </Routes>
       </Suspense>
         </div>

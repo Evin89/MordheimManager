@@ -194,6 +194,13 @@ export const strings = {
     failed: 'That could not be sent. Check your connection and try again.',
   },
 
+  notFound: {
+    title: 'Not found',
+    heading: 'This page doesn’t exist',
+    body: 'The link may be mistyped, or it points at something that has since been moved or removed.',
+    home: 'Back to Home',
+  },
+
   settings: {
     title: 'Account',
     appearanceSection: 'Appearance',
