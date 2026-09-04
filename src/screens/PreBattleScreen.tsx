@@ -28,6 +28,7 @@ export default function PreBattleScreen() {
   const campaignOpponents = (campaignWarbands ?? []).filter((w) => !ownIds.has(w.id));
   const storedSession = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
   const setStoredSession = useAppStore((state) => state.setBattleSession);
+  const clearStoredSession = useAppStore((state) => state.clearBattleSession);
 
   const [session, setSession] = useState<BattleSession>(
     () => storedSession ?? defaultBattleSession(warbandId ?? ''),
@@ -74,6 +75,25 @@ export default function PreBattleScreen() {
     updateSession({ opponentWarbandId: id, opponentName: name });
   }
 
+  // A saved draft only counts as "a battle in progress" once there's real
+  // during-battle work in it — not merely a scenario picked on this very screen.
+  // On that, offer restore rather than silently resuming (§4.3.2).
+  const hasProgress =
+    !!storedSession &&
+    (storedSession.turn > 1 ||
+      storedSession.events.length > 0 ||
+      storedSession.outOfAction.heroIds.length > 0 ||
+      storedSession.outOfAction.hiredSwordIds.length > 0 ||
+      Object.keys(storedSession.outOfAction.henchmenCounts).length > 0 ||
+      Object.keys(storedSession.enemyOutOfAction).length > 0 ||
+      Object.keys(storedSession.wyrdstoneCarried).length > 0);
+
+  function discardDraft() {
+    if (!warband) return;
+    clearStoredSession(warband.id);
+    setSession(defaultBattleSession(warband.id));
+  }
+
   // Weighted suggestion (§21.3): a group plays some scenarios far more than
   // others, so this is not a uniform roll. Only ever fills the field the manual
   // picker fills — the player keeps or changes it.
@@ -89,6 +109,30 @@ export default function PreBattleScreen() {
       <BackHeader title={strings.battle.preBattle.title} subtitle={warband.name} />
 
       <main className="flex-1 px-4 py-6 space-y-6">
+        {hasProgress && (
+          <div className="rounded-lg border border-ember-500/50 bg-ember-500/10 p-4 space-y-2">
+            <p className="text-ember-400 font-semibold text-sm">{strings.battle.preBattle.restore.title}</p>
+            <p className="text-bone-300 text-xs">
+              {strings.battle.preBattle.restore.since(
+                storedSession?.startedAt ? new Date(storedSession.startedAt).toLocaleString() : '',
+              )}
+            </p>
+            <div className="flex gap-2">
+              <Button
+                size="dense"
+                fullWidth={false}
+                onClick={() => navigate(`/warbands/${warband.id}/during-battle`)}
+                className="flex-1"
+              >
+                {strings.battle.preBattle.restore.resume}
+              </Button>
+              <Button size="dense" variant="secondary" fullWidth={false} onClick={discardDraft} className="flex-1">
+                {strings.battle.preBattle.restore.discard}
+              </Button>
+            </div>
+          </div>
+        )}
+
         <section className="space-y-2">
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="scenario">
             {strings.battle.preBattle.scenarioLabel}

@@ -751,6 +751,15 @@ export const strings = {
       notesLabel: 'Notes / battle plan',
       continueButton: 'Continue to During Battle',
       skipToPostBattle: 'Skip to Post-Battle Sequence',
+      restore: {
+        title: 'Resume the battle in progress?',
+        since: (when: string) =>
+          when
+            ? `Started ${when}. Your during-battle marks, tallies and notes were saved.`
+            : 'Your during-battle marks, tallies and notes were saved.',
+        resume: 'Resume battle',
+        discard: 'Discard and start over',
+      },
     },
     duringBattle: {
       title: 'During Battle',
@@ -795,6 +804,15 @@ export const strings = {
       outOfActionCount: 'Out of action',
       oneFewerDown: 'One fewer out of action',
       oneMoreDown: 'One more out of action',
+      enemyOoaLabel: 'Enemies taken out',
+      enemyOoaTotal: (n: number) =>
+        `${n} enemy model${n === 1 ? '' : 's'} taken out this battle — feeds each hero's Experience.`,
+      wyrdstoneLabel: 'Wyrdstone carried',
+      wyrdstoneToggle: 'Wyrdstone counters',
+      wyrdstoneTotal: (n: number) => `${n} shard${n === 1 ? '' : 's'} carried`,
+      wyrdstoneDropped: (n: number) => `${n} shard${n === 1 ? '' : 's'} dropped`,
+      wyrdstoneDroppedHint: 'Tap + on whoever picked them up, or mark them lost.',
+      wyrdstoneMarkLost: 'Mark lost',
       carriedOverNotice:
         'Casualties marked during the battle have been filled in below. Adjust them if anything changed.',
     },

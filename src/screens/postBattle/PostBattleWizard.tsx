@@ -53,12 +53,37 @@ export default function PostBattleWizard() {
     const eventNotes = session.events.map((e) => `Turn ${e.turn}: ${e.text}`).join('\n');
     const notes = [session.notes, eventNotes].filter(Boolean).join('\n\n') || base.notes;
 
+    const casualties = seedCasualties(warband, base, session.outOfAction);
+
+    // §4.3.1 A feed-forward: +1 XP per enemy a hero or hired sword took out of
+    // action, pre-filled onto its Experience default (editable at step 3).
+    const heroes = { ...casualties.heroes };
+    for (const hero of warband.heroes) {
+      const kills = session.enemyOutOfAction[hero.id] ?? 0;
+      const state = heroes[hero.id];
+      if (kills > 0 && state) heroes[hero.id] = { ...state, xpAwarded: state.xpAwarded + kills };
+    }
+    const hiredSwords = { ...casualties.hiredSwords };
+    for (const sword of warband.hiredSwords) {
+      const kills = session.enemyOutOfAction[sword.id] ?? 0;
+      const state = hiredSwords[sword.id];
+      if (kills > 0 && state) hiredSwords[sword.id] = { ...state, xpAwarded: state.xpAwarded + kills };
+    }
+
+    // §4.3.1 B feed-forward: shards still carried by surviving models pre-fill
+    // "wyrdstone found" at step 6 (dropped/lost shards are excluded already).
+    const wyrdstoneFound =
+      Object.values(session.wyrdstoneCarried).reduce((sum, n) => sum + n, 0) || base.wyrdstoneFound;
+
     return {
       ...base,
       scenario: session.scenario || base.scenario,
       opponents,
       notes,
-      ...seedCasualties(warband, base, session.outOfAction),
+      ...casualties,
+      heroes,
+      hiredSwords,
+      wyrdstoneFound,
     };
   });
 

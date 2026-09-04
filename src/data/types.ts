@@ -341,6 +341,11 @@ export type ScenarioDefinition = {
   id: string;
   name: string;
   awards: ScenarioAward[];
+  /** §3.3 / §4.3.1 B — scenarios where models physically carry wyrdstone shards
+   * during the game, so the during-battle screen auto-shows the per-model shard
+   * counter. Default false; unset until verified against the rulebook, so the
+   * counter is available on demand everywhere but auto-shown nowhere. */
+  usesWyrdstoneCounters?: boolean;
 };
 
 export type ScenariosData = {

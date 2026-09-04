@@ -83,6 +83,47 @@ function OutOfActionButtons({ control }: { control: OutOfActionControl }) {
   );
 }
 
+/** A tiny label + −/count/+ stepper, for the enemy-OOA and wyrdstone tallies
+ * that get tapped one-handed mid-game (§4.3.1). */
+function MiniStepper({
+  label,
+  value,
+  onChange,
+  max,
+}: {
+  label: string;
+  value: number;
+  onChange: (n: number) => void;
+  max?: number;
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-bone-300 text-xs uppercase tracking-wide flex-1">{label}</span>
+      <button
+        type="button"
+        onClick={() => onChange(Math.max(0, value - 1))}
+        disabled={value <= 0}
+        className="min-h-[40px] min-w-[40px] rounded-md border border-ink-700 text-bone-100 font-bold disabled:opacity-40"
+      >
+        −
+      </button>
+      <span className={`min-w-[2rem] text-center font-semibold tabular-nums ${value > 0 ? 'text-ember-400' : 'text-bone-100'}`}>
+        {value}
+      </span>
+      <button
+        type="button"
+        onClick={() => onChange(max !== undefined ? Math.min(max, value + 1) : value + 1)}
+        disabled={max !== undefined && value >= max}
+        className="min-h-[40px] min-w-[40px] rounded-md border border-ink-700 text-bone-100 font-bold disabled:opacity-40"
+      >
+        +
+      </button>
+    </div>
+  );
+}
+
+type CounterControl = { value: number; onChange: (n: number) => void };
+
 function RosterCard({
   name,
   subtitle,
@@ -91,6 +132,8 @@ function RosterCard({
   skills,
   detailLink,
   outOfAction,
+  enemyOoa,
+  wyrdstone,
   photoUrl,
 }: {
   name: string;
@@ -100,6 +143,10 @@ function RosterCard({
   skills?: string[];
   detailLink: string;
   outOfAction?: OutOfActionControl;
+  /** Enemies this model took out of action (§4.3.1 A) — heroes and hired swords. */
+  enemyOoa?: CounterControl;
+  /** Wyrdstone shards this model is carrying (§4.3.1 B) — shown when tracking is on. */
+  wyrdstone?: CounterControl;
   /** Signed model portrait, resolved by the parent; absent when there is none. */
   photoUrl?: string;
 }) {
@@ -140,9 +187,23 @@ function RosterCard({
           {skills.length > 0 ? skills.join(', ') : strings.battle.duringBattle.noSkills}
         </p>
       )}
-      {outOfAction && (
-        <div className="pt-1 border-t border-ink-800">
-          <OutOfActionButtons control={outOfAction} />
+      {(outOfAction || enemyOoa || wyrdstone) && (
+        <div className="pt-1 border-t border-ink-800 space-y-2">
+          {outOfAction && <OutOfActionButtons control={outOfAction} />}
+          {enemyOoa && (
+            <MiniStepper
+              label={strings.battle.duringBattle.enemyOoaLabel}
+              value={enemyOoa.value}
+              onChange={enemyOoa.onChange}
+            />
+          )}
+          {wyrdstone && (
+            <MiniStepper
+              label={strings.battle.duringBattle.wyrdstoneLabel}
+              value={wyrdstone.value}
+              onChange={wyrdstone.onChange}
+            />
+          )}
         </div>
       )}
     </div>
@@ -161,12 +222,35 @@ function RosterReference({
   warband,
   tally,
   onTallyChange,
+  enemyOoa,
+  onEnemyOoaChange,
+  wyrdstone,
+  onWyrdstoneChange,
+  showWyrdstone,
 }: {
   warband: Warband;
   tally?: OutOfActionTally;
   onTallyChange?: (next: OutOfActionTally) => void;
+  /** Your modelId → enemies taken OOA (§4.3.1 A); steppers on heroes and hired swords. */
+  enemyOoa?: Record<string, number>;
+  onEnemyOoaChange?: (modelId: string, count: number) => void;
+  /** Your modelId → shards carried (§4.3.1 B); steppers on every model when shown. */
+  wyrdstone?: Record<string, number>;
+  onWyrdstoneChange?: (modelId: string, count: number) => void;
+  showWyrdstone?: boolean;
 }) {
   const interactive = tally !== undefined && onTallyChange !== undefined;
+
+  // Enemy-OOA is a hero/hired-sword control (the per-kill XP award is theirs);
+  // wyrdstone can sit on any model, but only when the scenario/toggle asks for it.
+  const enemyControl = (id: string): CounterControl | undefined =>
+    interactive && onEnemyOoaChange
+      ? { value: enemyOoa?.[id] ?? 0, onChange: (n) => onEnemyOoaChange(id, n) }
+      : undefined;
+  const wyrdControl = (id: string): CounterControl | undefined =>
+    interactive && showWyrdstone && onWyrdstoneChange
+      ? { value: wyrdstone?.[id] ?? 0, onChange: (n) => onWyrdstoneChange(id, n) }
+      : undefined;
   // Keyed by model id (group shot under ''). Runs for the opponent's warband
   // too — a campaign-mate can read it, so their portraits show here as well.
   const photos = useRosterPhotos(warband.id);
@@ -197,6 +281,8 @@ function RosterReference({
           skills={hero.skills}
           detailLink={`/warbands/${warband.id}/hero/${hero.id}`}
           photoUrl={photos[hero.id]}
+          enemyOoa={enemyControl(hero.id)}
+          wyrdstone={wyrdControl(hero.id)}
           outOfAction={
             interactive
               ? {
@@ -217,6 +303,7 @@ function RosterReference({
           equipment={group.equipment}
           detailLink={`/warbands/${warband.id}/henchmen/${group.id}`}
           photoUrl={photos[group.id]}
+          wyrdstone={wyrdControl(group.id)}
           outOfAction={
             interactive
               ? {
@@ -239,6 +326,8 @@ function RosterReference({
           skills={sword.skills}
           detailLink={`/warbands/${warband.id}/hired-sword/${sword.id}`}
           photoUrl={photos[sword.id]}
+          enemyOoa={enemyControl(sword.id)}
+          wyrdstone={wyrdControl(sword.id)}
           outOfAction={
             interactive
               ? {
@@ -388,6 +477,10 @@ export default function DuringBattleScreen() {
   );
   const [newEventText, setNewEventText] = useState('');
   const [viewSide, setViewSide] = useState<'mine' | 'opponent'>('mine');
+  // Wyrdstone counters (§4.3.1 B) are off by default — the scenario flag is
+  // unverified (§3.3), so the counter is available on demand rather than
+  // auto-shown. A toggle reveals it when a scenario actually uses counters.
+  const [showWyrdstone, setShowWyrdstone] = useState(false);
 
   const ownOpponent = warbands.find((w) => w.id === session.opponentWarbandId);
   // A campaign opponent belongs to another player, so it isn't in `warbands`
@@ -433,6 +526,47 @@ export default function DuringBattleScreen() {
   function logEvent(text: string) {
     updateSession({ events: [...session.events, { id: generateId(), turn: session.turn, text }] });
   }
+
+  function setEnemyOoa(modelId: string, count: number) {
+    updateSession({ enemyOutOfAction: { ...session.enemyOutOfAction, [modelId]: Math.max(0, count) } });
+  }
+
+  function setWyrdstone(modelId: string, count: number) {
+    const current = session.wyrdstoneCarried[modelId] ?? 0;
+    const delta = count - current;
+    // Picking a shard up while some are on the floor is a recovery: pull from the
+    // dropped pile first so the running totals stay honest (§4.3.1 B).
+    const dropped = delta > 0 ? Math.max(0, session.droppedWyrdstone - delta) : session.droppedWyrdstone;
+    updateSession({
+      wyrdstoneCarried: { ...session.wyrdstoneCarried, [modelId]: Math.max(0, count) },
+      droppedWyrdstone: dropped,
+    });
+  }
+
+  // When a single carrier is marked out of action, its shards fall to the floor
+  // (§4.3.1 B) — moved to the dropped pile rather than silently kept or zeroed;
+  // the player then reassigns them (a +tap on whoever grabbed them) or marks them
+  // lost. Henchmen groups are left to the player, since "which member" is unknown.
+  function handleTallyChange(next: OutOfActionTally) {
+    const prev = session.outOfAction;
+    const newlyDown = [
+      ...next.heroIds.filter((id) => !prev.heroIds.includes(id)),
+      ...next.hiredSwordIds.filter((id) => !prev.hiredSwordIds.includes(id)),
+    ];
+    let carried = session.wyrdstoneCarried;
+    let dropped = session.droppedWyrdstone;
+    for (const id of newlyDown) {
+      const shards = carried[id] ?? 0;
+      if (shards > 0) {
+        carried = { ...carried, [id]: 0 };
+        dropped += shards;
+      }
+    }
+    updateSession({ outOfAction: next, wyrdstoneCarried: carried, droppedWyrdstone: dropped });
+  }
+
+  const enemyOoaTotal = Object.values(session.enemyOutOfAction).reduce((s, n) => s + n, 0);
+  const wyrdstoneTotal = Object.values(session.wyrdstoneCarried).reduce((s, n) => s + n, 0);
 
   const displayedWarband = viewSide === 'opponent' && opponentWarband ? opponentWarband : warband;
 
@@ -566,10 +700,53 @@ export default function DuringBattleScreen() {
           {viewSide === 'mine' ? (
             <>
               <RoutTestPanel warband={warband} tally={session.outOfAction} onLog={logEvent} />
+
+              {/* Running capture summary + the wyrdstone-counter toggle (§4.3.1). */}
+              <div className="rounded-lg bg-ink-900 border border-ink-800 p-3 space-y-2">
+                <p className="text-bone-300 text-sm">{strings.battle.duringBattle.enemyOoaTotal(enemyOoaTotal)}</p>
+                <div className="flex items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowWyrdstone((v) => !v)}
+                    aria-pressed={showWyrdstone}
+                    className={`min-h-[40px] px-3 rounded-md border text-xs font-semibold ${
+                      showWyrdstone ? 'border-ember-500 text-ember-400' : 'border-ink-700 text-bone-200'
+                    }`}
+                  >
+                    {strings.battle.duringBattle.wyrdstoneToggle}
+                  </button>
+                  {showWyrdstone && (
+                    <span className="text-bone-300 text-xs tabular-nums">
+                      {strings.battle.duringBattle.wyrdstoneTotal(wyrdstoneTotal)}
+                    </span>
+                  )}
+                </div>
+                {showWyrdstone && session.droppedWyrdstone > 0 && (
+                  <div className="rounded-md border border-blood-600/50 bg-blood-600/10 p-2 space-y-1">
+                    <p className="text-blood-500 text-xs font-semibold">
+                      {strings.battle.duringBattle.wyrdstoneDropped(session.droppedWyrdstone)}
+                    </p>
+                    <p className="text-bone-400 text-xs">{strings.battle.duringBattle.wyrdstoneDroppedHint}</p>
+                    <button
+                      type="button"
+                      onClick={() => updateSession({ droppedWyrdstone: 0 })}
+                      className="min-h-[36px] text-blood-500 text-xs font-semibold"
+                    >
+                      {strings.battle.duringBattle.wyrdstoneMarkLost}
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <RosterReference
                 warband={warband}
                 tally={session.outOfAction}
-                onTallyChange={(outOfAction) => updateSession({ outOfAction })}
+                onTallyChange={handleTallyChange}
+                enemyOoa={session.enemyOutOfAction}
+                onEnemyOoaChange={setEnemyOoa}
+                wyrdstone={session.wyrdstoneCarried}
+                onWyrdstoneChange={setWyrdstone}
+                showWyrdstone={showWyrdstone}
               />
             </>
           ) : (
