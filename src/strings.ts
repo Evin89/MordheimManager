@@ -198,6 +198,16 @@ export const strings = {
     section: 'Awards & honours',
   },
 
+  // Shared section headers for a model's equipment / skills / special rules,
+  // so they read the same on the battle roster and the shared-warband overview.
+  modelSections: {
+    equipment: 'Equipment',
+    skills: 'Skills',
+    specialRules: 'Special rules',
+    noEquipment: 'No equipment.',
+    noSkills: 'No skills.',
+  },
+
   notFound: {
     title: 'Not found',
     heading: 'This page doesn’t exist',

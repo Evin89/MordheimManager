@@ -2,6 +2,9 @@ import { Link, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import ProfileBlock from '../components/ProfileBlock';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
+import RuleDisclosure from '../components/RuleDisclosure';
+import { getSkillByName } from '../lib/skillLookup';
+import { ResolvedSpecialRule } from '../data/types';
 import { WarbandThumb } from '../components/WarbandPhoto';
 import WarbandAwards from '../components/WarbandAwards';
 import WarbandComments from '../components/WarbandComments';
@@ -11,7 +14,7 @@ import { useSharedWarbandQuery, useWarband } from '../hooks/useWarbands';
 import { useEnsureWarbandType } from '../hooks/useCustomWarbands';
 import { useRosterPhotos } from '../hooks/usePhotos';
 import { computeWarbandRating } from '../lib/rating';
-import { getWarbandTypeName } from '../data/warbandRegistry';
+import { getWarbandTypeName, getUnitSpecialRules } from '../data/warbandRegistry';
 import { modelDisplayName } from '../lib/modelNames';
 import { EquipmentItem, Injury, StatLine } from '../types';
 
@@ -24,12 +27,17 @@ import { EquipmentItem, Injury, StatLine } from '../types';
  * dead-end, and offering them at all implies an edit affordance that doesn't
  * (and shouldn't) exist.
  */
+// One header style shared by the Equipment / Skills / Special rules sections,
+// so the three read as siblings — the same treatment the battle roster uses.
+const sectionHeaderClass = 'text-bone-400 text-[11px] font-semibold uppercase tracking-wide';
+
 function SharedModelCard({
   name,
   subtitle,
   stats,
   equipment,
   skills,
+  specialRules,
   injuries,
   xp,
   members,
@@ -41,6 +49,7 @@ function SharedModelCard({
   stats: StatLine;
   equipment: EquipmentItem[];
   skills?: string[];
+  specialRules?: ResolvedSpecialRule[];
   injuries?: Injury[];
   xp: number;
   /** Henchmen only: how many models stand behind this one card. */
@@ -65,21 +74,39 @@ function SharedModelCard({
 
       <ProfileBlock stats={stats} variant="collapsed" />
 
-      {equipment.length > 0 ? (
+      <div className="space-y-0.5">
+        <p className={sectionHeaderClass}>{strings.modelSections.equipment}</p>
+        {equipment.length > 0 ? (
+          equipment.map((e) => <WeaponRulesDisclosure key={e.id} name={e.name} compact />)
+        ) : (
+          <p className="text-bone-300 text-xs">{strings.modelSections.noEquipment}</p>
+        )}
+      </div>
+
+      {skills !== undefined && (
         <div className="space-y-0.5">
-          {equipment.map((e) => (
-            <WeaponRulesDisclosure key={e.id} name={e.name} compact />
-          ))}
+          <p className={sectionHeaderClass}>{strings.modelSections.skills}</p>
+          {skills.length > 0 ? (
+            skills.map((skill) => (
+              <RuleDisclosure key={skill} name={skill} text={getSkillByName(skill)?.effect} />
+            ))
+          ) : (
+            <p className="text-bone-300 text-xs">{strings.modelSections.noSkills}</p>
+          )}
         </div>
-      ) : (
-        <p className="text-bone-300 text-xs">{strings.campaign.sharedNoEquipment}</p>
       )}
 
-      {skills !== undefined && skills.length > 0 && (
-        <p className="text-bone-300 text-xs">
-          <span className="text-bone-200 font-semibold">{strings.campaign.sharedSkillsLabel}: </span>
-          {skills.join(', ')}
-        </p>
+      {specialRules && specialRules.length > 0 && (
+        <div className="space-y-0.5">
+          <p className={sectionHeaderClass}>{strings.modelSections.specialRules}</p>
+          {specialRules.map((rule) => (
+            <RuleDisclosure
+              key={rule.name}
+              name={rule.name}
+              text={[rule.description, rule.note].filter(Boolean).join('\n\n')}
+            />
+          ))}
+        </div>
       )}
 
       {injuries !== undefined && injuries.length > 0 && (
@@ -178,6 +205,7 @@ export default function SharedWarbandScreen() {
                   stats={hero.stats}
                   equipment={hero.equipment}
                   skills={hero.skills}
+                  specialRules={getUnitSpecialRules(warband.warbandType, hero.unitType)}
                   injuries={hero.injuries}
                   xp={hero.xp}
                   photoUrl={photos[hero.id]}
@@ -198,6 +226,7 @@ export default function SharedWarbandScreen() {
                   subtitle={`${group.count}x ${group.unitType}`}
                   stats={group.stats}
                   equipment={group.equipment}
+                  specialRules={getUnitSpecialRules(warband.warbandType, group.unitType)}
                   xp={group.xp}
                   members={group.count}
                   memberLabel={group.unitType}
@@ -220,6 +249,7 @@ export default function SharedWarbandScreen() {
                   stats={sword.stats}
                   equipment={sword.equipment}
                   skills={sword.skills}
+                  specialRules={getUnitSpecialRules(warband.warbandType, sword.type)}
                   injuries={sword.injuries}
                   xp={sword.xp}
                   photoUrl={photos[sword.id]}

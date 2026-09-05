@@ -6,7 +6,7 @@ import ProfileBlock from '../components/ProfileBlock';
 import { WarbandThumb } from '../components/WarbandPhoto';
 import { useRosterPhotos } from '../hooks/usePhotos';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
-import DisclosureChevron from '../components/DisclosureChevron';
+import RuleDisclosure from '../components/RuleDisclosure';
 import { getUnitSpecialRules } from '../data/warbandRegistry';
 import { getSkillByName } from '../lib/skillLookup';
 import { ResolvedSpecialRule } from '../data/types';
@@ -126,33 +126,11 @@ function MiniStepper({
   );
 }
 
-/** A skill or special rule whose name expands to its text — the same
- * read-at-a-glance disclosure the equipment rows use, so a player can check what
- * an ability does mid-game without leaving the tracker. A name with no resolved
- * text renders as a plain, non-expandable row. */
-function CompactRuleDisclosure({ name, text }: { name: string; text?: string }) {
-  const [open, setOpen] = useState(false);
-  const canExpand = !!text?.trim();
-  return (
-    <div>
-      <button
-        type="button"
-        disabled={!canExpand}
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={canExpand ? open : undefined}
-        className="w-full min-h-[32px] flex items-center gap-1.5 text-left disabled:cursor-default"
-      >
-        {canExpand ? <DisclosureChevron open={open} /> : <span className="w-4 shrink-0" aria-hidden="true" />}
-        <span className="text-bone-300 text-xs">{name}</span>
-      </button>
-      {open && canExpand && (
-        <p className="pl-[1.375rem] pr-1 pb-1.5 text-bone-400 text-xs whitespace-pre-line">{text}</p>
-      )}
-    </div>
-  );
-}
-
 type CounterControl = { value: number; onChange: (n: number) => void };
+
+// One header style shared by the Equipment / Skills / Special rules sections on
+// a model card, so the three read as siblings.
+const sectionHeaderClass = 'text-bone-400 text-[11px] font-semibold uppercase tracking-wide';
 
 function RosterCard({
   name,
@@ -206,35 +184,31 @@ function RosterCard({
         </Link>
       </div>
       <ProfileBlock stats={stats} variant="collapsed" />
-      {equipment.length > 0 ? (
-        <div className="space-y-0.5">
-          {equipment.map((e) => (
-            <WeaponRulesDisclosure key={e.id} name={e.name} compact hidePricing />
-          ))}
-        </div>
-      ) : (
-        <p className="text-bone-300 text-xs">{strings.battle.duringBattle.noEquipment}</p>
-      )}
-      {skills !== undefined &&
-        (skills.length > 0 ? (
-          <div className="space-y-0.5">
-            <p className="text-bone-400 text-[10px] font-semibold uppercase tracking-wide">
-              {strings.battle.duringBattle.skillsLabel}
-            </p>
-            {skills.map((skill) => (
-              <CompactRuleDisclosure key={skill} name={skill} text={getSkillByName(skill)?.effect} />
-            ))}
-          </div>
+      <div className="space-y-0.5">
+        <p className={sectionHeaderClass}>{strings.modelSections.equipment}</p>
+        {equipment.length > 0 ? (
+          equipment.map((e) => <WeaponRulesDisclosure key={e.id} name={e.name} compact hidePricing />)
         ) : (
-          <p className="text-bone-300 text-xs">{strings.battle.duringBattle.noSkills}</p>
-        ))}
+          <p className="text-bone-300 text-xs">{strings.modelSections.noEquipment}</p>
+        )}
+      </div>
+      {skills !== undefined && (
+        <div className="space-y-0.5">
+          <p className={sectionHeaderClass}>{strings.modelSections.skills}</p>
+          {skills.length > 0 ? (
+            skills.map((skill) => (
+              <RuleDisclosure key={skill} name={skill} text={getSkillByName(skill)?.effect} />
+            ))
+          ) : (
+            <p className="text-bone-300 text-xs">{strings.modelSections.noSkills}</p>
+          )}
+        </div>
+      )}
       {specialRules && specialRules.length > 0 && (
         <div className="space-y-0.5">
-          <p className="text-bone-400 text-[10px] font-semibold uppercase tracking-wide">
-            {strings.battle.duringBattle.specialRulesLabel}
-          </p>
+          <p className={sectionHeaderClass}>{strings.modelSections.specialRules}</p>
           {specialRules.map((rule) => (
-            <CompactRuleDisclosure
+            <RuleDisclosure
               key={rule.name}
               name={rule.name}
               text={[rule.description, rule.note].filter(Boolean).join('\n\n')}
