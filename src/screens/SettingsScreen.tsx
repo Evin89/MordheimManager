@@ -11,6 +11,7 @@ import { isDemoMode, setDemoMode } from '../dev/demoMode';
 import { MAX_DISPLAY_NAME } from '../api/profile';
 import { useMyProfileQuery, useUpdateDisplayNameMutation } from '../hooks/useProfile';
 import { usePush } from '../hooks/usePush';
+import GameDataSection from '../components/GameDataSection';
 import { Button, Card, SectionHeading, Field, TextField, buttonClasses } from '../components/ui';
 
 
@@ -241,6 +242,8 @@ export default function SettingsScreen() {
             </Link>
           </Card>
         )}
+
+        <GameDataSection />
 
         {/* Admins only, and dev builds only.
             

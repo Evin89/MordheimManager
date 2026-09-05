@@ -139,12 +139,18 @@ function useApplyRecord() {
 }
 
 /** Matches the old store's `saveWarband(warband)` signature — looks up the current
- * `updated_at` from cache itself so call sites don't need to track it. */
+ * `updated_at` from cache itself so call sites don't need to track it.
+ *
+ * Optimistic (§12.1): the edit lands in the cache the instant it's made, so an
+ * XP +1, a gold change or a buy shows immediately with no refetch-per-tap stall.
+ * The server write follows; success reconciles the fresh `updated_at` (still
+ * without invalidating, so there's no refetch), and any failure rolls the cache
+ * back to the pre-edit snapshot. The `updated_at` sequencing is unchanged — the
+ * record is read inside the queued task, after the prior save wrote its fresh one. */
 export function useSaveWarbandMutation() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const getRecord = useRecordLookup();
-  const applyRecord = useApplyRecord();
   const mutation = useMutation({
     mutationFn: (warband: Warband) =>
       // Read the record *inside* the queued task: by the time this runs, the
@@ -154,8 +160,29 @@ export function useSaveWarbandMutation() {
         if (!record) throw new Error(`Unknown warband "${warband.id}"`);
         return updateWarband(warband.id, user!.id, warband, record.updatedAt);
       }),
-    onSuccess: applyRecord,
-    onError: (err) => {
+    // Apply the edit to the cache before the server answers. Cancel in-flight
+    // refetches first so a late response can't clobber the optimistic value, and
+    // keep the record's current `updated_at` — the real save reads it in the
+    // queued task, and success replaces it with the server's.
+    onMutate: async (warband: Warband) => {
+      const key = warbandsKey(user?.id);
+      await queryClient.cancelQueries({ queryKey: key });
+      const previous = queryClient.getQueryData<WarbandRecord[]>(key);
+      queryClient.setQueryData<WarbandRecord[]>(key, (list) =>
+        list?.map((r) => (r.warband.id === warband.id ? { ...r, warband } : r)),
+      );
+      return { previous };
+    },
+    // Reconcile the server's fresh record (its `updated_at`) — no invalidate, so
+    // the optimistic edit isn't followed by a refetch.
+    onSuccess: (record) => {
+      queryClient.setQueryData<WarbandRecord[]>(warbandsKey(user?.id), (list) =>
+        list?.map((r) => (r.warband.id === record.warband.id ? record : r)),
+      );
+    },
+    onError: (err, _warband, context) => {
+      // Roll the cache back to the pre-edit snapshot the optimistic write took.
+      if (context?.previous) queryClient.setQueryData(warbandsKey(user?.id), context.previous);
       if (err instanceof ConcurrencyError) {
         window.alert(err.message);
         queryClient.invalidateQueries({ queryKey: warbandsKey(user?.id) });
