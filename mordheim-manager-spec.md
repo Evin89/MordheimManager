@@ -471,17 +471,24 @@ New reusable component `<ConfirmAction>` alongside `<ConfirmByTyping>`. Skills b
 
 _Superseded by §4.3.2 below: in-progress state is no longer simply lost on close. It persists to a per-warband battle draft and is offered for restore on return — the honesty moved from a warning about loss to a restore prompt._
 
-### 4.3 (revised) — Battle flow, playtest revisions ⚠️
+### 4.3 (revised) — Battle flow, playtest revisions ✅ (built)
 
 Three items from a real game. All three land on the **during-battle** screen and its state: it needs to record more (enemy casualties, wyrdstone counters), and — the one that hurt in play — that state must survive a page refresh.
 
 These sections revise §4.3, add a transient type to §3.1, add one scenario flag to §3.3, and **supersede** two earlier decisions (§2 "no persistence middleware" and the §4.3 note that in-progress state is simply lost on close). Both supersessions are scoped and justified below rather than applied silently.
 
-#### 4.3.1 During-battle screen ⚠️ (expanded)
+**As built** — shipped to the three proposed defaults (tally-only enemy casualties, prompt-on-drop, `localStorage`-only), with two scoped deviations from the sketch below, both called out inline:
+
+- **One persistence key, not per-warband.** The Zustand battle-session slice persists under a single `mordheim.battleDraft` key holding every warband's draft (each entry restores per warband exactly as a per-warband key would), rather than `mordheim.battleDraft.{warbandId}`.
+- **Wizard step-progress is not persisted.** Only the during-battle session persists; the post-battle wizard re-derives its draft from that restored session on entry (feeding enemy-OOA → XP and wyrdstone → income). So a refresh **mid-wizard** restarts the wizard from the restored session rather than resuming on the same step — the reported bug (losing during-battle state) is fixed; mid-wizard resume was not in scope.
+
+The two `TODO: verify vs rulebook` items (the exact per-enemy XP wording, and which scenarios carry counters) remain open — per §3.3 they are not set from memory. Alongside this, the during-battle and shared-roster cards gained skills and special-rules disclosures (matching the equipment rows) — a separate readability change, not part of this revision.
+
+#### 4.3.1 During-battle screen ✅ (expanded)
 
 The screen kept its original job — mark your own models out of action as they fall, so nobody rebuilds the casualty list from memory — and gains two things the post-battle wizard was silently assuming the player still remembered.
 
-##### A. Enemy taken out of action ◻️ → ✅ (to build)
+##### A. Enemy taken out of action ✅ (built)
 
 **The gap:** the wizard's Experience step (§4.3 step 3) awards XP but had no source for the *per-enemy* award. A hero earns **+1 Experience for each enemy model they put out of action** — `TODO: verify exact wording and scope vs rulebook (Experience section)`. With no way to record it during the game, that award was being entered from memory at the end, which is exactly the error-prone bookkeeping the app exists to remove.
 
@@ -491,20 +498,20 @@ The screen kept its original job — mark your own models out of action as they 
 - **Feeds forward:** at step 3, each hero's enemy-OOA tally pre-fills its own XP quick-button (`+1 per enemy`), added to the standard Winning-Leader / Survives awards. Nothing is applied without the player confirming the step, per §1 — the tally is a *default*, not a silent write.
 - Henchmen: the per-enemy award is a hero rule, so henchmen groups get no enemy-OOA stepper. If a house rule ever grants it, it goes on the henchmen type explicitly (same discipline as §15.2).
 
-❓ **Open — enemy casualties in the log.** The tally above is XP-only and opponent-agnostic. A heavier option is to also record *which* enemy models fell, for the campaign log / narrative. That needs the enemy roster in hand and only pays off when both players use the app. Default: **not built** — keep the lightweight per-hero counter. Confirm if you want enemy casualties surfaced in the battle record.
+✅ **Resolved — tally only.** Built as the lightweight per-hero counter; *which* enemy models fell is not recorded in the battle record. Revisit only if both players routinely use the app. The stepper is placed on heroes **and hired swords** (both single models that earn XP), not henchmen groups.
 
-##### B. Wyrdstone counters ◻️ → ✅ (to build)
+##### B. Wyrdstone counters ✅ (built)
 
 **The gap:** several scenarios have models physically carrying wyrdstone shards during the game (Wyrdstone Hunt and kin — `TODO: verify which scenarios use counters vs rulebook Scenarios chapter`). Where that shard total is what you bank afterwards, it has to be tracked *on the model* during play, because if the carrier goes down the shard is dropped and may change hands.
 
-**What's built:** a **per-model wyrdstone-shard counter** on the during-battle screen, shown only when the scenario is flagged (§3.3 below). Increment when a model picks a counter up, decrement when it's handed off or dropped.
+**What's built:** a **per-model wyrdstone-shard counter** on the during-battle screen, behind a toggle. The §3.3 flag is unverified and unset, so as built the counter is **off by default and revealed on demand** (and would auto-show once a scenario is flagged). Increment when a model picks a counter up, decrement when it's handed off or dropped.
 
 - **On out-of-action:** when a model carrying shards is marked OOA, the app flags the carried count as **dropped** rather than silently zeroing or silently keeping it — the physical counter is on the table and its fate is a table decision. The player then reassigns it to whoever picked it up, or marks it lost.
-  ❓ **Open — drop default.** Options: (a) prompt "reassign / mark lost" each time (safest, one extra tap); (b) auto-hold on the downed model until the player moves it; (c) auto-lost. Default proposed: **(a) prompt**. Confirm.
+  ✅ **Resolved — (a).** A downed single carrier's shards move to a **dropped pile** shown in the capture summary; the player reassigns by tapping **+** on whoever picked them up (which draws from the pile first), or **marks the pile lost**. Henchmen groups are left to the player, since "which member carried it" is unknown.
 - **Feeds forward:** at step 6 (Income), the sum of shards still carried by surviving models pre-fills **wyrdstone found**, editable as always. This replaces re-counting from memory at the end.
 - **Not scenario-gated away entirely:** the counter can be shown on demand even for an unflagged scenario (house rules, oddities), but it is hidden by default there to keep the common case uncluttered.
 
-#### 4.3.2 Battle draft persistence ✅ (to build) — the refresh fix
+#### 4.3.2 Battle draft persistence ✅ (built) — the refresh fix
 
 **The bug, as hit in play:** refreshing the app (or the OS reloading a backgrounded PWA tab, which is routine on a phone) wiped the during-battle notes, OOA marks, and now the tallies above. §4.3 previously said in-progress state was transient and the player was "warned rather than told a lie about autosave." A real game showed that honesty about the loss is not the same as not losing the work — the player still lost it.
 
@@ -512,8 +519,8 @@ The screen kept its original job — mark your own models out of action as they 
 
 **Mechanism:**
 
-- A single **battle draft** captures the whole in-progress battle: pre-battle selections, during-battle OOA marks, enemy-OOA tallies, wyrdstone counters, free-text notes, and the post-battle wizard's step progress.
-- It is persisted to **`localStorage`**, keyed per warband (`mordheim.battleDraft.{warbandId}`), written on change (debounced). Concretely: the battle-draft slice of the Zustand store gets persistence; the rest of the store stays transient.
+- A single **battle draft** (the during-battle session) captures the in-progress battle: pre-battle selections, during-battle OOA marks, enemy-OOA tallies, wyrdstone counters, and free-text notes. _(As built: the post-battle wizard's own step progress is **not** persisted — the wizard re-derives from this session on entry.)_
+- It is persisted to **`localStorage`** under a single `mordheim.battleDraft` key holding every warband's draft, written on each change (not debounced — the writes are small and tap-frequency). Concretely: the battle-session slice of the Zustand store gets persistence via `zustand/persist`; the rest of the store stays transient.
 - On opening the battle flow for a warband with a saved draft, show a **restore banner** — "Resume the battle in progress?" with **Resume** and **Discard**. Never auto-resume silently and never auto-discard: a stale draft the player forgot about, silently reloaded, is its own confusion.
 - The draft is **cleared** on two events only: a successful commit (step 8 writes the BattleRecord and warband, then deletes the draft), or explicit Discard. A failed commit leaves the draft intact so nothing is lost to a network error — consistent with §8.4's connection-lost banner.
 - One draft per warband. Starting a new battle while a draft exists routes through the restore banner rather than overwriting.
@@ -525,7 +532,7 @@ The screen kept its original job — mark your own models out of action as they 
 - **§2 "No persistence middleware."** Now scoped: the battle-draft slice is persisted; everything else in the store remains transient with no persistence. Update §2's wording to say so rather than reading as a blanket ban. _(Applied — see §2.)_
 - **§4.3 "If the app closes mid-wizard that progress is lost — the user is warned rather than told a lie about autosave."** Replace with: progress is saved to a per-warband draft and offered for restore on return; the honesty is now in the restore prompt, not in a warning about loss. _(Applied — see the note above this subsection.)_
 
-❓ **Open — cross-device.** `localStorage` is per-device, so a draft started on a phone won't appear on a tablet. Server-side draft (a `battle_drafts` row, or reusing `previous_data`-style staging) would fix that but reintroduces a write before commit and an RLS surface. Default: **`localStorage` only** — a battle is played from one device in one sitting, and this is the smallest change that fixes the reported bug. Confirm if cross-device resume is actually wanted.
+✅ **Resolved — `localStorage` only.** A battle is played from one device in one sitting; a server-side draft (with its pre-commit write and RLS surface) was not built. A draft started on a phone does not appear on a tablet — acceptable for the reported bug.
 
 #### Data model — the battle draft (adds to §3.1)
 
@@ -549,6 +556,8 @@ type BattleDraft = {
   wizardState: unknown;           // the existing staged-commit payload
 };
 ```
+
+**As built**, the persisted shape is the existing `BattleSession` (`src/store/useAppStore.ts`) extended with `startedAt`, `enemyOutOfAction`, `wyrdstoneCarried` and `droppedWyrdstone`, rather than a new `BattleDraft`. It keeps the session's existing fields (`scenario` as a name, `opponentWarbandId`, `opponentName`, `turn`, `events`, and `outOfAction` as an `OutOfActionTally`), and `wizardStep`/`wizardState` were **not** added — wizard progress isn't persisted (see the as-built note at the top of this section). The sketch above is the design intent.
 
 On the model, for the tallies that survive into the committed record (optional — only if you want them queryable later rather than folded into XP/income at commit):
 
@@ -580,11 +589,13 @@ usesWyrdstoneCounters?: boolean;   // default false; true for counter-carrying s
 
 Every pre-fill is a default the player confirms at its step (§1) — the during-battle screen speeds the wizard, it does not commit anything on its own.
 
-#### Open questions ❓ (collected)
+#### Resolved decisions ✅ (built to the proposed defaults)
 
-1. **Enemy casualties in the log** (§4.3.1 A) — keep the lightweight per-hero XP tally only, or also record which enemy models fell for the narrative? Default: tally only.
-2. **Wyrdstone drop-on-OOA** (§4.3.1 B) — prompt reassign/lost each time / auto-hold on the downed model / auto-lost? Default: prompt.
-3. **Cross-device resume** (§4.3.2) — `localStorage` only, or a server-side draft so a battle started on the phone resumes on the tablet? Default: `localStorage` only.
+1. **Enemy casualties in the log** (§4.3.1 A) — ✅ tally only; which enemy models fell is not recorded.
+2. **Wyrdstone drop-on-OOA** (§4.3.1 B) — ✅ prompt: a downed carrier's shards go to a dropped pile, reassigned on pick-up or marked lost.
+3. **Cross-device resume** (§4.3.2) — ✅ `localStorage` only.
+
+Still open, pending rulebook verification (not set from memory, per §3.3): the exact per-enemy XP wording (§4.3.1 A), and which scenarios carry wyrdstone counters (§4.3.1 B / §3.3 `usesWyrdstoneCounters`).
 
 ### 4.4 Trading post ✅
 
@@ -1728,13 +1739,13 @@ Candidates, all derivable from `battles` plus `warbands.rating`:
 - **Longest win streak** — consecutive `result: 'win'` in date order.
 - **Most battles fought.**
 - **Highest rating** — reads the denormalised column directly (§3.2), no computation.
-- **Bloodiest** — most models lost, *if* that ends up tracked per battle. `casualtiesSummary` is free text today (§3.1), so this one may have to wait or stay off the list.
+- **Bloodiest** (most models lost) ✅ **and Slayer** (most enemies taken out) ✅ — both now built. They read structured counts the post-battle wizard records — `modelsLost` (derived from the battle's own deaths) and `enemiesTakenOut` (self-reported) — added to `BattleRecord` on the jsonb blob, so no migration was needed and older records read as zero.
 
 **Screen** — a small Campaign Awards card on the Standings tab, beside or above the table. A handful of badges, not a screen of its own, recomputed on every Standings load from the `battles` array already fetched.
 
 **No persistence (for the computed badges):** a computed award is a snapshot of current standings, not an achievement earned and locked in, so nothing needs to survive a warband's stats changing later.
 
-❓ **Open question** — "Bloodiest" needs `casualtiesSummary` to stop being free text before it can be computed honestly. Either drop it, or add a `casualtiesCount` number alongside the existing prose. Additive, with no migration of old rows needed: it defaults to null and simply does not participate until populated.
+✅ **Resolved** — rather than parse the free-text `casualtiesSummary`, the wizard records structured `modelsLost` and `enemiesTakenOut` counts on `BattleRecord` (jsonb, no migration; older rows read as zero). Bloodiest and Slayer compute from those. The during-battle enemy-OOA tally (§4.3.1 A) feeds `enemiesTakenOut`; deaths at commit feed `modelsLost`.
 
 **Manual honours (added later) ✅** — the computed badges answer "who leads on the numbers"; they can't record the things a group actually hands out at the table — Best Painted, MVP, a one-off title for the bloodiest night. So a second, *persisted* strand sits beside them: **honours a campaign leader grants to a warband by hand.** A new `campaign_awards` table (migration 0027 — `campaign_id`, `warband_id` ON DELETE CASCADE, `title`, optional `note`, `created_by`, `created_at`), on the same RLS shape as territories except **writes are leader-only** (`is_campaign_leader`, `created_by` pinned to the granter against spoofing); every member reads them. The `CampaignHonours` card renders on the Standings tab under the computed "Campaign awards" badges — leaders get a grant form (pick a warband, title, optional note) and a per-honour remove; members see the list read-only. A grant also surfaces in the campaign activity feed ("Honour granted — {title} · to {warband}"). Deliberately named **"Honours"** in the UI so the two award strands — computed snapshots vs. granted distinctions — don't collide. Files: `api/campaignAwards.ts`, `hooks/useCampaignAwards.ts`, `components/CampaignHonours.tsx`.
 
