@@ -813,6 +813,8 @@ export const strings = {
       wyrdstoneDropped: (n: number) => `${n} shard${n === 1 ? '' : 's'} dropped`,
       wyrdstoneDroppedHint: 'Tap + on whoever picked them up, or mark them lost.',
       wyrdstoneMarkLost: 'Mark lost',
+      skillsLabel: 'Skills',
+      specialRulesLabel: 'Special rules',
       carriedOverNotice:
         'Casualties marked during the battle have been filled in below. Adjust them if anything changed.',
     },

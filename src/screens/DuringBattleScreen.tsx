@@ -6,6 +6,10 @@ import ProfileBlock from '../components/ProfileBlock';
 import { WarbandThumb } from '../components/WarbandPhoto';
 import { useRosterPhotos } from '../hooks/usePhotos';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
+import DisclosureChevron from '../components/DisclosureChevron';
+import { getUnitSpecialRules } from '../data/warbandRegistry';
+import { getSkillByName } from '../lib/skillLookup';
+import { ResolvedSpecialRule } from '../data/types';
 import { Button, Card, SectionHeading, TextField } from '../components/ui';
 import { strings } from '../strings';
 import { rollD6, rollD66, roll2D6 } from '../lib/dice';
@@ -122,6 +126,32 @@ function MiniStepper({
   );
 }
 
+/** A skill or special rule whose name expands to its text — the same
+ * read-at-a-glance disclosure the equipment rows use, so a player can check what
+ * an ability does mid-game without leaving the tracker. A name with no resolved
+ * text renders as a plain, non-expandable row. */
+function CompactRuleDisclosure({ name, text }: { name: string; text?: string }) {
+  const [open, setOpen] = useState(false);
+  const canExpand = !!text?.trim();
+  return (
+    <div>
+      <button
+        type="button"
+        disabled={!canExpand}
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={canExpand ? open : undefined}
+        className="w-full min-h-[32px] flex items-center gap-1.5 text-left disabled:cursor-default"
+      >
+        {canExpand ? <DisclosureChevron open={open} /> : <span className="w-4 shrink-0" aria-hidden="true" />}
+        <span className="text-bone-300 text-xs">{name}</span>
+      </button>
+      {open && canExpand && (
+        <p className="pl-[1.375rem] pr-1 pb-1.5 text-bone-400 text-xs whitespace-pre-line">{text}</p>
+      )}
+    </div>
+  );
+}
+
 type CounterControl = { value: number; onChange: (n: number) => void };
 
 function RosterCard({
@@ -134,6 +164,7 @@ function RosterCard({
   outOfAction,
   enemyOoa,
   wyrdstone,
+  specialRules,
   photoUrl,
 }: {
   name: string;
@@ -141,6 +172,8 @@ function RosterCard({
   stats: StatLine;
   equipment: EquipmentItem[];
   skills?: string[];
+  /** The unit's special rules, each expanding to its text (§ during-battle reference). */
+  specialRules?: ResolvedSpecialRule[];
   detailLink: string;
   outOfAction?: OutOfActionControl;
   /** Enemies this model took out of action (§4.3.1 A) — heroes and hired swords. */
@@ -182,10 +215,32 @@ function RosterCard({
       ) : (
         <p className="text-bone-300 text-xs">{strings.battle.duringBattle.noEquipment}</p>
       )}
-      {skills !== undefined && (
-        <p className="text-bone-300 text-xs">
-          {skills.length > 0 ? skills.join(', ') : strings.battle.duringBattle.noSkills}
-        </p>
+      {skills !== undefined &&
+        (skills.length > 0 ? (
+          <div className="space-y-0.5">
+            <p className="text-bone-400 text-[10px] font-semibold uppercase tracking-wide">
+              {strings.battle.duringBattle.skillsLabel}
+            </p>
+            {skills.map((skill) => (
+              <CompactRuleDisclosure key={skill} name={skill} text={getSkillByName(skill)?.effect} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-bone-300 text-xs">{strings.battle.duringBattle.noSkills}</p>
+        ))}
+      {specialRules && specialRules.length > 0 && (
+        <div className="space-y-0.5">
+          <p className="text-bone-400 text-[10px] font-semibold uppercase tracking-wide">
+            {strings.battle.duringBattle.specialRulesLabel}
+          </p>
+          {specialRules.map((rule) => (
+            <CompactRuleDisclosure
+              key={rule.name}
+              name={rule.name}
+              text={[rule.description, rule.note].filter(Boolean).join('\n\n')}
+            />
+          ))}
+        </div>
       )}
       {(outOfAction || enemyOoa || wyrdstone) && (
         <div className="pt-1 border-t border-ink-800 space-y-2">
@@ -251,6 +306,10 @@ function RosterReference({
     interactive && showWyrdstone && onWyrdstoneChange
       ? { value: wyrdstone?.[id] ?? 0, onChange: (n) => onWyrdstoneChange(id, n) }
       : undefined;
+
+  // The unit's special rules, resolved from the warband definition — shown for
+  // your models and the opponent's alike, since both are read at the table.
+  const rulesFor = (unitType: string) => getUnitSpecialRules(warband.warbandType, unitType);
   // Keyed by model id (group shot under ''). Runs for the opponent's warband
   // too — a campaign-mate can read it, so their portraits show here as well.
   const photos = useRosterPhotos(warband.id);
@@ -279,6 +338,7 @@ function RosterReference({
           stats={hero.stats}
           equipment={hero.equipment}
           skills={hero.skills}
+          specialRules={rulesFor(hero.unitType)}
           detailLink={`/warbands/${warband.id}/hero/${hero.id}`}
           photoUrl={photos[hero.id]}
           enemyOoa={enemyControl(hero.id)}
@@ -303,6 +363,7 @@ function RosterReference({
           equipment={group.equipment}
           detailLink={`/warbands/${warband.id}/henchmen/${group.id}`}
           photoUrl={photos[group.id]}
+          specialRules={rulesFor(group.unitType)}
           wyrdstone={wyrdControl(group.id)}
           outOfAction={
             interactive
@@ -324,6 +385,7 @@ function RosterReference({
           stats={sword.stats}
           equipment={sword.equipment}
           skills={sword.skills}
+          specialRules={rulesFor(sword.type)}
           detailLink={`/warbands/${warband.id}/hired-sword/${sword.id}`}
           photoUrl={photos[sword.id]}
           enemyOoa={enemyControl(sword.id)}
