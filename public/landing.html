@@ -238,14 +238,16 @@
       }
       /* The model-portrait frame — the same 2px ink border and inset rule as the
          profile block, since §11.4 gives photos the profile's book-plate framing.
-         Empty here on purpose: a silhouette standing in for the picture the app
-         would hold once you upload one. */
+         Holds a sample warrior portrait, the picture the app would frame once you
+         upload one. */
       .portrait {
         width: 132px; height: 132px; flex: none;
         border: 2px solid rgb(var(--ink)); background: rgb(var(--raised));
         box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.35);
         display: flex; align-items: center; justify-content: center;
+        overflow: hidden;
       }
+      .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
       .portrait svg { width: 74px; height: 74px; color: rgb(var(--ink-faded)); }
       .profile {
         border: 2px solid rgb(var(--ink)); background: rgb(var(--raised));
@@ -399,13 +401,16 @@
       <div class="plate">
         <div>
           <div class="plate-row">
-            <!-- Model-portrait placeholder — a warrior silhouette in the same
-                 framed plate a photo would fill on the warrior's detail screen. -->
-            <div class="portrait" role="img" aria-label="Model portrait placeholder">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 12.4a4.6 4.6 0 1 0 0-9.2 4.6 4.6 0 0 0 0 9.2Z"/>
-                <path d="M12 14.2c-4.4 0-8 2.6-8 5.8 0 .55.45 1 1 1h14c.55 0 1-.45 1-1 0-3.2-3.6-5.8-8-5.8Z"/>
-              </svg>
+            <!-- Sample model portrait in the same framed plate a photo fills on
+                 the warrior's detail screen. -->
+            <div class="portrait">
+              <img
+                src="/placeholder.webp"
+                alt="A Reikland mercenary captain amid the ruins of Mordheim"
+                width="132"
+                height="132"
+                loading="lazy"
+              />
             </div>
             <div class="profile">
               <table class="stat">
