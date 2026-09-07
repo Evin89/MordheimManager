@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="grimdark" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms of Service — Mordheim Manager</title>
+<meta name="description" content="The terms you agree to when using Mordheim Manager.">
+<meta name="theme-color" content="#0b0a09">
+<link rel="canonical" href="https://mordheimmanager.net/terms.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<!-- Pre-paint theme, matching landing.html, about.html, privacy.html and the
+     app so a parchment reader never flashes the dark theme. -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('mordheim.theme');
+      if (t !== 'grimdark' && t !== 'parchment') t = 'grimdark';
+      document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.classList.toggle('dark', t === 'grimdark');
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'parchment' ? '#e9e0cc' : '#0b0a09');
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'grimdark');
+    }
+  })();
+</script>
+
+<!-- Self-hosted fonts (scripts/fetch-fonts.mjs), matching the app + landing +
+     about + privacy — no request to Google's font service. -->
+<link rel="preload" as="font" type="font/woff2" href="/fonts/pirata-one-400-normal-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/alegreya-400-normal-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<style>
+  :root[data-theme="parchment"]{
+    --parchment: 232 222 196;
+    --parchment-raised: 241 233 210;
+    --ink: 34 26 18;
+    --ink-faded: 106 90 68;
+    --blood: 122 30 26;
+    --verdigris: 74 93 78;
+    --on-accent: 255 255 255;
+    --edge: 34 26 18;
+  }
+  :root[data-theme="grimdark"]{
+    --parchment: 11 10 9;
+    --parchment-raised: 24 21 17;
+    --ink: 231 223 207;
+    --ink-faded: 154 143 122;
+    --blood: 217 130 52;
+    --verdigris: 122 149 124;
+    --on-accent: 11 10 9;
+    --edge: 231 223 207;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:rgb(var(--parchment));
+    background-image:
+      radial-gradient(120% 80% at 12% -5%, rgb(var(--ink) / 0.05), transparent 60%),
+      radial-gradient(120% 90% at 100% 0%, rgb(var(--ink) / 0.04), transparent 55%);
+    color:rgb(var(--ink));
+    font-family:"Alegreya", Georgia, "Times New Roman", serif;
+    font-size:18px;line-height:1.65;
+    font-variant-numeric:lining-nums;
+  }
+  .page{max-width:44rem;margin:0 auto;padding:1.25rem}
+
+  .masthead{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;padding:0.5rem 0 1.25rem}
+  .wordmark{font-family:"Pirata One", serif;font-size:1.5rem;letter-spacing:0.02em;color:rgb(var(--ink));text-decoration:none;line-height:1}
+  .wordmark:hover{color:rgb(var(--blood))}
+  .theme-toggle{
+    font-family:"Alegreya Sans", sans-serif;font-size:0.82rem;font-weight:500;
+    color:rgb(var(--ink-faded));background:transparent;
+    border:1px solid rgb(var(--edge) / 0.45);border-radius:0;
+    padding:0.4rem 0.7rem;cursor:pointer;white-space:nowrap;
+    transition:color .15s, border-color .15s;
+  }
+  .theme-toggle:hover{color:rgb(var(--ink));border-color:rgb(var(--edge) / 0.8)}
+  .theme-toggle:focus-visible{outline:2px solid rgb(var(--blood));outline-offset:2px}
+
+  .doc{background:rgb(var(--parchment-raised));border:2px solid rgb(var(--edge) / 0.85);padding:2.25rem 1.75rem}
+
+  .title{font-family:"Pirata One", serif;font-weight:400;font-size:clamp(2rem, 7vw, 2.9rem);line-height:1.05;margin:0 0 0.35rem;letter-spacing:0.01em}
+  .updated{font-family:"IM Fell English SC", serif;color:rgb(var(--ink-faded));font-size:1rem;letter-spacing:0.03em;margin:0 0 1.5rem}
+
+  .lede{font-size:1.08rem;margin:0 0 0.5rem}
+  .lede::first-letter{font-family:"Pirata One", serif;font-size:3.1em;line-height:0.72;float:left;margin:0.05em 0.12em 0 0;color:rgb(var(--blood))}
+
+  h2{font-family:"IM Fell English", serif;font-weight:400;font-size:1.5rem;line-height:1.2;margin:2.4rem 0 0.6rem;padding-bottom:0.35rem;border-bottom:1px solid rgb(var(--blood) / 0.55)}
+  h2 .num{font-family:"Alegreya", serif;color:rgb(var(--ink-faded));font-variant-numeric:tabular-nums lining-nums;margin-right:0.5rem}
+
+  p{margin:0 0 0.95rem}
+  a{color:rgb(var(--blood));text-underline-offset:2px}
+  a:hover{text-decoration:none}
+  strong{font-weight:700}
+  ul{margin:0 0 0.95rem;padding-left:1.2rem}
+  li{margin:0 0 0.45rem}
+
+  .fill{font-family:"Alegreya Sans", sans-serif;font-size:0.9em;font-weight:500;background:rgb(var(--blood) / 0.14);border-bottom:1px dashed rgb(var(--blood) / 0.6);padding:0.05em 0.3em}
+  .aside{font-style:italic;color:rgb(var(--ink-faded));border-left:3px solid rgb(var(--verdigris) / 0.7);padding:0.1rem 0 0.1rem 0.9rem;margin:0 0 0.95rem}
+
+  /* Fan-tool callout — the one panel that must be read, so it gets weight */
+  .callout{
+    background:rgb(var(--blood) / 0.08);
+    border:2px solid rgb(var(--blood) / 0.55);
+    padding:1.1rem 1.2rem;margin:1rem 0;
+  }
+  .callout p:last-child{margin:0}
+
+  .fleuron{display:block;width:100%;border:0;text-align:center;margin:1.6rem 0 0.4rem;color:rgb(var(--ink-faded))}
+  .fleuron svg{display:inline-block;width:44px;height:16px}
+
+  .doc-foot{margin-top:2.6rem;padding-top:1.2rem;border-top:1px solid rgb(var(--edge) / 0.35);font-family:"Alegreya Sans", sans-serif;font-size:0.92rem;display:flex;flex-wrap:wrap;gap:0.4rem 1.4rem}
+  .doc-foot a{font-weight:500}
+
+  @media (max-width:480px){body{font-size:17px}.doc{padding:1.5rem 1.15rem}}
+  @media (prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="masthead">
+    <a class="wordmark" href="/">Mordheim Manager</a>
+    <button class="theme-toggle" type="button" aria-label="Switch colour theme"></button>
+  </header>
+
+  <main class="doc">
+    <h1 class="title">Terms of Service</h1>
+    <p class="updated">Last updated 7 September 2026</p>
+
+    <p class="lede">Welcome to Mordheim Manager (&ldquo;the app&rdquo;), available at <strong>mordheimmanager.net</strong>. By creating an account or using the app, you agree to these Terms. If you do not agree, please do not use the app.</p>
+    <p>The app is operated by <strong>E.D. Wijninga</strong>, based in the Netherlands. Contact: <strong><a href="mailto:info@mordheimmanager.net">info@mordheimmanager.net</a></strong>.</p>
+
+    <div class="fleuron"><svg viewBox="0 0 44 16" aria-hidden="true"><path d="M0 8h14M44 8H30M22 2l4 6-4 6-4-6z" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="22" cy="8" r="1.4" fill="currentColor"/></svg></div>
+
+    <h2><span class="num">1.</span>Eligibility</h2>
+    <p>You must be able to enter into a binding agreement to use the app. If you are under <strong>16</strong>, please use the app only with the involvement of a parent or guardian.</p>
+
+    <h2><span class="num">2.</span>Your account</h2>
+    <ul>
+      <li>You are responsible for keeping your login details secure and for activity that happens under your account.</li>
+      <li>Please provide a valid email address so we can send password resets and account notices.</li>
+      <li>You may delete your account at any time. We may suspend or close accounts that breach these Terms.</li>
+    </ul>
+
+    <h2><span class="num">3.</span>Your content</h2>
+    <ul>
+      <li>You keep ownership of the content you create — your warbands, rosters, notes, campaigns and any photos you upload.</li>
+      <li>You are responsible for what you upload. Don&rsquo;t upload content that is unlawful, infringes someone else&rsquo;s rights, or that you don&rsquo;t have the right to share.</li>
+      <li>You grant us the limited permission needed to store, process and display your content <strong>for the purpose of running the app for you</strong> (for example, storing your roster and showing it back to you, your campaign-mates, or — if you choose — the public gallery). We don&rsquo;t claim any other rights over it.</li>
+    </ul>
+
+    <h2><span class="num">4.</span>The public gallery</h2>
+    <p>If you mark a warband as <strong>public</strong>, its name, type, rating and your display name become visible to anyone on the internet, including people without an account. You choose whether to do this, and you can make a warband private again at any time. Don&rsquo;t make content public that you don&rsquo;t want to be public.</p>
+
+    <h2><span class="num">5.</span>Acceptable use</h2>
+    <p>Please don&rsquo;t:</p>
+    <ul>
+      <li>upload unlawful, offensive, harassing or infringing content;</li>
+      <li>attempt to access data, warbands or campaigns you are not entitled to see;</li>
+      <li>probe, scrape, overload or attempt to break the app or its security;</li>
+      <li>use the app to store content unrelated to the purpose it&rsquo;s built for;</li>
+      <li>misuse the reporting or campaign features to harass others.</li>
+    </ul>
+    <p>We may remove content or restrict access if these Terms are breached.</p>
+
+    <h2><span class="num">6.</span>Not affiliated with Games Workshop</h2>
+    <div class="callout">
+      <p>Mordheim Manager is an <strong>unofficial, non-commercial fan-made tool</strong>. It is not produced, endorsed by, or affiliated with <strong>Games Workshop Limited</strong>. <em>Mordheim</em>, <em>Warhammer</em>, and related names, marks and settings are the property of Games Workshop.</p>
+      <p>The app contains no Games Workshop artwork, logos or copyrighted text; game data you enter is your own responsibility. This tool is provided for personal, non-commercial use by fans of the game.</p>
+    </div>
+
+    <h2><span class="num">7.</span>Availability and changes</h2>
+    <ul>
+      <li>The app is provided on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis. We don&rsquo;t guarantee it will always be available, uninterrupted or error-free.</li>
+      <li>The app requires an internet connection; there is no offline mode.</li>
+      <li>We may add, change or remove features, and we may update these Terms as the app develops. Material changes will be noted in the app&rsquo;s changelog, and continued use after a change means you accept the updated Terms.</li>
+    </ul>
+
+    <h2><span class="num">8.</span>Backups</h2>
+    <p>You are responsible for your own backups. The app provides a <strong>JSON export</strong> of all your data at any time — please use it if your data matters to you. While we take reasonable care, we can&rsquo;t guarantee against data loss.</p>
+
+    <h2><span class="num">9.</span>Limitation of liability</h2>
+    <p>To the fullest extent permitted by law, we are not liable for any indirect or consequential loss, or for loss of data, arising from your use of the app. Nothing in these Terms limits liability that cannot be limited under applicable law (such as liability for intent or gross negligence). Because the app is provided free of charge and for a hobby purpose, our total liability is limited accordingly.</p>
+
+    <h2><span class="num">10.</span>Termination</h2>
+    <p>You may stop using the app and delete your account at any time. We may suspend or terminate access if you breach these Terms or if we discontinue the app.</p>
+
+    <h2><span class="num">11.</span>Governing law</h2>
+    <p>These Terms are governed by the law of the Netherlands. Disputes will be submitted to the competent Dutch courts, unless mandatory consumer law entitles you to another forum.</p>
+
+    <h2><span class="num">12.</span>Contact</h2>
+    <p>Questions about these Terms: <strong><a href="mailto:info@mordheimmanager.net">info@mordheimmanager.net</a></strong>.</p>
+
+    <div class="doc-foot">
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/app">Open the app</a>
+      <a href="/">Home</a>
+    </div>
+  </main>
+</div>
+
+<script>
+  /* Theme toggle. Persists to the same key the app + landing + about + privacy
+     use (localStorage 'mordheim.theme', values 'grimdark' | 'parchment'). */
+  (function () {
+    var root = document.documentElement;
+    var btn = document.querySelector('.theme-toggle');
+    var meta = document.querySelector('meta[name="theme-color"]');
+    function label() {
+      btn.textContent = root.getAttribute('data-theme') === 'grimdark'
+        ? 'Rulebook theme' : 'Grimdark theme';
+    }
+    function apply(t) {
+      root.setAttribute('data-theme', t);
+      root.classList.toggle('dark', t === 'grimdark');
+      if (meta) meta.setAttribute('content', t === 'parchment' ? '#e9e0cc' : '#0b0a09');
+      try { localStorage.setItem('mordheim.theme', t); } catch (e) {}
+      label();
+    }
+    btn.addEventListener('click', function () {
+      apply(root.getAttribute('data-theme') === 'grimdark' ? 'parchment' : 'grimdark');
+    });
+    label();
+  })();
+</script>
+</body>
+</html>

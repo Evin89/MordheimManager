@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="grimdark" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Mordheim Manager</title>
+<meta name="description" content="How Mordheim Manager collects, uses and protects your personal data.">
+<meta name="theme-color" content="#0b0a09">
+<link rel="canonical" href="https://mordheimmanager.net/privacy.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<!-- Pre-paint theme, matching landing.html, about.html and the app so a
+     parchment reader never flashes the dark theme. -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('mordheim.theme');
+      if (t !== 'grimdark' && t !== 'parchment') t = 'grimdark';
+      document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.classList.toggle('dark', t === 'grimdark');
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'parchment' ? '#e9e0cc' : '#0b0a09');
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'grimdark');
+    }
+  })();
+</script>
+
+<!-- Self-hosted fonts (scripts/fetch-fonts.mjs), matching the app + landing +
+     about — no request to Google's font service, so no IP is shared with it. -->
+<link rel="preload" as="font" type="font/woff2" href="/fonts/pirata-one-400-normal-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/alegreya-400-normal-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<style>
+  /* ── Theme tokens (§5.1). Space-separated RGB so rgb(var(--x) / a) works. ── */
+  :root[data-theme="parchment"]{
+    --parchment: 232 222 196;
+    --parchment-raised: 241 233 210;
+    --ink: 34 26 18;
+    --ink-faded: 106 90 68;
+    --blood: 122 30 26;
+    --verdigris: 74 93 78;
+    --on-accent: 255 255 255;
+    --edge: 34 26 18;
+  }
+  :root[data-theme="grimdark"]{
+    --parchment: 11 10 9;
+    --parchment-raised: 24 21 17;
+    --ink: 231 223 207;
+    --ink-faded: 154 143 122;
+    --blood: 217 130 52;          /* ember accent */
+    --verdigris: 122 149 124;
+    --on-accent: 11 10 9;         /* near-black on ember passes AA (§5.5) */
+    --edge: 231 223 207;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:rgb(var(--parchment));
+    /* Low-contrast mottling on the app background only, never behind text (§5.1) */
+    background-image:
+      radial-gradient(120% 80% at 12% -5%, rgb(var(--ink) / 0.05), transparent 60%),
+      radial-gradient(120% 90% at 100% 0%, rgb(var(--ink) / 0.04), transparent 55%);
+    color:rgb(var(--ink));
+    font-family:"Alegreya", Georgia, "Times New Roman", serif;
+    font-size:18px;
+    line-height:1.65;
+    font-variant-numeric:lining-nums;
+  }
+
+  .page{max-width:44rem;margin:0 auto;padding:1.25rem}
+
+  /* ── Masthead ── */
+  .masthead{
+    display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
+    padding:0.5rem 0 1.25rem;
+  }
+  .wordmark{
+    font-family:"Pirata One", system-ui, serif;
+    font-size:1.5rem;letter-spacing:0.02em;
+    color:rgb(var(--ink));text-decoration:none;line-height:1;
+  }
+  .wordmark:hover{color:rgb(var(--blood))}
+  .theme-toggle{
+    font-family:"Alegreya Sans", system-ui, sans-serif;
+    font-size:0.82rem;font-weight:500;
+    color:rgb(var(--ink-faded));
+    background:transparent;
+    border:1px solid rgb(var(--edge) / 0.45);
+    border-radius:0;
+    padding:0.4rem 0.7rem;cursor:pointer;
+    white-space:nowrap;
+    transition:color .15s, border-color .15s;
+  }
+  .theme-toggle:hover{color:rgb(var(--ink));border-color:rgb(var(--edge) / 0.8)}
+  .theme-toggle:focus-visible{outline:2px solid rgb(var(--blood));outline-offset:2px}
+
+  /* ── The document sits as a flat "page" plate (§5.3) ── */
+  .doc{
+    background:rgb(var(--parchment-raised));
+    border:2px solid rgb(var(--edge) / 0.85);
+    padding:2.25rem 1.75rem;
+  }
+
+  .title{
+    font-family:"Pirata One", serif;
+    font-weight:400;
+    font-size:clamp(2rem, 7vw, 2.9rem);
+    line-height:1.05;
+    margin:0 0 0.35rem;
+    letter-spacing:0.01em;
+  }
+  .updated{
+    font-family:"IM Fell English SC", serif;
+    color:rgb(var(--ink-faded));
+    font-size:1rem;letter-spacing:0.03em;
+    margin:0 0 1.5rem;
+  }
+
+  .lede{font-size:1.08rem;margin:0 0 0.5rem}
+  /* Drop cap — the one flourish (§5.3) */
+  .lede::first-letter{
+    font-family:"Pirata One", serif;
+    font-size:3.1em;line-height:0.72;
+    float:left;margin:0.05em 0.12em 0 0;
+    color:rgb(var(--blood));
+  }
+
+  h2{
+    font-family:"IM Fell English", serif;
+    font-weight:400;
+    font-size:1.5rem;line-height:1.2;
+    margin:2.4rem 0 0.6rem;
+    padding-bottom:0.35rem;
+    border-bottom:1px solid rgb(var(--blood) / 0.55);
+  }
+  h2 .num{
+    font-family:"Alegreya", serif;
+    color:rgb(var(--ink-faded));
+    font-variant-numeric:tabular-nums lining-nums;
+    margin-right:0.5rem;
+  }
+  h3{
+    font-family:"IM Fell English", serif;
+    font-weight:400;font-size:1.18rem;
+    margin:1.5rem 0 0.35rem;
+  }
+
+  p{margin:0 0 0.95rem}
+  a{color:rgb(var(--blood));text-underline-offset:2px}
+  a:hover{text-decoration:none}
+  strong{font-weight:700}
+
+  ul{margin:0 0 0.95rem;padding-left:1.2rem}
+  li{margin:0 0 0.45rem}
+
+  /* ── Fill-in placeholders, so they're impossible to miss ── */
+  .fill{
+    font-family:"Alegreya Sans", sans-serif;
+    font-size:0.9em;font-weight:500;
+    background:rgb(var(--blood) / 0.14);
+    border-bottom:1px dashed rgb(var(--blood) / 0.6);
+    padding:0.05em 0.3em;
+    border-radius:0;
+  }
+  /* Editorial asides you should read while filling things in */
+  .aside{
+    font-style:italic;
+    color:rgb(var(--ink-faded));
+    border-left:3px solid rgb(var(--verdigris) / 0.7);
+    padding:0.1rem 0 0.1rem 0.9rem;
+    margin:0 0 0.95rem;
+  }
+
+  /* ── Contact / controller block ── */
+  blockquote{
+    margin:0 0 1rem;padding:1rem 1.1rem;
+    background:rgb(var(--ink) / 0.05);
+    border:1px solid rgb(var(--edge) / 0.4);
+    font-style:normal;
+  }
+  blockquote p{margin:0 0 0.3rem}
+  blockquote p:last-child{margin:0}
+
+  /* ── Table, in the profile-block idiom (§5.3): heavy edge, thin inner rules ── */
+  .table-wrap{overflow-x:auto;margin:0 0 1rem}
+  table{
+    width:100%;border-collapse:collapse;
+    border:2px solid rgb(var(--edge) / 0.85);
+    font-size:0.98rem;
+  }
+  th,td{
+    text-align:left;vertical-align:top;
+    padding:0.6rem 0.7rem;
+    border:1px solid rgb(var(--edge) / 0.3);
+  }
+  thead th{
+    font-family:"Alegreya Sans", sans-serif;
+    font-weight:700;font-size:0.85rem;
+    letter-spacing:0.02em;
+    background:rgb(var(--ink) / 0.06);
+  }
+
+  /* ── Fleuron divider (§5.3) ── */
+  .fleuron{
+    display:block;width:100%;border:0;
+    text-align:center;margin:1.6rem 0 0.4rem;color:rgb(var(--ink-faded))
+  }
+  .fleuron svg{display:inline-block;width:44px;height:16px}
+
+  /* ── Foot ── */
+  .doc-foot{
+    margin-top:2.6rem;padding-top:1.2rem;
+    border-top:1px solid rgb(var(--edge) / 0.35);
+    font-family:"Alegreya Sans", sans-serif;
+    font-size:0.92rem;
+    display:flex;flex-wrap:wrap;gap:0.4rem 1.4rem;
+  }
+  .doc-foot a{font-weight:500}
+
+  @media (max-width:480px){
+    body{font-size:17px}
+    .doc{padding:1.5rem 1.15rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="masthead">
+    <a class="wordmark" href="/">Mordheim Manager</a>
+    <button class="theme-toggle" type="button" aria-label="Switch colour theme"></button>
+  </header>
+
+  <main class="doc">
+    <h1 class="title">Privacy Policy</h1>
+    <p class="updated">Last updated 7 September 2026</p>
+
+    <p class="lede">This policy explains what personal data Mordheim Manager collects, why, and what rights you have. Mordheim Manager (&ldquo;the app&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) is a tool for managing Mordheim tabletop warbands and campaigns, available at <strong>mordheimmanager.net</strong>.</p>
+
+    <div class="fleuron"><svg viewBox="0 0 44 16" aria-hidden="true"><path d="M0 8h14M44 8H30M22 2l4 6-4 6-4-6z" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="22" cy="8" r="1.4" fill="currentColor"/></svg></div>
+
+    <h2><span class="num">1.</span>Who is responsible for your data</h2>
+    <p>The controller for your personal data is:</p>
+    <blockquote>
+      <p><strong>E.D. Wijninga</strong></p>
+      <p>Contact: <strong><a href="mailto:info@mordheimmanager.net">info@mordheimmanager.net</a></strong></p>
+    </blockquote>
+    <p>We are based in the Netherlands, so this app is governed by the <strong>General Data Protection Regulation (GDPR)</strong> and Dutch privacy law.</p>
+
+    <h2><span class="num">2.</span>What data we collect</h2>
+    <p><strong>Account data.</strong> When you register, we collect your <strong>email address</strong> and a <strong>password</strong> (stored only in hashed form by our authentication provider — we never see it). You also choose a <strong>display name</strong> and an avatar style. Your email is used to sign you in, to send password-reset messages, and to contact you about your account if needed.</p>
+    <p><strong>Warband and campaign data.</strong> Everything you create in the app: warband names and rosters, models, experience, injuries, equipment, gold, battle records (including dates, scenarios, opponents and results), campaigns you create or join, and campaign events (including dates, times and optional locations). This is the content the app exists to store for you.</p>
+    <p><strong>Campaign membership.</strong> If you join a campaign, other members of that campaign can see your display name, your warband&rsquo;s name, type and rating, and the shared battle log. Your private campaign objectives are <strong>not</strong> visible to other members — they are protected by database-level access rules, not just hidden in the interface.</p>
+    <p><strong>Support reports.</strong> If you submit an issue report, we store the text you write together with technical context: the page you were on, the app version, your browser&rsquo;s user-agent string, and a small amount of app context (for example, which warband type or unit you were viewing). This helps us reproduce and fix problems.</p>
+    <p><strong>Photos (planned feature).</strong> If and when photo uploads are enabled, any images you upload of your miniatures are stored on our behalf by our storage provider. Photos are kept in a private store and shown only to signed-in users; they are not exposed to anonymous visitors of the public gallery.</p>
+    <p><strong>Technical data.</strong> Like any website, our hosting provider processes your IP address to deliver the app to you.</p>
+    <p><strong>Analytics.</strong> We use <strong>PostHog</strong> to understand how the app is used so we can improve it. <strong>PostHog only runs if you agree to it</strong> via our consent banner. When you consent, PostHog collects usage data such as which pages and features you use and the actions you take, along with technical details like device type, browser, operating system, and an approximate location derived from your IP address, and it assigns a pseudonymous identifier to your browser. We use this only in aggregate to see which parts of the app are used and where problems occur; we do not use it for advertising. If you decline, PostHog is not loaded and no analytics cookies are set. You can change your choice at any time (see Section 10).</p>
+
+    <h2><span class="num">3.</span>Why we process your data, and our legal basis</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Purpose</th><th>Legal basis (GDPR Art. 6)</th></tr></thead>
+        <tbody>
+          <tr><td>Creating and running your account</td><td>Performance of a contract — you asked us to provide the service</td></tr>
+          <tr><td>Storing your warbands, campaigns and battles</td><td>Performance of a contract</td></tr>
+          <tr><td>Showing a warband in the public gallery</td><td>Consent — this only happens when you mark a warband &ldquo;public&rdquo;, and you can make it private again at any time</td></tr>
+          <tr><td>Analytics, to see how the app is used and improve it (PostHog)</td><td>Consent — analytics runs only if you accept it, and you can withdraw at any time</td></tr>
+          <tr><td>Handling your support reports</td><td>Legitimate interest — fixing and improving the app</td></tr>
+          <tr><td>Keeping the app secure and available</td><td>Legitimate interest — protecting users and the service</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2><span class="num">4.</span>The public gallery</h2>
+    <p>Mordheim Manager has a <strong>public gallery</strong> that is readable <strong>without an account</strong>, including by search engines and anonymous visitors on the open internet. A warband appears there <strong>only if you choose to mark it public</strong>. When you do, the following becomes publicly visible: the warband&rsquo;s name and type, its rating, and your <strong>display name</strong>. Your email is never shown. Because this is public to anyone, please avoid putting personal information you don&rsquo;t want public into a display name or a public warband&rsquo;s name and notes. You can remove a warband from the gallery at any time by setting it back to private.</p>
+
+    <h2><span class="num">5.</span>Who we share your data with</h2>
+    <p>We do not sell your data or share it for advertising. We use the following processors (&ldquo;sub-processors&rdquo;) to run the app:</p>
+    <ul>
+      <li><strong>Supabase</strong> — provides authentication, database and (for photos) file storage. Your account and game data are stored here. <span class="aside" style="display:inline;border:0;padding:0">Hosting region: <span class="fill">[confirm — e.g. &ldquo;EU (Frankfurt)&rdquo;. If your project is in a US region, see Section 6.]</span></span></li>
+      <li><strong>Cloudflare</strong> — hosting and content delivery for the website. Processes your IP address to serve pages.</li>
+      <li><strong>PostHog</strong> — product analytics, to help us understand and improve how the app is used. Active <strong>only with your consent</strong>. <span class="aside" style="display:inline;border:0;padding:0">Hosting region: PostHog EU Cloud (eu.i.posthog.com) — data is kept in the EU.</span></li>
+    </ul>
+    <p>We may also disclose data if legally required to do so.</p>
+
+    <h2><span class="num">6.</span>International data transfers</h2>
+    <p>Some of our providers may process data outside the European Economic Area (for example, Supabase if your project is hosted in a US region). Where that happens, the transfer is covered by the European Commission&rsquo;s <strong>Standard Contractual Clauses</strong> or an equivalent safeguard. PostHog runs on its EU Cloud and our fonts are self-hosted, so neither of those involves a transfer outside the EEA.</p>
+    <p class="aside">If your Supabase project is hosted in the EU, the only remaining transfer to review is your hosting/CDN provider (Cloudflare) — confirm and update this section accordingly.</p>
+
+    <h2><span class="num">7.</span>How long we keep your data</h2>
+    <ul>
+      <li><strong>Account and game data</strong> — kept for as long as your account exists.</li>
+      <li><strong>Deleted warbands</strong> — when you delete a warband it is first soft-deleted (hidden and recoverable), then permanently purged after <strong>30 days</strong>, along with any associated photos.</li>
+      <li><strong>Campaign records</strong> — battle log entries and campaigns remain as shared history for the group; you can remove your own reported battles.</li>
+      <li><strong>Support reports</strong> — kept while they remain useful for fixing the issue.</li>
+    </ul>
+    <p>You can delete your account and associated data at any time (see Section 8). You can also export all of your data to a JSON file from the app at any moment.</p>
+
+    <h2><span class="num">8.</span>Your rights</h2>
+    <p>Under the GDPR you have the right to:</p>
+    <ul>
+      <li><strong>Access</strong> a copy of your data — the app&rsquo;s JSON export gives you this directly.</li>
+      <li><strong>Rectify</strong> inaccurate data — you can edit essentially everything in the app yourself.</li>
+      <li><strong>Erase</strong> your data (&ldquo;right to be forgotten&rdquo;) — you can delete warbands, campaigns and your account.</li>
+      <li><strong>Restrict</strong> or <strong>object</strong> to certain processing.</li>
+      <li><strong>Data portability</strong> — again, the JSON export provides this in a machine-readable format.</li>
+      <li><strong>Withdraw consent</strong> — for anything based on consent (such as a public warband), by making it private again.</li>
+    </ul>
+    <p>To exercise any right, contact us at <strong><a href="mailto:info@mordheimmanager.net">info@mordheimmanager.net</a></strong>. You also have the right to lodge a complaint with the Dutch supervisory authority, the <strong>Autoriteit Persoonsgegevens</strong> (<a href="https://autoriteitpersoonsgegevens.nl" rel="noopener">autoriteitpersoonsgegevens.nl</a>).</p>
+
+    <h2><span class="num">9.</span>How we protect your data</h2>
+    <p>Access to your data is enforced at the database level (row-level security), not merely hidden in the interface. Private warbands and campaign objectives are only readable by the people entitled to see them. Photos are stored in a private bucket and served through time-limited signed links. All traffic is encrypted over HTTPS. Passwords are handled and hashed by our authentication provider and are never visible to us.</p>
+
+    <h2><span class="num">10.</span>Cookies and local storage</h2>
+    <p>Mordheim Manager stores two kinds of information on your device:</p>
+    <ul>
+      <li><strong>Strictly necessary (no consent needed).</strong> A login session token so you stay signed in, and your theme preference. Under the EU ePrivacy rules these are exempt from consent, so they are always active.</li>
+      <li><strong>Analytics (consent required).</strong> PostHog uses cookies and local storage to measure how the app is used. These are <strong>not</strong> strictly necessary, so we ask for your consent <strong>before</strong> they load. When you first visit, a banner lets you accept or decline analytics, with declining just as easy as accepting. If you decline, no PostHog cookies are set and no analytics data is collected.</li>
+    </ul>
+    <p>You can withdraw or change your consent at any time via <span class="fill">[the &ldquo;Cookie settings&rdquo; link — e.g. in the footer or on the Account screen]</span>. We do <strong>not</strong> use advertising or cross-site tracking cookies.</p>
+
+    <h2><span class="num">11.</span>Children</h2>
+    <p>Mordheim Manager is intended for hobbyists and is not directed at young children. If you are under <strong>16</strong> (the GDPR age of digital consent in the Netherlands), please use the app only with the involvement of a parent or guardian. We do not knowingly collect data from children below that age without such involvement.</p>
+
+    <h2><span class="num">12.</span>Changes to this policy</h2>
+    <p>We may update this policy as the app develops (for example, when photo uploads launch). Material changes will be noted in the app&rsquo;s changelog, and the &ldquo;Last updated&rdquo; date above will change.</p>
+
+    <h2><span class="num">13.</span>Contact</h2>
+    <p>Questions about your data or this policy: <strong><a href="mailto:info@mordheimmanager.net">info@mordheimmanager.net</a></strong>.</p>
+
+    <div class="doc-foot">
+      <a href="/terms.html">Terms of Service</a>
+      <a href="/app">Open the app</a>
+      <a href="/">Home</a>
+    </div>
+  </main>
+</div>
+
+<script>
+  /* Theme toggle. Persists to the same key the app + landing + about use
+     (localStorage 'mordheim.theme', values 'grimdark' | 'parchment'), so a
+     reader's choice carries across every surface. */
+  (function () {
+    var root = document.documentElement;
+    var btn = document.querySelector('.theme-toggle');
+    var meta = document.querySelector('meta[name="theme-color"]');
+    function label() {
+      btn.textContent = root.getAttribute('data-theme') === 'grimdark'
+        ? 'Rulebook theme' : 'Grimdark theme';
+    }
+    function apply(t) {
+      root.setAttribute('data-theme', t);
+      root.classList.toggle('dark', t === 'grimdark');
+      if (meta) meta.setAttribute('content', t === 'parchment' ? '#e9e0cc' : '#0b0a09');
+      try { localStorage.setItem('mordheim.theme', t); } catch (e) {}
+      label();
+    }
+    btn.addEventListener('click', function () {
+      apply(root.getAttribute('data-theme') === 'grimdark' ? 'parchment' : 'grimdark');
+    });
+    label();
+  })();
+</script>
+</body>
+</html>
