@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import ThemeToggle from '../components/ThemeToggle';
@@ -11,6 +11,12 @@ import { isDemoMode, setDemoMode } from '../dev/demoMode';
 import { MAX_DISPLAY_NAME } from '../api/profile';
 import { useMyProfileQuery, useUpdateDisplayNameMutation } from '../hooks/useProfile';
 import { usePush } from '../hooks/usePush';
+import {
+  analyticsConfigurable,
+  consentChoice,
+  setAnalyticsConsent,
+  subscribeConsent,
+} from '../lib/analyticsConsent';
 import GameDataSection from '../components/GameDataSection';
 import { Button, Card, SectionHeading, Field, TextField, buttonClasses } from '../components/ui';
 
@@ -121,6 +127,46 @@ function NotificationsSection() {
   );
 }
 
+/**
+ * §23.7 / Privacy Policy §10 — the standing analytics control, so a choice made
+ * (or skipped) at the first-run banner can be changed at any time. Applies to
+ * everyone, signed in or not: analytics is anonymous. Hidden entirely when it
+ * can't run regardless — no PostHog project, demo mode, or the browser sending
+ * Do-Not-Track — because a switch that does nothing is worse than no switch.
+ */
+function AnalyticsSection() {
+  const [choice, setChoice] = useState(consentChoice());
+  useEffect(() => subscribeConsent(setChoice), []);
+
+  if (!analyticsConfigurable()) return null;
+
+  const on = choice === 'granted';
+  const s = strings.settings.analytics;
+
+  return (
+    <Card as="section">
+      <SectionHeading>{s.section}</SectionHeading>
+      <p className="text-bone-300 text-sm">{s.hint}</p>
+      <button
+        type="button"
+        onClick={() => setAnalyticsConsent(!on)}
+        role="switch"
+        aria-checked={on}
+        className={`min-h-[44px] px-4 rounded-md border font-semibold ${
+          on ? 'border-ember-500 text-ember-400' : 'border-ink-700 text-bone-200 hover:bg-ink-800'
+        }`}
+      >
+        {on ? s.on : s.off}
+      </button>
+      <p>
+        <a href="/privacy.html" className="text-ember-400 text-sm underline underline-offset-2">
+          {s.privacyLink}
+        </a>
+      </p>
+    </Card>
+  );
+}
+
 export default function SettingsScreen() {
   const [theme, setTheme] = useTheme();
   const { user, signOut } = useAuth();
@@ -208,6 +254,11 @@ export default function SettingsScreen() {
         {/* Signed-in only: a reminder has to be stored against an account to be
             sent, and there's nothing to subscribe when signed out. */}
         {user && <NotificationsSection />}
+
+        {/* Everyone, signed in or not — analytics is anonymous, and this is
+            where you change the choice the first-run banner asked for. Renders
+            nothing when analytics can't run (no project / demo / Do-Not-Track). */}
+        <AnalyticsSection />
 
         <Card as="section">
           <SectionHeading>{strings.settings.accountSection}</SectionHeading>

@@ -272,6 +272,22 @@
          primary links above, but still clearly links. */
       .links-community a { color: rgb(var(--ink-faded)); text-decoration: underline; text-underline-offset: 2px; }
       .disclaimer { font-size: 13px; color: rgb(var(--ink-faded)); line-height: 1.5; max-width: 70ch; margin-top: 18px; }
+
+      /* Cookie/analytics consent banner (§23.7 / Privacy Policy §10). PostHog is
+         non-essential, so it stays off until the visitor accepts here. Hidden by
+         default; the inline script shows it only when the choice is undecided
+         and Do-Not-Track is off. */
+      .cookie-banner {
+        position: fixed; inset: auto 0 0 0; z-index: 60;
+        background: rgb(var(--ink-900) / 0.97); border-top: 1px solid rgb(var(--ink-700));
+        padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+      }
+      .cookie-banner[hidden] { display: none; }
+      .cookie-inner { max-width: 44rem; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+      .cookie-text { flex: 1 1 18rem; margin: 0; font-size: 15px; color: rgb(var(--bone-300)); line-height: 1.5; }
+      .cookie-text a { color: rgb(var(--accent-bright)); }
+      .cookie-actions { display: flex; gap: 12px; flex: 0 0 auto; }
+      .cookie-actions .btn { min-height: 44px; font-size: 16px; padding: 0 18px; }
     </style>
   </head>
 
@@ -436,6 +452,7 @@
           <a href="/about.html">About &amp; changelog</a>
           <a href="/privacy.html">Privacy</a>
           <a href="/terms.html">Terms</a>
+          <a href="#" data-cookie-settings>Cookie settings</a>
         </div>
         <p class="community-label">Other Mordheim resources</p>
         <div class="links links-community">
@@ -452,13 +469,71 @@
       </footer>
     </div>
 
+    <!-- Analytics consent banner. Hidden until the inline script decides to show
+         it (undecided choice + Do-Not-Track off). Buttons carry equal weight. -->
+    <div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Analytics consent" hidden>
+      <div class="cookie-inner">
+        <p class="cookie-text">
+          We’d like to use anonymous analytics (PostHog) to see which features get used and fix
+          problems. No ads, and no tracking across other sites.
+          <a href="/privacy.html">Privacy&nbsp;Policy</a>.
+        </p>
+        <div class="cookie-actions">
+          <button type="button" class="btn btn-ghost" data-consent="deny">Decline</button>
+          <button type="button" class="btn btn-primary" data-consent="grant">Accept analytics</button>
+        </div>
+      </div>
+    </div>
 
     <script>
-    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-    posthog.init('phc_utcjzVZJNnWcz6msb4N5ccgAM8G2S99H24DvuibkNMvC', {
-        api_host: 'https://eu.i.posthog.com',
-        defaults: '2026-05-30',
-    })
+    /* Analytics consent, gated (§23.7 / Privacy Policy §10). PostHog is
+       non-essential, so it loads ONLY once the visitor has accepted — the choice
+       is stored under the same localStorage key the app reads
+       ('mordheim.analyticsConsent'), so accepting on either surface settles it
+       everywhere. Do-Not-Track is honoured before anything loads. */
+    (function () {
+      var KEY = 'mordheim.analyticsConsent';
+
+      function dnt() {
+        var d = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+        return d === '1' || d === 'yes';
+      }
+      function stored() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+      function save(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+
+      function loadPostHog() {
+        if (window.__phLoaded || dnt()) return;
+        window.__phLoaded = true;
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        posthog.init('phc_utcjzVZJNnWcz6msb4N5ccgAM8G2S99H24DvuibkNMvC', {
+          api_host: 'https://eu.i.posthog.com',
+          defaults: '2026-05-30',
+        });
+      }
+
+      var banner = document.getElementById('cookie-banner');
+      function showBanner() { if (banner && !dnt()) banner.hidden = false; }
+      function hideBanner() { if (banner) banner.hidden = true; }
+
+      // Load straight away if already accepted; prompt only when undecided.
+      if (stored() === 'granted') loadPostHog();
+      else if (stored() === null && !dnt()) showBanner();
+
+      if (banner) {
+        banner.addEventListener('click', function (e) {
+          var choice = e.target && e.target.getAttribute && e.target.getAttribute('data-consent');
+          if (!choice) return;
+          if (choice === 'grant') { save('granted'); loadPostHog(); }
+          else { save('denied'); }
+          hideBanner();
+        });
+      }
+
+      // Footer "Cookie settings" link re-opens the banner so a choice can change.
+      document.querySelectorAll('[data-cookie-settings]').forEach(function (el) {
+        el.addEventListener('click', function (e) { e.preventDefault(); showBanner(); });
+      });
+    })();
 </script>
     <!-- Progressive enhancement only: the page reads fully without it, and
          crawlers/unfurlers get the whole thing from the static markup. -->

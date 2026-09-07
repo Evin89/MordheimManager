@@ -7,6 +7,7 @@ import DiceButton from './components/DiceButton';
 import ReportIssueButton from './components/ReportIssueButton';
 import SideNav from './components/SideNav';
 import ConnectionBanner from './components/ConnectionBanner';
+import ConsentBanner from './components/ConsentBanner';
 import RequireAuth from './auth/RequireAuth';
 import NotFoundScreen from './screens/NotFoundScreen';
 import { useRegisterCustomWarbands } from './hooks/useCustomWarbands';
@@ -259,6 +260,7 @@ export default function App() {
     // start_url, the landing's own links) name /app explicitly.
     <BrowserRouter basename="/app">
       <RouteAnalytics />
+      <ConsentBanner />
       <Suspense fallback={<RouteFallback />}>
         <Routes>
         {/* Auth screens render outside the app shell — no nav on the sign-in flow. */}

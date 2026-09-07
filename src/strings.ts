@@ -5,6 +5,16 @@
 export const strings = {
   appName: 'Mordheim Campaign Manager',
   tagline: 'Warband & campaign bookkeeping',
+  // The first-run analytics consent banner (§23.7 / Privacy Policy §10).
+  consent: {
+    ariaLabel: 'Analytics consent',
+    message:
+      'We’d like to use anonymous analytics (PostHog) to see which features get used and fix problems. No ads, and no tracking across other sites.',
+    learnMore: 'Privacy Policy',
+    accept: 'Accept analytics',
+    decline: 'Decline',
+    changeHint: 'You can change this any time in Account settings.',
+  },
   nav: {
     appShort: 'Mordheim',
     home: 'Home',
@@ -241,6 +251,13 @@ export const strings = {
       blocked: 'Notifications are blocked for this site. Re-enable them in your browser’s site settings to turn reminders on.',
       unsupportedHint:
         'This device can’t receive push notifications. On iPhone or iPad, add the app to your Home Screen first, then reminders become available.',
+    },
+    analytics: {
+      section: 'Analytics',
+      hint: 'Anonymous product analytics (PostHog) help us see which features get used and where things break. No ads, no cross-site tracking, and never your warband names or anything you type. Off until you turn it on.',
+      on: 'Analytics on',
+      off: 'Analytics off',
+      privacyLink: 'How we handle your data',
     },
     aboutSection: 'About',
     changelogLink: "What's New (Changelog)",

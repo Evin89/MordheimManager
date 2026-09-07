@@ -1,5 +1,5 @@
 import type { CaptureResult } from 'posthog-js';
-import { isDemoMode } from '../dev/demoMode';
+import { analyticsAllowed, subscribeConsent } from './analyticsConsent';
 
 /**
  * Behavioural analytics (spec §23.7) — the deliberately narrow client.
@@ -51,17 +51,6 @@ type EventProps = Record<string, string | number | boolean>;
 let client: PostHogClient | null = null;
 let initPromise: Promise<PostHogClient | null> | null = null;
 
-/** Honour Do-Not-Track before we even fetch the SDK — stronger than PostHog's
- * own `respect_dnt`, which loads first and suppresses after. */
-function doNotTrackEnabled(): boolean {
-  if (typeof navigator === 'undefined') return false;
-  const dnt =
-    navigator.doNotTrack ||
-    (window as { doNotTrack?: string }).doNotTrack ||
-    (navigator as { msDoNotTrack?: string }).msDoNotTrack;
-  return dnt === '1' || dnt === 'yes';
-}
-
 // URL-bearing properties PostHog attaches to *every* event automatically. The
 // query string is stripped from each so a `?join=…` can never ride along.
 const URL_PROPS = ['$current_url', '$referrer', '$pathname'];
@@ -99,12 +88,14 @@ function scrubEvent(event: CaptureResult | null): CaptureResult | null {
 
 /**
  * Load and initialise PostHog once. Safe to call repeatedly; the in-flight
- * promise is shared. A no-op in every build when there's nothing to send to
- * (keys unset) or when we mustn't (Do-Not-Track, demo mode) — never a throw, so
- * the one environment where the keys are legitimately absent still runs.
+ * promise is shared. A no-op whenever analytics isn't allowed to run —
+ * keys unset, demo mode, Do-Not-Track, or consent not granted (§ePrivacy) — and
+ * never a throw, so the one environment where the keys are legitimately absent
+ * still runs. Because the guard returns before `initPromise` is cached, a later
+ * call after the visitor accepts the banner proceeds normally.
  */
 export async function initAnalytics(): Promise<PostHogClient | null> {
-  if (!isAnalyticsConfigured || doNotTrackEnabled() || isDemoMode()) return null;
+  if (!analyticsAllowed()) return null;
   if (initPromise) return initPromise;
 
   initPromise = import('posthog-js').then(({ default: posthog }) => {
@@ -180,3 +171,25 @@ export async function identifyUser(userId: string): Promise<void> {
 export function resetAnalytics(): void {
   client?.reset();
 }
+
+/** `window.location.pathname` under the app carries the router's `/app` basename;
+ * capturePageview re-adds it, so strip it here first. */
+function stripAppBasename(pathname: string): string {
+  return pathname.replace(/^\/app(?=\/|$)/, '') || '/';
+}
+
+// React to consent changes at runtime (from the banner or the Account toggle):
+// accepting starts analytics without a reload — and fires the pageview the
+// initial load skipped while the decision was pending — while declining, if the
+// SDK had already loaded this session, opts it back out so nothing more is sent.
+subscribeConsent((choice) => {
+  if (choice === 'granted') {
+    void initAnalytics().then((ph) => {
+      if (!ph) return;
+      ph.opt_in_capturing();
+      void capturePageview(stripAppBasename(window.location.pathname));
+    });
+  } else if (client) {
+    client.opt_out_capturing();
+  }
+});
