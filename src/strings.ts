@@ -145,6 +145,7 @@ export const strings = {
     noWarbandsCta: 'Create your first warband to get started.',
     quickActionsSection: 'Quick Actions',
     viewCampaignLog: 'View Campaign Log',
+    soloButton: 'Solo battle',
     // Signed-out landing: the rules reference is fully usable without an account,
     // only warband/campaign data needs one.
     signedOutTitle: 'Browse the rules, or sign in to manage your warbands',
@@ -347,6 +348,8 @@ export const strings = {
     displayNameLabel: 'Display name',
     loginButton: 'Sign in',
     registerButton: 'Create account',
+    googleButton: 'Continue with Google',
+    orDivider: 'or',
     loginSubmitting: 'Signing in…',
     registerSubmitting: 'Creating account…',
     noAccountPrompt: "Don't have an account?",

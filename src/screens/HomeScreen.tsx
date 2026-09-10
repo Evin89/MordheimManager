@@ -214,6 +214,14 @@ export default function HomeScreen() {
             <Link to="/campaign" className={buttonClasses('secondary')}>
               {strings.home.viewCampaignLog}
             </Link>
+            {/* Solo mode (beta) — app-original, client-only. Badged so it reads
+                as experimental next to the shipped actions. */}
+            <Link to="/solo" className={buttonClasses('secondary')}>
+              {strings.home.soloButton}
+              <span className="ml-2 text-[10px] font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
+                Beta
+              </span>
+            </Link>
           </div>
         </section>
 

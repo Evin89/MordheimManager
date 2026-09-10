@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
 import { Button, Field, TextField } from '../components/ui';
+import GoogleSignInButton, { AuthDivider } from '../components/GoogleSignInButton';
 
 export default function LoginScreen() {
   const { signIn } = useAuth();
@@ -34,6 +35,9 @@ export default function LoginScreen() {
           <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{strings.appName}</h1>
           <p className="text-sm text-bone-400">{strings.auth.loginTitle}</p>
         </header>
+
+        <GoogleSignInButton />
+        <AuthDivider />
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <Field label={strings.auth.emailLabel} htmlFor="email">

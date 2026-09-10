@@ -2191,6 +2191,15 @@ This realises the original scope: pageviews + named product events mirroring the
 
 **Privacy surface / residency (open).** The gallery is anon-readable (§8.1) and the community is heavily European, so any client-side tracker touches GDPR. The current posture — anonymous, cookieless (`localStorage`, no cookie), DNT-respecting, PII-free — is the lightweight path that likely avoids a consent banner; the EU-vs-US host choice (residency) is settled by which `VITE_POSTHOG_HOST` is configured and rides on the reverse-proxy work above.
 
+### 23.7.1 Consent gating ✅
+
+The §23.7 "likely avoids a consent banner" posture was revised: analytics is non-essential under EU ePrivacy, so PostHog now loads **only after explicit opt-in**. One shared decision (`localStorage['mordheim.analyticsConsent']` = `granted` / `denied` / unset) is read by both the React app and the static landing page, so a choice on either surface settles it everywhere; Do-Not-Track and demo mode force "off, no banner".
+
+- **The gate.** `initAnalytics()` returns null unless `analyticsAllowed()` (configured, not demo, DNT off, `granted`), so every `capture`/pageview/identify is blocked until consent — and because the guard returns before the init promise is cached, accepting later proceeds normally. A runtime `subscribeConsent` reactor starts analytics without a reload on accept (and fires the pending pageview), and opts PostHog out on revoke.
+- **The surfaces.** `ConsentBanner` (equal-weight Accept/Decline, links to the Privacy Policy) mounts at the app root; an **Analytics** toggle on the Account screen changes the choice anytime (shown for signed-out users too, since analytics is anonymous). The landing page's previously-unconditional PostHog snippet is now gated on the same key, with a matching vanilla banner and a footer **Cookie settings** link. Files: `lib/analyticsConsent.ts`, `components/ConsentBanner.tsx`, the `AnalyticsSection` in `SettingsScreen.tsx`, and the inline gate in `public/landing.html`.
+
+This is what makes the §23.9 database-side signup alert the right call rather than a client event: a declined banner means no analytics, but still a row.
+
 ### 23.8 Build order
 
 1. ◻️ **Tagged links first (§23.4)** — zero code in the app, pure link hygiene, and every day untagged is acquisition data lost forever. Tag the mordheimer.net referral, the Discord posts, and the §8.5 share cards.
@@ -2200,3 +2209,18 @@ This realises the original scope: pageviews + named product events mirroring the
 5. ◻️ **Fold into the §13 scale test** — the cohort and funnel queries are `group by` over the whole user table, exactly the kind of thing that's instant at 50 rows and slow at 5,000. Measure them on the seeded dataset (§13.2) before assuming they hold.
 6. ✅ **PostHog client (§23.7)** — shipped after the above: privacy-scoped, direct-to-host, a closed nine-event union plus pageviews.
 7. ◻️ **PostHog reverse-proxy (§23.7)** — route ingestion through the Cloudflare Worker on a non-obvious path; settles the ad-blocker and residency questions.
+
+### 23.9 Signup alerts (Slack) ✅ (migration 0031; Vault secret to be set)
+
+A "someone registered" ping to a Slack Incoming Webhook — the ops counterpart to the §23.2 funnel, deliberately **server-side** rather than a PostHog event. Since §23.7 analytics is now consent-gated (§23.7.1), a client-side signup event would miss everyone who declines the banner, be lost if the tab closes before it flushes, and leak the webhook URL to the browser. A row is written on every signup regardless of consent, so the trigger fires from the SQL layer instead — the same layer that owns the §10.5 purge and §19.4 reminders.
+
+**As built (migration 0031).** Two triggers around one shared, Vault-backed poster:
+
+- **`on_signup_notify_slack`** — `AFTER INSERT ON profiles`. The profile row is created 1:1 with the user by `handle_new_user()` (0001), so this is exactly "a new account exists". Message: *🎲 Nieuwe registratie: {display_name}*.
+- **`on_email_confirmed_notify_slack`** — `AFTER UPDATE OF email_confirmed_at ON auth.users`, guarded to the `NULL → set` transition so it alerts once, at confirmation only. Message: *✅ Registratie bevestigd: {display_name}* (name read from the profile row). With e-mail verification off, the first alert is the whole story; with it on, you see both the attempt and the confirmation.
+
+**Three enforced properties.** (1) The webhook URL is a **secret in Supabase Vault** (`slack_signup_webhook`), read by name, never in the repo. (2) The message carries the **display_name, never the e-mail** — enough to know *that* someone joined without shipping e-mail addresses to Slack, which keeps the Privacy Policy honest. (3) `notify_slack_signup()` is **async (`pg_net`) and cannot raise** — the whole body is exception-swallowed and a missing secret/extension just no-ops, so a Slack outage can never fail or slow a registration. `pg_net`/`supabase_vault` are enabled defensively, mirroring 0014's pg_cron guard, so the migration applies even where they're absent.
+
+**Operator setup (one-time, not in the migration):** `select vault.create_secret('https://hooks.slack.com/services/…', 'slack_signup_webhook');`. Test with `select public.notify_slack_signup('🎲 Test …');`. Alerts stay dormant until the secret exists.
+
+**Alternative not taken.** A Database Webhook → Edge Function → Slack would allow richer messages (warband counts, buttons) with the URL as a Function env-var, at the cost of more moving parts. The pure-SQL trigger was chosen for the same reason the rest of this layer is SQL: fewer parts, and it's the layer already owned.

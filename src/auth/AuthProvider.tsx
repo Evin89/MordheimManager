@@ -16,6 +16,10 @@ type AuthState = {
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signUp: (email: string, password: string, displayName: string) => Promise<{ error: string | null }>;
+  /** Starts the Google OAuth flow (sign-in and sign-up alike — Supabase creates
+   * the account on first use). Redirects the browser away on success, so a
+   * returned error means the redirect could not even be started. */
+  signInWithGoogle: () => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
   /** Emails a password-reset link that returns the user to /reset-password. */
   requestPasswordReset: (email: string) => Promise<{ error: string | null }>;
@@ -121,6 +125,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error: error?.message ?? null };
   }
 
+  async function signInWithGoogle() {
+    // Comes back to /app (spelled out — this is a real URL for Supabase and
+    // Google, not a router path); supabase-js then exchanges the code in the URL
+    // and `onAuthStateChange` above establishes the session. This exact origin +
+    // `/app` must be on Supabase's allowed redirect list, and the Supabase
+    // callback (`…/auth/v1/callback`) on Google's authorised redirect URIs.
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: `${window.location.origin}/app` },
+    });
+    return { error: error?.message ?? null };
+  }
+
   async function signOut() {
     // Signing out of the demo account means leaving demo mode — there is no
     // Supabase session to end, and reloading is how the flag is applied.
@@ -157,6 +174,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         loading,
         signIn,
         signUp,
+        signInWithGoogle,
         signOut,
         requestPasswordReset,
         updatePassword,

@@ -80,6 +80,10 @@ const CustomWarbandEditScreen = lazy(() => import('./screens/CustomWarbandEditSc
 
 const WarbandPickerScreen = lazy(() => import('./screens/WarbandPickerScreen'));
 
+// Solo mode (beta) — client-only, its own store, no server writes.
+const SoloSetupScreen = lazy(() => import('./screens/solo/SoloSetupScreen'));
+const SoloBattleScreen = lazy(() => import('./screens/solo/SoloBattleScreen'));
+
 const ForgotPasswordScreen = lazy(() => import('./screens/ForgotPasswordScreen'));
 
 const ResetPasswordScreen = lazy(() => import('./screens/ResetPasswordScreen'));
@@ -170,6 +174,11 @@ function AppShell() {
             <Route path="/rosters/:warbandId" element={<SharedWarbandScreen />} />
 
             {/* --- Requires an account: your warbands, battles and campaign --- */}
+            {/* Solo mode (beta): app-original, client-only. Needs your warbands,
+                so it sits behind the auth gate like the rest of /warbands. */}
+            <Route path="/solo" element={guarded(<SoloSetupScreen />)} />
+            <Route path="/solo/:warbandId" element={guarded(<SoloBattleScreen />)} />
+
             <Route path="/warbands" element={guarded(<WarbandListScreen />)} />
             <Route path="/compare" element={guarded(<WarbandCompareScreen />)} />
             <Route path="/warbands/new" element={guarded(<NewWarbandScreen />)} />
