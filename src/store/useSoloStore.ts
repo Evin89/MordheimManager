@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Warband } from '../types';
 import { NpcAgenda } from '../lib/solo/npc';
+import { Battlefield } from '../lib/solo/battlefield';
 
 // The in-progress solo game (a beta feature, §solo). Deliberately a SEPARATE
 // persisted store from the campaign battle draft (`mordheim.battleDraft`): solo
@@ -32,6 +33,10 @@ export type SoloSession = {
   npcOutOfAction: Record<string, boolean>;
   /** Seeds the generated battlefield map, so it's stable across reloads. */
   battlefieldSeed: number;
+  /** The generated board, snapshotted at setup so an owned-terrain layout stays
+   * put even if the library is edited later. Optional for back-compat: older
+   * sessions regenerate from the seed. */
+  battlefield?: Battlefield;
   events: SoloEvent[];
 };
 

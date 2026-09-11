@@ -119,6 +119,78 @@ export function buildNpcWarband(def: WarbandDefinition, budget = 500): Warband {
   return warband;
 }
 
+/**
+ * Builds an enemy warband constrained to the models the player OWNS (§solo
+ * collection): never more of a unit than `owned` lists, never a unit owned 0 of.
+ * Spends toward the budget within those counts — the leader first (if owned),
+ * then heroes cheapest-first, then henchmen — so the result is a force you can
+ * actually put on the table. Falls back to nothing if the pool is empty.
+ */
+export function buildNpcFromCollection(
+  def: WarbandDefinition,
+  owned: Record<string, number>,
+  budget = 500,
+): Warband {
+  const warband = createWarband(def, `${def.name} (AI)`);
+  let gold = budget;
+  const sizeCap = def.maxWarbandSize ?? 20;
+  let size = 0;
+  const ownedOf = (unitType: string) => owned[unitType] ?? 0;
+
+  const leaderSlot = def.heroSlots.find((s) => s.isLeader);
+  if (leaderSlot && ownedOf(leaderSlot.unitType) >= 1 && size < sizeCap) {
+    const hero = createHeroFromSlot(leaderSlot, leaderSlot.unitType);
+    hero.equipment.push(...equipNpcModel(def, leaderSlot.equipmentOptions, hero.stats));
+    warband.heroes.push(hero);
+    gold = Math.max(0, gold - (leaderSlot.cost ?? 0));
+    size += 1;
+  }
+
+  // Other heroes: cheapest first, up to the number owned (and the slot's own cap).
+  const otherHeroes = def.heroSlots
+    .filter((s) => !s.isLeader && s.cost !== null && ownedOf(s.unitType) > 0)
+    .sort((a, b) => (a.cost ?? 0) - (b.cost ?? 0));
+  for (const slot of otherHeroes) {
+    const cap = Math.min(ownedOf(slot.unitType), slot.maxCount ?? Number.POSITIVE_INFINITY);
+    const cost = slot.cost ?? 0;
+    for (let i = 0; i < cap && size < sizeCap && gold >= cost; i++) {
+      const hero = createHeroFromSlot(slot, slot.unitType);
+      hero.equipment.push(...equipNpcModel(def, slot.equipmentOptions, hero.stats));
+      warband.heroes.push(hero);
+      gold -= cost;
+      size += 1;
+    }
+  }
+
+  // Henchmen: cheapest first, up to the number owned, split into groups of 5.
+  const henchTypes = def.henchmenTypes
+    .filter((t) => (t.cost ?? 0) > 0 && ownedOf(t.unitType) > 0)
+    .sort((a, b) => (a.cost ?? 0) - (b.cost ?? 0));
+  for (const type of henchTypes) {
+    const cap = Math.min(ownedOf(type.unitType), type.maxCount ?? Number.POSITIVE_INFINITY);
+    const cost = type.cost as number;
+    let n = 0;
+    while (size < sizeCap && n < cap && gold >= cost) {
+      gold -= cost;
+      size += 1;
+      n += 1;
+    }
+    let remaining = n;
+    let groupIndex = 1;
+    while (remaining > 0) {
+      const g = Math.min(5, remaining);
+      const group = createHenchmenGroupFromType(type, `${type.unitType} ${groupIndex}`, g);
+      group.equipment.push(...equipNpcModel(def, type.equipmentOptions, group.stats));
+      warband.henchmenGroups.push(group);
+      remaining -= g;
+      groupIndex += 1;
+    }
+  }
+
+  warband.gold = gold;
+  return warband;
+}
+
 // --- Temperament & hidden agenda (app-original solo-mode flavour) ---
 
 export type NpcTemperament = 'aggressive' | 'cautious' | 'cunning' | 'frenzied';

@@ -49,7 +49,10 @@ export default function SoloBattleScreen() {
     });
   };
 
-  const field = generateBattlefield(session.battlefieldSeed, session.scenario);
+  // The board snapshotted at setup (owned-terrain layout); older sessions with no
+  // snapshot regenerate anonymously from the seed.
+  const field = session.battlefield ?? generateBattlefield(session.battlefieldSeed, session.scenario);
+  const legend = field.pieces.filter((p) => p.index > 0);
   const standing =
     session.npcWarband.heroes.length +
     session.npcWarband.henchmenGroups.length -
@@ -101,9 +104,21 @@ export default function SoloBattleScreen() {
         <Card as="section">
           <SectionHeading>Suggested board</SectionHeading>
           <p className="text-bone-400 text-xs">
-            A starting layout, not a prescribed table — move the pieces to fit the terrain you own.
+            {legend.length > 0
+              ? 'Laid out from your terrain library — numbers match the legend below. Move pieces to fit your table.'
+              : 'A starting layout, not a prescribed table — move the pieces to fit the terrain you own.'}
           </p>
           <BattlefieldMap field={field} />
+          {legend.length > 0 && (
+            <ol className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-bone-300">
+              {legend.map((p) => (
+                <li key={p.index}>
+                  <span className="text-bone-400 font-mono mr-1">{p.index}.</span>
+                  {p.label}
+                </li>
+              ))}
+            </ol>
+          )}
         </Card>
 
         {/* Opponent temperament + roster */}

@@ -83,6 +83,7 @@ const WarbandPickerScreen = lazy(() => import('./screens/WarbandPickerScreen'));
 // Solo mode (beta) — client-only, its own store, no server writes.
 const SoloSetupScreen = lazy(() => import('./screens/solo/SoloSetupScreen'));
 const SoloBattleScreen = lazy(() => import('./screens/solo/SoloBattleScreen'));
+const SoloCollectionScreen = lazy(() => import('./screens/solo/SoloCollectionScreen'));
 
 const ForgotPasswordScreen = lazy(() => import('./screens/ForgotPasswordScreen'));
 
@@ -177,6 +178,7 @@ function AppShell() {
             {/* Solo mode (beta): app-original, client-only. Needs your warbands,
                 so it sits behind the auth gate like the rest of /warbands. */}
             <Route path="/solo" element={guarded(<SoloSetupScreen />)} />
+            <Route path="/solo/collection" element={guarded(<SoloCollectionScreen />)} />
             <Route path="/solo/:warbandId" element={guarded(<SoloBattleScreen />)} />
 
             <Route path="/warbands" element={guarded(<WarbandListScreen />)} />
