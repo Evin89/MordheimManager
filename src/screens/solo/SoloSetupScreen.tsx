@@ -53,6 +53,8 @@ export default function SoloSetupScreen() {
   const [opponentType, setOpponentType] = useState(''); // '' = random
   const [scenario, setScenario] = useState(SCENARIOS[0]?.id ?? '');
   const [budget, setBudget] = useState(500);
+  const [boardWidthFt, setBoardWidthFt] = useState(4);
+  const [boardDepthFt, setBoardDepthFt] = useState(4);
 
   const inProgress = Object.values(soloSessions);
 
@@ -91,7 +93,11 @@ export default function SoloSetupScreen() {
     }
 
     const seed = (Math.random() * 0xffffffff) >>> 0;
-    const battlefield = generateBattlefield(seed, scenario, terrain.length ? terrain : undefined);
+    const battlefield = generateBattlefield(seed, scenario, {
+      widthIn: boardWidthFt * 12,
+      depthIn: boardDepthFt * 12,
+      terrain: terrain.length ? terrain : undefined,
+    });
     const agenda = generateAgenda();
 
     const session: SoloSession = {
@@ -249,6 +255,36 @@ export default function SoloSetupScreen() {
               <p className="text-bone-400 text-xs">
                 {DIFFICULTIES.find((d) => d.budget === budget)?.hint}
               </p>
+            </Field>
+
+            <Field label="Table size" htmlFor="solo-board-width">
+              <div className="flex items-center gap-2">
+                <Select
+                  id="solo-board-width"
+                  value={boardWidthFt}
+                  onChange={(e) => setBoardWidthFt(Number(e.target.value))}
+                  aria-label="Table width in feet"
+                >
+                  {[2, 3, 4].map((ft) => (
+                    <option key={ft} value={ft}>
+                      {ft}′
+                    </option>
+                  ))}
+                </Select>
+                <span className="text-bone-400 text-sm">×</span>
+                <Select
+                  id="solo-board-depth"
+                  value={boardDepthFt}
+                  onChange={(e) => setBoardDepthFt(Number(e.target.value))}
+                  aria-label="Table depth in feet"
+                >
+                  {[2, 3, 4].map((ft) => (
+                    <option key={ft} value={ft}>
+                      {ft}′
+                    </option>
+                  ))}
+                </Select>
+              </div>
             </Field>
 
             {soloSessions[warbandId] && (

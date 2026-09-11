@@ -49,10 +49,16 @@ export default function SoloBattleScreen() {
     });
   };
 
-  // The board snapshotted at setup (owned-terrain layout); older sessions with no
-  // snapshot regenerate anonymously from the seed.
-  const field = session.battlefield ?? generateBattlefield(session.battlefieldSeed, session.scenario);
-  const legend = field.pieces.filter((p) => p.index > 0);
+  // The board snapshotted at setup (owned-terrain layout). Older sessions with no
+  // snapshot — or one from before the inches refactor — regenerate from the seed.
+  const field =
+    session.battlefield && 'width' in session.battlefield
+      ? session.battlefield
+      : generateBattlefield(session.battlefieldSeed, session.scenario);
+  const legend = [
+    ...field.pieces.filter((p) => p.index > 0),
+    ...field.rivers.map((r) => ({ index: r.index, label: r.label })),
+  ].sort((a, b) => a.index - b.index);
   const standing =
     session.npcWarband.heroes.length +
     session.npcWarband.henchmenGroups.length -

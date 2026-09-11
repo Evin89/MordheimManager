@@ -146,6 +146,7 @@ export const strings = {
     quickActionsSection: 'Quick Actions',
     viewCampaignLog: 'View Campaign Log',
     soloButton: 'Solo battle',
+    mapButton: 'Battlefield generator',
     // Signed-out landing: the rules reference is fully usable without an account,
     // only warband/campaign data needs one.
     signedOutTitle: 'Browse the rules, or sign in to manage your warbands',
@@ -760,6 +761,12 @@ export const strings = {
       rollRandomButton: 'Suggest a scenario',
       randomRollResultLabel: (name: string) => `Suggested: ${name} — keep it or pick another above.`,
       scenarioPageHint: 'Full scenario rules: core rulebook p.85–92.',
+      boardLabel: 'Suggested board',
+      boardHint:
+        'Generate a board for this scenario from your terrain library — drawn as a map, with deployment zones. It carries into the battle.',
+      tableSize: 'Table size',
+      generateBoard: 'Generate board',
+      rerollBoard: 'Re-roll board',
       opponentNameLabel: 'Opponent',
       opponentNamePlaceholder: "e.g. Marius Dire's Undead",
       opponentWarbandLabel: "Opponent's warband (optional — links their roster to this battle)",

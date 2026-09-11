@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { Battlefield } from '../lib/solo/battlefield';
 
 // The in-progress, not-yet-committed table-side battle session.
 //
@@ -56,6 +57,9 @@ export type BattleSession = {
   wyrdstoneCarried: Record<string, number>;
   /** Shards dropped by a downed carrier and not yet reassigned or written off. */
   droppedWyrdstone: number;
+  /** An optional generated board for this game (§map): laid out at pre-battle from
+   * the terrain library + table size, and shown again during the battle. */
+  battlefield?: Battlefield;
 };
 
 /** The starting state for a table-side session. Lives here because both battle

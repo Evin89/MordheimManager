@@ -222,6 +222,12 @@ export default function HomeScreen() {
                 Beta
               </span>
             </Link>
+            <Link to="/map" className={buttonClasses('secondary')}>
+              {strings.home.mapButton}
+              <span className="ml-2 text-[10px] font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
+                Beta
+              </span>
+            </Link>
           </div>
         </section>
 

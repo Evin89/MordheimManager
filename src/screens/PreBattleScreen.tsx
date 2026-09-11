@@ -1,15 +1,23 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
-import { Button, TextField, Textarea, Select } from '../components/ui';
+import { Button, TextField, Textarea, Select, Field } from '../components/ui';
 import { strings } from '../strings';
 import { BattleSession, defaultBattleSession, useAppStore } from '../store/useAppStore';
 import { useWarbandList, useWarbandLookup } from '../hooks/useWarbands';
 import { useBattlesQuery, useCampaignWarbandsQuery, useMyCampaignQuery } from '../hooks/useCampaign';
+import { useTerrainPiecesQuery } from '../hooks/useCollection';
 import scenariosData from '../data/scenarios.json';
 import { suggestScenario } from '../lib/scenarioSuggest';
 import { computeWarbandRating } from '../lib/rating';
+import { generateBattlefield } from '../lib/solo/battlefield';
+import BattlefieldBoard from '../components/solo/BattlefieldBoard';
 import ScenarioSetupPanel from '../components/ScenarioSetupPanel';
+
+// The scenario is stored by name here; the board generator keys off its id.
+const SCENARIO_NAME_TO_ID: Record<string, string> = Object.fromEntries(
+  scenariosData.scenarios.map((s) => [s.name, s.id]),
+);
 
 export default function PreBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
@@ -35,6 +43,9 @@ export default function PreBattleScreen() {
   );
   const [lastRandomRoll, setLastRandomRoll] = useState<string | null>(null);
   const [showFairPairing, setShowFairPairing] = useState(false);
+  const { data: terrain = [] } = useTerrainPiecesQuery();
+  const [boardWidthFt, setBoardWidthFt] = useState(4);
+  const [boardDepthFt, setBoardDepthFt] = useState(4);
 
   if (loading) {
     return (
@@ -104,6 +115,17 @@ export default function PreBattleScreen() {
     updateSession({ scenario: picked.name });
   }
 
+  function generateBoard() {
+    const seed = (Math.random() * 0xffffffff) >>> 0;
+    const scenarioId = SCENARIO_NAME_TO_ID[session.scenario] ?? '';
+    const battlefield = generateBattlefield(seed, scenarioId, {
+      widthIn: boardWidthFt * 12,
+      depthIn: boardDepthFt * 12,
+      terrain: terrain.length ? terrain : undefined,
+    });
+    updateSession({ battlefield });
+  }
+
   return (
     <div className="min-h-full flex flex-col">
       <BackHeader title={strings.battle.preBattle.title} subtitle={warband.name} />
@@ -164,6 +186,36 @@ export default function PreBattleScreen() {
 
           {session.scenario && <ScenarioSetupPanel scenarioName={session.scenario} />}
         </section>
+
+        {session.scenario && (
+          <section className="space-y-2">
+            <label className="block text-bone-200 text-sm font-semibold">
+              {strings.battle.preBattle.boardLabel}
+            </label>
+            <p className="text-bone-400 text-xs">{strings.battle.preBattle.boardHint}</p>
+            <div className="flex items-end gap-2">
+              <Field label={strings.battle.preBattle.tableSize} htmlFor="pb-board-w">
+                <div className="flex items-center gap-2">
+                  <Select id="pb-board-w" value={boardWidthFt} onChange={(e) => setBoardWidthFt(Number(e.target.value))} aria-label="Table width in feet">
+                    {[2, 3, 4].map((ft) => (
+                      <option key={ft} value={ft}>{ft}′</option>
+                    ))}
+                  </Select>
+                  <span className="text-bone-400 text-sm">×</span>
+                  <Select id="pb-board-d" value={boardDepthFt} onChange={(e) => setBoardDepthFt(Number(e.target.value))} aria-label="Table depth in feet">
+                    {[2, 3, 4].map((ft) => (
+                      <option key={ft} value={ft}>{ft}′</option>
+                    ))}
+                  </Select>
+                </div>
+              </Field>
+              <Button size="dense" fullWidth={false} onClick={generateBoard}>
+                {session.battlefield ? strings.battle.preBattle.rerollBoard : strings.battle.preBattle.generateBoard}
+              </Button>
+            </div>
+            {session.battlefield && <BattlefieldBoard field={session.battlefield} />}
+          </section>
+        )}
 
         <section className="space-y-2">
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="opponent-name">

@@ -11,6 +11,7 @@ import { getUnitSpecialRules } from '../data/warbandRegistry';
 import { getSkillByName } from '../lib/skillLookup';
 import { ResolvedSpecialRule } from '../data/types';
 import { Button, Card, SectionHeading, TextField } from '../components/ui';
+import BattlefieldBoard from '../components/solo/BattlefieldBoard';
 import { strings } from '../strings';
 import { rollD6, rollD66, roll2D6 } from '../lib/dice';
 import { getInjuryByRoll } from '../lib/injuryLookup';
@@ -611,6 +612,13 @@ export default function DuringBattleScreen() {
       <BackHeader title={strings.battle.duringBattle.title} subtitle={warband.name} />
 
       <main className="flex-1 px-4 py-6 space-y-6">
+        {session.battlefield && (
+          <Card as="section">
+            <SectionHeading>{strings.battle.preBattle.boardLabel}</SectionHeading>
+            <BattlefieldBoard field={session.battlefield} />
+          </Card>
+        )}
+
         <Card as="section">
           <p className="text-bone-200 text-sm font-semibold text-center">{strings.battle.duringBattle.turnLabel}</p>
           <div className="flex items-center justify-center gap-4">

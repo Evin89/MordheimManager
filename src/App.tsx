@@ -84,6 +84,7 @@ const WarbandPickerScreen = lazy(() => import('./screens/WarbandPickerScreen'));
 const SoloSetupScreen = lazy(() => import('./screens/solo/SoloSetupScreen'));
 const SoloBattleScreen = lazy(() => import('./screens/solo/SoloBattleScreen'));
 const SoloCollectionScreen = lazy(() => import('./screens/solo/SoloCollectionScreen'));
+const MapGeneratorScreen = lazy(() => import('./screens/MapGeneratorScreen'));
 
 const ForgotPasswordScreen = lazy(() => import('./screens/ForgotPasswordScreen'));
 
@@ -138,6 +139,9 @@ function AppShell() {
             {/* Public, like the rest of the Rules reference it is reached from —
                 a dice roller behind a login is useless at the table. */}
             <Route path="/dice" element={<DiceRollerScreen />} />
+            {/* Battlefield generator — public like the dice roller; uses your
+                terrain library when signed in, generic terrain otherwise. */}
+            <Route path="/map" element={<MapGeneratorScreen />} />
             <Route path="/account" element={<SettingsScreen />} />
             {/* The tab was renamed Settings -> Profile. Redirects rather
                 than a bare rename, so a bookmark or an old changelog link
