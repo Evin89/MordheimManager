@@ -12,13 +12,25 @@ function when(iso: string | null): string {
   });
 }
 
-/** One activity number, in a small tile. */
-function Stat({ label, value }: { label: string; value: number | string }) {
-  return (
-    <div className="rounded-lg border border-ink-800 bg-ink-900 px-3 py-2">
-      <p className="font-ui text-[11px] uppercase tracking-wide text-bone-400">{label}</p>
+/** One activity number, in a small tile. When `to` is given the tile is a link
+ * that drills into the detail behind the number. */
+function Stat({ label, value, to }: { label: string; value: number | string; to?: string }) {
+  const inner = (
+    <>
+      <p className="font-ui text-[11px] uppercase tracking-wide text-bone-400">
+        {label}
+        {to && <span className="text-ember-400"> →</span>}
+      </p>
       <p className="text-bone-100 text-lg font-semibold tabular-nums lining-nums">{value}</p>
-    </div>
+    </>
+  );
+  const className = 'block rounded-lg border border-ink-800 bg-ink-900 px-3 py-2';
+  return to ? (
+    <Link to={to} className={`${className} hover:border-ember-500 hover:bg-ink-800`}>
+      {inner}
+    </Link>
+  ) : (
+    <div className={className}>{inner}</div>
   );
 }
 
@@ -67,7 +79,7 @@ export default function AdminUserScreen() {
             </section>
 
             <section aria-label="Activity" className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              <Stat label="Battles" value={user.battles} />
+              <Stat label="Battles" value={user.battles} to={`/admin/players/${userId}/battles`} />
               <Stat
                 label="Battles / warband"
                 value={user.warbands.length ? (user.battles / user.warbands.length).toFixed(1) : '—'}

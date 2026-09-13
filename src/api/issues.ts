@@ -1,6 +1,7 @@
 import { supabase } from '../lib/supabaseClient';
 import { isDemoMode } from '../dev/demoMode';
 import * as demo from '../dev/demoApi';
+import type { BattleRecord } from '../types';
 
 export type IssueStatus = 'open' | 'triaged' | 'closed';
 
@@ -294,6 +295,35 @@ export async function fetchAdminUserDetail(userId: string): Promise<AdminUserDet
       members: Number(c.members ?? 0),
     })),
   };
+}
+
+export type AdminUserBattle = {
+  battleId: string;
+  createdAt: string;
+  /** The campaign it was fought in, or null for a one-off battle. */
+  campaignName: string | null;
+  battle: BattleRecord;
+};
+
+/** One player's reported battles, newest first — the drill-in behind the battle
+ * count on the admin player screen. Admin-gated in the database. */
+export async function fetchAdminUserBattles(userId: string): Promise<AdminUserBattle[]> {
+  if (isDemoMode()) return demo.fetchAdminUserBattles(userId);
+  const { data, error } = await supabase.rpc('admin_user_battles', { p_user_id: userId });
+  if (error) throw error;
+  return (
+    data as {
+      battle_id: string;
+      created_at: string;
+      campaign_name: string | null;
+      data: BattleRecord;
+    }[]
+  ).map((r) => ({
+    battleId: r.battle_id,
+    createdAt: r.created_at,
+    campaignName: r.campaign_name,
+    battle: r.data,
+  }));
 }
 
 export type AdminStats = {

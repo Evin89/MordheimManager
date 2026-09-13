@@ -779,6 +779,20 @@ export async function fetchAdminUserDetail(userId: string) {
   };
 }
 
+/** One demo player's reported battles, newest first — same shape as the RPC. */
+export async function fetchAdminUserBattles(userId: string) {
+  const database = db();
+  return database.battles
+    .filter((b) => b.ownerId === userId)
+    .map((b, i) => ({
+      battleId: b.battle.id,
+      createdAt: new Date(2026, 6, 1 + (i % 28), 18, i % 60).toISOString(),
+      campaignName: database.campaigns.find((c) => c.id === b.campaignId)?.name ?? null,
+      battle: b.battle,
+    }))
+    .reverse();
+}
+
 /** Mirrors the 0010 RPC: promote first, then demote, so a half-applied
  * change leaves two leaders rather than none. */
 export async function transferCampaignLeadership(

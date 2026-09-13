@@ -28,6 +28,7 @@ const AdminCampaignsScreen = lazy(() => import('./screens/admin/AdminCampaignsSc
 const AdminCampaignDetailScreen = lazy(() => import('./screens/admin/AdminCampaignDetailScreen'));
 const AdminMaintenanceScreen = lazy(() => import('./screens/admin/AdminMaintenanceScreen'));
 const AdminUserScreen = lazy(() => import('./screens/AdminUserScreen'));
+const AdminUserBattlesScreen = lazy(() => import('./screens/admin/AdminUserBattlesScreen'));
 
 const DesignSandboxScreen = lazy(() => import('./screens/DesignSandboxScreen'));
 
@@ -164,6 +165,7 @@ function AppShell() {
               <Route path="issues" element={<AdminIssuesScreen />} />
               <Route path="players" element={<AdminPlayersScreen />} />
               <Route path="players/:userId" element={<AdminUserScreen />} />
+              <Route path="players/:userId/battles" element={<AdminUserBattlesScreen />} />
               <Route path="campaigns" element={<AdminCampaignsScreen />} />
               <Route path="campaigns/:id" element={<AdminCampaignDetailScreen />} />
               <Route path="maintenance" element={<AdminMaintenanceScreen />} />
