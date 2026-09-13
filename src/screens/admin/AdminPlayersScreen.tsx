@@ -44,6 +44,12 @@ export default function AdminPlayersScreen() {
               <th scope="col" className="text-right font-ui text-xs uppercase tracking-wide text-bone-400 px-2 py-2">
                 Battles
               </th>
+              <th scope="col" className="text-right font-ui text-xs uppercase tracking-wide text-bone-400 px-2 py-2 whitespace-nowrap" title="Warbands created in the last 30 days">
+                New 30d
+              </th>
+              <th scope="col" className="text-right font-ui text-xs uppercase tracking-wide text-bone-400 px-2 py-2 whitespace-nowrap" title="Roster edits in the last 30 days (since edit tracking began)">
+                Edits 30d
+              </th>
               <th scope="col" className="text-right font-ui text-xs uppercase tracking-wide text-bone-400 px-3 py-2 whitespace-nowrap">
                 Last active
               </th>
@@ -74,6 +80,12 @@ export default function AdminPlayersScreen() {
                 </td>
                 <td className="text-right px-2 py-2 text-bone-100">{u.campaigns}</td>
                 <td className="text-right px-2 py-2 text-bone-100">{u.battles}</td>
+                <td className="text-right px-2 py-2 text-bone-100">
+                  {u.newWarbands30d > 0 ? u.newWarbands30d : <span className="text-bone-400">—</span>}
+                </td>
+                <td className="text-right px-2 py-2 text-bone-100">
+                  {u.edits30d > 0 ? u.edits30d : <span className="text-bone-400">—</span>}
+                </td>
                 <td className="text-right px-3 py-2 text-bone-400 whitespace-nowrap">{ago(u.lastActive)}</td>
               </tr>
             ))}

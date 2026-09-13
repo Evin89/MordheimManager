@@ -703,6 +703,7 @@ export async function fetchAdminUsers(cursor = 0) {
   const database = db();
   const all = database.users.map((u, i) => {
     const owned = database.warbands.filter((w) => w.ownerId === u.id);
+    const battles = database.battles.filter((b) => b.ownerId === u.id).length;
     return {
       userId: u.id,
       displayName: u.displayName,
@@ -712,7 +713,10 @@ export async function fetchAdminUsers(cursor = 0) {
       warbands: owned.length,
       publicWarbands: owned.filter((w) => w.visibility === 'public').length,
       campaigns: database.memberships.filter((m) => m.userId === u.id).length,
-      battles: database.battles.filter((b) => b.ownerId === u.id).length,
+      battles,
+      // No real edit log in demo mode: synthesise stable, plausible numbers.
+      newWarbands30d: owned.length ? (i % 2) : 0,
+      edits30d: battles + (i % 3),
       lastActive: owned.length
         ? owned.map((w) => w.updatedAt).sort().slice(-1)[0]
         : null,
@@ -728,14 +732,23 @@ export async function fetchAdminUserDetail(userId: string) {
   const user = database.users.find((u) => u.id === userId);
   if (!user) throw new Error('No such player');
   const index = database.users.indexOf(user);
+  const owned = database.warbands.filter((w) => w.ownerId === user.id);
+  const battles = database.battles.filter((b) => b.ownerId === user.id).length;
+  // No real edit log in demo mode: a stable pseudo count per warband.
+  const editsFor = (w: (typeof owned)[number]) => Math.max(1, Math.round(ratingOf(w) / 60));
+  const editsAll = owned.reduce((sum, w) => sum + editsFor(w), 0);
 
   return {
     userId: user.id,
     displayName: user.displayName,
     createdAt: new Date(2026, 5, 1 + (index % 28), 9, index % 60).toISOString(),
     isAdmin: user.id === database.viewerId,
-    warbands: database.warbands
-      .filter((w) => w.ownerId === user.id)
+    battles,
+    editsAll,
+    edits30d: Math.round(editsAll / 2),
+    newWarbands30d: owned.length ? (index % 2) : 0,
+    newWarbands90d: owned.length ? Math.min(owned.length, (index % 2) + 1) : 0,
+    warbands: owned
       .map((w) => ({
         id: w.id,
         name: w.warband.name,
@@ -746,6 +759,7 @@ export async function fetchAdminUserDetail(userId: string) {
           database.campaigns.find((c) => c.id === w.campaignId)?.name ?? null,
         updatedAt: w.updatedAt,
         createdAt: w.updatedAt,
+        edits: editsFor(w),
       }))
       .sort((a, b) => b.rating - a.rating),
     campaigns: database.memberships

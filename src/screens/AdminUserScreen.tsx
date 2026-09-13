@@ -12,6 +12,16 @@ function when(iso: string | null): string {
   });
 }
 
+/** One activity number, in a small tile. */
+function Stat({ label, value }: { label: string; value: number | string }) {
+  return (
+    <div className="rounded-lg border border-ink-800 bg-ink-900 px-3 py-2">
+      <p className="font-ui text-[11px] uppercase tracking-wide text-bone-400">{label}</p>
+      <p className="text-bone-100 text-lg font-semibold tabular-nums lining-nums">{value}</p>
+    </div>
+  );
+}
+
 /**
  * One player, from the admin panel.
  *
@@ -56,6 +66,21 @@ export default function AdminUserScreen() {
               <p className="font-ui text-xs text-bone-400">Joined {when(user.createdAt)}</p>
             </section>
 
+            <section aria-label="Activity" className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <Stat label="Battles" value={user.battles} />
+              <Stat
+                label="Battles / warband"
+                value={user.warbands.length ? (user.battles / user.warbands.length).toFixed(1) : '—'}
+              />
+              <Stat label="New warbands (30d)" value={user.newWarbands30d} />
+              <Stat label="New warbands (90d)" value={user.newWarbands90d} />
+              <Stat label="Roster edits (30d)" value={user.edits30d} />
+              <Stat label="Roster edits (all)" value={user.editsAll} />
+            </section>
+            <p className="font-ui text-xs text-bone-400 -mt-4">
+              Edit counts are since tracking began — older warbands read 0 until next changed.
+            </p>
+
             <section className="space-y-3">
               <h2 className="text-bone-100 font-semibold">
                 Warbands{user.warbands.length > 0 && ` (${user.warbands.length})`}
@@ -79,6 +104,8 @@ export default function AdminUserScreen() {
                         {w.campaignName ? ` · ${w.campaignName}` : ' · no campaign'}
                         {' · '}
                         updated {when(w.updatedAt)}
+                        {' · '}
+                        {w.edits} edit{w.edits === 1 ? '' : 's'}
                       </p>
                     </div>
                   ))}

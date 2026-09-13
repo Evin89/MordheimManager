@@ -141,6 +141,10 @@ export type AdminUserRow = {
   publicWarbands: number;
   campaigns: number;
   battles: number;
+  /** Warbands created in the last 30 days — how often they start a new one. */
+  newWarbands30d: number;
+  /** Roster edits logged in the last 30 days (since edit tracking began). */
+  edits30d: number;
   /** Newest warband edit, or null for someone who never built one. */
   lastActive: string | null;
 };
@@ -175,6 +179,8 @@ export async function fetchAdminUsers(cursor = 0): Promise<AdminUserPage> {
       campaigns: number;
       battles: number;
       last_active: string | null;
+      new_warbands_30d: number;
+      edits_30d: number;
     }[]
   ).map((r) => ({
     userId: r.user_id,
@@ -187,6 +193,8 @@ export async function fetchAdminUsers(cursor = 0): Promise<AdminUserPage> {
     publicWarbands: Number(r.public_warbands),
     campaigns: Number(r.campaigns),
     battles: Number(r.battles),
+    newWarbands30d: Number(r.new_warbands_30d ?? 0),
+    edits30d: Number(r.edits_30d ?? 0),
     lastActive: r.last_active,
   }));
 
@@ -205,6 +213,8 @@ export type AdminUserWarband = {
   campaignName: string | null;
   updatedAt: string;
   createdAt: string;
+  /** Roster edits logged for this warband (since edit tracking began). */
+  edits: number;
 };
 
 export type AdminUserCampaign = {
@@ -221,6 +231,14 @@ export type AdminUserDetail = {
   displayName: string;
   createdAt: string;
   isAdmin: boolean;
+  /** Battles this player has reported. */
+  battles: number;
+  /** Roster edits logged, all-time and in the last 30 days (since tracking began). */
+  editsAll: number;
+  edits30d: number;
+  /** Warbands created in the last 30 / 90 days — how often they start a new one. */
+  newWarbands30d: number;
+  newWarbands90d: number;
   warbands: AdminUserWarband[];
   campaigns: AdminUserCampaign[];
 };
@@ -237,6 +255,11 @@ export async function fetchAdminUserDetail(userId: string): Promise<AdminUserDet
     display_name: string;
     created_at: string;
     is_admin: boolean;
+    battles?: number;
+    edits_all?: number;
+    edits_30d?: number;
+    new_warbands_30d?: number;
+    new_warbands_90d?: number;
     warbands: Record<string, unknown>[];
     campaigns: Record<string, unknown>[];
   };
@@ -246,6 +269,11 @@ export async function fetchAdminUserDetail(userId: string): Promise<AdminUserDet
     displayName: d.display_name,
     createdAt: d.created_at,
     isAdmin: d.is_admin,
+    battles: Number(d.battles ?? 0),
+    editsAll: Number(d.edits_all ?? 0),
+    edits30d: Number(d.edits_30d ?? 0),
+    newWarbands30d: Number(d.new_warbands_30d ?? 0),
+    newWarbands90d: Number(d.new_warbands_90d ?? 0),
     warbands: d.warbands.map((w) => ({
       id: w.id as string,
       name: w.name as string,
@@ -255,6 +283,7 @@ export async function fetchAdminUserDetail(userId: string): Promise<AdminUserDet
       campaignName: (w.campaign_name as string | null) ?? null,
       updatedAt: w.updated_at as string,
       createdAt: w.created_at as string,
+      edits: Number(w.edits ?? 0),
     })),
     campaigns: d.campaigns.map((c) => ({
       id: c.id as string,
