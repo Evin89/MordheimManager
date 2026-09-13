@@ -84,7 +84,7 @@ export async function setOwnedModelCount(
 
 // ── Terrain pieces ──────────────────────────────────────────────────────────
 
-export type TerrainCategory = 'building' | 'forest' | 'water' | 'hill' | 'other';
+export type TerrainCategory = 'building' | 'forest' | 'water' | 'hill' | 'barricade' | 'other';
 
 export type TerrainPiece = {
   id: string;

@@ -7,6 +7,7 @@ const CATEGORIES: { value: TerrainCategory; label: string }[] = [
   { value: 'forest', label: 'Forest / trees' },
   { value: 'water', label: 'River / pond' },
   { value: 'hill', label: 'Hill' },
+  { value: 'barricade', label: 'Barricade / wall' },
   { value: 'other', label: 'Other' },
 ];
 
@@ -183,7 +184,7 @@ export default function TerrainLibraryEditor({
             id="terrain-name"
             value={form.name}
             onChange={(e) => set({ name: e.target.value })}
-            placeholder="e.g. Ruined tower, Pine copse, Stream"
+            placeholder="e.g. Ruined tower, Pine copse, Stream, Palisade"
           />
         </Field>
 

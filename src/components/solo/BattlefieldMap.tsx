@@ -131,6 +131,39 @@ export default function BattlefieldMap({ field }: { field: Battlefield }) {
     return <g>{ticks}{arcs}</g>;
   }
 
+  // A low linear obstacle — palisade / wall. Drawn as a fence line running along
+  // the piece's long axis with cross-stakes, so it reads as a barricade even at a
+  // thin footprint (unlike a filled building block).
+  function Barricade(p: PlacedTerrain) {
+    const horizontal = p.w >= p.h;
+    const cx = p.x + p.w / 2;
+    const cy = p.y + p.h / 2;
+    const len = horizontal ? p.w : p.h;
+    const reach = 1 * u;
+    const count = Math.max(2, Math.round(len / (2 * u)));
+    const stakes = [];
+    for (let i = 0; i <= count; i++) {
+      const t = i / count;
+      if (horizontal) {
+        const sx = p.x + t * p.w;
+        stakes.push(<line key={i} x1={sx} y1={cy - reach} x2={sx} y2={cy + reach} stroke={C.trunk} strokeWidth={0.5 * u} />);
+      } else {
+        const sy = p.y + t * p.h;
+        stakes.push(<line key={i} x1={cx - reach} y1={sy} x2={cx + reach} y2={sy} stroke={C.trunk} strokeWidth={0.5 * u} />);
+      }
+    }
+    return (
+      <g strokeLinecap="round">
+        {horizontal ? (
+          <line x1={p.x} y1={cy} x2={p.x + p.w} y2={cy} stroke={C.roof} strokeWidth={0.8 * u} />
+        ) : (
+          <line x1={cx} y1={p.y} x2={cx} y2={p.y + p.h} stroke={C.roof} strokeWidth={0.8 * u} />
+        )}
+        {stakes}
+      </g>
+    );
+  }
+
   function Piece(p: PlacedTerrain) {
     switch (p.category) {
       case 'forest':
@@ -139,6 +172,8 @@ export default function BattlefieldMap({ field }: { field: Battlefield }) {
         return Water(p);
       case 'hill':
         return Hill(p);
+      case 'barricade':
+        return Barricade(p);
       case 'other':
         return <rect x={p.x} y={p.y} width={p.w} height={p.h} fill={C.building} stroke={C.ink} strokeWidth={0.5 * u} opacity={0.7} />;
       default:
@@ -148,11 +183,29 @@ export default function BattlefieldMap({ field }: { field: Battlefield }) {
 
   function River(r: RiverFeature) {
     const d = smoothPath(r.points);
+    const first = r.points[0];
+    const last = r.points[r.points.length - 1];
+    // A rounded end where the river stops short of the board, a flat cap where it
+    // meets a board edge (aligned to it, as if flowing off the table). The round
+    // end is a disc drawn UNDER the river body: the body's flat cap covers its
+    // inner half, so only a clean rounded tip shows — not a lollipop ring.
+    const outer = r.width / 2;
+    const inner = Math.max(0.25, (r.width - 1.4 * u) / 2);
+    const roundEnd = (p: { x: number; y: number }) => (
+      <g>
+        <circle cx={p.x} cy={p.y} r={outer} fill={C.waterLine} />
+        <circle cx={p.x} cy={p.y} r={inner} fill={C.water} />
+      </g>
+    );
     return (
-      <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path d={d} stroke={C.waterLine} strokeWidth={r.width} />
-        <path d={d} stroke={C.water} strokeWidth={Math.max(0.5, r.width - 1.4 * u)} />
-        <path d={d} stroke={C.waterLine} strokeWidth={0.35 * u} strokeDasharray={`${1.5 * u} ${1.5 * u}`} opacity={0.7} />
+      <g strokeLinecap="butt" strokeLinejoin="round">
+        {!r.startAtEdge && roundEnd(first)}
+        {!r.endAtEdge && roundEnd(last)}
+        <g fill="none">
+          <path d={d} stroke={C.waterLine} strokeWidth={r.width} />
+          <path d={d} stroke={C.water} strokeWidth={Math.max(0.5, r.width - 1.4 * u)} />
+        </g>
+        <path d={d} fill="none" stroke={C.waterLine} strokeWidth={0.35 * u} strokeDasharray={`${1.5 * u} ${1.5 * u}`} opacity={0.7} />
       </g>
     );
   }
@@ -184,6 +237,11 @@ export default function BattlefieldMap({ field }: { field: Battlefield }) {
           <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed={field.seed % 100} result="t" />
           <feDisplacementMap in="SourceGraphic" in2="t" scale={1.3 * u} xChannelSelector="R" yChannelSelector="G" />
         </filter>
+        {/* The play field, used to clip the ink layer so a river that meets a board
+            edge ends in a straight cut flush with the boundary. */}
+        <clipPath id="mm-field">
+          <rect x={0} y={0} width={W} height={D} />
+        </clipPath>
       </defs>
 
       {/* Parchment ground */}
@@ -200,7 +258,10 @@ export default function BattlefieldMap({ field }: { field: Battlefield }) {
         <rect key={`z${i}`} x={z.x} y={z.y} width={z.w} height={z.h} fill={ROLE_COLOR[z.role]} fillOpacity={0.12} stroke={ROLE_COLOR[z.role]} strokeOpacity={0.5} strokeWidth={0.5 * u} strokeDasharray={`${1.5 * u} ${1.2 * u}`} />
       ))}
 
-      {/* Ink layer — hand-wobbled */}
+      {/* Ink layer — hand-wobbled, then clipped to the board so an edge-touching
+          river is cut off straight and flush with the boundary. Clip is on the
+          outer group (after the filter) to keep that cut edge crisp. */}
+      <g clipPath="url(#mm-field)">
       <g filter="url(#mm-wobble)">
         {field.rivers.map((r, i) => (
           <g key={`r${i}`}>{River(r)}</g>
@@ -226,6 +287,7 @@ export default function BattlefieldMap({ field }: { field: Battlefield }) {
           ),
         )}
       </g>
+      </g>
 
       {/* Zone labels + number badges + compass — crisp */}
       {field.zones
@@ -236,7 +298,13 @@ export default function BattlefieldMap({ field }: { field: Battlefield }) {
           </text>
         ))}
 
-      {field.rivers.map((r) => badge(r.points[0].x + 3 * u, Math.min(D - 3 * u, r.points[0].y + 4 * u), r.index))}
+      {field.rivers.map((r) => {
+        // Anchor the badge near the river's first point, but kept on-board — an
+        // edge-touching end sits just off the board, so clamp it back inside.
+        const bx = Math.max(3 * u, Math.min(W - 3 * u, r.points[0].x + 3 * u));
+        const by = Math.max(3 * u, Math.min(D - 3 * u, r.points[0].y + 4 * u));
+        return badge(bx, by, r.index);
+      })}
       {field.pieces.filter((p) => p.index > 0).map((p) => badge(p.x + 2.6 * u, p.y + 2.6 * u, p.index))}
 
       <g transform={`translate(${cW} ${cD})`} stroke={C.ink} fill={C.ink}>

@@ -6,7 +6,9 @@
 // App-original terrain suggestion — move the pieces to fit the table you own.
 // Fords, bends and bridges are a later refinement (see the solo notes).
 
-export type TerrainCategory = 'building' | 'forest' | 'water' | 'hill' | 'other';
+import scenariosData from '../../data/scenarios.json';
+
+export type TerrainCategory = 'building' | 'forest' | 'water' | 'hill' | 'barricade' | 'other';
 
 /** A placed piece. `index` is its legend number (0 = anonymous fallback block). */
 export type PlacedTerrain = {
@@ -19,8 +21,19 @@ export type PlacedTerrain = {
   index: number;
 };
 
-/** One continuous river, drawn edge-to-edge through a set of points. */
-export type RiverFeature = { points: { x: number; y: number }[]; width: number; label: string; index: number };
+/** One continuous river through a set of points. It's only as long as the river
+ * pieces the player owns: it spans the board when they have enough, otherwise it
+ * runs from one edge or floats in the middle. `startAtEdge`/`endAtEdge` say which
+ * ends meet the board edge (drawn flat, aligned to it) versus stop short (drawn
+ * with a rounded end). */
+export type RiverFeature = {
+  points: { x: number; y: number }[];
+  width: number;
+  label: string;
+  index: number;
+  startAtEdge: boolean;
+  endAtEdge: boolean;
+};
 
 export type Marker = { x: number; y: number; label: string; kind: 'objective' | 'wyrdstone' };
 export type ZoneRole = 'a' | 'b' | 'defender' | 'attacker';
@@ -53,7 +66,10 @@ export type GenerateOptions = {
   terrain?: BattlefieldTerrain[];
 };
 
-const MAX_PIECES = 16;
+/** Terrain density: about one piece per square foot of table — the common
+ * wargaming guideline — so a small board isn't over-crowded and a big one isn't
+ * bare. A placed river counts as one of those pieces. */
+const pieceBudgetFor = (W: number, D: number) => Math.max(1, Math.round((W / 12) * (D / 12)));
 
 /** mulberry32 — a tiny seeded PRNG. */
 function rng(seed: number): () => number {
@@ -70,8 +86,22 @@ type Rect = { x: number; y: number; w: number; h: number };
 const overlaps = (a: Rect, b: Rect, pad = 1.5) =>
   a.x < b.x + b.w + pad && a.x + a.w + pad > b.x && a.y < b.y + b.h + pad && a.y + a.h + pad > b.y;
 
-const objectiveScenarios = new Set(['defendTheFind']);
-const wyrdstoneScenarios = new Set(['wyrdstoneHunt']);
+// Which markers a scenario needs is read from the scenario data itself, so the
+// board shows the right counters "if needed" without a second hand-kept list:
+//  - wyrdstone counters when the scenario deals in wyrdstone (Wyrdstone Hunt),
+//  - an objective/treasure marker when it turns on a find or a chest (Defend the
+//    Find, Hidden Treasure).
+const scenarioText = new Map<string, string>(
+  scenariosData.scenarios.map((s) => [
+    s.id,
+    `${s.name} ${s.awards.map((a) => `${a.id} ${a.label}`).join(' ')}`.toLowerCase(),
+  ]),
+);
+const needsWyrdstone = (id: string): boolean => (scenarioText.get(id) ?? '').includes('wyrdstone');
+const needsObjective = (id: string): boolean => {
+  const t = scenarioText.get(id) ?? '';
+  return t.includes('find') || t.includes('chest') || t.includes('treasure');
+};
 
 /**
  * Per-scenario deployment zones, in inches, from the Mordheim scenario rules:
@@ -133,10 +163,12 @@ function place(rand: () => number, existing: Rect[], w: number, h: number, W: nu
  * fallback, if it's long and thin. All rivers merge into a single feature. */
 function isRiver(t: BattlefieldTerrain): boolean {
   if (t.category !== 'water') return false;
-  if (/\briver\b/i.test(t.name)) return true;
+  // Named a river (River, Rivers, River bend…) → intent wins.
+  if (/river/i.test(t.name)) return true;
+  // Otherwise treat clearly long, thin water as a river.
   const long = Math.max(t.width ?? 0, t.depth ?? 0);
   const short = Math.min(t.width ?? 0, t.depth ?? 0) || 1;
-  return long / short >= 2.5 && long >= 10;
+  return long / short >= 2 && long >= 10;
 }
 
 export function generateBattlefield(seed: number, scenarioId: string, opts: GenerateOptions = {}): Battlefield {
@@ -156,22 +188,62 @@ export function generateBattlefield(seed: number, scenarioId: string, opts: Gene
   if (riverPieces.length > 0) {
     const widths = riverPieces.map((r) => Math.min(r.width ?? 4, r.depth ?? 4)).sort((a, b) => a - b);
     const width = Math.max(3, Math.min(8, widths[Math.floor(widths.length / 2)] || 4));
-    // A left→right meander (or top→bottom on a portrait board), edge to edge.
+    // A left→right meander (or top→bottom on a portrait board). It's only as long
+    // as the pieces owned: total = each piece's long side × how many you have.
     const horizontal = W >= D;
+    const span = horizontal ? W : D; // board length along the river's axis
+    const cross = horizontal ? D : W;
+    const owned = riverPieces.reduce((sum, r) => {
+      const long = Math.max(r.width ?? 0, r.depth ?? 0);
+      const q = Math.max(1, Math.min(r.quantity, 6));
+      return sum + long * q;
+    }, 0);
+    const len = owned > 0 ? Math.min(span, owned) : span;
+    const full = len >= span - 0.01;
+
+    // Where the (shorter-than-board) river sits: from the near edge, the far
+    // edge, or floating in the middle.
+    let start = 0;
+    if (!full) {
+      const roll = rand();
+      if (roll < 0.34) start = 0;
+      else if (roll < 0.68) start = span - len;
+      else start = (span - len) * (0.2 + rand() * 0.6);
+    }
+    const end = start + len;
+    const startAtEdge = start <= 0.01;
+    const endAtEdge = end >= span - 0.01;
+
     const pts: { x: number; y: number }[] = [];
     const steps = 4;
+    const clamp = (v: number) => Math.max(width, Math.min(cross - width, v));
     for (let i = 0; i <= steps; i++) {
       const t = i / steps;
-      const jitter = (rand() - 0.5) * (horizontal ? D : W) * 0.4;
-      if (horizontal) pts.push({ x: t * W, y: D / 2 + jitter });
-      else pts.push({ x: W / 2 + jitter, y: t * D });
+      const along = start + t * len;
+      const jitter = (rand() - 0.5) * cross * 0.4;
+      const c = clamp(cross / 2 + jitter);
+      if (horizontal) pts.push({ x: along, y: c });
+      else pts.push({ x: c, y: along });
     }
-    rivers.push({ points: pts, width, label: 'River', index: index++ });
+    // Push an edge-touching end just past the board, so the map clips it into a
+    // straight cut flush with the boundary (a butt cap alone leaves an angled
+    // overshoot). Ends that stop short keep their exact point for a rounded tip.
+    const overshoot = width;
+    if (horizontal) {
+      if (startAtEdge) pts[0].x = -overshoot;
+      if (endAtEdge) pts[pts.length - 1].x = span + overshoot;
+    } else {
+      if (startAtEdge) pts[0].y = -overshoot;
+      if (endAtEdge) pts[pts.length - 1].y = span + overshoot;
+    }
+    rivers.push({ points: pts, width, label: 'River', index: index++, startAtEdge, endAtEdge });
     // Block building placement near the river.
     for (const p of pts) rects.push({ x: p.x - width, y: p.y - width, w: width * 2, h: width * 2 });
   }
 
   // ── Owned pieces (ponds + everything non-river), or anonymous fallback ──
+  // Both honour the density budget; the river (if any) has already used a slot.
+  const remainingBudget = Math.max(0, pieceBudgetFor(W, D) - rivers.length);
   if (terrain.length > 0) {
     const placeable = terrain.filter((t) => !isRiver(t));
     const expanded: BattlefieldTerrain[] = [];
@@ -180,7 +252,7 @@ export function generateBattlefield(seed: number, scenarioId: string, opts: Gene
       for (let i = 0; i < q; i++) expanded.push(t);
     }
     expanded.sort(() => rand() - 0.5);
-    for (const t of expanded.slice(0, MAX_PIECES)) {
+    for (const t of expanded.slice(0, remainingBudget)) {
       const w = Math.max(2, t.width ?? 6);
       const h = Math.max(2, t.depth ?? t.width ?? 6);
       const rect = place(rand, rects, w, h, W, D, margin);
@@ -189,7 +261,7 @@ export function generateBattlefield(seed: number, scenarioId: string, opts: Gene
       pieces.push({ ...rect, category: t.category, label: t.name, index: index++ });
     }
   } else {
-    const target = Math.max(3, Math.min(14, Math.round((W * D) / 250)));
+    const target = remainingBudget;
     for (let i = 0; i < target; i++) {
       const w = 4 + rand() * 7;
       const h = 4 + rand() * 7;
@@ -202,8 +274,8 @@ export function generateBattlefield(seed: number, scenarioId: string, opts: Gene
 
   // ── Objective / wyrdstone markers ──
   const markers: Marker[] = [];
-  if (objectiveScenarios.has(scenarioId)) markers.push({ x: W / 2, y: D / 2, label: 'Objective', kind: 'objective' });
-  if (wyrdstoneScenarios.has(scenarioId)) {
+  if (needsObjective(scenarioId)) markers.push({ x: W / 2, y: D / 2, label: 'Objective', kind: 'objective' });
+  if (needsWyrdstone(scenarioId)) {
     const shards = 3 + Math.floor(rand() * 2);
     for (let i = 0; i < shards; i++) {
       markers.push({ x: margin + rand() * (W - 2 * margin), y: margin + rand() * (D - 2 * margin), label: 'Wyrdstone', kind: 'wyrdstone' });
