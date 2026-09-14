@@ -199,7 +199,7 @@
       "id": "marauders",
       "unitType": "Marauder",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -234,7 +234,7 @@
       "id": "hunters",
       "unitType": "Hunter",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {
