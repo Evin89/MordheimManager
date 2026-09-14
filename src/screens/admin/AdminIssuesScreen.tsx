@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import DisclosureChevron from '../../components/DisclosureChevron';
 import { IssueReport, IssueStatus } from '../../api/issues';
 import { useIssueReportsQuery, useUpdateIssueStatusMutation } from '../../hooks/useIssues';
@@ -50,7 +51,18 @@ function ReportRow({
             </div>
             <div>
               <dt className="inline font-semibold">Reporter: </dt>
-              <dd className="inline">{report.reporterId ?? 'anonymous'}</dd>
+              <dd className="inline">
+                {report.reporterId ? (
+                  <Link
+                    to={`/admin/players/${report.reporterId}`}
+                    className="text-ember-400 underline-offset-2 hover:underline"
+                  >
+                    {report.reporterName || 'Unnamed player'}
+                  </Link>
+                ) : (
+                  'anonymous'
+                )}
+              </dd>
             </div>
             <div>
               <dt className="inline font-semibold">Agent: </dt>

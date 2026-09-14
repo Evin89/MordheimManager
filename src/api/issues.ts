@@ -8,6 +8,9 @@ export type IssueStatus = 'open' | 'triaged' | 'closed';
 export type IssueReport = {
   id: string;
   reporterId: string | null;
+  /** The reporter's display name, resolved from `reporter_id` for the inbox.
+   * Null when the report was filed anonymously (or the account is gone). */
+  reporterName: string | null;
   path: string;
   message: string;
   context: Record<string, unknown>;
@@ -35,6 +38,7 @@ function toReport(row: IssueRow): IssueReport {
   return {
     id: row.id,
     reporterId: row.reporter_id,
+    reporterName: null, // filled in by fetchIssueReports for attributed reports
     path: row.path,
     message: row.message,
     context: row.context ?? {},
@@ -118,6 +122,18 @@ export async function fetchIssueReports(
   const { data, error } = await query;
   if (error) throw error;
   const rows = (data as IssueRow[]).map(toReport);
+
+  // Resolve the display names of reporters who chose to be identified. A second
+  // query rather than an embed: `reporter_id` points at auth.users, not the
+  // profiles table, so PostgREST has no relationship to auto-join. Names are a
+  // nicety — a failure here leaves them null rather than sinking the whole page.
+  const ids = [...new Set(rows.map((r) => r.reporterId).filter((id): id is string => !!id))];
+  if (ids.length > 0) {
+    const { data: profiles } = await supabase.from('profiles').select('id, display_name').in('id', ids);
+    const nameById = new Map((profiles ?? []).map((p) => [p.id as string, p.display_name as string]));
+    for (const row of rows) if (row.reporterId) row.reporterName = nameById.get(row.reporterId) ?? null;
+  }
+
   return {
     rows,
     nextCursor: rows.length < ISSUE_PAGE_SIZE ? null : cursor + rows.length,

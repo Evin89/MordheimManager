@@ -505,9 +505,14 @@ export async function fetchIsAdmin(userId: string): Promise<boolean> {
 }
 
 export async function fetchIssueReports(status: string, cursor = 0) {
+  const users = db().users;
   const all = issues
     .filter((r) => status === 'all' || r.status === status)
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .map((r) => ({
+      ...r,
+      reporterName: r.reporterId ? users.find((u) => u.id === r.reporterId)?.displayName ?? null : null,
+    }));
   const rows = all.slice(cursor, cursor + 25);
   return { rows, nextCursor: cursor + rows.length >= all.length ? null : cursor + rows.length };
 }

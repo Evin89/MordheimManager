@@ -28,6 +28,7 @@ export default function ReportIssueButton() {
 
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
+  const [shareIdentity, setShareIdentity] = useState(false);
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle');
 
   async function submit() {
@@ -36,7 +37,8 @@ export default function ReportIssueButton() {
     setState('sending');
     try {
       await insertIssueReport({
-        reporterId: user?.id ?? null,
+        // Attributed only when a signed-in reporter opts in; anonymous otherwise.
+        reporterId: user && shareIdentity ? user.id : null,
         path: location.pathname,
         message: trimmed,
         // Whatever the route knows about what's on screen. Kept as free-form
@@ -55,6 +57,7 @@ export default function ReportIssueButton() {
       void capture('issue_report_submitted', {
         path: location.pathname,
         signed_in: Boolean(user),
+        shared_identity: Boolean(user && shareIdentity),
       });
       setState('sent');
       setMessage('');
@@ -99,6 +102,23 @@ export default function ReportIssueButton() {
             <p className="font-ui text-xs text-ink-faded">
               {strings.report.attachedTo(location.pathname)} · {__APP_VERSION__}
             </p>
+
+            {user && (
+              <label className="flex items-start gap-2 text-sm text-ink">
+                <input
+                  type="checkbox"
+                  checked={shareIdentity}
+                  onChange={(e) => setShareIdentity(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 shrink-0 accent-blood"
+                />
+                <span>
+                  {strings.report.shareIdentity}
+                  <span className="block font-ui text-xs text-ink-faded">
+                    {strings.report.shareIdentityHint}
+                  </span>
+                </span>
+              </label>
+            )}
 
             {state === 'sent' && (
               <p className="font-ui text-sm text-verdigris">{strings.report.thanks}</p>

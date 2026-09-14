@@ -188,6 +188,8 @@ export const strings = {
     thanks: 'Thanks — that has been logged.',
     failed: 'That could not be sent. Check your connection and try again.',
     attachedTo: (path: string) => `Attached: ${path}`,
+    shareIdentity: 'Include my username with this report',
+    shareIdentityHint: 'This allows us to follow up with you regarding it. Leave unchecked to submit anonymously.',
   },
 
   comments: {
