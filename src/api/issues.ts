@@ -162,8 +162,11 @@ export type AdminUserRow = {
   newWarbands30d: number;
   /** Roster edits logged in the last 30 days (since edit tracking began). */
   edits30d: number;
-  /** Newest warband edit, or null for someone who never built one. */
+  /** Most recent warband edit (max updated_at), or null — NOT presence. */
   lastActive: string | null;
+  /** Last time they opened the app (real presence), or null if not since it was
+   * tracked / deployed. */
+  lastSeen: string | null;
 };
 
 export type AdminUserPage = {
@@ -198,6 +201,7 @@ export async function fetchAdminUsers(cursor = 0): Promise<AdminUserPage> {
       last_active: string | null;
       new_warbands_30d: number;
       edits_30d: number;
+      last_seen: string | null;
     }[]
   ).map((r) => ({
     userId: r.user_id,
@@ -213,6 +217,7 @@ export async function fetchAdminUsers(cursor = 0): Promise<AdminUserPage> {
     newWarbands30d: Number(r.new_warbands_30d ?? 0),
     edits30d: Number(r.edits_30d ?? 0),
     lastActive: r.last_active,
+    lastSeen: r.last_seen ?? null,
   }));
 
   return {
@@ -349,6 +354,10 @@ export type AdminStats = {
   campaigns: number;
   battles: number;
   open_issues: number;
+  // Presence (migration 0037): distinct users seen today / in the last 7 days.
+  // Optional so an un-migrated backend that omits them still parses.
+  active_today?: number;
+  active_7d?: number;
   // §23.3 rolling growth (extended admin_stats); optional so an un-migrated
   // backend that returns the old shape still parses.
   new_users_7d?: number;

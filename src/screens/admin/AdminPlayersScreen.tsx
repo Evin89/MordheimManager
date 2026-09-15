@@ -11,7 +11,7 @@ import { ago } from './shared';
  * sort by: every header is a sort control.
  */
 
-type SortKey = 'player' | 'warbands' | 'campaigns' | 'battles' | 'new' | 'edits' | 'active';
+type SortKey = 'player' | 'warbands' | 'campaigns' | 'battles' | 'new' | 'edits' | 'seen' | 'active';
 type SortDir = 'asc' | 'desc';
 
 type Column = {
@@ -31,7 +31,20 @@ const COLUMNS: Column[] = [
   { key: 'battles', label: 'Battles', align: 'right', defaultDir: 'desc' },
   { key: 'new', label: 'New 30d', align: 'right', defaultDir: 'desc', title: 'Warbands created in the last 30 days' },
   { key: 'edits', label: 'Edits 30d', align: 'right', defaultDir: 'desc', title: 'Roster edits in the last 30 days (since edit tracking began)' },
-  { key: 'active', label: 'Last active', align: 'right', defaultDir: 'desc' },
+  {
+    key: 'seen',
+    label: 'Last seen',
+    align: 'right',
+    defaultDir: 'desc',
+    title: 'Last time they opened the app (real presence). Blank until they have opened it since presence tracking shipped.',
+  },
+  {
+    key: 'active',
+    label: 'Last edit',
+    align: 'right',
+    defaultDir: 'desc',
+    title: 'Most recent warband edit — not presence. See “Last seen” and the Overview’s “Online today” for who has opened the app.',
+  },
 ];
 
 /** Ascending comparison for one key; the caller applies the direction. Nulls in
@@ -50,9 +63,11 @@ function compareAsc(a: AdminUserRow, b: AdminUserRow, key: SortKey): number {
       return a.newWarbands30d - b.newWarbands30d;
     case 'edits':
       return a.edits30d - b.edits30d;
+    case 'seen':
     case 'active': {
-      const av = a.lastActive ? Date.parse(a.lastActive) : null;
-      const bv = b.lastActive ? Date.parse(b.lastActive) : null;
+      const pick = (r: AdminUserRow) => (key === 'seen' ? r.lastSeen : r.lastActive);
+      const av = pick(a) ? Date.parse(pick(a)!) : null;
+      const bv = pick(b) ? Date.parse(pick(b)!) : null;
       if (av === null && bv === null) return 0;
       if (av === null) return 1; // handled before the direction flip, so nulls stay last
       if (bv === null) return -1;
@@ -84,7 +99,9 @@ export default function AdminPlayersScreen() {
     return [...users].sort((a, b) => {
       const primary = compareAsc(a, b, sort.key);
       if (primary !== 0) {
-        const nullPinned = sort.key === 'active' && (a.lastActive === null || b.lastActive === null);
+        const nullPinned =
+          (sort.key === 'active' && (a.lastActive === null || b.lastActive === null)) ||
+          (sort.key === 'seen' && (a.lastSeen === null || b.lastSeen === null));
         return nullPinned ? primary : primary * dir;
       }
       // Stable tiebreak so equal rows don't shuffle between renders.
@@ -176,6 +193,9 @@ export default function AdminPlayersScreen() {
                 </td>
                 <td className="text-right px-2 py-2 text-bone-100">
                   {u.edits30d > 0 ? u.edits30d : <span className="text-bone-400">—</span>}
+                </td>
+                <td className="text-right px-2 py-2 whitespace-nowrap">
+                  <span className={u.lastSeen ? 'text-bone-100' : 'text-bone-400'}>{ago(u.lastSeen)}</span>
                 </td>
                 <td className="text-right px-3 py-2 text-bone-400 whitespace-nowrap">{ago(u.lastActive)}</td>
               </tr>

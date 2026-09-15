@@ -49,6 +49,8 @@ export default function AdminOverviewScreen() {
         ) : (
           <>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <Stat label="Online today" value={stats.active_today ?? 0} />
+              <Stat label="Active · 7d" value={stats.active_7d ?? 0} />
               <Stat label="Players" value={stats.users} />
               <Stat label="Warbands" value={stats.warbands} />
               <Stat label="Public" value={stats.public_warbands} />

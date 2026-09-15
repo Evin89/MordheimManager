@@ -544,6 +544,9 @@ export async function fetchAdminStats() {
     campaigns: database.campaigns.length,
     battles: database.battles.length,
     open_issues: issues.filter((i) => i.status === 'open').length,
+    // Presence — synthetic online counts for the demo dashboard.
+    active_today: Math.max(1, Math.round(database.users.length * 0.4)),
+    active_7d: Math.max(1, Math.round(database.users.length * 0.7)),
     // §23.3 rolling growth — synthetic, mirroring the Discord-influx story.
     new_users_7d: 11,
     new_users_30d: 18,
@@ -725,6 +728,12 @@ export async function fetchAdminUsers(cursor = 0) {
       lastActive: owned.length
         ? owned.map((w) => w.updatedAt).sort().slice(-1)[0]
         : null,
+      // Real presence — synthetic: most players seen within the last few days,
+      // some not at all, so the column shows a spread against "last edit".
+      lastSeen:
+        i % 4 === 0
+          ? null
+          : new Date(Date.now() - (i % 3) * 24 * 3600 * 1000 - (i % 60) * 60000).toISOString(),
     };
   });
   const rows = all.slice(cursor, cursor + 25);

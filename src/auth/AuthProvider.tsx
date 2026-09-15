@@ -4,6 +4,7 @@ import { identifyUser, resetAnalytics } from '../lib/posthog';
 import { supabase } from '../lib/supabaseClient';
 import { isDemoMode, setDemoMode } from '../dev/demoMode';
 import { demoViewer } from '../dev/demoApi';
+import { touchLastSeen } from '../api/presence';
 import {
   acquisitionMetadata,
   getAcquisitionForSignup,
@@ -57,6 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
   const [loading, setLoading] = useState(!isDemoMode());
   const identifiedUserId = useRef<string | null>(null);
+  const lastSeenPingAt = useRef(0);
 
   // §23.4 — stash any acquisition tag on the first app URL before it's lost to
   // in-app navigation, so it's still there when the user reaches /register.
@@ -85,6 +87,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // By opaque id only — never the email or display name (§23.7 / §4.9).
     void identifyUser(user.id);
     identifiedUserId.current = user.id;
+  }, [session]);
+
+  // Presence (§4.9.2): mark the signed-in account seen so the admin dashboard
+  // can count who has been online today. Fires on load and on window focus —
+  // the latter re-counts a long-lived session that crosses midnight — throttled
+  // to once per five minutes on top of the server's own guard. Best-effort.
+  useEffect(() => {
+    const userId = session?.user?.id;
+    if (!userId || isDemoMode()) return;
+
+    const ping = () => {
+      const now = Date.now();
+      if (now - lastSeenPingAt.current < 5 * 60_000) return;
+      lastSeenPingAt.current = now;
+      void touchLastSeen();
+    };
+    ping();
+    window.addEventListener('focus', ping);
+    return () => window.removeEventListener('focus', ping);
   }, [session]);
 
   useEffect(() => {
