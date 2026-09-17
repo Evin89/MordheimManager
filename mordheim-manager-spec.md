@@ -2224,3 +2224,51 @@ A "someone registered" ping to a Slack Incoming Webhook — the ops counterpart 
 **Operator setup (one-time, not in the migration):** `select vault.create_secret('https://hooks.slack.com/services/…', 'slack_signup_webhook');`. Test with `select public.notify_slack_signup('🎲 Test …');`. Alerts stay dormant until the secret exists.
 
 **Alternative not taken.** A Database Webhook → Edge Function → Slack would allow richer messages (warband counts, buttons) with the URL as a Function env-var, at the cost of more moving parts. The pure-SQL trigger was chosen for the same reason the rest of this layer is SQL: fewer parts, and it's the layer already owned.
+
+---
+
+## 24. Battlefield generator — the map ⚠️ Beta
+
+_Part of the solo-play beta (the `/solo` collection, oracle and NPC roster are separate and not yet specced here). The generator itself is the one piece with a public front door and a design worth recording: `/map` — `MapGeneratorScreen.tsx`, `lib/solo/battlefield.ts`, `components/solo/BattlefieldMap.tsx`. It is **public** (no auth guard), works signed-out with generic terrain, and lays the board out from your owned pieces once you sign in._
+
+A standalone board suggester: pick a scenario and a table size, get a suggested layout **drawn as an old cartographer's map**. It is the roll-or-pick discipline (§1, §15.3, §21.3) applied to terrain — a *suggested* board, never a prescribed one. Nothing is placed on the real table by the app; the note under every map reads "Move the pieces to fit the terrain you own." An app-original convenience, not a rulebook table transcribed.
+
+### 24.1 The generator (`lib/solo/battlefield.ts`)
+
+`generateBattlefield(seed, scenarioId, opts)` is **deterministic from a seed** — "Re-roll board" just draws a new seed, so a board is reproducible and the render never flickers between passes. A tiny mulberry32 PRNG (`rng`), no dependency.
+
+- **Measured in inches, not cells.** The board is `widthIn × depthIn`, any of 2′/3′/4′ on each axis, and every downstream measurement — footprints, margins, the map's decoration — is in those inches. There is no grid; a real 4″ tower is 4″ on the board.
+- **Density budget** — about one piece per square foot of table (`pieceBudgetFor`), the common wargaming guideline, so a 2′×2′ board isn't crowded and a 4′×4′ isn't bare. A placed river spends one of those slots.
+- **Owned terrain at real footprint.** With a signed-in player's terrain library, pieces are placed at their stored `width×depth`, quantity-expanded (capped), shuffled, and rejection-sampled into non-overlapping spots (`place`/`overlaps`, 60 attempts, then skipped). Signed-out or with an empty library, it falls back to anonymous building blocks so the board is never empty.
+- **One continuous river.** River-shaped water is merged into a single meandering feature rather than scattered puddles — a piece counts as river if it's *named* one (intent wins) or, failing that, is long-and-thin (`isRiver`). The river is only as long as the pieces owned: it spans the board when there's enough, else runs from one edge or floats mid-board, with `startAtEdge`/`endAtEdge` recording which ends meet the boundary. Ponds (non-river water) stay separate pieces.
+- **Deployment zones from the actual scenario rules.** `deploymentZones` encodes the real Mordheim setups in inches — the 8″-of-opposite-edges default, Street Fight's 6″ short ends, Defend the Find / Surprise Attack's central defender box, Breakthrough's central defender + one attacking edge — not a generic split. Suggested placements, same caveat: move to fit.
+- **Markers derive from the scenario data, not a second list.** Whether to drop wyrdstone shards or an objective/treasure marker is read out of `scenarios.json` text (`needsWyrdstone`/`needsObjective`) — the §3.3 single-source-of-truth discipline, so adding a scenario can't silently forget its counters.
+
+```ts
+type Battlefield = {
+  width: number; depth: number;          // inches
+  pieces: PlacedTerrain[];               // category + footprint + legend index
+  rivers: RiverFeature[];                // one joined feature; edge/float flags
+  markers: Marker[];                     // objective | wyrdstone, from scenario data
+  zones: Zone[];                         // per-scenario deployment, in inches
+  seed: number;
+};
+```
+
+### 24.2 The design — an old cartographer's map (`BattlefieldMap.tsx`)
+
+The board renders as a single inline SVG whose `viewBox` **is the board in inches**, so one component draws any table size and the decoration scales with it: a unit `u = min(W,D)/100` sizes every stroke and glyph, so a 2′ board and a 4′ board read the same, just larger. This is the same hand-drawn-icon ethos as the rest of the app (§4.8's lucide note is the *exception* that proves it) — every symbol is drawn geometry, no icon font, no images.
+
+- **Parchment ground** — a radial vignette from `parchment` to `parchmentEdge`, a desaturated `feTurbulence` paper grain at low opacity, and a double ink border (heavy outer, hairline inner).
+- **A hand-drawn ink wobble.** Terrain and rivers are pushed through a seeded `feTurbulence` + `feDisplacementMap` (`mm-wobble`, seeded off `field.seed`), so lines waver like pen on paper and every seed wobbles differently. Labels, legend badges and the compass sit *outside* the filter so text stays crisp.
+- **Per-category map symbols**, each a little cartographer's glyph rather than a coloured box: buildings as hatched roof blocks, forests as clustered trees (trunk + canopy on a grid), water as a rounded pool with rippling wave lines, hills as nested contour arcs with hachure ticks, barricades/palisades as a fence line with cross-stakes (so a thin footprint still reads as a barricade, not a wall-shaped building). Unknown categories fall back to a faint block.
+- **The river, drawn like a river.** A smoothed quadratic path with a darker bank stroke under a lighter water stroke and a dashed centre line. Ends that meet a board edge are **clipped flush** to the boundary (the ink layer is clipped to the play field, turning a butt-cap overshoot into a clean straight cut, as if the river flows off the table); ends that stop short get a **rounded tip** (a bank-coloured disc drawn *under* the body so only a clean cap shows — not a lollipop ring).
+- **Shaded deployment zones** under the terrain — translucent fills in per-role colours (attacker/defender/A/B), dashed outlines, italic serif labels — and **numbered legend badges** keying each named piece and the river to the ordered list printed below the map. A **compass rose** anchors the corner.
+
+### 24.3 The one deliberate departure from §5
+
+The map keeps a **fixed parchment palette in both themes** — it does *not* re-theme for dark mode like everything else in §5.5. That is on purpose: a map is a physical object you'd unroll at the table, and a dark-mode map reads as a screenshot of an app, not a map. The palette lives as a local `C` constant in `BattlefieldMap.tsx` rather than as CSS tokens precisely so it can't be swept up by the theme system. This is the only screen that opts out of the two-theme rule, and the reason is the same one that makes the whole screen worth its own section: the artefact *is* the feature.
+
+### 24.4 Status & remaining work
+
+Shipped as **Beta** (badge on the header). The generator and its map are complete and public; what's noted for later, in `battlefield.ts`'s own header: **fords, bends and bridges** where a river crosses a road or another piece — today the river is drawn as one clean meander and the player reconciles crossings by hand, consistent with the "move the pieces" contract. The rest of the solo-play beta (`/solo` setup, the NPC oracle, the model/terrain library editors) is real but out of scope for this section, which covers only the map.
