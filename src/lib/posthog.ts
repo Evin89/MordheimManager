@@ -12,7 +12,7 @@ import { analyticsAllowed, subscribeConsent } from './analyticsConsent';
  * or display name PostHog's own wizard would attach).
  *
  * - Loaded lazily via dynamic import so `posthog-js` stays off the first-paint
- *   bundle (§16 is already over Vite's size warning; §23.7 requires it off the
+ *   bundle (§16 is already over Vite's size warning; §23.7 requires it off thennpx
  *   critical path). The import is a separate chunk; init is triggered from a
  *   post-paint effect (the first pageview), never during render.
  * - A no-op when the keys are unset (a dev or self-host without a PostHog

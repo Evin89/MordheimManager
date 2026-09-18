@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { capture } from '../lib/posthog';
 import BackHeader from '../components/BackHeader';
 import DisclosureChevron from '../components/DisclosureChevron';
@@ -115,10 +115,18 @@ function WarbandTypePicker({
 
 export default function NewWarbandScreen() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const createWarbandOnServer = useCreateWarbandMutation();
   const { data: customTypes } = useCustomWarbandTypesQuery();
   const [name, setName] = useState('');
-  const [typeId, setTypeId] = useState(warbandDefinitionsByName[0]?.id ?? '');
+  // Preselect the type when arrived at from the §5.4 warband reference's "Build
+  // this warband →" CTA (`?type=<id>`); fall back to the first list A–Z.
+  const preselectType = searchParams.get('type');
+  const [typeId, setTypeId] = useState(
+    preselectType && warbandDefinitionsByName.some((d) => d.id === preselectType)
+      ? preselectType
+      : warbandDefinitionsByName[0]?.id ?? '',
+  );
   const [quickBuild, setQuickBuild] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);

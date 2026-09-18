@@ -86,6 +86,7 @@ const SoloSetupScreen = lazy(() => import('./screens/solo/SoloSetupScreen'));
 const SoloBattleScreen = lazy(() => import('./screens/solo/SoloBattleScreen'));
 const SoloCollectionScreen = lazy(() => import('./screens/solo/SoloCollectionScreen'));
 const MapGeneratorScreen = lazy(() => import('./screens/MapGeneratorScreen'));
+const WarbandRulesScreen = lazy(() => import('./screens/WarbandRulesScreen'));
 
 const ForgotPasswordScreen = lazy(() => import('./screens/ForgotPasswordScreen'));
 
@@ -136,6 +137,10 @@ function AppShell() {
             {/* --- Public: static reference content --- */}
             <Route path="/" element={<HomeScreen />} />
             <Route path="/rules" element={<RulesScreen />} />
+            {/* The per-warband reference view (§5.4). Public, and nested under
+                /rules so it sits in the reference family — /warbands/:id is the
+                guarded roster, which is why this can't be /warbands/:slug. */}
+            <Route path="/rules/warbands/:warbandSlug" element={<WarbandRulesScreen />} />
             <Route path="/rules/:ruleId" element={<RuleDetailScreen />} />
             {/* Public, like the rest of the Rules reference it is reached from —
                 a dice roller behind a login is useless at the table. */}
