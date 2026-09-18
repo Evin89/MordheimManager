@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-09-18",
+    "title": "Battlefield Generator (Beta)",
+    "description": "A new Map tab suggests a board for any scenario and table size — 2', 3' or 4' on each side — drawn as an old cartographer's map, with the scenario's deployment zones shaded and any wyrdstone or objective counters marked. Re-roll until you like it, then move the pieces to fit what's on your table. Signed in, it lays the board out from your own terrain library; signed out, it uses generic terrain, and works at the table without an account like the dice roller and the rules. It's in beta — the terrain suggestion is the app's own, not a prescribed table, and fords and bridges where a river meets a road are still to come."
+  },
+  {
     "date": "2026-09-04",
     "title": "Your Battle Survives a Refresh",
     "description": "Refresh the app mid-game — or come back to a phone that quietly reloaded the tab — and your in-progress battle is saved now and offered for restore, instead of vanishing. The during-battle screen also tracks two things it used to leave to your memory: tap +1 on a hero each time they take an enemy out of action, which pre-fills their Experience afterwards; and count the wyrdstone shards models are carrying in scenarios that use them, which pre-fill 'wyrdstone found' at the end. A carrier taken out of action drops its shards for you to hand to whoever grabbed them or mark lost. Everything still commits only when you finish the post-battle sequence."
