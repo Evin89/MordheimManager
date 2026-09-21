@@ -178,11 +178,12 @@ export async function undoLastBattle(id: string, ownerId: string): Promise<Warba
  */
 export async function deleteWarband(id: string, ownerId: string): Promise<void> {
   if (isDemoMode()) return demo.deleteWarband(id, ownerId);
-  const { error } = await supabase
-    .from('warbands')
-    .update({ deleted_at: new Date().toISOString() })
-    .eq('id', id)
-    .eq('owner_id', ownerId);
+  // Routed through a SECURITY DEFINER function (migration 0040) rather than a
+  // direct UPDATE: a bare `update warbands set deleted_at` was being rejected by
+  // the row-level-security WITH CHECK even for the row's own owner. The function
+  // takes only the id, verifies ownership server-side, and sets `deleted_at`
+  // outside RLS — so the delete can't be tripped by the update policy.
+  const { error } = await supabase.rpc('soft_delete_warband', { warband_id: id });
   if (error) throw error;
 }
 
