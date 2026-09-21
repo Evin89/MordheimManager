@@ -16,6 +16,7 @@ import ConfirmByTyping from '../components/ConfirmByTyping';
 import SaveBar from '../components/SaveBar';
 import { Button, Card, SectionHeading, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
+import { describeError } from '../lib/errorMessage';
 import {
   useCanUndoLastBattle,
   useDeleteWarbandMutation,
@@ -218,6 +219,7 @@ export default function RosterScreen() {
   const { warband, loading } = useWarbandLookup(warbandId);
   const deleteWarband = useDeleteWarbandMutation();
   const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   // Named, not just flagged: "drops out of Grudge Season" is a consequence
   // someone can weigh; "is in a campaign" is not.
   const { data: campaigns } = useMyCampaignsQuery();
@@ -250,10 +252,19 @@ export default function RosterScreen() {
 
   const campaignName = campaigns?.find((c) => c.id === sharing.campaignId)?.name ?? null;
 
-  function handleDelete() {
-    if (!warband) return;
-    deleteWarband(warband.id);
-    navigate('/warbands', { replace: true });
+  async function handleDelete() {
+    if (!warband || deleteWarband.isPending) return;
+    setDeleteError(null);
+    try {
+      // Await the write and only leave once it's actually gone — the old
+      // fire-and-forget navigated away regardless, so a failed delete left the
+      // warband in place with nothing but the generic connection banner to
+      // explain it. On failure we stay on the page and show the real reason.
+      await deleteWarband.mutateAsync(warband.id);
+      navigate('/warbands', { replace: true });
+    } catch (err) {
+      setDeleteError(describeError(err));
+    }
   }
 
   function handleUndo() {
@@ -419,9 +430,17 @@ export default function RosterScreen() {
                 </>
               }
             />
+            {deleteError && (
+              <p role="alert" className="text-blood-500 text-sm">
+                {deleteError}
+              </p>
+            )}
             <button
               type="button"
-              onClick={() => setConfirmingDelete(false)}
+              onClick={() => {
+                setConfirmingDelete(false);
+                setDeleteError(null);
+              }}
               className="w-full min-h-[44px] rounded-md text-bone-300 text-sm"
             >
               {strings.roster.deleteWarbandCancel}

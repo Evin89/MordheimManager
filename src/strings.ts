@@ -384,6 +384,13 @@ export const strings = {
   },
   connection: {
     lost: "Connection to Supabase failed — your last change may not have saved. Check your connection and retry.",
+    // A request that never reached the server (offline, blocked, timed out).
+    network: "Couldn't reach the server — your last change didn't save. Check your connection and try again.",
+    // The database refused the change (row-level security). Not a connection
+    // problem, so it must not read as one — it usually means a stale session.
+    permission: "The server wouldn't allow that change. Try signing out and back in, then retry.",
+    // Optimistic-concurrency miss: the row moved under us.
+    conflict: 'This changed somewhere else since you loaded it. Refresh and try again.',
   },
   weaponRules: {
     fullEntry: 'Full rules entry →',

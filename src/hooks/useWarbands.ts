@@ -197,11 +197,15 @@ export function useSaveWarbandMutation() {
 export function useDeleteWarbandMutation() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  // Returns the mutation object (not a bare `mutate`), so the roster screen can
+  // await it, keep the player on the page when it fails, and show the real
+  // reason inline. `suppressGlobalError` keeps the global connection banner out
+  // of it — a delete that fails shouldn't both alert here and there.
+  return useMutation({
     mutationFn: (id: string) => deleteWarbandApi(id, user!.id),
+    meta: { suppressGlobalError: true },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: warbandsKey(user?.id) }),
   });
-  return (id: string) => mutation.mutate(id);
 }
 
 export function useCommitBattleWarbandMutation() {

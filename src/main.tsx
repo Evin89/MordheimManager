@@ -5,13 +5,15 @@ import { AuthProvider } from './auth/AuthProvider';
 import { useConnectionStatus } from './store/useConnectionStatus';
 import { initAnalytics } from './lib/posthog';
 import { missingConfig } from './lib/supabaseClient';
+import { describeError } from './lib/errorMessage';
 import StartupError from './StartupError';
 import App from './App';
 import './index.css';
 
 function reportConnectionError(error: unknown) {
-  const message = error instanceof Error ? error.message : 'Unknown error';
-  useConnectionStatus.getState().reportError(message);
+  // Store the classified message, so the banner distinguishes a permission
+  // refusal or a stale-version conflict from an actual dropped connection.
+  useConnectionStatus.getState().reportError(describeError(error));
 }
 
 const queryClient = new QueryClient({
@@ -34,7 +36,15 @@ const queryClient = new QueryClient({
     },
   },
   queryCache: new QueryCache({ onError: reportConnectionError }),
-  mutationCache: new MutationCache({ onError: reportConnectionError }),
+  // A mutation can opt out of the global banner with `meta.suppressGlobalError`
+  // when the screen that fired it shows the error inline itself (e.g. the roster
+  // delete), so the failure isn't reported twice in two different voices.
+  mutationCache: new MutationCache({
+    onError: (error, _vars, _ctx, mutation) => {
+      if (mutation.meta?.suppressGlobalError) return;
+      reportConnectionError(error);
+    },
+  }),
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
