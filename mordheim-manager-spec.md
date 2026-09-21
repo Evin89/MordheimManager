@@ -655,6 +655,8 @@ Not in either original draft. It exists because feedback was arriving as prose i
 
 **Reporting** — a button at the foot of every screen opens a textbox in place and files to `issue_reports`. Filing rather than opening a mail client is the whole point: the row carries the path, the build, the user agent and a small context blob (which warband type, which unit), so "the Necromancer has no spells" arrives *with* `{warbandType: undead, unitType: Necromancer}` attached. It works signed out — the rules are public, so a stranger finding a wrong weapon price is exactly who you want to hear from — and insert is anonymous-friendly while **reading** is admin-only, so nobody can enumerate other people's reports.
 
+⚠️ **Attribution is opt-in, not automatic.** A signed-in reporter was originally always attributed (`reporterId: user?.id ?? null` — the null branch only reachable signed out), with nothing said about it. That was quieter than the privacy posture the rest of the app holds itself to (§23.7.1's consent gating on analytics is the same discipline applied there), so it's now a checkbox — "Include my username with this report … leave unchecked to submit anonymously" — defaulting off. The inbox resolves a shared identity to a display name (a second query against `profiles`, since `reporter_id` points at `auth.users` and PostgREST has no relationship to embed through) and links it to that player's admin detail screen; an unshared report still just says "anonymous".
+
 **`/admin`** (migration 0006, extended by 0007) carries three things:
 
 - The **inbox** — filter by open/triaged/closed, expand for the captured context, mark triaged or closed.
@@ -698,9 +700,15 @@ The §23.5 analytics panels move here — this is now their home. Glanceable, re
 
 The existing inbox (filter open/triaged/closed, expand for captured context, mark triaged/closed), unchanged except that it is now its own route and fetches only its own rows. Already paginated (25/page, §16).
 
-#### 4.9.4 Players ✅ → moved
+#### 4.9.4 Players ✅ → moved, then deepened
 
-The existing player list (`admin_user_overview()`) and per-player detail, unchanged except for the route move. Paginated. This is the per-user drill-down; §4.9.5 is its per-campaign mirror.
+The existing player list (`admin_user_overview()`) and per-player detail, moved to its own route, then grown well past "unchanged" as the drill-down questions piled up. This is the per-user drill-down; §4.9.5 is its per-campaign mirror.
+
+⚠️ **Sortable, with real activity, not just counts** (migrations 0035, 0036, 0037, 0038). The list gained **New-30d** and **Edits-30d** columns, and every header became a real sort control (`aria-sort`, a direction caret, name A→Z first, numbers/dates highest-first, never-active players pinned last). The per-player screen gained activity tiles — battles, battles-per-warband, new warbands in 30/90 days, roster edits all-time and 30-day — and the **Battles tile drills into that player's own battle log** (scenario, date, campaign, result, expanding to the reported detail).
+
+- **Roster edits are a real trigger-written log**, not an estimate: `warband_edits` (migration 0035) inserts one row per genuine change to a warband's `data` jsonb (a rename, a visibility toggle or a campaign move deliberately doesn't count — only a change to the roster itself), `SECURITY DEFINER` so it bypasses its own owner-only RLS regardless of who fired the update. Forward-looking by construction: rows accrue from the migration date on, so a long-standing warband reads 0 edits until it's next touched, and the admin UI frames the numbers as "since tracking began" rather than implying a fuller history exists.
+- **The battle-log drill-in is its own `SECURITY DEFINER` function** (`admin_user_battles`, migration 0036), not a client query against `battles` — the `battles` RLS is member-shaped (§8.3), so a direct query would hand an admin only the partial slice of another player's battles that happen to share a campaign with someone else the admin can see, and none of their genuinely personal games. §4.9.7's content-blind boundary still applies: the function returns the same fields the owner's own battle log shows, not more.
+- **Presence feeds the admin side too** (migrations 0037/0038, §23.2). A `last_seen_at` column on `profiles`, touched by a throttled `SECURITY DEFINER` heartbeat (`touch_last_seen()`, once per 5 minutes server-side on top of the client's own throttle) called on load, backs **active today** / **active 7 days** counts folded into `admin_stats()` on Overview (§4.9.2) — answering "did anyone actually open the app today", which edit/battle counts alone can't, since opening the app and reading the rules leaves neither trail.
 
 #### 4.9.5 Campaigns ◻️ — the missing symmetric view
 
@@ -1093,6 +1101,20 @@ In the UI, the old single "Make leader" button silently demoted whoever tapped i
 - Owner only. Type-to-confirm value: **the warband name**.
 - **If linked to a campaign**, the impact panel names the campaign and states that the warband will disappear from its standings and members list, and that its battle records stay in the log. Required within the panel, not a separate step.
 - Cascade: the `objectives` row and all model photos in Storage (§11.5) go with it. Battles stay — they're campaign history, not warband data.
+
+⚠️ **The soft delete had never actually worked, for anyone, ever.** A user report that two specific warbands "won't delete" led to a full audit of the live database, which found the report understated the problem: `deleted_at` had never been set on *any* warband, database-wide, across the table's entire history — every "deleted" warband anyone had ever made was still there. The write is `UPDATE warbands SET deleted_at = …`, governed by the `warbands_update_own` RLS policy's `WITH CHECK`. That check was rejecting the owner's own soft-delete of their own row, and — this is the honest part — **the exact mechanism resisted full static explanation** even after ruling out every plausible cause one at a time against the live database: a hidden restrictive policy (none exist; all five policies on `warbands` are permissive), a `BEFORE UPDATE` trigger rewriting the row before the check runs (none exist — the two custom triggers are both `AFTER UPDATE` and neither fires on a `deleted_at`-only change), a stale cached query plan (ruled out by elapsed time and by DDL's own plan invalidation), and the wrong Supabase project (confirmed identical project ref against the failing request's own response header).
+
+Rather than keep chasing the mechanism, the fix sidesteps the question: deletion now goes through a `SECURITY DEFINER` RPC, `soft_delete_warband(warband_id)` (migration 0040), which takes only the id, checks `owner_id = auth.uid()` itself in its own body, and writes `deleted_at` **outside RLS entirely** — so it cannot be tripped by whatever the update policy's `WITH CHECK` was doing, whatever that was. This is also simply the correct shape for an owner-only destructive action, independent of the mystery that motivated it.
+
+The same audit, since it was already inspecting the whole warband-adjacent schema, turned up three more things worth fixing alongside it (migration 0041):
+
+- A **dead, dangerous DELETE policy**. `warbands_delete_own` (a real hard `DELETE`, owner-scoped) dates to migration 0001, predates soft-delete (0009) entirely, and nothing client-side has issued a real `DELETE` on this table since. Left alone, a future stray `.from('warbands').delete()` would silently succeed as a genuine hard delete — cascading away `warband_photos` **without** queuing their paths into `storage_purge_queue` first, which is exactly the orphaned-Storage-bytes failure mode §10.5's two-step purge exists to prevent. Dropped.
+- A **duplicate index** on `objectives.warband_id` — a plain btree index sitting alongside a unique one on the same column, which already serves every query the plain one could. Dropped.
+- **Three foreign keys with no covering index** (`objectives.owner_id`, `warband_comments.author_id`, `campaign_awards.created_by`), flagged by Supabase's own advisor. Added.
+
+Also fixed app-wide, not warband-specific but found in the same pass: every query/mutation failure used to surface through one hardcoded message, "Connection to Supabase failed," regardless of cause — so a permission refusal and a genuine dropped connection were indistinguishable, which is exactly what made this bug hard to diagnose from the outside. `describeError()` (`src/lib/errorMessage.ts`) now classifies a thrown error into a network failure, an RLS/permission refusal (Postgres `42501`/`PGRST301`), an optimistic-concurrency conflict, or the generic fallback, and the roster's delete flow was also changed from fire-and-forget (`deleteWarband(id); navigate(...)` — it navigated away regardless of whether the delete had actually succeeded) to an awaited mutation that keeps the user on the page and shows the real reason on failure.
+
+**Left open, on purpose:** two audit-log tables discovered in the same pass, `warband_edits` and `warband_rating_history` (§4.9.4, §18.3), have no retention at all — unlike `warbands` itself, which this section's purge job actually cleans up. Low volume today (roughly 1,000 rows combined across 86 warbands, two months in), but nothing bounds it. Flagged rather than fixed, since it wants a deliberate retention decision, not a drive-by migration.
 
 ### 10.5 Soft delete, and what it does to cascades
 
@@ -2272,3 +2294,52 @@ The map keeps a **fixed parchment palette in both themes** — it does *not* re-
 ### 24.4 Status & remaining work
 
 Shipped as **Beta** (badge on the header). The generator and its map are complete and public; what's noted for later, in `battlefield.ts`'s own header: **fords, bends and bridges** where a river crosses a road or another piece — today the river is drawn as one clean meander and the player reconciles crossings by hand, consistent with the "move the pieces" contract. The rest of the solo-play beta (`/solo` setup, the NPC oracle, the model/terrain library editors) is real but out of scope for this section, which covers only the map.
+
+---
+
+## 25. Warband rules reference screen ✅
+
+> **Provenance.** Built directly from an incoming design brief that called itself "§5.4 — Warband Rules Screen (reference view)," with a reference implementation at a shared artifact link and its own decision log (nine numbered items, five resolved, four left open with defaults). That number collides with this document's own, unrelated §5.4 ("Readability & responsive rules"), so the built record lives here instead, at the next free top-level number — the design brief's content is folded in below rather than kept as a separate file.
+
+### 25.1 Purpose & scope ✅
+
+A **read-only reference** view of one warband type — background, rules, roster shape, skills, equipment, every unit's full profile — answering "how does it work, what choices do I have, how does it play" without opening the roster builder. Keyed off the warband **definition**, not an owned roster, so it needs no account: reachable from a "browse warbands" picker and from deep links, and it works signed out like the rest of the Rules Reference (§4.8).
+
+**Not the roster builder.** Every relevant section can end with a **Build this warband →** CTA into the existing creation flow with the type preselected.
+
+**Route: `/rules/warbands/:warbandSlug`.** The design brief's own default (`/warbands/:slug`) was checked against this app's actual route table and rejected: `/warbands/:warbandId` is already the guarded roster screen (§4.1), so a second, public route at the same shape would collide. Nesting under `/rules` also puts it in the correct family — a public reference screen belongs beside the rules browser, not beside the accounts-only roster list.
+
+### 25.2 Data source — real fields, not the brief's idealised ones ⚠️
+
+The brief's JSON shape (`playstyleSummary`, `archetype`, a `choiceOfWarriors` object, a `skillAccess` matrix, structured `equipmentLists.categories`) does not match what `WarbandDefinition` (§3.1) actually stores. Per §3.3's sourcing discipline — render what the data provides, never fabricate — every section below is either **derived from a real field** or **omitted**, never invented to fill a gap the brief assumed would exist:
+
+| Brief's field | What's actually rendered |
+| --- | --- |
+| `background` (separate prose field) | The `specialRules` blob's own lead-in, split out by `parseWarbandSpecialRules` (already used by the older per-warband rules page, §4.9's sibling) |
+| `playstyleSummary` / `archetype` | **Omitted.** The brief's own fallback was "derive a structural blurb … else hide (never invent prose)"; deriving one risks stating a mechanic that isn't actually true of that warband, so this build goes straight to hide. Trivial to switch on later if an authored field is added — no schema churn, per the brief's own §5.4.15 item 7 |
+| `choiceOfWarriors.units[]` | `heroSlots` + `henchmenTypes`, with each unit's `maxCount` rendered in the rulebook's own recruiting idiom ("Must include 1", "0–2", "Any number") |
+| `skillAccess` matrix | `heroSlots[].skillLists`, checked against the five standard list keys |
+| `equipmentLists[].categories` | `equipmentLists` resolved through the existing `resolveEquipmentItem` / `groupByCategory` helpers (§9.3) — the same resolver the treasury and shop already use, so a price shown here can't disagree with a price shown anywhere else |
+| `statMaximums` | Resolved through `resolveStatMaximums`/racial-profile lookup (§3.1), not read raw — a unit with no racial profile and no per-unit override correctly renders `—`, never a fabricated zero |
+
+### 25.3 Screen structure ✅ — matches the brief, built against real data
+
+Single **long anchored scroll** with a **sticky, scroll-spy jump-nav** (`IntersectionObserver`-driven, a band near the top of the viewport decides the "current" section), in the brief's canonical order — Background → Special Rules → Choice of Warriors → Skill Access → Special Skills (conditional) → Equipment → Heroes → Henchmen → footer CTA — with sections that have nothing to show (no `background`, no warband-specific skill list) omitted outright rather than rendered empty, matching the brief's own §5.4.14.
+
+- **Header band** — blackletter title, a provenance chip pair (source + grade, resolved through the existing `getWarbandProvenance`, §3.1) in the app's `verdigris` token rather than the brief's proposed gilt/gold (this app has no gold token — §5.1 deliberately spends its accent on one colour), a key-facts strip (starting gold, size range, hero cap), and the CTA.
+- **Special Rules — boxed callout, keyword-triggered.** The brief's open item #8 ("keyword allowlist vs render-all-plain") is resolved here as allowlist: a rule whose name or text matches a small pattern (hatred, animosity, stupidity, fear, magic/spell/prayer, mount, "may never …") gets a left-bordered callout; everything else stays plain. Matches the brief's stated default.
+- **Skill Access — chip cards only, no ruled matrix table, at every width.** The brief's own resolved decision (§5.4.15 item 2): a responsive grid of per-hero cards, each a filled chip per available list and a struck-through muted chip per unavailable one, is the **single rendering at all sizes** rather than a second visual dialect for a phone-width matrix. A `Special` chip links down to the Warband Skills section when a hero draws on one of the warband's own lists.
+- **Statline — the existing §5.3 block, unmodified**, with the maximums row **always shown beneath it**, per the brief's resolved item #4: a number per cell, or `—` where the race has no ceiling — never a zero implying a cap that was never published.
+- **Background — collapsed on phone, open on tablet+.** The brief's resolved item #3, built with the existing `<640px` / `≥768px` breakpoint convention rather than new ones.
+
+### 25.4 Visual & token treatment ✅ — the brief's tokens, translated to this app's real names
+
+The brief specified an abstract token set (`--raised`, `--accent`, `--on-accent`, `--border-strong`, `--verdigris`) assuming a CSS-variable design system with those exact names. This app's actual token layer (§5.1, `tailwind.config.js`) uses different but semantically identical names — `ink-900`/`bg-parchment-raised` for raised surfaces, `ember`/`blood` for the accent (resolved per theme, §5.5), `on-accent`, `verdigris`, `border-ink` for the statline's heavy rule. The screen was built entirely against **this app's real classes**, never the brief's literal variable names, which don't exist in this codebase. Grimdark is the default theme app-wide (§5.5), matching the brief's stated default; the screen sets no colour of its own.
+
+### 25.5 What the brief's decision log resolved, and what changed on contact with real data
+
+The brief's own §5.4.15 listed five resolved decisions and four open ones (route/section-number, `playstyleSummary`/`archetype`, the special-rules boxing trigger, and the relationship to warband-compare). All five resolved items were built as specified. Of the four open ones: route was decided for this app's actual constraints (§25.1), `playstyleSummary`/`archetype` defaults to hide (§25.2), the boxing trigger uses the stated default allowlist (§25.3), and the relationship to §20.2's warband-compare tool is **left separate**, matching the brief's own stated default — no CTA between the two was added.
+
+### 25.6 Status ✅
+
+Built and wired: the route, the New Warband screen's `?type=` preselect for the CTA, and the Warbands tab's Rules panel (a searchable "Choose a warband…" picker, replacing a plain `<select>`, since a picker at 49 warbands needs to be searchable the same way §4.1's own type picker already is). The older per-warband rules page (`/rules/warband-:id`, rendered inline inside `RuleDetailScreen` — §4.8's search index still generates entries for it) is untouched and still reachable from the main Rules Reference's search/browse, since nothing routes to it from the Warbands tab picker any more but its ids are still indexed. Consolidating the two into one is a clean, not-yet-done follow-up.
