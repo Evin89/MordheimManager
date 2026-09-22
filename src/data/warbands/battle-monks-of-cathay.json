@@ -369,7 +369,7 @@
       "cost": 75,
       "rarity": null,
       "restriction": "Emissary only",
-      "rulesText": "TODO: verify vs Border Town Burning — the Soldier equipment list gives a cost of 75 gc and an Emissary-only restriction, but the weapon's full profile and special rules were not part of the supplied text."
+      "rulesText": "Range: Close Combat; Strength: as user.\n\nMastercrafted: attacks made with a Cathayan longsword give the bearer +1 Initiative and +1 Weapon Skill."
     },
     {
       "id": "cathayanSilkCloak",
@@ -378,7 +378,7 @@
       "cost": 40,
       "rarity": null,
       "restriction": "Emissary only",
-      "rulesText": "TODO: verify vs Border Town Burning — the Soldier equipment list gives a cost of 40 gc and an Emissary-only restriction, but the item's rules were not part of the supplied text."
+      "rulesText": "A leader wearing a Cathayan silk cloak may re-roll the first failed Rout test. After each battle in which he is taken out of action, roll a D6 — on a 1-3 the cloak is ruined and must be discarded."
     }
   ],
   "specialRules": "Battle Monks of Cathay (Border Town Burning). Strictures: Dragon Monks and Warrior Monks never wear any kind of armour. | Distaste for Poison: Dragon Monks and Warrior Monks may never use any kind of poison or venom. | Outsiders: the warband may never hire any sort of Hired Sword or Dramatis Personae unless specifically stated in that hired sword's own entry. | Min warband size 3, max 15. Exactly one Emissary — no more, no less. | Cathayans are humans and use the human maximum profile. | Warmonger (Emissary only, special skill): the Emissary may make a Leadership test before the battle; if it passes, D3+1 Raging Peasants join the warband for the next game, which may exceed the maximum warband size, and every Raging Peasant is subject to Hatred for that battle."

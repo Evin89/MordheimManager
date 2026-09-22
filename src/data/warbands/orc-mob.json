@@ -382,7 +382,7 @@
       "cost": 15,
       "rarity": null,
       "restriction": "Goblin equipment list (Orc Mob warbands).",
-      "rulesText": "The whirling ball & chain of a Goblin Fanatic (usually combined with Mad Cap Mushrooms). TODO: the full rules text isn't included on the fetched source page — check the Mordheim Annual 2002 / Town Cryer #6 before using it in a real game."
+      "rulesText": "Range: Close Combat; Strength: as user +2.\n\nIncredible Force: no armour saves are allowed against it; any wound causes 1D3 wounds instead of 1.\n\nRandom: the first turn the model starts swinging it, he moves 2D6\" in a direction you choose. In each subsequent Movement phase, roll a D6: 1 — he strangles himself and is taken out of action (rolling 1-3 on the post-battle Injury roll means he's out permanently, instead of the usual 1-2); 2-5 — he moves 2D6\" in a direction you choose; 6 — he moves 2D6\" in a random direction. Moving into contact with another model counts as a charge into close combat; opponents attacking him suffer -1 to hit. He cannot be held in combat and always moves, even from base contact, at his next Movement phase. Moving into a building, wall or other obstruction takes him out of action automatically. A model wielding one ignores Animosity.\n\nCumbersome: a model equipped with one may carry no other weapons or equipment, and only a model under the effect of Mad Cap Mushrooms has the strength to wield it.\n\nUnwieldy: at the end of the battle, roll for Injury for the model as if he had been taken out of action (unless he actually was, in which case roll only once)."
     },
     {
       "id": "squigProdder",
@@ -391,7 +391,7 @@
       "cost": 15,
       "rarity": null,
       "restriction": "Goblin equipment list (Orc Mob warbands).",
-      "rulesText": "A long prodding spear used by Goblin herders to keep Cave Squigs in line. TODO: the full rules text isn't included on the fetched source page — check the Mordheim Annual 2002 / Town Cryer #6 before using it in a real game."
+      "rulesText": "A Goblin with a Squig prodder keeps Cave Squigs within 12\" from going wild (instead of the usual 6\"). In hand-to-hand combat it is treated exactly like a spear."
     }
   ],
   "specialRules": "Orcs enjoy fighting and looting more than anything else, and Mordheim offers an aspiring Warboss endless supplies of both — ideally taken off other warbands rather than dug up. Distasteful Company: many Hired Swords refuse to work for Orcs — an Orc Mob may only hire Pit Fighters, Ogre Bodyguards, or Warlocks. Animosity: at the start of the Orc player's turn, roll a D6 for each Orc or Goblin Henchman not in hand-to-hand combat — on a 1 the warrior takes offence; roll again: 1 = \"I 'Erd Dat!\" (charges/shoots the nearest friendly Orc or Goblin Henchman as per the full Animosity rules), 2-5 = \"Wud Yoo Say?\" (spends the turn hurling insults, does nothing else), 6 = \"I'll Show Yer!\" (must move at full speed toward the nearest enemy, in addition to its normal move). See the full Animosity entry in the Rules Reference (Leadership & Psychology). Note the source's Goblin list prices Mad Cap Mushrooms at 25 gc at recruitment (the general rare-trade price is 30 + 3D6 gc)."

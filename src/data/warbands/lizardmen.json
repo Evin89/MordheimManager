@@ -424,7 +424,7 @@
       "cost": 25,
       "rarity": null,
       "restriction": "Skinks",
-      "rulesText": "TODO: verify vs Town Cryer #11 — the Skink equipment list gives a cost of 25 gc, but the weapon's own profile and special rules were not part of the supplied text."
+      "rulesText": "Range: 8\"; Strength: 1.\n\nPoison: a roll of 6 to hit automatically wounds; a blowpipe cannot cause critical hits. Armour saves improve by one step against it (a normal 5+ save becomes 4+; a model with no save gets a 6+).\n\nStealthy: may fire while hidden without revealing the firer's position; the target may attempt to spot the shooter with an Initiative test."
     },
     {
       "id": "bolas",

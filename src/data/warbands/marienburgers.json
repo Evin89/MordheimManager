@@ -298,7 +298,7 @@
       "cost": 200,
       "rarity": null,
       "restriction": "Marksman equipment list only",
-      "rulesText": "TODO: verify profile/special rules vs rulebook (Move or fire; prepare shot)."
+      "rulesText": "Range: 48\"; Strength: 4.\n\nMove or fire: you may not move and fire a hunting rifle in the same turn, other than to pivot on the spot to face your target or stand up from knocked down.\n\nPrepare shot: a hunting rifle takes a complete turn to reload, so may only fire every other turn.\n\nPick target: can target any enemy model in sight, not just the closest one.\n\nSave modifier: a warrior wounded by a hunting rifle must make his armour save with a -2 modifier."
     },
     {
       "id": "duellingPistol",
@@ -307,7 +307,7 @@
       "cost": 25,
       "rarity": null,
       "restriction": "Mercenary equipment list (50 gc for a brace)",
-      "rulesText": "TODO: verify profile/special rules vs rulebook."
+      "rulesText": "Range: 10\"; Strength: 4.\n\nAccuracy: all shots and close combat attacks from a duelling pistol have a +1 bonus to hit.\n\nPrepare shot: takes a complete turn to reload, so may only fire every other turn — a brace may fire every turn.\n\nSave modifier: a warrior wounded by a duelling pistol must make his armour save with a -2 modifier.\n\nHand-to-hand: a model armed with a duelling pistol and another close combat weapon gains +1 Attack (once per combat), resolved at Strength 4 with a -2 save modifier. A brace grants 2 Attacks in the first round of close combat instead."
     }
   ],
   "specialRules": "Marienburg Mercenaries. Wealth: start a campaign with an extra 100 gc (600 total; in a one-off game, +20% gc when recruiting). Merchant contacts: +1 bonus when attempting to find rare items. Min warband size 3, max 15. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction.",

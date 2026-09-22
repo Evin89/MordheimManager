@@ -340,7 +340,7 @@
       "cost": 75,
       "rarity": null,
       "restriction": "Captain only",
-      "rulesText": "TODO: verify vs Border Town Burning p.XX — cost (75 gc) and Captain-only restriction are confirmed from the Maneaters equipment list, but this document did not include the weapon's full profile/special rules text."
+      "rulesText": "Range: Close Combat; Strength: as user.\n\nMastercrafted: attacks made with a Cathayan longsword give the bearer +1 Initiative and +1 Weapon Skill."
     },
     {
       "id": "handHeldMortar",
@@ -394,8 +394,8 @@
       "category": "misc",
       "cost": 15,
       "rarity": null,
-      "restriction": "TODO: verify vs Border Town Burning p.XX — listed at 15 gc on the Ogre equipment list's Miscellaneous section but its rules text was not present on the fetched pages (only Lookout/Luck/Sword-Gnoblar rules text was given under 'Claimed Gnoblars').",
-      "rulesText": "TODO: verify vs Border Town Burning p.XX"
+      "restriction": "Maneaters only",
+      "rulesText": "M4 WS2 BS3 S2 T3 W1 I3 A1 Ld5. Armed with a dagger and thrown sharp stuff (Strength 2, range 8\", fires twice).\n\nLargely Insignificant: counts towards warband size but is never considered for Rout tests, neither for determining initial warband size nor as a loss.\n\nBicker: roll a D6 at the start of the turn for each Gnoblar within 2\" of another Gnoblar and not in close combat — on a 1 he bickers and does nothing else that turn.\n\nGnoblars count as Greenskins but do not suffer from Animosity, and do not count as animals despite otherwise following War Dog rules."
     }
   ],
   "specialRules": "Fear: Ogres are large, threatening creatures that cause fear, with the exception of Youngbloods. | Large: except for Youngbloods and Half-growns, Ogres are huge and make tempting targets for archers — any model may shoot at them even if not the closest target, at +1 to hit. | Gluttony: each Ogre model counts as two models when selling wyrdstone or treasure. A model captured (Serious Injuries or Exploration) can instead be devoured, reducing the combined model count of your warband by one (two if the eaten captive is a Large Target); an Ogre always counts as at least one model no matter how much he eats. An Ogre Hero devouring captured models gains XP equal to the number of models consumed; any warband member or animal (including mounts) can be eaten this way and is removed from the roster immediately. | Slow Witted: Ogres only improve at half the normal rate — they need twice the usual XP to gain an advance. | Difficult Customers: Ogre Heroes suffer -1 when rolling to find Rare items that are not exclusively available to Ogres. | Cannibals: an Ogre warband may never hire Hired Swords except Halflings (Scout, Thief, etc.) and the Ogre Bodyguard (or unless stated otherwise), and may choose to devour a Hired Sword when his contract ends. | Minimum warband size is 3 models; maximum warband size is 12. | Characteristic maximums for all Ogre-kin (Captain, Mountain Guide, Youngblood, Bulls, Half-growns) are M6 WS6 BS5 S5 T5 W5 I6 A5 Ld9 — Sabretusks are not Ogres and have no stated maximum profile in this source. | Ogres never carry or fight with daggers; they receive no free starting dagger unlike other warbands' warriors."

@@ -308,7 +308,7 @@
       "cost": 35,
       "rarity": null,
       "restriction": "Witch Hunter equipment list",
-      "rulesText": "TODO: verify profile/special rules vs rulebook."
+      "rulesText": "Range: 10\"; Strength: 4.\n\nShoot In Hand-To-Hand Combat: may fire once in the first round of a close combat, resolved before any blows are struck, at an extra -2 to hit.\n\nHand-To-Hand: a model with a crossbow pistol and another close combat weapon gains +1 Attack (once per combat), resolved at Strength 4."
     }
   ],
   "specialRules": "Witch Hunters. Burn the Witch!: the Captain and Witch Hunters hate all models that can cast spells. Warrior-Priest uses Prayers of Sigmar. Min warband size 3, max 12. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."

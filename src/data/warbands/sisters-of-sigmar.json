@@ -266,7 +266,7 @@
       "cost": 120,
       "rarity": null,
       "restriction": "Miscellaneous (Heroines only)",
-      "rulesText": "TODO: verify rules vs rulebook — not present in the fetched pages."
+      "rulesText": "A Warrior Priest or Sister of Sigmar carrying a holy tome adds +1 to the roll when attempting to recite a prayer."
     },
     {
       "id": "blessedWater",
@@ -275,7 +275,7 @@
       "cost": 10,
       "rarity": null,
       "restriction": "Miscellaneous (Heroines only)",
-      "rulesText": "TODO: verify rules vs rulebook — not present in the fetched pages."
+      "rulesText": "Thrown range is twice the thrower's Strength in inches; roll to hit using Ballistic Skill, with no modifiers for range or moving. Causes 1 automatic wound with no armour save against an Undead, Daemon or Possessed model. One use only. May not be bought or used by Undead or Possessed models."
     },
     {
       "id": "holyRelic",
@@ -284,7 +284,7 @@
       "cost": 15,
       "rarity": null,
       "restriction": "Miscellaneous (Heroines only)",
-      "rulesText": "TODO: verify rules vs rulebook — not present in the fetched pages."
+      "rulesText": "A model carrying a holy relic automatically passes the first Leadership test he is required to make in the game. Carried by the leader, it instead lets him automatically pass the first Rout test, provided he hasn't already taken a Leadership test that game. Owning two or more relics does not let further tests be ignored."
     }
   ],
   "specialRules": "Sisters of Sigmar. The Sisters use their own Special skill list instead of one of the standard lists (skillLists id 'sistersOfSigmar'): Sign of Sigmar (Possessed/Undead lose their first attack in the first round of close combat, min 1); Protection of Sigmar (any spell affecting her is nullified on 4+, and then affects no one); Utter Determination (Matriarch only — re-roll failed Rout tests); Righteous Fury (hates all Skaven, Undead or Possessed warbands and every model in them); Absolute Faith (re-roll Fear tests; no test when fighting alone against several opponents). They never wear... they use only the weapons on their equipment list (blunt weapons, warhammer, whip, sling — no bladed weapons). Min warband size 3, max 15. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
