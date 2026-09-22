@@ -1,6 +1,7 @@
 import { ReactElement, Suspense, lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
+import { ChunkErrorBoundary } from './components/ChunkErrorBoundary';
 import NavTour from './components/NavTour';
 import WhatsNewOverlay from './components/WhatsNewOverlay';
 import DiceButton from './components/DiceButton';
@@ -283,18 +284,23 @@ export default function App() {
     <BrowserRouter basename="/app">
       <RouteAnalytics />
       <ConsentBanner />
-      <Suspense fallback={<RouteFallback />}>
-        <Routes>
-        {/* Auth screens render outside the app shell — no nav on the sign-in flow. */}
-        <Route path="/login" element={<LoginScreen />} />
-        <Route path="/register" element={<RegisterScreen />} />
-        <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
-        <Route path="/reset-password" element={<ResetPasswordScreen />} />
-        {/* Design workbench for spec §5 — not linked from the nav. */}
-        <Route path="/design" element={<DesignSandboxScreen />} />
-        <Route path="*" element={<AppShell />} />
-        </Routes>
-      </Suspense>
+      {/* Wraps every route's lazy import, including AppShell's own nested
+          Suspense — a chunk-load error there bubbles up past it to here,
+          since AppShell has no boundary of its own. */}
+      <ChunkErrorBoundary>
+        <Suspense fallback={<RouteFallback />}>
+          <Routes>
+          {/* Auth screens render outside the app shell — no nav on the sign-in flow. */}
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
+          <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+          <Route path="/reset-password" element={<ResetPasswordScreen />} />
+          {/* Design workbench for spec §5 — not linked from the nav. */}
+          <Route path="/design" element={<DesignSandboxScreen />} />
+          <Route path="*" element={<AppShell />} />
+          </Routes>
+        </Suspense>
+      </ChunkErrorBoundary>
     </BrowserRouter>
   );
 }

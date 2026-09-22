@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-22",
+    "title": "No More Black Screen After an Update",
+    "description": "A link tapped shortly after the app updated behind the scenes could land on a blank black page instead of the screen you asked for — reloading always fixed it, but you shouldn't have had to. The app now notices that specific failure and recovers on its own, invisibly; you'll only ever see a message if it happens twice in a row, with a button to reload."
+  },
+  {
+    "date": "2026-09-22",
     "title": "Every Warband's Rules in One Place",
     "description": "Each warband type now has its own rules reference screen — stat lines, background, special rules, who it can recruit, skill access, and the full equipment list, all on one scrolling page with a jump menu to skip straight to a section. Reach it from the warband list's rules link, or start a new warband already knowing exactly what you're building."
   },

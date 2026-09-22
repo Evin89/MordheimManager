@@ -97,6 +97,8 @@ export const strings = {
     loading: 'Loading…',
     unsavedChanges: 'Unsaved changes',
     discard: 'Discard',
+    updateAvailableError: "Something didn't load — probably a new version of the app. Reload to get the current one.",
+    reload: 'Reload',
   },
   discord: {
     cta: 'Questions or ideas? Join the Discord',
