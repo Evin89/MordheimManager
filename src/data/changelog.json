@@ -1,5 +1,30 @@
 [
   {
+    "date": "2026-09-22",
+    "title": "Every Warband's Rules in One Place",
+    "description": "Each warband type now has its own rules reference screen — stat lines, background, special rules, who it can recruit, skill access, and the full equipment list, all on one scrolling page with a jump menu to skip straight to a section. Reach it from the warband list's rules link, or start a new warband already knowing exactly what you're building."
+  },
+  {
+    "date": "2026-09-22",
+    "title": "Deleting a Warband Works Properly Now",
+    "description": "Deleting a warband was failing for some players with a vague “connection to Supabase failed” message, even when nothing was wrong with their connection. The delete now runs as a single trusted step on the server, and if something genuinely does go wrong you'll get a plain-language reason instead of a generic connection error."
+  },
+  {
+    "date": "2026-09-22",
+    "title": "See How a Campaign's Warbands Stack Up",
+    "description": "A campaign's Standings tab now charts every entered warband's rating over time on one graph, not just your own — hover, or tap and drag on a phone, to see exactly where each warband stood on any given date. A single warband's own page keeps its simple line chart; this one's for comparing the whole field at a glance."
+  },
+  {
+    "date": "2026-09-22",
+    "title": "Hired Sword Ratings, Corrected",
+    "description": "Hired Swords were counting toward your warband's rating the same way ordinary models do (5 points, or 20 for a large creature, plus Experience) — but the rulebook gives each one its own flat bonus instead. Pit Fighters, Ogre Bodyguards, Warlocks and the rest now add the right amount to your warband's rating."
+  },
+  {
+    "date": "2026-09-22",
+    "title": "No More Duplicate Campaign Names",
+    "description": "Starting or renaming a campaign now checks the name as you type and stops you before you end up with two campaigns of the same name under your account, with a clear message if it's already taken."
+  },
+  {
     "date": "2026-09-18",
     "title": "Battlefield Generator (Beta)",
     "description": "A new Map tab suggests a board for any scenario and table size — 2', 3' or 4' on each side — drawn as an old cartographer's map, with the scenario's deployment zones shaded and any wyrdstone or objective counters marked. Re-roll until you like it, then move the pieces to fit what's on your table. Signed in, it lays the board out from your own terrain library; signed out, it uses generic terrain, and works at the table without an account like the dice roller and the rules. It's in beta — the terrain suggestion is the app's own, not a prescribed table, and fords and bridges where a river meets a road are still to come."
