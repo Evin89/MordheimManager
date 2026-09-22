@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import { RatingPoint } from '../api/ratingHistory';
 import { strings } from '../strings';
 
@@ -8,11 +9,13 @@ import { strings } from '../strings';
  * entered warband's rating history on a shared axis, so "who's pulling ahead"
  * reads at a glance instead of requiring a mental diff across separate charts.
  *
- * Hand-drawn SVG, no chart library or hover layer — deliberately matching the
- * rest of the app's static, no-dependency charts (the detail-screen line, the
- * admin signups sparkline) rather than the richer interactive treatment a
- * generic multi-series chart would default to. A legend below names every
- * warband, since colour is never the only way to tell two lines apart.
+ * Hand-drawn SVG, no chart library — matching the rest of the app's
+ * no-dependency charts. This *is* the app's first hover layer, though: a
+ * crosshair plus a per-warband tooltip on drag/hover, via Pointer Events so it
+ * behaves the same for a mouse and a finger (the app is mobile-first; a
+ * mouse-only `mousemove` hover would simply never fire at the table). A
+ * legend below still names every warband regardless of whether anyone's
+ * hovering, since colour is never the only way to tell two lines apart.
  *
  * The x-axis is real elapsed time, not point index: two warbands' ratings
  * change on different battle nights, so lining their Nth points up by index
@@ -54,7 +57,24 @@ const CHART_FILLS = [
 const OVERFLOW_STROKE = 'stroke-ink-faded';
 const OVERFLOW_FILL = 'fill-ink-faded';
 
+/** The warband's own most recent point at or before `t` — never an
+ * interpolated in-between value. A rating changes on a battle night, not
+ * continuously, so "as of this date" means the last thing that was actually
+ * recorded, not a guess at what it was "probably" partway between two points. */
+function valueAtOrBefore(points: RatingPoint[], t: number): RatingPoint | null {
+  let result: RatingPoint | null = null;
+  for (const p of points) {
+    if (new Date(p.recordedAt).getTime() <= t) result = p;
+    else break; // points are oldest-first; nothing later can still qualify
+  }
+  return result;
+}
+
 export default function CampaignRatingChart({ warbands }: { warbands: ChartWarband[] }) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [hoverT, setHoverT] = useState<number | null>(null);
+  const draggingRef = useRef(false);
+
   // Colour is assigned in a fixed, entity-stable order (name, not rating) —
   // never cycled by current rank, so lines don't swap colour as standings move.
   const withData = warbands
@@ -85,60 +105,162 @@ export default function CampaignRatingChart({ warbands }: { warbands: ChartWarba
     return aOverflow === bOverflow ? 0 : aOverflow ? -1 : 1;
   });
 
+  // ── Pointer handling ──
+  // A mouse hovers freely; a touch has no hover state at all, so it only
+  // tracks while actively pressed (tap-and-drag to scrub, lift to dismiss) —
+  // otherwise the chart would eat every scroll-past touch on the tab.
+  function timeFromClientX(clientX: number): number {
+    const rect = svgRef.current!.getBoundingClientRect();
+    const frac = (clientX - rect.left) / rect.width;
+    const svgX = frac * W;
+    const t = minT + ((svgX - PAD_L) / plotW) * spanT;
+    return Math.max(minT, Math.min(maxT, t));
+  }
+  function handlePointerMove(e: React.PointerEvent<SVGSVGElement>) {
+    if (e.pointerType !== 'mouse' && !draggingRef.current) return;
+    setHoverT(timeFromClientX(e.clientX));
+  }
+  function handlePointerDown(e: React.PointerEvent<SVGSVGElement>) {
+    draggingRef.current = true;
+    svgRef.current?.setPointerCapture(e.pointerId);
+    setHoverT(timeFromClientX(e.clientX));
+  }
+  function endHover() {
+    draggingRef.current = false;
+    setHoverT(null);
+  }
+
+  const tooltipRows =
+    hoverT == null
+      ? []
+      : withData
+          .map((w, idx) => ({ w, idx, point: valueAtOrBefore(w.points, hoverT) }))
+          .filter((r): r is { w: ChartWarband; idx: number; point: RatingPoint } => r.point != null)
+          .sort((a, b) => b.point.rating - a.point.rating);
+
+  const crosshairX = hoverT != null ? x(hoverT) : null;
+  // Flip the tooltip to the left half once the crosshair passes the midpoint,
+  // so it never runs off the right edge of the chart.
+  const tooltipSide = crosshairX != null && crosshairX > W / 2 ? 'right' : 'left';
+
   return (
     <figure className="space-y-3">
-      <svg
-        viewBox={`0 0 ${W} ${H}`}
-        className="w-full h-auto"
-        role="img"
-        aria-label={strings.campaign.ratingChartLabel(minR, maxR)}
-      >
-        {[0, 1, 2, 3].map((g) => {
-          const gy = PAD_T + (g / 3) * plotH;
-          const val = Math.round(maxR - (g / 3) * spanR);
-          return (
-            <g key={g}>
-              <line x1={PAD_L} y1={gy} x2={W - PAD_R} y2={gy} className="stroke-ink-800" strokeWidth={1} />
-              <text x={PAD_L - 6} y={gy + 3} textAnchor="end" className="fill-ink-faded text-[9px] font-ui">
-                {val}
-              </text>
-            </g>
-          );
-        })}
+      <div className="relative">
+        <svg
+          ref={svgRef}
+          viewBox={`0 0 ${W} ${H}`}
+          className="w-full h-auto touch-none cursor-crosshair"
+          role="img"
+          aria-label={strings.campaign.ratingChartLabel(minR, maxR)}
+          onPointerMove={handlePointerMove}
+          onPointerDown={handlePointerDown}
+          onPointerUp={endHover}
+          onPointerLeave={endHover}
+          onPointerCancel={endHover}
+        >
+          {[0, 1, 2, 3].map((g) => {
+            const gy = PAD_T + (g / 3) * plotH;
+            const val = Math.round(maxR - (g / 3) * spanR);
+            return (
+              <g key={g}>
+                <line x1={PAD_L} y1={gy} x2={W - PAD_R} y2={gy} className="stroke-ink-800" strokeWidth={1} />
+                <text x={PAD_L - 6} y={gy + 3} textAnchor="end" className="fill-ink-faded text-[9px] font-ui">
+                  {val}
+                </text>
+              </g>
+            );
+          })}
 
-        {drawOrder.map((idx) => {
-          const w = withData[idx];
-          const overflow = idx >= CAP;
-          const strokeClass = overflow ? OVERFLOW_STROKE : CHART_STROKES[idx % CAP];
-          const fillClass = overflow ? OVERFLOW_FILL : CHART_FILLS[idx % CAP];
-          const last = w.points[w.points.length - 1];
-          const path = w.points
-            .map((p, i) => `${i === 0 ? 'M' : 'L'} ${x(new Date(p.recordedAt).getTime()).toFixed(1)} ${y(p.rating).toFixed(1)}`)
-            .join(' ');
-          return (
-            <g key={w.id} opacity={overflow ? 0.55 : 1}>
-              {w.points.length > 1 && (
-                <path
-                  d={path}
-                  className={strokeClass}
-                  fill="none"
-                  strokeWidth={2}
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  vectorEffect="non-scaling-stroke"
+          {drawOrder.map((idx) => {
+            const w = withData[idx];
+            const overflow = idx >= CAP;
+            const strokeClass = overflow ? OVERFLOW_STROKE : CHART_STROKES[idx % CAP];
+            const fillClass = overflow ? OVERFLOW_FILL : CHART_FILLS[idx % CAP];
+            const last = w.points[w.points.length - 1];
+            const path = w.points
+              .map((p, i) => `${i === 0 ? 'M' : 'L'} ${x(new Date(p.recordedAt).getTime()).toFixed(1)} ${y(p.rating).toFixed(1)}`)
+              .join(' ');
+            return (
+              <g key={w.id} opacity={overflow ? 0.55 : 1}>
+                {w.points.length > 1 && (
+                  <path
+                    d={path}
+                    className={strokeClass}
+                    fill="none"
+                    strokeWidth={2}
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                )}
+                <circle
+                  cx={x(new Date(last.recordedAt).getTime())}
+                  cy={y(last.rating)}
+                  r={3}
+                  className={`${fillClass} stroke-ink-950`}
+                  strokeWidth={1}
                 />
-              )}
-              <circle
-                cx={x(new Date(last.recordedAt).getTime())}
-                cy={y(last.rating)}
-                r={3}
-                className={`${fillClass} stroke-ink-950`}
+              </g>
+            );
+          })}
+
+          {crosshairX != null && (
+            <g aria-hidden="true">
+              <line
+                x1={crosshairX}
+                y1={PAD_T}
+                x2={crosshairX}
+                y2={PAD_T + plotH}
+                className="stroke-ink-faded"
                 strokeWidth={1}
+                strokeDasharray="3,3"
+                vectorEffect="non-scaling-stroke"
               />
+              {/* A highlighted dot on each visible line at its actual (not
+                  interpolated) value as of the hovered date — same rows the
+                  tooltip lists, so the two can never disagree. */}
+              {tooltipRows.map(({ w, idx, point }) => {
+                const overflow = idx >= CAP;
+                const fillClass = overflow ? OVERFLOW_FILL : CHART_FILLS[idx % CAP];
+                return (
+                  <circle
+                    key={w.id}
+                    cx={crosshairX}
+                    cy={y(point.rating)}
+                    r={3.5}
+                    className={`${fillClass} stroke-ink-950`}
+                    strokeWidth={1}
+                  />
+                );
+              })}
             </g>
-          );
-        })}
-      </svg>
+          )}
+        </svg>
+
+        {hoverT != null && tooltipRows.length > 0 && (
+          <div
+            aria-hidden="true"
+            className={`absolute top-1 ${tooltipSide === 'left' ? 'left-1' : 'right-1'} min-w-[140px] max-w-[200px] rounded-md bg-ink-900 border border-ink-700 px-2.5 py-2 text-xs shadow-lg pointer-events-none`}
+          >
+            <p className="text-ink-faded text-[10px] uppercase tracking-wide mb-1.5">
+              {new Date(hoverT).toLocaleDateString()}
+            </p>
+            <div className="space-y-1">
+              {tooltipRows.map(({ w, idx, point }) => {
+                const overflow = idx >= CAP;
+                const fillClass = overflow ? OVERFLOW_FILL : CHART_FILLS[idx % CAP];
+                return (
+                  <div key={w.id} className="flex items-center gap-1.5">
+                    <span className={`inline-block w-2 h-2 rounded-sm shrink-0 ${fillClass}`} />
+                    <span className="text-bone-200 truncate flex-1">{w.name}</span>
+                    <span className="text-bone-100 font-semibold tabular-nums">{point.rating}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
 
       <figcaption className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs">
         {withData.map((w, idx) => {
