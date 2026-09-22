@@ -292,6 +292,13 @@ export type HiredSwordDefinition = {
   upkeep: number | null;
   mayBeHiredBy: string; // free text describing eligible warbands/exceptions
   ratingBonus: string; // free text, e.g. "+22 points, plus 1 per Experience point"
+  /** The flat part of `ratingBonus`, extracted so warband rating (§3.2) can
+   * actually use the rulebook's per-type figure instead of approximating every
+   * Hired Sword with the generic 5/20-per-model formula. Every entry's
+   * `ratingBonus` follows "+N points, plus 1 point per Experience point he
+   * has." — this is that N. Optional so a future Hired Sword added without a
+   * confirmed figure falls back to the generic formula rather than guessing. */
+  ratingFlatBonus?: number;
   statLine: NullableStatLine;
   /** See HeroSlotDefinition. */
   racialProfile?: string;

@@ -9,6 +9,7 @@
       "upkeep": 15,
       "mayBeHiredBy": "Any warband apart from Undead and Skaven.",
       "ratingBonus": "+22 points, plus 1 point per Experience point he has.",
+      "ratingFlatBonus": 22,
       "statLine": {
         "M": 4,
         "WS": 4,
@@ -36,6 +37,7 @@
       "upkeep": 30,
       "mayBeHiredBy": "Any warband except Skaven. Ogre (Maneaters) warbands may hire an Ogre Bodyguard even though they otherwise cannot hire Hired Swords (see the Cannibals special rule).",
       "ratingBonus": "+25 points, plus 1 point per Experience point he has.",
+      "ratingFlatBonus": 25,
       "statLine": {
         "M": 6,
         "WS": 3,
@@ -62,6 +64,7 @@
       "upkeep": 5,
       "mayBeHiredBy": "Any warband except Skaven, Undead and the Possessed.",
       "ratingBonus": "+5 points, plus 1 point per Experience point he has.",
+      "ratingFlatBonus": 5,
       "statLine": {
         "M": 4,
         "WS": 2,
@@ -90,6 +93,7 @@
       "upkeep": 15,
       "mayBeHiredBy": "Any warband except Witch Hunters and Sisters of Sigmar.",
       "ratingBonus": "+16 points, plus 1 point per Experience point he has.",
+      "ratingFlatBonus": 16,
       "statLine": {
         "M": 4,
         "WS": 2,
@@ -115,6 +119,7 @@
       "upkeep": 20,
       "mayBeHiredBy": "Mercenaries and Witch Hunters.",
       "ratingBonus": "+21 points, plus 1 point per Experience point he has.",
+      "ratingFlatBonus": 21,
       "statLine": {
         "M": 4,
         "WS": 4,
@@ -141,6 +146,7 @@
       "upkeep": 20,
       "mayBeHiredBy": "Mercenaries and Witch Hunters. Warbands that include Dwarfs may still hire an Elf Ranger, but pay 40 gc upkeep instead of 20.",
       "ratingBonus": "+12 points, plus 1 point per Experience point he has.",
+      "ratingFlatBonus": 12,
       "statLine": {
         "M": 5,
         "WS": 4,
@@ -167,6 +173,7 @@
       "upkeep": 10,
       "mayBeHiredBy": "Mercenaries and Witch Hunters. Warbands that include Elves may still hire a Troll Slayer, but pay 20 gc upkeep instead of 10.",
       "ratingBonus": "+12 points, plus 1 point per Experience point he has.",
+      "ratingFlatBonus": 12,
       "statLine": {
         "M": 3,
         "WS": 4,

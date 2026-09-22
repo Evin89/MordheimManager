@@ -1,14 +1,24 @@
 import { ModelStatus, Warband } from '../types';
+import hiredSwordsData from '../data/hiredSwords.json';
+import { HiredSwordsData } from '../data/types';
 
 // Warband rating per spec section 3.2: (number of models x 5) + accumulated XP,
 // with large creatures counting 20 instead of 5. Dead/captured/left models are
 // no longer part of the warband and are excluded.
 //
 // Hired Swords have their own flat rating bonus per the rulebook (e.g. a Pit
-// Fighter is "+22, plus 1 per XP") rather than the flat 5/20-per-model rule,
-// but that bonus isn't wired to individual Hired Sword records yet, so they
-// are approximated here using the same 5/20-per-model formula as everyone
-// else. Revisit once hiredSwords.json data is linked to warband instances.
+// Fighter is "+22, plus 1 per XP") instead of the generic 5/20-per-model rule —
+// looked up by `sword.type`, which `createHiredSwordFromDefinition` sets to the
+// definition's own `name`, so the two can't drift apart. A sword whose type
+// doesn't resolve (a custom or renamed entry, or the data changing under an
+// existing warband) falls back to the generic formula rather than guessing at
+// a bonus or silently contributing nothing.
+const HIRED_SWORD_BONUS = new Map(
+  (hiredSwordsData as HiredSwordsData).hiredSwords
+    .filter((hs) => hs.ratingFlatBonus != null)
+    .map((hs) => [hs.name, hs.ratingFlatBonus!]),
+);
+
 const ACTIVE_STATUSES = new Set(['active', 'missNextGame']);
 
 /**
@@ -41,7 +51,8 @@ export function computeWarbandRating(warband: Warband): number {
 
   for (const sword of warband.hiredSwords) {
     if (!ACTIVE_STATUSES.has(sword.status)) continue;
-    rating += (sword.isLargeCreature ? 20 : 5) + sword.xp;
+    const flatBonus = HIRED_SWORD_BONUS.get(sword.type) ?? (sword.isLargeCreature ? 20 : 5);
+    rating += flatBonus + sword.xp;
   }
 
   return rating;
