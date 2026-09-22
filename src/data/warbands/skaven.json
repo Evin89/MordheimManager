@@ -47,7 +47,7 @@
       "equipmentOptions": [
         "skavenHeroesEquipmentList"
       ],
-      "notes": "statMaximums null: fill Skaven maximums from the Maximum Profile table.",
+      "notes": "",
       "specialRules": [
         {
           "ref": "leader"
@@ -229,7 +229,7 @@
       "equipmentOptions": [
         "skavenHenchmenEquipmentList"
       ],
-      "notes": "statMaximums null: fill from the Maximum Profile table.",
+      "notes": "",
       "specialRules": []
     },
     {

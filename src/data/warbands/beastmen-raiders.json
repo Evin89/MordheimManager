@@ -46,7 +46,7 @@
       "equipmentOptions": [
         "beastmenEquipmentList"
       ],
-      "notes": "statMaximums null: Beastmen are not Human — fill from the Beastman Maximum Profile table if/when sourced.",
+      "notes": "",
       "specialRules": [
         {
           "ref": "leader"
@@ -92,7 +92,7 @@
       "equipmentOptions": [
         "beastmenEquipmentList"
       ],
-      "notes": "May be equipped with weapons from the Beastmen Equipment list, but never armour. statMaximums null: fill from the Beastman Maximum Profile table if/when sourced.",
+      "notes": "May be equipped with weapons from the Beastmen Equipment list, but never armour.",
       "specialRules": [
         {
           "ref": "wizard"
@@ -142,7 +142,7 @@
       "equipmentOptions": [
         "beastmenEquipmentList"
       ],
-      "notes": "The largest, most brutish rank-and-file Beastmen. statMaximums null: fill from the Beastman Maximum Profile table if/when sourced.",
+      "notes": "The largest, most brutish rank-and-file Beastmen.",
       "specialRules": []
     },
     {
@@ -184,7 +184,7 @@
       "equipmentOptions": [
         "beastmenEquipmentList"
       ],
-      "notes": "A quoted 1(2) Attacks — 1 base, 2 while also using Trample (see Special Rules). statMaximums null: fill from the Beastman Maximum Profile table if/when sourced.",
+      "notes": "A quoted 1(2) Attacks — 1 base, 2 while also using Trample (see Special Rules).",
       "specialRules": [
         {
           "name": "Drunken",
@@ -235,7 +235,7 @@
       "equipmentOptions": [
         "ungorEquipmentList"
       ],
-      "notes": "statMaximums null: fill from the Beastman Maximum Profile table if/when sourced.",
+      "notes": "",
       "specialRules": [
         {
           "name": "Lowest of the Low",
@@ -276,7 +276,7 @@
       "equipmentOptions": [
         "beastmenEquipmentList"
       ],
-      "notes": "statMaximums null: fill from the Beastman Maximum Profile table if/when sourced.",
+      "notes": "",
       "specialRules": []
     },
     {
@@ -349,7 +349,7 @@
       "equipmentOptions": [
         "beastmenEquipmentList"
       ],
-      "notes": "statMaximums null: fill from the Beastman Maximum Profile table if/when sourced.",
+      "notes": "",
       "specialRules": [
         {
           "ref": "fear"

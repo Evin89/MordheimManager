@@ -46,7 +46,7 @@
       "equipmentOptions": [
         "undeadEquipmentList"
       ],
-      "notes": "Causes fear. Immune to Poison. statMaximums null: fill Vampire maximums from the Maximum Profile table.",
+      "notes": "Causes fear. Immune to Poison.",
       "specialRules": [
         {
           "ref": "leader"
@@ -183,7 +183,7 @@
         "Ld": 7
       },
       "equipmentOptions": [],
-      "notes": "Cause fear. Never carry equipment (bare teeth and claws). These henchmen DO gain experience. statMaximums null: fill from the Maximum Profile table.",
+      "notes": "Cause fear. Never carry equipment (bare teeth and claws). These henchmen DO gain experience.",
       "specialRules": []
     },
     {

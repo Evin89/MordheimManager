@@ -47,7 +47,7 @@
       "equipmentOptions": [
         "orcEquipmentList"
       ],
-      "notes": "statMaximums null: Orcs are not Human — fill from the Orc Maximum Profile table if/when sourced.",
+      "notes": "",
       "specialRules": [
         {
           "ref": "leader"
@@ -92,7 +92,7 @@
       "equipmentOptions": [
         "orcEquipmentList"
       ],
-      "notes": "May be armed with weapons from the Orc Equipment list, but never armour. statMaximums null: fill from the Orc Maximum Profile table if/when sourced.",
+      "notes": "May be armed with weapons from the Orc Equipment list, but never armour.",
       "specialRules": [
         {
           "ref": "wizard"
@@ -143,7 +143,7 @@
       "equipmentOptions": [
         "orcEquipmentList"
       ],
-      "notes": "The Boss's enforcers — if the Boss falls, the Big 'Uns decide on a new leader (usually through personal combat). statMaximums null: fill from the Orc Maximum Profile table if/when sourced.",
+      "notes": "The Boss's enforcers — if the Boss falls, the Big 'Uns decide on a new leader (usually through personal combat).",
       "specialRules": []
     }
   ],
@@ -181,7 +181,7 @@
       "equipmentOptions": [
         "orcEquipmentList"
       ],
-      "notes": "statMaximums null: fill from the Orc Maximum Profile table if/when sourced.",
+      "notes": "",
       "specialRules": [
         {
           "ref": "animosity"
@@ -221,7 +221,7 @@
       "equipmentOptions": [
         "goblinEquipmentList"
       ],
-      "notes": "— but never more than two Goblins for each Orc in the warband (counting Orc Heroes); the app doesn't enforce this ratio, so check it when recruiting. statMaximums null: fill from the Goblin Maximum Profile table if/when sourced.",
+      "notes": "— but never more than two Goblins for each Orc in the warband (counting Orc Heroes); the app doesn't enforce this ratio, so check it when recruiting.",
       "specialRules": [
         {
           "ref": "animosity",

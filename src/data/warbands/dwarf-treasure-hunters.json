@@ -46,7 +46,7 @@
       "equipmentOptions": [
         "dwarfWarriorEquipmentList"
       ],
-      "notes": "statMaximums null: Dwarfs are not Human — fill from the Dwarf Maximum Profile table if/when sourced.",
+      "notes": "",
       "specialRules": [
         {
           "ref": "leader"
@@ -92,7 +92,7 @@
       "equipmentOptions": [
         "dwarfThundererEquipmentList"
       ],
-      "notes": "statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced.",
+      "notes": "",
       "specialRules": [
         {
           "name": "Expert Weaponsmith",
@@ -140,7 +140,7 @@
       "equipmentOptions": [
         "dwarfWarriorEquipmentList"
       ],
-      "notes": "May be equipped with weapons (not missile weapons) from the Dwarf Warrior equipment list, and may never wear any armour. statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced.",
+      "notes": "May be equipped with weapons (not missile weapons) from the Dwarf Warrior equipment list, and may never wear any armour.",
       "specialRules": [
         {
           "name": "Deathwish",
@@ -187,7 +187,7 @@
       "equipmentOptions": [
         "dwarfWarriorEquipmentList"
       ],
-      "notes": "statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced.",
+      "notes": "",
       "specialRules": []
     },
     {
@@ -223,7 +223,7 @@
       "equipmentOptions": [
         "dwarfThundererEquipmentList"
       ],
-      "notes": "statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced.",
+      "notes": "",
       "specialRules": []
     },
     {
@@ -259,7 +259,7 @@
       "equipmentOptions": [
         "dwarfWarriorEquipmentList"
       ],
-      "notes": "Young Dwarfs seeking their fortune. statMaximums null: fill from the Dwarf Maximum Profile table if/when sourced.",
+      "notes": "Young Dwarfs seeking their fortune.",
       "specialRules": []
     }
   ],

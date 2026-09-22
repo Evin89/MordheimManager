@@ -306,7 +306,7 @@
       "equipmentOptions": [
         "ogreEquipmentList"
       ],
-      "notes": "statMaximums null: Ogres are not Human — fill from the Ogre Maximum Profile table if/when sourced.",
+      "notes": "",
       "specialRules": [
         {
           "ref": "fear"

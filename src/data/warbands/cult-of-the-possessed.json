@@ -96,7 +96,7 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "+ cost of mutations, 0-2. Never uses weapons or armour. Causes fear. May start with one or more mutations (see exclusiveEquipment; first at listed price, each further mutation on the same model costs double). statMaximums null: fill from the Maximum Profile table.",
+      "notes": "+ cost of mutations, 0-2. Never uses weapons or armour. Causes fear. May start with one or more mutations (see exclusiveEquipment; first at listed price, each further mutation on the same model costs double).",
       "specialRules": []
     },
     {
@@ -175,7 +175,7 @@
       "equipmentOptions": [
         "darksoulsEquipmentList"
       ],
-      "notes": "Uses the Darksouls equipment list. statMaximums null: fill Beastmen maximums from the Maximum Profile table.",
+      "notes": "Uses the Darksouls equipment list.",
       "specialRules": []
     },
     {

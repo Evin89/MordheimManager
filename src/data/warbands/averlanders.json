@@ -291,7 +291,7 @@
       "equipmentOptions": [
         "scoutEquipmentList"
       ],
-      "notes": "statMaximums null: Halflings are not Human — fill from the Halfling Maximum Profile table if/when sourced.",
+      "notes": "",
       "specialRules": [
         {
           "name": "Promotion",
