@@ -13,6 +13,8 @@ import { strings } from '../strings';
  *  - a `ConcurrencyError` (our own): the row moved under an optimistic edit;
  *  - a Postgres row-level-security refusal (`42501`, or PostgREST's `PGRST301`):
  *    the change was rejected, not lost — usually a stale auth session;
+ *  - a Postgres unique-violation (`23505`): the value collides with something
+ *    that already exists (e.g. a campaign name you've already used, §10.6);
  *  - a `fetch` that never reached the server (`TypeError: Failed to fetch` and
  *    its browser variants): an actual connection failure;
  *  - anything else: the generic save-may-not-have-gone-through message.
@@ -26,6 +28,10 @@ export function describeError(error: unknown): string {
 
   if (code === '42501' || code === 'PGRST301' || /row-level security/i.test(message)) {
     return strings.connection.permission;
+  }
+
+  if (code === '23505' || /duplicate key value/i.test(message)) {
+    return strings.connection.duplicate;
   }
 
   if (e?.name === 'TypeError' || /failed to fetch|networkerror|load failed/i.test(message)) {

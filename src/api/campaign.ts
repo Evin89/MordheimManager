@@ -416,3 +416,37 @@ export async function removeCampaignMember(campaignId: string, userId: string): 
     .eq('user_id', userId);
   if (error) throw error;
 }
+
+/**
+ * As-you-type availability check for §10.6's per-creator name uniqueness
+ * (migration 0044: `UNIQUE (created_by, LOWER(name))`). A plain filtered
+ * select, not an RPC — the creator can always read their own campaigns under
+ * the existing `campaigns_select` policy (they're auto-added as a member on
+ * create), so nothing new is needed at the database level.
+ *
+ * `excludeCampaignId` is for the rename case: renaming a campaign to the name
+ * it already has must not flag itself as taken.
+ */
+export async function isCampaignNameAvailable(
+  ownerId: string,
+  name: string,
+  excludeCampaignId?: string,
+): Promise<boolean> {
+  const trimmed = name.trim();
+  if (!trimmed) return true; // an empty name fails its own required-field check, not this one
+  if (isDemoMode()) return demo.isCampaignNameAvailable(ownerId, trimmed, excludeCampaignId);
+
+  // `ilike` is a pattern match, not an equality check — `%`/`_` in the typed
+  // name would otherwise act as wildcards instead of literal characters.
+  const escaped = trimmed.replace(/[%_]/g, (c) => `\\${c}`);
+  let query = supabase
+    .from('campaigns')
+    .select('id')
+    .eq('created_by', ownerId)
+    .ilike('name', escaped);
+  if (excludeCampaignId) query = query.neq('id', excludeCampaignId);
+
+  const { data, error } = await query.limit(1);
+  if (error) throw error;
+  return (data ?? []).length === 0;
+}

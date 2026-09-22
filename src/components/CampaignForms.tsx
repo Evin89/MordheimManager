@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { capture } from '../lib/posthog';
 import DisclosureChevron from './DisclosureChevron';
 import { strings } from '../strings';
-import { useCreateCampaignMutation, useJoinCampaignMutation } from '../hooks/useCampaign';
+import {
+  useCampaignNameAvailability,
+  useCreateCampaignMutation,
+  useJoinCampaignMutation,
+} from '../hooks/useCampaign';
 import { Button, Card, SectionHeading, Field, TextField } from './ui';
 
 /**
@@ -97,11 +101,23 @@ export function CreateCampaignForm({ title, hint, compact = false }: { title: st
   const [open, setOpen] = useState(!compact);
   const [draftName, setDraftName] = useState('My Campaign');
   const [draftUsesBtb, setDraftUsesBtb] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  // §10.6: checked against the *trimmed, fallback-applied* name — matching
+  // what actually gets submitted, since "My Campaign" (the default) is what
+  // ships if the field is left blank.
+  const effectiveName = draftName.trim() || 'My Campaign';
+  const { checking, available } = useCampaignNameAvailability(effectiveName);
+  const knownTaken = !checking && available === false;
 
   function handleCreate() {
-    createCampaign(draftName.trim() || 'My Campaign', draftUsesBtb, () => {
-      void capture('campaign_created', { uses_btb: draftUsesBtb });
-    });
+    if (knownTaken) return;
+    setSubmitError(null);
+    createCampaign(
+      effectiveName,
+      draftUsesBtb,
+      () => void capture('campaign_created', { uses_btb: draftUsesBtb }),
+      setSubmitError,
+    );
   }
 
   const body = (
@@ -111,10 +127,15 @@ export function CreateCampaignForm({ title, hint, compact = false }: { title: st
         <TextField
           type="text"
           value={draftName}
-          onChange={(e) => setDraftName(e.target.value)}
+          onChange={(e) => {
+            setDraftName(e.target.value);
+            setSubmitError(null);
+          }}
           placeholder={strings.campaign.namePlaceholder}
         />
       </Field>
+      {knownTaken && <p className="text-blood-500 text-sm -mt-2">{strings.connection.duplicate}</p>}
+      {submitError && <p className="text-blood-500 text-sm -mt-2">{submitError}</p>}
       <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm">
         <input
           type="checkbox"
@@ -124,7 +145,7 @@ export function CreateCampaignForm({ title, hint, compact = false }: { title: st
         />
         {strings.campaign.usesBtbLabel}
       </label>
-      <Button onClick={handleCreate}>
+      <Button onClick={handleCreate} disabled={knownTaken}>
         {strings.campaign.startButton}
       </Button>
     </>

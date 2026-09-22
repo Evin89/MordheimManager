@@ -102,8 +102,36 @@ export async function fetchCampaignSummaries(userId: string): Promise<CampaignSu
     });
 }
 
+/** Same check the real API runs against migration 0044's unique index —
+ * mirrored here so demo mode exercises the same "taken" path for real. */
+export async function isCampaignNameAvailable(
+  ownerId: string,
+  name: string,
+  excludeCampaignId?: string,
+): Promise<boolean> {
+  const trimmed = name.trim();
+  if (!trimmed) return true;
+  return !db().campaigns.some(
+    (c) =>
+      c.createdBy === ownerId &&
+      c.id !== excludeCampaignId &&
+      c.name.trim().toLowerCase() === trimmed.toLowerCase(),
+  );
+}
+
+/** Mirrors migration 0044's unique-violation shape (`code: '23505'`), so
+ * `describeError()` classifies a demo-mode collision the same way it would
+ * a real one. */
+class DemoDuplicateNameError extends Error {
+  code = '23505';
+  constructor() {
+    super('duplicate key value violates unique constraint "campaigns_created_by_name_idx"');
+  }
+}
+
 export async function createCampaign(name: string, usesBtb: boolean): Promise<Campaign> {
   const database = db();
+  if (!(await isCampaignNameAvailable(database.viewerId, name))) throw new DemoDuplicateNameError();
   const campaign: Campaign = {
     id: `demo-campaign-new-${database.campaigns.length}`,
     name,
@@ -130,6 +158,9 @@ export async function createCampaign(name: string, usesBtb: boolean): Promise<Ca
 
 export async function updateCampaign(campaign: Campaign): Promise<Campaign> {
   const database = db();
+  if (!(await isCampaignNameAvailable(campaign.createdBy, campaign.name, campaign.id))) {
+    throw new DemoDuplicateNameError();
+  }
   const index = database.campaigns.findIndex((c) => c.id === campaign.id);
   if (index >= 0) database.campaigns[index] = { ...campaign };
   return campaign;

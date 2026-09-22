@@ -1136,16 +1136,18 @@ So paths are copied into `storage_purge_queue` **before** the rows are deleted, 
 
 If soft delete is skipped, be deliberate about it — hard deletes plus `ON DELETE CASCADE` will remove more than the impact text promises.
 
-### 10.6 Campaign name uniqueness ❓
+### 10.6 Campaign name uniqueness ✅
 
-Two players in the same group both starting "Border Town Burning" is genuinely confusing. The question is how wide the uniqueness should be.
+Two players in the same group both starting "Border Town Burning" is genuinely confusing. The question was how wide the uniqueness should be.
 
 - **Global, case-insensitive** — `CREATE UNIQUE INDEX ON campaigns (LOWER(name)) WHERE deleted_at IS NULL;` Solves the confusion, but lets an unrelated group take a common name and block yours forever. That gets worse as the app grows, and "Border Town Burning" is exactly the name everyone reaches for.
 - **Per creator** — `UNIQUE (created_by, LOWER(name))`. You can't have two campaigns with the same name; other people can. Solves the confusion actually described — players see one campaign per name in their own list — without the landgrab.
 
-**Recommendation: per creator.** Global uniqueness buys nothing extra here, since players find campaigns by join code rather than by searching names.
+**Built: per creator** (migration 0044). Global uniqueness buys nothing extra here, since players find campaigns by join code rather than by searching names. `campaigns_created_by_name_idx` on `(created_by, lower(name))`; checked live against the database before applying, and no existing rows collided.
 
-Either way: the create/rename form checks availability as the user types (debounced) with an inline "That name is taken", *and* handles the constraint error on submit for the race. And note the interaction with §10.5 — a soft-deleted campaign still occupies its name. Either free the name on delete by appending a suffix to the stored value, or tell the user why a name they can't see is taken.
+**No `deleted_at` filter, unlike the original plan assumed.** §10.5's soft-delete design was the proposal, not what got built for campaigns specifically: `campaigns` has no `deleted_at` column at all — `campaigns_delete_leader` (§10.2) is a real `DELETE`, gated on member count = 1. A deleted campaign's name is genuinely free the instant the row is gone, so the "a soft-deleted campaign still occupies its name" caveat this section originally raised doesn't apply to the system as actually built — nothing to free or suffix.
+
+**Both halves built, matching the original ask.** An as-you-type availability check (`isCampaignNameAvailable`, debounced 400ms via a new generic `useDebouncedValue` hook), showing inline "That name is already taken." and disabling Start/Save while a known collision sits in the field — on both the create form and the Settings rename field, sharing one `useCampaignNameAvailability` hook (`excludeCampaignId` so renaming a campaign to its own current name never self-flags). And the submit-time race: `describeError()` (§10.4's classifier) now recognises Postgres `23505` and reports it the same way, so a collision that slips past the debounced check — another tab, another device — still surfaces as the same specific message rather than the generic connection banner. One real fix along the way: the Settings save path used to clear the pending draft unconditionally the instant `saveCampaign` was called, before the request even returned — a failed save (this one, or a genuine connection drop) would have silently discarded the user's typed edit at the exact moment the error appeared. `useSaveCampaignMutation` now takes an `onSuccess` too, so the draft only clears once the save actually lands.
 
 ---
 

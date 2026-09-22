@@ -7,6 +7,7 @@ import {
   fetchCampaignStandings,
   fetchCampaignSummaries,
   fetchMyCampaigns,
+  isCampaignNameAvailable,
   joinCampaignByCode,
   regenerateJoinCode,
   removeCampaignMember,
@@ -21,6 +22,8 @@ import {
 import { deleteBattle, fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
 import { fetchCampaignWarbands } from '../api/warbands';
 import { pickActiveCampaign, writeActiveCampaignId } from '../lib/activeCampaign';
+import { useDebouncedValue } from './useDebouncedValue';
+import { describeError } from '../lib/errorMessage';
 import { Campaign, BattleRecord } from '../types';
 import { strings } from '../strings';
 
@@ -93,14 +96,21 @@ export function useCreateCampaignMutation() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: ({ name, usesBtb }: { name: string; usesBtb: boolean }) => createCampaign(name, usesBtb),
+    // §10.6: the debounced as-you-type check already covers the common case,
+    // but the two can still race (another tab, another device) — this is the
+    // fallback, surfaced inline by the caller rather than the global banner.
+    meta: { suppressGlobalError: true },
     onSuccess: (campaign) => {
       // A campaign you just made is the one you want to be looking at.
       writeActiveCampaignId(campaign.id);
       queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });
     },
   });
-  return (name: string, usesBtb: boolean, onSuccess?: () => void) =>
-    mutation.mutate({ name, usesBtb }, { onSuccess });
+  return (name: string, usesBtb: boolean, onSuccess?: () => void, onError?: (message: string) => void) =>
+    mutation.mutate(
+      { name, usesBtb },
+      { onSuccess, onError: onError ? (err) => onError(describeError(err)) : undefined },
+    );
 }
 
 export function useSaveCampaignMutation() {
@@ -108,10 +118,38 @@ export function useSaveCampaignMutation() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (campaign: Campaign) => updateCampaign(campaign),
+    meta: { suppressGlobalError: true },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) }),
-    onError: () => window.alert(strings.connection.lost),
   });
-  return (campaign: Campaign) => mutation.mutate(campaign);
+  return (campaign: Campaign, onError?: (message: string) => void, onSuccess?: () => void) =>
+    mutation.mutate(campaign, {
+      onSuccess,
+      onError: (err) => (onError ? onError(describeError(err)) : window.alert(describeError(err))),
+    });
+}
+
+/**
+ * §10.6's as-you-type availability check, debounced so a rename in progress
+ * doesn't fire one query per keystroke. `excludeCampaignId` lets the rename
+ * form check against a name change without flagging the campaign's own
+ * current name as taken.
+ */
+export function useCampaignNameAvailability(name: string, excludeCampaignId?: string) {
+  const { user } = useAuth();
+  const debouncedName = useDebouncedValue(name.trim(), 400);
+  const query = useQuery({
+    queryKey: ['campaignNameAvailable', user?.id, debouncedName.toLowerCase(), excludeCampaignId],
+    queryFn: () => isCampaignNameAvailable(user!.id, debouncedName, excludeCampaignId),
+    enabled: !!user && debouncedName.length > 0,
+    staleTime: 10_000,
+  });
+  return {
+    // Pending while the debounce itself hasn't settled yet, not just while the
+    // query is in flight — otherwise the "checking" state lags a keystroke
+    // behind and a stale "available" can flash before the real check runs.
+    checking: debouncedName !== name.trim() || query.isFetching,
+    available: query.data,
+  };
 }
 
 /**

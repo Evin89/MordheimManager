@@ -391,6 +391,9 @@ export const strings = {
     permission: "The server wouldn't allow that change. Try signing out and back in, then retry.",
     // Optimistic-concurrency miss: the row moved under us.
     conflict: 'This changed somewhere else since you loaded it. Refresh and try again.',
+    // A unique-constraint violation (23505) — generic since more than one
+    // field could trip it, though today it's only ever a campaign name.
+    duplicate: 'That name is already taken.',
   },
   weaponRules: {
     fullEntry: 'Full rules entry →',

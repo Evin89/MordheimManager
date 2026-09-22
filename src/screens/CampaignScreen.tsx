@@ -17,6 +17,7 @@ import { useAuth } from '../auth/AuthProvider';
 import {
   useBattlesQuery,
   useCampaignMembersQuery,
+  useCampaignNameAvailability,
   useCampaignWarbandsQuery,
   useMyCampaignQuery,
   useMyCampaignsQuery,
@@ -1080,15 +1081,32 @@ export default function CampaignScreen() {
   const [campaignEdits, setCampaignEdits] = useState<Partial<Campaign> | null>(null);
   const campaignDraft = campaign ? { ...campaign, ...campaignEdits } : null;
   const campaignDirty = campaignEdits !== null;
+  const [campaignSaveError, setCampaignSaveError] = useState<string | null>(null);
+  // §10.6: `excludeCampaignId` is the campaign's own id, so leaving the name
+  // untouched (or changing something else) never flags it as taken against
+  // itself.
+  const { checking: checkingCampaignName, available: campaignNameAvailable } = useCampaignNameAvailability(
+    campaignDraft?.name ?? '',
+    campaign?.id,
+  );
+  const campaignNameKnownTaken = !checkingCampaignName && campaignNameAvailable === false;
   function updateCampaignDraft(patch: Partial<Campaign>) {
     setCampaignEdits((current) => ({ ...current, ...patch }));
+    setCampaignSaveError(null);
   }
   function saveCampaignDraft() {
-    if (campaignDraft) saveCampaign(campaignDraft);
-    setCampaignEdits(null);
+    if (campaignNameKnownTaken) return;
+    setCampaignSaveError(null);
+    // Only clear the draft once the save actually lands — a failed save (a
+    // name collision that slipped past the as-you-type check, or a genuine
+    // connection drop) must leave the typed edit in place, not silently
+    // discard it the instant the error appears.
+    if (campaignDraft) saveCampaign(campaignDraft, setCampaignSaveError, () => setCampaignEdits(null));
+    else setCampaignEdits(null);
   }
   function discardCampaignDraft() {
     setCampaignEdits(null);
+    setCampaignSaveError(null);
   }
   const [tab, setTab] = useState<Tab>('activity');
 
@@ -1278,6 +1296,10 @@ export default function CampaignScreen() {
                       className="disabled:opacity-60"
                     />
                   </Field>
+                  {campaignNameKnownTaken && (
+                    <p className="text-blood-500 text-sm -mt-2">{strings.connection.duplicate}</p>
+                  )}
+                  {campaignSaveError && <p className="text-blood-500 text-sm -mt-2">{campaignSaveError}</p>}
                   <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm">
                     <input
                       type="checkbox"
