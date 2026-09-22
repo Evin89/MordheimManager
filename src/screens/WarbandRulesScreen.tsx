@@ -74,6 +74,39 @@ function recruitLimit(unit: Unit): string {
 
 const anchorFor = (unit: Unit) => `unit-${unit.id}`;
 
+/**
+ * §5.4.5's playstyle summary, tier 2 of 3: no authored `playstyleSummary` field
+ * exists on this dataset (§25.2), so this recombines data already on the
+ * definition — roster shape, the first named special rules, whether a Hero
+ * casts, how wide skill access runs — into one or two short sentences. It never
+ * states a mechanic or number the data doesn't already carry (§3.3): a rule's
+ * own name is quoted, never paraphrased into a claim about what it does.
+ * Returns null when there's nothing to structurally say, which the caller
+ * treats as tier 3 — hide, not a fabricated "well-rounded warband" filler line.
+ */
+function deriveWarbandPlaystyle(def: WarbandDefinition, ruleNames: string[]): string | null {
+  const heroCount = def.heroSlots.length;
+  const henchCount = def.henchmenTypes.length;
+  if (heroCount === 0 && henchCount === 0) return null;
+
+  const shape = `${heroCount} Hero type${heroCount === 1 ? '' : 's'} and ${henchCount} Henchmen type${henchCount === 1 ? '' : 's'}`;
+  const lead = ruleNames.length > 0 ? `${shape}, shaped by ${ruleNames.slice(0, 2).join(' and ')}.` : `${shape}.`;
+
+  const hasCaster = def.heroSlots.some((h) => (h.spellLists?.length ?? 0) > 0);
+  const standardCounts = def.heroSlots.map(
+    (h) => h.skillLists.filter((k) => STANDARD_SKILL_SET.has(k)).length,
+  );
+  const allWide = standardCounts.length > 0 && standardCounts.every((n) => n === 5);
+  const allNarrow = standardCounts.length > 0 && standardCounts.every((n) => n <= 2);
+
+  let trailer: string | null = null;
+  if (hasCaster) trailer = 'One of its Heroes casts spells, prayers or rituals.';
+  else if (allWide) trailer = 'Its Heroes draw on the full spread of skill lists.';
+  else if (allNarrow) trailer = 'Its Heroes have unusually restricted skill access.';
+
+  return trailer ? `${lead} ${trailer}` : lead;
+}
+
 // ── Small shared pieces ──────────────────────────────────────────────────────
 
 type ChipTone = 'accent' | 'muted' | 'verdigris' | 'struck';
@@ -470,6 +503,13 @@ export default function WarbandRulesScreen() {
 
   const topRef = useRef<HTMLDivElement>(null);
 
+  // §5.4.5. Derived, not authored (§25.2) — recomputed alongside the rules
+  // parse rather than memoised separately, since both come from the same source.
+  const playstyle = useMemo(
+    () => (def && parsed ? deriveWarbandPlaystyle(def, parsed.rules.map((r) => r.name)) : null),
+    [def, parsed],
+  );
+
   if (!def || !parsed) return <Navigate to="/rules" replace />;
 
   const { source, grade } = getWarbandProvenance(def);
@@ -518,6 +558,8 @@ export default function WarbandRulesScreen() {
             <p className="text-bone-400 text-xs">Fan-made supplement — verify against your own books.</p>
           )}
         </div>
+
+        {playstyle && <p className="text-bone-300 text-sm leading-relaxed">{playstyle}</p>}
 
         {keyFacts.length > 0 && (
           <p className="text-bone-300 text-sm border-y border-ink-800 py-2">{keyFacts.join('  ·  ')}</p>
