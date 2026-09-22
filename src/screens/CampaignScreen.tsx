@@ -8,6 +8,7 @@ import CampaignActivityFeed from '../components/CampaignActivityFeed';
 import HouseRulesPanel from '../components/HouseRulesPanel';
 import CampaignHonours from '../components/CampaignHonours';
 import CampaignRecap from '../components/CampaignRecap';
+import CampaignRatingChart from '../components/CampaignRatingChart';
 import SaveBar from '../components/SaveBar';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import { Button, Card, SectionHeading, Field, TextField, Textarea, Select } from '../components/ui';
@@ -50,6 +51,7 @@ import { computeAwards } from '../lib/awards';
 import { AWARD_ART } from '../lib/awardArt';
 import { computeRivalries } from '../lib/rivalries';
 import { useWarbandList } from '../hooks/useWarbands';
+import { useCampaignRatingHistoryQuery } from '../hooks/useRatingHistory';
 import objectivesData from '../data/btb/objectives.json';
 import { BtbObjectivesData } from '../data/types';
 import { BattleRecord, BattleResult, BtbObjective, Campaign, StandingsRow, Warband } from '../types';
@@ -1063,6 +1065,13 @@ export default function CampaignScreen() {
   const { data: battles } = useBattlesQuery(campaign?.id);
   const deleteBattle = useDeleteBattleMutation(campaign?.id);
   const { data: standings } = useStandingsQuery(campaign?.id, battles);
+  // Every entered warband's rating series, for the Standings comparison chart
+  // (§18.3). Keyed by warbandId so the fetch stays one batched call rather
+  // than one per row.
+  const enteredWarbandIds = (standings ?? [])
+    .map((s) => s.warbandId)
+    .filter((id): id is string => id != null);
+  const { data: ratingHistories } = useCampaignRatingHistoryQuery(enteredWarbandIds);
   const { data: members } = useCampaignMembersQuery(campaign?.id);
   const warbands = useWarbandList();
   const saveCampaign = useSaveCampaignMutation();
@@ -1192,6 +1201,26 @@ export default function CampaignScreen() {
                   <SectionHeading>{strings.campaign.standingsSection}</SectionHeading>
                   <StandingsTable rows={standings ?? []} />
                 </div>
+                {/* Comparison chart — only worth its own section once there's
+                    actually something to compare. A lone entered warband has
+                    nothing to overlay against, and its own detail screen
+                    already carries the single-line version. */}
+                {enteredWarbandIds.length >= 2 && ratingHistories && (
+                  <div className="space-y-3">
+                    <SectionHeading>{strings.campaign.ratingChartTitle}</SectionHeading>
+                    <CampaignRatingChart
+                      warbands={(standings ?? [])
+                        .filter((s): s is StandingsRow & { warbandId: string; warbandName: string } =>
+                          s.warbandId != null && s.warbandName != null,
+                        )
+                        .map((s) => ({
+                          id: s.warbandId,
+                          name: s.warbandName,
+                          points: ratingHistories[s.warbandId] ?? [],
+                        }))}
+                    />
+                  </div>
+                )}
                 <CampaignAwards battles={battles ?? []} standings={standings ?? []} />
                 <CampaignHonours campaign={campaign} isLeader={isLeader} />
                 <CampaignRivalries battles={battles ?? []} myWarbandIds={warbands.map((w) => w.id)} />

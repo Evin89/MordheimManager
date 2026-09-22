@@ -66,6 +66,18 @@ export default {
         // component cannot hardcode either and stay accessible in both.
         'on-accent': themed('on-accent'),
         verdigris: themed('verdigris'), // success/confirm — aged copper, never bright green
+
+        // The one multi-series chart's categorical set (§18.3 campaign rating
+        // comparison) — six muted hues, never used for anything but "which
+        // series is this". See index.css for the per-theme values and why.
+        chart: {
+          1: themed('chart-1'),
+          2: themed('chart-2'),
+          3: themed('chart-3'),
+          4: themed('chart-4'),
+          5: themed('chart-5'),
+          6: themed('chart-6'),
+        },
       },
 
       // Spec §5.2: three roles, four families. `display` is blackletter and is

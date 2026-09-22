@@ -885,6 +885,15 @@ export async function fetchRatingHistory(warbandId: string) {
   }));
 }
 
+/** Batch form of {@link fetchRatingHistory}, for the campaign standings
+ * comparison chart (§18.3) — same fabricated series, one call per id. */
+export async function fetchRatingHistoryForWarbands(warbandIds: string[]) {
+  const entries = await Promise.all(
+    warbandIds.map(async (id) => [id, await fetchRatingHistory(id)] as const),
+  );
+  return Object.fromEntries(entries);
+}
+
 // --- warband photos --------------------------------------------------------
 
 /**

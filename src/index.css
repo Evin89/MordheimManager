@@ -46,6 +46,25 @@
      decision was right, the number was not.) */
   --color-on-accent: 11 10 9;
   --color-verdigris: 94 122 99; /* lifted off §5's value so it reads on black */
+
+  /* A small categorical set for the one multi-series chart in the app (the
+     campaign standings rating comparison, §18.3) — six muted, "aged ink"
+     hues rather than a bright modern chart palette, matching the Rulebook
+     aesthetic's general avoidance of saturated colour. Chosen to stay clear of
+     hues already carrying meaning elsewhere: no orange/red near ember or
+     blood, no blue-green near verdigris. Lighter here than under Rulebook
+     (below) because they sit on a near-black surface instead of pale parchment
+     — same role, different concrete value, exactly like the accent tokens
+     above. Overflow past six series reuses `ink-faded` rather than a seventh
+     hue, so a large campaign fades out instead of running out of colour.
+     Not yet run through `npm run design-sheet` — eyeballed for reasonable
+     separation from the near-black surface, not measured. */
+  --color-chart-1: 217 160 60;  /* gold */
+  --color-chart-2: 110 155 199; /* slate blue */
+  --color-chart-3: 176 127 176; /* dusty plum */
+  --color-chart-4: 156 170 94;  /* olive-sage */
+  --color-chart-5: 201 123 84;  /* terracotta */
+  --color-chart-6: 127 160 163; /* grey-teal */
 }
 
 /*
@@ -93,6 +112,15 @@
 
   --color-blood-500: 143 32 32;
   --color-blood-600: 109 22 22;
+
+  /* The same six chart hues, darkened for the light parchment surface — see
+     the Grimdark block for what each one is and why. */
+  --color-chart-1: 138 99 24;  /* gold */
+  --color-chart-2: 61 90 120;  /* slate blue */
+  --color-chart-3: 107 63 107; /* dusty plum */
+  --color-chart-4: 92 107 46;  /* olive-sage */
+  --color-chart-5: 138 74 42;  /* terracotta */
+  --color-chart-6: 69 96 95;   /* grey-teal */
 }
 
 html,

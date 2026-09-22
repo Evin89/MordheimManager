@@ -1309,6 +1309,9 @@ export const strings = {
     standingsPlayer: 'Player',
     standingsRating: 'Rating',
     standingsRecord: 'W/L/D',
+    ratingChartTitle: 'Rating over time',
+    ratingChartLabel: (min: number, max: number) =>
+      `Every entered warband's rating over the campaign so far, from ${min} to ${max}.`,
     viewRoster: 'View roster',
 
     // --- Warband sharing controls (roster screen) ---
