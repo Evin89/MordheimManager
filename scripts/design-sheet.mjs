@@ -56,6 +56,11 @@ function contrast(a, b) {
 }
 
 const AA = 4.5;
+// WCAG 1.4.11 (non-text contrast) rather than 1.4.3's 4.5:1: a chart line is a
+// graphical object, not text, so the applicable floor is 3:1 against the page
+// it's drawn on.
+const AA_GRAPHICAL = 3.0;
+const CHART_TOKENS = ['chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5', 'chart-6'];
 
 // The statline shown on the sheet. A real unit rather than filler, so the
 // column widths are tested against values the app actually renders.
@@ -128,6 +133,24 @@ function sheet(theme, tokens) {
       weight: 'bold',
       fill: pass ? c('verdigris') : c('accent'),
     }));
+  });
+
+  // --- Chart palette (§18.3) ------------------------------------------------
+  // The one categorical set in the app — six lines drawn on the page
+  // background (`bg-ink-950` in index.html, which the parchment theme
+  // redefines to the parchment value), so the applicable floor is WCAG
+  // 1.4.11's 3:1 for graphical objects, not 1.4.3's 4.5:1 for text.
+  y += 40;
+  push(text(32, y, 'CHART PALETTE (§18.3) — WCAG 1.4.11 NON-TEXT CONTRAST NEEDS 3:1', { size: 11, family: UI, weight: 'bold', fill: c('ink-faded'), spacing: 1.5 }));
+  y += 20;
+  CHART_TOKENS.forEach((name, i) => {
+    const x = 32 + i * 138;
+    const ratio = contrast(rgb(name), rgb('ink-950'));
+    const pass = ratio >= AA_GRAPHICAL;
+    push(`<rect x="${x}" y="${y}" width="126" height="34" fill="${c('ink-950')}" stroke="${c('ink-800')}" stroke-width="1"/>`);
+    push(`<line x1="${x + 10}" y1="${y + 17}" x2="${x + 116}" y2="${y + 17}" stroke="${c(name)}" stroke-width="3"/>`);
+    push(text(x, y + 48, name, { size: 11, family: UI, weight: 'bold' }));
+    push(text(x, y + 62, `${ratio.toFixed(2)}:1 ${pass ? 'PASS' : 'FAIL'}`, { size: 10, family: UI, fill: pass ? c('verdigris') : c('accent') }));
   });
 
   // --- Profile block, full -------------------------------------------------
@@ -222,6 +245,14 @@ for (const theme of THEMES) {
     const ok = ratio >= AA;
     if (!ok) failures += 1;
     console.log(`${ok ? 'ok  ' : 'FAIL'}  ${theme.id.padEnd(10)} ${fg ?? 'white'} on ${bg}: ${ratio.toFixed(2)}:1`);
+  }
+  // Chart palette (§18.3), against the real page background — 3:1, the
+  // graphical-object floor, not the 4.5:1 text floor.
+  for (const name of CHART_TOKENS) {
+    const ratio = contrast(tokens[name], tokens['ink-950']);
+    const ok = ratio >= AA_GRAPHICAL;
+    if (!ok) failures += 1;
+    console.log(`${ok ? 'ok  ' : 'FAIL'}  ${theme.id.padEnd(10)} ${name} on ink-950: ${ratio.toFixed(2)}:1 (3:1 floor)`);
   }
   console.log(`      wrote docs/design/${theme.id}.svg`);
 }

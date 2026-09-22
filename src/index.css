@@ -57,8 +57,9 @@
      — same role, different concrete value, exactly like the accent tokens
      above. Overflow past six series reuses `ink-faded` rather than a seventh
      hue, so a large campaign fades out instead of running out of colour.
-     Not yet run through `npm run design-sheet` — eyeballed for reasonable
-     separation from the near-black surface, not measured. */
+     Measured against WCAG 1.4.11's 3:1 non-text floor (a chart line is a
+     graphical object, not text) via `npm run design-sheet` — weakest here is
+     6.07:1, comfortable headroom. */
   --color-chart-1: 217 160 60;  /* gold */
   --color-chart-2: 110 155 199; /* slate blue */
   --color-chart-3: 176 127 176; /* dusty plum */
