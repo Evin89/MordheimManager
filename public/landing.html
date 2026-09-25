@@ -272,66 +272,45 @@
       }
       table.stat td { color: rgb(var(--ink)); }
 
-      /* Roster preview (§4.11) — a real, painted Witch Hunter warband laid out
-         the way the app keeps it: warband photo, then heroes, henchmen and hired
-         swords, each with its own photo and the §5.3 profile block. Static
-         markup; the figures come from src/data/warbands/witch-hunters.json and
-         hiredSwords.json (starting XP, rating per §3.2). */
-      .roster { margin-top: 8px; }
-      .roster-head {
-        border-radius: 14px; overflow: hidden; background: rgb(var(--raised));
-        border: 1px solid rgb(var(--ink-800));
+      /* Roster teaser (§4.11) — one card after the features: a real painted
+         Witch Hunter warband's group photo beside its roster as compact rows
+         (the app's per-model photos), plus a single §5.3 profile block for the
+         leader. Kept deliberately small so it supports the wizard, not rivals it.
+         Figures from src/data/warbands/witch-hunters.json and hiredSwords.json. */
+      .showcase {
+        margin-top: 40px; border-radius: 14px; overflow: hidden;
+        background: rgb(var(--raised)); border: 1px solid rgb(var(--ink-800));
+        display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
       }
-      .roster-head img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
-      .roster-head .meta { padding: 16px 18px 18px; }
-      .roster-head .type {
-        font-family: 'Alegreya Sans', sans-serif; font-size: 13px; font-weight: 700;
-        text-transform: uppercase; letter-spacing: 0.1em; color: rgb(var(--accent-bright)); margin: 0;
+      .showcase > img { display: block; width: 100%; height: 100%; min-height: 240px; object-fit: cover; object-position: 12% center; }
+      .showcase .body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+      .showcase .kicker {
+        margin: 0; font-family: 'Alegreya Sans', sans-serif; font-size: 12px; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.12em; color: rgb(var(--accent-bright));
       }
-      .roster-head h3 { margin: 2px 0 12px; font-size: 26px; line-height: 1.15; color: rgb(var(--bone-100)); }
-      .tally { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-      .tally li {
-        font-family: 'Alegreya Sans', sans-serif; font-size: 14px; color: rgb(var(--ink-faded));
-        padding: 5px 10px; border-radius: 999px; background: rgb(var(--ink-800) / 0.5);
-        border: 1px solid rgb(var(--ink-800));
+      .showcase h2 { margin: 2px 0 0; font-size: 24px; line-height: 1.15; color: rgb(var(--bone-100)); text-wrap: balance; }
+      .showcase .sum { margin: 2px 0 0; font-family: 'Alegreya Sans', sans-serif; font-size: 14px; color: rgb(var(--ink-faded)); }
+      .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+      .rows li {
+        display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; align-items: center; gap: 10px;
+        padding: 3px 0; border-bottom: 1px solid rgb(var(--ink-800) / 0.6);
       }
-      .tally b { color: rgb(var(--ink)); font-weight: 700; }
-      .roster-group {
-        margin: 26px 0 10px; font-family: 'Alegreya Sans', sans-serif; font-size: 13px; font-weight: 700;
-        text-transform: uppercase; letter-spacing: 0.12em; color: rgb(var(--ink-faded));
+      .rows li:last-child { border-bottom: 0; }
+      .rows img {
+        width: 36px; height: 36px; object-fit: cover; display: block;
+        border: 1.5px solid rgb(var(--ink)); background: rgb(var(--ink-800));
       }
-      .models { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; align-items: start; }
-      .model {
-        border-radius: 12px; background: rgb(var(--raised)); border: 1px solid rgb(var(--ink-800));
-        padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0;
-      }
-      .model-top { display: flex; align-items: center; gap: 12px; min-width: 0; }
-      /* Same book-plate frame as the §11.4 portrait, scaled down for a list. */
-      .model-top .thumb {
-        width: 76px; height: 76px; flex: none; object-fit: cover; display: block;
-        border: 2px solid rgb(var(--ink)); box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.35);
-        background: rgb(var(--ink-800));
-      }
-      .model-id { min-width: 0; flex: 1; }
-      .model-id .row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-      .model-id h4 { margin: 0; font-family: 'IM Fell English', Georgia, serif; font-weight: 400; font-size: 21px; color: rgb(var(--bone-100)); }
-      .model-id .xp { font-family: 'Alegreya Sans', sans-serif; font-size: 14px; color: rgb(var(--ink-faded)); white-space: nowrap; }
-      .model-id .unit { margin: 1px 0 0; font-family: 'Alegreya Sans', sans-serif; font-size: 14px; color: rgb(var(--ink-faded)); }
-      .model-id .leader { color: rgb(var(--accent-bright)); font-weight: 700; }
-      /* Henchmen groups carry one group photo, so it sits wide above the name. */
-      .model .group-photo {
-        display: block; width: 100%; height: auto; border-radius: 8px;
-        border: 1px solid rgb(var(--ink-800));
-      }
+      .rows .who { min-width: 0; font-size: 16px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .rows .who span { font-family: 'Alegreya Sans', sans-serif; font-size: 13px; color: rgb(var(--ink-faded)); }
+      .rows .xp { font-family: 'Alegreya Sans', sans-serif; font-size: 13px; color: rgb(var(--ink-faded)); white-space: nowrap; }
       .profile.mini { overflow: hidden; }
       .profile.mini table.stat { width: 100%; table-layout: fixed; }
-      .profile.mini table.stat th, .profile.mini table.stat td { padding: 5px 0; font-size: 14px; }
-      .kit { margin: 0; font-size: 15px; line-height: 1.45; color: rgb(var(--ink-faded)); }
-      .kit b {
-        font-family: 'Alegreya Sans', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase;
-        letter-spacing: 0.08em; color: rgb(var(--ink)); margin-right: 6px;
+      .profile.mini table.stat th, .profile.mini table.stat td { padding: 4px 0; font-size: 13px; }
+      .showcase .foot { margin: 0; font-size: 14px; color: rgb(var(--ink-faded)); }
+      @media (max-width: 700px) {
+        .showcase { grid-template-columns: 1fr; }
+        .showcase > img { height: auto; min-height: 0; aspect-ratio: 4 / 3; }
       }
-      .roster-caption { margin: 14px 0 0; text-align: center; color: rgb(var(--ink-faded)); font-size: 14px; }
 
       /* Footer */
       footer { margin-top: 56px; border-top: 1px solid rgb(var(--ink-800)); padding: 24px 0 40px; }
@@ -483,135 +462,36 @@
         </div>
       </div>
 
-      <!-- ROSTER PREVIEW (§4.11) — replaces the single sample plate: the same
-           portrait + profile-block pairing, for a whole warband. Photos are one
-           real painted warband, cropped per model (public/showcase/witch-hunters).
-           Profiles from src/data/warbands/witch-hunters.json and hiredSwords.json;
-           starting XP; rating = models × 5 + XP (§3.2), Halfling Scout's flat +5. -->
-      <section class="roster" aria-labelledby="roster-title">
-        <div class="section-head">
-          <h2 id="roster-title">A roster, as the app keeps it</h2>
-          <p>A painted Witch Hunter warband — one photo for the warband, and one for every hero, henchmen group and hired sword.</p>
-        </div>
-
-        <div class="roster-head">
-          <img src="/showcase/witch-hunters/warband.webp" alt="A painted Witch Hunter warband posed in a ruined Mordheim building: five witch hunters on the upper floor, a halfling on the stairs, three flagellants and five warhounds on the street" width="1000" height="750" loading="lazy" decoding="async" />
-          <div class="meta">
-            <p class="type">Witch Hunters</p>
-            <h3>The Brotherhood of the Pyre</h3>
-            <ul class="tally">
-              <li>Rating <b class="tnum">134</b></li>
-              <li>Heroes <b class="tnum">5</b></li>
-              <li>Henchmen <b class="tnum">8</b></li>
-              <li>Hired swords <b class="tnum">1</b></li>
-            </ul>
+      <!-- ROSTER TEASER (§4.11) — a real painted warband as the app keeps it:
+           group photo + compact roster rows with per-model photos
+           (public/showcase/witch-hunters), and the leader's profile block.
+           Starting XP; rating = models × 5 + XP (§3.2), Halfling Scout's flat +5. -->
+      <section class="showcase" aria-labelledby="showcase-title">
+        <img src="/showcase/witch-hunters/warband.webp" alt="A painted Witch Hunter warband posed in a ruined Mordheim building: five witch hunters on the upper floor, a halfling on the stairs, three flagellants and five warhounds on the street" width="1000" height="750" loading="lazy" decoding="async" />
+        <div class="body">
+          <div>
+            <p class="kicker">Your models, on your roster</p>
+            <h2 id="showcase-title">The Brotherhood of the Pyre</h2>
+            <p class="sum tnum">Witch Hunters · 14 models · Rating 134</p>
           </div>
+          <ul class="rows">
+            <li><img src="/showcase/witch-hunters/johan.webp" alt="Johan, the Witch Hunter Captain" width="36" height="36" loading="lazy" decoding="async" /><span class="who">Johan <span>· Captain</span></span><span class="xp tnum">20 XP</span></li>
+            <li><img src="/showcase/witch-hunters/jekl.webp" alt="Jekl, the Warrior-Priest" width="36" height="36" loading="lazy" decoding="async" /><span class="who">Jekl <span>· Warrior-Priest</span></span><span class="xp tnum">12 XP</span></li>
+            <li><img src="/showcase/witch-hunters/isolde.webp" alt="Isolde, a witch hunter with a crossbow" width="36" height="36" loading="lazy" decoding="async" /><span class="who">Isolde <span>· Witch Hunter</span></span><span class="xp tnum">8 XP</span></li>
+            <li><img src="/showcase/witch-hunters/hans.webp" alt="Hans, a witch hunter with sword and torch" width="36" height="36" loading="lazy" decoding="async" /><span class="who">Hans <span>· Witch Hunter</span></span><span class="xp tnum">8 XP</span></li>
+            <li><img src="/showcase/witch-hunters/alfred.webp" alt="Alfred, a helmeted witch hunter with a crossbow" width="36" height="36" loading="lazy" decoding="async" /><span class="who">Alfred <span>· Witch Hunter</span></span><span class="xp tnum">8 XP</span></li>
+            <li><img src="/showcase/witch-hunters/flagellant.webp" alt="A flagellant swinging a flail" width="36" height="36" loading="lazy" decoding="async" /><span class="who">Flagellants <span>· ×3</span></span><span class="xp tnum">0 XP</span></li>
+            <li><img src="/showcase/witch-hunters/warhound.webp" alt="A warhound in harness" width="36" height="36" loading="lazy" decoding="async" /><span class="who">Warhounds <span>· ×5</span></span><span class="xp tnum">0 XP</span></li>
+            <li><img src="/showcase/witch-hunters/hansel.webp" alt="Hansel, a halfling scout with a cooking-pot helmet" width="36" height="36" loading="lazy" decoding="async" /><span class="who">Hansel <span>· Halfling Scout</span></span><span class="xp tnum">0 XP</span></li>
+          </ul>
+          <div class="profile mini" aria-label="Johan's profile">
+            <table class="stat">
+              <thead><tr><th>M</th><th>WS</th><th>BS</th><th>S</th><th>T</th><th>W</th><th>I</th><th>A</th><th>Ld</th></tr></thead>
+              <tbody><tr><td>4</td><td>4</td><td>4</td><td>3</td><td>3</td><td>1</td><td>4</td><td>1</td><td>8</td></tr></tbody>
+            </table>
+          </div>
+          <p class="foot">Every hero and henchmen group gets its own photo beside the rulebook profile.</p>
         </div>
-
-        <h3 class="roster-group">Heroes</h3>
-        <div class="models">
-          <article class="model">
-            <div class="model-top">
-              <img class="thumb" src="/showcase/witch-hunters/johan.webp" alt="Johan, the Witch Hunter Captain, in a wide-brimmed hat with a candle and torch" width="76" height="76" loading="lazy" decoding="async" />
-              <div class="model-id">
-                <div class="row"><h4>Johan</h4><span class="xp tnum">20 XP</span></div>
-                <p class="unit">Witch Hunter Captain · <span class="leader">Leader</span></p>
-              </div>
-            </div>
-            <div class="profile mini"><table class="stat"><thead><tr><th>M</th><th>WS</th><th>BS</th><th>S</th><th>T</th><th>W</th><th>I</th><th>A</th><th>Ld</th></tr></thead><tbody><tr><td>4</td><td>4</td><td>4</td><td>3</td><td>3</td><td>1</td><td>4</td><td>1</td><td>8</td></tr></tbody></table></div>
-            <p class="kit"><b>Equipment</b>Sword, dagger</p>
-            <p class="kit"><b>Rules</b>Burn the Witch! (hates spellcasters)</p>
-          </article>
-          <article class="model">
-            <div class="model-top">
-              <img class="thumb" src="/showcase/witch-hunters/jekl.webp" alt="Jekl, an armoured Warrior-Priest raising a warhammer" width="76" height="76" loading="lazy" decoding="async" />
-              <div class="model-id">
-                <div class="row"><h4>Jekl</h4><span class="xp tnum">12 XP</span></div>
-                <p class="unit">Warrior-Priest</p>
-              </div>
-            </div>
-            <div class="profile mini"><table class="stat"><thead><tr><th>M</th><th>WS</th><th>BS</th><th>S</th><th>T</th><th>W</th><th>I</th><th>A</th><th>Ld</th></tr></thead><tbody><tr><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>3</td><td>1</td><td>8</td></tr></tbody></table></div>
-            <p class="kit"><b>Equipment</b>Hammer, heavy armour, dagger</p>
-            <p class="kit"><b>Rules</b>Prayers of Sigmar</p>
-          </article>
-          <article class="model">
-            <div class="model-top">
-              <img class="thumb" src="/showcase/witch-hunters/isolde.webp" alt="Isolde, a witch hunter in a pointed hat carrying a crossbow" width="76" height="76" loading="lazy" decoding="async" />
-              <div class="model-id">
-                <div class="row"><h4>Isolde</h4><span class="xp tnum">8 XP</span></div>
-                <p class="unit">Witch Hunter</p>
-              </div>
-            </div>
-            <div class="profile mini"><table class="stat"><thead><tr><th>M</th><th>WS</th><th>BS</th><th>S</th><th>T</th><th>W</th><th>I</th><th>A</th><th>Ld</th></tr></thead><tbody><tr><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>3</td><td>1</td><td>7</td></tr></tbody></table></div>
-            <p class="kit"><b>Equipment</b>Crossbow, dagger</p>
-            <p class="kit"><b>Rules</b>Burn the Witch! (hates spellcasters)</p>
-          </article>
-          <article class="model">
-            <div class="model-top">
-              <img class="thumb" src="/showcase/witch-hunters/hans.webp" alt="Hans, a grey-haired witch hunter with a raised sword and a burning torch" width="76" height="76" loading="lazy" decoding="async" />
-              <div class="model-id">
-                <div class="row"><h4>Hans</h4><span class="xp tnum">8 XP</span></div>
-                <p class="unit">Witch Hunter</p>
-              </div>
-            </div>
-            <div class="profile mini"><table class="stat"><thead><tr><th>M</th><th>WS</th><th>BS</th><th>S</th><th>T</th><th>W</th><th>I</th><th>A</th><th>Ld</th></tr></thead><tbody><tr><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>3</td><td>1</td><td>7</td></tr></tbody></table></div>
-            <p class="kit"><b>Equipment</b>Sword, dagger</p>
-            <p class="kit"><b>Rules</b>Burn the Witch! (hates spellcasters)</p>
-          </article>
-          <article class="model">
-            <div class="model-top">
-              <img class="thumb" src="/showcase/witch-hunters/alfred.webp" alt="Alfred, a helmeted witch hunter aiming a crossbow" width="76" height="76" loading="lazy" decoding="async" />
-              <div class="model-id">
-                <div class="row"><h4>Alfred</h4><span class="xp tnum">8 XP</span></div>
-                <p class="unit">Witch Hunter</p>
-              </div>
-            </div>
-            <div class="profile mini"><table class="stat"><thead><tr><th>M</th><th>WS</th><th>BS</th><th>S</th><th>T</th><th>W</th><th>I</th><th>A</th><th>Ld</th></tr></thead><tbody><tr><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>1</td><td>3</td><td>1</td><td>7</td></tr></tbody></table></div>
-            <p class="kit"><b>Equipment</b>Crossbow, dagger</p>
-            <p class="kit"><b>Rules</b>Burn the Witch! (hates spellcasters)</p>
-          </article>
-        </div>
-
-        <h3 class="roster-group">Henchmen</h3>
-        <div class="models">
-          <article class="model">
-            <img class="group-photo" src="/showcase/witch-hunters/flagellants.webp" alt="Three flagellants in green and purple robes swinging flails, one carrying a scripture placard" width="720" height="469" loading="lazy" decoding="async" />
-            <div class="model-id">
-              <div class="row"><h4>Flagellants</h4><span class="xp tnum">×3 · 0 XP</span></div>
-              <p class="unit">Henchmen group</p>
-            </div>
-            <div class="profile mini"><table class="stat"><thead><tr><th>M</th><th>WS</th><th>BS</th><th>S</th><th>T</th><th>W</th><th>I</th><th>A</th><th>Ld</th></tr></thead><tbody><tr><td>4</td><td>3</td><td>3</td><td>4</td><td>4</td><td>1</td><td>3</td><td>1</td><td>10</td></tr></tbody></table></div>
-            <p class="kit"><b>Equipment</b>Flail</p>
-            <p class="kit"><b>Rules</b>Fanatical</p>
-          </article>
-          <article class="model">
-            <img class="group-photo" src="/showcase/witch-hunters/warhounds.webp" alt="Five warhounds in harness, painted brown, grey, tan and black" width="960" height="292" loading="lazy" decoding="async" />
-            <div class="model-id">
-              <div class="row"><h4>Warhounds</h4><span class="xp tnum">×5 · 0 XP</span></div>
-              <p class="unit">Henchmen group · Animals</p>
-            </div>
-            <div class="profile mini"><table class="stat"><thead><tr><th>M</th><th>WS</th><th>BS</th><th>S</th><th>T</th><th>W</th><th>I</th><th>A</th><th>Ld</th></tr></thead><tbody><tr><td>6</td><td>4</td><td>0</td><td>4</td><td>3</td><td>1</td><td>4</td><td>1</td><td>5</td></tr></tbody></table></div>
-            <p class="kit"><b>Equipment</b>None</p>
-            <p class="kit"><b>Rules</b>Animal</p>
-          </article>
-        </div>
-
-        <h3 class="roster-group">Hired swords</h3>
-        <div class="models">
-          <article class="model">
-            <div class="model-top">
-              <img class="thumb" src="/showcase/witch-hunters/hansel.webp" alt="Hansel, a halfling scout with a dagger and a cooking pot for a helmet" width="76" height="76" loading="lazy" decoding="async" />
-              <div class="model-id">
-                <div class="row"><h4>Hansel</h4><span class="xp tnum">0 XP</span></div>
-                <p class="unit">Halfling Scout</p>
-              </div>
-            </div>
-            <div class="profile mini"><table class="stat"><thead><tr><th>M</th><th>WS</th><th>BS</th><th>S</th><th>T</th><th>W</th><th>I</th><th>A</th><th>Ld</th></tr></thead><tbody><tr><td>4</td><td>2</td><td>4</td><td>2</td><td>2</td><td>1</td><td>4</td><td>1</td><td>8</td></tr></tbody></table></div>
-            <p class="kit"><b>Equipment</b>Bow, dagger, cooking pot (helmet)</p>
-            <p class="kit"><b>Rules</b>Cook (+1 warband size)</p>
-          </article>
-        </div>
-        <p class="roster-caption">Every warrior's detail screen frames its own photo beside the rulebook's profile block.</p>
       </section>
 
       <footer>
