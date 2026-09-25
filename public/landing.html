@@ -278,7 +278,7 @@
          leader. Kept deliberately small so it supports the wizard, not rivals it.
          Figures from src/data/warbands/witch-hunters.json and hiredSwords.json. */
       .showcase {
-        margin-top: 40px; border-radius: 14px; overflow: hidden;
+        margin-top: 0; border-radius: 14px; overflow: hidden;
         background: rgb(var(--raised)); border: 1px solid rgb(var(--ink-800));
         display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
       }
@@ -288,7 +288,7 @@
         margin: 0; font-family: 'Alegreya Sans', sans-serif; font-size: 12px; font-weight: 700;
         text-transform: uppercase; letter-spacing: 0.12em; color: rgb(var(--accent-bright));
       }
-      .showcase h2 { margin: 2px 0 0; font-size: 24px; line-height: 1.15; color: rgb(var(--bone-100)); text-wrap: balance; }
+      .showcase h3 { margin: 2px 0 0; font-size: 24px; line-height: 1.15; color: rgb(var(--bone-100)); text-wrap: balance; }
       .showcase .sum { margin: 2px 0 0; font-family: 'Alegreya Sans', sans-serif; font-size: 14px; color: rgb(var(--ink-faded)); }
       .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
       .rows li {
@@ -306,7 +306,6 @@
       .profile.mini { overflow: hidden; }
       .profile.mini table.stat { width: 100%; table-layout: fixed; }
       .profile.mini table.stat th, .profile.mini table.stat td { padding: 4px 0; font-size: 13px; }
-      .showcase .foot { margin: 0; font-size: 14px; color: rgb(var(--ink-faded)); }
       @media (max-width: 700px) {
         .showcase { grid-template-columns: 1fr; }
         .showcase > img { height: auto; min-height: 0; aspect-ratio: 4 / 3; }
@@ -466,12 +465,17 @@
            group photo + compact roster rows with per-model photos
            (public/showcase/witch-hunters), and the leader's profile block.
            Starting XP; rating = models × 5 + XP (§3.2), Halfling Scout's flat +5. -->
-      <section class="showcase" aria-labelledby="showcase-title">
+      <section aria-labelledby="showcase-title">
+        <div class="section-head">
+          <h2 id="showcase-title">Your warband, as you painted it</h2>
+          <p>Add a photo of the whole warband and one for every hero and henchmen group. This Witch Hunter warband shows how it looks in the app.</p>
+        </div>
+        <div class="showcase">
         <img src="/showcase/witch-hunters/warband.webp" alt="A painted Witch Hunter warband posed in a ruined Mordheim building: five witch hunters on the upper floor, a halfling on the stairs, three flagellants and five warhounds on the street" width="1000" height="750" loading="lazy" decoding="async" />
         <div class="body">
           <div>
-            <p class="kicker">Your models, on your roster</p>
-            <h2 id="showcase-title">The Brotherhood of the Pyre</h2>
+            <p class="kicker">Example warband</p>
+            <h3>The Brotherhood of the Pyre</h3>
             <p class="sum tnum">Witch Hunters · 14 models · Rating 134</p>
           </div>
           <ul class="rows">
@@ -490,7 +494,7 @@
               <tbody><tr><td>4</td><td>4</td><td>4</td><td>3</td><td>3</td><td>1</td><td>4</td><td>1</td><td>8</td></tr></tbody>
             </table>
           </div>
-          <p class="foot">Every hero and henchmen group gets its own photo beside the rulebook profile.</p>
+        </div>
         </div>
       </section>
 
