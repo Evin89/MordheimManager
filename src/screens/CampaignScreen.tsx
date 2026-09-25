@@ -11,7 +11,7 @@ import CampaignRecap from '../components/CampaignRecap';
 import CampaignRatingChart from '../components/CampaignRatingChart';
 import SaveBar from '../components/SaveBar';
 import ConfirmByTyping from '../components/ConfirmByTyping';
-import { Button, Card, SectionHeading, Field, TextField, Textarea, Select } from '../components/ui';
+import { Button, Card, SectionHeading, Field, TextField, Textarea, Select, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
 import {
@@ -51,7 +51,7 @@ import { getWarbandTypeName } from '../data/warbandRegistry';
 import { computeAwards } from '../lib/awards';
 import { AWARD_ART } from '../lib/awardArt';
 import { computeRivalries } from '../lib/rivalries';
-import { useWarbandList } from '../hooks/useWarbands';
+import { useSaveWarbandMutation, useWarbandList } from '../hooks/useWarbands';
 import { useCampaignRatingHistoryQuery } from '../hooks/useRatingHistory';
 import objectivesData from '../data/btb/objectives.json';
 import { BtbObjectivesData } from '../data/types';
@@ -313,6 +313,16 @@ function CampaignEntry() {
 
       <JoinCampaignForm title={strings.campaign.joinTitle} />
 
+      {/* §26.6 — the third way in, stated rather than discovered: battles work
+          without any campaign and land in Your Battles below. */}
+      <Card as="section" gap="sm">
+        <SectionHeading>{strings.campaign.oneOffTitle}</SectionHeading>
+        <p className="text-bone-300 text-sm">{strings.campaign.oneOffBody}</p>
+        <Link to="/post-battle" className={buttonClasses('secondary')}>
+          {strings.campaign.oneOffButton}
+        </Link>
+      </Card>
+
       {/* Battles fought without a campaign still happened. They used to force a
           campaign into existence just to have somewhere to go; now they're
           listed here so the history is still reachable. */}
@@ -449,6 +459,19 @@ function CampaignRivalries({
   myWarbandIds: string[];
 }) {
   const mine = new Set(myWarbandIds);
+  const myWarbands = useWarbandList();
+  const saveWarband = useSaveWarbandMutation();
+
+  /** §17.2 — mark (or unmark) a rival as this warband's nemesis. Player-set,
+   * stored on the warband; one nemesis per warband. */
+  function toggleNemesis(warbandId: string, opponentId: string) {
+    const own = myWarbands.find((w) => w.id === warbandId);
+    if (!own) return;
+    saveWarband({
+      ...own,
+      nemesisWarbandId: own.nemesisWarbandId === opponentId ? undefined : opponentId,
+    });
+  }
   // One block per warband of the viewer's that has fought in this campaign.
   const blocks = myWarbandIds
     .map((warbandId) => {
@@ -479,9 +502,20 @@ function CampaignRivalries({
               const resultColor = (result: BattleResult) =>
                 result === 'win' ? 'text-verdigris' : result === 'loss' ? 'text-blood-500' : 'text-bone-400';
               return (
-                <details key={r.opponentName} className="group border-b border-ink-800/60 last:border-b-0">
+                <details
+                  key={r.opponentWarbandId ?? r.opponentName}
+                  className="group border-b border-ink-800/60 last:border-b-0"
+                >
                   <summary className="min-h-[44px] flex items-baseline justify-between gap-3 cursor-pointer select-none list-none">
-                    <span className="text-bone-100 truncate">{r.opponentName}</span>
+                    <span className="text-bone-100 truncate">
+                      {r.opponentName}
+                      {r.opponentWarbandId &&
+                        myWarbands.find((w) => w.id === block.warbandId)?.nemesisWarbandId === r.opponentWarbandId && (
+                          <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded border border-blood-600 text-blood-500 align-middle">
+                            {strings.campaign.nemesisBadge}
+                          </span>
+                        )}
+                    </span>
                     <span className="text-bone-400 text-xs tabular-nums shrink-0">
                       {strings.campaign.rivalryRecord(r.wins, r.losses, r.draws)} ·{' '}
                       {strings.campaign.rivalryBattles(r.battles)}
@@ -489,6 +523,19 @@ function CampaignRivalries({
                   </summary>
                   <div className="pb-2 pl-1 space-y-1">
                     <p className="text-bone-400 text-xs">{strings.campaign.rivalryShardsSwung(r.wyrdstoneFound)}</p>
+                    {/* A nemesis needs a warband to point at (picked in pre-battle,
+                        not typed) and a rivalry worth the name: 2+ battles. */}
+                    {r.opponentWarbandId && r.battles >= 2 && (
+                      <button
+                        type="button"
+                        onClick={() => toggleNemesis(block.warbandId, r.opponentWarbandId!)}
+                        className="min-h-[36px] text-xs font-semibold text-ember-400"
+                      >
+                        {myWarbands.find((w) => w.id === block.warbandId)?.nemesisWarbandId === r.opponentWarbandId
+                          ? strings.campaign.unmarkNemesis
+                          : strings.campaign.markNemesis}
+                      </button>
+                    )}
                     {r.matches.map((m) => (
                       <div
                         key={m.battleId}
@@ -518,7 +565,7 @@ function CampaignRivalries({
   );
 }
 
-function StandingsTable({ rows }: { rows: StandingsRow[] }) {
+function StandingsTable({ rows, nemesisIds }: { rows: StandingsRow[]; nemesisIds: Set<string> }) {
   if (rows.length === 0) {
     return <p className="text-bone-300 text-sm">{strings.campaign.noStandings}</p>;
   }
@@ -545,6 +592,12 @@ function StandingsTable({ rows }: { rows: StandingsRow[] }) {
                     <Link to={`/rosters/${row.warbandId}`} className="text-ember-400 font-semibold">
                       {row.warbandName}
                     </Link>
+                    {/* §17.2 — purely cosmetic: a rival one of your warbands has marked. */}
+                    {nemesisIds.has(row.warbandId) && (
+                      <span className="ml-2 text-xs font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded border border-blood-600 text-blood-500 align-middle">
+                        {strings.campaign.nemesisBadge}
+                      </span>
+                    )}
                     <span className="block text-bone-400 text-xs">
                       {row.warbandType ? getWarbandTypeName(row.warbandType) : ''}
                     </span>
@@ -1217,7 +1270,10 @@ export default function CampaignScreen() {
               <section className="space-y-6">
                 <div className="space-y-3">
                   <SectionHeading>{strings.campaign.standingsSection}</SectionHeading>
-                  <StandingsTable rows={standings ?? []} />
+                  <StandingsTable
+                    rows={standings ?? []}
+                    nemesisIds={new Set(warbands.map((w) => w.nemesisWarbandId).filter((id): id is string => !!id))}
+                  />
                 </div>
                 {/* Comparison chart — only worth its own section once there's
                     actually something to compare. A lone entered warband has

@@ -9,11 +9,14 @@ import {
   fetchCustomWarbandTypes,
   updateCustomWarbandType,
 } from '../api/customWarbands';
+// The small custom-type module and the name map, not the registry: this hook
+// runs in the app shell, and the registry carries every warband data file.
 import {
-  getWarbandDefinition,
+  getCustomWarbandDefinition,
   registerCustomWarbandTypes,
   registerForeignCustomType,
-} from '../data/warbandRegistry';
+} from '../data/customWarbandTypes';
+import { isBuiltInWarbandType } from '../data/warbandNames';
 import { CUSTOM_ID_PREFIX, isCustomWarbandType } from '../lib/customWarband';
 import { WarbandDefinition } from '../data/types';
 
@@ -56,7 +59,10 @@ export function useEnsureWarbandType(warbandType: string | undefined): {
   ready: boolean;
   loading: boolean;
 } {
-  const alreadyResolvable = warbandType === undefined || getWarbandDefinition(warbandType) !== undefined;
+  const alreadyResolvable =
+    warbandType === undefined ||
+    isBuiltInWarbandType(warbandType) ||
+    getCustomWarbandDefinition(warbandType) !== undefined;
   const isForeignCustom = !!warbandType && isCustomWarbandType(warbandType) && !alreadyResolvable;
   const rowId = isForeignCustom ? warbandType!.slice(CUSTOM_ID_PREFIX.length) : '';
 

@@ -78,6 +78,12 @@ export default function GetStartedCard({
       >
         {step.cta}
       </Link>
+      {/* §26.6 — a campaign isn't required to play; say so where the app asks for one. */}
+      {stage === 'campaign' && (
+        <Link to="/post-battle" className="block text-center min-h-[44px] leading-[44px] text-ember-400 text-sm font-semibold">
+          {s.campaign.oneOff}
+        </Link>
+      )}
     </Card>
   );
 }

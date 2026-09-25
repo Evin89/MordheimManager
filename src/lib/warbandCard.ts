@@ -1,7 +1,7 @@
 import { Warband } from '../types';
 import { computeWarbandRating, isInWarband } from './rating';
 import { modelDisplayName } from './modelNames';
-import { getWarbandTypeName } from '../data/warbandRegistry';
+import { getWarbandTypeName } from '../data/warbandNames';
 
 /**
  * Renders a warband to a shareable card image, drawn straight onto a canvas —

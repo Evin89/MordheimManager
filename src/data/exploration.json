@@ -52,6 +52,7 @@
     },
     {
       "id": "shop",
+      "grants": [{ "type": "item", "equipmentId": "luckyCharm", "when": "goldRolledOne" }],
       "kind": "double",
       "face": 2,
       "count": 2,
@@ -74,10 +75,10 @@
         "dice": "D6",
         "entries": [
           { "roll": "1-2", "result": "D6 gc", "autoYield": { "gold": "D6" } },
-          { "roll": "3", "result": "Dagger" },
-          { "roll": "4", "result": "Axe" },
-          { "roll": "5", "result": "Sword" },
-          { "roll": "6", "result": "Suit of light armour" }
+          { "roll": "3", "result": "Dagger", "grants": [{ "type": "item", "equipmentId": "dagger" }] },
+          { "roll": "4", "result": "Axe", "grants": [{ "type": "item", "equipmentId": "axe" }] },
+          { "roll": "5", "result": "Sword", "grants": [{ "type": "item", "equipmentId": "sword" }] },
+          { "roll": "6", "result": "Suit of light armour", "grants": [{ "type": "item", "equipmentId": "lightArmour" }] }
         ]
       }
     },
@@ -99,10 +100,12 @@
         },
         {
           "warbands": ["cult-of-the-possessed"],
+          "grants": [{ "type": "xp", "to": "leader", "amount": "1" }],
           "effect": "Possessed warbands can sacrifice the unfortunate individual for the glory of the Chaos gods. The leader of the warband gains +1 Experience."
         },
         {
           "warbands": ["undead"],
+          "grants": [{ "type": "henchmen", "unit": "zombie", "count": "1" }],
           "effect": "Undead warbands can kill the man and gain a Zombie for no cost."
         }
       ]
@@ -119,9 +122,9 @@
       "subTable": {
         "dice": "D6",
         "entries": [
-          { "roll": "1-2", "result": "Mordheim Map (see Equipment)" },
+          { "roll": "1-2", "result": "Mordheim Map (see Equipment)", "grants": [{ "type": "item", "equipmentId": "mordheimMap" }] },
           { "roll": "3-4", "result": "A purse with 2D6 gc", "autoYield": { "gold": "2D6" } },
-          { "roll": "5-6", "result": "Jewelled sword and dagger. These can be kept or sold at twice the value of a normal sword and dagger. Note that the normal selling price is half the actual cost, so the jewelled sword sells for 10 gc, for instance." }
+          { "roll": "5-6", "result": "Jewelled sword and dagger. These can be kept or sold at twice the value of a normal sword and dagger. Note that the normal selling price is half the actual cost, so the jewelled sword sells for 10 gc, for instance.", "choices": [{ "label": "Keep them", "grants": [{ "type": "item", "equipmentId": "sword", "name": "Jewelled Sword", "notes": "Jewelled — sells for twice a normal sword." }, { "type": "item", "equipmentId": "dagger", "name": "Jewelled Dagger", "notes": "Jewelled — sells for twice a normal dagger." }] }, { "label": "Sell them (12 gc)", "grants": [{ "type": "gold", "amount": "12" }] }] }
         ]
       }
     },
@@ -138,6 +141,7 @@
     },
     {
       "id": "tavern",
+      "choices": [{ "label": "Leader passed his Leadership test", "grants": [{ "type": "gold", "amount": "4D6" }] }, { "label": "Leader failed", "grants": [{ "type": "gold", "amount": "D6" }] }],
       "kind": "triple",
       "face": 1,
       "count": 3,
@@ -146,7 +150,7 @@
       "flavour": "The ruin of a tavern is recognisable by its sign still hanging on the wall. The upper part of the building is ruined, but the cellars are cut into rock and are still full of barrels. There are broken flagons and tankards everywhere.",
       "effect": "You could easily sell the barrels for a good price. Unfortunately your men are also interested in the contents! The warband's leader must take a Leadership test. If he passes, the warband gains 4D6 gc worth of wines and ales which can be sold immediately. If he fails, the men drink most of the alcohol despite their leader's threats and curses and you have D6 gc worth of alcohol left when the warband reaches their encampment.",
       "warbandVariants": [
-        { "warbands": ["undead", "witch-hunters", "sisters-of-sigmar"], "effect": "Undead, Witch Hunter and Sisters of Sigmar warbands automatically pass this test, as they are not tempted by such worldly things as alcohol." }
+        { "warbands": ["undead", "witch-hunters", "sisters-of-sigmar"], "effect": "Undead, Witch Hunter and Sisters of Sigmar warbands automatically pass this test, as they are not tempted by such worldly things as alcohol.", "grants": [{ "type": "gold", "amount": "4D6" }] }
       ]
     },
     {
@@ -161,17 +165,18 @@
       "subTable": {
         "dice": "D6",
         "entries": [
-          { "roll": "1", "result": "Sword" },
-          { "roll": "2", "result": "Double-handed weapon" },
-          { "roll": "3", "result": "Flail" },
-          { "roll": "4", "result": "D3 Halberds" },
-          { "roll": "5", "result": "Lance" },
+          { "roll": "1", "result": "Sword", "grants": [{ "type": "item", "equipmentId": "sword" }] },
+          { "roll": "2", "result": "Double-handed weapon", "grants": [{ "type": "item", "equipmentId": "doubleHandedWeapon" }] },
+          { "roll": "3", "result": "Flail", "grants": [{ "type": "item", "equipmentId": "flail" }] },
+          { "roll": "4", "result": "D3 Halberds", "grants": [{ "type": "item", "equipmentId": "halberd", "count": "D3" }] },
+          { "roll": "5", "result": "Lance", "grants": [{ "type": "item", "equipmentId": "lance" }] },
           { "roll": "6", "result": "2D6 gc worth of metal (add the value to your treasury)", "autoYield": { "gold": "2D6" } }
         ]
       }
     },
     {
       "id": "prisoners",
+      "grants": [{ "type": "recruit" }],
       "kind": "triple",
       "face": 3,
       "count": 3,
@@ -183,10 +188,12 @@
       "warbandVariants": [
         {
           "warbands": ["cult-of-the-possessed"],
+          "grants": [{ "type": "xp", "to": "heroes", "amount": "D3" }],
           "effect": "Possessed warbands can sacrifice the victims (undoubtedly finishing the job of the captors). They gain D3 Experience which is distributed amongst the Heroes of the warband."
         },
         {
           "warbands": ["undead"],
+          "grants": [{ "type": "henchmen", "unit": "zombie", "count": "D3" }],
           "effect": "Undead warbands can callously kill the prisoners and gain D3 Zombies at no cost."
         },
         {
@@ -208,11 +215,11 @@
       "subTable": {
         "dice": "D6",
         "entries": [
-          { "roll": "1-2", "result": "D3 Short Bows" },
-          { "roll": "3", "result": "D3 Bows" },
-          { "roll": "4", "result": "D3 Long Bows" },
-          { "roll": "5", "result": "Quiver of Hunting Arrows" },
-          { "roll": "6", "result": "D3 Crossbows" }
+          { "roll": "1-2", "result": "D3 Short Bows", "grants": [{ "type": "item", "equipmentId": "shortBow", "count": "D3" }] },
+          { "roll": "3", "result": "D3 Bows", "grants": [{ "type": "item", "equipmentId": "bow", "count": "D3" }] },
+          { "roll": "4", "result": "D3 Long Bows", "grants": [{ "type": "item", "equipmentId": "longBow", "count": "D3" }] },
+          { "roll": "5", "result": "Quiver of Hunting Arrows", "grants": [{ "type": "item", "equipmentId": "huntingArrows" }] },
+          { "roll": "6", "result": "D3 Crossbows", "grants": [{ "type": "item", "equipmentId": "crossbow", "count": "D3" }] }
         ]
       }
     },
@@ -250,12 +257,12 @@
       "subTable": {
         "dice": "D6",
         "entries": [
-          { "roll": "1", "result": "Blunderbuss" },
-          { "roll": "2", "result": "Brace of Pistols" },
-          { "roll": "3", "result": "Brace of Duelling Pistols" },
-          { "roll": "4", "result": "D3 Handguns" },
-          { "roll": "5", "result": "D3 Flasks of Superior Blackpowder" },
-          { "roll": "6", "result": "Hochland Long Rifle" }
+          { "roll": "1", "result": "Blunderbuss", "grants": [{ "type": "item", "equipmentId": "blunderbuss" }] },
+          { "roll": "2", "result": "Brace of Pistols", "grants": [{ "type": "item", "equipmentId": "pistol", "count": "2", "notes": "One of a brace of pistols." }] },
+          { "roll": "3", "result": "Brace of Duelling Pistols", "grants": [{ "type": "item", "equipmentId": "duellingPistol", "count": "2", "notes": "One of a brace of duelling pistols." }] },
+          { "roll": "4", "result": "D3 Handguns", "grants": [{ "type": "item", "equipmentId": "handgun", "count": "D3" }] },
+          { "roll": "5", "result": "D3 Flasks of Superior Blackpowder", "grants": [{ "type": "item", "equipmentId": "superiorBlackpowder", "count": "D3" }] },
+          { "roll": "6", "result": "Hochland Long Rifle", "grants": [{ "type": "item", "equipmentId": "huntingRifle", "name": "Hochland Long Rifle" }] }
         ]
       }
     },
@@ -272,6 +279,7 @@
       "warbandVariants": [
         {
           "warbands": ["sisters-of-sigmar", "witch-hunters"],
+          "grants": [{ "type": "heroNote", "text": "Blessed weapon (Shrine): one weapon of your choice always wounds Undead or Possessed models on a 2+." }],
           "effect": "Sisters of Sigmar or Witch Hunter warbands may instead save some of the shrine's holy relics. They gain 3D6 gc from their patrons, and a blessing from the gods: one of their weapons (chosen by the player) is now blessed and will always wound any Undead or Possessed model on a to wound roll of 2+.",
           "autoYield": { "gold": "3D6" },
           "persistent": true
@@ -301,11 +309,11 @@
       "subTable": {
         "dice": "D6",
         "entries": [
-          { "roll": "1-2", "result": "D3 Shields or Bucklers (choose which)" },
-          { "roll": "3", "result": "D3 Helmets" },
-          { "roll": "4", "result": "D3 Suits of Light Armour" },
-          { "roll": "5", "result": "D3 Suits of Heavy Armour" },
-          { "roll": "6", "result": "Suit of Ithilmar Armour" }
+          { "roll": "1-2", "result": "D3 Shields or Bucklers (choose which)", "choices": [{ "label": "Shields", "grants": [{ "type": "item", "equipmentId": "shield", "count": "D3" }] }, { "label": "Bucklers", "grants": [{ "type": "item", "equipmentId": "buckler", "count": "D3" }] }] },
+          { "roll": "3", "result": "D3 Helmets", "grants": [{ "type": "item", "equipmentId": "helmet", "count": "D3" }] },
+          { "roll": "4", "result": "D3 Suits of Light Armour", "grants": [{ "type": "item", "equipmentId": "lightArmour", "count": "D3" }] },
+          { "roll": "5", "result": "D3 Suits of Heavy Armour", "grants": [{ "type": "item", "equipmentId": "heavyArmour", "count": "D3" }] },
+          { "roll": "6", "result": "Suit of Ithilmar Armour", "grants": [{ "type": "item", "equipmentId": "ithilmarArmour" }] }
         ]
       }
     },
@@ -323,6 +331,7 @@
       "warbandVariants": [
         {
           "warbands": ["witch-hunters", "sisters-of-sigmar"],
+          "grants": [{ "type": "xp", "to": "heroes", "amount": "D6" }],
           "effect": "Witch Hunters and Sisters of Sigmar may seal the graves instead. They are rewarded for their piety by D6 Experience points distributed amongst the Heroes of the warband."
         }
       ]
@@ -351,6 +360,7 @@
     },
     {
       "id": "alchemists-laboratory",
+      "grants": [{ "type": "skillList", "list": "academic" }],
       "kind": "fiveOfAKind",
       "face": 2,
       "count": 5,
@@ -374,15 +384,16 @@
       "subTable": {
         "dice": "D6",
         "entries": [
-          { "roll": "1-2", "result": "Quartz stones worth D6x5 gc" },
-          { "roll": "3-4", "result": "Amethyst worth 20 gc" },
-          { "roll": "5", "result": "Necklace worth 50 gc" },
-          { "roll": "6", "result": "A ruby worth D6x15 gc" }
+          { "roll": "1-2", "result": "Quartz stones worth D6x5 gc", "choices": [{ "label": "Sell the quartz (D6x5 gc)", "grants": [{ "type": "gold", "amount": "D6x5" }] }, { "label": "A Hero keeps it (+1 to rare-item rolls)", "grants": [{ "type": "heroNote", "text": "Keeps gems from the Jewelsmith: +1 to rolls for locating rare items." }] }] },
+          { "roll": "3-4", "result": "Amethyst worth 20 gc", "choices": [{ "label": "Sell the amethyst (20 gc)", "grants": [{ "type": "gold", "amount": "20" }] }, { "label": "A Hero keeps it (+1 to rare-item rolls)", "grants": [{ "type": "heroNote", "text": "Keeps gems from the Jewelsmith: +1 to rolls for locating rare items." }] }] },
+          { "roll": "5", "result": "Necklace worth 50 gc", "choices": [{ "label": "Sell the necklace (50 gc)", "grants": [{ "type": "gold", "amount": "50" }] }, { "label": "A Hero keeps it (+1 to rare-item rolls)", "grants": [{ "type": "heroNote", "text": "Keeps gems from the Jewelsmith: +1 to rolls for locating rare items." }] }] },
+          { "roll": "6", "result": "A ruby worth D6x15 gc", "choices": [{ "label": "Sell the ruby (D6x15 gc)", "grants": [{ "type": "gold", "amount": "D6x15" }] }, { "label": "A Hero keeps it (+1 to rare-item rolls)", "grants": [{ "type": "heroNote", "text": "Keeps gems from the Jewelsmith: +1 to rolls for locating rare items." }] }] }
         ]
       }
     },
     {
       "id": "merchants-house",
+      "grants": [{ "type": "merchantRoll" }],
       "kind": "fiveOfAKind",
       "face": 4,
       "count": 5,
@@ -394,6 +405,7 @@
     },
     {
       "id": "shattered-building",
+      "grants": [{ "type": "henchmen", "unit": "dog", "count": "1", "test": "Leader passed the Leadership test" }],
       "kind": "fiveOfAKind",
       "face": 5,
       "count": 5,
@@ -436,14 +448,14 @@
       "itemChecklist": {
         "dice": "D6",
         "entries": [
-          { "item": "D3 Pieces of wyrdstone", "required": "4+" },
+          { "item": "D3 Pieces of wyrdstone", "required": "4+", "grants": [{ "type": "shards", "amount": "D3" }] },
           { "item": "5D6x5 gc", "required": "Auto", "autoYield": { "gold": "5D6x5" } },
-          { "item": "Holy Relic", "required": "5+" },
-          { "item": "Suit of Heavy Armour", "required": "5+" },
-          { "item": "D3 Gems worth 10 gc each", "required": "4+" },
-          { "item": "Elven Cloak", "required": "5+" },
-          { "item": "Holy Tome", "required": "5+" },
-          { "item": "Magical Artefact", "required": "5+" }
+          { "item": "Holy Relic", "required": "5+", "grants": [{ "type": "item", "equipmentId": "holyUnholyRelic" }] },
+          { "item": "Suit of Heavy Armour", "required": "5+", "grants": [{ "type": "item", "equipmentId": "heavyArmour" }] },
+          { "item": "D3 Gems worth 10 gc each", "required": "4+", "grants": [{ "type": "gold", "amount": "D3x10" }] },
+          { "item": "Elven Cloak", "required": "5+", "grants": [{ "type": "item", "equipmentId": "elvenCloak" }] },
+          { "item": "Holy Tome", "required": "5+", "grants": [{ "type": "item", "equipmentId": "holyTome" }] },
+          { "item": "Magical Artefact", "required": "5+", "grants": [{ "type": "artefact" }] }
         ]
       }
     },
@@ -459,12 +471,12 @@
       "subTable": {
         "dice": "D6",
         "entries": [
-          { "roll": "1", "result": "D3 Double-handed axes" },
-          { "roll": "2", "result": "D3 Suits of Heavy Armour" },
-          { "roll": "3", "result": "Gromril Axe" },
-          { "roll": "4", "result": "Gromril Hammer" },
-          { "roll": "5", "result": "Double-handed Gromril Axe" },
-          { "roll": "6", "result": "Gromril Armour" }
+          { "roll": "1", "result": "D3 Double-handed axes", "grants": [{ "type": "item", "equipmentId": "doubleHandedWeapon", "count": "D3", "name": "Double-handed Axe" }] },
+          { "roll": "2", "result": "D3 Suits of Heavy Armour", "grants": [{ "type": "item", "equipmentId": "heavyArmour", "count": "D3" }] },
+          { "roll": "3", "result": "Gromril Axe", "grants": [{ "type": "item", "equipmentId": "gromrilWeapon", "name": "Gromril Axe" }] },
+          { "roll": "4", "result": "Gromril Hammer", "grants": [{ "type": "item", "equipmentId": "gromrilWeapon", "name": "Gromril Hammer" }] },
+          { "roll": "5", "result": "Double-handed Gromril Axe", "grants": [{ "type": "item", "equipmentId": "gromrilWeapon", "name": "Double-handed Gromril Axe" }] },
+          { "roll": "6", "result": "Gromril Armour", "grants": [{ "type": "item", "equipmentId": "gromrilArmour" }] }
         ]
       }
     },
@@ -481,20 +493,21 @@
         "dice": "D6",
         "entries": [
           { "item": "3D6x5 gc", "required": "Auto", "autoYield": { "gold": "3D6x5" } },
-          { "item": "D3 Suits of Light Armour", "required": "4+" },
-          { "item": "Suit of Heavy Armour", "required": "5+" },
-          { "item": "D6 Daggers", "required": "Auto" },
-          { "item": "Mordheim Map", "required": "4+" },
-          { "item": "D3 Halberds", "required": "5+" },
-          { "item": "D3 Swords", "required": "3+" },
-          { "item": "D3 Shields", "required": "2+" },
-          { "item": "D3 Bows", "required": "4+" },
-          { "item": "D3 Helmets", "required": "2+" }
+          { "item": "D3 Suits of Light Armour", "required": "4+", "grants": [{ "type": "item", "equipmentId": "lightArmour", "count": "D3" }] },
+          { "item": "Suit of Heavy Armour", "required": "5+", "grants": [{ "type": "item", "equipmentId": "heavyArmour" }] },
+          { "item": "D6 Daggers", "required": "Auto", "grants": [{ "type": "item", "equipmentId": "dagger", "count": "D6" }] },
+          { "item": "Mordheim Map", "required": "4+", "grants": [{ "type": "item", "equipmentId": "mordheimMap" }] },
+          { "item": "D3 Halberds", "required": "5+", "grants": [{ "type": "item", "equipmentId": "halberd", "count": "D3" }] },
+          { "item": "D3 Swords", "required": "3+", "grants": [{ "type": "item", "equipmentId": "sword", "count": "D3" }] },
+          { "item": "D3 Shields", "required": "2+", "grants": [{ "type": "item", "equipmentId": "shield", "count": "D3" }] },
+          { "item": "D3 Bows", "required": "4+", "grants": [{ "type": "item", "equipmentId": "bow", "count": "D3" }] },
+          { "item": "D3 Helmets", "required": "2+", "grants": [{ "type": "item", "equipmentId": "helmet", "count": "D3" }] }
         ]
       }
     },
     {
       "id": "fighting-arena",
+      "choices": [{ "label": "Sell the manual (100 gc)", "grants": [{ "type": "gold", "amount": "100" }] }, { "label": "A Hero reads it", "grants": [{ "type": "skillList", "list": "combat" }, { "type": "heroNote", "text": "Read the Fighting Arena manual: WS may be raised one point above the racial maximum." }] }],
       "kind": "sixOfAKind",
       "face": 5,
       "count": 6,
@@ -517,8 +530,8 @@
         "dice": "D6",
         "entries": [
           { "roll": "1-2", "result": "D6x10 gc worth of items and money to add to your treasury", "autoYield": { "gold": "D6x10" } },
-          { "roll": "3-4", "result": "D6 vials of Crimson Shade" },
-          { "roll": "5-6", "result": "A hidden magical artefact carefully concealed in a hidden cellar or behind a secret door. Roll on the Magical Artefacts table." }
+          { "roll": "3-4", "result": "D6 vials of Crimson Shade", "grants": [{ "type": "item", "equipmentId": "crimsonShade", "count": "D6" }] },
+          { "roll": "5-6", "result": "A hidden magical artefact carefully concealed in a hidden cellar or behind a secret door. Roll on the Magical Artefacts table.", "grants": [{ "type": "artefact" }] }
         ]
       }
     }

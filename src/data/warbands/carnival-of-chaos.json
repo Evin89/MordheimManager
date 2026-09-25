@@ -198,7 +198,8 @@
         },
         {
           "name": "Demonic",
-          "description": "never gains Experience. Immune to Poison."
+          "description": "never gains Experience. Immune to Poison.",
+          "effects": { "noExperience": true }
         },
         {
           "ref": "immuneToPsychology"
@@ -247,7 +248,8 @@
       "specialRules": [
         {
           "name": "Swarm",
-          "description": "unlike other Henchmen groups, may have more than 5 Nurglings in the group. No weapons/armour. Cloud of Flies, Demonic (never gains Experience), Immune to Poison, Immune to Psychology, Daemonic Aura (5+ save, negated by magic), Daemonic Instability — same as Plague Bearers."
+          "description": "unlike other Henchmen groups, may have more than 5 Nurglings in the group. No weapons/armour. Cloud of Flies, Demonic (never gains Experience), Immune to Poison, Immune to Psychology, Daemonic Aura (5+ save, negated by magic), Daemonic Instability — same as Plague Bearers.",
+          "effects": { "noExperience": true }
         }
       ]
     },
@@ -321,7 +323,8 @@
       "specialRules": [
         {
           "name": "Special rules",
-          "description": "Plague Cart increases the warband's maximum warriors by +2, and lets Plague Bearers/Nurglings re-roll Instability Leadership tests and get +1 on Injury tests if taken Out of Action. Guardian is bonded to the cart (can never dismount/leave, can't be injured unless the Cart itself is destroyed, never gains Experience, its attacks cause Nurgle's Rot), and is Immune to Psychology (as is the Plague Cart itself)."
+          "description": "Plague Cart increases the warband's maximum warriors by +2, and lets Plague Bearers/Nurglings re-roll Instability Leadership tests and get +1 on Injury tests if taken Out of Action. Guardian is bonded to the cart (can never dismount/leave, can't be injured unless the Cart itself is destroyed, never gains Experience, its attacks cause Nurgle's Rot), and is Immune to Psychology (as is the Plague Cart itself).",
+          "effects": { "noExperience": true }
         }
       ]
     }

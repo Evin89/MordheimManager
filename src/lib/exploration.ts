@@ -1,5 +1,11 @@
 import explorationData from '../data/exploration.json';
-import { ExplorationData, ExplorationResult, ExplorationYield } from '../data/types';
+import {
+  ExplorationChoice,
+  ExplorationData,
+  ExplorationGrant,
+  ExplorationResult,
+  ExplorationYield,
+} from '../data/types';
 
 const data = explorationData as ExplorationData;
 
@@ -96,3 +102,37 @@ export function subTableRowFor(result: ExplorationResult, roll: number) {
     return roll >= min && roll <= max;
   });
 }
+
+/**
+ * What an Exploration result puts on the roster beyond gold and shards, for the
+ * post-battle wizard to offer (§15, the "results the app can't apply" gap).
+ *
+ * A warband variant replaces the generic result's grants and choices entirely —
+ * Skaven selling prisoners don't also recruit one — while a sub-table row adds
+ * its own on top. Checklist entries (Hidden Treasure, Slaughtered Warband) are
+ * returned separately, since each needs its own roll to be found at all.
+ */
+export type GrantOffers = {
+  grants: ExplorationGrant[];
+  choices: ExplorationChoice[] | null;
+  checklist: { item: string; required: string; grants: ExplorationGrant[] }[];
+};
+
+export function grantOffersFor(result: ExplorationResult, warbandType: string, subRoll: number | null): GrantOffers {
+  const variant = result.warbandVariants?.find((v) => v.warbands.includes(warbandType));
+  const row = subRoll !== null ? subTableRowFor(result, subRoll) : undefined;
+
+  const grants = [...(variant ? (variant.grants ?? []) : (result.grants ?? [])), ...(row?.grants ?? [])];
+  const choices = row?.choices ?? (variant ? null : (result.choices ?? null));
+  const checklist = (result.itemChecklist?.entries ?? [])
+    .filter((e) => e.grants && e.grants.length > 0)
+    .map((e) => ({ item: e.item, required: e.required, grants: e.grants! }));
+
+  return { grants, choices, checklist };
+}
+
+/** The Magical Artefacts table (D6), for the "roll on the artefact table" results. */
+export function magicalArtefacts(): { roll: string; name: string }[] {
+  return data.magicalArtefacts.entries.map((e) => ({ roll: e.roll, name: e.name }));
+}
+

@@ -273,7 +273,8 @@
         },
         {
           "name": "Animals",
-          "description": "Scorpions are animals and do not gain experience points."
+          "description": "Scorpions are animals and do not gain experience points.",
+          "effects": { "noExperience": true }
         },
         {
           "name": "Scorpions sting*",

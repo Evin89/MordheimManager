@@ -317,7 +317,8 @@
         },
         {
           "name": "Skills",
-          "description": "if promoted to Hero via \"The lad's got talent\", may choose from Combat and Strength skills."
+          "description": "if promoted to Hero via \"The lad's got talent\", may choose from Combat and Strength skills.",
+          "effects": { "promotionSkillLists": { "fixed": ["combat", "strength"] } }
         },
         {
           "name": "Slow-witted",

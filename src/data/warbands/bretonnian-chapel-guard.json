@@ -214,7 +214,8 @@
       "specialRules": [
         {
           "name": "Knighthood",
-          "description": "When a Squire rolls \"The Lad's Got Talent\", you may choose one of two options when promoting him to a hero: to have him remain a Squire, or to have him become a Knight Errant. (Note: in this manner, you may have more than three Knights Errant in your Warband).\n\nIf you choose to keep him a Squire, he may choose two skill lists from following lists: Combat, Academic, Strength, or Speed. He retains his normal Squire equipment tables.\n\nIf you choose to make him a Knight Errant, he immediately gains the following rules/bonuses instead of receiving an immediate advancement: ‘Knight’, ‘Vain’ and ‘Impetuous’. The new knight may learn Special Skills, in addition to two other skill sets, but must immediately switch his equipment to Knight Equipment list. The new knight may never use missile weapons."
+          "description": "When a Squire rolls \"The Lad's Got Talent\", you may choose one of two options when promoting him to a hero: to have him remain a Squire, or to have him become a Knight Errant. (Note: in this manner, you may have more than three Knights Errant in your Warband).\n\nIf you choose to keep him a Squire, he may choose two skill lists from following lists: Combat, Academic, Strength, or Speed. He retains his normal Squire equipment tables.\n\nIf you choose to make him a Knight Errant, he immediately gains the following rules/bonuses instead of receiving an immediate advancement: ‘Knight’, ‘Vain’ and ‘Impetuous’. The new knight may learn Special Skills, in addition to two other skill sets, but must immediately switch his equipment to Knight Equipment list. The new knight may never use missile weapons.",
+          "effects": { "promotionSkillLists": { "choose": 2, "from": ["combat", "academic", "strength", "speed"] } }
         }
       ]
     },

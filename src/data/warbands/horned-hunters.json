@@ -289,7 +289,8 @@
       "specialRules": [
         {
           "name": "Animals",
-          "description": "Warhounds are animals and thus do not gain experience."
+          "description": "Warhounds are animals and thus do not gain experience.",
+          "effects": { "noExperience": true }
         }
       ]
     }

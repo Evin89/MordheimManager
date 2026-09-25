@@ -6,10 +6,13 @@ import {
   MAX_DICE_KEPT,
   baseDiceCount,
   findMultiple,
+  grantOffersFor,
   resolveForWarband,
   shardsForTotal,
   subTableRowFor,
 } from '../../lib/exploration';
+import ExplorationGrants, { GrantSelection } from './ExplorationGrants';
+import { previewWarbandAfterDeaths } from './draftHelpers';
 import { ExplorationYield } from '../../data/types';
 import { StepProps } from './types';
 
@@ -34,6 +37,8 @@ export default function ExplorationRoll({ warband, draft, updateDraft }: StepPro
 
   const [diceCount, setDiceCount] = useState(dice.length || suggestedDice);
   const [subRoll, setSubRoll] = useState<number | null>(null);
+  // §15 — what the player confirmed in the grants panel, applied with the result.
+  const [grantSel, setGrantSel] = useState<GrantSelection | null>(null);
 
   const kept = keptIndices.map((i) => dice[i]).filter((n) => n !== undefined);
   const total = kept.reduce((sum, n) => sum + n, 0);
@@ -43,6 +48,7 @@ export default function ExplorationRoll({ warband, draft, updateDraft }: StepPro
   /** Any change to the dice invalidates an accepted result, so its gold can't be banked twice. */
   function setDice(next: number[], nextKept: number[]) {
     setSubRoll(null);
+    setGrantSel(null);
     updateDraft({
       exploration: { dice: next, keptIndices: nextKept, resolved: null },
       wyrdstoneFound: shardsForTotal(nextKept.map((i) => next[i]).reduce((sum, n) => sum + n, 0)),
@@ -76,12 +82,20 @@ export default function ExplorationRoll({ warband, draft, updateDraft }: StepPro
     const autoChecklist = (result.itemChecklist?.entries ?? []).filter((e) => e.required === 'Auto');
 
     const sources = [outcome.autoYield, row?.autoYield, ...autoChecklist.map((e) => e.autoYield)];
-    const gold = rollYield(sources, 'gold');
-    const extraShards = rollYield(sources, 'shards');
+    const rolledGold = rollYield(sources, 'gold');
+    // The Shop's Lucky Charm comes only with a gold roll of exactly 1.
+    const grants = [...(grantSel?.applied ?? []), ...(rolledGold === 1 ? (grantSel?.onGoldRolledOne ?? []) : [])];
+    const grantLines = [
+      ...(grantSel?.lines ?? []),
+      ...(rolledGold === 1 ? (grantSel?.onGoldRolledOne ?? []).map((g) => (g.type === 'item' ? t.grants.itemLine(g.count, g.name) : '')) : []),
+    ].filter(Boolean);
+    const gold = rolledGold + (grantSel?.gold ?? 0);
+    const extraShards = rollYield(sources, 'shards') + (grantSel?.shards ?? 0);
 
     const noteParts = [`Exploration: ${result.name} (${result.combination})`];
     if (row) noteParts.push(t.subRollResult(subRoll as number, row.result));
     noteParts.push(outcome.effect);
+    if (grantLines.length > 0) noteParts.push(`Applied: ${grantLines.join('; ')}`);
     const note = noteParts.join(' — ');
 
     updateDraft({
@@ -95,6 +109,8 @@ export default function ExplorationRoll({ warband, draft, updateDraft }: StepPro
           shards: extraShards,
           note,
           persistentNote: outcome.persistent ? `[${draft.date}] ${result.name}: ${outcome.effect}` : null,
+          grants,
+          grantLines,
         },
       },
       wyrdstoneFound: shards + extraShards,
@@ -205,11 +221,34 @@ export default function ExplorationRoll({ warband, draft, updateDraft }: StepPro
             </div>
           )}
 
+          {/* The grants panel appears once any sub-table roll is in, and is
+              keyed to the result + roll so a re-roll starts it fresh. */}
+          {!resolved && (!match.result.subTable || subRoll !== null) && (
+            <ExplorationGrants
+              key={`${match.result.id}-${subRoll ?? ''}`}
+              warband={previewWarbandAfterDeaths(warband, draft)}
+              offers={grantOffersFor(match.result, warband.warbandType, subRoll)}
+              onChange={setGrantSel}
+            />
+          )}
+
           {resolved ? (
             <div className="space-y-1">
               {resolved.gold > 0 && <p className="text-ember-400 font-semibold">{t.appliedGold(resolved.gold)}</p>}
               {resolved.shards > 0 && <p className="text-ember-400 font-semibold">{t.appliedShards(resolved.shards)}</p>}
-              <p className="text-bone-300 text-xs">{t.manualNotice}</p>
+              {(resolved.grantLines?.length ?? 0) > 0 && (
+                <div className="space-y-0.5">
+                  <p className="text-bone-300 text-xs">{t.appliedGrants}</p>
+                  <ul className="list-disc pl-5 text-ember-400 text-sm">
+                    {resolved.grantLines!.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <p className="text-bone-300 text-xs">
+                {(resolved.grantLines?.length ?? 0) > 0 ? t.manualNoticeWithGrants : t.manualNotice}
+              </p>
               {resolved.persistentNote && <p className="text-bone-300 text-xs">{t.persistentNotice}</p>}
               <button
                 type="button"

@@ -25,10 +25,35 @@ export type NullableStatLine = { [K in keyof StatLine]: number | null };
  */
 export type UnitSpecialRule = InlineSpecialRule | SharedSpecialRuleRef;
 
+/**
+ * What a special rule *does*, in a form the app can act on — the machine-readable
+ * half of the prose in `description`. Only the effects something in the app
+ * consults are modelled; everything else stays text for the player.
+ */
+export type SpecialRuleEffects = {
+  /** The model never gains Experience (animals, zombies, demons, peasants…).
+   * Read by the post-battle wizard and the advance checks. */
+  noExperience?: boolean;
+  /**
+   * Which skill lists a Henchman promoted by "That Lad's Got Talent" may take.
+   * The rulebook default is two lists from those the warband's Heroes use;
+   * `fixed` replaces the choice outright, `from` narrows the pool, `exclude`
+   * removes lists from it, and `extra` adds lists on top of the chosen ones.
+   */
+  promotionSkillLists?: {
+    choose?: number;
+    from?: string[];
+    exclude?: string[];
+    fixed?: string[];
+    extra?: string[];
+  };
+};
+
 /** Written out on the unit, for a rule no other warband shares. */
 export type InlineSpecialRule = {
   name: string;
   description: string;
+  effects?: SpecialRuleEffects;
 };
 
 export type SharedSpecialRuleRef = {
@@ -47,6 +72,7 @@ export type ResolvedSpecialRule = {
   note?: string;
   /** Set when the rule came from specialRules.json, for linking to it. */
   sharedId?: string;
+  effects?: SpecialRuleEffects;
 };
 
 export type SharedSpecialRule = {
@@ -54,6 +80,7 @@ export type SharedSpecialRule = {
   name: string;
   description: string;
   params?: Record<string, string>;
+  effects?: SpecialRuleEffects;
 };
 
 export type SpecialRulesData = {
@@ -419,17 +446,63 @@ export type ExplorationYield = {
   shards?: string; // e.g. "D3"
 };
 
+/**
+ * Something an Exploration result puts on the roster, beyond gold and shards —
+ * the structured form of what `effect` says in prose, so the post-battle wizard
+ * can apply it (with the player confirming) instead of leaving it as a note.
+ * Counts and amounts are dice expressions ("D3", "2D6x5") or plain numbers.
+ */
+export type ExplorationGrant =
+  | {
+      type: 'item';
+      /** Catalogue id in equipment.json. */
+      equipmentId: string;
+      count?: string;
+      /** Display name when it differs from the catalogue's (e.g. "Gromril Axe"). */
+      name?: string;
+      notes?: string;
+      /** Only when the result's gold roll came up 1 (the Shop's Lucky Charm). */
+      when?: 'goldRolledOne';
+    }
+  | { type: 'gold'; amount: string }
+  | { type: 'shards'; amount: string }
+  /** Leader, or spread over the Heroes as the player chooses. */
+  | { type: 'xp'; to: 'leader' | 'heroes'; amount: string }
+  /** A Hero of the player's choice may now pick from this skill list. */
+  | { type: 'skillList'; list: string }
+  | { type: 'skill'; skill: string }
+  /** A standing benefit with no mechanical home, written on the chosen Hero. */
+  | { type: 'heroNote'; text: string }
+  /** Free models of the warband's own zombie or dog unit; `test` is a condition
+   * the player confirms (e.g. a Leadership test) before they join. */
+  | { type: 'henchmen'; unit: 'zombie' | 'dog'; count: string; test?: string }
+  /** One free Henchman added to a human Henchman group of the player's choice. */
+  | { type: 'recruit' }
+  /** A roll on the Magical Artefacts table. */
+  | { type: 'artefact' }
+  /** The Merchant's House: 2D6x5 gc, or the Freetraders' symbol (Haggle) on a double. */
+  | { type: 'merchantRoll' };
+
+/** Mutually exclusive outcomes the player picks between (sell or keep, a test passed or failed). */
+export type ExplorationChoice = { label: string; grants: ExplorationGrant[] };
+
 /** A nested D6 roll that decides what a location yields (e.g. the Smithy's weapon table). */
 export type ExplorationSubTable = {
   dice: string; // always "D6" in the core rules, kept explicit for future supplements
-  entries: { roll: string; result: string; autoYield?: ExplorationYield }[];
+  entries: {
+    roll: string;
+    result: string;
+    autoYield?: ExplorationYield;
+    grants?: ExplorationGrant[];
+    choices?: ExplorationChoice[];
+  }[];
 };
 
 /** Loot rolled for item-by-item rather than once (Hidden Treasure, Slaughtered Warband). */
 export type ExplorationItemChecklist = {
   dice: string;
   // required is "4+", "Auto", etc.
-  entries: { item: string; required: string; autoYield?: ExplorationYield }[];
+  entries: { item: string; required: string; autoYield?: ExplorationYield; grants?: ExplorationGrant[] }[];
 };
 
 export type ExplorationResult = {
@@ -448,12 +521,16 @@ export type ExplorationResult = {
   persistent?: boolean;
   subTable?: ExplorationSubTable;
   itemChecklist?: ExplorationItemChecklist;
+  grants?: ExplorationGrant[];
+  choices?: ExplorationChoice[];
   // Warbands that resolve this location differently, keyed by warband definition id.
   warbandVariants?: {
     warbands: string[];
     effect: string;
     autoYield?: ExplorationYield;
     persistent?: boolean;
+    /** Replaces the generic result's grants and choices for these warbands. */
+    grants?: ExplorationGrant[];
   }[];
 };
 

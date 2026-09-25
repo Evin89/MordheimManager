@@ -12,15 +12,17 @@ export type RivalryMatch = {
 /**
  * A running head-to-head against one opponent (spec §17.2).
  *
- * Keyed by opponent **name**, not warband id. §17.2 assumed a match "by warband
- * id", but `BattleRecord.opponents` is `string[]` — the names typed or picked in
- * the pre-battle flow, never the opponent's warband id. So a rivalry is grouped
- * by the name as recorded, which is what the data actually holds. (The persisted
- * `nemesisWarbandId` field §17.2 also proposed is not built for the same reason:
- * there is no id to point at until the battle record starts capturing the
- * opponent's warband id, a separate change to the pre-battle flow.)
+ * Keyed by the opponent's **warband id** when the battle recorded one (an
+ * opponent picked from a roster in pre-battle — `opponentWarbandIds`), else by
+ * the name as recorded (typed opponents, and every battle from before ids were
+ * captured). Name-only history is folded into an id-keyed rivalry of the same
+ * name, so a rivalry doesn't split in two on the day ids started being saved.
  */
 export type RivalryRecord = {
+  /** The opponent's warband id, when any battle in the rivalry captured it —
+   * what makes it eligible to be marked as a nemesis. */
+  opponentWarbandId: string | null;
+  /** The most recent name the opponent was recorded under. */
   opponentName: string;
   wins: number;
   losses: number;
@@ -45,13 +47,19 @@ export type RivalryRecord = {
 export function computeRivalries(battles: BattleRecord[]): RivalryRecord[] {
   const byOpponent = new Map<string, RivalryRecord>();
 
-  for (const b of battles) {
+  // Oldest first, so the name a rivalry ends up with is the latest one used.
+  const ordered = [...battles].sort((a, z) => a.date.localeCompare(z.date));
+
+  for (const b of ordered) {
     for (const raw of b.opponents) {
       const name = raw.trim();
       if (!name) continue;
+      const id = b.opponentWarbandIds?.[name] ?? null;
+      const key = id ? `id:${id}` : `name:${name}`;
       const rivalry =
-        byOpponent.get(name) ??
+        byOpponent.get(key) ??
         {
+          opponentWarbandId: id,
           opponentName: name,
           wins: 0,
           losses: 0,
@@ -62,6 +70,7 @@ export function computeRivalries(battles: BattleRecord[]): RivalryRecord[] {
           matches: [],
         };
 
+      rivalry.opponentName = name;
       rivalry.battles += 1;
       if (b.result === 'win') rivalry.wins += 1;
       else if (b.result === 'loss') rivalry.losses += 1;
@@ -76,8 +85,25 @@ export function computeRivalries(battles: BattleRecord[]): RivalryRecord[] {
         wyrdstoneFound: b.wyrdstoneFound,
       });
 
-      byOpponent.set(name, rivalry);
+      byOpponent.set(key, rivalry);
     }
+  }
+
+  // Fold name-only history into an id-keyed rivalry recorded under that name.
+  for (const [key, named] of byOpponent) {
+    if (!key.startsWith('name:')) continue;
+    const target = [...byOpponent.values()].find(
+      (r) => r.opponentWarbandId !== null && r.opponentName === named.opponentName,
+    );
+    if (!target) continue;
+    target.wins += named.wins;
+    target.losses += named.losses;
+    target.draws += named.draws;
+    target.battles += named.battles;
+    target.wyrdstoneFound += named.wyrdstoneFound;
+    target.matches.push(...named.matches);
+    if (named.lastBattleDate > target.lastBattleDate) target.lastBattleDate = named.lastBattleDate;
+    byOpponent.delete(key);
   }
 
   for (const rivalry of byOpponent.values()) {

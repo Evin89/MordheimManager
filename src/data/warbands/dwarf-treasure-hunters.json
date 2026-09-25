@@ -148,7 +148,8 @@
         },
         {
           "name": "Slayer Skills",
-          "description": "may pick from the Troll Slayer skill list as well as their normal lists."
+          "description": "may pick from the Troll Slayer skill list as well as their normal lists.",
+          "effects": { "promotionSkillLists": { "choose": 2, "extra": ["trollSlayers"] } }
         }
       ]
     }

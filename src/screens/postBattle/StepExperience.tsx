@@ -1,3 +1,4 @@
+import { unitGainsExperience } from '../../lib/ruleEffects';
 import { Card } from '../../components/ui';
 import { strings } from '../../strings';
 import scenariosData from '../../data/scenarios.json';
@@ -150,9 +151,14 @@ export default function StepExperience({ warband, draft, updateDraft }: StepProp
         })}
 
       {warband.henchmenGroups
-        // Animals never gain Experience; a group wiped out this battle has
-        // nobody left to gain any.
-        .filter((g) => !g.isAnimal && group_survivors(g.count, draft.henchmenGroups[g.id]?.diedCount ?? 0) > 0)
+        // Units whose rules say they never gain Experience (animals, zombies,
+        // demons, peasants — read from the rule effects, not just the animal
+        // flag); a group wiped out this battle has nobody left to gain any.
+        .filter(
+          (g) =>
+            unitGainsExperience(warband.warbandType, g) &&
+            group_survivors(g.count, draft.henchmenGroups[g.id]?.diedCount ?? 0) > 0,
+        )
         .map((group) => {
           const state = draft.henchmenGroups[group.id];
           if (!state) return null;

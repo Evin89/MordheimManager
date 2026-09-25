@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
 import { usePublicWarbandsQuery } from '../hooks/useWarbands';
-import { getWarbandTypeName, warbandDefinitions } from '../data/warbandRegistry';
+import { builtInWarbandNames, getWarbandTypeName } from '../data/warbandNames';
 import { PublicWarbandRow } from '../types';
+import { useWarbandThumbnails } from '../hooks/usePhotos';
+import { WarbandThumb } from './WarbandPhoto';
 
 /**
  * Narrows the gallery by free-text search and warband type.
@@ -64,10 +66,16 @@ export default function PublicWarbandBrowser() {
   // can only ever return nothing is worse than no filter.
   const availableTypes = useMemo(() => {
     const present = new Set((warbands ?? []).map((w) => w.warbandType));
-    return warbandDefinitions.filter((d) => present.has(d.id));
+    return builtInWarbandNames.filter((d) => present.has(d.id));
   }, [warbands]);
 
   const visible = useMemo(() => filterPublicWarbands(warbands, search, type), [warbands, search, type]);
+
+  // §4.7 / §11.4 — group shots on the cards. Photos are signed-in only (§11.5:
+  // the gallery is anon-readable, and a picture there would be open to the
+  // whole internet), so a signed-out visitor asks for none and is told why.
+  // One records query and one signing call for every loaded card.
+  const thumbnails = useWarbandThumbnails(user ? warbands.map((w) => w.id) : []);
 
   if (isLoading) return <p className="text-bone-300">{strings.common.loading}</p>;
   if (isError) return <p className="text-bone-300">{strings.connection.lost}</p>;
@@ -75,6 +83,7 @@ export default function PublicWarbandBrowser() {
   return (
     <div className="space-y-3">
       <p className="text-bone-300 text-sm">{strings.warbandList.publicIntro}</p>
+      {!user && <p className="text-bone-400 text-xs">{strings.warbandList.publicPhotosSignedIn}</p>}
 
       <div className="flex gap-2 flex-wrap">
         <input
@@ -119,7 +128,8 @@ export default function PublicWarbandBrowser() {
               className="block rounded-lg bg-ink-900 border border-ink-800 p-4 hover:border-ink-700 transition-colors"
             >
               <div className="flex items-center justify-between gap-3">
-                <div className="min-w-0">
+                <WarbandThumb url={thumbnails[warband.id]} alt={warband.name} />
+                <div className="min-w-0 flex-1">
                   <p className="text-bone-100 font-semibold truncate">
                     {warband.name}
                     {warband.ownerId === user?.id && (

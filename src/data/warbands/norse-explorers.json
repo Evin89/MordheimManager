@@ -299,7 +299,8 @@
       "specialRules": [
         {
           "name": "Animals",
-          "description": "Wolves are animals and thus do not gain experience."
+          "description": "Wolves are animals and thus do not gain experience.",
+          "effects": { "noExperience": true }
         },
         {
           "name": "Pack Leader",

@@ -337,7 +337,8 @@
         },
         {
           "name": "Non-sentient:",
-          "description": "Spiders are affected by the stupidity rules in the Mordheim rulebook. In addition, they never gain experience, as they are animals. Note however that they may climb as normal."
+          "description": "Spiders are affected by the stupidity rules in the Mordheim rulebook. In addition, they never gain experience, as they are animals. Note however that they may climb as normal.",
+          "effects": { "noExperience": true }
         },
         {
           "name": "May Ride:",

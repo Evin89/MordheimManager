@@ -1,15 +1,17 @@
-import { ReactElement, Suspense, lazy } from 'react';
+import { ReactElement, Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
 import { ChunkErrorBoundary } from './components/ChunkErrorBoundary';
 import NavTour from './components/NavTour';
 import WhatsNewOverlay from './components/WhatsNewOverlay';
+import LeaderClaimPrompt from './components/LeaderClaimPrompt';
 import DiceButton from './components/DiceButton';
 import ReportIssueButton from './components/ReportIssueButton';
 import SideNav from './components/SideNav';
 import ConnectionBanner from './components/ConnectionBanner';
 import ConsentBanner from './components/ConsentBanner';
 import RequireAuth from './auth/RequireAuth';
+import { useAuth } from './auth/AuthProvider';
 import NotFoundScreen from './screens/NotFoundScreen';
 import { useRegisterCustomWarbands } from './hooks/useCustomWarbands';
 import { usePageviews } from './lib/usePageviews';
@@ -18,8 +20,16 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import WarbandListScreen from './screens/WarbandListScreen';
-import RosterScreen from './screens/RosterScreen';
-import SettingsScreen from './screens/SettingsScreen';
+
+// Roster and Account were eager, which put the whole warband registry (every
+// warband data file) and the game-data catalogues into the first-load bundle
+// for someone who only opened Home. They're lazy now, and prefetched once the
+// first screen is idle (below), so in practice the chunk is already cached
+// when the user taps into a warband.
+const loadRosterScreen = () => import('./screens/RosterScreen');
+const loadSettingsScreen = () => import('./screens/SettingsScreen');
+const RosterScreen = lazy(loadRosterScreen);
+const SettingsScreen = lazy(loadSettingsScreen);
 
 const AdminLayout = lazy(() => import('./screens/admin/AdminLayout'));
 const AdminOverviewScreen = lazy(() => import('./screens/admin/AdminOverviewScreen'));
@@ -127,6 +137,30 @@ function AppShell() {
   // Load the signed-in user's custom warband types into the module registry so
   // the factory, roster and health check resolve them like a bundled type.
   useRegisterCustomWarbands();
+
+  // Warm the two primary-tab chunks after first paint, when the network is
+  // otherwise quiet — the download the lazy split saved from the first load,
+  // spent where it can't delay anything. Signed-in players only: they're the
+  // ones about to open a roster, and the chunks bring the game-data catalogues
+  // with them — a mobile visitor reading the rules shouldn't pay for that.
+  // Failure is harmless: the route loads (or recovers, via ChunkErrorBoundary)
+  // when actually visited.
+  const { user } = useAuth();
+  const signedIn = !!user;
+  useEffect(() => {
+    if (!signedIn) return;
+    const warm = () => {
+      void loadRosterScreen().catch(() => {});
+      void loadSettingsScreen().catch(() => {});
+    };
+    if (typeof window.requestIdleCallback === 'function') {
+      const id = window.requestIdleCallback(warm, { timeout: 4000 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = window.setTimeout(warm, 2000);
+    return () => window.clearTimeout(t);
+  }, [signedIn]);
+
   return (
     <div className="min-h-full md:flex md:items-start">
       <SideNav />
@@ -259,6 +293,7 @@ function AppShell() {
       {/* Catches a returning player up on changelog entries since their last
           visit; suppressed while the tour above would show. */}
       <WhatsNewOverlay />
+      <LeaderClaimPrompt />
       {/* A dice roller in reach from any screen, stacked just under the ? . */}
       <DiceButton />
       <BottomNav />

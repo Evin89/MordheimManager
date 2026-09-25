@@ -11,7 +11,8 @@
  * clients. Every human — signed in or out — falls straight through to the SPA
  * untouched (`env.ASSETS.fetch`), so the Home dashboard at `/` and the in-app
  * Home tab keep working exactly as before. `run_worker_first` in wrangler.toml
- * limits this code to `/` and `/rosters/*`; nothing else even reaches it.
+ * limits this code to `/`, the roster paths and the `/lantern` analytics
+ * proxy (see below); nothing else even reaches it.
  *
  *   GET /            + bot  -> the static landing page (its own baked-in meta)
  *   GET /rosters/:id + bot  -> the SPA shell with per-roster OG tags injected
@@ -146,10 +147,69 @@ function injectRosterMeta(shell, roster, canonical) {
     .transform(shell);
 }
 
+/**
+ * First-party reverse proxy for PostHog (§23.7's pending piece).
+ *
+ * Analytics requests go to `/lantern/*` on our own domain and are forwarded
+ * from here to PostHog's EU region, rather than straight to
+ * `eu.i.posthog.com` — a hostname ad blockers list, which silently dropped a
+ * share of events from exactly the consenting visitors we could count. The path
+ * is deliberately unremarkable: blocklists catch `/ingest`, `/analytics`,
+ * `/track`, `/posthog`.
+ *
+ * Nothing here widens what's sent. Consent gating, the closed event union and
+ * the before_send scrubber all run in the browser before a request exists;
+ * this only changes where it goes. Cookies are stripped (PostHog is
+ * configured for localStorage, and our domain's cookies are none of its
+ * business). The visitor's IP *is* forwarded, as `X-Forwarded-For` from
+ * Cloudflare's `CF-Connecting-IP` — without it PostHog would see only the
+ * Worker's address and every event would geolocate to a Cloudflare data
+ * centre. That's the owner's call (2026-09-25): IP-derived location is wanted,
+ * and the Privacy Policy already says PostHog derives approximate location
+ * from the IP address, for consenting visitors only.
+ *
+ *   /lantern/static/*  -> eu-assets.i.posthog.com (the SDK's lazy-loaded scripts)
+ *   /lantern/*         -> eu.i.posthog.com        (capture, flags, config)
+ */
+const ANALYTICS_PREFIX = '/lantern';
+const POSTHOG_API_HOST = 'eu.i.posthog.com';
+const POSTHOG_ASSET_HOST = 'eu-assets.i.posthog.com';
+
+async function proxyAnalytics(request, url) {
+  const upstreamPath = url.pathname.slice(ANALYTICS_PREFIX.length) || '/';
+  const host = upstreamPath.startsWith('/static/') ? POSTHOG_ASSET_HOST : POSTHOG_API_HOST;
+
+  const headers = new Headers(request.headers);
+  headers.delete('cookie');
+  // Pass the real client IP as the one header PostHog reads, and nothing else
+  // Cloudflare-specific: drop the others so no stale or spoofed value (a
+  // client-sent X-Forwarded-For) can override it.
+  const clientIp = request.headers.get('cf-connecting-ip') || '';
+  for (const h of ['cf-connecting-ip', 'x-forwarded-for', 'x-real-ip', 'true-client-ip']) headers.delete(h);
+  if (clientIp) headers.set('x-forwarded-for', clientIp);
+
+  const upstream = new Request(`https://${host}${upstreamPath}${url.search}`, {
+    method: request.method,
+    headers,
+    body: request.method === 'GET' || request.method === 'HEAD' ? undefined : request.body,
+    redirect: 'follow',
+  });
+
+  // The SDK's static scripts are versioned by URL — let the edge cache them.
+  if (host === POSTHOG_ASSET_HOST) {
+    return fetch(upstream, { cf: { cacheTtl: 3600, cacheEverything: true } });
+  }
+  return fetch(upstream);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const path = url.pathname;
+
+    if (path === ANALYTICS_PREFIX || path.startsWith(`${ANALYTICS_PREFIX}/`)) {
+      return proxyAnalytics(request, url);
+    }
 
     // The bare front door is the marketing landing, for everyone now — the app
     // lives under /app. Static assets would serve index.html here, so the Worker

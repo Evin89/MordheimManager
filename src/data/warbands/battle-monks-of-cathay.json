@@ -279,7 +279,8 @@
       "specialRules": [
         {
           "name": "Simple folk",
-          "description": "Peasants never gain Experience."
+          "description": "Peasants never gain Experience.",
+          "effects": { "noExperience": true }
         },
         {
           "name": "Mob",

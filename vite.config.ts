@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
@@ -68,6 +68,39 @@ function assertConfigured(env: Record<string, string>) {
   );
 }
 
+/**
+ * Compiles demo mode out of production builds.
+ *
+ * Demo mode (src/dev/demoMode.ts) is dev-only, and every API function starts
+ * with `if (isDemoMode()) return demo.…` — 116 call sites. In a production
+ * build `isDemoMode()` always returns false, but Rollup can't evaluate a call
+ * across modules, so it kept every demo branch alive, and with it `demoApi`,
+ * the generated demo database and, through those, the whole warband registry:
+ * ~400 kB of warband JSON in the first-load bundle that no production user
+ * could ever reach.
+ *
+ * Replacing the call with the literal `false` at build time makes each branch
+ * dead code Rollup can drop, and the demo modules fall out with it. demoMode.ts
+ * itself is left alone (it defines the function). Dev builds are untouched.
+ *
+ * The demo modules are also declared side-effect free: their top level seeds
+ * in-memory fixtures (IIFEs, Maps), which Rollup would otherwise keep — along
+ * with everything they import — even with no live caller left.
+ */
+function stripDemoMode(): Plugin {
+  return {
+    name: 'strip-demo-mode',
+    apply: 'build',
+    enforce: 'pre',
+    transform(code, id) {
+      if (/[\/]src[\/]dev[\/]demo(Api|Data)\.ts$/.test(id)) return { code, map: null, moduleSideEffects: false };
+      if (!/[\/]src[\/].*\.tsx?$/.test(id) || /demoMode\.ts$/.test(id)) return null;
+      if (!code.includes('isDemoMode()')) return null;
+      return { code: code.replace(/isDemoMode\(\)/g, 'false'), map: null };
+    },
+  };
+}
+
 export default defineConfig(({ command, mode }) => {
   // Third argument '' loads every variable, not just the VITE_-prefixed ones, so
   // the escape hatch above is visible here too.
@@ -79,6 +112,7 @@ export default defineConfig(({ command, mode }) => {
     __APP_VERSION__: JSON.stringify(APP_VERSION),
   },
   plugins: [
+    stripDemoMode(),
     react(),
     VitePWA({
       registerType: 'autoUpdate',
@@ -163,6 +197,14 @@ export default defineConfig(({ command, mode }) => {
             handler: 'NetworkOnly',
           },
           {
+            // The first-party PostHog proxy (worker/index.js). Event posts are
+            // never cached anyway, but the SDK's /lantern/static scripts are
+            // same-origin — stated here so no future same-origin rule picks
+            // them up; the edge already caches those.
+            urlPattern: ({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/lantern/'),
+            handler: 'NetworkOnly',
+          },
+          {
             // Same-origin images only (the banner, og-card, icons). Matching on
             // `destination` alone would reach any host that serves an image.
             urlPattern: ({ url, request }) =>
@@ -209,5 +251,22 @@ export default defineConfig(({ command, mode }) => {
       },
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        // Third-party code in its own chunks, split from the app's. The bytes
+        // are the same on a first visit, but these change only when a
+        // dependency is upgraded — so after an ordinary deploy a returning user
+        // re-downloads just the app chunk (~150 kB) instead of Supabase, React
+        // and the router all over again.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined;
+          if (/[\/]node_modules[\/](@supabase|iceberg-js|tslib)[\/]/.test(id)) return 'vendor-supabase';
+          if (/[\/]node_modules[\/](react|react-dom|scheduler|react-router|react-router-dom|@remix-run|@tanstack|zustand)[\/]/.test(id)) return 'vendor-react';
+          return undefined;
+        },
+      },
+    },
+  },
   };
 });

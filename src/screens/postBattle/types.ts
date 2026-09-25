@@ -39,6 +39,9 @@ export type HenchmenBattleState = {
   /** "That Lad's Got Talent": one member of the group becomes a Hero. Recorded
    * during the wizard and resolved on commit. */
   ladsGotTalent: boolean;
+  /** The two (usually) skill lists chosen for the promoted Hero, from the
+   * options his unit's rules allow (ruleEffects). Ignored when the rules fix them. */
+  promotionSkillLists?: string[];
 };
 
 export type HiredSwordBattleState = {
@@ -62,6 +65,20 @@ export type HiredSwordBattleState = {
  * extras. `resolved` is filled once the player accepts the location, so re-rolling the
  * dice can't silently double the gold already staged.
  */
+/**
+ * An Exploration grant as the player confirmed it, ready to write to the roster
+ * at commit: counts rolled, Heroes chosen, the unit resolved. Gold and shards are
+ * folded into `resolved.gold` / `resolved.shards` instead.
+ */
+export type AppliedGrant =
+  | { type: 'item'; equipmentId: string; name: string; count: number; notes?: string }
+  | { type: 'xp'; heroId: string; amount: number }
+  | { type: 'skillList'; heroId: string; list: string }
+  | { type: 'skill'; heroId: string; skill: string }
+  | { type: 'heroNote'; heroId: string; text: string }
+  | { type: 'henchmen'; unitType: string; count: number }
+  | { type: 'recruit'; groupId: string };
+
 export type ExplorationState = {
   dice: number[];
   keptIndices: number[];
@@ -74,12 +91,22 @@ export type ExplorationState = {
     note: string;
     /** Set when the outcome carries into later games; copied to the warband's notes. */
     persistentNote: string | null;
+    /** Roster changes the player confirmed (items, XP, skills, models). Optional:
+     * a draft staged before grants existed has none. */
+    grants?: AppliedGrant[];
+    /** The same, as readable lines for the step's "applied" view. */
+    grantLines?: string[];
   } | null;
 };
 
 export type PostBattleDraft = {
   scenario: string;
   opponents: string;
+  /** §17.2 — the opponent picked from a roster in pre-battle, and the name it was
+   * seeded under. Kept only while that name is still in `opponents`, so editing
+   * the field to someone else drops the link rather than mis-attributing it. */
+  opponentWarbandId: string | null;
+  opponentWarbandName: string;
   result: BattleResult;
   date: string;
   underdogBonus: number;

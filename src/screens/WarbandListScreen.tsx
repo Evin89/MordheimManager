@@ -7,7 +7,7 @@ import { useWarbandList, useWarbandsQuery } from '../hooks/useWarbands';
 import { useWarbandThumbnails } from '../hooks/usePhotos';
 import { WarbandThumb } from '../components/WarbandPhoto';
 import { computeWarbandRating } from '../lib/rating';
-import { getWarbandTypeName } from '../data/warbandRegistry';
+import { getWarbandTypeName } from '../data/warbandNames';
 
 // Lazy so rules.json and the catalogues stay out of the entry bundle — see TabRules.
 const TabRules = lazy(() => import('../components/TabRules'));

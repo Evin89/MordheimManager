@@ -381,6 +381,9 @@ function UnitCard({ unit }: { unit: Unit }) {
   const hero = isHeroSlot(unit) ? unit : null;
   const isAnimal = !isHeroSlot(unit) && unit.isAnimal;
   const rules = resolveSpecialRules(unit.specialRules);
+  // Rule-derived as well as the animal flag: zombies, demons and peasants never
+  // gain Experience either, and the chip should say so.
+  const noXp = isAnimal || rules.some((r) => r.effects?.noExperience);
   const lists = unit.equipmentOptions.map(humanizeList);
 
   return (
@@ -396,7 +399,7 @@ function UnitCard({ unit }: { unit: Unit }) {
         <Chip tone="muted">{hero ? 'Hero' : 'Henchman'}</Chip>
         {hero?.isLeader && <Chip tone="accent">Leader</Chip>}
         {unit.isLargeCreature && <Chip tone="muted">Large</Chip>}
-        {isAnimal && <Chip tone="muted">Animal — no XP</Chip>}
+        {noXp && <Chip tone="muted">{isAnimal ? 'Animal — no XP' : 'No XP'}</Chip>}
         <Chip tone="muted">{recruitLimit(unit)}</Chip>
         {!hero && !isAnimal && <Chip tone="muted">Groups of identical warriors</Chip>}
       </div>

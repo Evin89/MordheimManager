@@ -295,7 +295,8 @@
       "specialRules": [
         {
           "name": "Promotion",
-          "description": "if promoted to Hero via \"The lad's got talent\", may not choose Strength skills as one of his two skill lists."
+          "description": "if promoted to Hero via \"The lad's got talent\", may not choose Strength skills as one of his two skill lists.",
+          "effects": { "promotionSkillLists": { "choose": 2, "exclude": ["strength"] } }
         }
       ]
     }

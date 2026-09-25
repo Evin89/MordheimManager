@@ -269,7 +269,8 @@
       "specialRules": [
         {
           "name": "Experience",
-          "description": "Giant Rats are animals and do not gain experience."
+          "description": "Giant Rats are animals and do not gain experience.",
+          "effects": { "noExperience": true }
         }
       ]
     },
@@ -315,7 +316,8 @@
         },
         {
           "name": "Experience",
-          "description": "Rat Ogres do not gain experience."
+          "description": "Rat Ogres do not gain experience.",
+          "effects": { "noExperience": true }
         },
         {
           "name": "Large Target",

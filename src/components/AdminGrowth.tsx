@@ -5,6 +5,7 @@ import {
   useAdminActivitySeriesQuery,
   useAdminAcquisitionQuery,
   useAdminSelfReportQuery,
+  useAdminTimeToActivationQuery,
 } from '../hooks/useIssues';
 import { SELF_REPORT_OPTIONS } from '../lib/acquisition';
 import { CohortCell } from '../api/adminAnalytics';
@@ -40,6 +41,14 @@ const SELF_REPORT_LABEL: Record<string, string> = {
   ...Object.fromEntries(SELF_REPORT_OPTIONS.map((o) => [o.id, o.label])),
   not_answered: 'Not answered',
 };
+
+/** Median hours as the coarsest readable unit: minutes, hours, then days. */
+function formatHours(h: number | null): string {
+  if (h === null) return '—';
+  if (h < 1) return `${Math.max(1, Math.round(h * 60))} min`;
+  if (h < 48) return `${Math.round(h)} h`;
+  return `${Math.round(h / 24)} days`;
+}
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return <p className="font-ui text-xs uppercase tracking-wide text-bone-400 mb-2">{children}</p>;
@@ -119,6 +128,7 @@ export default function AdminGrowth() {
   const { data: activity } = useAdminActivitySeriesQuery();
   const { data: acquisition } = useAdminAcquisitionQuery();
   const { data: selfReport } = useAdminSelfReportQuery();
+  const { data: tta } = useAdminTimeToActivationQuery();
 
   const registered = funnel?.[0]?.n ?? 0;
   const activityPeak = Math.max(
@@ -172,6 +182,29 @@ export default function AdminGrowth() {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* §23.2 time-to-activation: how fast recent signups get there, beside
+          the funnel's how-many. The number to watch after onboarding changes. */}
+      {tta && tta.cohort > 0 && (
+        <div className="space-y-1">
+          <Eyebrow>Time to activation — signups in the last {tta.days} days</Eyebrow>
+          <div className="grid grid-cols-2 gap-2">
+            {(['warband', 'battle'] as const).map((stage) => (
+              <div key={stage} className="rounded-md border border-ink-800 bg-ink-900 px-3 py-2">
+                <p className="font-ui text-xs uppercase tracking-wide text-bone-400">
+                  To first {stage}
+                </p>
+                <p className="font-heading text-2xl tabular-nums lining-nums text-bone-100">
+                  {formatHours(tta[stage].median_hours)}
+                </p>
+                <p className="font-ui text-xs text-bone-400">
+                  median · {tta[stage].reached} of {tta.cohort} got there
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

@@ -9,7 +9,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { useWarbandList, useWarbandsQuery } from '../hooks/useWarbands';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { computeWarbandRating } from '../lib/rating';
-import { getWarbandTypeName } from '../data/warbandRegistry';
+import { getWarbandTypeName } from '../data/warbandNames';
 import { consumeFreshSignIn } from '../lib/firstRun';
 import GoogleSelfReportCard from '../components/GoogleSelfReportCard';
 import { arrivedWithAuthLinkError } from '../lib/supabaseClient';

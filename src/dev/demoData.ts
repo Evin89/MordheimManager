@@ -21,11 +21,29 @@ import { BattleRecord, Campaign, CampaignRole, Warband, WarbandVisibility } from
  * taken next week.
  */
 
-const USER_COUNT = 50;
-const WARBANDS_PER_USER = 2;
-const CAMPAIGN_COUNT = 10;
-const MIN_MEMBERS = 5;
-const MAX_MEMBERS = 10;
+/**
+ * How much to generate. Demo mode uses {@link DEMO_SCALE}; the §13.2 scale-test
+ * seed (scripts/seed-scale-test.mjs) passes a much larger one through the same
+ * generator, so the rows it writes are as realistic as the ones demo mode shows.
+ */
+export type DemoScale = {
+  users: number;
+  warbandsPerUser: number;
+  campaigns: number;
+  minMembers: number;
+  maxMembers: number;
+  /** Battles per entered warband are drawn from 0 up to (not including) this. */
+  battlesPerWarbandBelow: number;
+};
+
+export const DEMO_SCALE: DemoScale = {
+  users: 50,
+  warbandsPerUser: 2,
+  campaigns: 10,
+  minMembers: 5,
+  maxMembers: 10,
+  battlesPerWarbandBelow: 5,
+};
 
 /** Mulberry32 — small, fast, and identical across runs, which is the point. */
 function seededRandom(seed: number): () => number {
@@ -183,8 +201,10 @@ function buildWarband(rng: () => number, ownerIndex: number, index: number): War
   return warband;
 }
 
-export function generateDemoDatabase(seed = 20260802): DemoDatabase {
+export function generateDemoDatabase(seed = 20260802, scale: DemoScale = DEMO_SCALE): DemoDatabase {
   const rng = seededRandom(seed);
+  const { users: USER_COUNT, warbandsPerUser: WARBANDS_PER_USER, campaigns: CAMPAIGN_COUNT } = scale;
+  const { minMembers: MIN_MEMBERS, maxMembers: MAX_MEMBERS } = scale;
 
   const users: DemoUser[] = [];
   const warbands: DemoWarbandRow[] = [];
@@ -238,7 +258,12 @@ export function generateDemoDatabase(seed = 20260802): DemoDatabase {
 
     campaigns.push({
       id,
-      name: CAMPAIGN_NAMES[c],
+      // Past the list's end (only at seed scale) names repeat with a number,
+      // keeping them unique per creator as the database requires (0044).
+      name:
+        c < CAMPAIGN_NAMES.length
+          ? CAMPAIGN_NAMES[c]
+          : `${CAMPAIGN_NAMES[c % CAMPAIGN_NAMES.length]} ${Math.floor(c / CAMPAIGN_NAMES.length) + 1}`,
       usesBTB: rng() > 0.6,
       visibility: 'private',
       // Only leaders are shown the code, but every campaign has one.
@@ -274,7 +299,7 @@ export function generateDemoDatabase(seed = 20260802): DemoDatabase {
       if (!row) return;
       row.campaignId = id;
 
-      const played = Math.floor(rng() * 5);
+      const played = Math.floor(rng() * scale.battlesPerWarbandBelow);
       for (let b = 0; b < played; b += 1) {
         const roll = rng();
         battles.push({

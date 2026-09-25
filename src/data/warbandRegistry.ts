@@ -1,5 +1,7 @@
 import { ResolvedSpecialRule, WarbandDefinition } from './types';
 import { resolveSpecialRules } from '../lib/specialRulesLookup';
+import { getCustomWarbandDefinition } from './customWarbandTypes';
+import { builtInWarbandNames } from './warbandNames';
 import maneaters from './warbands/maneaters.json';
 import reiklanders from './warbands/reiklanders.json';
 import middenheimers from './warbands/middenheimers.json';
@@ -104,54 +106,36 @@ export const warbandDefinitions: WarbandDefinition[] = [
   tombGuardians,
 ] as WarbandDefinition[];
 
-/**
- * Custom (clone-and-rename) types registered at runtime from the signed-in
- * user's rows (§21.2). Held in a module map so the pure resolvers below — used
- * by the factory, roster, health check and rules — find a custom type the same
- * way they find a bundled one, without every caller learning about a second
- * source. Populated by `useRegisterCustomWarbands` once the query resolves.
- */
-const customById = new Map<string, WarbandDefinition>();
-
-/**
- * Custom types owned by *other* people, resolved on demand when reading a shared
- * roster or a public warband built on one (readable since migration 0022). Kept
- * in a separate map that only ever grows — the owner's map is cleared and
- * rebuilt whenever their own types refetch, and a foreign type loaded to render
- * a campaign-mate's roster must survive that.
- */
-const foreignById = new Map<string, WarbandDefinition>();
-
-export function registerCustomWarbandTypes(definitions: WarbandDefinition[]): void {
-  customById.clear();
-  for (const def of definitions) customById.set(def.id, def);
-}
-
-/** Add one foreign custom type (see `foreignById`). Never clears. */
-export function registerForeignCustomType(definition: WarbandDefinition): void {
-  foreignById.set(definition.id, definition);
-}
-
-export function getCustomWarbandDefinitions(): WarbandDefinition[] {
-  return [...customById.values()];
-}
+// Custom types live in their own small module (so the app shell can register
+// them without importing this one — see customWarbandTypes.ts); re-exported so
+// existing callers keep one import site.
+export {
+  registerCustomWarbandTypes,
+  registerForeignCustomType,
+  getCustomWarbandDefinitions,
+} from './customWarbandTypes';
 
 export function getWarbandDefinition(id: string): WarbandDefinition | undefined {
-  return (
-    warbandDefinitions.find((def) => def.id === id) ?? customById.get(id) ?? foreignById.get(id)
-  );
+  return warbandDefinitions.find((def) => def.id === id) ?? getCustomWarbandDefinition(id);
 }
 
-/**
- * Display name for a stored `warbandType`.
- *
- * Warbands store the definition's slug (`cult-of-the-possessed`), which several
- * screens were rendering straight to the user. Falls back to the raw value so an
- * unrecognised type — a hand-edited import, or a definition removed later — still
- * shows something rather than blanking out.
- */
-export function getWarbandTypeName(id: string): string {
-  return getWarbandDefinition(id)?.name ?? id;
+// The name lookup lives in warbandNames.ts, which reads only each data file's
+// id and name — so the screens on the first-load path can use it without this
+// module's ~400 kB of definitions. Re-exported for everything else.
+export { getWarbandTypeName } from './warbandNames';
+
+// Dev-only drift check: the name map globs the warbands folder, while this
+// registry lists its files by hand. A file added to one and not the other
+// would show a name for a type that can't be built, or a type with no name.
+if (import.meta.env.DEV) {
+  const registered = new Map(warbandDefinitions.map((d) => [d.id, d.name]));
+  const globbed = new Map(builtInWarbandNames.map((w) => [w.id, w.name]));
+  for (const [id, name] of registered) {
+    if (globbed.get(id) !== name) console.error(`[warbandRegistry] ${id} missing from or renamed in warbandNames`);
+  }
+  for (const id of globbed.keys()) {
+    if (!registered.has(id)) console.error(`[warbandRegistry] src/data/warbands has ${id}, but it isn't registered`);
+  }
 }
 
 export type WarbandProvenance = {
@@ -185,7 +169,10 @@ export function getWarbandProvenance(definition: WarbandDefinition): WarbandProv
 
 /** Warbands A–Z. The declaration order above follows the order the data files
  * were written, which is meaningless to someone picking from a list. */
-export const warbandDefinitionsByName: WarbandDefinition[] = [...warbandDefinitions].sort((a, b) =>
+// PURE: without it Rollup treats this top-level sort as a possible side effect
+// and keeps the whole module — and every warband data file — in any chunk that
+// merely imports it, used or not. That's what kept ~400 kB in the entry bundle.
+export const warbandDefinitionsByName: WarbandDefinition[] = /* @__PURE__ */ [...warbandDefinitions].sort((a, b) =>
   a.name.localeCompare(b.name),
 );
 

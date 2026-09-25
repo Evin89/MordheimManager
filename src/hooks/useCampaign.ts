@@ -18,6 +18,8 @@ import {
   setCampaignAnnouncement,
   setCampaignHouseRules,
   setCampaignConcluded,
+  fetchClaimableCampaigns,
+  claimCampaignLeadership,
 } from '../api/campaign';
 import { deleteBattle, fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
 import { fetchCampaignWarbands, fetchWarbands, type WarbandRecord } from '../api/warbands';
@@ -52,6 +54,32 @@ function standingsKey(campaignId: string | undefined, battleCount: number) {
 }
 
 /** Every campaign the user leads or has joined. */
+/** §10.3.1 — campaigns whose leaders have been away 30+ days, for the claim pop-up. */
+export function useClaimableCampaignsQuery() {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ['claimableCampaigns', user?.id],
+    queryFn: fetchClaimableCampaigns,
+    enabled: !!user,
+    // Presence changes over days, not seconds.
+    staleTime: 10 * 60_000,
+  });
+}
+
+export function useClaimLeadershipMutation() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (campaignId: string) => claimCampaignLeadership(campaignId),
+    onSettled: (_ok, _err, campaignId) => {
+      queryClient.invalidateQueries({ queryKey: ['claimableCampaigns', user?.id] });
+      queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });
+      queryClient.invalidateQueries({ queryKey: membersKey(campaignId) });
+      queryClient.invalidateQueries({ queryKey: ['standings'] });
+    },
+  });
+}
+
 export function useMyCampaignsQuery() {
   const { user } = useAuth();
   return useQuery({

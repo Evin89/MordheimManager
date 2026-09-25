@@ -226,7 +226,8 @@
         },
         {
           "name": "Mushroom Brain",
-          "description": "Due to the effect of prolonged use of Madcap Mushrooms the Fanatic's brain is about useless. He cannot gain experience."
+          "description": "Due to the effect of prolonged use of Madcap Mushrooms the Fanatic's brain is about useless. He cannot gain experience.",
+          "effects": { "noExperience": true }
         },
         {
           "name": "Looney",
@@ -330,7 +331,8 @@
         },
         {
           "name": "Dumb Monster",
-          "description": "A Troll is far too stupid to ever learn any\nnew skills. Trolls do not gain experience."
+          "description": "A Troll is far too stupid to ever learn any\nnew skills. Trolls do not gain experience.",
+          "effects": { "noExperience": true }
         },
         {
           "name": "Always Hungry",

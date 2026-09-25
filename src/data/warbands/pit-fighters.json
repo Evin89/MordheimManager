@@ -307,7 +307,8 @@
         },
         {
           "name": "Skills",
-          "description": "An Ogre Pit Fighter who becomes a Hero as a result of The Lad’s Got Talent may choose from the Combat, Strength and Pit Fighter Special Skills."
+          "description": "An Ogre Pit Fighter who becomes a Hero as a result of The Lad’s Got Talent may choose from the Combat, Strength and Pit Fighter Special Skills.",
+          "effects": { "promotionSkillLists": { "fixed": ["combat", "strength", "pitFighters"] } }
         },
         {
           "name": "Slow Witted",

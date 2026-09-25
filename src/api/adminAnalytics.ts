@@ -15,6 +15,14 @@ export type CohortCell = {
   cohort_size: number;
   active: number;
 };
+/** §23.2 time-to-activation for recent signups (migration 0050). A null median
+ * means nobody in the window has reached that stage yet. */
+export type TimeToActivation = {
+  days: number;
+  cohort: number;
+  warband: { reached: number; median_hours: number | null };
+  battle: { reached: number; median_hours: number | null };
+};
 export type ActivityDay = { day: string; signups: number; warbands: number; battles: number };
 export type AcquisitionRow = { channel: string; n: number };
 /** §26.7.2 — self-reported source counts (incl. `not_answered`) and the last 20
@@ -33,6 +41,13 @@ async function callJson<T>(fn: string, args?: Record<string, unknown>): Promise<
 export async function fetchActivationFunnel(): Promise<FunnelStage[]> {
   if (isDemoMode()) return demo.fetchActivationFunnel();
   return callJson<FunnelStage[]>('admin_activation_funnel');
+}
+
+export async function fetchTimeToActivation(days = 90): Promise<TimeToActivation | null> {
+  if (isDemoMode()) return demo.fetchTimeToActivation(days);
+  const { data, error } = await supabase.rpc('admin_time_to_activation', { p_days: days });
+  if (error) throw error;
+  return (data ?? null) as TimeToActivation | null;
 }
 
 export async function fetchRetentionCohorts(weeks = 8): Promise<CohortCell[]> {

@@ -14,7 +14,7 @@ This document started as a design brief written before any code existed. It is n
 
 **Built and deployed:** milestones 1–6, the v2 account/campaign work (§8), the Rulebook design language (§5) with a shared UI kit and self-hosted fonts, and the shared-campaign screens. **49 warband lists** (20 curated + 27 imported from mordheimer.net) with warband-specific skill lists, **30 spell/prayer/ritual lists**, the full post-battle wizard (with the exploration roller), trading post, rules browser, public gallery, printable roster sheet, and multi-campaign membership.
 
-Most of the feature-expansion block has since shipped too: the campaign-collaboration set (§17, §19.1/§19.3 — territory, narrative log, awards/rivalries, RSVPs, announcements, plus a campaign activity feed and end-of-campaign recap), roster/model depth (§18), all of §20 Utility (dice roller with tumble + sound, comparison, afford-filter, nav tour), the §21 bigger swings (per-model photos, custom warbands, scenario generator), the admin analytics DB layer with the split admin back-end (§23, §4.9 revised), shareable warband cards, in-battle injury/rout rolls, a per-warband legality check, hand-editing of skills/spells/advances, a Discord community link (§4.10), a static landing page (§4.11), the privacy-scoped PostHog client (§23.7, its reverse-proxy still pending), gallery comments (§19.2) and push notifications (§19.4 — the project's first server-side sending). That completes the feature-expansion block; the PostHog reverse-proxy (§23.7) is the one deferred piece still noted above. AI-generated battle reports, once floated as a possible next step, are **out of scope** and not planned.
+Most of the feature-expansion block has since shipped too: the campaign-collaboration set (§17, §19.1/§19.3 — territory, narrative log, awards/rivalries, RSVPs, announcements, plus a campaign activity feed and end-of-campaign recap), roster/model depth (§18), all of §20 Utility (dice roller with tumble + sound, comparison, afford-filter, nav tour), the §21 bigger swings (per-model photos, custom warbands, scenario generator), the admin analytics DB layer with the split admin back-end (§23, §4.9 revised), shareable warband cards, in-battle injury/rout rolls, a per-warband legality check, hand-editing of skills/spells/advances, a Discord community link (§4.10), a static landing page (§4.11), the privacy-scoped PostHog client and its first-party reverse proxy (§23.7), gallery comments (§19.2) and push notifications (§19.4 — the project's first server-side sending). That completes the feature-expansion block; the PostHog reverse-proxy (§23.7) is the one deferred piece still noted above. AI-generated battle reports, once floated as a possible next step, are **out of scope** and not planned.
 
 ### 0.1 Conflict register
 
@@ -22,7 +22,7 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 
 | # | Conflict | Resolution |
 | --- | --- | --- |
-| 1 | Default theme: parchment vs Grimdark | ❓ **Owner's call.** Grimdark ships as default today; the PWA manifest colours follow it. Both themes are complete, so this is one constant plus two manifest hex values. §5.5 |
+| 1 | Default theme: parchment vs Grimdark | ✅ **Decided (2026-09-25): Grimdark stays the default.** Parchment remains a full alternative in Account. §5.5 |
 | 2 | Precaching: "disabled, online-only" vs "precache static assets" | **Already satisfied, by a better mechanism.** Runtime caching achieves the goal without a precache manifest — which is what caused the stale-shell failure. §2, §12.4 |
 | 3 | `EquipmentItem.quantity` | **Dropped, deliberately.** Duplicates are duplicate rows. §3.1 |
 | 4 | `BattleRecord` without `warbandId` | **Built version wins** — without it a player with two warbands got one merged W/L record. §3.1 |
@@ -34,7 +34,7 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 | 10 | "Requires login throughout, no logged-out mode" | ⚠️ **The gallery is anon-readable** (migration 0004). This has consequences for photos — see conflict 11. §8.1, §4.7 |
 | 11 | Photos on public warbands are "visible to all authenticated users" | **Wrong given conflict 10** — they would be visible to the *entire internet*. Raises the moderation bar before §11 ships. §11.5 |
 | 12 | Six open defects listed | **All six are fixed.** Kept as a regression checklist, not a bug list. §14 |
-| 13 | Globally unique campaign names | ◻️ **Not implemented.** The incoming text flags the landgrab problem itself; per-creator uniqueness is recommended instead. §10.6 |
+| 13 | Globally unique campaign names | ⚠️ **Per creator, not global** (migration 0044) — a global rule would let one group camp on a common name forever. §10.6 |
 | 14 | Seed 100 real users via service-role script | **Complementary, not conflicting.** Demo mode (§13.1) gives UI volume with zero writes; a seed script (§13.2) is still needed for query and RLS performance, and must not run against the live project. |
 | 15 | `staleTime` 5 min / 1 min | ⚠️ **30s globally today.** Tiered values adopted as the target. §12.1 |
 | 16 | Non-goal "never blocks" vs enforced limits | **Two deliberate exceptions**, both silent-failure cases with unambiguous rules. §1, §9 |
@@ -65,7 +65,7 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 - ✅ **A player belongs to many campaigns.** The original design assumed one; two players turned out to run a league and a side campaign at once. §8.5
 - ✅ **Warbands and battles exist outside a campaign.** The app used to invent a campaign called "My Campaign" on the first battle commit, so every player ended up with a campaign they never started.
 - ✅ **A public gallery**, readable without an account, so a list can be shown to someone who hasn't signed up.
-- ◻️ **Painted miniature photos.** §11.
+- ⚠️ **Painted miniature photos** — built for warbands and individual models; no crop UI, iPhone untested. §11.
 
 **Non-Goals**
 
@@ -78,7 +78,7 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 ## 2. Tech Stack
 
 - ✅ **Vite + React + TypeScript.** Plain React; the Preact alias was never needed.
-- ✅ **Tailwind CSS.** Two complete themes (§5.5). ❓ Grimdark is the default; see conflict 1.
+- ✅ **Tailwind CSS.** Two complete themes (§5.5). ✅ Grimdark is the default (decided, conflict 1).
 - ✅ **State:** TanStack Query for all server data. Zustand for transient UI state (`src/store/useAppStore.ts` for the in-progress post-battle wizard, `useConnectionStatus.ts` for the connection banner). **No persistence middleware** — _scoped by §4.3.2 (revised): the battle-draft slice of the store is persisted to `localStorage` so a reload can restore an in-progress battle; everything else in the store stays transient._
 - ✅ **Backend:** Supabase — auth, Postgres, row-level security, and `SECURITY DEFINER` RPCs for campaign creation and join-by-code.
 - ✅ **Storage:** Supabase Postgres is the sole source of truth. `WARBAND_SCHEMA_VERSION` on every warband blob.
@@ -358,7 +358,7 @@ Nav highlighting is not plain path-prefix matching. `NavLink` matches on its own
 - Add hero / henchmen / hired sword each have their own route and validate slot limits, warband maximums, and gold.
 - ✅ **Henchmen count is a real number input** — `type="number" inputmode="numeric" min="1"`, select-on-focus, so you type "7" rather than tapping + seven times. Steppers supplement typing, never replace it. The same rule holds everywhere a quantity is entered (gold, shards, XP): see §5.4.
 - ✅ Roster rows carry the collapsed profile block §5.3 asks for, so a warrior's Toughness is readable while deploying without opening him.
-- ◻️ Photo thumbnails at the left of each row: §11.4.
+- ✅ Photo thumbnails at the left of each row (§11.4) — no placeholder when absent, deliberately.
 
 #### 4.1.1 Printable roster sheet ✅
 
@@ -391,7 +391,7 @@ Those overrides sit **outside** `@media print`, so the sheet is black on white o
 - Hired swords share the screen, showing hire fee and upkeep, excluded from slot limits.
 - ✅ **Spells, prayers or rituals** for casters — its own block after skills, rolled or chosen in place. §15.
 
-### 4.2.1 Hand-editing a model's skills, spells & advances ◻️
+### 4.2.1 Hand-editing a model's skills, spells & advances ✅
 
 The unit detail screen (§4.2) lets you edit the statline, XP, injuries and equipment by hand, but **skills only ever arrived through the advance flow** — there was no way to remove one. Copying an existing paper roster into the app is exactly where this bites: a mis-tapped skill during data entry had no correction path short of deleting and rebuilding the model. Spells already had hand-editing (§15.3, point 3); skills did not, and the two are the same shape.
 
@@ -416,11 +416,11 @@ This section adds hand removal for skills, formalises it for spells, extends it 
 
 | Ability | Trigger | Impact text | Downstream |
 | --- | --- | --- | --- |
-| **Skill** | Remove control on the skills block | "Remove *[skill]* from *[model]*?" | ❓ §9.3 — see below. Impact line appears **only** when the skill is lifting an equipment restriction that assigned gear currently relies on. |
+| **Skill** | Remove control on the skills block | "Remove *[skill]* from *[model]*?" | ✅ §9.3 — decided below. Impact line appears **only** when the skill is lifting an equipment restriction that assigned gear currently relies on. |
 | **Spell / prayer / ritual** | Remove control on the magic block (§15.4) | "Remove *[spell]* from *[model]*?" | None. Spells don't affect rating (§3.2, §15.5) and nothing else references a known spell. Plain confirm, no impact line. |
-| **Advance** | Remove control on an entry in the advance list | "Remove this advance from *[model]*'s record?" | ❓ Advance semantics — see below. |
+| **Advance** | Remove control on an entry in the advance list | "Remove this advance from *[model]*'s record?" | ✅ Advance semantics — see below. |
 
-#### ❓ Skill removal and the §9.3 equipment interaction
+#### ✅ Skill removal and the §9.3 equipment interaction (decided: warn, don't block)
 
 A skill can be the only reason a model may *use* a weapon: **Weapons Training** lifts the per-model list restriction for hand-to-hand weapons, **Weapons Expert** for missile weapons (§9.3, rule 3). Remove that skill while such a weapon is assigned and the loadout silently becomes ineligible.
 
@@ -432,7 +432,7 @@ Three ways to handle it; the confirm design is the same, only the impact line an
 
 **Recommended default: (c) remove-and-flag.** It matches the app's settled stance everywhere outside the two §9.2/§9.3 *assign-step* refusals: warn, don't block (§1). Removal is not an assign step, so it inherits the warn side of that line. The impact line inside the confirm names the affected items ("*[model]* is carrying *[item]* under this skill; it will be flagged as ineligible"), and the flag persists on the roster until the player unassigns the item or re-adds a lifting skill.
 
-#### ❓ Advance removal semantics
+#### ✅ Advance removal semantics (decided: pure log correction, opt-in grant removal)
 
 Advances are a **log** (`Advance[]`), stored separately from the effects they granted: a stat advance's number lives in `stats` (edited directly per §4.2), and a skill/spell advance's grant lives in `skills`/`spells`. Removing a log entry therefore does **not** automatically undo its effect, and it shouldn't try to guess — the current statline is authoritative and the user may already have hand-corrected it.
 
@@ -611,7 +611,7 @@ Still open, pending rulebook verification (not set from memory, per §3.3): the 
 - ✅ `/campaign/:id` — three tabs: Log, Standings, Players.
 - ✅ **Members panel** lists **every** member including the leader, with display name, warband name/type and rating, and a "leader" badge. A member with no warband yet still appears, with "No warband entered" in the warband columns. The leader is a `campaign_members` row like anyone else, so filtering by `role = 'player'` would drop them — which is exactly the bug that was fixed here (§14, defect 1).
 - ✅ **BTB objective panel** — owner-only, enforced by RLS on a separate table (§8.3), never surfaced to other members regardless of the warband's visibility.
-- ◻️ Warband rating over time as a line chart (nice-to-have).
+- ✅ Warband rating over time as a line chart — built (§18.3).
 - ✅ **Campaign events** — game nights with a date-time picker, optional location and notes, and a banner for the next upcoming one. Three screens rather than the one panel specced here, because scheduling turned out to answer two different questions:
   - `/campaign/events` — the list, and where a leader adds or edits one. It started as a section under the Players tab, which was the wrong home: the campaign screen's tabs are all *records* of what happened, while this is the one part of a campaign that is about the future and the thing people check before leaving the house.
   - `/campaign/calendar` — a month grid. A calendar answers what the list cannot: "are we free that weekend". Cells carry a marker and a count, not titles — a 50px square on a phone cannot hold "Game night — Session 5", and a truncated title is worse than a mark that says "something is here, tap to read it". No date library; one month grid is about forty lines of arithmetic and a dependency for it would be larger than the feature.
@@ -638,7 +638,7 @@ Still open, pending rulebook verification (not set from memory, per §3.3): the 
 - **Confirmed:** a `private` warband never appears here even when it belongs to a campaign the viewer is in. Campaign membership grants read *inside* the campaign; the gallery query filters on `visibility = 'public'` as a narrowing, and RLS is the boundary.
 - ✅ Filter by warband type, sorted by rating.
 - ✅ **Pagination.** `useInfiniteQuery` with a Load more control, replacing the single `.limit(200)`. Also applied to the admin issue inbox and player list. Deliberately *not* applied to the campaign battle log: `useStandingsQuery` derives every player's W/L/D from that same array, so paging it would silently truncate the standings rather than merely showing fewer rows.
-- ◻️ Photo group shots as card images (§11.4). A gallery of painted warbands is a far better screen than a list of names, which is an argument for building §11 before investing further here.
+- ✅ Photo group shots on the gallery cards (§11.4) — for signed-in viewers; photos stay signed-in only (§11.5). *Original note:* A gallery of painted warbands is a far better screen than a list of names, which is an argument for building §11 before investing further here.
 
 ### 4.8 Rules browser ✅
 
@@ -674,7 +674,7 @@ _Amends the §4.9 above. The admin screen grew past one screen's worth once the 
 
 This split is also a §12.2 fetch-narrowly win, not just cosmetics. On one combined page, opening admin to triage a single issue fires every query — stats, funnel, cohorts, acquisition, activity, inbox, player list. The cohort and funnel aggregates are exactly the ones §23.8 flags as instant-now / slow-at-scale. After the split each screen runs only its own queries, so the heavy `group by`s stop executing when you only want the inbox.
 
-#### 4.9.1 Route structure & the shared gate ◻️
+#### 4.9.1 Route structure & the shared gate ✅
 
 | Route | Screen | Answers |
 | --- | --- | --- |
@@ -691,11 +691,11 @@ Navigate with a **tab strip at the top of the admin area, not a second left rail
 
 **Attention counts surface as badges on Overview**, not by making the operator open each screen: "open issues: N", "purge queue: N", "stranded campaigns: N" (§4.9.5). Same move as the next-event banner (§4.5) — the count on the glance screen, the full list on its own.
 
-Maintenance is the one ❓. For a single-operator hobby admin, four tabs plus Overview may be one more than needed; if so, fold Maintenance into a section at the foot of Overview and ship four. **Recommendation: keep it separate** — destructive purge actions do not belong in a metrics dashboard.
+✅ **Decided: Maintenance kept as its own tab** (built). *Original question:* For a single-operator hobby admin, four tabs plus Overview may be one more than needed; if so, fold Maintenance into a section at the foot of Overview and ship four. **Recommendation: keep it separate** — destructive purge actions do not belong in a metrics dashboard.
 
-#### 4.9.2 Overview ◻️
+#### 4.9.2 Overview ✅
 
-◻️ **Follow-ups in §26:** Active/Online-today counts move to the shared `user_last_seen()` definition (§26.1); an "Unconfirmed accounts" attention badge (§26.3.1).
+✅ **Follow-ups in §26 (built):** Active/Online-today counts move to the shared `user_last_seen()` definition (§26.1); an "Unconfirmed accounts" attention badge (§26.3.1).
 
 The §23.5 analytics panels move here — this is now their home. Glanceable, read-only: headline counts, rolling 7/30-day growth with delta, the retention cohort grid, the activation funnel, the acquisition breakdown, the activity series. **No destructive controls on this screen.**
 
@@ -705,7 +705,7 @@ The existing inbox (filter open/triaged/closed, expand for captured context, mar
 
 #### 4.9.4 Players ✅ → moved, then deepened
 
-◻️ **Follow-ups in §26:** a derived Last seen that never reads `never` (§26.1), a sticky player column on mobile (§26.2), and auth-health fields — email confirmed, last sign-in (§26.3.1).
+✅ **Follow-ups in §26 (built):** a derived Last seen that never reads `never` (§26.1), a sticky player column on mobile (§26.2), and auth-health fields — email confirmed, last sign-in (§26.3.1).
 
 The existing player list (`admin_user_overview()`) and per-player detail, moved to its own route, then grown well past "unchanged" as the drill-down questions piled up. This is the per-user drill-down; §4.9.5 is its per-campaign mirror.
 
@@ -715,7 +715,7 @@ The existing player list (`admin_user_overview()`) and per-player detail, moved 
 - **The battle-log drill-in is its own `SECURITY DEFINER` function** (`admin_user_battles`, migration 0036), not a client query against `battles` — the `battles` RLS is member-shaped (§8.3), so a direct query would hand an admin only the partial slice of another player's battles that happen to share a campaign with someone else the admin can see, and none of their genuinely personal games. §4.9.7's content-blind boundary still applies: the function returns the same fields the owner's own battle log shows, not more.
 - **Presence feeds the admin side too** (migrations 0037/0038, §23.2). A `last_seen_at` column on `profiles`, touched by a throttled `SECURITY DEFINER` heartbeat (`touch_last_seen()`, once per 5 minutes server-side on top of the client's own throttle) called on load, backs **active today** / **active 7 days** counts folded into `admin_stats()` on Overview (§4.9.2) — answering "did anyone actually open the app today", which edit/battle counts alone can't, since opening the app and reading the rules leaves neither trail.
 
-#### 4.9.5 Campaigns ◻️ — the missing symmetric view
+#### 4.9.5 Campaigns ✅ — the missing symmetric view
 
 There is a per-player drill-down but no per-campaign one, even though a campaign is the other first-class object an operator needs to inspect. New, shaped exactly like Players: a paginated, searchable list and a metadata detail screen.
 
@@ -764,7 +764,7 @@ language sql security definer set search_path = public as $$
 $$;
 ```
 
-#### 4.9.6 Maintenance ◻️
+#### 4.9.6 Maintenance ✅
 
 The operator chores with no "where the thing lives" home (§4.6) because they are operator-global rather than attached to a resource: the storage purge-queue drain (§10.5 — still outstanding, the "actions out of cloud" item, since it needs a session Postgres can't hold), the manual `admin_purge_deleted_warbands()` trigger, and the §11.5 photo/quota cleanup once it exists. Destructive actions here follow §10.1 — **type-to-confirm, not a bare button** — because "drain the queue" and "purge now" are irreversible.
 
@@ -873,7 +873,7 @@ The design listed a dark variant as "optional later, not v1". It shipped first, 
 - **Grimdark** — near-black surfaces, bone text, ember orange accent. **Currently the default**, and the source of the PWA manifest's `theme_color`/`background_color` (`#0b0a09`).
 - **Rulebook / parchment** — §5.1 as written above.
 
-❓ **Open decision (conflict 1):** the merged draft asks for parchment as the default, with the manifest taking `ink` over `parchment`. Both themes are complete, so this is one constant in `src/lib/theme.ts` and two hex values in `vite.config.ts`. Worth deciding on a phone at a game table rather than on a monitor — the argument for Grimdark is battery and low light; the argument for parchment is that it is the actual design language and the one the app is named after.
+✅ **Decided (conflict 1, 2026-09-25): Grimdark stays the default.** *Original question:* the merged draft asks for parchment as the default, with the manifest taking `ink` over `parchment`. Both themes are complete, so this is one constant in `src/lib/theme.ts` and two hex values in `vite.config.ts`. Worth deciding on a phone at a game table rather than on a monitor — the argument for Grimdark is battery and low light; the argument for parchment is that it is the actual design language and the one the app is named after.
 
 Every colour resolves through a CSS variable (`rgb(var(--color-x) / <alpha-value>)`) keyed off `data-theme` on the root, so a theme swap redefines ~30 variables instead of rewriting ~1200 utility classes. The `<alpha-value>` form is what keeps Tailwind's opacity modifiers working for the save bar and connection banner.
 
@@ -899,16 +899,16 @@ The tokens and fonts were always consistent; the *components* were not — the s
 10. ✅ **Rulebook design language** (§5).
 11. ✅ **Multi-campaign membership** and the campaigns overview.
 
-12. ⚠️ **M6 — Deletion, removal & naming** (§10). Type-to-confirm, soft delete, campaign deletion and leader-orphaning all landed. Outstanding: the campaign-name decision (§10.6) and the 30-day purge job.
+12. ✅ **M6 — Deletion, removal & naming** (§10). Type-to-confirm, soft delete, campaign deletion and leader-orphaning all landed; campaign names are unique per creator (0044) and the 30-day purge job runs (0014).
 13. ✅ **M8 — Campaign events** (§4.5), as three screens — list, month calendar, detail. The schema had been waiting since 0002.
 14. ✅ **M10 — Magic, prayers & rituals** (§15). Structure, data and unit-entry block all landed together, since the owner supplied the transcribed lists.
 15. ✅ **Printable roster sheet** (§4.1.1), after the official 1999 sheet, through the browser's print path rather than a PDF library.
 
 **Remaining, in recommended order.** Scale testing comes before photos because it tells you which screens can afford images; photos come before further gallery work because a gallery of painted warbands is a different product from a list of names.
 
-16. ◻️ **M7 — Scale testing** (§13.2–§13.4) and the caching fixes it exposes (§12).
-17. ◻️ **M9 — Photos** (§11), then gallery card design (§4.7). Gallery pagination is done.
-18. ◻️ **The two-account test** (§14.4). The longest-standing open item: single-account paths are verified end to end, but the owner / campaign-mate / unrelated matrix — and with it the claim the separate objectives table exists to make — has never been exercised. Now also wants a non-admin second account confirming `/admin` yields nothing.
+16. ⚠️ **M7 — Scale testing** — seed and teardown scripts built (§13.2); the run itself awaits a throwaway project (§13.2–§13.4) and the caching fixes it exposes (§12).
+17. ⚠️ **M9 — Photos** (§11) built for warbands and models; gallery card images (§4.7) remain. Gallery pagination is done.
+18. ✅ **The two-account test** (§14.4) — tested by the owner and confirmed working (2026-09-25). The longest-standing open item: single-account paths are verified end to end, but the owner / campaign-mate / unrelated matrix — and with it the claim the separate objectives table exists to make — has never been exercised. Now also wants a non-admin second account confirming `/admin` yields nothing.
 
 Tested continuously against one real dataset (the owner's Maneaters warband mid-campaign) and once against two live players in a session that produced roughly fifty items of feedback, all triaged and worked through.
 
@@ -1001,7 +1001,7 @@ Rich game state stays as `jsonb` blobs matching the TypeScript types — heroes 
 
 **Campaign events:** same read rule as the parent campaign; insert by any member; update/delete by the creator or the leader. Policies written; no UI.
 
-⚠️ **Verification status.** Single-account paths are verified end to end against the live project. The two-account matrix — owner / campaign-mate / unrelated — is still outstanding, and with it the claim the objectives table exists to make. §16, and §14.4 for the matrix itself.
+✅ **Verification status.** Single-account paths are verified end to end against the live project, and the owner has since tested the two-account matrix and confirmed it works (2026-09-25). The two-account matrix — owner / campaign-mate / unrelated — is still outstanding, and with it the claim the objectives table exists to make. §16, and §14.4 for the matrix itself.
 
 ### 8.4 Data access model (online-only) ✅
 
@@ -1243,7 +1243,7 @@ A modern phone camera produces 4–12 MB images. Uploading those raw is the sing
 
 The app is online-only (§8.4), so every screen costs data. The Supabase free tier allows **2 GB egress/month** across database and storage combined — and once photos ship, images will dominate. §12.5 is the audit, already run against the current code.
 
-### 12.1 Query caching (TanStack Query) ⚠️
+### 12.1 Query caching (TanStack Query) ✅ (decided: global 30s, gallery tiered)
 
 Currently configured globally in `src/main.tsx`: `staleTime: 30_000`, `gcTime: 5 * 60_000`, `refetchOnWindowFocus: true`, `retry: 1`. That already fixed the worst problem — with the library default of `staleTime: 0`, opening a hero, going back, and opening the next one re-ran the warband query each time, a visible stall per tap on a phone.
 
@@ -1283,7 +1283,7 @@ Target (conflict 15):
 - ✅ **Fonts self-hosted.** §5.2's four families now ship as Latin woff2 subsets from our own origin (`scripts/fetch-fonts.mjs` → `public/fonts/`, ~640 kB across 19 faces), `font-display: swap`, above-the-fold faces preloaded, and cached CacheFirst by the service worker for offline. No Google CDN request is made — closing the largest unclaimed first-load win and removing a third-party dependency from every page.
 - ✅ **Service worker: already correct** (conflict 2). The incoming draft read "no precaching" as "no asset caching" and recommended enabling precache. The app instead uses **runtime caching** — `CacheFirst` on content-hashed `/assets/*.js|css`, `StaleWhileRevalidate` on fonts and images, `NetworkFirst` on the HTML shell, Supabase never cached. That achieves the repeat-visit saving *without* a precache manifest, which is what pinned a stale `index.html` through two deploys. See the table in §2. Do not reintroduce a manifest for HTML.
 - Verify Netlify actually serves hashed build assets with immutable cache headers rather than assuming it.
-- ◻️ Check bundle size with `vite-bundle-visualizer`. The production bundle is currently **1,068 kB raw / 285 kB gzipped** in one chunk, which already trips Vite's 500 kB warning. Look for full-library imports, a date library where `Intl` would do, and wholesale icon sets — then consider route-level code splitting, since the post-battle wizard and the rules browser are both large and rarely on the critical path.
+- ✅ Bundle size checked and fixed (2026-09-25): the entry was 1,312 kB / 362 kB gzipped; it's now three ~216 kB chunks, 648 kB / 194 kB gzipped — see §16's audit line for how. *Original note:* The production bundle was **1,068 kB raw / 285 kB gzipped** in one chunk, which already trips Vite's 500 kB warning. Look for full-library imports, a date library where `Intl` would do, and wholesale icon sets — then consider route-level code splitting, since the post-battle wizard and the rules browser are both large and rarely on the critical path.
 
 ### 12.5 Audit results
 
@@ -1322,7 +1322,7 @@ The app has been tested with one real warband. Every list is a "fetch everything
 
 **What it cannot tell you:** anything about queries, indexes, RLS performance or egress — all of which it replaces. That is what §13.2 is for.
 
-### 13.2 Seed script ◻️ — real rows, for measuring
+### 13.2 Seed script ✅ — real rows, for measuring (built; run pending)
 
 | Entity | Count | Notes |
 | --- | --- | --- |
@@ -1617,15 +1617,15 @@ Deliberate, with reasons. Kept here rather than in a tracker so the spec and the
 - **The RLS matrix has never been run with a second account.** §14.4. The single-player half is verified live. Untested: two accounts against each other, and specifically that a campaign-mate *cannot* see the owner's BTB objective — the claim the separate objectives table exists to make.
 - **`fetchWarbands` selects the full jsonb blob** for the owner's list view. §12.2.
 - **Fonts are self-hosted** — Latin woff2 subsets under `/fonts/`, no Google CDN request. §12.4.
-- ⚠️ **The entry bundle is 666 kB** (180 kB gzipped), still over Vite's 500 kB warning. Down from a single 1,112 kB chunk: routes off the first-paint path are lazy, and the rules catalogues moved behind a chunk of their own rather than riding in because a primary tab imported them. What remains is mostly the 22 warband data files, pulled in by `getWarbandTypeName` on the list screens — a name lookup dragging 227 kB of definitions. Splitting that needs a generated id→name map with a drift check, not another lazy boundary. §12.4.
+- ✅ **The entry bundle is 648 kB across three chunks** (194 kB gzipped; was 1,312 kB / 362 kB at 49 warbands), under Vite's warning. Demo mode is compiled out of production (a build plugin rewrites `isDemoMode()` to `false`), which was what actually dragged every warband file in; names come from `warbandNames.ts` (the warband JSON under a `?names` query, tree-shaken to `id`/`name`); the registry's top-level sort is `/* @__PURE__ */`; Roster and Account are lazy with a signed-in idle prefetch; React/router/Supabase are vendor chunks so a deploy invalidates only the app chunk. §12.4.
 - ⚠️ **Pagination is on the two unbounded lists, not everywhere.** The public gallery (24/page) and the admin issue inbox (25/page) load incrementally with a Load more button. Deliberately **not** paginated: campaign members, standings and a user's own warbands are bounded by campaign or account size, and the campaign battle log is left whole because standings derive W/L/D from that same array — paging it would silently show wrong records. Doing the log properly means a separate aggregate query for the record, which is a larger change than the list itself.
 - ⚠️ **Gallery paging uses `.range()`, not the keyset cursor §13.4 asks for.** The sort key is `rating`, which changes whenever a warband gains Experience, so a cursor over it is no more stable than an offset — a row can cross the page boundary either way. Neither is exact under concurrent edits and the offset version is much harder to get wrong. The inbox orders by `created_at`, which never changes after insert, so its paging *is* exact. Revisit if the gallery reaches thousands of rows, where OFFSET's cost starts to matter.
 - ⚠️ **Gallery search and filter run over loaded pages, not the whole table.** Matching resolves a warband type's *display* name against the local registry ("possessed" finds `cult-of-the-possessed`), which the database cannot do — the column stores the slug. The row count states how many are loaded while more remain, so an empty result reads as "not in what's loaded" rather than "doesn't exist". Server-side search would need the type names denormalised into the table or a search view.
-- **Settings (now Profile).** Data-file version display and the strict-validation toggle are unbuilt. The "report a data error" link is superseded by the report button in §4.9, which files to a table with the page and build attached rather than opening a mail client.
+- **Settings (now Account).** The data-file version display is built (§4.6's *Game data* card). The strict-validation toggle is **decided against** (2026-09-25): the app settled on warn-don't-block, and the Warband check already surfaces every issue. The "report a data error" link is superseded by the report button in §4.9, which files to a table with the page and build attached rather than opening a mail client.
 - **Static-data versioning.** Every data file has a `schemaVersion`, but nothing compares them across releases, so a corrected weapon price can't announce itself in the changelog. Doing it properly means a build-time diff, not a hand-maintained number.
-- **Exploration results the app can't apply.** The wizard rolls the chart and banks gold and shards. A result handing you a Zombie, a wardog, a free Hired Sword, a training manual or a blessed weapon is reported as text in the battle notes, not applied to the roster. Persistent effects (the Catacombs re-roll, the Straggler's extra die, a Graveyard that makes Witch Hunters hate you) go into the warband's notes and are **not** fed back into the next Exploration roll — nothing reads those notes. Doing it properly means real fields on the warband and a migration, which is why it's deferred rather than half-modelled.
-- **Jewelsmith and Merchant's House gold is left to the player.** Both are worth money only if you sell what you found — the Jewelsmith's gems can instead be kept for +1 on rare item rolls, and the Merchant's House pays nothing if the 2D6 comes up a double. Auto-applying either would assume a choice the player hasn't made.
-- **Per-scenario page references.** `scenarios.json` cites the Scenarios chapter as a whole (p.85–92), not a page per scenario.
+- ✅ **Exploration results are applied** (§27.2): structured `grants` in exploration.json, confirmed in the wizard, committed to the roster.
+- ✅ **Jewelsmith and Merchant's House** (§27.2): sell-or-keep choice, and the Merchant's House double roll.
+- ◻️ **Per-scenario page references.** `scenarios.json` cites the chapter (p.85–92); the mordheimer.net dataset has no page numbers, so exact pages need the physical rulebook.
 - ⚠️ **Unsplit unit special rules — partly cleared.** The "39 units" this line quoted was never right: a fresh count found **76** units with non-empty `notes`, and most of those weren't missing rules at all — the "to do" badge fires on *any* non-empty note, with no distinction between a genuine unsplit rule and a stale remark. Auditing all 76 against the app's own `racialProfile` field found **26** were flavour text glued to a leftover dev note ("statMaximums null: fill from the X Maximum Profile table if/when sourced") that a *later* pass had already resolved via `racialProfile` without anyone going back to clear the note that prompted it — the badge was firing for a gap that no longer existed. Cleared (14 units) or trimmed to just their real content (12 units); **3 left untouched** because they're genuinely correct — Daemons (Carnival of Chaos's Plague Bearers, Nurglings) and an animal (Kislevites' Trained Bear) have no published Maximum Profile at all, by rule, not by gap. **62 units remain** with a non-empty note, and most of *those* are legitimate flavour or cross-reference text ("Core fighters of the warband", "Use the Marksman equipment list") that the badge over-flags rather than real unsplit rules — the genuine remaining candidates (roughly 20, things like "A warband must include at least one Amazon Warrior" or "Burn the Witch!: hates all models that can cast spells") still want the actual splitting work, which is transcription, not sourcing.
 - ✅ **Filled.** This line undercounted the gap — 19 `exclusiveEquipment` entries across 8 warband files (13 unique items, some shared by the three human Mercenary variants) carried a `TODO: verify` `rulesText`, not the 6 named here. Resolved against a local copy of the mordheimer.net structured dataset (`Sourcedata/equipment.json` and the per-warband `Sourcedata/warbandFiles/`), cross-checking each item's *warband-specific* cost against its own equipment list rather than the universal chart — the two aren't always the same price for the same item (Cathayan Silk Cloak is 40gc on Battle Monks' own list, 50gc as a generic core-rulebook item), and every warband-specific cost already in the app's data turned out correct. Two judgment calls, disclosed rather than silently resolved: the Cathayan Longsword's second listed special rule ("Cutting Edge") is verbatim an *axe* rule in the source, clearly a copy-paste error — omitted rather than propagated; and the Cathayan Silk Cloak's rule text was written for "a Mercenary warband" in the source, so it was generalised to "a leader" for a non-Mercenary warband carrying an item of the same name. Also surfaced, not resolved: the Reiklander/Middenheim/Marienburg Hunting Rifle isn't actually on those warbands' own equipment list in the source at all — it's a universal Rare-11 item there (all warbands but Dark Elves) — while this app has always modelled it as a warband-exclusive fixed-price item. The rules content is correct either way; which structure is right is an open question left for a deliberate pass, not decided here.
 - ✅ **Hired Sword rating** now uses the rulebook's per-type bonuses. §3.2.
@@ -1681,7 +1681,7 @@ territories   id, campaign_id, name, territory_type, controlled_by_warband_id (n
 
 ✅ **Resolved (as shipped):** claiming is **open to any member** — the territory board is members-writable, consistent with §1: the app records the outcome of a decision made at the table, it does not adjudicate one.
 
-### 17.2 Rivalries / nemesis tracking ⚠️
+### 17.2 Rivalries / nemesis tracking ✅
 
 Mostly derived rather than new state — `BattleRecord.opponents` already exists (§3.1) — plus one small explicit field for the part that cannot be derived: which rivalry a player actually cares about.
 
@@ -1859,7 +1859,7 @@ Written by a trigger on `warbands` `AFTER UPDATE OF rating` — append-only, nev
 
 ---
 
-## 19. Social & multiplayer ⚠️ (RSVPs + announcements built; gallery comments + push deferred)
+## 19. Social & multiplayer ✅ (RSVPs, gallery comments, announcements and push all built)
 
 **Status:** all four are now **built**. 19.1 Event RSVPs and 19.3 Leader announcements first (migrations 0019 / 0018); 19.2 Gallery comments (migration 0029) and 19.4 Push notifications (migration 0028) shipped last, their costs — moderation, and the project's first server-side sending — finally taken on rather than deferred further.
 
@@ -1898,7 +1898,7 @@ warband_comments   id, warband_id, author_id, body, created_at, deleted_at (null
 
 **Moderation** reuses the `issue_reports` shape (§4.9): a Report action files into the same table with a `context` blob naming the comment, so the existing admin inbox handles it without a second one. Admins get a hide action alongside triage.
 
-❓ **Recommendation** — given the moderation cost, and that this is the one feature here with no precedent for a solo-maintained app absorbing ongoing abuse handling, ship RSVPs, announcements and the §17.3 narrative log first. Revisit comments only if the gallery grows past the size where an admin can plausibly handle them by hand.
+✅ **Resolved — built (see status above).** *Original recommendation:* given the moderation cost, and that this is the one feature here with no precedent for a solo-maintained app absorbing ongoing abuse handling, ship RSVPs, announcements and the §17.3 narrative log first. Revisit comments only if the gallery grows past the size where an admin can plausibly handle them by hand.
 
 ### 19.3 Leader announcements ✅
 
@@ -1925,7 +1925,7 @@ The largest infrastructure lift here. The PWA groundwork (§2) supports it, but 
 
 **Requires:** a service worker push handler (new — the current worker is caching-only, §2), a `push_subscriptions` table (`user_id`, `endpoint`, `keys`; one row per device), and a server-side sender, which this project has never had — every write today comes from the client (§8.4). A Supabase Edge Function driven by `pg_cron` for reminders and by a `battles` insert webhook for the second case is the natural fit, consistent with the pg_cron precedent set by the purge job (§10.5).
 
-❓ **Open question** — this is meaningfully bigger than everything else in §17–§20 combined: the first server-side compute the project has needed, against every other feature being schema, RLS and client screens. **Scope it last, and scope the reminder case only at first** — that needs no inbound trigger, just a cron job reading `campaign_events`, whereas the battle-reported case needs a database webhook wired to the function: a second moving part, and a second thing to debug at a distance.
+✅ **Resolved — built (see status above).** *Original open question:* this is meaningfully bigger than everything else in §17–§20 combined: the first server-side compute the project has needed, against every other feature being schema, RLS and client screens. **Scope it last, and scope the reminder case only at first** — that needs no inbound trigger, just a cron job reading `campaign_events`, whereas the battle-reported case needs a database webhook wired to the function: a second moving part, and a second thing to debug at a distance.
 
 ---
 
@@ -2029,7 +2029,7 @@ Done so far: per-model photos (§21.1, migration 0015), all of §20 Utility (dic
 
 ---
 
-## 23. Admin analytics & growth insight ⚠️ (DB-derived layer built; PostHog client shipped, reverse-proxy pending)
+## 23. Admin analytics & growth insight ✅ (DB-derived layer built; PostHog client and reverse proxy shipped)
 
 _Renumbered from the drafted §17 because the feature-expansion block (§17–22) landed first; the one dangling "§17" reference in §16 (which meant §4.9's report button) has been fixed. This is a top-level section in the shape of §11/§13 — it carries a data model, migrations and a build order, not just a screen description. The screen work in §23.5 extends the existing admin back-end at §4.9._
 
@@ -2040,7 +2040,7 @@ The app crossed into organic growth — a Discord-driven influx (11 users in 6 d
 Two layers, and the order matters:
 
 - **§23.1–§23.6 — DB-derived insight.** Everything here is aggregate SQL over tables the app already owns, in the same `SECURITY DEFINER`, admin-gated family as `admin_stats()`. No third party, no bundle cost, no new privacy surface. **Build this now.**
-- **§23.7 — Behavioural analytics (PostHog). Client built (proxy pending).** It answers only what SQL genuinely can't — session-level funnels, replay, retention curves without hand-maintained queries. Held until the DB layer was in; the client-side integration has since shipped, privacy-scoped and direct-to-host, with the Cloudflare reverse-proxy the remaining step.
+- **§23.7 — Behavioural analytics (PostHog). Client and proxy built.** It answers only what SQL genuinely can't — session-level funnels, replay, retention curves without hand-maintained queries. Held until the DB layer was in; the client-side integration has since shipped, privacy-scoped, and routed through a first-party Cloudflare Worker proxy on the production domain.
 
 **Principle** (an extension of §3.3's discipline to metrics): derive from owned data first; reach for a third-party processor only for questions the database cannot answer. A metric computed from your own rows is verifiable and free; one shipped to an external tool is neither.
 
@@ -2061,12 +2061,12 @@ Two layers, and the order matters:
 
 | Metric | Source (all owned tables) | Marker |
 | --- | --- | --- |
-| Activation funnel | `profiles`, `warbands`, `campaign_members`/`warbands.campaign_id`, `battles` | ◻️ |
-| Retention cohorts | `profiles.created_at` × activity signal (§23.3) | ◻️ |
-| Activity series (battles/day, warbands/day) | `battles.created_at`, `warbands.created_at` | ◻️ |
-| Time-to-activation (median) | `profiles.created_at` vs first `warbands`/`battles` row | ◻️ |
-| Rolling new users (7/30-day) | `profiles.created_at` — extend `admin_stats()` | ◻️ |
-| Acquisition channel | new capture, §23.4 | ◻️ |
+| Activation funnel | `profiles`, `warbands`, `campaign_members`/`warbands.campaign_id`, `battles` | ✅ |
+| Retention cohorts | `profiles.created_at` × activity signal (§23.3) | ✅ |
+| Activity series (battles/day, warbands/day) | `battles.created_at`, `warbands.created_at` | ✅ |
+| Time-to-activation (median) | `profiles.created_at` vs first `warbands`/`battles` row | ✅ (0050) |
+| Rolling new users (7/30-day) | `profiles.created_at` — extend `admin_stats()` | ✅ |
+| Acquisition channel | new capture, §23.4 | ✅ |
 
 The **funnel definition** is the lever, so pin it explicitly. Proposed stages, each strictly narrowing:
 
@@ -2170,7 +2170,7 @@ percentile_cont(0.5) within group (order by extract(epoch from (first_wb - signu
 
 ### 23.4 Acquisition capture — the one new write path
 
-◻️ **Follow-up in §26.7:** verify capture is actually firing, and add an optional self-reported source on the register form.
+✅ **Follow-up in §26.7 (built):** verify capture is actually firing, and add an optional self-reported source on the register form.
 
 Referrer is the only thing SQL can't reconstruct after the fact, so it must be captured at signup and never after. Two hard truths shape the design:
 
@@ -2211,9 +2211,9 @@ Reuse the existing chart path rather than adding a charting dependency — bundl
 
 The §4.9 exclusions hold without exception: no email addresses, no roster data jsonb, no BTB objectives, no per-user row access. Everything here is counts and aggregates. Acquisition channel is the one new per-user field and it is admin-aggregate-only, never surfaced to the user or to other members. Owner-only objectives are the whole reason that table is separate (§8.3); an analytics feature that reads them would undo it.
 
-### 23.7 Behavioural analytics (PostHog) — client shipped ✅ (reverse-proxy pending ⚠️)
+### 23.7 Behavioural analytics (PostHog) — client and reverse proxy shipped ✅
 
-The client-side integration is built and privacy-scoped; the Cloudflare reverse-proxy (below) is the one deliberately-deferred piece. Configured by `VITE_POSTHOG_KEY` / `VITE_POSTHOG_HOST` and a no-op in every build when they're unset — a dev or self-host without a project just runs, nothing throws.
+The client-side integration is built and privacy-scoped, and ingestion runs through a first-party Cloudflare Worker proxy (below). Configured by `VITE_POSTHOG_KEY` / `VITE_POSTHOG_HOST` and a no-op in every build when they're unset — a dev or self-host without a project just runs, nothing throws.
 
 **Why it's a real tool and not a duplicate.** PostHog answers what the DB layer structurally can't: session-level funnels, where in a flow a user hesitates or rage-clicks, retention curves without hand-maintained SQL, and session replay to actually watch a confused new user. It is a different question from "how many rows exist".
 
@@ -2226,7 +2226,7 @@ The client-side integration is built and privacy-scoped; the Cloudflare reverse-
 
 This realises the original scope: pageviews + named product events mirroring the §23.2 funnel, reconcilable against the DB funnel, and no firehose of autocaptured clicks — event discipline is what keeps the free tier free. (Names landed as `campaign_joined`/`campaign_selected` rather than the drafted `campaign_entered`.)
 
-**Still pending — the reverse-proxy.** Ingestion currently points directly at the configured host, which ad blockers can catch and which pins residency to whichever region the host is in. The Cloudflare Worker already serving the landing page and per-roster OG meta is exactly the place to reverse-proxy PostHog: requests hit Cloudflare first, then PostHog, hiding the endpoint from blockers, keeping ingestion first-party, and (with EU endpoints) keeping residency intact. Use a non-obvious proxy path — not `/analytics`, `/ingest`, `/track`, which blockers catch. Set per-product billing caps as a backstop even on the free tier.
+**The reverse proxy ✅.** On `mordheimmanager.net`, both the app (`src/lib/posthog.ts`) and the landing page send analytics to **`/lantern/*`** on our own domain; `worker/index.js` forwards `/lantern/static/*` to `eu-assets.i.posthog.com` (the SDK's lazy scripts, edge-cached for an hour) and everything else to `eu.i.posthog.com`, and `wrangler.toml` routes `/lantern/*` through the Worker first. The path is deliberately unremarkable — blocklists catch `/ingest`, `/analytics`, `/track`, `/posthog`. Nothing sent changes (consent gating, the closed event union and `before_send` still run in the browser first); the proxy strips cookies and **forwards the visitor's IP** (`CF-Connecting-IP` → `X-Forwarded-For`, dropping any client-sent value) so PostHog can derive approximate location — the owner's call (2026-09-25), and already disclosed in the Privacy Policy for consenting visitors. Check PostHog's *Discard client IP data* project setting is off, or it drops the IP anyway. Dev, previews and the old Netlify host run no Worker, so they keep talking to the configured host directly. A same-origin `NetworkOnly` rule keeps the service worker off `/lantern/`. Residency is EU end to end. Still worth setting: per-product billing caps in PostHog as a backstop.
 
 **Privacy surface / residency (open).** The gallery is anon-readable (§8.1) and the community is heavily European, so any client-side tracker touches GDPR. The current posture — anonymous, cookieless (`localStorage`, no cookie), DNT-respecting, PII-free — is the lightweight path that likely avoids a consent banner; the EU-vs-US host choice (residency) is settled by which `VITE_POSTHOG_HOST` is configured and rides on the reverse-proxy work above.
 
@@ -2241,13 +2241,13 @@ This is what makes the §23.9 database-side signup alert the right call rather t
 
 ### 23.8 Build order
 
-1. ◻️ **Tagged links first (§23.4)** — zero code in the app, pure link hygiene, and every day untagged is acquisition data lost forever. Tag the mordheimer.net referral, the Discord posts, and the §8.5 share cards.
-2. ◻️ **Migration 0025** — acquisition columns + the register-screen capture and classifier.
-3. ◻️ **The RPCs (§23.3)** — funnel, cohorts, activity series, rolling counts, acquisition breakdown. Add the §23.3 indexes in the same migration.
-4. ◻️ **Admin panels (§23.5)** — growth, funnel, acquisition, activity.
+1. ✅ **Tagged links first (§23.4)** — share cards are tagged; tagging posted links stays an operator habit (§26.8). — zero code in the app, pure link hygiene, and every day untagged is acquisition data lost forever. Tag the mordheimer.net referral, the Discord posts, and the §8.5 share cards.
+2. ✅ **Migration 0025** — acquisition columns + the register-screen capture and classifier.
+3. ✅ **The RPCs (§23.3)** — funnel, cohorts, activity series, rolling counts, acquisition breakdown. Add the §23.3 indexes in the same migration.
+4. ✅ **Admin panels (§23.5)** — growth, funnel, acquisition, activity.
 5. ◻️ **Fold into the §13 scale test** — the cohort and funnel queries are `group by` over the whole user table, exactly the kind of thing that's instant at 50 rows and slow at 5,000. Measure them on the seeded dataset (§13.2) before assuming they hold.
 6. ✅ **PostHog client (§23.7)** — shipped after the above: privacy-scoped, direct-to-host, a closed nine-event union plus pageviews.
-7. ◻️ **PostHog reverse-proxy (§23.7)** — route ingestion through the Cloudflare Worker on a non-obvious path; settles the ad-blocker and residency questions.
+7. ✅ **PostHog reverse-proxy (§23.7)** — route ingestion through the Cloudflare Worker on a non-obvious path; settles the ad-blocker and residency questions.
 
 ### 23.9 Signup alerts (Slack) ✅ (migration 0031; Vault secret to be set)
 
@@ -2373,11 +2373,11 @@ _Drafted 2026-09-25 from a read of the live admin screens (Overview + Players) a
 - §4.9.7 governs every admin change here without exception: no email addresses, no roster jsonb, no battle/event content, no BTB objectives.
 - Migration numbers: use the next free number after the latest in `supabase/migrations/`. Every new admin RPC is `SECURITY DEFINER`, asserts `admins` membership on its first line, and returns counts/metadata only.
 
-### 26.1 Players — "Last seen" must not say "never" for active users ◻️ _(amends §4.9.4)_
+### 26.1 Players — "Last seen" must not say "never" for active users ✅ _(amends §4.9.4)_
 
 **Observed.** On `/admin/players`, 22 of 47 rows show Last seen = `never`, including users with recent edits — one row has 65 edits in 30 days and a last edit 9 days ago, but Last seen `never`. A user who edited a warband 9 days ago was plainly seen 9 days ago.
 
-**Likely cause** ❓ (verify): the Last seen value reads a column (e.g. `profiles.last_seen_at`) that was introduced after most users signed up and is only written going forward. Pre-existing users stay `null` until their next tracked visit. Claude Code: confirm the source of the column in `admin_user_overview()` and when it was introduced.
+**Likely cause** ✅ (confirmed, §26.10): the Last seen value reads a column (e.g. `profiles.last_seen_at`) that was introduced after most users signed up and is only written going forward. Pre-existing users stay `null` until their next tracked visit. Claude Code: confirm the source of the column in `admin_user_overview()` and when it was introduced.
 
 **Fix — derive at read time, don't rewrite history.** Compute last seen in the RPC as the latest of every signal we own. Postgres `greatest()` ignores nulls:
 
@@ -2394,13 +2394,13 @@ greatest(
 
 Because `created_at` is a floor, `never` can no longer occur. Remove the `never` rendering branch rather than keeping it as dead UI.
 
-**One definition, used everywhere.** "Active · 7D" (22) and "Online today" (8) on Overview must use this same value, or the Players list and the Overview tiles will disagree. ❓ Claude Code: report how `admin_stats()` currently computes both. Default: extract the expression into one SQL function `user_last_seen(uid uuid) returns timestamptz` (`stable`, `security definer`, not granted to `anon`/`authenticated`) and call it from `admin_user_overview()`, `admin_stats()` and the §23.3 retention query.
+**One definition, used everywhere.** "Active · 7D" (22) and "Online today" (8) on Overview must use this same value, or the Players list and the Overview tiles will disagree. ✅ Answered in §26.10. Claude Code: report how `admin_stats()` currently computes both. Default: extract the expression into one SQL function `user_last_seen(uid uuid) returns timestamptz` (`stable`, `security definer`, not granted to `anon`/`authenticated`) and call it from `admin_user_overview()`, `admin_stats()` and the §23.3 retention query.
 
 **Sorting.** Sort by Last seen uses the derived value. With the floor in place there are no nulls, so no `nulls last` special case.
 
 **No backfill migration.** The read-time derivation makes one unnecessary, and it keeps `last_seen_at` meaning exactly "tracked visit" rather than a mix of real and reconstructed values.
 
-### 26.2 Players — sticky player column on mobile ◻️ _(amends §4.9.4)_
+### 26.2 Players — sticky player column on mobile ✅ _(amends §4.9.4)_
 
 **Observed.** On a phone the Players table is wider than the screen. Scrolling right to read Battles / New 30d / Edits 30d / Last seen / Last edit scrolls the player name away, so no row can be attributed to a player.
 
@@ -2411,7 +2411,7 @@ Because `created_at` is a floor, `never` can no longer occur. Remove the `never`
 - Cap the sticky column at ~40% of viewport width; long names (`Benjamin Allen (Firehon12)`) wrap to two lines rather than widening the column.
 - Verify at 360px and 412px widths, in both themes, with the admin tab strip visible.
 
-### 26.3 Auth health — diagnose accounts that sign up but never get in ◻️
+### 26.3 Auth health — diagnose accounts that sign up but never get in ✅
 
 **Observed.** Two accounts with near-identical names (`G4bri3l`, joined 24d ago, 0 warbands; `G4br3l18`, joined 21d ago, 3 warbands, 1 campaign). The pattern — older account empty, newer account active — is what a failed confirmation, a lost password or a login error looks like from the outside. Several other zero-warband accounts may be the same failure, not disinterest.
 
@@ -2439,35 +2439,35 @@ After Evin reviews the report, fixes follow as a separate pass.
 
 **No automated duplicate detection.** Matching accounts reliably needs email comparison, which is out of bounds for admin functions. Similar display names are a hint for Evin to follow up by hand, not something to compute.
 
-### 26.4 Onboarding — get new players to their first warband ◻️
+### 26.4 Onboarding — get new players to their first warband ✅
 
 **Observed.** About 8 of 47 accounts have 0 warbands. In §23.2's funnel that is the drop between stage 1 (registered) and stage 2 (created a warband). §26.3 may explain part of it; the rest is onboarding.
 
-**26.4.1 First-run landing.** After a sign-in where the user owns zero non-deleted warbands, land them on warband creation rather than Home. ❓ Claude Code: confirm the create-warband route and whether a post-auth redirect hook already exists.
+**26.4.1 First-run landing.** After a sign-in where the user owns zero non-deleted warbands, land them on warband creation rather than Home. ✅ Answered in §26.10. Claude Code: confirm the create-warband route and whether a post-auth redirect hook already exists.
 
-- **Exception:** if the user arrived through a campaign join code or invite link, finish that flow first, then continue into warband creation with the campaign pre-selected. ❓ Report whether a join-by-link path exists or joining is code-entry only.
+- **Exception:** if the user arrived through a campaign join code or invite link, finish that flow first, then continue into warband creation with the campaign pre-selected. ✅ Answered in §26.10 (code-entry only). Report whether a join-by-link path exists or joining is code-entry only.
 - This applies only while the user has zero warbands. Once they have one, sign-in lands on Home as usual.
 
 **26.4.2 Empty-state Home.** With zero warbands, Home leads with one primary card: a short line on what the app does and a single "Create your first warband" button. Secondary content (Discord link §4.10, rules reference) stays below it. No carousel, no multi-step tour.
 
 **26.4.3 Measure it.** Emit via the existing `track.ts` → `app_events` (not PostHog-only, per §23.7's split):
 - `onboarding_first_warband_shown` / `onboarding_first_warband_clicked`
-- `warband_created` already exists ❓ (verify); if not, add it with `{ is_first: boolean }`.
+- `warband_created` already exists ✅ (it did; `is_first` added); if not, add it with `{ is_first: boolean }`.
 
 Success means the §23.2 stage 1→2 ratio rises for cohorts that sign up after this ships. Read it on the Overview funnel; no new panel needed.
 
-### 26.5 Sharing nudge — private by default, public on invitation ◻️ _(lower priority)_
+### 26.5 Sharing nudge — private by default, public on invitation ✅ _(lower priority)_
 
 **Observed.** 8 of 85 warbands are public. The default stays private — this spec does not change that. The goal is to make "public" a choice people see, not one they have to discover.
 
 - **Where:** an inline, dismissible card on the owner's warband screen. Owner-only, and only while the warband is private.
-- **When** ❓: default **after the warband's first logged battle** (a roster with history is worth showing). Alternative: 7 days after creation. Recommendation: first battle, since it's a moment of pride rather than an interruption.
+- **When** ✅ (built with the default): default **after the warband's first logged battle** (a roster with history is worth showing). Alternative: 7 days after creation. Recommendation: first battle, since it's a moment of pride rather than an interruption.
 - **Copy** must state what the flag actually does (§ access model): campaign members already see the warband regardless; "public" only affects people outside the campaign.
 - **Actions:** "Make public" (sets the flag, then shows the share link) and "Not now" (dismisses).
 - **Dismissal** is per warband, in `localStorage`, wrapped in try/catch. It's a per-viewer convenience, so browser storage is the right home.
 - Share links produced from this card carry `?ref=share-link` so §23.4 attributes signups they bring in.
 
-### 26.6 Battles outside campaigns ❓ _(report-only; no build in this pass)_
+### 26.6 Battles outside campaigns ✅ _(reported: they exist; discoverability is the open question, §26.8)_
 
 **Observed.** All 45 battles appear to come from one campaign group of about 8 players. Everyone else uses the app as a roster builder.
 
@@ -2477,12 +2477,12 @@ Success means the §23.2 stage 1→2 ratio rises for cohorts that sign up after 
 
 **Decision for Evin** (after the report and after feedback from the active group — see §26.8): whether to add standalone battle logging (post-battle sequence, XP and injuries against a single warband, no standings). Default: don't build it yet. First learn whether non-campaign users don't play, or play and don't log.
 
-### 26.7 Acquisition — verify §23.4, add self-report ◻️ _(amends §23.4)_
+### 26.7 Acquisition — verify §23.4, add self-report ✅ _(amends §23.4)_
 
 **Observed.** Signups have picked up over the last two weeks, and Evin can't tell where they come from. §23.4 capture is recorded as built, so either the panel isn't visible, the capture isn't firing, or everything is landing in `unknown`.
 
 **26.7.1 Verify — report-only.**
-1. Does the Acquisition panel (§23.5) render on `/admin/overview`? The screenshot shows a single signup bar series where §23.5's multi-metric Activity series should be. ❓ Is the §23.5 panel set fully shipped, or partly below the fold?
+1. Does the Acquisition panel (§23.5) render on `/admin/overview`? The screenshot shows a single signup bar series where §23.5's multi-metric Activity series should be. ✅ Answered in §26.10 (shipped, below the fold). Is the §23.5 panel set fully shipped, or partly below the fold?
 2. Run `admin_acquisition_breakdown()` for the last 30 days and report the counts per channel.
 3. Is the first-touch value stashed to `localStorage` **on first page load** (landing page and app entry), before any redirect to register, and read back at profile creation? A capture that only reads the URL at the register screen loses the `?ref` after one navigation.
 4. For accounts created in the last 14 days: how many have a non-null channel?
@@ -2494,9 +2494,9 @@ Success means the §23.2 stage 1→2 ratio rises for cohorts that sign up after 
 
 Choosing "Other" reveals a free-text input, max 80 characters.
 
-- **Storage:** write-once, in the same store and on the same write path as the §23.4 acquisition fields as built. ❓ Confirm whether that is the `profiles` columns from migration 0025 or a dedicated deny-all table written by a `SECURITY DEFINER` trigger; ways-of-working records the latter as the correct pattern. New fields: `acquisition_self_report text` (closed set) and `acquisition_self_report_note text` (≤ 80 chars, `check` constraint).
+- **Storage:** write-once, in the same store and on the same write path as the §23.4 acquisition fields as built. ✅ Answered: the `profiles` columns (0047). Confirm whether that is the `profiles` columns from migration 0025 or a dedicated deny-all table written by a `SECURITY DEFINER` trigger; ways-of-working records the latter as the correct pattern. New fields: `acquisition_self_report text` (closed set) and `acquisition_self_report_note text` (≤ 80 chars, `check` constraint).
 - **RLS:** unchanged from §23.4. No user can read these fields, including their own. No client `UPDATE` path.
-- **Admin read:** extend `admin_acquisition_breakdown()` with self-report counts per option (last 30 days), displayed as a second bar group in the Acquisition panel next to the captured channel. The "Other" notes are free text entered by a user, so show them as an **unattributed list** (the last 20 notes, text only, no user id, name or date). ❓ Default is to show them; drop the list if Evin prefers counts only.
+- **Admin read:** extend `admin_acquisition_breakdown()` with self-report counts per option (last 30 days), displayed as a second bar group in the Acquisition panel next to the captured channel. The "Other" notes are free text entered by a user, so show them as an **unattributed list** (the last 20 notes, text only, no user id, name or date). ✅ Built with the default (shown); drop the list if Evin prefers counts only.
 - **Skipped field** records `null` and is shown as "not answered", never folded into "Other".
 
 ### 26.8 Operator actions — for Evin, not Claude Code
@@ -2518,7 +2518,7 @@ Choosing "Other" reveals a free-text input, max 80 characters.
 | 6 | §26.5 sharing nudge | S | Nice-to-have; depends on nothing |
 | 7 | §26.6 battles report | report | Decision waits on §26.8 feedback |
 
-### 26.10 Status — built; 0045–0047 applied, 0048 pending ⚠️
+### 26.10 Status — built; migrations 0045–0049 applied ✅
 
 Everything buildable in §26 is built and verified in demo mode. Migrations 0045–0047 are applied; 0048 (Google-signup acquisition) needs `npx supabase db push`.
 
@@ -2566,3 +2566,46 @@ The §26.3.2 and §26.7.1 findings, fixed after review.
   2. **Redirect URLs:** the explicit list came back empty, but `https://mordheimmanager.net/app` and `…/app/reset-password` are accepted (probe-verified), so §26.11's confirmation, resend, reset and Google redirects all work today. ✅ The dashboard's allow-list is `https://mordheimmanager.net/**`, `…/app`, `…/app/reset-password` and `http://localhost:5173/app` (dev); the CLI simply doesn't return it.
   3. **Email sender is fine:** custom SMTP via Resend (`smtp.resend.com`, `noreply@send.mordheimmanager.net`, "Mordheim Manager"), 25 auth emails/hour. Resends are not at risk from the built-in sender's cap.
   4. ✅ **Templates match the repo.** The live Confirm signup and Reset password bodies are identical to `public/mailTemplates/confirm-signup.html` / `reset-password.html`; every link uses `{{ .ConfirmationURL }}` (so the app's redirect is honoured) and the reset email's "good for one hour" matches `otp_expiry = 3600`. Subjects: *Confirm your Mordheim Manager account* / *Reset your Mordheim Manager password*. (No Send Email hook — Resend only delivers what Supabase renders.)
+
+## 27. Open-ends pass — decisions and builds (2026-09-25) ✅
+
+The owner went through every open marker in this spec. What was decided, and what was built:
+
+| # | Open end | Outcome |
+| --- | --- | --- |
+| 1 | Default theme (conflict 1) | ✅ **Grimdark stays the default.** No code change. |
+| 2 | Audit-log retention button (§10.4) | ✅ *Audit-log cleanup* section on **Admin → Maintenance**, type-to-confirm, calling `admin_purge_old_audit_logs()` (0043). |
+| 3 | Leaderless campaigns (§10.3.1) | ✅ Built — see below. Migration **0051** + Edge Function `notify-leaderless-campaigns`. |
+| 4 | Analytics location | ✅ The `/lantern` proxy now **forwards the visitor's IP** (`CF-Connecting-IP` → `X-Forwarded-For`) so PostHog can derive approximate location; cookies are still stripped. The Privacy Policy already disclosed IP-derived location for consenting visitors. §23.7. |
+| 5 | Standalone battles (§26.6) | ✅ Discoverable: a *Just want to play a game?* card on the Campaign tab for players without a campaign, and a "no campaign needed" link on Home's campaign step. |
+| 6 | Two-account test (§14.4) | ✅ Tested and confirmed by the owner. |
+| 7 | Scale test (§13.2) | ✅ `npm run seed:scale` / `seed:teardown` (scripts/). Sized ~20× the live project: **1,000 players, 2,000 warbands, 100 campaigns, ~1,150 memberships, ~3,300 battles, 500 game nights**, from the same deterministic generator as demo mode (now scale-parameterised). Refuses the live project ref; reads `.env.seed.local`. Running it needs a throwaway project. |
+| 8 | Query caching (§12.1) | ✅ **Keep the global 30 s**; the tiered table is more machinery than it's worth at this size. One tier applied: the public gallery is fresh for 5 min and doesn't refetch on focus. |
+| 9 | `fetchWarbands` (§12.2) | ✅ Not optimal — `select('*')` pulled `previous_data`, a full pre-battle copy of every fought warband, to compute one boolean. Now explicit columns; `hasSnapshot` reads `previous_data_at`. |
+| 10 | Photos on iPhone | ⚠️ Owner will test on an iPhone. Crop UI and the storage/egress quota warning remain open. |
+| 11 | Gallery card photos (§4.7) | ✅ Group-shot thumbnails on gallery cards for signed-in viewers; signed-out visitors are told pictures need an account (§11.5). |
+| 12 | Strict-validation toggle (§4.6) | ✅ **Decided against** — contradicts warn-don't-block; the Warband check covers it. |
+| 13 | Time-to-activation (§23.2) | ✅ Migration **0050** `admin_time_to_activation(days)`: median hours to first warband and first battle for recent signups, as two tiles in *Growth*. |
+| 14 | Static-data versioning | ✅ **Advised, not built:** `schemaVersion` tracks format, not content, so versioning it adds nothing; the useful tool is a `data-diff <git ref>` script listing changed prices/rules/stats since a release, to paste into the hand-written changelog. Low priority. |
+| 15 | Game-data gaps | ✅ / ⚠️ — see below. |
+| 16 | Nemesis (§17.2) | ✅ Battle records now keep the picked opponent's warband id (`opponentWarbandIds`, name → id); rivalries group by id and fold older name-only history in; **Mark as nemesis** on a rival with 2+ battles (stored as `Warband.nemesisWarbandId`); a Nemesis badge on the rivalry and the Standings row. |
+| 17 | Map generator / solo (§24) | External specs the owner will look up. |
+
+### 27.1 Claiming leadership of a leaderless campaign (item 3)
+
+- **When:** every leader of a campaign unseen for **30 days** (by `user_last_seen()`), campaign not concluded. `campaign_leaders_absent()` holds the definition.
+- **Pop-up:** `LeaderClaimPrompt` in the app shell asks each non-leader member (`claimable_campaigns()`). *Not now* hides it for the browser session only.
+- **Claim:** makes the member a **co-leader**; the absent leader keeps their role. `claim_campaign_leadership()` locks the campaign row so simultaneous claims serialise — the first wins, the rest are told a leader exists again.
+- **Email:** the `notify-leaderless-campaigns` Edge Function (daily, pg_cron) emails each member once per leaderless spell via Resend's API, one message per recipient; the link opens the pop-up (`/app/campaign?claim=<id>`) even if dismissed. `campaign_leaderless_notices` records the spell and is cleared when leadership returns or is claimed.
+- **Deploy steps (owner):** `supabase functions deploy notify-leaderless-campaigns`, `supabase secrets set RESEND_API_KEY=…`, and the pg_cron schedule in the function's header.
+
+### 27.2 Game-data gaps (item 15)
+
+- ✅ **Exploration results are applied.** `exploration.json` entries, variants, sub-table rows and checklist items now carry structured `grants` / `choices`; the wizard shows a *What it adds to your warband* panel (counts rolled and editable, Heroes chosen, choices picked) and commits them: items into the treasury, Experience (leader or shared), skill-list access, skills, Hero notes, free Zombies or a wardog, a recruited prisoner, a magical artefact. Anything with no mechanical home (a free Hired Sword for the next game, the catacombs set-up) stays in the notes.
+- ✅ **Jewelsmith & Merchant's House.** Jewelsmith rows are a sell-or-keep choice (keep = a Hero's +1 to rare-item rolls); Merchant's House rolls 2D6 — ×5 gc, or on a double the Freetraders' symbol (Haggle for a chosen Hero).
+- ◻️ **Exact scenario pages — needs the rulebook.** The local mordheimer.net dataset lists every scenario's source but no page numbers, so they can't be sourced without the physical book.
+- ⚠️ **Machine-readable special rules — the actionable part.** Rules now carry optional `effects`. `noExperience` is on the 35 unit rules (and the shared Animal / Dumb Monster rules) that say a model never gains Experience — which fixed a real bug: Raging Peasants, Plague Bearers, Nurglings and the Plague Cart weren't flagged and were being awarded XP. `promotionSkillLists` encodes the six units whose "Lad's Got Talent" promotion has fixed, narrowed or extra skill lists, and the wizard now asks for the promoted Hero's lists instead of leaving them empty. The rest of the 467 rules have no effect the app consults, so they stay prose.
+
+### 27.3 Deploy checklist
+
+Migrations **0050** and **0051** (`npx supabase db push`); the Edge Function and its `RESEND_API_KEY` secret and schedule (27.1). No new client environment variables.

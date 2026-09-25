@@ -399,7 +399,8 @@
       "specialRules": [
         {
           "name": "Utterly Inept",
-          "description": "Gutterscum have turned to a life of crime because they lack the ability to fit into normal society. They lack both the ambition and the capacity for self-improvement. Gutterscum do not gain experience."
+          "description": "Gutterscum have turned to a life of crime because they lack the ability to fit into normal society. They lack both the ambition and the capacity for self-improvement. Gutterscum do not gain experience.",
+          "effects": { "noExperience": true }
         }
       ]
     }

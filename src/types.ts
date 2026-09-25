@@ -157,6 +157,9 @@ export type Warband = {
   henchmenGroups: HenchmenGroup[];
   hiredSwords: HiredSword[];
   notes: string;
+  /** §17.2 — the rival this player has marked as their nemesis: a warband id
+   * from their rivalries. Player-designated, never implied by battle count. */
+  nemesisWarbandId?: string;
 };
 
 export type BattleResult = 'win' | 'loss' | 'draw';
@@ -167,6 +170,14 @@ export type BattleRecord = {
   date: string;
   scenario: string;
   opponents: string[]; // names/warband types
+  /**
+   * §17.2 — the warband id behind an entry in `opponents`, keyed by that name as
+   * recorded, when the opponent was picked from a roster in the pre-battle flow
+   * rather than typed. Lets rivalries follow a warband through a rename and lets
+   * a player mark it as their nemesis. Optional: typed opponents and every
+   * record from before this field have none, and fall back to the name.
+   */
+  opponentWarbandIds?: Record<string, string>;
   result: BattleResult;
   underdogBonus?: number;
   wyrdstoneFound: number;

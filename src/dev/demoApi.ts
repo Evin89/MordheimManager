@@ -594,6 +594,24 @@ export async function fetchAdminStats() {
 
 // --- §23 growth analytics (demo) -------------------------------------------
 
+// §10.3.1 — demo campaigns always have an active leader, so nothing is claimable.
+export async function fetchClaimableCampaigns() {
+  return [] as { campaignId: string; campaignName: string; leadersLastSeen: string | null }[];
+}
+
+export async function claimCampaignLeadership(_campaignId: string) {
+  return false;
+}
+
+export async function fetchTimeToActivation(days = 90) {
+  return {
+    days,
+    cohort: 18,
+    warband: { reached: 14, median_hours: 0.4 },
+    battle: { reached: 6, median_hours: 52.5 },
+  };
+}
+
 export async function fetchActivationFunnel() {
   const d = db();
   const withWarband = new Set(d.warbands.map((w) => w.ownerId));

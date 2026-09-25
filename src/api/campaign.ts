@@ -49,6 +49,28 @@ function toCampaign(row: CampaignRow): Campaign {
  * someone else's campaign never created a row in `campaigns`. The nested select
  * goes through `campaign_members` so RLS resolves it in one round trip.
  */
+/** §10.3.1 — a campaign of mine whose every leader has been away 30+ days. */
+export type ClaimableCampaign = { campaignId: string; campaignName: string; leadersLastSeen: string | null };
+
+/** Campaigns the signed-in member could claim leadership of (migration 0051). */
+export async function fetchClaimableCampaigns(): Promise<ClaimableCampaign[]> {
+  if (isDemoMode()) return demo.fetchClaimableCampaigns();
+  const { data, error } = await supabase.rpc('claimable_campaigns');
+  if (error) throw error;
+  return ((data ?? []) as { campaign_id: string; campaign_name: string; leaders_last_seen: string | null }[]).map(
+    (r) => ({ campaignId: r.campaign_id, campaignName: r.campaign_name, leadersLastSeen: r.leaders_last_seen }),
+  );
+}
+
+/** Claim co-leadership. False when someone else got there first (or a leader
+ * came back) — not an error, the pop-up just refreshes. */
+export async function claimCampaignLeadership(campaignId: string): Promise<boolean> {
+  if (isDemoMode()) return demo.claimCampaignLeadership(campaignId);
+  const { data, error } = await supabase.rpc('claim_campaign_leadership', { p_campaign_id: campaignId });
+  if (error) throw error;
+  return data === true;
+}
+
 export async function fetchMyCampaigns(userId: string): Promise<Campaign[]> {
   if (isDemoMode()) return demo.fetchMyCampaigns(userId);
   const { data, error } = await supabase

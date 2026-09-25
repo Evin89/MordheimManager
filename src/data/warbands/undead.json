@@ -223,7 +223,8 @@
         },
         {
           "name": "No Brain",
-          "description": "never gain experience. (isAnimal=true is used here as the 'does not gain experience' flag.)"
+          "description": "never gain experience. (isAnimal=true is used here as the 'does not gain experience' flag.)",
+          "effects": { "noExperience": true }
         }
       ]
     },
@@ -265,7 +266,8 @@
         },
         {
           "name": "Unliving",
-          "description": "never gain experience. (isAnimal=true used as the 'no experience' flag.)"
+          "description": "never gain experience. (isAnimal=true used as the 'no experience' flag.)",
+          "effects": { "noExperience": true }
         }
       ]
     }

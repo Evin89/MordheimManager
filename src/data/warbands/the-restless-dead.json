@@ -271,7 +271,8 @@
         },
         {
           "name": "No Brain",
-          "description": "Zombies never gain experience."
+          "description": "Zombies never gain experience.",
+          "effects": { "noExperience": true }
         }
       ]
     },
@@ -331,7 +332,8 @@
         },
         {
           "name": "No Brain",
-          "description": "Skeletons never gain experience."
+          "description": "Skeletons never gain experience.",
+          "effects": { "noExperience": true }
         }
       ]
     },
@@ -391,7 +393,8 @@
         },
         {
           "name": "Experience",
-          "description": "Wights may gain experience, however Wights promoted to become Heroes by rolling The lad's got talent will be unable to search for rare items in the same way as Grave Guards. They must choose the Combat and Strength skill lists if promoted. Wights also gain Wight Blades if they become Heroes."
+          "description": "Wights may gain experience, however Wights promoted to become Heroes by rolling The lad's got talent will be unable to search for rare items in the same way as Grave Guards. They must choose the Combat and Strength skill lists if promoted. Wights also gain Wight Blades if they become Heroes.",
+          "effects": { "promotionSkillLists": { "fixed": ["combat", "strength"] } }
         }
       ]
     },
@@ -445,7 +448,8 @@
         },
         {
           "name": "No Brain",
-          "description": "The scarecrow never gain experience."
+          "description": "The scarecrow never gain experience.",
+          "effects": { "noExperience": true }
         },
         {
           "name": "No Substance",

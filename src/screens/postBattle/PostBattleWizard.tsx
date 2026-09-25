@@ -79,6 +79,9 @@ export default function PostBattleWizard() {
       ...base,
       scenario: session.scenario || base.scenario,
       opponents,
+      // §17.2 — carry the picked opponent's warband id into the record.
+      opponentWarbandId: session.opponentWarbandId ?? null,
+      opponentWarbandName: session.opponentWarbandId ? opponents : '',
       notes,
       ...casualties,
       heroes,

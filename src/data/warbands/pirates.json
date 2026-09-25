@@ -297,7 +297,8 @@
         },
         {
           "name": "Never Gain Experience",
-          "description": "Swabbies generally aren’t interested in proving their worth to the crew, they are interested in survival and hopefully escape! Swabbies never gain experience in games."
+          "description": "Swabbies generally aren’t interested in proving their worth to the crew, they are interested in survival and hopefully escape! Swabbies never gain experience in games.",
+          "effects": { "noExperience": true }
         },
         {
           "name": "Rabble",

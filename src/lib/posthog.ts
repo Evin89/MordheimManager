@@ -30,6 +30,25 @@ const host = import.meta.env.VITE_POSTHOG_HOST;
 export const isAnalyticsConfigured = Boolean(projectToken && host);
 
 /**
+ * Where events are sent. On the production domain that's the first-party
+ * Worker proxy at `/lantern` (worker/index.js), so ad blockers that list
+ * `*.posthog.com` don't silently drop consented analytics; everywhere else —
+ * `vite dev`, previews, the old Netlify host, none of which run the Worker —
+ * it's the configured PostHog host directly. The proxy targets PostHog's EU
+ * region, matching the configured host.
+ */
+const PROXIED_HOSTNAMES = ['mordheimmanager.net'];
+
+function analyticsHosts(): { api_host: string; ui_host?: string } {
+  if (PROXIED_HOSTNAMES.includes(window.location.hostname)) {
+    // ui_host keeps PostHog's own links (e.g. the toolbar) pointing at the app,
+    // not at our proxy path.
+    return { api_host: `${window.location.origin}/lantern`, ui_host: 'https://eu.posthog.com' };
+  }
+  return { api_host: host! };
+}
+
+/**
  * The only events we send — the behavioural counterpart to the §23 DB funnel,
  * not a firehose. A closed union so a typo or a casually-added event is a
  * compile error, not silent drift. Properties (below) are scrubbed by contract:
@@ -103,7 +122,7 @@ export async function initAnalytics(): Promise<PostHogClient | null> {
 
   initPromise = import('posthog-js').then(({ default: posthog }) => {
     posthog.init(projectToken!, {
-      api_host: host,
+      ...analyticsHosts(),
       // Anonymous, event-names-only telemetry (§23.7). Everything that could
       // carry DOM text, a warband name, or GW content is turned off:
       autocapture: false,

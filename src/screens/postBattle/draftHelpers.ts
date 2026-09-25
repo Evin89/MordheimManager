@@ -3,9 +3,21 @@ import { getUnitRacialMaximums } from '../../lib/racialMaximums';
 import { getSpell } from '../../lib/spellLookup';
 import { getWyrdstoneSellPrice } from '../../lib/wyrdstonePricing';
 import { countModels } from '../../lib/rating';
+import { resolveEquipmentItem } from '../../lib/equipmentLookup';
+import { promotionSkillListOptions, unitGainsExperience } from '../../lib/ruleEffects';
+import { createHenchmenGroupFromType } from '../../lib/warbandFactory';
+import { getWarbandDefinition } from '../../data/warbandRegistry';
+import { EquipmentItem } from '../../types';
 import { OutOfActionTally } from '../../store/useAppStore';
 import { BattleRecord, HenchmenGroup, Hero, HiredSword, StatLine, Warband } from '../../types';
-import { HenchmenBattleState, HeroBattleState, HiredSwordBattleState, PostBattleDraft, StatIncreases } from './types';
+import {
+  AppliedGrant,
+  HenchmenBattleState,
+  HeroBattleState,
+  HiredSwordBattleState,
+  PostBattleDraft,
+  StatIncreases,
+} from './types';
 
 function todayIso(): string {
   return new Date().toISOString().slice(0, 10);
@@ -125,6 +137,8 @@ export function createInitialDraft(warband: Warband): PostBattleDraft {
   return {
     scenario: '',
     opponents: '',
+    opponentWarbandId: null,
+    opponentWarbandName: '',
     result: 'win',
     date: todayIso(),
     underdogBonus: 0,
@@ -273,13 +287,19 @@ export function applyDraftToWarband(
       }
     }
 
-    const groupXp = group.isAnimal ? group.xp : group.xp + state.xpAwarded;
+    const groupXp = unitGainsExperience(warband.warbandType, group) ? group.xp + state.xpAwarded : group.xp;
     const groupStats = applyStatIncreases(group.stats, state.statIncreases);
 
     // "That Lad's Got Talent": one member leaves the group and joins the
     // Heroes, keeping the characteristics and Experience he had as a Henchman.
-    // Which skill lists he may use varies by warband and isn't stated on the
-    // group, so that's left for the player to set rather than guessed at.
+    // His skill lists come from his unit's rule effects (ruleEffects): fixed by
+    // the rules where they say so, otherwise the two the player picked in the
+    // Advances step, plus any list the rules add on top.
+    const promotion = promotionSkillListOptions(warband.warbandType, group.unitType);
+    const promotedLists = [
+      ...(promotion.fixed ?? (state.promotionSkillLists ?? []).slice(0, promotion.choose)),
+      ...promotion.extra,
+    ];
     if (state.ladsGotTalent && newCount > 0) {
       promotedHeroes.push({
         id: generateId(),
@@ -295,7 +315,7 @@ export function applyDraftToWarband(
         xp: groupXp,
         startingXp: groupXp,
         advances: [],
-        skillLists: [],
+        skillLists: promotedLists,
         skills: [],
         // A promoted Henchman is not a caster: which lists a warband's Heroes
         // may use varies, and none of them grant magic on promotion. Left empty
@@ -308,7 +328,9 @@ export function applyDraftToWarband(
         status: 'active',
         notes:
           `Promoted from ${group.groupName} by "That Lad's Got Talent" after ${draft.scenario || 'a battle'}. ` +
-          'Set his skill lists and starting equipment — the rulebook decides these per warband.',
+          (promotedLists.length > 0
+            ? 'Check his starting equipment — the rulebook decides it per warband.'
+            : 'Set his skill lists and starting equipment — the rulebook decides these per warband.'),
       });
     }
 
@@ -386,12 +408,19 @@ export function applyDraftToWarband(
   const persistentNote = draft.exploration.resolved?.persistentNote;
   const notes = persistentNote ? [warband.notes, persistentNote].filter(Boolean).join('\n') : warband.notes;
 
+  // §15 — the roster changes the player confirmed from the Exploration result.
+  const explored = applyExplorationGrants(
+    warband.warbandType,
+    { heroes: allHeroes, henchmenGroups, treasury },
+    draft.exploration.resolved?.grants ?? [],
+  );
+
   const updatedWarband: Warband = {
     ...warband,
-    heroes: allHeroes,
-    henchmenGroups,
+    heroes: explored.heroes,
+    henchmenGroups: explored.henchmenGroups,
     hiredSwords,
-    treasury,
+    treasury: explored.treasury,
     notes,
     gold: warband.gold + goldChange,
     wyrdstoneShards: warband.wyrdstoneShards + draft.wyrdstoneFound - draft.wyrdstoneSold,
@@ -412,15 +441,21 @@ export function applyDraftToWarband(
     if (state.removed && state.removalReason === 'diedInBattle') modelsLost++;
   }
 
+  const opponentList = draft.opponents
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+
   const battleRecord: BattleRecord = {
     id: generateId(),
     warbandId: warband.id,
     date: draft.date,
     scenario: draft.scenario,
-    opponents: draft.opponents
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean),
+    opponents: opponentList,
+    opponentWarbandIds:
+      draft.opponentWarbandId && opponentList.includes(draft.opponentWarbandName.trim())
+        ? { [draft.opponentWarbandName.trim()]: draft.opponentWarbandId }
+        : undefined,
     result: draft.result,
     underdogBonus: draft.underdogBonus || undefined,
     wyrdstoneFound: draft.wyrdstoneFound,
@@ -432,6 +467,77 @@ export function applyDraftToWarband(
   };
 
   return { warband: updatedWarband, battleRecord };
+}
+
+/**
+ * Writes confirmed Exploration grants onto the post-battle roster: items into the
+ * treasury, Experience and skills onto the chosen Heroes, free models into (or as)
+ * a Henchman group. Pure — the same inputs always give the same roster. A grant
+ * aimed at a Hero who's no longer on the roster is skipped rather than guessed.
+ */
+function applyExplorationGrants(
+  warbandType: string,
+  roster: { heroes: Hero[]; henchmenGroups: HenchmenGroup[]; treasury: EquipmentItem[] },
+  grants: AppliedGrant[],
+): { heroes: Hero[]; henchmenGroups: HenchmenGroup[]; treasury: EquipmentItem[] } {
+  if (grants.length === 0) return roster;
+  const definition = getWarbandDefinition(warbandType);
+  let heroes = roster.heroes;
+  let henchmenGroups = roster.henchmenGroups;
+  let treasury = roster.treasury;
+
+  const updateHero = (id: string, fn: (h: Hero) => Hero) => {
+    heroes = heroes.map((h) => (h.id === id ? fn(h) : h));
+  };
+
+  for (const g of grants) {
+    switch (g.type) {
+      case 'item': {
+        const catalogue = resolveEquipmentItem(g.equipmentId, definition);
+        for (let i = 0; i < g.count; i += 1) {
+          treasury = [
+            ...treasury,
+            {
+              id: generateId(),
+              name: g.name,
+              category: catalogue?.category ?? 'misc',
+              ...(catalogue?.cost != null ? { cost: catalogue.cost } : {}),
+              ...(g.notes ? { notes: g.notes } : {}),
+            },
+          ];
+        }
+        break;
+      }
+      case 'xp':
+        updateHero(g.heroId, (h) => ({ ...h, xp: h.xp + g.amount }));
+        break;
+      case 'skillList':
+        updateHero(g.heroId, (h) => (h.skillLists.includes(g.list) ? h : { ...h, skillLists: [...h.skillLists, g.list] }));
+        break;
+      case 'skill':
+        updateHero(g.heroId, (h) => (h.skills.includes(g.skill) ? h : { ...h, skills: [...h.skills, g.skill] }));
+        break;
+      case 'heroNote':
+        updateHero(g.heroId, (h) => ({ ...h, notes: [h.notes, g.text].filter(Boolean).join('\n') }));
+        break;
+      case 'henchmen': {
+        const existing = henchmenGroups.find((grp) => grp.unitType === g.unitType);
+        if (existing) {
+          henchmenGroups = henchmenGroups.map((grp) =>
+            grp.id === existing.id ? { ...grp, count: grp.count + g.count } : grp,
+          );
+        } else {
+          const type = definition?.henchmenTypes.find((t) => t.unitType === g.unitType);
+          if (type) henchmenGroups = [...henchmenGroups, createHenchmenGroupFromType(type, type.unitType, g.count)];
+        }
+        break;
+      }
+      case 'recruit':
+        henchmenGroups = henchmenGroups.map((grp) => (grp.id === g.groupId ? { ...grp, count: grp.count + 1 } : grp));
+        break;
+    }
+  }
+  return { heroes, henchmenGroups, treasury };
 }
 
 function statIncreaseTags(increases: StatIncreases): string[] {

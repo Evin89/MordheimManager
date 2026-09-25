@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import { getUnitSpecialRules, getUnitNotes } from '../data/warbandRegistry';
+import { unitGainsExperience } from '../lib/ruleEffects';
 import SpecialRulesList from '../components/SpecialRulesList';
 import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
@@ -44,6 +45,8 @@ export default function HenchmenDetailScreen() {
   // Render from the draft so typed edits show immediately.
   const group = draft.henchmenGroups.find((g) => g.id === groupId);
   if (!group) return <Navigate to={`/warbands/${draft.id}`} replace />;
+  // From the unit's rule effects as well as the animal flag (ruleEffects).
+  const gainsXp = unitGainsExperience(draft.warbandType, group);
 
   function groupPatch(patch: Partial<HenchmenGroup>) {
     return (current: Warband) => ({
@@ -199,12 +202,16 @@ export default function HenchmenDetailScreen() {
         <section className="space-y-3">
           <SectionHeading>{strings.modelDetail.statsSection}</SectionHeading>
           <p className="text-bone-300 text-xs">
-            {group.isAnimal ? 'Animal — does not gain Experience.' : 'Shared by the whole group.'}
+            {!gainsXp
+              ? group.isAnimal
+                ? 'Animal — does not gain Experience.'
+                : 'Does not gain Experience (see its special rules).'
+              : 'Shared by the whole group.'}
           </p>
           <ProfileBlock stats={group.stats} onStatChange={updateStat} />
         </section>
 
-        {!group.isAnimal && (
+        {gainsXp && (
           <section className="space-y-3">
             <SectionHeading>{strings.modelDetail.xpSection}</SectionHeading>
             <div className="flex items-center gap-3">

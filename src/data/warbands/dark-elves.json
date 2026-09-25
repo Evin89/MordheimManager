@@ -315,7 +315,8 @@
       "specialRules": [
         {
           "name": "Animals",
-          "description": "Cold One Beasthounds are animals and all animal rules apply to them, they never gain experience."
+          "description": "Cold One Beasthounds are animals and all animal rules apply to them, they never gain experience.",
+          "effects": { "noExperience": true }
         },
         {
           "name": "Beastmaster",

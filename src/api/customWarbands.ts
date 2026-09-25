@@ -2,7 +2,6 @@ import { supabase } from '../lib/supabaseClient';
 import { isDemoMode } from '../dev/demoMode';
 import * as demo from '../dev/demoApi';
 import { WarbandDefinition } from '../data/types';
-import { getWarbandDefinition } from '../data/warbandRegistry';
 import { CUSTOM_ID_PREFIX, cloneWarbandDefinition } from '../lib/customWarband';
 
 /**
@@ -73,6 +72,9 @@ export async function createCustomWarbandType(
   baseType: string,
   name: string,
 ): Promise<CustomWarbandType> {
+  // Loaded on demand: this module is imported by the app shell (via the custom
+  // types hook), and the registry carries every bundled warband data file.
+  const { getWarbandDefinition } = await import('../data/warbandRegistry');
   const base = getWarbandDefinition(baseType);
   if (!base) throw new Error('That warband type no longer exists to clone from.');
   const id = crypto.randomUUID();

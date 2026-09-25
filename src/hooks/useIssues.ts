@@ -16,6 +16,7 @@ import {
   fetchActivitySeries,
   fetchAcquisitionBreakdown,
   fetchSelfReportBreakdown,
+  fetchTimeToActivation,
 } from '../api/adminAnalytics';
 import {
   fetchAdminCampaigns,
@@ -82,6 +83,12 @@ export function useAdminActivitySeriesQuery() {
 export function useAdminAcquisitionQuery() {
   const { data: isAdmin } = useIsAdminQuery();
   return useQuery({ queryKey: ['adminAcquisition'], queryFn: () => fetchAcquisitionBreakdown(30), enabled: isAdmin === true });
+}
+
+/** §23.2 time-to-activation (migration 0050). */
+export function useAdminTimeToActivationQuery() {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({ queryKey: ['adminTimeToActivation'], queryFn: () => fetchTimeToActivation(90), enabled: isAdmin === true });
 }
 
 /** §26.7.2 self-reported source (migration 0047). */

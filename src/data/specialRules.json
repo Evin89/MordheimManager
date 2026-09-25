@@ -34,7 +34,8 @@
     "animal": {
       "id": "animal",
       "name": "Animal",
-      "description": "This model is an animal and never gains Experience."
+      "description": "This model is an animal and never gains Experience.",
+      "effects": { "noExperience": true }
     },
     "animosity": {
       "id": "animosity",
@@ -49,7 +50,8 @@
     "dumbMonster": {
       "id": "dumbMonster",
       "name": "Dumb Monster",
-      "description": "This model is far too stupid to learn anything: it never gains Experience and may not take skills."
+      "description": "This model is far too stupid to learn anything: it never gains Experience and may not take skills.",
+      "effects": { "noExperience": true }
     },
     "expertSwordsmen": {
       "id": "expertSwordsmen",

@@ -1,3 +1,4 @@
+import { unitGainsExperience } from './ruleEffects';
 import { Hero, HiredSword, Warband } from '../types';
 import { getWarbandDefinition } from '../data/warbandRegistry';
 import { getAdvanceThresholds, getAdvanceProgress } from './xpThresholds';
@@ -102,11 +103,12 @@ export function checkWarband(warband: Warband): HealthFinding[] {
   for (const sword of warband.hiredSwords) {
     if (isInWarband(sword.status)) considerHeroLike(sword);
   }
-  // Henchmen advance as a group on their own track. Animals never gain XP, and
+  // Henchmen advance as a group on their own track. Units that never gain XP
+  // (animals, and any unit whose rules say so — ruleEffects) are skipped, and
   // groups have no `startingXp` field — they're recruited fresh at 0, so baked-in
   // advances are none.
   for (const group of warband.henchmenGroups) {
-    if (group.isAnimal) continue;
+    if (!unitGainsExperience(warband.warbandType, group)) continue;
     if (unspentAdvances(group.xp, 0, group.advances.length, 'henchmen') > 0) {
       ready.push(group.groupName);
     } else {

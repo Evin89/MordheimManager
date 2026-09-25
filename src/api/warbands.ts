@@ -14,7 +14,8 @@ type WarbandRow = {
   visibility: WarbandVisibility;
   data: Warband;
   rating: number;
-  previous_data: Warband | null;
+  /** Not selected by list reads (see LIST_COLUMNS) — only by the undo path. */
+  previous_data?: Warband | null;
   previous_data_at: string | null;
   updated_at: string;
   created_at: string;
@@ -34,17 +35,29 @@ function toRecord(row: WarbandRow): WarbandRecord {
   return {
     warband: row.data,
     updatedAt: row.updated_at,
-    hasSnapshot: row.previous_data !== null,
+    // The timestamp, not the snapshot itself: the two are always written and
+    // cleared together, and the timestamp is a few bytes where the snapshot is
+    // a whole second copy of the roster.
+    hasSnapshot: row.previous_data_at !== null,
     campaignId: row.campaign_id,
     visibility: row.visibility,
   };
 }
 
+/**
+ * Every column the owner's warband list needs — deliberately not `*`. `*` also
+ * pulled `previous_data`, the full pre-battle snapshot kept for Undo, so any
+ * warband that had fought a battle came down twice on every list load, just to
+ * learn whether a snapshot existed (`previous_data_at` answers that). §12.2.
+ */
+const LIST_COLUMNS =
+  'id, owner_id, campaign_id, name, warband_type, visibility, data, rating, previous_data_at, updated_at, created_at';
+
 export async function fetchWarbands(ownerId: string): Promise<WarbandRecord[]> {
   if (isDemoMode()) return demo.fetchWarbands(ownerId);
   const { data, error } = await supabase
     .from('warbands')
-    .select('*')
+    .select(LIST_COLUMNS)
     .eq('owner_id', ownerId)
     .order('created_at', { ascending: true });
   if (error) throw error;

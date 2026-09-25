@@ -319,7 +319,8 @@
         },
         {
           "name": "Animal",
-          "description": "Great Bears are animals and thus do not gain experience."
+          "description": "Great Bears are animals and thus do not gain experience.",
+          "effects": { "noExperience": true }
         }
       ]
     },
@@ -361,7 +362,8 @@
         },
         {
           "name": "Animal",
-          "description": "Wild Beasts are animals and thus do not gain experience."
+          "description": "Wild Beasts are animals and thus do not gain experience.",
+          "effects": { "noExperience": true }
         }
       ]
     },
@@ -407,7 +409,8 @@
         },
         {
           "name": "Animal",
-          "description": "Fighitng Apes are animals and thus do not gain experience, but can still climb and enter buildings as normal."
+          "description": "Fighitng Apes are animals and thus do not gain experience, but can still climb and enter buildings as normal.",
+          "effects": { "noExperience": true }
         }
       ]
     }

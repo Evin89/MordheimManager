@@ -33,7 +33,7 @@ function fill(text: string, params: Record<string, string>): string {
  * the failure mode that matters here, since nobody would notice it was gone.
  */
 export function resolveSpecialRule(rule: UnitSpecialRule): ResolvedSpecialRule {
-  if (!isRef(rule)) return { name: rule.name, description: rule.description };
+  if (!isRef(rule)) return { name: rule.name, description: rule.description, effects: rule.effects };
 
   const shared = getSharedSpecialRule(rule.ref);
   if (!shared) {
@@ -50,6 +50,7 @@ export function resolveSpecialRule(rule: UnitSpecialRule): ResolvedSpecialRule {
     description: fill(shared.description, params),
     note: rule.note,
     sharedId: shared.id,
+    effects: shared.effects,
   };
 }
 

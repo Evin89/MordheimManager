@@ -297,6 +297,12 @@ export function usePublicWarbandsQuery() {
     queryFn: ({ pageParam }) => fetchPublicWarbands(pageParam as number),
     initialPageParam: 0,
     getNextPageParam: (last) => last.nextCursor,
+    // §12.1 — the one query worth tiering: the heaviest list, over data that
+    // changes rarely and isn't yours. Five minutes fresh, and no refetch on
+    // every app-switch (a focus event on a phone), which would re-pull every
+    // loaded page. Everything else keeps the global 30 seconds.
+    staleTime: 5 * 60_000,
+    refetchOnWindowFocus: false,
   });
 }
 

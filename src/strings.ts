@@ -120,6 +120,25 @@ export const strings = {
     copied: 'Copied',
     done: 'Done',
   },
+  // §10.3.1 — claiming leadership of a campaign whose leaders have gone quiet.
+  leaderClaim: {
+    title: (campaign: string) => (campaign ? `${campaign} needs a leader` : 'Campaign leadership'),
+    body: (days: number | null) =>
+      days === null
+        ? "Nobody leading this campaign has opened Mordheim Manager in over a month, so nobody can rename it, manage members or run events."
+        : `Nobody leading this campaign has opened Mordheim Manager in ${days} days, so nobody can rename it, manage members or run events.`,
+    coLeader:
+      'Any member can step up. Claiming makes you a co-leader — the current leader keeps their role, so nothing is lost if they come back. The first member to claim takes it.',
+    claim: 'Claim leadership',
+    claiming: 'Claiming…',
+    notNow: 'Not now',
+    claimed: (campaign: string) => `You're now a co-leader of ${campaign}.`,
+    taken: 'Another member claimed leadership first — the campaign has a leader again.',
+    notClaimable: 'This campaign has an active leader again, so there is nothing to claim.',
+    error: "That didn't go through. Check your connection and try again.",
+    openCampaign: 'Open campaign',
+    close: 'Close',
+  },
   whatsNew: {
     title: "What's new",
     dismiss: 'Got it',
@@ -143,6 +162,7 @@ export const strings = {
         to: '/warbands/new',
       },
       campaign: {
+        oneOff: 'Or play a one-off battle — no campaign needed',
         title: 'Start or join a campaign',
         body: 'A campaign tracks standings, awards and rivalries across your group. Start your own, or join a friend’s with their code.',
         cta: 'Go to campaigns',
@@ -462,6 +482,7 @@ export const strings = {
     publicTab: 'Public Warbands',
     rulesTab: 'Rules',
     publicIntro: 'Warbands other players have chosen to share. Tap one to read its roster.',
+    publicPhotosSignedIn: 'Sign in to see their photos — pictures are shown to players with an account only.',
     publicSearchPlaceholder: 'Search by warband, player or type',
     publicTypeFilter: 'Filter by warband type',
     publicAllTypes: 'All types',
@@ -988,6 +1009,12 @@ export const strings = {
       rerollNeeded: (stat: string) =>
         `${stat} is already at its maximum — roll again for a characteristic that can still be raised.`,
       ladsGotTalent: "That Lad's Got Talent",
+      // §15 — skill lists for the promoted Hero, from his unit's rules.
+      promotion: {
+        fixed: (lists: string) => `His rules fix his skill lists: ${lists}.`,
+        choose: (n: number) => `Choose ${n} skill lists for the new Hero:`,
+        extra: (lists: string) => `His rules add ${lists} on top.`,
+      },
       rollButton: 'Roll 2D6',
       rollResultLabel: (total: number) => `Rolled ${total} (2D6):`,
       subRollLabel: (roll: number) => `Roll again (D6): ${roll}`,
@@ -1032,6 +1059,41 @@ export const strings = {
         manualNotice: 'The rest of this result is recorded in the battle notes for you to apply by hand.',
         persistentNotice: 'This carries into later games, so it is added to the warband’s notes too.',
         variantNotice: 'Your warband resolves this location differently — the outcome below is the one that applies to you.',
+        appliedGrants: 'Added to the roster when you commit:',
+        manualNoticeWithGrants: 'Anything else in this result is recorded in the battle notes for you to apply by hand.',
+        // §15 — the roster changes an Exploration result offers.
+        grants: {
+          heading: 'What it adds to your warband',
+          heroLabel: 'Which Hero',
+          includeLabel: 'Add this',
+          itemLine: (n: number, name: string) => `${n} × ${name} to the treasury`,
+          xpLine: (hero: string, n: number) => `+${n} Experience to ${hero}`,
+          xpSpread: (dice: string, left: number) => `Experience (${dice}) to share among your Heroes — ${left} left to give`,
+          skillListOffer: (list: string) => `May now choose ${list.charAt(0).toUpperCase()}${list.slice(1)} skills:`,
+          skillListLine: (hero: string, list: string) => `${hero} may now choose ${list} skills`,
+          skillOffer: (skill: string) => `Gains the ${skill} skill:`,
+          skillLine: (hero: string, skill: string) => `${hero} gains ${skill}`,
+          henchmenLine: (n: number, unit: string) => `${n} × ${unit} join the warband, free`,
+          freeSuffix: '(free)',
+          noUnit: (unit: string) =>
+            unit === 'zombie'
+              ? 'Your warband has no Zombie unit to add them to — noted in the battle notes instead.'
+              : 'Your warband has no dog or hound unit, so the wardog is noted in the battle notes instead.',
+          recruitOffer: 'One prisoner joins, free, in:',
+          recruitLine: (group: string) => `One new Henchman joins ${group}`,
+          noRecruitGroup: 'You have no human Henchman group for a prisoner to join — noted instead.',
+          artefactLabel: 'Magical artefact',
+          artefactNote: 'Magical artefact (Exploration).',
+          shardsLabel: (dice: string) => `wyrdstone shard(s) (${dice})`,
+          luckyCharm: (name: string) => `${name}: added automatically if the D6 for gold comes up 1.`,
+          merchantDouble: (a: number, b: number) =>
+            `Rolled ${a} and ${b} — a double: the symbol of the Order of Freetraders. A Hero gains Haggle.`,
+          merchantGold: (a: number, b: number, gc: number) => `Rolled ${a} and ${b}: valuables worth ${gc} gc.`,
+          checklistHint: 'Roll a D6 for each item to see whether you find it, or tick what you rolled at the table.',
+          auto: 'Found',
+          foundLabel: (item: string) => `Found ${item}`,
+          rollFor: (need: string) => `Roll (${need})`,
+        },
       },
       wyrdstoneFoundLabel: 'Wyrdstone shards found this battle',
       currentStash: (n: number) => `Current stash: ${n} shard${n === 1 ? '' : 's'}`,
@@ -1219,6 +1281,12 @@ export const strings = {
     startAnotherTitle: 'Start another campaign',
     startAnotherHint:
       'You can lead or play in as many campaigns as you like. Each keeps its own battle log, standings and players, and a warband belongs to one at a time.',
+    // §26.6 — standalone battles existed but nothing said so; a player with no
+    // campaign only saw "start or join one".
+    oneOffTitle: 'Just want to play a game?',
+    oneOffBody:
+      "No campaign needed. Pick a warband and play a one-off battle: set up the scenario, track it at the table, then run the post-battle sequence — injuries, experience and income — on your roster. It's kept below under Your Battles.",
+    oneOffButton: 'Start a battle',
     personalBattlesSection: 'Your Battles',
     personalBattlesHint: "Battles you've fought outside a campaign.",
     joinHint: 'Got a code from your campaign leader? Enter it here.',
@@ -1340,6 +1408,9 @@ export const strings = {
       more: (n: number) => `+ ${n} more`,
     },
     rivalriesSection: 'Rivalries',
+    nemesisBadge: 'Nemesis',
+    markNemesis: 'Mark as nemesis',
+    unmarkNemesis: 'No longer my nemesis',
     rivalriesFor: (name: string) => `${name}'s rivalries`,
     rivalriesEmpty: 'No opponents logged yet.',
     rivalryRecord: (w: number, l: number, d: number) => `${w}W ${l}L ${d}D`,

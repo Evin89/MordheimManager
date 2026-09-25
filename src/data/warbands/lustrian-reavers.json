@@ -360,7 +360,8 @@
         },
         {
           "name": "Animal",
-          "description": "All the War Beasts are subject to the rules of Animals and may not gain experience. They suffer injuries exactly as Henchmen (if taken out of action they are dead on a roll of 1-2 on D6)."
+          "description": "All the War Beasts are subject to the rules of Animals and may not gain experience. They suffer injuries exactly as Henchmen (if taken out of action they are dead on a roll of 1-2 on D6).",
+          "effects": { "noExperience": true }
         }
       ]
     },
@@ -402,7 +403,8 @@
         },
         {
           "name": "Animal",
-          "description": "All the War Beasts are subject to the rules of Animals and may not gain experience. They suffer injuries exactly as Henchmen (if taken out of action they are dead on a roll of 1-2 on D6)."
+          "description": "All the War Beasts are subject to the rules of Animals and may not gain experience. They suffer injuries exactly as Henchmen (if taken out of action they are dead on a roll of 1-2 on D6).",
+          "effects": { "noExperience": true }
         }
       ]
     },
@@ -444,7 +446,8 @@
         },
         {
           "name": "Animal",
-          "description": "All the War Beasts are subject to the rules of Animals and may not gain experience. They suffer injuries exactly as Henchmen (if taken out of action they are dead on a roll of 1-2 on D6)."
+          "description": "All the War Beasts are subject to the rules of Animals and may not gain experience. They suffer injuries exactly as Henchmen (if taken out of action they are dead on a roll of 1-2 on D6).",
+          "effects": { "noExperience": true }
         }
       ]
     }
