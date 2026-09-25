@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
 import { clearFreshSignIn } from '../lib/firstRun';
+import ResendConfirmationButton from '../components/ResendConfirmationButton';
 import { Button, Field, TextField } from '../components/ui';
 import GoogleSignInButton, { AuthDivider } from '../components/GoogleSignInButton';
 
@@ -14,13 +15,20 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  // §26.3.2 — the address whose sign-in failed only for want of confirmation.
+  const [unconfirmedEmail, setUnconfirmedEmail] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setSubmitting(true);
     setError(null);
-    const { error: signInError } = await signIn(email, password);
+    setUnconfirmedEmail(null);
+    const { error: signInError, unconfirmed } = await signIn(email, password);
     setSubmitting(false);
+    if (unconfirmed) {
+      setUnconfirmedEmail(email);
+      return;
+    }
     if (signInError) {
       setError(signInError);
       return;
@@ -66,11 +74,15 @@ export default function LoginScreen() {
           </Field>
 
           {error && <p className="text-sm text-blood-500">{error}</p>}
+          {unconfirmedEmail && <p className="text-sm text-blood-500">{strings.auth.unconfirmedSignIn}</p>}
 
           <Button type="submit" disabled={submitting}>
             {submitting ? strings.auth.loginSubmitting : strings.auth.loginButton}
           </Button>
         </form>
+
+        {/* Outside the form, so it can't be mistaken for (or trigger) sign-in. */}
+        {unconfirmedEmail && <ResendConfirmationButton email={unconfirmedEmail} />}
 
         <p className="text-center text-sm">
           <Link to="/forgot-password" className="text-ember-400 font-semibold">

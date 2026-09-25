@@ -407,6 +407,21 @@ export const strings = {
     resetTooShort: 'Password must be at least 6 characters.',
     resetNoSession:
       'This reset link is invalid or has expired. Request a new one from the sign-in screen.',
+    // §26.3.2 — after signup, when the account needs its email confirmed. The
+    // already-registered line is deliberately neutral: Supabase gives the same
+    // response either way, and the screen mustn't reveal which it was.
+    checkEmailTitle: 'Check your email',
+    checkEmailBody: (email: string) =>
+      `We've sent a confirmation link to ${email}. Click it to finish creating your account — you'll be signed in straight away.`,
+    checkEmailSpam: "Nothing after a few minutes? Check your spam folder, or send it again.",
+    checkEmailExisting:
+      'Already have an account with this address? Then no new email is coming — sign in, or reset your password.',
+    resendButton: 'Resend confirmation email',
+    resendSubmitting: 'Sending…',
+    resendSent: 'Sent — check your inbox.',
+    authLinkFailed:
+      'That link has expired or was already used. Sign in below — if your email still needs confirming, you can send a fresh link from the sign-in screen.',
+    unconfirmedSignIn: "This account's email hasn't been confirmed yet. Click the link we emailed you, or send a new one.",
   },
   connection: {
     lost: "Connection to Supabase failed — your last change may not have saved. Check your connection and retry.",

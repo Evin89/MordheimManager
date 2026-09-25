@@ -1,13 +1,15 @@
 import { Session, User } from '@supabase/supabase-js';
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { identifyUser, resetAnalytics } from '../lib/posthog';
-import { supabase } from '../lib/supabaseClient';
+import { arrivedFromSignupConfirmation, supabase } from '../lib/supabaseClient';
+import { recordSignupAcquisition } from '../api/profile';
 import { isDemoMode, setDemoMode } from '../dev/demoMode';
 import { demoViewer } from '../dev/demoApi';
 import { touchLastSeen } from '../api/presence';
 import { clearFreshSignIn, markFreshSignIn } from '../lib/firstRun';
 import {
   acquisitionMetadata,
+  clearAcquisitionStash,
   getAcquisitionForSignup,
   initAcquisitionCapture,
   selfReportMetadata,
@@ -18,13 +20,21 @@ type AuthState = {
   session: Session | null;
   user: User | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error: string | null }>;
+  /** `unconfirmed` is true when the account exists but its email was never
+   * confirmed, so the screen can offer to resend the link (§26.3.2). */
+  signIn: (email: string, password: string) => Promise<{ error: string | null; unconfirmed: boolean }>;
+  /** `needsConfirmation` is true when the signup succeeded but returned no
+   * session — email confirmation is on, and the user must click the emailed
+   * link. Also the (deliberately indistinguishable) result for an address that
+   * already has an account. */
   signUp: (
     email: string,
     password: string,
     displayName: string,
     selfReport?: SelfReport,
-  ) => Promise<{ error: string | null }>;
+  ) => Promise<{ error: string | null; needsConfirmation: boolean }>;
+  /** Re-sends the signup confirmation email. */
+  resendConfirmation: (email: string) => Promise<{ error: string | null }>;
   /** Starts the Google OAuth flow (sign-in and sign-up alike — Supabase creates
    * the account on first use). Redirects the browser away on success, so a
    * returned error means the redirect could not even be started. */
@@ -37,6 +47,17 @@ type AuthState = {
 };
 
 const AuthContext = createContext<AuthState | null>(null);
+
+/** Where confirmation links return to. A real URL for Supabase, not a router
+ * path — the same `/app` the Google flow already uses, so it's on the redirect
+ * allow-list. supabase-js reads the session out of the hash on arrival. */
+function authRedirectUrl(): string {
+  return `${window.location.origin}/app`;
+}
+
+/** How long after creation a Google account may still record its acquisition —
+ * mirrors the 30-minute fence in migration 0048. */
+const OAUTH_ACQUISITION_WINDOW_MS = 30 * 60_000;
 
 /**
  * The account demo mode is signed in as.
@@ -67,12 +88,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(!isDemoMode());
   const identifiedUserId = useRef<string | null>(null);
   const lastSeenPingAt = useRef(0);
+  const acquisitionRecordedFor = useRef<string | null>(null);
 
   // §23.4 — stash any acquisition tag on the first app URL before it's lost to
   // in-app navigation, so it's still there when the user reaches /register.
+  // §26.3 — returning from a signup confirmation link is the account's first
+  // sign-in, so let Home apply the first-run landing (§26.4.1).
   useEffect(() => {
     initAcquisitionCapture();
+    if (arrivedFromSignupConfirmation) markFreshSignIn();
   }, []);
+
+  // §26.7.1 — a brand-new Google account records where it came from, once. The
+  // database refuses anything but a fresh, still-empty profile, so this only
+  // decides whether to bother asking.
+  useEffect(() => {
+    const user = session?.user;
+    if (!user || isDemoMode()) return;
+    const viaGoogle =
+      user.app_metadata?.provider === 'google' ||
+      (user.identities ?? []).some((i) => i.provider === 'google');
+    const fresh = Date.now() - Date.parse(user.created_at) < OAUTH_ACQUISITION_WINDOW_MS;
+    if (!viaGoogle || !fresh || acquisitionRecordedFor.current === user.id) return;
+    acquisitionRecordedFor.current = user.id;
+    void recordSignupAcquisition(getAcquisitionForSignup()).then(clearAcquisitionStash);
+  }, [session]);
 
   // Identifying at the auth boundary merges the anonymous session with the
   // authenticated Supabase user and persists it for all later captures and
@@ -135,7 +175,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     // §26.4.1 — Home decides whether this first landing goes to warband creation.
     if (!error) markFreshSignIn();
-    return { error: error?.message ?? null };
+    const unconfirmed = error?.code === 'email_not_confirmed' || /email not confirmed/i.test(error?.message ?? '');
+    return { error: error?.message ?? null, unconfirmed };
   }
 
   async function signUp(email: string, password: string, displayName: string, selfReport?: SelfReport) {
@@ -153,11 +194,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { display_name: displayName, ...acquisition, ...self } },
+      options: {
+        data: { display_name: displayName, ...acquisition, ...self },
+        // §26.3.2 — without this the link went to the bare Site URL (the static
+        // landing page), which confirmed the account but never signed anyone in.
+        emailRedirectTo: authRedirectUrl(),
+      },
     });
+    if (error) return { error: error.message, needsConfirmation: false };
+    clearAcquisitionStash();
     // Only a signup that comes back signed in (email confirmation off) lands
     // anywhere; with confirmation on there is no session yet.
-    if (!error && data.session) markFreshSignIn();
+    if (data.session) markFreshSignIn();
+    return { error: null, needsConfirmation: !data.session };
+  }
+
+  async function resendConfirmation(email: string) {
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+      options: { emailRedirectTo: authRedirectUrl() },
+    });
     return { error: error?.message ?? null };
   }
 
@@ -214,6 +271,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         loading,
         signIn,
         signUp,
+        resendConfirmation,
         signInWithGoogle,
         signOut,
         requestPasswordReset,

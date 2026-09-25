@@ -11,6 +11,7 @@ import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { consumeFreshSignIn } from '../lib/firstRun';
+import { arrivedWithAuthLinkError } from '../lib/supabaseClient';
 
 /**
  * About and the changelog, at the foot of Home.
@@ -47,6 +48,11 @@ function SignedOutHome() {
       </header>
 
       <main className="flex-1 px-4 py-6 space-y-6">
+        {arrivedWithAuthLinkError && (
+          <Card as="section" gap="sm">
+            <p className="text-sm text-bone-100">{strings.auth.authLinkFailed}</p>
+          </Card>
+        )}
         <Card as="section">
           <SectionHeading>{strings.home.signedOutTitle}</SectionHeading>
           <p className="text-bone-300 text-sm">{strings.home.signedOutBody}</p>

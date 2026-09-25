@@ -5,6 +5,22 @@ const url = import.meta.env.VITE_SUPABASE_URL;
 const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 /**
+ * §26.3 — whether this page load is the return from a signup confirmation link.
+ * The implicit-flow redirect carries `type=signup` in the URL hash, which the
+ * client below parses and then wipes during its async init, so it has to be read
+ * here, before the client is created. AuthProvider uses it to treat the arrival
+ * as a first sign-in (§26.4.1).
+ */
+export const arrivedFromSignupConfirmation =
+  typeof window !== 'undefined' && /(?:^#|&)type=signup(?:&|$)/.test(window.location.hash);
+
+/** An auth link that failed — expired, or already used (`#error=…`). Read here
+ * for the same reason: the client clears the hash. Signed-out Home explains it
+ * rather than leaving the user on a page that says nothing. */
+export const arrivedWithAuthLinkError =
+  typeof window !== 'undefined' && /(?:^#|&)error(?:_code|_description)?=/.test(window.location.hash);
+
+/**
  * Which required variables are missing, empty when correctly configured.
  *
  * This used to `throw` right here, at module load. That is the right instinct —

@@ -2,6 +2,29 @@ import { supabase } from '../lib/supabaseClient';
 import { isDemoMode } from '../dev/demoMode';
 import * as demo from '../dev/demoApi';
 
+/**
+ * §26.7.1 — a Google signup can't carry acquisition through signup metadata
+ * (the provider flow skips the register form), so it records it once, just
+ * after the account is created. The function is write-once, own-row-only and
+ * refuses any profile older than 30 minutes (migration 0048). Best-effort.
+ */
+export async function recordSignupAcquisition(acq: {
+  channel: string;
+  ref: string | null;
+  host: string | null;
+}): Promise<void> {
+  if (isDemoMode()) return;
+  try {
+    await supabase.rpc('record_signup_acquisition', {
+      p_channel: acq.channel,
+      p_ref: acq.ref,
+      p_host: acq.host,
+    });
+  } catch {
+    /* acquisition is best-effort — never surface */
+  }
+}
+
 export type Profile = {
   id: string;
   displayName: string;

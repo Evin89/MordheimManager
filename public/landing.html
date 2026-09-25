@@ -58,6 +58,37 @@
     <link rel="preload" as="font" type="font/woff2" href="/fonts/alegreya-400-normal-latin.woff2" crossorigin />
     <link rel="stylesheet" href="/fonts/fonts.css" />
 
+    <!-- §26.3 / §26.7 — runs first, before anything paints.
+         1. An auth link that lands here (a confirmation email sent while links
+            went to the bare Site URL, or any future misroute) is forwarded to
+            the app with its hash/query intact, so supabase-js can complete the
+            session instead of the token being silently ignored on a static page.
+         2. A tagged (?ref / utm_source) or externally-referred visit is stashed
+            raw for the app to classify on first load (src/lib/acquisition.ts,
+            LANDING_KEY) — a tag on this page used to be lost on the first click
+            into /app. First touch wins; our own hosts never count. -->
+    <script>
+      (function () {
+        var h = location.hash, q = location.search;
+        if (/(^#|&)(access_token|error_description)=/.test(h) || /[?&]code=/.test(q)) {
+          location.replace('/app' + q + h);
+          return;
+        }
+        try {
+          if (localStorage.getItem('mordheim.acq')) return;
+          var p = new URLSearchParams(q);
+          var tagged = p.has('ref') || p.has('utm_source');
+          var ref = '';
+          try { ref = document.referrer ? new URL(document.referrer).host : ''; } catch (e) {}
+          var own = !ref || ref === location.host || /(^|\.)mordheimmanager\.net$|(^|\.)mordheim\.builderbasement\.com$/.test(ref);
+          if (!tagged && own) return;
+          if (localStorage.getItem('mordheim.acqLanding') && !tagged) return;
+          localStorage.setItem('mordheim.acqLanding', JSON.stringify({
+            search: q, referrer: own ? '' : 'https://' + ref + '/', at: Date.now()
+          }));
+        } catch (e) { /* storage unavailable — acquisition is best-effort */ }
+      })();
+    </script>
     <!-- Pre-paint theme, duplicated verbatim from the app's index.html so a
          parchment reader never flashes the dark theme, and the two front doors
          open the same colour. -->
