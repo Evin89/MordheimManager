@@ -123,7 +123,7 @@
         margin: 0 0 14px;
       }
       .hero h1 { margin: 0; font-size: clamp(40px, 8vw, 68px); line-height: 1.02; }
-      .hero .lede { margin: 18px 0 0; font-size: clamp(18px, 2.4vw, 22px); color: rgb(var(--bone-100)); max-width: 40ch; }
+      .hero .lede { margin: 18px 0 0; font-size: clamp(18px, 2.4vw, 22px); color: rgb(var(--bone-100)); }
       .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
       .btn {
         display: inline-flex; align-items: center; gap: 8px; min-height: 50px; padding: 0 22px;
@@ -195,14 +195,16 @@
       }
       /* The model-portrait frame — the same 2px ink border and inset rule as the
          profile block, since §11.4 gives photos the profile's book-plate framing.
-         Empty here on purpose: a silhouette standing in for the picture the app
-         would hold once you upload one. */
+         Holds a sample warrior portrait, the picture the app would frame once you
+         upload one. */
       .portrait {
         width: 132px; height: 132px; flex: none;
         border: 2px solid rgb(var(--ink)); background: rgb(var(--raised));
         box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.35);
         display: flex; align-items: center; justify-content: center;
+        overflow: hidden;
       }
+      .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
       .portrait svg { width: 74px; height: 74px; color: rgb(var(--ink-faded)); }
       .profile {
         border: 2px solid rgb(var(--ink)); background: rgb(var(--raised));
@@ -227,6 +229,22 @@
          primary links above, but still clearly links. */
       .links-community a { color: rgb(var(--ink-faded)); text-decoration: underline; text-underline-offset: 2px; }
       .disclaimer { font-size: 13px; color: rgb(var(--ink-faded)); line-height: 1.5; max-width: 70ch; margin-top: 18px; }
+
+      /* Cookie/analytics consent banner (§23.7 / Privacy Policy §10). PostHog is
+         non-essential, so it stays off until the visitor accepts here. Hidden by
+         default; the inline script shows it only when the choice is undecided
+         and Do-Not-Track is off. */
+      .cookie-banner {
+        position: fixed; inset: auto 0 0 0; z-index: 60;
+        background: rgb(var(--ink-900) / 0.97); border-top: 1px solid rgb(var(--ink-700));
+        padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+      }
+      .cookie-banner[hidden] { display: none; }
+      .cookie-inner { max-width: 44rem; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+      .cookie-text { flex: 1 1 18rem; margin: 0; font-size: 15px; color: rgb(var(--bone-300)); line-height: 1.5; }
+      .cookie-text a { color: rgb(var(--accent-bright)); }
+      .cookie-actions { display: flex; gap: 12px; flex: 0 0 auto; }
+      .cookie-actions .btn { min-height: 44px; font-size: 16px; padding: 0 18px; }
     </style>
 
     <style>
@@ -277,6 +295,41 @@
       </section>
 
       <div class="changelog">
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-09-22</p>
+        <h3>No More Black Screen After an Update</h3>
+        <p>A link tapped shortly after the app updated behind the scenes could land on a blank black page instead of the screen you asked for — reloading always fixed it, but you shouldn't have had to. The app now notices that specific failure and recovers on its own, invisibly; you'll only ever see a message if it happens twice in a row, with a button to reload.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-09-22</p>
+        <h3>Every Warband's Rules in One Place</h3>
+        <p>Each warband type now has its own rules reference screen — stat lines, background, special rules, who it can recruit, skill access, and the full equipment list, all on one scrolling page with a jump menu to skip straight to a section. Reach it from the warband list's rules link, or start a new warband already knowing exactly what you're building.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-09-22</p>
+        <h3>Deleting a Warband Works Properly Now</h3>
+        <p>Deleting a warband was failing for some players with a vague “connection to Supabase failed” message, even when nothing was wrong with their connection. The delete now runs as a single trusted step on the server, and if something genuinely does go wrong you'll get a plain-language reason instead of a generic connection error.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-09-22</p>
+        <h3>See How a Campaign's Warbands Stack Up</h3>
+        <p>A campaign's Standings tab now charts every entered warband's rating over time on one graph, not just your own — hover, or tap and drag on a phone, to see exactly where each warband stood on any given date. A single warband's own page keeps its simple line chart; this one's for comparing the whole field at a glance.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-09-22</p>
+        <h3>Hired Sword Ratings, Corrected</h3>
+        <p>Hired Swords were counting toward your warband's rating the same way ordinary models do (5 points, or 20 for a large creature, plus Experience) — but the rulebook gives each one its own flat bonus instead. Pit Fighters, Ogre Bodyguards, Warlocks and the rest now add the right amount to your warband's rating.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-09-22</p>
+        <h3>No More Duplicate Campaign Names</h3>
+        <p>Starting or renaming a campaign now checks the name as you type and stops you before you end up with two campaigns of the same name under your account, with a clear message if it's already taken.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-09-18</p>
+        <h3>Battlefield Generator (Beta)</h3>
+        <p>A new Map tab suggests a board for any scenario and table size — 2', 3' or 4' on each side — drawn as an old cartographer's map, with the scenario's deployment zones shaded and any wyrdstone or objective counters marked. Re-roll until you like it, then move the pieces to fit what's on your table. Signed in, it lays the board out from your own terrain library; signed out, it uses generic terrain, and works at the table without an account like the dice roller and the rules. It's in beta — the terrain suggestion is the app's own, not a prescribed table, and fords and bridges where a river meets a road are still to come.</p>
+      </article>
       <article class="entry">
         <p class="entry-date ui tnum">2026-09-04</p>
         <h3>Your Battle Survives a Refresh</h3>
@@ -629,8 +682,6 @@
           <a href="/app">Open the app</a>
           <a href="/app/gallery">Public gallery</a>
           <a href="/app/rules">Rules reference</a>
-          <a href="/privacy.html">Privacy</a>
-          <a href="/terms.html">Terms</a>
           <a href="/">Home</a>
         </div>
         <p class="community-label">Other Mordheim resources</p>
