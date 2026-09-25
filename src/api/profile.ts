@@ -25,6 +25,20 @@ export async function recordSignupAcquisition(acq: {
   }
 }
 
+/**
+ * §26.7.2 follow-up — a Google account's answer to "How did you find Mordheim
+ * Manager?", asked by a card after sign-up since Google skips the register form.
+ * Write-once, own-row-only, within 24 hours of creation (migration 0049).
+ */
+export async function recordSignupSelfReport(answer: string, note: string): Promise<void> {
+  if (isDemoMode()) return;
+  try {
+    await supabase.rpc('record_signup_self_report', { p_answer: answer, p_note: note || null });
+  } catch {
+    /* best-effort — never surface */
+  }
+}
+
 export type Profile = {
   id: string;
   displayName: string;

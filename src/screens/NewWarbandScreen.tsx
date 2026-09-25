@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { capture } from '../lib/posthog';
 import BackHeader from '../components/BackHeader';
+import GoogleSelfReportCard from '../components/GoogleSelfReportCard';
 import DisclosureChevron from '../components/DisclosureChevron';
 import { Button, TextField } from '../components/ui';
 import { strings } from '../strings';
@@ -186,6 +187,9 @@ export default function NewWarbandScreen() {
       <BackHeader title={strings.newWarband.title} />
 
       <main className="flex-1 px-4 py-6 space-y-6">
+        {/* A brand-new Google account lands here first (§26.4.1) and never saw
+            the register form's source question, so it's asked here, once. */}
+        <GoogleSelfReportCard />
         <div className="space-y-2">
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="warband-name">
             {strings.newWarband.nameLabel}

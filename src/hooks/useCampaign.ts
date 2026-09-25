@@ -20,7 +20,7 @@ import {
   setCampaignConcluded,
 } from '../api/campaign';
 import { deleteBattle, fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
-import { fetchCampaignWarbands } from '../api/warbands';
+import { fetchCampaignWarbands, fetchWarbands, type WarbandRecord } from '../api/warbands';
 import { pickActiveCampaign, writeActiveCampaignId } from '../lib/activeCampaign';
 import { useDebouncedValue } from './useDebouncedValue';
 import { describeError } from '../lib/errorMessage';
@@ -433,13 +433,25 @@ export function useLogBattleMutation() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (battle: BattleRecord) => {
+      // §26.6 — a battle belongs to the campaign its *warband* is entered in,
+      // not to whichever campaign the app currently has active: filing by the
+      // active campaign put a campaign-less warband's games into someone's
+      // campaign log and standings. No campaign on the warband → a personal
+      // battle (campaign_id null).
+      // Same key as useWarbandsQuery (useWarbands.ts).
+      let records = queryClient.getQueryData<WarbandRecord[]>(['warbands', user?.id]);
+      if (records === undefined) records = await fetchWarbands(user!.id);
+      const warbandCampaignId = records.find((r) => r.warband.id === battle.warbandId)?.campaignId ?? null;
+
+      // Only file into a campaign the player still belongs to — the insert
+      // policy requires membership, and a stale link must not lose the battle.
       let campaigns = queryClient.getQueryData<Campaign[]>(campaignsKey(user?.id));
-      if (campaigns === undefined) {
-        campaigns = await fetchMyCampaigns(user!.id);
-      }
-      const campaign = pickActiveCampaign(campaigns);
-      const inserted = await insertBattle(campaign?.id ?? null, user!.id, battle);
-      return { battle: inserted, campaignId: campaign?.id ?? null };
+      if (campaigns === undefined) campaigns = await fetchMyCampaigns(user!.id);
+      const campaignId =
+        warbandCampaignId && campaigns.some((c) => c.id === warbandCampaignId) ? warbandCampaignId : null;
+
+      const inserted = await insertBattle(campaignId, user!.id, battle);
+      return { battle: inserted, campaignId };
     },
     onSuccess: ({ campaignId }) => {
       queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });

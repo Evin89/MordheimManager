@@ -2,13 +2,10 @@ import { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
-import { Button, Card, Field, Select, TextField } from '../components/ui';
+import { Button, Card, Field, TextField } from '../components/ui';
+import SelfReportFields from '../components/SelfReportFields';
 import ResendConfirmationButton from '../components/ResendConfirmationButton';
-import {
-  SELF_REPORT_NOTE_MAX,
-  SELF_REPORT_OPTIONS,
-  type SelfReportAnswer,
-} from '../lib/acquisition';
+import type { SelfReportAnswer } from '../lib/acquisition';
 import GoogleSignInButton, { AuthDivider } from '../components/GoogleSignInButton';
 
 export default function RegisterScreen() {
@@ -111,31 +108,12 @@ export default function RegisterScreen() {
                 />
               </Field>
 
-              <Field label={strings.auth.selfReportLabel} htmlFor="selfReport">
-                <Select
-                  id="selfReport"
-                  value={selfReport}
-                  onChange={(e) => setSelfReport(e.target.value as SelfReportAnswer | '')}
-                >
-                  <option value="">{strings.auth.selfReportSkip}</option>
-                  {SELF_REPORT_OPTIONS.map((o) => (
-                    <option key={o.id} value={o.id}>
-                      {o.label}
-                    </option>
-                  ))}
-                </Select>
-              </Field>
-              {selfReport === 'other' && (
-                <Field label={strings.auth.selfReportOtherLabel} htmlFor="selfReportNote">
-                  <TextField
-                    id="selfReportNote"
-                    type="text"
-                    maxLength={SELF_REPORT_NOTE_MAX}
-                    value={selfReportNote}
-                    onChange={(e) => setSelfReportNote(e.target.value)}
-                  />
-                </Field>
-              )}
+              <SelfReportFields
+                answer={selfReport}
+                note={selfReportNote}
+                onAnswer={setSelfReport}
+                onNote={setSelfReportNote}
+              />
 
               {error && <p className="text-sm text-blood-500">{error}</p>}
 

@@ -11,6 +11,7 @@ import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { consumeFreshSignIn } from '../lib/firstRun';
+import GoogleSelfReportCard from '../components/GoogleSelfReportCard';
 import { arrivedWithAuthLinkError } from '../lib/supabaseClient';
 
 /**
@@ -136,6 +137,7 @@ export default function HomeScreen() {
         </header>
 
         <main className="flex-1 px-4 py-6 space-y-6">
+          <GoogleSelfReportCard />
           <GetStartedCard warbandCount={0} hasCampaign={!!campaign} battleCount={battles?.length ?? 0} />
 
           {campaign && (
@@ -176,6 +178,7 @@ export default function HomeScreen() {
       </header>
 
       <main className="flex-1 px-4 py-6 space-y-6">
+        <GoogleSelfReportCard />
         {onboardingReady && (
           <GetStartedCard
             warbandCount={warbands.length}
