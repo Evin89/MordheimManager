@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, SectionHeading, Eyebrow, buttonClasses } from './ui';
 import { strings } from '../strings';
+import { capture } from '../lib/posthog';
 
 /**
  * A guided next-step card for a player still setting up (spec §23 funnel — the
@@ -28,6 +30,11 @@ export default function GetStartedCard({
   else if (battleCount === 0) stage = 'battle';
   else stage = null;
 
+  // §26.4.3 — measure the first-warband card (consent-gated like every event).
+  useEffect(() => {
+    if (stage === 'warband') void capture('onboarding_first_warband_shown');
+  }, [stage]);
+
   if (!stage) return null;
 
   const stageIndex: Record<Stage, number> = { warband: 0, campaign: 1, battle: 2 };
@@ -37,6 +44,7 @@ export default function GetStartedCard({
   return (
     <Card as="section">
       <Eyebrow>{s.eyebrow}</Eyebrow>
+      {stage === 'warband' && <p className="text-bone-200 text-sm">{s.intro}</p>}
 
       {/* A 1-2-3 rail so the player sees where they are and what's left. */}
       <div className="flex items-center gap-2">
@@ -63,7 +71,11 @@ export default function GetStartedCard({
 
       <SectionHeading>{step.title}</SectionHeading>
       <p className="text-bone-300 text-sm">{step.body}</p>
-      <Link to={step.to} className={buttonClasses('primary')}>
+      <Link
+        to={step.to}
+        className={buttonClasses('primary')}
+        onClick={stage === 'warband' ? () => void capture('onboarding_first_warband_clicked') : undefined}
+      >
         {step.cta}
       </Link>
     </Card>

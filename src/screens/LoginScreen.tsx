@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
+import { clearFreshSignIn } from '../lib/firstRun';
 import { Button, Field, TextField } from '../components/ui';
 import GoogleSignInButton, { AuthDivider } from '../components/GoogleSignInButton';
 
@@ -24,8 +25,11 @@ export default function LoginScreen() {
       setError(signInError);
       return;
     }
-    const redirectTo = (location.state as { from?: string } | null)?.from ?? '/';
-    navigate(redirectTo, { replace: true });
+    const from = (location.state as { from?: string } | null)?.from;
+    // Sent here from a specific page: going back there wins over the §26.4.1
+    // first-run redirect, which only applies to a plain sign-in landing on Home.
+    if (from) clearFreshSignIn();
+    navigate(from ?? '/', { replace: true });
   }
 
   return (

@@ -5,10 +5,13 @@ import { supabase } from '../lib/supabaseClient';
 import { isDemoMode, setDemoMode } from '../dev/demoMode';
 import { demoViewer } from '../dev/demoApi';
 import { touchLastSeen } from '../api/presence';
+import { clearFreshSignIn, markFreshSignIn } from '../lib/firstRun';
 import {
   acquisitionMetadata,
   getAcquisitionForSignup,
   initAcquisitionCapture,
+  selfReportMetadata,
+  type SelfReport,
 } from '../lib/acquisition';
 
 type AuthState = {
@@ -16,7 +19,12 @@ type AuthState = {
   user: User | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
-  signUp: (email: string, password: string, displayName: string) => Promise<{ error: string | null }>;
+  signUp: (
+    email: string,
+    password: string,
+    displayName: string,
+    selfReport?: SelfReport,
+  ) => Promise<{ error: string | null }>;
   /** Starts the Google OAuth flow (sign-in and sign-up alike — Supabase creates
    * the account on first use). Redirects the browser away on success, so a
    * returned error means the redirect could not even be started. */
@@ -125,10 +133,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function signIn(email: string, password: string) {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
+    // §26.4.1 — Home decides whether this first landing goes to warband creation.
+    if (!error) markFreshSignIn();
     return { error: error?.message ?? null };
   }
 
-  async function signUp(email: string, password: string, displayName: string) {
+  async function signUp(email: string, password: string, displayName: string, selfReport?: SelfReport) {
     // §23.4 — where this signup came from, passed through the auth metadata so
     // `handle_new_user` writes it onto the profile atomically (migration 0025).
     // Best-effort: a capture failure must never block a registration.
@@ -138,11 +148,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch {
       /* ignore */
     }
-    const { error } = await supabase.auth.signUp({
+    // §26.7.2 — the optional self-reported source rides the same write-once path.
+    const self = selfReport ? selfReportMetadata(selfReport) : {};
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { display_name: displayName, ...acquisition } },
+      options: { data: { display_name: displayName, ...acquisition, ...self } },
     });
+    // Only a signup that comes back signed in (email confirmation off) lands
+    // anywhere; with confirmation on there is no session yet.
+    if (!error && data.session) markFreshSignIn();
     return { error: error?.message ?? null };
   }
 
@@ -152,10 +167,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // and `onAuthStateChange` above establishes the session. This exact origin +
     // `/app` must be on Supabase's allowed redirect list, and the Supabase
     // callback (`…/auth/v1/callback`) on Google's authorised redirect URIs.
+    // Set before leaving: the OAuth round trip returns to this same tab, so the
+    // sessionStorage flag is still there when /app loads Home.
+    markFreshSignIn();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: `${window.location.origin}/app` },
     });
+    if (error) clearFreshSignIn();
     return { error: error?.message ?? null };
   }
 

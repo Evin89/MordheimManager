@@ -4,7 +4,9 @@ import {
   useAdminRetentionQuery,
   useAdminActivitySeriesQuery,
   useAdminAcquisitionQuery,
+  useAdminSelfReportQuery,
 } from '../hooks/useIssues';
+import { SELF_REPORT_OPTIONS } from '../lib/acquisition';
 import { CohortCell } from '../api/adminAnalytics';
 
 /**
@@ -32,6 +34,11 @@ const CHANNEL_LABEL: Record<string, string> = {
   organic_search: 'Search',
   direct: 'Direct',
   other: 'Other',
+};
+
+const SELF_REPORT_LABEL: Record<string, string> = {
+  ...Object.fromEntries(SELF_REPORT_OPTIONS.map((o) => [o.id, o.label])),
+  not_answered: 'Not answered',
 };
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -111,6 +118,7 @@ export default function AdminGrowth() {
   const { data: cohorts } = useAdminRetentionQuery();
   const { data: activity } = useAdminActivitySeriesQuery();
   const { data: acquisition } = useAdminAcquisitionQuery();
+  const { data: selfReport } = useAdminSelfReportQuery();
 
   const registered = funnel?.[0]?.n ?? 0;
   const activityPeak = Math.max(
@@ -118,6 +126,7 @@ export default function AdminGrowth() {
     ...(activity ?? []).flatMap((d) => [d.signups, d.warbands, d.battles]),
   );
   const acqTotal = (acquisition ?? []).reduce((a, r) => a + r.n, 0) || 1;
+  const selfTotal = (selfReport?.answers ?? []).reduce((a, r) => a + r.n, 0) || 1;
 
   return (
     <section className="space-y-6">
@@ -188,6 +197,35 @@ export default function AdminGrowth() {
               <span className="w-8 text-right tabular-nums text-bone-400">{r.n}</span>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* §26.7.2 — what signups said, beside what was captured. The "Other"
+          notes are free text a user typed, so they're listed unattributed:
+          text only, no name, id or date. */}
+      {selfReport && selfReport.answers.length > 0 && (
+        <div className="space-y-1">
+          <Eyebrow>Self-reported source — last 30 days</Eyebrow>
+          {selfReport.answers.map((r) => (
+            <div key={r.answer} className="flex items-center gap-2 text-sm">
+              <span className="w-32 shrink-0 text-bone-200">{SELF_REPORT_LABEL[r.answer] ?? r.answer}</span>
+              <span
+                className={`h-2 rounded-sm ${r.answer === 'not_answered' ? 'bg-bone-400/40' : 'bg-ember-500/70'}`}
+                style={{ width: `${(r.n / selfTotal) * 100}%` }}
+              />
+              <span className="w-8 text-right tabular-nums text-bone-400">{r.n}</span>
+            </div>
+          ))}
+          {selfReport.notes.length > 0 && (
+            <div className="pt-2">
+              <p className="font-ui text-xs text-bone-400 mb-1">“Other”, in their words (latest {selfReport.notes.length})</p>
+              <ul className="list-disc pl-5 space-y-0.5 text-sm text-bone-200">
+                {selfReport.notes.map((note, i) => (
+                  <li key={i}>{note}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
 

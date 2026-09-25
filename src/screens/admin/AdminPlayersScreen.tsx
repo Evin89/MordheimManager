@@ -36,7 +36,7 @@ const COLUMNS: Column[] = [
     label: 'Last seen',
     align: 'right',
     defaultDir: 'desc',
-    title: 'Last time they opened the app (real presence). Blank until they have opened it since presence tracking shipped.',
+    title: 'Latest of: opening the app, a warband edit, a battle report, or signing up. The same value behind the Overview’s “Online today” and “Active · 7d”.',
   },
   {
     key: 'active',
@@ -48,7 +48,8 @@ const COLUMNS: Column[] = [
 ];
 
 /** Ascending comparison for one key; the caller applies the direction. Nulls in
- * "last active" always sort to the bottom, whichever way the column is pointed. */
+ * "last edit" always sort to the bottom, whichever way the column is pointed.
+ * "Last seen" has no nulls — signup is its floor (§26.1). */
 function compareAsc(a: AdminUserRow, b: AdminUserRow, key: SortKey): number {
   switch (key) {
     case 'player':
@@ -64,10 +65,10 @@ function compareAsc(a: AdminUserRow, b: AdminUserRow, key: SortKey): number {
     case 'edits':
       return a.edits30d - b.edits30d;
     case 'seen':
+      return Date.parse(a.lastSeen) - Date.parse(b.lastSeen);
     case 'active': {
-      const pick = (r: AdminUserRow) => (key === 'seen' ? r.lastSeen : r.lastActive);
-      const av = pick(a) ? Date.parse(pick(a)!) : null;
-      const bv = pick(b) ? Date.parse(pick(b)!) : null;
+      const av = a.lastActive ? Date.parse(a.lastActive) : null;
+      const bv = b.lastActive ? Date.parse(b.lastActive) : null;
       if (av === null && bv === null) return 0;
       if (av === null) return 1; // handled before the direction flip, so nulls stay last
       if (bv === null) return -1;
@@ -99,9 +100,7 @@ export default function AdminPlayersScreen() {
     return [...users].sort((a, b) => {
       const primary = compareAsc(a, b, sort.key);
       if (primary !== 0) {
-        const nullPinned =
-          (sort.key === 'active' && (a.lastActive === null || b.lastActive === null)) ||
-          (sort.key === 'seen' && (a.lastSeen === null || b.lastSeen === null));
+        const nullPinned = sort.key === 'active' && (a.lastActive === null || b.lastActive === null);
         return nullPinned ? primary : primary * dir;
       }
       // Stable tiebreak so equal rows don't shuffle between renders.
@@ -134,18 +133,27 @@ export default function AdminPlayersScreen() {
   return (
     <section className="space-y-2">
       <h2 className="text-bone-100 font-semibold">Players</h2>
-      <div className="overflow-x-auto rounded-lg border border-ink-800 bg-ink-900">
-        <table className="w-full text-sm tabular-nums lining-nums">
+      {/* §26.2 — on a phone the table scrolls sideways, so the player column and
+          the header row stick (both inside this one scroll container) and every
+          row stays attributable. Opaque ink-900 backgrounds so scrolled cells
+          never show through; a plain 1px rule, no shadow fade. The table is
+          border-separate because collapsed borders don't travel with a sticky
+          cell — so the row rules live on the cells, not the <tr>. */}
+      <div className="max-h-[75vh] overflow-auto rounded-lg border border-ink-800 bg-ink-900">
+        <table className="w-full border-separate border-spacing-0 text-sm tabular-nums lining-nums">
           <thead>
-            <tr className="border-b border-ink-700">
+            <tr>
               {COLUMNS.map((col) => {
                 const state = sort?.key === col.key ? sort.dir : null;
+                const first = col.key === 'player';
                 return (
                   <th
                     key={col.key}
                     scope="col"
                     aria-sort={state === 'asc' ? 'ascending' : state === 'desc' ? 'descending' : 'none'}
-                    className={`${col.align === 'left' ? 'text-left px-3' : 'text-right px-2'} font-ui text-xs uppercase tracking-wide text-bone-400 py-0 whitespace-nowrap`}
+                    className={`${col.align === 'left' ? 'text-left px-3' : 'text-right px-2'} sticky top-0 bg-ink-900 border-b border-ink-700 font-ui text-xs uppercase tracking-wide text-bone-400 py-0 whitespace-nowrap ${
+                      first ? 'left-0 z-30 border-r' : 'z-20'
+                    }`}
                     title={col.title}
                   >
                     <button
@@ -163,22 +171,34 @@ export default function AdminPlayersScreen() {
               })}
             </tr>
           </thead>
-          <tbody>
+          <tbody className="[&>tr>*]:border-b [&>tr>*]:border-ink-800 [&>tr:last-child>*]:border-b-0">
             {sorted.map((u) => (
-              <tr key={u.userId} className="border-b border-ink-800 last:border-b-0">
-                <th scope="row" className="text-left font-normal px-3 py-2">
-                  <Link
-                    to={`/admin/players/${u.userId}`}
-                    className="text-ember-400 font-semibold underline-offset-2 hover:underline"
-                  >
-                    {u.displayName || 'Unnamed'}
-                  </Link>
-                  {u.isAdmin && (
-                    <span className="ml-2 rounded border border-ink-700 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-bone-400">
-                      admin
-                    </span>
-                  )}
-                  <span className="block font-ui text-xs text-bone-400">joined {ago(u.createdAt)}</span>
+              <tr key={u.userId}>
+                <th scope="row" className="sticky left-0 z-10 bg-ink-900 border-r !border-r-ink-700 text-left font-normal px-3 py-2">
+                  {/* Capped at ~40% of the viewport: long names wrap, never widen it. */}
+                  <div className="max-w-[40vw] break-words">
+                    <Link
+                      to={`/admin/players/${u.userId}`}
+                      className="text-ember-400 font-semibold underline-offset-2 hover:underline"
+                    >
+                      {u.displayName || 'Unnamed'}
+                    </Link>
+                    {u.isAdmin && (
+                      <span className="ml-2 rounded border border-ink-700 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-bone-400">
+                        admin
+                      </span>
+                    )}
+                    {/* §26.3.1 — can't sign in until the emailed link is clicked. */}
+                    {!u.emailConfirmed && (
+                      <span
+                        title="Email never confirmed — this account can't sign in"
+                        className="ml-2 rounded border border-blood-600 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-blood-500"
+                      >
+                        unconfirmed
+                      </span>
+                    )}
+                    <span className="block font-ui text-xs text-bone-400">joined {ago(u.createdAt)}</span>
+                  </div>
                 </th>
                 <td className="text-right px-2 py-2 text-bone-100">
                   {u.warbands}
@@ -194,9 +214,7 @@ export default function AdminPlayersScreen() {
                 <td className="text-right px-2 py-2 text-bone-100">
                   {u.edits30d > 0 ? u.edits30d : <span className="text-bone-400">—</span>}
                 </td>
-                <td className="text-right px-2 py-2 whitespace-nowrap">
-                  <span className={u.lastSeen ? 'text-bone-100' : 'text-bone-400'}>{ago(u.lastSeen)}</span>
-                </td>
+                <td className="text-right px-2 py-2 whitespace-nowrap text-bone-100">{ago(u.lastSeen)}</td>
                 <td className="text-right px-3 py-2 text-bone-400 whitespace-nowrap">{ago(u.lastActive)}</td>
               </tr>
             ))}

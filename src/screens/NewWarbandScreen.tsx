@@ -10,7 +10,7 @@ import { WarbandDefinition } from '../data/types';
 import { isCustomWarbandType } from '../lib/customWarband';
 import { createWarband } from '../lib/warbandFactory';
 import { quickBuildStarterRoster, describeStarter } from '../lib/quickBuild';
-import { useCreateWarbandMutation } from '../hooks/useWarbands';
+import { useCreateWarbandMutation, useWarbandList } from '../hooks/useWarbands';
 import { useCustomWarbandTypesQuery } from '../hooks/useCustomWarbands';
 
 /** Provenance as one short label, e.g. "The New Mordheimer · Grade 1a". A custom
@@ -118,6 +118,7 @@ export default function NewWarbandScreen() {
   const [searchParams] = useSearchParams();
   const createWarbandOnServer = useCreateWarbandMutation();
   const { data: customTypes } = useCustomWarbandTypesQuery();
+  const ownedWarbandCount = useWarbandList().length;
   const [name, setName] = useState('');
   // Preselect the type when arrived at from the §5.4 warband reference's "Build
   // this warband →" CTA (`?type=<id>`); fall back to the first list A–Z.
@@ -168,6 +169,9 @@ export default function NewWarbandScreen() {
       void capture('warband_created', {
         warband_type_id: definition.id,
         quick_build: quickBuild,
+        // §26.4.3 — whether this is the account's first warband (the funnel's
+        // register → warband step).
+        is_first: ownedWarbandCount === 0,
       });
       navigate(`/warbands/${warband.id}`, { replace: true });
     } catch {

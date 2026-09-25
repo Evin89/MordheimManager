@@ -104,6 +104,22 @@ export const strings = {
     cta: 'Questions or ideas? Join the Discord',
     aria: 'Join the Mordheim Manager Discord for questions and suggestions',
   },
+  // §26.5 — the owner-only nudge to make a battle-tested private warband public.
+  // The copy says exactly what the flag does: campaign-mates see the warband
+  // either way; public only changes things for people outside the campaign.
+  shareNudge: {
+    title: 'Show this warband off?',
+    body: 'It’s private, so only you can see it. Making it public lists it in the gallery and gives it a link anyone can open — no account needed.',
+    bodyInCampaign:
+      'It’s private: your campaign can already see it, and nobody else can. Making it public lists it in the gallery and gives it a link anyone can open.',
+    makePublic: 'Make public',
+    notNow: 'Not now',
+    publicTitle: 'Your warband is public',
+    publicBody: 'Share this link — it opens the roster for anyone. You can make it private again under Campaign & Sharing.',
+    copyLink: 'Copy link',
+    copied: 'Copied',
+    done: 'Done',
+  },
   whatsNew: {
     title: "What's new",
     dismiss: 'Got it',
@@ -116,11 +132,14 @@ export const strings = {
     // three activation stages (warband -> campaign -> battle) the funnel tracks.
     getStarted: {
       eyebrow: 'Getting started',
+      // §26.4.2 — the one line a brand-new player reads before their first warband.
+      intro:
+        'Mordheim Manager keeps your warband — roster, gold, experience and injuries — and runs your group’s campaign between games.',
       steps: ['Warband', 'Campaign', 'Battle'],
       warband: {
-        title: 'Create your first warband',
+        title: 'Start with a warband',
         body: "Pick a warband type and we'll fill a legal starter roster within your gold — rename, re-equip and adjust it however you like.",
-        cta: 'Create a warband',
+        cta: 'Create your first warband',
         to: '/warbands/new',
       },
       campaign: {
@@ -145,6 +164,8 @@ export const strings = {
     btbBadge: 'Border Town Burning',
     warbandsSection: 'Your Warbands',
     noWarbandsCta: 'Create your first warband to get started.',
+    haveJoinCode: 'Got a campaign join code?',
+    meanwhileSection: 'Meanwhile',
     quickActionsSection: 'Quick Actions',
     viewCampaignLog: 'View Campaign Log',
     soloButton: 'Solo battle',
@@ -357,6 +378,9 @@ export const strings = {
     orDivider: 'or',
     loginSubmitting: 'Signing in…',
     registerSubmitting: 'Creating account…',
+    selfReportLabel: 'How did you find Mordheim Manager? (optional)',
+    selfReportSkip: 'Rather not say',
+    selfReportOtherLabel: 'Where? (optional)',
     noAccountPrompt: "Don't have an account?",
     hasAccountPrompt: 'Already have an account?',
     registerLink: 'Create one',
@@ -1324,7 +1348,7 @@ export const strings = {
     inCampaignLabel: 'Entered in campaign',
     notInCampaign: 'Not entered',
     visibilityLabel: 'Visible outside the campaign',
-    visibilityPublic: 'Anyone signed in can view this roster',
+    visibilityPublic: 'Anyone can view this roster, and it’s listed in the gallery',
     visibilityPrivate: 'Only you (and your campaign) can view this roster',
     campaignMatesAlwaysSee: 'Players in your campaign can always see a warband you enter, whatever this is set to.',
     noCampaignsToJoin: 'Start or join a campaign first to enter a warband in one.',

@@ -44,7 +44,10 @@ export type AnalyticsEvent =
   | 'campaign_invite_shared'
   | 'warband_campaign_assignment_changed'
   | 'warband_visibility_changed'
-  | 'issue_report_submitted';
+  | 'issue_report_submitted'
+  // §26.4.3 — the zero-warband "Create your first warband" card on Home.
+  | 'onboarding_first_warband_shown'
+  | 'onboarding_first_warband_clicked';
 
 type EventProps = Record<string, string | number | boolean>;
 

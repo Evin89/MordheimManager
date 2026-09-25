@@ -89,6 +89,38 @@ export function getAcquisitionForSignup(): Acquisition {
   return captureAcquisition(window.location.search, document.referrer);
 }
 
+/**
+ * §26.7.2 — the register form's optional "How did you find Mordheim Manager?".
+ * Referrers miss most Discord traffic, so this asks as well as infers. The ids
+ * are the closed set `profiles.acquisition_self_report` checks (migration 0047).
+ */
+export const SELF_REPORT_OPTIONS = [
+  { id: 'discord', label: 'Discord' },
+  { id: 'reddit', label: 'Reddit' },
+  { id: 'mordheimer', label: 'mordheimer.net' },
+  { id: 'friend', label: 'My gaming group / a friend' },
+  { id: 'search', label: 'Search engine' },
+  { id: 'other', label: 'Other' },
+] as const;
+
+export type SelfReportAnswer = (typeof SELF_REPORT_OPTIONS)[number]['id'];
+
+/** Longest "Other" note the database keeps. */
+export const SELF_REPORT_NOTE_MAX = 80;
+
+export type SelfReport = { answer: SelfReportAnswer | null; note: string };
+
+/** Metadata keys for the self-report; nothing at all when the question was skipped,
+ * so a skip lands as null ("not answered"), never as "other". */
+export function selfReportMetadata(report: SelfReport): Record<string, string> {
+  if (!report.answer) return {};
+  const note = report.answer === 'other' ? report.note.trim().slice(0, SELF_REPORT_NOTE_MAX) : '';
+  return {
+    acquisition_self_report: report.answer,
+    ...(note ? { acquisition_self_report_note: note } : {}),
+  };
+}
+
 /** The metadata keys the signup passes through to `handle_new_user` (migration 0025). */
 export function acquisitionMetadata(acq: Acquisition): Record<string, string> {
   return {

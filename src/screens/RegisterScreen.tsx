@@ -2,7 +2,12 @@ import { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
-import { Button, Field, TextField } from '../components/ui';
+import { Button, Field, Select, TextField } from '../components/ui';
+import {
+  SELF_REPORT_NOTE_MAX,
+  SELF_REPORT_OPTIONS,
+  type SelfReportAnswer,
+} from '../lib/acquisition';
 import GoogleSignInButton, { AuthDivider } from '../components/GoogleSignInButton';
 
 export default function RegisterScreen() {
@@ -11,6 +16,9 @@ export default function RegisterScreen() {
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  // §26.7.2 — optional; '' means skipped and is sent as nothing at all.
+  const [selfReport, setSelfReport] = useState<SelfReportAnswer | ''>('');
+  const [selfReportNote, setSelfReportNote] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -18,7 +26,10 @@ export default function RegisterScreen() {
     event.preventDefault();
     setSubmitting(true);
     setError(null);
-    const { error: signUpError } = await signUp(email, password, displayName);
+    const { error: signUpError } = await signUp(email, password, displayName, {
+      answer: selfReport || null,
+      note: selfReportNote,
+    });
     setSubmitting(false);
     if (signUpError) {
       setError(signUpError);
@@ -70,6 +81,32 @@ export default function RegisterScreen() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Field>
+
+          <Field label={strings.auth.selfReportLabel} htmlFor="selfReport">
+            <Select
+              id="selfReport"
+              value={selfReport}
+              onChange={(e) => setSelfReport(e.target.value as SelfReportAnswer | '')}
+            >
+              <option value="">{strings.auth.selfReportSkip}</option>
+              {SELF_REPORT_OPTIONS.map((o) => (
+                <option key={o.id} value={o.id}>
+                  {o.label}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          {selfReport === 'other' && (
+            <Field label={strings.auth.selfReportOtherLabel} htmlFor="selfReportNote">
+              <TextField
+                id="selfReportNote"
+                type="text"
+                maxLength={SELF_REPORT_NOTE_MAX}
+                value={selfReportNote}
+                onChange={(e) => setSelfReportNote(e.target.value)}
+              />
+            </Field>
+          )}
 
           {error && <p className="text-sm text-blood-500">{error}</p>}
 

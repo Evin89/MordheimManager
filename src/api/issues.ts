@@ -164,9 +164,14 @@ export type AdminUserRow = {
   edits30d: number;
   /** Most recent warband edit (max updated_at), or null — NOT presence. */
   lastActive: string | null;
-  /** Last time they opened the app (real presence), or null if not since it was
-   * tracked / deployed. */
-  lastSeen: string | null;
+  /** Derived last seen (§26.1, `user_last_seen()`): the latest of a tracked app
+   * open, a warband edit, a battle report and signup — so never null. */
+  lastSeen: string;
+  /** §26.3.1 — auth metadata, never the address: an unconfirmed account can't
+   * sign in, which separates "blocked" from "left". */
+  emailConfirmed: boolean;
+  /** Last successful sign-in, or null if they never got in. */
+  lastSignInAt: string | null;
 };
 
 export type AdminUserPage = {
@@ -202,6 +207,8 @@ export async function fetchAdminUsers(cursor = 0): Promise<AdminUserPage> {
       new_warbands_30d: number;
       edits_30d: number;
       last_seen: string | null;
+      email_confirmed?: boolean | null;
+      last_sign_in_at?: string | null;
     }[]
   ).map((r) => ({
     userId: r.user_id,
@@ -217,7 +224,12 @@ export async function fetchAdminUsers(cursor = 0): Promise<AdminUserPage> {
     newWarbands30d: Number(r.new_warbands_30d ?? 0),
     edits30d: Number(r.edits_30d ?? 0),
     lastActive: r.last_active,
-    lastSeen: r.last_seen ?? null,
+    // Signup is the SQL function's floor; mirror it for a pre-0045 backend.
+    lastSeen: r.last_seen ?? r.created_at,
+    // Pre-0046 backends omit these; read "unknown" as confirmed so nobody is
+    // flagged on missing data.
+    emailConfirmed: r.email_confirmed ?? true,
+    lastSignInAt: r.last_sign_in_at ?? null,
   }));
 
   return {
@@ -253,6 +265,11 @@ export type AdminUserDetail = {
   displayName: string;
   createdAt: string;
   isAdmin: boolean;
+  /** Derived last seen (§26.1); signup is its floor. */
+  lastSeen: string;
+  /** §26.3.1 auth health — see AdminUserRow. */
+  emailConfirmed: boolean;
+  lastSignInAt: string | null;
   /** Battles this player has reported. */
   battles: number;
   /** Roster edits logged, all-time and in the last 30 days (since tracking began). */
@@ -277,6 +294,9 @@ export async function fetchAdminUserDetail(userId: string): Promise<AdminUserDet
     display_name: string;
     created_at: string;
     is_admin: boolean;
+    last_seen?: string | null;
+    email_confirmed?: boolean | null;
+    last_sign_in_at?: string | null;
     battles?: number;
     edits_all?: number;
     edits_30d?: number;
@@ -291,6 +311,9 @@ export async function fetchAdminUserDetail(userId: string): Promise<AdminUserDet
     displayName: d.display_name,
     createdAt: d.created_at,
     isAdmin: d.is_admin,
+    lastSeen: d.last_seen ?? d.created_at,
+    emailConfirmed: d.email_confirmed ?? true,
+    lastSignInAt: d.last_sign_in_at ?? null,
     battles: Number(d.battles ?? 0),
     editsAll: Number(d.edits_all ?? 0),
     edits30d: Number(d.edits_30d ?? 0),
@@ -354,6 +377,8 @@ export type AdminStats = {
   campaigns: number;
   battles: number;
   open_issues: number;
+  // §26.3.1: accounts that never confirmed their email (migration 0046).
+  unconfirmed_users?: number;
   // Presence (migration 0037): distinct users seen today / in the last 7 days.
   // Optional so an un-migrated backend that omits them still parses.
   active_today?: number;

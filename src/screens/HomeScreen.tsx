@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import AppBanner from '../components/AppBanner';
 import DiscordLink from '../components/DiscordLink';
 import GetStartedCard from '../components/GetStartedCard';
@@ -9,6 +10,7 @@ import { useWarbandList, useWarbandsQuery } from '../hooks/useWarbands';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName } from '../data/warbandRegistry';
+import { consumeFreshSignIn } from '../lib/firstRun';
 
 /**
  * About and the changelog, at the foot of Home.
@@ -79,7 +81,7 @@ function SignedOutHome() {
 export default function HomeScreen() {
   const { user, loading } = useAuth();
   const warbands = useWarbandList();
-  const { isLoading: warbandsLoading } = useWarbandsQuery();
+  const { isLoading: warbandsLoading, data: warbandRows } = useWarbandsQuery();
   const { data: campaign, isLoading: campaignLoading } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
 
@@ -88,6 +90,21 @@ export default function HomeScreen() {
   // load. Battles are only awaited when there's a campaign to have them.
   const battlesReady = !campaign || battles !== undefined;
   const onboardingReady = !warbandsLoading && !campaignLoading && battlesReady;
+
+  // §26.4.1 — first-run landing: a sign-in by someone with no warbands goes
+  // straight to warband creation. Judged once, only after the warband list has
+  // actually arrived (data, not merely "not loading" — a query that hasn't
+  // started yet also isn't loading), and the flag is consumed either way so a
+  // later visit to Home stays Home.
+  const navigate = useNavigate();
+  const firstRunJudged = useRef(false);
+  useEffect(() => {
+    if (!user || warbandRows === undefined || firstRunJudged.current) return;
+    firstRunJudged.current = true;
+    if (consumeFreshSignIn() && warbandRows.length === 0) {
+      navigate('/warbands/new', { replace: true });
+    }
+  }, [user, warbandRows, navigate]);
 
   // Wait for the session check before choosing a view, so a signed-in user
   // reloading the page doesn't flash the signed-out landing first.
@@ -100,6 +117,51 @@ export default function HomeScreen() {
   }
 
   if (!user) return <SignedOutHome />;
+
+  // §26.4.2 — empty state: with no warbands, Home leads with the one card that
+  // matters and keeps only the secondary content (rules, Discord) below it. The
+  // campaign card stays if they're already in one — they may have joined by code
+  // before building a warband. No tour, no carousel.
+  if (onboardingReady && warbands.length === 0) {
+    return (
+      <div className="min-h-full flex flex-col">
+        <header className="px-4 pt-6 pb-4 border-b border-ink-800">
+          <AppBanner />
+        </header>
+
+        <main className="flex-1 px-4 py-6 space-y-6">
+          <GetStartedCard warbandCount={0} hasCampaign={!!campaign} battleCount={battles?.length ?? 0} />
+
+          {campaign && (
+            <Card as="section" gap="sm">
+              <SectionHeading>{strings.home.campaignSection}</SectionHeading>
+              <p className="text-ember-400 font-semibold">{campaign.name}</p>
+              <Link
+                to="/campaign"
+                className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+              >
+                {strings.home.goToCampaign}
+              </Link>
+            </Card>
+          )}
+
+          <section className="space-y-3">
+            <SectionHeading>{strings.home.meanwhileSection}</SectionHeading>
+            <div className="space-y-2">
+              <Link to="/rules" className={buttonClasses('secondary')}>
+                {strings.home.browseRules}
+              </Link>
+              <Link to="/campaigns" className={buttonClasses('secondary')}>
+                {strings.home.haveJoinCode}
+              </Link>
+            </div>
+          </section>
+
+          <AboutSection />
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-full flex flex-col">

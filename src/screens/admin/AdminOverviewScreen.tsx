@@ -40,6 +40,13 @@ export default function AdminOverviewScreen() {
         <AttentionBadge to="/admin/issues" label="Open issues" n={stats?.open_issues ?? 0} urgent />
         <AttentionBadge to="/admin/maintenance" label="Purge queue" n={queue?.length ?? 0} urgent={false} />
         <AttentionBadge to="/admin/campaigns" label="Stranded campaigns" n={stranded ?? 0} urgent={false} />
+        {/* §26.3.1 — accounts that can't sign in because the email was never confirmed. */}
+        <AttentionBadge
+          to="/admin/players"
+          label="Unconfirmed accounts"
+          n={stats?.unconfirmed_users ?? 0}
+          urgent={false}
+        />
       </div>
 
       <section className="space-y-3">

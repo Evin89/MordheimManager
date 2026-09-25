@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useAdminUserDetailQuery } from '../hooks/useIssues';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { strings } from '../strings';
+import { ago } from './admin/shared';
 
 function when(iso: string | null): string {
   if (!iso) return '—';
@@ -75,7 +76,29 @@ export default function AdminUserScreen() {
                   </span>
                 )}
               </p>
-              <p className="font-ui text-xs text-bone-400">Joined {when(user.createdAt)}</p>
+              <p className="font-ui text-xs text-bone-400">
+                Joined {when(user.createdAt)} · last seen {ago(user.lastSeen)}
+              </p>
+            </section>
+
+            {/* §26.3.1 — auth health, metadata only (never the address). An
+                unconfirmed account can't sign in, so "joined, 0 warbands" may be
+                a blocked signup rather than a lost interest. */}
+            <section aria-label="Sign-in" className="space-y-1">
+              <p className="font-ui text-sm">
+                <span className="text-bone-400">Email: </span>
+                {user.emailConfirmed ? (
+                  <span className="text-bone-100">confirmed</span>
+                ) : (
+                  <span className="font-semibold text-blood-500">not confirmed — can't sign in</span>
+                )}
+              </p>
+              <p className="font-ui text-sm">
+                <span className="text-bone-400">Last sign-in: </span>
+                <span className="text-bone-100">
+                  {user.lastSignInAt ? `${when(user.lastSignInAt)} (${ago(user.lastSignInAt)})` : 'never'}
+                </span>
+              </p>
             </section>
 
             <section aria-label="Activity" className="grid grid-cols-2 sm:grid-cols-3 gap-2">

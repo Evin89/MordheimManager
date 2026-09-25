@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { useAuth } from '../auth/AuthProvider';
+import { useWarbandsQuery } from '../hooks/useWarbands';
 import { NAV_ITEMS } from './navItems';
 import { strings } from '../strings';
 
@@ -45,6 +46,11 @@ function findNavRect(to: string): Rect | null {
 
 export default function NavTour() {
   const { user } = useAuth();
+  const { data: warbandRows } = useWarbandsQuery();
+  // §26.4.2 — no tour before the first warband: a brand-new player's one job is
+  // the "Create your first warband" card (or the first-run redirect straight to
+  // it), and a seven-step overlay on top of that is the tour the spec rules out.
+  const hasWarband = (warbandRows?.length ?? 0) > 0;
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
   const [rect, setRect] = useState<Rect | null>(null);
@@ -67,10 +73,10 @@ export default function NavTour() {
     return () => window.removeEventListener('resize', measure);
   }, [open, measure]);
 
-  // Auto-offer once, to a signed-in player only — a casual signed-out visitor
-  // hasn't asked for a tour. The short delay lets the nav mount first.
+  // Auto-offer once, to a signed-in player with a warband — a casual signed-out
+  // visitor hasn't asked for a tour. The short delay lets the nav mount first.
   useEffect(() => {
-    if (!user) return;
+    if (!user || !hasWarband) return;
     let seen = true;
     try {
       seen = localStorage.getItem(SEEN_KEY) === '1';
@@ -83,7 +89,7 @@ export default function NavTour() {
       setOpen(true);
     }, 700);
     return () => clearTimeout(t);
-  }, [user]);
+  }, [user, hasWarband]);
 
   function markSeen() {
     try {

@@ -575,6 +575,9 @@ export async function fetchAdminStats() {
     campaigns: database.campaigns.length,
     battles: database.battles.length,
     open_issues: issues.filter((i) => i.status === 'open').length,
+    unconfirmed_users: database.users.filter(
+      (u, i) => !demoAuthHealth(i, database.warbands.filter((w) => w.ownerId === u.id).length, '').emailConfirmed,
+    ).length,
     // Presence — synthetic online counts for the demo dashboard.
     active_today: Math.max(1, Math.round(database.users.length * 0.4)),
     active_7d: Math.max(1, Math.round(database.users.length * 0.7)),
@@ -646,6 +649,19 @@ export async function fetchAcquisitionBreakdown(_days = 30) {
     { channel: 'share', n: 4 },
     { channel: 'mordheimer', n: 2 },
   ].filter((r) => r.n > 0);
+}
+
+export async function fetchSelfReportBreakdown(_days = 30) {
+  return {
+    answers: [
+      { answer: 'discord', n: 7 },
+      { answer: 'not_answered', n: 5 },
+      { answer: 'friend', n: 3 },
+      { answer: 'other', n: 2 },
+      { answer: 'reddit', n: 1 },
+    ],
+    notes: ['A YouTube battle report', 'Club newsletter'],
+  };
 }
 
 // --- §4.9.5 admin campaign view (demo) -------------------------------------
@@ -737,16 +753,26 @@ export async function updateDisplayName(
   return { id: user.id, displayName: user.displayName };
 }
 
+/** §26.3.1 synthetic auth health: an unconfirmed account can't sign in, so it
+ * can never own a warband — half the demo's warband-less players are "blocked",
+ * the rest signed in once and left. */
+function demoAuthHealth(index: number, ownedCount: number, createdAt: string) {
+  const emailConfirmed = !(ownedCount === 0 && index % 2 === 0);
+  return { emailConfirmed, lastSignInAt: emailConfirmed ? createdAt : null };
+}
+
 /** Per-player activity for the admin overview, from the generated database. */
 export async function fetchAdminUsers(cursor = 0) {
   const database = db();
   const all = database.users.map((u, i) => {
     const owned = database.warbands.filter((w) => w.ownerId === u.id);
     const battles = database.battles.filter((b) => b.ownerId === u.id).length;
+    const createdAt = new Date(2026, 5, 1 + (i % 28), 9, i % 60).toISOString();
+    const lastActive = owned.length ? owned.map((w) => w.updatedAt).sort().slice(-1)[0] : null;
     return {
       userId: u.id,
       displayName: u.displayName,
-      createdAt: new Date(2026, 5, 1 + (i % 28), 9, i % 60).toISOString(),
+      createdAt,
       // Only the viewer is an admin in demo mode, matching fetchIsAdmin.
       isAdmin: u.id === database.viewerId,
       warbands: owned.length,
@@ -756,15 +782,15 @@ export async function fetchAdminUsers(cursor = 0) {
       // No real edit log in demo mode: synthesise stable, plausible numbers.
       newWarbands30d: owned.length ? (i % 2) : 0,
       edits30d: battles + (i % 3),
-      lastActive: owned.length
-        ? owned.map((w) => w.updatedAt).sort().slice(-1)[0]
-        : null,
-      // Real presence — synthetic: most players seen within the last few days,
-      // some not at all, so the column shows a spread against "last edit".
+      lastActive,
+      // Derived last seen (§26.1) — synthetic: most players tracked within the
+      // last few days; the rest fall back to their last edit or signup, the same
+      // floor user_last_seen() applies, so it is never null.
       lastSeen:
         i % 4 === 0
-          ? null
+          ? [createdAt, lastActive ?? createdAt].sort().slice(-1)[0]
           : new Date(Date.now() - (i % 3) * 24 * 3600 * 1000 - (i % 60) * 60000).toISOString(),
+      ...demoAuthHealth(i, owned.length, createdAt),
     };
   });
   const rows = all.slice(cursor, cursor + 25);
@@ -783,11 +809,14 @@ export async function fetchAdminUserDetail(userId: string) {
   const editsFor = (w: (typeof owned)[number]) => Math.max(1, Math.round(ratingOf(w) / 60));
   const editsAll = owned.reduce((sum, w) => sum + editsFor(w), 0);
 
+  const createdAt = new Date(2026, 5, 1 + (index % 28), 9, index % 60).toISOString();
   return {
     userId: user.id,
     displayName: user.displayName,
-    createdAt: new Date(2026, 5, 1 + (index % 28), 9, index % 60).toISOString(),
+    createdAt,
     isAdmin: user.id === database.viewerId,
+    lastSeen: [createdAt, ...owned.map((w) => w.updatedAt)].sort().slice(-1)[0],
+    ...demoAuthHealth(index, owned.length, createdAt),
     battles,
     editsAll,
     edits30d: Math.round(editsAll / 2),

@@ -15,6 +15,7 @@ import {
   fetchRetentionCohorts,
   fetchActivitySeries,
   fetchAcquisitionBreakdown,
+  fetchSelfReportBreakdown,
 } from '../api/adminAnalytics';
 import {
   fetchAdminCampaigns,
@@ -81,6 +82,12 @@ export function useAdminActivitySeriesQuery() {
 export function useAdminAcquisitionQuery() {
   const { data: isAdmin } = useIsAdminQuery();
   return useQuery({ queryKey: ['adminAcquisition'], queryFn: () => fetchAcquisitionBreakdown(30), enabled: isAdmin === true });
+}
+
+/** §26.7.2 self-reported source (migration 0047). */
+export function useAdminSelfReportQuery() {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({ queryKey: ['adminSelfReport'], queryFn: () => fetchSelfReportBreakdown(30), enabled: isAdmin === true });
 }
 
 /** §4.9.5 admin campaign list + detail + the stranded-count badge. */

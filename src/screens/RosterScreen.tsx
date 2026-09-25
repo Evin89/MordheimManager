@@ -10,6 +10,7 @@ import { useRatingHistoryQuery } from '../hooks/useRatingHistory';
 import RatingHistoryChart from '../components/RatingHistoryChart';
 import { modelDisplayName } from '../lib/modelNames';
 import WarbandSharingCard from '../components/WarbandSharingCard';
+import ShareNudgeCard from '../components/ShareNudgeCard';
 import ShareableWarbandCard from '../components/ShareableWarbandCard';
 import WarbandHealthPanel from '../components/WarbandHealthPanel';
 import ConfirmByTyping from '../components/ConfirmByTyping';
@@ -398,6 +399,8 @@ export default function RosterScreen() {
         </section>
 
         <WarbandAwards warbandId={warband.id} />
+
+        <ShareNudgeCard warbandId={warband.id} />
 
         <WarbandSharingCard warbandId={warband.id} />
 

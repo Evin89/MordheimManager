@@ -17,6 +17,12 @@ export type CohortCell = {
 };
 export type ActivityDay = { day: string; signups: number; warbands: number; battles: number };
 export type AcquisitionRow = { channel: string; n: number };
+/** §26.7.2 — self-reported source counts (incl. `not_answered`) and the last 20
+ * "Other" notes, text only: no user id, name or date. */
+export type SelfReportBreakdown = {
+  answers: { answer: string; n: number }[];
+  notes: string[];
+};
 
 async function callJson<T>(fn: string, args?: Record<string, unknown>): Promise<T> {
   const { data, error } = await supabase.rpc(fn, args);
@@ -42,4 +48,10 @@ export async function fetchActivitySeries(days = 30): Promise<ActivityDay[]> {
 export async function fetchAcquisitionBreakdown(days = 30): Promise<AcquisitionRow[]> {
   if (isDemoMode()) return demo.fetchAcquisitionBreakdown(days);
   return callJson<AcquisitionRow[]>('admin_acquisition_breakdown', { p_days: days });
+}
+
+export async function fetchSelfReportBreakdown(days = 30): Promise<SelfReportBreakdown> {
+  if (isDemoMode()) return demo.fetchSelfReportBreakdown(days);
+  const data = await callJson<Partial<SelfReportBreakdown>>('admin_acquisition_self_report', { p_days: days });
+  return { answers: data.answers ?? [], notes: data.notes ?? [] };
 }
