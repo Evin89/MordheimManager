@@ -15,6 +15,7 @@ import type { CustomWarbandType } from '../api/customWarbands';
 import { WarbandDefinition } from '../data/types';
 import { getWarbandDefinition } from '../data/warbandRegistry';
 import { CUSTOM_ID_PREFIX, cloneWarbandDefinition } from '../lib/customWarband';
+import { activityWindow, ACTIVITY_REF, type ActivityItem } from '../lib/activityKinds';
 
 /**
  * The demo stand-in for `src/api`. Same signatures, same return shapes, backed
@@ -1504,4 +1505,45 @@ export async function fetchDemoActivity(
     if (rand() < 0.05) rows.push({ day, kind: 'comment', n: 1 });
   }
   return rows;
+}
+
+/**
+ * The tapped day's named detail (migration 0053), in demo. Re-derives that day
+ * from the same stable pattern as {@link fetchDemoActivity} over the panel's
+ * window, so the named lines add up to the heatmap's count, then files each
+ * count under one of the player's own warbands or campaigns.
+ */
+export async function fetchDemoActivityDay(userId: string, day: string): Promise<ActivityItem[]> {
+  const database = db();
+  const owner = userId === 'me' ? database.viewerId : userId;
+  const { from, to } = activityWindow();
+  const rows = (await fetchDemoActivity(userId, from, to)).filter((r) => r.day === day);
+
+  const own = database.warbands.filter((w) => w.ownerId === owner);
+  const warbands = (own.length ? own : database.warbands).map((w) => ({ id: w.id, name: w.warband.name }));
+  const campaignIds = new Set(database.memberships.filter((m) => m.userId === owner).map((m) => m.campaignId));
+  const joined = database.campaigns.filter((c) => campaignIds.has(c.id));
+  const campaigns = (joined.length ? joined : database.campaigns).map((c) => ({ id: c.id, name: c.name }));
+
+  const items: ActivityItem[] = [];
+  let pick = [...day].reduce((a, ch) => a + ch.charCodeAt(0), 0);
+  for (const r of rows) {
+    const ref = ACTIVITY_REF[r.kind];
+    const pool = ref === 'warband' ? warbands : ref === 'campaign' ? campaigns : [];
+    if (!pool.length) {
+      items.push({ kind: r.kind, refId: null, label: null, removed: false, n: r.n });
+      continue;
+    }
+    // Split a count of 3+ across two names so the drill-in has something to show.
+    const first = pool[pick++ % pool.length];
+    const second = pool[pick++ % pool.length];
+    if (r.n >= 3 && second.id !== first.id) {
+      const a = Math.ceil(r.n / 2);
+      items.push({ kind: r.kind, refId: first.id, label: first.name, removed: false, n: a });
+      items.push({ kind: r.kind, refId: second.id, label: second.name, removed: false, n: r.n - a });
+    } else {
+      items.push({ kind: r.kind, refId: first.id, label: first.name, removed: false, n: r.n });
+    }
+  }
+  return items;
 }

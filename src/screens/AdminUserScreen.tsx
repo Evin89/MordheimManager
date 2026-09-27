@@ -5,7 +5,8 @@ import { getWarbandTypeName } from '../data/warbandRegistry';
 import { strings } from '../strings';
 import { ago } from './admin/shared';
 import ActivityPanel, { activityWindow } from '../components/activity/ActivityPanel';
-import { useAdminUserActivityQuery } from '../hooks/useActivity';
+import { useAdminUserActivityDayQuery, useAdminUserActivityQuery } from '../hooks/useActivity';
+import { ACTIVITY_REF, type ActivityItem } from '../lib/activityKinds';
 
 function when(iso: string | null): string {
   if (!iso) return '—';
@@ -38,15 +39,34 @@ function Stat({ label, value, to }: { label: string; value: number | string; to?
   );
 }
 
-/** §4.9.4.1 — when this player actually plays, day by day. Counts only: the
- * RPC returns (day, kind, n) and nothing else, so §4.9.7 holds. */
+/** A tapped day's campaigns open that campaign's admin screen. Warbands stay
+ * plain text: there is no admin roster view, by design (migration 0008). */
+function adminHref(item: ActivityItem): string | null {
+  return ACTIVITY_REF[item.kind] === 'campaign' ? `/admin/campaigns/${item.refId}` : null;
+}
+
+/** §4.9.4.1 — when this player actually plays, day by day. The heatmap is counts
+ * only; a tapped day adds the warband and campaign names behind the counts —
+ * metadata this screen already lists, never content — so §4.9.7 holds. */
 function PlayerActivity({ userId }: { userId: string }) {
   const [range] = useState(() => activityWindow());
+  const [day, setDay] = useState<string | null>(null);
   const { data, isLoading, error } = useAdminUserActivityQuery(userId, range.from, range.to);
+  const dayItems = useAdminUserActivityDayQuery(userId, day);
   return (
     <section aria-label={strings.activity.adminTitle} className="space-y-3">
       <h2 className="text-bone-100 font-semibold">{strings.activity.adminTitle}</h2>
-      <ActivityPanel rows={data} isLoading={isLoading} error={error} start={range.start} end={range.end} />
+      <ActivityPanel
+        rows={data}
+        isLoading={isLoading}
+        error={error}
+        start={range.start}
+        end={range.end}
+        selected={day}
+        onSelect={setDay}
+        dayItems={dayItems}
+        hrefFor={adminHref}
+      />
     </section>
   );
 }

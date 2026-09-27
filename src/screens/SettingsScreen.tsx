@@ -19,7 +19,8 @@ import {
 } from '../lib/analyticsConsent';
 import GameDataSection from '../components/GameDataSection';
 import ActivityPanel, { activityWindow } from '../components/activity/ActivityPanel';
-import { useMyActivityQuery } from '../hooks/useActivity';
+import { useMyActivityDayQuery, useMyActivityQuery } from '../hooks/useActivity';
+import type { ActivityItem } from '../lib/activityKinds';
 import { Button, Card, SectionHeading, Field, TextField, buttonClasses } from '../components/ui';
 
 
@@ -177,10 +178,20 @@ function AnalyticsSection() {
  * Collapsed by default and fetched only once opened (§12.2 fetch-narrowly) —
  * it's a curiosity, not something anyone needs on every visit to Account.
  */
+/** Your own warbands open in the editor; a warband you commented on opens as
+ * the shared roster. Campaigns have no per-id screen to link to. */
+function selfHref(item: ActivityItem): string | null {
+  if (item.kind === 'warband_created' || item.kind === 'warband_edit') return `/warbands/${item.refId}`;
+  if (item.kind === 'comment') return `/rosters/${item.refId}`;
+  return null;
+}
+
 function YourActivitySection() {
   const [open, setOpen] = useState(false);
   const [range] = useState(() => activityWindow());
+  const [day, setDay] = useState<string | null>(null);
   const { data, isLoading, error } = useMyActivityQuery(range.from, range.to, open);
+  const dayItems = useMyActivityDayQuery(open ? day : null);
   const s = strings.activity;
 
   return (
@@ -189,7 +200,17 @@ function YourActivitySection() {
       <p className="text-bone-300 text-sm">{s.selfHint}</p>
       {open ? (
         <>
-          <ActivityPanel rows={data} isLoading={isLoading} error={error} start={range.start} end={range.end} />
+          <ActivityPanel
+            rows={data}
+            isLoading={isLoading}
+            error={error}
+            start={range.start}
+            end={range.end}
+            selected={day}
+            onSelect={setDay}
+            dayItems={dayItems}
+            hrefFor={selfHref}
+          />
           <Button variant="secondary" onClick={() => setOpen(false)}>
             {s.hide}
           </Button>

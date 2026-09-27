@@ -1,3 +1,5 @@
+import { addDays, dayKey, startOfWeek } from './calendar';
+
 /**
  * What the activity calendar (§4.9.4.1) counts, in display order.
  *
@@ -21,6 +23,30 @@ export type ActivityKind = (typeof ACTIVITY_KINDS)[number];
 
 /** One (day, kind, count) row from the RPC. `day` is a `YYYY-MM-DD` local key. */
 export type ActivityRow = { day: string; kind: string; n: number };
+
+/**
+ * One named line in a day's detail (migration 0053): which warband or campaign
+ * a kind's count belongs to. `refId`/`label` are null where there's nothing to
+ * name — a login, a signup, a battle outside any campaign. `removed` marks a
+ * warband that has since been deleted.
+ */
+export type ActivityItem = {
+  kind: string;
+  refId: string | null;
+  label: string | null;
+  removed: boolean;
+  n: number;
+};
+
+/** What a named item points at, by kind. */
+export const ACTIVITY_REF: Partial<Record<string, 'warband' | 'campaign'>> = {
+  warband_created: 'warband',
+  warband_edit: 'warband',
+  comment: 'warband',
+  battle_reported: 'campaign',
+  campaign_joined: 'campaign',
+  rsvp: 'campaign',
+};
 
 /**
  * Kinds whose history only starts partway through — before these dates the
@@ -54,3 +80,14 @@ export function heatLevel(total: number): 0 | 1 | 2 | 3 | 4 {
 }
 
 export const HEAT_STEPS = ['0', '1–2', '3–5', '6–10', '11+'] as const;
+
+/** How far back the view reaches. 26 weeks fits a phone's width at ~10px cells. */
+export const ACTIVITY_WEEKS = 26;
+
+/** The window the panel shows and the hooks fetch: from the Monday 25 weeks
+ * before this week's, through today. Keys are local `YYYY-MM-DD`. */
+export function activityWindow(today = new Date()) {
+  const end = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const start = addDays(startOfWeek(end), -7 * (ACTIVITY_WEEKS - 1));
+  return { start, end, from: dayKey(start), to: dayKey(end) };
+}

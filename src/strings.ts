@@ -373,6 +373,12 @@ export const strings = {
     trackedWhat: { login: 'Logins', warband_edit: 'Roster edits' } as Record<string, string>,
     loadError: 'Could not load activity.',
     migrationHint: 'If this mentions my_activity or admin_user_activity, migration 0052 has not been applied yet.',
+    // Day detail names (migration 0053).
+    noCampaign: 'No campaign',
+    unnamed: 'Unnamed',
+    deletedTag: '(deleted)',
+    namesError: 'Could not load names for this day.',
+    namesMigrationHint: 'If this mentions my_activity_day or admin_user_activity_day, migration 0053 has not been applied yet.',
   },
   events: {
     section: 'Game nights',
