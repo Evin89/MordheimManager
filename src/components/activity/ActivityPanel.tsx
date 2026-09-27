@@ -244,7 +244,7 @@ function Heatmap({
   const weekdayLabels = ['M', '', 'W', '', 'F', '', ''];
 
   return (
-    <div className="max-w-[28rem]">
+    <div className="max-w-4xl">
       <div className="grid gap-x-[2px] h-4 mb-[2px]" style={cols} aria-hidden="true">
         <span />
         {weeks.map((wk, w) => (
