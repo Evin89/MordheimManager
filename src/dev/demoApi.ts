@@ -1466,3 +1466,42 @@ export async function deleteBattle(id: string): Promise<void> {
   const database = db();
   database.battles = database.battles.filter((b) => b.battle.id !== id);
 }
+
+/**
+ * Activity calendar (§4.9.4.1) — fabricated but stable per player, so the
+ * heatmap has a believable shape to judge: busy Saturdays (game night), a few
+ * midweek roster edits, and a quiet summer stretch.
+ */
+export async function fetchDemoActivity(
+  userId: string,
+  from: string,
+  to: string,
+): Promise<{ day: string; kind: string; n: number }[]> {
+  let seed = 0;
+  for (const ch of userId) seed = (seed * 31 + ch.charCodeAt(0)) | 0;
+  const rand = () => {
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+
+  const [fy, fm, fd] = from.split('-').map(Number);
+  const [ty, tm, td] = to.split('-').map(Number);
+  const end = new Date(ty, tm - 1, td);
+  const rows: { day: string; kind: string; n: number }[] = [];
+  for (let d = new Date(fy, fm - 1, fd); d <= end; d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)) {
+    const weekday = (d.getDay() + 6) % 7;
+    let p = [0.12, 0.1, 0.18, 0.12, 0.3, 0.6, 0.28][weekday];
+    if (d.getMonth() === 6) p *= 0.15;
+    if (rand() >= p) continue;
+    const day = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    rows.push({ day, kind: 'login', n: 1 });
+    if (weekday === 5 && rand() < 0.8) rows.push({ day, kind: 'battle_reported', n: 1 + Math.floor(rand() * 3) });
+    const edits = Math.floor(rand() * rand() * (weekday === 5 ? 10 : 5));
+    if (edits > 0) rows.push({ day, kind: 'warband_edit', n: edits });
+    if (rand() < 0.1) rows.push({ day, kind: 'rsvp', n: 1 });
+    if (rand() < 0.05) rows.push({ day, kind: 'comment', n: 1 });
+  }
+  return rows;
+}

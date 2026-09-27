@@ -254,6 +254,20 @@ for (const theme of THEMES) {
     if (!ok) failures += 1;
     console.log(`${ok ? 'ok  ' : 'FAIL'}  ${theme.id.padEnd(10)} ${name} on ink-950: ${ratio.toFixed(2)}:1 (3:1 floor)`);
   }
+  // Activity heat ramp (§4.9.4.1): the full step must read against the empty
+  // cell (3:1, graphical), and the count printed on each step must be text-legible.
+  {
+    const ratio = contrast(tokens['heat-4'], tokens['heat-0']);
+    const ok = ratio >= AA_GRAPHICAL;
+    if (!ok) failures += 1;
+    console.log(`${ok ? 'ok  ' : 'FAIL'}  ${theme.id.padEnd(10)} heat-4 on heat-0: ${ratio.toFixed(2)}:1 (3:1 floor)`);
+  }
+  for (let i = 0; i <= 4; i += 1) {
+    const ratio = contrast(tokens[`on-heat-${i}`], tokens[`heat-${i}`]);
+    const ok = ratio >= AA;
+    if (!ok) failures += 1;
+    console.log(`${ok ? 'ok  ' : 'FAIL'}  ${theme.id.padEnd(10)} on-heat-${i} on heat-${i}: ${ratio.toFixed(2)}:1`);
+  }
   console.log(`      wrote docs/design/${theme.id}.svg`);
 }
 

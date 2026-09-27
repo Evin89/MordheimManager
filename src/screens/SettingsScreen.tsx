@@ -18,6 +18,8 @@ import {
   subscribeConsent,
 } from '../lib/analyticsConsent';
 import GameDataSection from '../components/GameDataSection';
+import ActivityPanel, { activityWindow } from '../components/activity/ActivityPanel';
+import { useMyActivityQuery } from '../hooks/useActivity';
 import { Button, Card, SectionHeading, Field, TextField, buttonClasses } from '../components/ui';
 
 
@@ -167,6 +169,40 @@ function AnalyticsSection() {
   );
 }
 
+/**
+ * §4.9.4.1 — your own activity calendar. The same panel an admin sees on the
+ * player screen, fed by `my_activity()`, which takes no user id: nothing about
+ * a player is visible to the operator that the player can't see themselves.
+ *
+ * Collapsed by default and fetched only once opened (§12.2 fetch-narrowly) —
+ * it's a curiosity, not something anyone needs on every visit to Account.
+ */
+function YourActivitySection() {
+  const [open, setOpen] = useState(false);
+  const [range] = useState(() => activityWindow());
+  const { data, isLoading, error } = useMyActivityQuery(range.from, range.to, open);
+  const s = strings.activity;
+
+  return (
+    <Card as="section">
+      <SectionHeading>{s.selfTitle}</SectionHeading>
+      <p className="text-bone-300 text-sm">{s.selfHint}</p>
+      {open ? (
+        <>
+          <ActivityPanel rows={data} isLoading={isLoading} error={error} start={range.start} end={range.end} />
+          <Button variant="secondary" onClick={() => setOpen(false)}>
+            {s.hide}
+          </Button>
+        </>
+      ) : (
+        <Button variant="secondary" onClick={() => setOpen(true)}>
+          {s.show}
+        </Button>
+      )}
+    </Card>
+  );
+}
+
 export default function SettingsScreen() {
   const [theme, setTheme] = useTheme();
   const { user, signOut } = useAuth();
@@ -278,6 +314,8 @@ export default function SettingsScreen() {
             </Link>
           )}
         </Card>
+
+        {user && <YourActivitySection />}
 
         {/* Only rendered for an admin, but that's presentation, not protection:
             `issue_reports` and `admin_stats()` are admin-gated in the database,

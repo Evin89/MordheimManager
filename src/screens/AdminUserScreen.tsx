@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useAdminUserDetailQuery } from '../hooks/useIssues';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { strings } from '../strings';
 import { ago } from './admin/shared';
+import ActivityPanel, { activityWindow } from '../components/activity/ActivityPanel';
+import { useAdminUserActivityQuery } from '../hooks/useActivity';
 
 function when(iso: string | null): string {
   if (!iso) return '—';
@@ -32,6 +35,19 @@ function Stat({ label, value, to }: { label: string; value: number | string; to?
     </Link>
   ) : (
     <div className={className}>{inner}</div>
+  );
+}
+
+/** §4.9.4.1 — when this player actually plays, day by day. Counts only: the
+ * RPC returns (day, kind, n) and nothing else, so §4.9.7 holds. */
+function PlayerActivity({ userId }: { userId: string }) {
+  const [range] = useState(() => activityWindow());
+  const { data, isLoading, error } = useAdminUserActivityQuery(userId, range.from, range.to);
+  return (
+    <section aria-label={strings.activity.adminTitle} className="space-y-3">
+      <h2 className="text-bone-100 font-semibold">{strings.activity.adminTitle}</h2>
+      <ActivityPanel rows={data} isLoading={isLoading} error={error} start={range.start} end={range.end} />
+    </section>
   );
 }
 
@@ -115,6 +131,8 @@ export default function AdminUserScreen() {
             <p className="font-ui text-xs text-bone-400 -mt-4">
               Edit counts are since tracking began — older warbands read 0 until next changed.
             </p>
+
+            {userId && <PlayerActivity userId={userId} />}
 
             <section className="space-y-3">
               <h2 className="text-bone-100 font-semibold">

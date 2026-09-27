@@ -715,6 +715,56 @@ The existing player list (`admin_user_overview()`) and per-player detail, moved 
 - **The battle-log drill-in is its own `SECURITY DEFINER` function** (`admin_user_battles`, migration 0036), not a client query against `battles` — the `battles` RLS is member-shaped (§8.3), so a direct query would hand an admin only the partial slice of another player's battles that happen to share a campaign with someone else the admin can see, and none of their genuinely personal games. §4.9.7's content-blind boundary still applies: the function returns the same fields the owner's own battle log shows, not more.
 - **Presence feeds the admin side too** (migrations 0037/0038, §23.2). A `last_seen_at` column on `profiles`, touched by a throttled `SECURITY DEFINER` heartbeat (`touch_last_seen()`, once per 5 minutes server-side on top of the client's own throttle) called on load, backs **active today** / **active 7 days** counts folded into `admin_stats()` on Overview (§4.9.2) — answering "did anyone actually open the app today", which edit/battle counts alone can't, since opening the app and reading the rules leaves neither trail.
 
+#### 4.9.4.1 Player activity view ✅ _(migration 0052)_
+
+The per-player detail answered "who is this user" with counts and one last-seen timestamp. It couldn't answer "how do they actually use the app": a player with 40 battles logged in one weekend and a player with 40 battles over six months looked identical. This adds the time dimension, one player at a time.
+
+**Two placements, one component.** `ActivityPanel` takes rows, not a user id; only the hook feeding it differs.
+
+| Surface | Who sees it | Fed by |
+| --- | --- | --- |
+| `/admin/players/:id`, below the activity tiles | Admins, about any player | `admin_user_activity(p_user_id, p_from, p_to, p_tz)` |
+| `/account` → "Your activity" card, collapsed until opened | A player, about themselves | `my_activity(p_from, p_to, p_tz)` — no user-id parameter |
+
+✅ **Decided — self-view.** Players see their own activity. It is exactly what an admin can see about them, so nothing about a player is visible to the operator that the player can't see themselves.
+
+**Screen.** A **Heatmap | Month** toggle, Heatmap default, over a fixed **26-week** window ending today.
+
+- *Heatmap* — weeks across, weekdays down (Monday first, M/W/F labelled), one CSS grid so labels can't drift from their rows. Cells size to the column (≈10px on a 375px phone). Read by a screen reader as one `role="img"` with a summary; its cells are tappable shortcuts but not tab stops.
+- *Month* — the §4.5 month-grid arithmetic, now shared in `src/lib/calendar.ts` (`dayKey`, `parseDayKey`, `monthCells`, `startOfWeek`, `addDays`) instead of living inside `CampaignCalendarScreen`. 48px cells with the day number and a count; prev/next bounded to the window. This is the keyboard/screen-reader path.
+- *Day detail* — tapping a day in either view fills a panel under the grid (inline rather than a bottom sheet, matching §4.5's calendar) listing that day's activity by kind with counts. "Logged in" and "Signed up" show without a number: a visit is one row per day by construction.
+- *Summary line* — `Active N of M days · Longest streak N days · Last active …`, computed client-side. Days before signup don't count against a player.
+- *Tracking-start note* — kinds whose history starts partway (`TRACKED_FROM` in `src/lib/activityKinds.ts`: roster edits 2026-09-13, logins from 0052's ship date) are named under the grid while the window reaches back past them, so a quiet stretch reads as "not tracked" rather than "inactive".
+
+⚠️ **Known deviation (§5.4).** Heatmap cells are far under 48px. Deliberate: the heatmap is for reading the pattern; the Month view is the tap target.
+
+**Shading.** Five fixed steps — 0, 1–2, 3–5, 6–10, 11+ — never quantiles of the player's own data, which would make two edits in six months look as hot as a daily player. New tokens `heat-0…4` and `on-heat-0…4` (count text per step) in both themes; `npm run design-sheet` now asserts `heat-4` on `heat-0` ≥ 3:1 and every `on-heat-N` on `heat-N` ≥ 4.5:1. Logins count toward the shade: for "still here vs. drifted off", a visit is exactly the signal.
+
+**What counts.** Only sources with a per-occurrence timestamp. A column overwritten on each change (`warbands.updated_at`, `profiles.last_seen_at`) records only the *last* change and would make every warband look edited once — a plausible-looking wrong answer, the §3.3 principle applied to metrics.
+
+| Kind | Label | Source |
+| --- | --- | --- |
+| `login` | Logged in | `user_visits` (new, below) |
+| `battle_reported` | Battles reported | `battles.reported_by`, `created_at` |
+| `warband_edit` | Roster edits | `warband_edits` trigger log (0035), `edited_at` |
+| `warband_created` | Warbands created | `warbands.created_at`, soft-deleted included |
+| `campaign_joined` | Campaigns joined | `campaign_members.joined_at` |
+| `rsvp` | Game-night RSVP (latest answer) | `campaign_event_rsvps.updated_at` — an upsert, so the latest answer only |
+| `comment` | Comments | `warband_comments.created_at`, soft-deleted included |
+| `signup` | Signed up | `profiles.created_at` |
+
+✅ **Decided — roster edits.** The feared gap didn't exist: `warband_edits` (0035) is already a per-edit history, so edits ship as a real series from 2026-09-13. `updated_at` is never used as a fallback.
+
+✅ **Decided — logins, the one new write path.** Supabase keeps no sign-in history the app can read (`auth.users.last_sign_in_at` is overwritten), and literal sign-ins are rare anyway — sessions refresh silently, so a loyal player might sign in once in months. So a "login" is **a day the player opened the app while signed in**: `user_visits (user_id, visit_day, first_seen_at)`, primary key `(user_id, visit_day)`, written by the existing `touch_last_seen()` heartbeat with `on conflict do nothing`. Nothing new runs on the client. The heartbeat gains an optional `p_tz` (the browser's IANA zone, validated against `pg_timezone_names`, falling back to Europe/Amsterdam) so a 23:30 visit files under that evening; deployed clients calling it without arguments keep working. RLS: owner-only select, no client writes. No device, IP or user-agent is stored — it's a day, not a fingerprint. Seeded once from each account's `last_seen_at`; nothing earlier exists. Joins the 3-year `purge_old_audit_logs()` retention (0043).
+
+**Functions (0052).** One private worker, `_user_activity(uid, from, to, tz)` — the union, bucketed with `(ts at time zone tz)::date`, never `::date` on a `timestamptz` — executable by no client role. Two thin wrappers: `admin_user_activity` (asserts `is_admin()`) and `my_activity` (always `auth.uid()`). Both reject ranges over 366 days. Holding the union once means the admin and self views can't drift apart.
+
+**Content-blind (§4.9.7).** Both return `day, kind, n` and nothing else — no names, no battle data, no comment bodies, no event titles, no objectives. Per-user counts and last activity were already exposed by `admin_user_detail()`; this adds granularity, not a new class of data.
+
+❓ **Naming in the day detail.** Showing *which* warband was edited or *which* campaign was joined would be metadata, not content. **Default: counts only.** Revisit if counts prove too thin; the self-view could safely show names first, since they're the player's own.
+
+**Client.** `src/api/activity.ts`, `src/hooks/useActivity.ts` (keys `['adminUserActivity', userId, from, to]` / `['myActivity', userId, from, to]`, 5-min `staleTime`, one fetch per window — the Month view reads the same cached rows), `src/components/activity/ActivityPanel.tsx`, `src/lib/activityKinds.ts`, copy in `strings.activity`. Demo mode fabricates a stable per-player pattern (`fetchDemoActivity`). The Account card fetches only once opened (§12.2).
+
 #### 4.9.5 Campaigns ✅ — the missing symmetric view
 
 There is a per-player drill-down but no per-campaign one, even though a campaign is the other first-class object an operator needs to inspect. New, shaped exactly like Players: a paginated, searchable list and a metadata detail screen.

@@ -78,6 +78,23 @@ export default {
           5: themed('chart-5'),
           6: themed('chart-6'),
         },
+
+        // §4.9.4.1 activity heat ramp — five fixed steps, and the count text
+        // that stays legible on each. Per-theme values in index.css.
+        heat: {
+          0: themed('heat-0'),
+          1: themed('heat-1'),
+          2: themed('heat-2'),
+          3: themed('heat-3'),
+          4: themed('heat-4'),
+        },
+        'on-heat': {
+          0: themed('on-heat-0'),
+          1: themed('on-heat-1'),
+          2: themed('on-heat-2'),
+          3: themed('on-heat-3'),
+          4: themed('on-heat-4'),
+        },
       },
 
       // Spec §5.2: three roles, four families. `display` is blackletter and is

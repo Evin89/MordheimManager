@@ -6,36 +6,7 @@ import { useCampaignEventsQuery } from '../hooks/useEvents';
 import { useMyCampaignQuery } from '../hooks/useCampaign';
 import { SectionHeading } from '../components/ui';
 import { strings } from '../strings';
-
-/** Local calendar day key, `YYYY-MM-DD`. Deliberately built from the local
- * date parts rather than `toISOString().slice(0,10)`, which converts to UTC
- * first and so files a 9pm game night under the following day for anyone east
- * of Greenwich. */
-function dayKey(d: Date): string {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(
-    d.getDate(),
-  ).padStart(2, '0')}`;
-}
-
-/**
- * The weeks of a month, as a flat list of cells.
- *
- * Leading and trailing nulls pad to whole weeks so the grid keeps its shape;
- * rendering the neighbouring months' days instead would invite taps on dates
- * that aren't in view.
- */
-function monthCells(year: number, month: number): (Date | null)[] {
-  const first = new Date(year, month, 1);
-  // Monday-first: the week a game night belongs to reads better when the
-  // weekend is at the end, and this app's players are European.
-  const lead = (first.getDay() + 6) % 7;
-  const days = new Date(year, month + 1, 0).getDate();
-
-  const cells: (Date | null)[] = Array(lead).fill(null);
-  for (let d = 1; d <= days; d += 1) cells.push(new Date(year, month, d));
-  while (cells.length % 7 !== 0) cells.push(null);
-  return cells;
-}
+import { dayKey, monthCells } from '../lib/calendar';
 
 function formatTime(iso: string): string {
   return new Date(iso).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });

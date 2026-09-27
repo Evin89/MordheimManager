@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-09-27",
+    "title": "See When You Play",
+    "description": "Your Account screen has a new “Your activity” card: a calendar of the days you used the app over the last six months — battles reported, roster edits, campaigns joined, RSVPs, comments and the days you logged in. Switch between a heatmap for the big picture and a month view to tap through day by day. Only you (and the app admin) can see it, and it shows counts, never what's inside your warbands."
+  },
+  {
     "date": "2026-09-22",
     "title": "No More Black Screen After an Update",
     "description": "A link tapped shortly after the app updated behind the scenes could land on a blank black page instead of the screen you asked for — reloading always fixed it, but you shouldn't have had to. The app now notices that specific failure and recovers on its own, invisibly; you'll only ever see a message if it happens twice in a row, with a button to reload."
