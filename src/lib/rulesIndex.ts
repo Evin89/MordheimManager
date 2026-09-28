@@ -2,7 +2,8 @@ import rulesData from '../data/rules.json';
 import skillsData from '../data/skills.json';
 import injuriesData from '../data/injuries.json';
 import spellsData from '../data/spells.json';
-import scenarioRefData from '../data/reference/scenarios.json';
+import { SCENARIO_CATALOG } from './scenarioCatalog';
+import { getScenarioSetup } from './scenarioSetup';
 import explorationData from '../data/exploration.json';
 import btbObjectivesData from '../data/btb/objectives.json';
 import btbDramatisPersonaeData from '../data/btb/dramatisPersonae.json';
@@ -124,11 +125,33 @@ function injuryEntries(): RuleEntry[] {
 }
 
 function scenarioEntries(): RuleEntry[] {
-  // The full scenario compendium (96 entries with terrain/deployment/victory
-  // text), with the app's own Experience awards folded into the nine core ones
-  // that carry them (see import_scenarios / reference/scenarios.json). Replaces
-  // the old awards-only stubs that apologised for having no scenario text.
-  return scenarioRefData.entries as RuleEntry[];
+  // Every scenario in the catalogue (101, scenarioCatalog.json): a one-line
+  // summary, who it's for, and — for the nine core ones — the app's Experience
+  // awards. The source carries no full rules text, so each entry links out to it.
+  return SCENARIO_CATALOG.map((s) => {
+    const setup = getScenarioSetup(s.name)!;
+    const paragraphs = [
+      `(Players: ${setup.playerMode ?? 'unknown'} · Setting: ${s.setting})`,
+      s.description ?? 'No summary in the source data — see the full rules.',
+    ];
+    if (setup.writtenFor.length) paragraphs.push(`Written for: ${setup.writtenFor.join(', ')}.`);
+    if (setup.awards.length) {
+      const line = (a: { amount: string; label: string; note?: string }) =>
+        `${a.amount} — ${a.label}${a.note ? ` (${a.note})` : ''}`;
+      const survives = `${setup.universalAward.amount} — ${setup.universalAward.label} (applies to every scenario)`;
+      paragraphs.push(['Experience:', ...setup.awards.map(line), survives].join('\n'));
+    }
+    return {
+      id: setup.ruleId,
+      title: s.name,
+      category: 'scenarios',
+      chapter: 'Scenarios',
+      source: `${s.source} · ${s.author}`,
+      body: paragraphs.join('\n\n'),
+      sourceUrl: s.url,
+      scenarioId: s.id,
+    };
+  });
 }
 
 // Sub-headings the 30 Exploration chart results are grouped under, in the order the

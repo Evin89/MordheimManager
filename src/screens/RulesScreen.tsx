@@ -33,6 +33,9 @@ import DiceRoller from '../components/DiceRoller';
 import { strings } from '../strings';
 import { RuleSearchResult, getAllRuleEntries, searchRules } from '../lib/rulesIndex';
 import { RuleEntry, RulesCategoryId } from '../data/types';
+import { filterScenarios, getCatalogScenario, groupBySource } from '../lib/scenarioCatalog';
+import { useScenarioFilter } from '../hooks/useScenarioFilter';
+import { ScenarioFilterFields } from '../components/ScenarioPicker';
 
 /**
  * The standalone Rules Reference (§4.8), redesigned for density and inline
@@ -118,6 +121,62 @@ function firstLine(body: string): string {
   return line.length > 100 ? `${line.slice(0, 100)}…` : line;
 }
 
+function EntryLink({ entry }: { entry: RuleEntry }) {
+  return (
+    <li>
+      <Link
+        to={`/rules/${entry.id}`}
+        className="flex items-center gap-2 min-h-[44px] py-2 pr-4 pl-[50px] ml-6 border-l-2 border-ember-500/70 hover:bg-ink-900 transition-colors"
+      >
+        <span className="flex-1 font-body text-bone-100">{entry.title}</span>
+        <ChevronRight size={15} className="text-ink-faded shrink-0" aria-hidden="true" />
+      </Link>
+    </li>
+  );
+}
+
+/** The Scenarios chapter's body: 101 entries is too long a list to scroll, so
+ * it gets the scenario pickers' Setting / Players / Source filters (remembered
+ * separately from theirs) and a sub-heading per source. */
+function ScenarioChapterBody({ entries }: { entries: RuleEntry[] }) {
+  const [filter, setFilter] = useScenarioFilter('rules');
+  const shown = filterScenarios(filter);
+  const entryByScenario = new Map(entries.filter((e) => e.scenarioId).map((e) => [e.scenarioId!, e]));
+  const groups = groupBySource(shown.filter((s) => entryByScenario.has(s.id)));
+  // Anything in the chapter that isn't a catalogued scenario still gets listed.
+  const uncatalogued = entries.filter((e) => !e.scenarioId || !getCatalogScenario(e.scenarioId));
+
+  return (
+    <div className="pb-2">
+      <div className="px-4 ml-6 pl-[26px]">
+        <ScenarioFilterFields idPrefix="rules-scenarios" filter={filter} onFilterChange={setFilter} shown={shown.length} />
+      </div>
+      {groups.length === 0 && (
+        <p className="py-3 pr-4 pl-[50px] ml-6 font-body text-bone-300">No scenarios match these filters.</p>
+      )}
+      {groups.map((g) => (
+        <section key={g.label}>
+          <h3 className="pt-3 pb-1 pr-4 pl-[50px] ml-6 font-ui text-xs font-semibold uppercase tracking-wide text-ink-faded">
+            {g.label}
+          </h3>
+          <ul>
+            {g.scenarios.map((s) => (
+              <EntryLink key={s.id} entry={entryByScenario.get(s.id)!} />
+            ))}
+          </ul>
+        </section>
+      ))}
+      {uncatalogued.length > 0 && (
+        <ul>
+          {uncatalogued.map((entry) => (
+            <EntryLink key={entry.id} entry={entry} />
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 /** One chapter row: icon, name, entry count, and — when open — its entries. */
 function ChapterRow({
   chapter,
@@ -166,21 +225,16 @@ function ChapterRow({
         )}
       </button>
 
-      {open && (
-        <ul className="pb-2">
-          {chapter.entries.map((entry) => (
-            <li key={entry.id}>
-              <Link
-                to={`/rules/${entry.id}`}
-                className="flex items-center gap-2 min-h-[44px] py-2 pr-4 pl-[50px] ml-6 border-l-2 border-ember-500/70 hover:bg-ink-900 transition-colors"
-              >
-                <span className="flex-1 font-body text-bone-100">{entry.title}</span>
-                <ChevronRight size={15} className="text-ink-faded shrink-0" aria-hidden="true" />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      {open &&
+        (chapter.chapter === 'Scenarios' ? (
+          <ScenarioChapterBody entries={chapter.entries} />
+        ) : (
+          <ul className="pb-2">
+            {chapter.entries.map((entry) => (
+              <EntryLink key={entry.id} entry={entry} />
+            ))}
+          </ul>
+        ))}
     </div>
   );
 }

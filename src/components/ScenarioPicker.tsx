@@ -1,0 +1,175 @@
+import {
+  ANY_FILTER,
+  CatalogScenario,
+  GameFit,
+  SCENARIO_CATALOG,
+  SETTINGS,
+  SOURCE_GROUPS,
+  ScenarioFilter,
+  activeFilterCount,
+  filterScenarios,
+  groupBySource,
+  supportsOneVsOne,
+  writtenFor,
+} from '../lib/scenarioCatalog';
+import { Field, Select } from './ui';
+
+/** An option's text: the name, plus what a player needs to know before picking
+ * it — that it needs more than two warbands, or is written for a given warband. */
+function optionLabel(s: CatalogScenario): string {
+  const notes = [...(supportsOneVsOne(s) ? [] : ['multiplayer']), ...writtenFor(s)];
+  return notes.length ? `${s.name} — ${notes.join(', ')}` : s.name;
+}
+
+/**
+ * The Setting / Players / Source filters (and, where there's a game to fit,
+ * "only scenarios that fit this game"), behind a disclosure that says how many
+ * scenarios are showing. Shared by the scenario picker and the Rules Reference.
+ */
+export function ScenarioFilterFields({
+  idPrefix,
+  filter,
+  onFilterChange,
+  shown,
+  fit,
+}: {
+  idPrefix: string;
+  filter: ScenarioFilter;
+  onFilterChange: (f: ScenarioFilter) => void;
+  /** How many scenarios the filter leaves. */
+  shown: number;
+  /** The game being set up; offers the "fits this game" option when given. */
+  fit?: GameFit;
+}) {
+  const active = activeFilterCount(filter, !!fit);
+  return (
+    <details className="group" open={active > 0 || undefined}>
+      <summary className="cursor-pointer select-none min-h-[44px] flex items-center text-ember-400 text-sm font-semibold">
+        Filter scenarios{active > 0 ? ` (${active})` : ''} · {shown} of {SCENARIO_CATALOG.length}
+      </summary>
+      <div className="grid grid-cols-3 gap-2 pt-1">
+        <Field label="Setting" htmlFor={`${idPrefix}-setting`}>
+          <Select
+            id={`${idPrefix}-setting`}
+            value={filter.setting}
+            onChange={(e) => onFilterChange({ ...filter, setting: e.target.value })}
+          >
+            <option value="any">Any</option>
+            {SETTINGS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </Select>
+        </Field>
+        <Field label="Players" htmlFor={`${idPrefix}-players`}>
+          <Select
+            id={`${idPrefix}-players`}
+            value={filter.players}
+            onChange={(e) => onFilterChange({ ...filter, players: e.target.value as ScenarioFilter['players'] })}
+          >
+            <option value="any">Any</option>
+            <option value="1v1">1v1</option>
+            <option value="Multiplayer">Multiplayer</option>
+          </Select>
+        </Field>
+        <Field label="Source" htmlFor={`${idPrefix}-source`}>
+          <Select
+            id={`${idPrefix}-source`}
+            value={filter.source}
+            onChange={(e) => onFilterChange({ ...filter, source: e.target.value as ScenarioFilter['source'] })}
+          >
+            <option value="any">Any</option>
+            {SOURCE_GROUPS.map((g) => (
+              <option key={g} value={g}>
+                {g}
+              </option>
+            ))}
+          </Select>
+        </Field>
+      </div>
+      {fit && (
+        <label className="flex items-start gap-2 min-h-[44px] pt-2 text-sm text-bone-200">
+          <input
+            type="checkbox"
+            checked={filter.fitsOnly}
+            onChange={(e) => onFilterChange({ ...filter, fitsOnly: e.target.checked })}
+            className="mt-1 h-4 w-4 accent-ember-500"
+          />
+          <span>
+            Only scenarios that fit this game
+            <span className="block text-bone-400 text-xs">
+              {fit.players > 2 ? 'Playable with more than two warbands' : 'Playable one-on-one'}, and not written
+              for a warband nobody here is playing. The same list “Suggest a scenario” draws from.
+            </span>
+          </span>
+        </label>
+      )}
+      {active > 0 && (
+        <button
+          type="button"
+          onClick={() => onFilterChange(ANY_FILTER)}
+          className="min-h-[44px] text-bone-400 text-xs underline"
+        >
+          Clear filters
+        </button>
+      )}
+    </details>
+  );
+}
+
+/**
+ * The scenario picker shared by the pre-battle, solo and map screens: every
+ * scenario in the catalogue, grouped by source, with the filters tucked behind a
+ * disclosure. The filter is the caller's state (see `useScenarioFilter`) so the
+ * suggester can draw from the same list the player is looking at. The current
+ * pick always stays in the list, even when a filter would hide it.
+ */
+export default function ScenarioPicker({
+  id,
+  value,
+  onChange,
+  filter,
+  onFilterChange,
+  fit,
+  placeholder,
+}: {
+  id: string;
+  /** Selected scenario id ('' for none). */
+  value: string;
+  onChange: (id: string) => void;
+  filter: ScenarioFilter;
+  onFilterChange: (f: ScenarioFilter) => void;
+  /** The game being set up; enables the "fits this game" filter. */
+  fit?: GameFit;
+  /** Text of an empty first option; omit to always have a scenario selected. */
+  placeholder?: string;
+}) {
+  const shown = filterScenarios(filter, fit);
+  const selected = SCENARIO_CATALOG.find((s) => s.id === value);
+  const list = selected && !shown.includes(selected) ? [...shown, selected] : shown;
+
+  return (
+    <div className="space-y-2">
+      <Select id={id} value={value} onChange={(e) => onChange(e.target.value)}>
+        {placeholder !== undefined && <option value="">{placeholder}</option>}
+        {groupBySource(list).map((g) => (
+          <optgroup key={g.label} label={g.label}>
+            {g.scenarios.map((s) => (
+              <option key={s.id} value={s.id}>
+                {optionLabel(s)}
+              </option>
+            ))}
+          </optgroup>
+        ))}
+      </Select>
+      <ScenarioFilterFields
+        idPrefix={id}
+        filter={filter}
+        onFilterChange={onFilterChange}
+        shown={shown.length}
+        fit={fit}
+      />
+    </div>
+  );
+}

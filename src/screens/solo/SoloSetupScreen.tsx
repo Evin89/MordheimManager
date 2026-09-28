@@ -7,7 +7,9 @@ import {
   getWarbandDefinition,
   getWarbandTypeName,
 } from '../../data/warbandRegistry';
-import scenariosData from '../../data/scenarios.json';
+import { defaultScenarioId, getCatalogScenario } from '../../lib/scenarioCatalog';
+import { useScenarioFilter } from '../../hooks/useScenarioFilter';
+import ScenarioPicker from '../../components/ScenarioPicker';
 import {
   buildNpcWarband,
   buildNpcFromCollection,
@@ -19,7 +21,6 @@ import { useSoloStore, SoloSession } from '../../store/useSoloStore';
 import { generateId } from '../../lib/id';
 import { Button, Card, Field, SectionHeading, Select } from '../../components/ui';
 
-const SCENARIOS = scenariosData.scenarios.map((s) => ({ id: s.id, name: s.name }));
 
 const DIFFICULTIES = [
   { budget: 300, label: 'Skirmish', hint: 'A lean opponent — fewer models on the table.' },
@@ -51,7 +52,8 @@ export default function SoloSetupScreen() {
   const [warbandId, setWarbandId] = useState('');
   const [source, setSource] = useState<OpponentSource>('collection');
   const [opponentType, setOpponentType] = useState(''); // '' = random
-  const [scenario, setScenario] = useState(SCENARIOS[0]?.id ?? '');
+  const [scenarioFilter, setScenarioFilter] = useScenarioFilter('picker');
+  const [scenario, setScenario] = useState(() => defaultScenarioId(scenarioFilter));
   const [budget, setBudget] = useState(500);
   const [boardWidthFt, setBoardWidthFt] = useState(4);
   const [boardDepthFt, setBoardDepthFt] = useState(4);
@@ -162,7 +164,7 @@ export default function SoloSetupScreen() {
                         {w?.name ?? 'Warband'} vs {s.opponentName}
                       </p>
                       <p className="text-bone-400 text-xs">
-                        Turn {s.turn} · {SCENARIOS.find((sc) => sc.id === s.scenario)?.name ?? s.scenario}
+                        Turn {s.turn} · {getCatalogScenario(s.scenario)?.name ?? s.scenario}
                       </p>
                     </Link>
                   </li>
@@ -231,13 +233,19 @@ export default function SoloSetupScreen() {
             )}
 
             <Field label="Scenario" htmlFor="solo-scenario">
-              <Select id="solo-scenario" value={scenario} onChange={(e) => setScenario(e.target.value)}>
-                {SCENARIOS.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.name}
-                  </option>
-                ))}
-              </Select>
+              <ScenarioPicker
+                id="solo-scenario"
+                value={scenario}
+                onChange={setScenario}
+                filter={scenarioFilter}
+                onFilterChange={setScenarioFilter}
+                fit={{
+                  players: 2,
+                  warbandTypes: [warbands.find((w) => w.id === warbandId)?.warbandType, opponentType].filter(
+                    (t): t is string => !!t,
+                  ),
+                }}
+              />
             </Field>
 
             <Field label="Difficulty" htmlFor="solo-difficulty">

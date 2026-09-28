@@ -1,67 +1,56 @@
 import functional from '../data/scenarios.json';
-import reference from '../data/reference/scenarios.json';
+import { getCatalogScenarioByName, scenarioRuleId, writtenFor } from './scenarioCatalog';
 
 /**
  * The pre-battle "what am I playing" summary for a chosen scenario.
  *
- * Pulls together what the app already holds about a scenario, split across two
- * files: the structured Experience awards (the functional `scenarios.json`, which
- * drives the post-battle award tally) and the prose entry in the Rules Reference
- * (`reference/scenarios.json`) for the one-line objective, the player mode, and a
- * link through to the full rules. `image` is an optional deployment-map graphic —
- * none are bundled yet, but the setup panel shows one the moment a scenario
- * carries it, so a map can be added as a static asset without touching the UI.
+ * Pulls together what the app holds about a scenario: the catalogue entry
+ * (`scenarioCatalog.json` — objective, player modes, setting, source, author and
+ * a link to the full text on mordheimer.net) and, for the nine core scenarios,
+ * the structured Experience awards from `scenarios.json`, which drive the
+ * post-battle award tally. `image` is an optional deployment-map graphic — none
+ * are bundled yet, but the setup panel shows one the moment a scenario carries
+ * it, so a map can be added as a static asset without touching the UI.
  */
 export type ScenarioAward = { id: string; label: string; amount: string; note?: string };
 
 export type ScenarioSetup = {
   name: string;
-  ruleId: string | null; // → /rules/:id for the full scenario text
-  playerMode: string | null; // "1v1", "Multiplayer", …
+  ruleId: string; // → /rules/:id for the reference entry
+  core: boolean;
+  playerMode: string | null; // "1v1", "1v1 or Multiplayer", …
+  setting: string;
+  source: string;
+  author: string;
   description: string | null; // one-line objective
-  awards: ScenarioAward[]; // scenario-specific Experience
+  writtenFor: string[]; // warbands a scenario is written for ([] = any)
+  url: string; // full scenario text on mordheimer.net
+  awards: ScenarioAward[]; // scenario-specific Experience (core only)
   universalAward: ScenarioAward; // the "+1 Survives" every scenario grants
   image: string | null; // optional deployment map (asset path)
 };
 
 type FunctionalScenario = { id: string; name: string; awards: ScenarioAward[]; image?: string };
-type ReferenceEntry = { id: string; title: string; body: string };
 
-const funcByName = new Map<string, FunctionalScenario>(
-  (functional.scenarios as FunctionalScenario[]).map((s) => [s.name, s]),
-);
-const refByTitle = new Map<string, ReferenceEntry>(
-  (reference.entries as ReferenceEntry[]).map((e) => [e.title, e]),
+const funcById = new Map<string, FunctionalScenario>(
+  (functional.scenarios as FunctionalScenario[]).map((s) => [s.id, s]),
 );
 
 export function getScenarioSetup(name: string): ScenarioSetup | null {
-  if (!name) return null;
-  const fn = funcByName.get(name);
-  const ref = refByTitle.get(name);
-  if (!fn && !ref) return null;
-
-  let description: string | null = null;
-  let playerMode: string | null = null;
-  if (ref) {
-    const lines = ref.body
-      .split('\n')
-      .map((l) => l.trim())
-      .filter(Boolean);
-    const header = lines.find((l) => l.startsWith('(Players'));
-    if (header) {
-      // "(Players: 1v1 … Setting: Mordheim)" — grab the mode token after "Players:".
-      const m = header.match(/Players:\s*([^\s]+)/);
-      if (m) playerMode = m[1];
-    }
-    description =
-      lines.find((l) => !l.startsWith('(Players') && !/^Experience:?$/i.test(l)) ?? null;
-  }
-
+  const s = name ? getCatalogScenarioByName(name) : undefined;
+  if (!s) return null;
+  const fn = funcById.get(s.id);
   return {
-    name,
-    ruleId: ref?.id ?? null,
-    playerMode,
-    description,
+    name: s.name,
+    ruleId: scenarioRuleId(s),
+    core: s.core,
+    playerMode: s.playerModes.length ? s.playerModes.join(' or ') : null,
+    setting: s.setting,
+    source: s.source,
+    author: s.author,
+    description: s.description,
+    writtenFor: writtenFor(s),
+    url: s.url,
     awards: fn?.awards ?? [],
     universalAward: functional.universalAward as ScenarioAward,
     image: fn?.image ?? null,

@@ -5,14 +5,13 @@ import { useSoloStore, SoloSession } from '../../store/useSoloStore';
 import { generateId } from '../../lib/id';
 import { generateBattlefield } from '../../lib/solo/battlefield';
 import { difficultyForBudget, TEMPERAMENT_HINTS, TEMPERAMENT_LABELS } from '../../lib/solo/npc';
-import scenariosData from '../../data/scenarios.json';
-import BattlefieldMap from '../../components/solo/BattlefieldMap';
+import { getCatalogScenario } from '../../lib/scenarioCatalog';
+import BattlefieldBoard from '../../components/solo/BattlefieldBoard';
 import NpcRoster from '../../components/solo/NpcRoster';
 import OraclePanel from '../../components/solo/OraclePanel';
 import { Button, Card, SectionHeading, TextField } from '../../components/ui';
 
-const scenarioName = (id: string) =>
-  scenariosData.scenarios.find((s) => s.id === id)?.name ?? id;
+const scenarioName = (id: string) => getCatalogScenario(id)?.name ?? id;
 
 /**
  * The table-side solo tracker (beta). Runs the generated AI opponent — its
@@ -114,17 +113,8 @@ export default function SoloBattleScreen() {
               ? 'Laid out from your terrain library — numbers match the legend below. Move pieces to fit your table.'
               : 'A starting layout, not a prescribed table — move the pieces to fit the terrain you own.'}
           </p>
-          <BattlefieldMap field={field} />
-          {legend.length > 0 && (
-            <ol className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-bone-300">
-              {legend.map((p) => (
-                <li key={p.index}>
-                  <span className="text-bone-400 font-mono mr-1">{p.index}.</span>
-                  {p.label}
-                </li>
-              ))}
-            </ol>
-          )}
+          {/* Boards saved before scenarioId existed get it from the session. */}
+          <BattlefieldBoard field={{ ...field, scenarioId: field.scenarioId ?? session.scenario }} />
         </Card>
 
         {/* Opponent temperament + roster */}

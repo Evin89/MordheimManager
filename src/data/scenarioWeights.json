@@ -1,6 +1,7 @@
 {
   "schemaVersion": 1,
-  "source": "App design choice, not a rulebook citation: scenario selection weighting is a matter of how a group likes its games to feel, not a printed rule, so this file says so honestly rather than inventing a page reference. Wyrdstone Hunt is the game's default meeting engagement and is weighted heavily; the rest are even. `minCampaignBattles` gates a scenario until the campaign has that many battles logged — none of the nine core scenarios use it, but the field exists so a late-campaign finale can be added later without a code change.",
+  "source": "App design choice, not a rulebook citation: scenario selection weighting is a matter of how a group likes its games to feel, not a printed rule, so this file says so honestly rather than inventing a page reference. Wyrdstone Hunt is the game's default meeting engagement and is weighted heavily; the rest are even. `minCampaignBattles` gates a scenario until the campaign has that many battles logged — none of the nine core scenarios use it, but the field exists so a late-campaign finale can be added later without a code change. The other ~90 scenarios (supplements, magazines, Archive Pestilen — see scenarioCatalog.json) share `otherWeight`: low enough that the core nine stay the usual game, high enough that the wider catalogue turns up. Filtering the picker to one source leaves only that source in the draw.",
+  "otherWeight": 0.25,
   "weights": [
     { "scenarioId": "wyrdstoneHunt", "weight": 3 },
     { "scenarioId": "skirmish", "weight": 2 },

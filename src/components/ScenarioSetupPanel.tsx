@@ -4,8 +4,8 @@ import { strings } from '../strings';
 
 /**
  * Shows the chosen scenario's setup in the pre-battle screen: its objective,
- * player mode, the Experience on offer, an optional deployment map, and a link
- * to the full rules. Renders nothing for an unset or unknown scenario, so it can
+ * player mode, source, who it's written for, the Experience on offer, an
+ * optional deployment map, and links to the full rules and its reference entry. Renders nothing for an unset or unknown scenario, so it can
  * be dropped in unconditionally.
  */
 export default function ScenarioSetupPanel({ scenarioName }: { scenarioName: string }) {
@@ -24,6 +24,10 @@ export default function ScenarioSetupPanel({ scenarioName }: { scenarioName: str
       </div>
 
       {setup.description && <p className="text-bone-100">{setup.description}</p>}
+      <p className="text-bone-400 text-xs">{t.sourceLine(setup.source, setup.author, setup.setting)}</p>
+      {setup.writtenFor.length > 0 && (
+        <p className="text-bone-300 text-xs">{t.writtenFor(setup.writtenFor.join(' / '))}</p>
+      )}
 
       {/* Optional deployment map — shown only when the scenario carries one. */}
       {setup.image && (
@@ -49,17 +53,26 @@ export default function ScenarioSetupPanel({ scenarioName }: { scenarioName: str
               </li>
             ))}
           </ul>
+          {!setup.core && <p className="text-bone-400 text-xs">{t.noAwards}</p>}
         </div>
       )}
 
-      {setup.ruleId && (
+      <div className="flex flex-wrap gap-x-4">
+        <a
+          href={setup.url}
+          target="_blank"
+          rel="noopener external"
+          className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+        >
+          {t.externalRules}
+        </a>
         <Link
           to={`/rules/${setup.ruleId}`}
-          className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+          className="inline-flex items-center min-h-[44px] text-bone-300 text-sm font-semibold"
         >
           {t.fullRules}
         </Link>
-      )}
+      </div>
     </div>
   );
 }

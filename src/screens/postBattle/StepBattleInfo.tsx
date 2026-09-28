@@ -2,9 +2,12 @@ import { useState } from 'react';
 import NumberInput from '../../components/NumberInput';
 import { Button, TextField, Textarea, Select } from '../../components/ui';
 import { strings } from '../../strings';
-import scenariosData from '../../data/scenarios.json';
+import { SCENARIO_CATALOG, getCatalogScenarioByName, groupBySource } from '../../lib/scenarioCatalog';
 import { BattleResult } from '../../types';
 import { StepProps } from './types';
+
+// Every catalogued scenario, by name (the battle log stores names), grouped by source.
+const SCENARIO_GROUPS = groupBySource(SCENARIO_CATALOG);
 
 const RESULTS: BattleResult[] = ['win', 'loss', 'draw'];
 const RESULT_LABEL: Record<BattleResult, string> = {
@@ -15,7 +18,7 @@ const RESULT_LABEL: Record<BattleResult, string> = {
 
 export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
   const [useCustomScenario, setUseCustomScenario] = useState(
-    draft.scenario !== '' && !scenariosData.scenarios.some((s) => s.name === draft.scenario),
+    draft.scenario !== '' && !getCatalogScenarioByName(draft.scenario),
   );
 
   return (
@@ -38,10 +41,14 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
           }}
         >
           <option value="">—</option>
-          {scenariosData.scenarios.map((s) => (
-            <option key={s.id} value={s.name}>
-              {s.name}
-            </option>
+          {SCENARIO_GROUPS.map((g) => (
+            <optgroup key={g.label} label={g.label}>
+              {g.scenarios.map((s) => (
+                <option key={s.id} value={s.name}>
+                  {s.name}
+                </option>
+              ))}
+            </optgroup>
           ))}
           <option value="__custom__">{strings.postBattle.battleInfo.scenarioCustom}</option>
         </Select>

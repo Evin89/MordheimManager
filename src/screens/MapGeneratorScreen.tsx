@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { generateBattlefield } from '../lib/solo/battlefield';
-import BattlefieldMap from '../components/solo/BattlefieldMap';
+import BattlefieldBoard from '../components/solo/BattlefieldBoard';
 import { useTerrainPiecesQuery } from '../hooks/useCollection';
 import { useAuth } from '../auth/AuthProvider';
-import scenariosData from '../data/scenarios.json';
+import { defaultScenarioId, getCatalogScenario, playerCountsFor } from '../lib/scenarioCatalog';
+import { useScenarioFilter } from '../hooks/useScenarioFilter';
+import ScenarioPicker from '../components/ScenarioPicker';
 import { Button, Card, Field, Select } from '../components/ui';
-
-const SCENARIOS = scenariosData.scenarios.map((s) => ({ id: s.id, name: s.name }));
 const randomSeed = () => (Math.random() * 0xffffffff) >>> 0;
 
 /**
@@ -20,7 +20,19 @@ const randomSeed = () => (Math.random() * 0xffffffff) >>> 0;
 export default function MapGeneratorScreen() {
   const { user } = useAuth();
   const { data: terrain = [] } = useTerrainPiecesQuery();
-  const [scenario, setScenario] = useState(SCENARIOS[0]?.id ?? '');
+  // Every scenario in the catalogue: the core nine keep their rulebook
+  // deployment, the rest get a generic board from their tags.
+  // `?scenario=<id>` preselects one — the Rules Reference links here.
+  const [params] = useSearchParams();
+  const [filter, setFilter] = useScenarioFilter('picker');
+  const [scenario, setScenario] = useState(() => {
+    const wanted = params.get('scenario');
+    return wanted && getCatalogScenario(wanted) ? wanted : defaultScenarioId(filter);
+  });
+  const playerCounts = playerCountsFor(getCatalogScenario(scenario));
+  const [playersPicked, setPlayers] = useState(2);
+  // Keep the count valid when the scenario changes (e.g. 2 → a 3+ multiplayer one).
+  const players = playerCounts.includes(playersPicked) ? playersPicked : playerCounts[0];
   const [widthFt, setWidthFt] = useState(4);
   const [depthFt, setDepthFt] = useState(4);
   const [seed, setSeed] = useState(randomSeed);
@@ -31,14 +43,10 @@ export default function MapGeneratorScreen() {
         widthIn: widthFt * 12,
         depthIn: depthFt * 12,
         terrain: terrain.length ? terrain : undefined,
+        players,
       }),
-    [seed, scenario, widthFt, depthFt, terrain],
+    [seed, scenario, widthFt, depthFt, terrain, players],
   );
-
-  const legend = [
-    ...field.pieces.filter((p) => p.index > 0),
-    ...field.rivers.map((r) => ({ index: r.index, label: r.label })),
-  ].sort((a, b) => a.index - b.index);
 
   return (
     <div className="min-h-full flex flex-col">
@@ -59,14 +67,25 @@ export default function MapGeneratorScreen() {
         <Card as="section">
           <div className="grid grid-cols-2 gap-3">
             <Field label="Scenario" htmlFor="map-scenario" className="col-span-2">
-              <Select id="map-scenario" value={scenario} onChange={(e) => setScenario(e.target.value)}>
-                {SCENARIOS.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.name}
-                  </option>
-                ))}
-              </Select>
+              <ScenarioPicker
+                id="map-scenario"
+                value={scenario}
+                onChange={setScenario}
+                filter={filter}
+                onFilterChange={setFilter}
+              />
             </Field>
+            {playerCounts.length > 1 && (
+              <Field label="Warbands" htmlFor="map-players" className="col-span-2">
+                <Select id="map-players" value={players} onChange={(e) => setPlayers(Number(e.target.value))}>
+                  {playerCounts.map((n) => (
+                    <option key={n} value={n}>
+                      {n}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+            )}
             <Field label="Width" htmlFor="map-w">
               <Select id="map-w" value={widthFt} onChange={(e) => setWidthFt(Number(e.target.value))}>
                 {[2, 3, 4].map((ft) => (
@@ -90,17 +109,7 @@ export default function MapGeneratorScreen() {
         </Card>
 
         <Card as="section">
-          <BattlefieldMap field={field} />
-          {legend.length > 0 && (
-            <ol className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-bone-300">
-              {legend.map((p) => (
-                <li key={p.index}>
-                  <span className="text-bone-400 font-mono mr-1">{p.index}.</span>
-                  {p.label}
-                </li>
-              ))}
-            </ol>
-          )}
+          <BattlefieldBoard field={field} />
           <p className="text-bone-400 text-xs">
             {terrain.length > 0
               ? 'Laid out from your terrain library.'

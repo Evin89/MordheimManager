@@ -24,6 +24,8 @@ const C = {
   badge: '#f1e7cc',
   zoneA: '#4f7d97',
   zoneB: '#9a3b2e',
+  zoneC: '#5e6b34',
+  zoneD: '#8a5a1e',
 };
 
 const SERIF = "'IM Fell English', 'Alegreya', Georgia, serif";
@@ -33,6 +35,9 @@ const ROLE_COLOR: Record<Zone['role'], string> = {
   b: C.zoneB,
   defender: C.zoneB,
   attacker: C.zoneA,
+  c: C.zoneC,
+  d: C.zoneD,
+  exit: C.ink,
 };
 
 /** Smooth path through a set of points (quadratic midpoints). */
@@ -255,7 +260,7 @@ export default function BattlefieldMap({ field }: { field: Battlefield }) {
 
       {/* Deployment zones (under terrain) */}
       {field.zones.map((z, i) => (
-        <rect key={`z${i}`} x={z.x} y={z.y} width={z.w} height={z.h} fill={ROLE_COLOR[z.role]} fillOpacity={0.12} stroke={ROLE_COLOR[z.role]} strokeOpacity={0.5} strokeWidth={0.5 * u} strokeDasharray={`${1.5 * u} ${1.2 * u}`} />
+        <rect key={`z${i}`} x={z.x} y={z.y} width={z.w} height={z.h} fill={ROLE_COLOR[z.role]} fillOpacity={z.role === 'exit' ? 0.06 : 0.12} stroke={ROLE_COLOR[z.role]} strokeOpacity={0.5} strokeWidth={0.5 * u} strokeDasharray={`${1.5 * u} ${1.2 * u}`} />
       ))}
 
       {/* Ink layer — hand-wobbled, then clipped to the board so an edge-touching

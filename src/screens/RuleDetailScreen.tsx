@@ -46,6 +46,29 @@ export default function RuleDetailScreen() {
           {strings.rules.sourceLabel}: {entry.source}
         </p>
 
+        {(entry.sourceUrl || entry.scenarioId) && (
+          <div className="flex flex-wrap gap-x-4">
+            {entry.sourceUrl && (
+              <a
+                href={entry.sourceUrl}
+                target="_blank"
+                rel="noopener external"
+                className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+              >
+                {strings.rules.externalRules}
+              </a>
+            )}
+            {entry.scenarioId && (
+              <Link
+                to={`/map?scenario=${encodeURIComponent(entry.scenarioId)}`}
+                className="inline-flex items-center min-h-[44px] text-bone-300 text-sm font-semibold"
+              >
+                {strings.rules.drawBoard}
+              </Link>
+            )}
+          </div>
+        )}
+
         {related.length > 0 && (
           <section className="space-y-2 pt-2">
             <SectionHeading className="text-sm">{strings.rules.relatedSection}</SectionHeading>

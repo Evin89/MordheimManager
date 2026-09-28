@@ -7,17 +7,14 @@ import { BattleSession, defaultBattleSession, useAppStore } from '../store/useAp
 import { useWarbandList, useWarbandLookup } from '../hooks/useWarbands';
 import { useBattlesQuery, useCampaignWarbandsQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { useTerrainPiecesQuery } from '../hooks/useCollection';
-import scenariosData from '../data/scenarios.json';
 import { suggestScenario } from '../lib/scenarioSuggest';
+import { GameFit, filterScenarios, getCatalogScenario, getCatalogScenarioByName } from '../lib/scenarioCatalog';
+import ScenarioPicker from '../components/ScenarioPicker';
+import { useScenarioFilter } from '../hooks/useScenarioFilter';
 import { computeWarbandRating } from '../lib/rating';
 import { generateBattlefield } from '../lib/solo/battlefield';
 import BattlefieldBoard from '../components/solo/BattlefieldBoard';
 import ScenarioSetupPanel from '../components/ScenarioSetupPanel';
-
-// The scenario is stored by name here; the board generator keys off its id.
-const SCENARIO_NAME_TO_ID: Record<string, string> = Object.fromEntries(
-  scenariosData.scenarios.map((s) => [s.name, s.id]),
-);
 
 export default function PreBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
@@ -42,10 +39,12 @@ export default function PreBattleScreen() {
     () => storedSession ?? defaultBattleSession(warbandId ?? ''),
   );
   const [lastRandomRoll, setLastRandomRoll] = useState<string | null>(null);
+  const [nothingFits, setNothingFits] = useState(false);
   const [showFairPairing, setShowFairPairing] = useState(false);
   const { data: terrain = [] } = useTerrainPiecesQuery();
   const [boardWidthFt, setBoardWidthFt] = useState(4);
   const [boardDepthFt, setBoardDepthFt] = useState(4);
+  const [scenarioFilter, setScenarioFilter] = useScenarioFilter('picker');
 
   if (loading) {
     return (
@@ -108,8 +107,23 @@ export default function PreBattleScreen() {
   // Weighted suggestion (§21.3): a group plays some scenarios far more than
   // others, so this is not a uniform roll. Only ever fills the field the manual
   // picker fills — the player keeps or changes it.
+  // It draws from what the picker is showing, skipping scenarios that need more
+  // than two warbands or are written for a warband not in this game.
+  const opponentType =
+    otherWarbands.find((w) => w.id === session.opponentWarbandId)?.warbandType ??
+    campaignOpponents.find((w) => w.id === session.opponentWarbandId)?.warbandType;
+  const gameFit: GameFit = {
+    players: 2,
+    warbandTypes: [warband.warbandType, ...(opponentType ? [opponentType] : [])],
+  };
+
   function rollRandomScenario() {
-    const picked = suggestScenario(campaign ? (campaignBattles?.length ?? 0) : undefined);
+    const picked = suggestScenario({
+      candidates: filterScenarios(scenarioFilter, gameFit),
+      fit: gameFit,
+      battleCount: campaign ? (campaignBattles?.length ?? 0) : undefined,
+    });
+    setNothingFits(!picked);
     if (!picked) return;
     setLastRandomRoll(picked.name);
     updateSession({ scenario: picked.name });
@@ -117,7 +131,8 @@ export default function PreBattleScreen() {
 
   function generateBoard() {
     const seed = (Math.random() * 0xffffffff) >>> 0;
-    const scenarioId = SCENARIO_NAME_TO_ID[session.scenario] ?? '';
+    // The scenario is stored by name here; the board generator keys off its id.
+    const scenarioId = getCatalogScenarioByName(session.scenario)?.id ?? '';
     const battlefield = generateBattlefield(seed, scenarioId, {
       widthIn: boardWidthFt * 12,
       depthIn: boardDepthFt * 12,
@@ -159,30 +174,32 @@ export default function PreBattleScreen() {
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="scenario">
             {strings.battle.preBattle.scenarioLabel}
           </label>
-          <Select
+          <ScenarioPicker
             id="scenario"
-            value={session.scenario}
-            onChange={(e) => {
+            value={getCatalogScenarioByName(session.scenario)?.id ?? ''}
+            onChange={(id) => {
               setLastRandomRoll(null);
-              updateSession({ scenario: e.target.value });
+              setNothingFits(false);
+              updateSession({ scenario: getCatalogScenario(id)?.name ?? '' });
             }}
-          >
-            <option value="">{strings.battle.preBattle.scenarioPlaceholder}</option>
-            {scenariosData.scenarios.map((s) => (
-              <option key={s.name} value={s.name}>
-                {s.name}
-              </option>
-            ))}
-          </Select>
+            filter={scenarioFilter}
+            onFilterChange={setScenarioFilter}
+            fit={gameFit}
+            placeholder={strings.battle.preBattle.scenarioPlaceholder}
+          />
           <Button size="dense" onClick={rollRandomScenario}>
             {strings.battle.preBattle.rollRandomButton}
           </Button>
+          {nothingFits && <p className="text-bone-300 text-xs">{strings.battle.preBattle.noScenarioFits}</p>}
           {lastRandomRoll && (
             <p className="text-bone-300 text-xs">{strings.battle.preBattle.randomRollResultLabel(lastRandomRoll)}</p>
           )}
           {/* The data cites the chapter, not a page per scenario, so this points
-              at the range rather than inventing a precise number. */}
-          <p className="text-bone-400 text-xs">{strings.battle.preBattle.scenarioPageHint}</p>
+              at the range rather than inventing a precise number. Core only —
+              the rest link to their full rules from the setup panel. */}
+          {(!session.scenario || getCatalogScenarioByName(session.scenario)?.core) && (
+            <p className="text-bone-400 text-xs">{strings.battle.preBattle.scenarioPageHint}</p>
+          )}
 
           {session.scenario && <ScenarioSetupPanel scenarioName={session.scenario} />}
         </section>

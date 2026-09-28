@@ -7,6 +7,7 @@
 // Fords, bends and bridges are a later refinement (see the solo notes).
 
 import scenariosData from '../../data/scenarios.json';
+import { genericCounters, genericLayoutFor, getCatalogScenario } from '../scenarioCatalog';
 
 export type TerrainCategory = 'building' | 'forest' | 'water' | 'hill' | 'barricade' | 'other';
 
@@ -36,7 +37,9 @@ export type RiverFeature = {
 };
 
 export type Marker = { x: number; y: number; label: string; kind: 'objective' | 'wyrdstone' };
-export type ZoneRole = 'a' | 'b' | 'defender' | 'attacker';
+/** `c`/`d` are the third and fourth players of a multiplayer board; `exit` is the
+ * edge a warband crossing the board is heading for (drawn unfilled). */
+export type ZoneRole = 'a' | 'b' | 'c' | 'd' | 'defender' | 'attacker' | 'exit';
 export type Zone = { label: string; x: number; y: number; w: number; h: number; role: ZoneRole };
 
 export type Battlefield = {
@@ -48,6 +51,11 @@ export type Battlefield = {
   markers: Marker[];
   zones: Zone[];
   seed: number;
+  /** The scenario it was drawn for. Optional: boards saved before this existed
+   * don't carry it. */
+  scenarioId?: string;
+  /** How many warbands the zones were drawn for (2 unless multiplayer). */
+  players?: number;
 };
 
 /** Structural subset of the collection's TerrainPiece (keeps this lib decoupled). */
@@ -64,6 +72,8 @@ export type GenerateOptions = {
   widthIn?: number;
   depthIn?: number;
   terrain?: BattlefieldTerrain[];
+  /** Warbands on the table (2–4). Only a multiplayer scenario uses more than 2. */
+  players?: number;
 };
 
 /** Terrain density: about one piece per square foot of table — the common
@@ -112,14 +122,7 @@ const needsObjective = (id: string): boolean => {
  *  - Surprise Attack: defender in the centre; attacker enters from every edge
  * Suggested placements — move to fit the table.
  */
-function deploymentZones(scenarioId: string, W: number, D: number): Zone[] {
-  const edgeFrame = (): Zone[] => [
-    { label: 'Attacker', x: 0, y: 0, w: W, h: 8, role: 'attacker' },
-    { label: '', x: 0, y: D - 8, w: W, h: 8, role: 'attacker' },
-    { label: '', x: 0, y: 8, w: 8, h: D - 16, role: 'attacker' },
-    { label: '', x: W - 8, y: 8, w: 8, h: D - 16, role: 'attacker' },
-  ];
-
+function deploymentZones(scenarioId: string, W: number, D: number, players: number): Zone[] {
   switch (scenarioId) {
     case 'streetFight':
       return [
@@ -128,22 +131,87 @@ function deploymentZones(scenarioId: string, W: number, D: number): Zone[] {
       ];
     case 'defendTheFind': {
       const s = 12; // within 6" of centre
-      return [{ label: 'Defender', x: W / 2 - s / 2, y: D / 2 - s / 2, w: s, h: s, role: 'defender' }, ...edgeFrame()];
+      return [{ label: 'Defender', x: W / 2 - s / 2, y: D / 2 - s / 2, w: s, h: s, role: 'defender' }, ...edgeFrame(W, D)];
     }
     case 'surpriseAttack': {
       const s = 16;
-      return [{ label: 'Defender', x: W / 2 - s / 2, y: D / 2 - s / 2, w: s, h: s, role: 'defender' }, ...edgeFrame()];
+      return [{ label: 'Defender', x: W / 2 - s / 2, y: D / 2 - s / 2, w: s, h: s, role: 'defender' }, ...edgeFrame(W, D)];
     }
     case 'breakthrough':
       return [
         { label: 'Defender', x: 8, y: 8, w: Math.max(2, W - 16), h: Math.max(2, D - 16), role: 'defender' },
         { label: 'Attacker', x: 0, y: D - 8, w: W, h: 8, role: 'attacker' },
       ];
-    default: // Skirmish, Wyrdstone Hunt, Chance Encounter, Hidden Treasure, Occupy
+    case 'skirmish':
+    case 'wyrdstoneHunt':
+    case 'chanceEncounter':
+    case 'hiddenTreasure':
+    case 'occupy':
+      return oppositeEdges(W, D);
+    default:
+      return genericZones(scenarioId, W, D, players);
+  }
+}
+
+/** Attackers within 8" of every edge. */
+const edgeFrame = (W: number, D: number): Zone[] => [
+  { label: 'Attacker', x: 0, y: 0, w: W, h: 8, role: 'attacker' },
+  { label: '', x: 0, y: D - 8, w: W, h: 8, role: 'attacker' },
+  { label: '', x: 0, y: 8, w: 8, h: D - 16, role: 'attacker' },
+  { label: '', x: W - 8, y: 8, w: 8, h: D - 16, role: 'attacker' },
+];
+
+const oppositeEdges = (W: number, D: number): Zone[] => [
+  { label: 'Deployment A', x: 0, y: 0, w: W, h: 8, role: 'a' },
+  { label: 'Deployment B', x: 0, y: D - 8, w: W, h: 8, role: 'b' },
+];
+
+/**
+ * A non-core scenario's zones, from its tags (lib/scenarioCatalog). The dataset
+ * has no deployment data, so these are the core patterns re-used by scenario
+ * type — the map says so and links to the full rules. Unknown ids fall back to
+ * opposite edges.
+ */
+function genericZones(scenarioId: string, W: number, D: number, players: number): Zone[] {
+  const s = getCatalogScenario(scenarioId);
+  if (!s) return oppositeEdges(W, D);
+  switch (genericLayoutFor(s, players)) {
+    case 'traverse': {
+      // Cross along the long axis: start within 8" of one end, exit at the far
+      // end, the opposing warband holding the middle third.
+      if (W >= D) {
+        const band = W / 3;
+        return [
+          { label: 'Crossing', x: 0, y: 0, w: 8, h: D, role: 'a' },
+          { label: 'Opposing', x: W / 2 - band / 2, y: 0, w: band, h: D, role: 'b' },
+          { label: 'Exit', x: W - 2, y: 0, w: 2, h: D, role: 'exit' },
+        ];
+      }
+      const band = D / 3;
       return [
-        { label: 'Deployment A', x: 0, y: 0, w: W, h: 8, role: 'a' },
-        { label: 'Deployment B', x: 0, y: D - 8, w: W, h: 8, role: 'b' },
+        { label: 'Crossing', x: 0, y: D - 8, w: W, h: 8, role: 'a' },
+        { label: 'Opposing', x: 0, y: D / 2 - band / 2, w: W, h: band, role: 'b' },
+        { label: 'Exit', x: 0, y: 0, w: W, h: 2, role: 'exit' },
       ];
+    }
+    case 'attackerDefender': {
+      const box = 12;
+      return [{ label: 'Defender', x: W / 2 - box / 2, y: D / 2 - box / 2, w: box, h: box, role: 'defender' }, ...edgeFrame(W, D)];
+    }
+    case 'multiplayer': {
+      // A corner each, a quarter of the short side square. Bottom-right (under
+      // the compass) is filled last, so a three-warband board leaves it free.
+      const c = Math.min(W, D) / 4;
+      const corners: Zone[] = [
+        { label: 'A', x: 0, y: 0, w: c, h: c, role: 'a' },
+        { label: 'B', x: W - c, y: 0, w: c, h: c, role: 'b' },
+        { label: 'C', x: 0, y: D - c, w: c, h: c, role: 'c' },
+        { label: 'D', x: W - c, y: D - c, w: c, h: c, role: 'd' },
+      ];
+      return corners.slice(0, Math.max(2, Math.min(4, players)));
+    }
+    default:
+      return oppositeEdges(W, D);
   }
 }
 
@@ -273,16 +341,23 @@ export function generateBattlefield(seed: number, scenarioId: string, opts: Gene
   }
 
   // ── Objective / wyrdstone markers ──
+  // Core scenarios read their counters from scenarios.json; the rest from tags.
   const markers: Marker[] = [];
-  if (needsObjective(scenarioId)) markers.push({ x: W / 2, y: D / 2, label: 'Objective', kind: 'objective' });
-  if (needsWyrdstone(scenarioId)) {
+  const generic = getCatalogScenario(scenarioId);
+  const counters =
+    generic && !generic.core
+      ? genericCounters(generic)
+      : { wyrdstone: needsWyrdstone(scenarioId), objective: needsObjective(scenarioId) ? 'Objective' : null };
+  if (counters.objective) markers.push({ x: W / 2, y: D / 2, label: counters.objective, kind: 'objective' });
+  if (counters.wyrdstone) {
     const shards = 3 + Math.floor(rand() * 2);
     for (let i = 0; i < shards; i++) {
       markers.push({ x: margin + rand() * (W - 2 * margin), y: margin + rand() * (D - 2 * margin), label: 'Wyrdstone', kind: 'wyrdstone' });
     }
   }
 
-  const zones = deploymentZones(scenarioId, W, D);
+  const players = Math.max(2, Math.min(4, opts.players ?? 2));
+  const zones = deploymentZones(scenarioId, W, D, players);
 
-  return { width: W, depth: D, pieces, rivers, markers, zones, seed };
+  return { width: W, depth: D, pieces, rivers, markers, zones, seed, scenarioId, players };
 }

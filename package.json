@@ -12,7 +12,8 @@
     "lint": "tsc --noEmit",
     "design-sheet": "node scripts/design-sheet.mjs",
     "seed:scale": "node scripts/seed-scale-test.mjs",
-    "seed:teardown": "node scripts/seed-teardown.mjs"
+    "seed:teardown": "node scripts/seed-teardown.mjs",
+    "import:scenarios": "node scripts/import-scenario-catalog.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.8",

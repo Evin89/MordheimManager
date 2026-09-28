@@ -603,6 +603,10 @@ export type RuleEntry = {
   body: string; // plain-text paragraphs, separated by blank lines
   weapon?: WeaponProfile;
   relatedIds?: string[]; // ids of other RuleEntry objects
+  /** Where the full text lives when the app only carries a summary (scenarios). */
+  sourceUrl?: string;
+  /** A scenario entry's catalogue id — lets the entry link to a board for it. */
+  scenarioId?: string;
 };
 
 /** What a list is called in its own source, which decides the UI heading —

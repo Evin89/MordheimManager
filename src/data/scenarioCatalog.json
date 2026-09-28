@@ -1,0 +1,2007 @@
+{
+  "schemaVersion": 1,
+  "source": "MordheimerData/Sourcedata scenarios.json (mordheimer.net), imported by scripts/import-scenario-catalog.mjs: title, source, author, setting, player modes, a one-line description and tags for 101 scenarios. No deployment, terrain or page data — the battlefield generator draws a generic board from the tags for all but the nine core-rulebook scenarios.",
+  "scenarios": [
+    {
+      "id": "defendTheFind",
+      "title": "Defend the Find",
+      "name": "Defend the Find",
+      "core": true,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Mordheim Rulebook",
+      "author": "Tuomas Pirinen",
+      "description": "Defend a building from attackers.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Objective Building"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/mordheim-rulebook/defend-the-find"
+    },
+    {
+      "id": "skirmish",
+      "title": "Skirmish",
+      "name": "Skirmish",
+      "core": true,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Mordheim Rulebook",
+      "author": "Tuomas Pirinen",
+      "description": "Brawl between rival warbands.",
+      "tags": [
+        "Official Scenario",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/mordheim-rulebook/skirmish"
+    },
+    {
+      "id": "wyrdstoneHunt",
+      "title": "Wyrdstone Hunt",
+      "name": "Wyrdstone Hunt",
+      "core": true,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Mordheim Rulebook",
+      "author": "Tuomas Pirinen",
+      "description": "Gain wealth by picking up wyrdstone.",
+      "tags": [
+        "Official Scenario",
+        "Wyrdstone Tokens"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/mordheim-rulebook/wyrdstone-hunt"
+    },
+    {
+      "id": "breakthrough",
+      "title": "Breakthrough",
+      "name": "Breakthrough",
+      "core": true,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Mordheim Rulebook",
+      "author": "Tuomas Pirinen",
+      "description": "The attacker needs to reach the other side of the board.",
+      "tags": [
+        "Official Scenario",
+        "Traverse the Board",
+        "Attacker/Defender"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/mordheim-rulebook/breakthrough"
+    },
+    {
+      "id": "streetFight",
+      "title": "Street Fight",
+      "name": "Street Fight",
+      "core": true,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Mordheim Rulebook",
+      "author": "Tuomas Pirinen",
+      "description": "Both warbands try to reach the other side of the street.",
+      "tags": [
+        "Official Scenario",
+        "Traverse the Board"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/mordheim-rulebook/street-fight"
+    },
+    {
+      "id": "chanceEncounter",
+      "title": "Chance Encounter",
+      "name": "Chance Encounter",
+      "core": true,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Mordheim Rulebook",
+      "author": "Tuomas Pirinen",
+      "description": "Two warbands try to steal each other's wyrdstone.",
+      "tags": [
+        "Official Scenario",
+        "Wyrdstone Tokens",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/mordheim-rulebook/chance-encounter"
+    },
+    {
+      "id": "hiddenTreasure",
+      "title": "Hidden Treasure",
+      "name": "Hidden Treasure",
+      "core": true,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Mordheim Rulebook",
+      "author": "Tuomas Pirinen",
+      "description": "Search the buildings for a hidden treasure.",
+      "tags": [
+        "Official Scenario",
+        "Treasure",
+        "Objective",
+        "Search"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/mordheim-rulebook/hidden-treasure"
+    },
+    {
+      "id": "occupy",
+      "title": "Occupy",
+      "name": "Occupy",
+      "core": true,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Mordheim Rulebook",
+      "author": "Tuomas Pirinen",
+      "description": "Both warbands try to capture as many buildings as they can.",
+      "tags": [
+        "Official Scenario",
+        "Turn Limit",
+        "Objective Building"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/mordheim-rulebook/occupy"
+    },
+    {
+      "id": "surpriseAttack",
+      "title": "Surprise Attack",
+      "name": "Surprise Attack",
+      "core": true,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Mordheim Rulebook",
+      "author": "Tuomas Pirinen",
+      "description": "The Defender tries to fend off the attacker and starts with limited numbers.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/mordheim-rulebook/surprise-attack"
+    },
+    {
+      "id": "treasure-hunt-tc5",
+      "title": "Treasure Hunt",
+      "name": "Treasure Hunt",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #5",
+      "author": "Mark Havener",
+      "description": "Multiplayer. Similar to Wyrdstone Hunt.",
+      "tags": [
+        "Official Scenario",
+        "Wyrdstone Tokens",
+        "Chaos on the Streets"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/treasure-hunt-tc5"
+    },
+    {
+      "id": "street-brawl-tc5",
+      "title": "Street Brawl",
+      "name": "Street Brawl",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #5",
+      "author": "Mark Havener",
+      "description": "Multiplayer. Similar to Skirmish.",
+      "tags": [
+        "Official Scenario",
+        "Brawl",
+        "Chaos on the Streets"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/street-brawl-tc5"
+    },
+    {
+      "id": "lost-prince-tc5",
+      "title": "The Lost Prince",
+      "name": "The Lost Prince",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #5",
+      "author": "Mark Havener",
+      "description": "The warbands have heard rumours that a powerful man's son has wandered into the ruins and a handsome reward will be paid for his return.",
+      "tags": [
+        "Official Scenario",
+        "Escort NPC",
+        "Chaos on the Streets"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/lost-prince-tc5"
+    },
+    {
+      "id": "wizards-mansion-tc5",
+      "title": "The Wizard's Mansion",
+      "name": "The Wizard's Mansion",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #5",
+      "author": "Mark Havener",
+      "description": "Multiplayer. Similar to Skirmish with items at stake.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Treasure",
+        "Chaos on the Streets"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/wizards-mansion-tc5"
+    },
+    {
+      "id": "pool-tc5",
+      "title": "The Pool",
+      "name": "The Pool",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #5",
+      "author": "Mark Havener",
+      "description": "Multiplayer. Root around for Wyrdstone in a pool in the centre of the table.",
+      "tags": [
+        "Official Scenario",
+        "Wyrdstone Tokens",
+        "Chaos on the Streets"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/pool-tc5"
+    },
+    {
+      "id": "ambush-tc5",
+      "title": "Ambush!",
+      "name": "Ambush!",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #5",
+      "author": "Mark Havener",
+      "description": "Multiplayer. Wyrdstone carrying defenders have to get off the table alive.",
+      "tags": [
+        "Official Scenario",
+        "Wyrdstone Tokens",
+        "Attacker/Defender",
+        "Turn Limit",
+        "Chaos on the Streets"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/ambush-tc5"
+    },
+    {
+      "id": "monster-hunt-tc5",
+      "title": "Monster Hunt",
+      "name": "Monster Hunt",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #5",
+      "author": "Mark Havener",
+      "description": "Multiplayer. Warbands team up (or not) to take on a monster.",
+      "tags": [
+        "Official Scenario",
+        "Hostile NPC",
+        "Treasure",
+        "Chaos on the Streets"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/monster-hunt-tc5"
+    },
+    {
+      "id": "kidnapped",
+      "title": "Kidnapped",
+      "name": "Kidnapped",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #6",
+      "author": "Tuomas Pirinen",
+      "description": "Possessed vs. any warband. Rescue a fair maiden before she gets sacrificed or sacrifice a fair maiden before she gets rescued, depending on your mood.",
+      "tags": [
+        "Warband - Cult of the Possessed",
+        "Official Scenario",
+        "Escort NPC",
+        "Attacker/Defender",
+        "Turn Limit"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/kidnapped"
+    },
+    {
+      "id": "rat-attack",
+      "title": "Rat Attack",
+      "name": "Rat Attack",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #7",
+      "author": "Christian Ellegaard",
+      "description": "Skaven vs. any warband. Sewers. Defender must escape from opposite table edge. Skaven uses a mixture of decoy counters and warband counters to confuse the enemy.",
+      "tags": [
+        "Warband - Skaven",
+        "Underground",
+        "Official Scenario",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/rat-attack"
+    },
+    {
+      "id": "scourge-and-purge",
+      "title": "Scourge & Purge",
+      "name": "Scourge & Purge",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #7",
+      "author": "Donato Ranzato",
+      "description": "Witch Hunters vs. any warband. Skirmish in the company of a possessed wizard.",
+      "tags": [
+        "Official Scenario",
+        "Warband - Witch Hunters",
+        "Brawl",
+        "Hostile NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/scourge-and-purge"
+    },
+    {
+      "id": "surrounded",
+      "title": "Surrounded",
+      "name": "Surrounded",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #7",
+      "author": "Christian Ellegaard",
+      "description": "Sewers. Defender must escape from centre of sewer network.",
+      "tags": [
+        "Underground",
+        "Official Scenario",
+        "Traverse the Board",
+        "Attacker/Defender"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/surrounded"
+    },
+    {
+      "id": "forbidden-square",
+      "title": "Forbidden Square",
+      "name": "Forbidden Square",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #8",
+      "author": "Donato Ranzato",
+      "description": "A Witch Hunter Warband has been sent into a specific part of the City of the Damned by prominent members of the Order of the Templars of Sigmar.",
+      "tags": [
+        "Official Scenario",
+        "Warband - Witch Hunters",
+        "Warband - Cult of the Possessed",
+        "Wyrdstone Tokens",
+        "Traverse the Board"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/forbidden-square"
+    },
+    {
+      "id": "stake-out",
+      "title": "Stake-Out",
+      "name": "Stake-Out",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #8",
+      "author": "Gavin Thorpe",
+      "description": "Sneaky attackers must kill the leader of the startled defenders. Defenders' leader must escape from table.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Traverse the Board"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/stake-out"
+    },
+    {
+      "id": "the-lair-of-the-snake",
+      "title": "The Lair of the Snake",
+      "name": "The Lair of the Snake",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #9",
+      "author": "Christian Ellegaard",
+      "description": "Four player scenario. Each player must take out his randomly specified enemy.",
+      "tags": [
+        "Official Scenario",
+        "Objective"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-lair-of-the-snake"
+    },
+    {
+      "id": "the-script-of-sigmar",
+      "title": "The Script of Sigmar",
+      "name": "The Script of Sigmar",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #9",
+      "author": "Paul Smith",
+      "description": "Witch Hunters vs. Sisters of Sigmar. Two linked scenarios involving burgling the Sisters' Abbey.",
+      "tags": [
+        "Warband - Witch Hunters",
+        "Warband - Sisters of Sigmar",
+        "Official Scenario",
+        "Attacker/Defender",
+        "Traverse the Board",
+        "Low Visibility"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-script-of-sigmar"
+    },
+    {
+      "id": "thats-all-mine",
+      "title": "That's All Mine",
+      "name": "That's All Mine",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #10",
+      "author": "Paul Smith",
+      "description": "Attackers blow up a mine using gunpowder rules from Archive Pestilens (shamefully not described in the magazine) amid some random zombie shenanigans.",
+      "tags": [
+        "Warband - Skaven",
+        "Warband - Cult of the Possessed",
+        "Warband - Chaos",
+        "Official Scenario",
+        "Attacker/Defender",
+        "Objective",
+        "Hostile NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/thats-all-mine"
+    },
+    {
+      "id": "the-caravan",
+      "title": "The Caravan",
+      "name": "The Caravan (Town Cryer #11)",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #11",
+      "author": "Honza Skypala & Stepan Stepanov",
+      "description": "Escort or rob a merchant's caravan train.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Escort NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-caravan"
+    },
+    {
+      "id": "the-secrets-of-beujuntae",
+      "title": "The Secrets of Beujuntae",
+      "name": "The Secrets of Beujuntae",
+      "core": false,
+      "setting": "Lustria",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #12",
+      "author": "Stephanus Cornette",
+      "description": "Wyrdstone Hunt while a Daemon spirit flits around possessing random Heroes.",
+      "tags": [
+        "Official Scenario",
+        "Wyrdstone Tokens",
+        "Hostile NPC",
+        "Treasure"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-secrets-of-beujuntae"
+    },
+    {
+      "id": "jungle-skirmish",
+      "title": "Jungle Skirmish / The Fog of War",
+      "name": "Jungle Skirmish / The Fog of War",
+      "core": false,
+      "setting": "Lustria",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #12",
+      "author": "Stephanus Cornette",
+      "description": "Light fog affecting movement and missile range.",
+      "tags": [
+        "Official Scenario",
+        "Low Visibility",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/jungle-skirmish"
+    },
+    {
+      "id": "island-hopping",
+      "title": "Island Hopping",
+      "name": "Island Hopping",
+      "core": false,
+      "setting": "Lustria",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #12",
+      "author": "Stephanus Cornette",
+      "description": "Islands in a fast flowing river connected by bridges. Control as many as possible.",
+      "tags": [
+        "Official Scenario",
+        "Turn Limit",
+        "Objective"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/island-hopping"
+    },
+    {
+      "id": "the-night-of-the-headless-one",
+      "title": "The Night Of The Headless One",
+      "name": "The Night Of The Headless One",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #12",
+      "author": "Kevin J Coleman",
+      "description": "Hidden Treasure except warbands look for skull of the Headless One while its awesome original owner creates carnage.",
+      "tags": [
+        "Official Scenario",
+        "Hostile NPC",
+        "Objective",
+        "Traverse the Board"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-night-of-the-headless-one"
+    },
+    {
+      "id": "the-hunters-become-the-hunted",
+      "title": "The Hunters Become The Hunted",
+      "name": "The Hunters Become The Hunted",
+      "core": false,
+      "setting": "Lustria",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #13",
+      "author": "Lustria Development Team",
+      "description": "Similar to Surprise Attack.",
+      "tags": [
+        "Official Scenario",
+        "Hostile NPC",
+        "Turn Limit",
+        "Wyrdstone Tokens",
+        "Traverse the Board",
+        "Attacker/Defender",
+        "Treasure",
+        "Reserves"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-hunters-become-the-hunted"
+    },
+    {
+      "id": "lost-temple-of-the-slann",
+      "title": "Lost Temple Of The Slann",
+      "name": "Lost Temple Of The Slann",
+      "core": false,
+      "setting": "Lustria",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #13",
+      "author": "Lustria Development Team",
+      "description": "Similar to Wizard's Mansion.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Treasure",
+        "Brawl",
+        "Friendly NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/lost-temple-of-the-slann"
+    },
+    {
+      "id": "the-sword-of-the-herald",
+      "title": "The Sword of the Herald",
+      "name": "The Sword of the Herald",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #13",
+      "author": "Jeff Hogg",
+      "description": "Multiplayer scenario involving a mean sword, huge chunks of Wyrdstone & those ever-popular random zombies.",
+      "tags": [
+        "Official Scenario",
+        "Hostile NPC",
+        "Wyrdstone Tokens",
+        "Treasure"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-sword-of-the-herald"
+    },
+    {
+      "id": "finders-keepers",
+      "title": "Finders Keepers",
+      "name": "Finders Keepers",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #14",
+      "author": "Roger Latham",
+      "description": "Run the length of the table, grab the Wyrdstone & run back again while trying not to die. Designed for mounted warriors but doesn't have to be.",
+      "tags": [
+        "Official Scenario",
+        "Wyrdstone Tokens",
+        "Traverse the Board"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/finders-keepers"
+    },
+    {
+      "id": "mule-train",
+      "title": "Mule Train",
+      "name": "Mule Train",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #14",
+      "author": "Robert J Walker",
+      "description": "The good guys try to lead the mule train along a country road while the bad guys try to steal them.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Escort NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/mule-train"
+    },
+    {
+      "id": "death-in-the-mists",
+      "title": "Death in the Mists",
+      "name": "Death in the Mists",
+      "core": false,
+      "setting": "Albion",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #15",
+      "author": "Nicodemus Kyme",
+      "description": "Visibility reduced to 2D6\". Warriors might get lost.",
+      "tags": [
+        "Official Scenario",
+        "Low Visibility",
+        "Attacker/Defender",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/death-in-the-mists"
+    },
+    {
+      "id": "gift-of-the-truthsayers",
+      "title": "Gift of the Truthsayers",
+      "name": "Gift of the Truthsayers",
+      "core": false,
+      "setting": "Albion",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #15",
+      "author": "Nicodemus Kyme",
+      "description": "Scrap over a magic item with random boggy happenings.",
+      "tags": [
+        "Official Scenario",
+        "Hazards",
+        "Treasure",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/gift-of-the-truthsayers"
+    },
+    {
+      "id": "the-mummy",
+      "title": "The Mummy",
+      "name": "The Mummy",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #15",
+      "author": "Rob Houdek",
+      "description": "Hidden Treasure except warbands look for the stash of a mummy while its scary original owner plus friends have their say.",
+      "tags": [
+        "Official Scenario",
+        "Search",
+        "Treasure",
+        "Hostile NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-mummy"
+    },
+    {
+      "id": "the.ogham.stones",
+      "title": "The Ogham Stones",
+      "name": "The Ogham Stones",
+      "core": false,
+      "setting": "Albion",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #15",
+      "author": "Nicodemus Kyme",
+      "description": "Enhance powers for spell-casters with Truthsayers & Dark Emissaries tagging along for good measure.",
+      "tags": [
+        "Official Scenario",
+        "Turn Limit",
+        "Objective Building",
+        "Friendly NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the.ogham.stones"
+    },
+    {
+      "id": "haunted-treasure",
+      "title": "Haunted Treasure",
+      "name": "Haunted Treasure (Town Cryer #18)",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #18",
+      "author": "Michael Reuvers",
+      "description": "Serious treasure guarded by equally serious Banshee.",
+      "tags": [
+        "Official Scenario",
+        "Treasure",
+        "Traverse the Board",
+        "Hostile NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/haunted-treasure"
+    },
+    {
+      "id": "a-night-in-the-graveyard",
+      "title": "A Night In The Graveyard",
+      "name": "A Night In The Graveyard",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #19",
+      "author": "Jason \"Teacher Guy\" Kahler",
+      "description": "Warbands compete to plunder a dead man's grave while his restless spirit attempts to stop them.",
+      "tags": [
+        "Official Scenario",
+        "Hostile NPC",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/a-night-in-the-graveyard"
+    },
+    {
+      "id": "bar-room-brawl",
+      "title": "Bar Room Brawl",
+      "name": "Bar Room Brawl",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #19",
+      "author": "Jason \"Teacher Guy\" Kahler",
+      "description": "A bar room brawl. Players start with 3 warriors in bar with more arriving during battle.",
+      "tags": [
+        "Official Scenario",
+        "Low Visibility",
+        "Reserves",
+        "Hostile NPC",
+        "Interior"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/bar-room-brawl"
+    },
+    {
+      "id": "defend-the-oasis",
+      "title": "Defend the Oasis",
+      "name": "Defend the Oasis",
+      "core": false,
+      "setting": "Khemri",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #19",
+      "author": "Khemri Development Team",
+      "description": "Attackers must get more men within 6\" of a well than the defenders. Defenders must cause a rout test.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/defend-the-oasis"
+    },
+    {
+      "id": "tomb-raid",
+      "title": "Tomb Raid",
+      "name": "Tomb Raid",
+      "core": false,
+      "setting": "Khemri",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #19",
+      "author": "Khemri Development Team",
+      "description": "As Defend The Tomb except the chest begins in the middle of the complex while both warbands begin at the edges.",
+      "tags": [
+        "Official Scenario",
+        "Objective",
+        "Treasure",
+        "Underground"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/tomb-raid"
+    },
+    {
+      "id": "protect-the-prince",
+      "title": "Protect the Prince",
+      "name": "Protect the Prince",
+      "core": false,
+      "setting": "Khemri",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #19",
+      "author": "Khemri Development Team",
+      "description": "Protect the Merchant's son.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Escort NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/protect-the-prince"
+    },
+    {
+      "id": "burn-the-witches",
+      "title": "Burn the Witches",
+      "name": "Burn the Witches",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #20",
+      "author": "Nicodemus Kyme",
+      "description": "Set in a huge temple which burns to the ground during the battle. Defender's Heroes must carry three relics from the temple. Attackers must stop them.",
+      "tags": [
+        "Official Scenario",
+        "Wyrdstone Tokens",
+        "Hazards",
+        "Attacker/Defender",
+        "Traverse the Board",
+        "Treasure"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/burn-the-witches"
+    },
+    {
+      "id": "one-mans-rescue-is-another-mans-kidnap",
+      "title": "One Man's Rescue is Another Man's Kidnap",
+      "name": "One Man's Rescue is Another Man's Kidnap",
+      "core": false,
+      "setting": "Khemri",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #20",
+      "author": "Khemri Development Team",
+      "description": "A prisoner is being guarded within one of several tents. The attacker must find the prisoner by entering the correct tent and then escort him from the table.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Escort NPC",
+        "Traverse the Board"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/one-mans-rescue-is-another-mans-kidnap"
+    },
+    {
+      "id": "the-gauntlet",
+      "title": "The Gauntlet",
+      "name": "The Gauntlet",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #21",
+      "author": "Erik Johnson",
+      "description": "Classic Indiana Jones stuff. Warbands race along trap-laden corridors towards a great treasure. For 2+ warbands.",
+      "tags": [
+        "Official Scenario",
+        "Hazards",
+        "Treasure",
+        "Traverse the Board"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-gauntlet"
+    },
+    {
+      "id": "assault-on-the-rock",
+      "title": "Assault on the Rock",
+      "name": "Assault on the Rock",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #22",
+      "author": "Grayson Gaudreault",
+      "description": "Warbands infiltrate the Sisters' rock and attempt to steal a magical tome.",
+      "tags": [
+        "Official Scenario",
+        "Hostile NPC",
+        "Objective Building",
+        "Search",
+        "Treasure"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/assault-on-the-rock"
+    },
+    {
+      "id": "in-the-dead-of-the-night",
+      "title": "In The Dead Of The Night",
+      "name": "In The Dead Of The Night",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #22",
+      "author": "Space McQuirk & Chris Blair",
+      "description": "Set in Mordheim's Cemetery of Saint Voller. Graveyard battle with Undead warband, half is which is unavailable, as the defenders.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Warband - Undead",
+        "Objective",
+        "Turn Limit"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/in-the-dead-of-the-night"
+    },
+    {
+      "id": "a-stroll-in-the-garden",
+      "title": "A Stroll In The Garden",
+      "name": "A Stroll In The Garden",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #23",
+      "author": "Anonymous",
+      "description": "Skirmish set in Mordheim's Steinhardt Memorial Gardens. Warriors within 2â€ of a tree or bush receive hits from the chaos-wracked foliage.",
+      "tags": [
+        "Official Scenario",
+        "Hazards",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/a-stroll-in-the-garden"
+    },
+    {
+      "id": "the-bodyguards",
+      "title": "The Bodyguards",
+      "name": "The Bodyguards",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #23",
+      "author": "Anonymous",
+      "description": "Town Cryer edit of \"Now Keep Me Safe, You Hear!?\"",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Escort NPC",
+        "Traverse the Board",
+        "Treasure"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-bodyguards"
+    },
+    {
+      "id": "blood-hunt",
+      "title": "Blood Hunt",
+      "name": "Blood Hunt",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #25",
+      "author": "Mark Havener, et al.",
+      "description": "Clashing warbands gain the help of a Dramatis Personae, most likely Johann The Knife & Marriana Chevaux, free of charge.",
+      "tags": [
+        "Official Scenario",
+        "Friendly NPC",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/blood-hunt"
+    },
+    {
+      "id": "bounty-hunting",
+      "title": "Bounty Hunting",
+      "name": "Bounty Hunting",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #25",
+      "author": "Mark Havener, et al.",
+      "description": "An Empire In Flames scenario. Warbands attempt to round up a gang of bandits who are holed up in a remote hideout building.",
+      "tags": [
+        "Official Scenario",
+        "Hazards",
+        "Brawl",
+        "Treasure"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/bounty-hunting"
+    },
+    {
+      "id": "down-at-the-docks",
+      "title": "Down At The Docks",
+      "name": "Down At The Docks",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #25",
+      "author": "Mark Havener, et al.",
+      "description": "Warbands must attempt to gain cargo crates from smugglers' ship by carrying them off.",
+      "tags": [
+        "Official Scenario",
+        "Friendly NPC",
+        "Treasure",
+        "Traverse the Board"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/down-at-the-docks"
+    },
+    {
+      "id": "lost-in-the-bogs",
+      "title": "Lost In The Bogs",
+      "name": "Lost In The Bogs",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #25",
+      "author": "Mark Havener, et al.",
+      "description": "An Empire In Flames scenario. Highest rated warband is lost & must be deployed spread out.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/lost-in-the-bogs"
+    },
+    {
+      "id": "stagecoash-ambush",
+      "title": "Stagecoash Ambush",
+      "name": "Stagecoash Ambush",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #25",
+      "author": "Mark Havener, et al.",
+      "description": "An Empire In Flames scenario. Defenders on horseback must protect a stagecoach from mounted attackers.",
+      "tags": [
+        "Official Scenario",
+        "Reserves",
+        "Attacker/Defender",
+        "Escort NPC",
+        "Traverse the Board"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/stagecoash-ambush"
+    },
+    {
+      "id": "the-item-lost",
+      "title": "The Item Lost",
+      "name": "The Item Lost",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #25",
+      "author": "Mark Havener, et al.",
+      "description": "Nicodemus joins one warband in an attempt to retrieve a magic wand. Naturally the other warbands would like the wand for themselves.",
+      "tags": [
+        "Official Scenario",
+        "Friendly NPC",
+        "Treasure",
+        "Traverse the Board"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-item-lost"
+    },
+    {
+      "id": "the-thing-in-the-woods",
+      "title": "The Thing In The Woods",
+      "name": "The Thing In The Woods",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #25",
+      "author": "Mark Havener, et al.",
+      "description": "An Empire In Flames scenario. At least 1/2 the terrain is spooky fear-inducing woods.",
+      "tags": [
+        "Official Scenario",
+        "Hostile NPC",
+        "Hazards",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-thing-in-the-woods"
+    },
+    {
+      "id": "gathering-of-the-horde",
+      "title": "Gathering of the Horde",
+      "name": "Gathering of the Horde",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #26",
+      "author": "Nicodemus Kyme",
+      "description": "Massive multi-warband gang fight based upon the â€œGangs Of New Yorkâ€ film, complete with special rules for horde fighting.",
+      "tags": [
+        "Official Scenario",
+        "Hazards",
+        "Brawl",
+        "Friendly NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/gathering-of-the-horde"
+    },
+    {
+      "id": "the-watchers",
+      "title": "The Watchers",
+      "name": "The Watchers",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #26",
+      "author": "Mark Havener, et al.",
+      "description": "Warbands attempt to gather random treasures from the SE quarter of Mordheim (right next to where the comet landed).",
+      "tags": [
+        "Official Scenario",
+        "Hazards",
+        "Wyrdstone Tokens",
+        "Brawl",
+        "Treasure"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-watchers"
+    },
+    {
+      "id": "the-frenzied-mob",
+      "title": "The Frenzied Mob",
+      "name": "The Frenzied Mob",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #27",
+      "author": "Anonymous",
+      "description": "An Empire In Flames scenario. Warbands attempt to loot a village consisting of D3+1 buildings. Each building is staunchly defended by D3+1 frenzied villagers.",
+      "tags": [
+        "Official Scenario",
+        "Treasure",
+        "Search",
+        "Hostile NPC",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-frenzied-mob"
+    },
+    {
+      "id": "encampment-raid",
+      "title": "Encampment Raid",
+      "name": "Encampment Raid",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Town Cryer #28",
+      "author": "Anonymous",
+      "description": "Attackers attempt to take the defenders' camp. Plays as Defend The Find except the defenders have a number of advantages due to being on home turf.",
+      "tags": [
+        "Official Scenario",
+        "Attacker/Defender",
+        "Objective Building"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/encampment-raid"
+    },
+    {
+      "id": "the-rats-lair",
+      "title": "The Rat's Lair",
+      "name": "The Rat's Lair",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Town Cryer #28",
+      "author": "Aaron Ishmael",
+      "description": "Designed for several warbands to ally against a pack of Skaven run by a moderator. The warbands descend into an ingenious multi-leveled underground lair.",
+      "tags": [
+        "Official Scenario",
+        "Low Visibility",
+        "Hostile NPC",
+        "Brawl",
+        "Underground"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/town-cryer/the-rats-lair"
+    },
+    {
+      "id": "upon-the-eerie-downs",
+      "title": "Upon the Eerie Downs",
+      "name": "Upon the Eerie Downs",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Fanatic Magazine #1",
+      "author": "Nick Kyme",
+      "description": "A sombre and mysterious place, the Eerie Downs holds a palpable dread for the folk of the Mark.",
+      "tags": [
+        "Low Visibility",
+        "Traverse the Board"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-magazine/upon-the-eerie-downs"
+    },
+    {
+      "id": "battle-for-the-farm",
+      "title": "Battle for the Farm",
+      "name": "Battle for the Farm",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Fanatic Magazine #1",
+      "author": "Nick Kyme",
+      "description": "There are many farmsteads around Ostermark. Mercenaries and brigands are drawn to them like moths to the flame as.",
+      "tags": [
+        "Hostile NPC",
+        "Brawl",
+        "Treasure"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-magazine/battle-for-the-farm"
+    },
+    {
+      "id": "blood-on-the-pasturelands",
+      "title": "Blood on the Pasturelands",
+      "name": "Blood on the Pasturelands",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Fanatic Magazine #3",
+      "author": "Nick Kyme",
+      "description": "Rival warbands attempt to rustle some horses from a pasture. The frightened horses run randomly and need taming once caught. They are defended by six Outriders.",
+      "tags": [
+        "Hostile NPC",
+        "Brawl",
+        "Treasure"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-magazine/blood-on-the-pasturelands"
+    },
+    {
+      "id": "through-black-fire-pass",
+      "title": "Through Black Fire Pass",
+      "name": "Through Black Fire Pass",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Fanatic Magazine #3",
+      "author": "Nick Kyme",
+      "description": "One warband ambushes another as they make their way along the treacherous trade route.",
+      "tags": [
+        "Hazards",
+        "Attacker/Defender"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-magazine/through-black-fire-pass"
+    },
+    {
+      "id": "brigands-in-the-pasturelands",
+      "title": "Brigands in the Pasturelands",
+      "name": "Brigands in the Pasturelands",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Fanatic Magazine #4",
+      "author": "Nick Kyme",
+      "description": "One warband attempts to hunt down the other, a lawless band of brigands hiding out In the forest.",
+      "tags": [
+        "Attacker/Defender",
+        "Friendly NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-magazine/brigands-in-the-pasturelands"
+    },
+    {
+      "id": "the-watchtower",
+      "title": "The Watchtower",
+      "name": "The Watchtower",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Fanatic Magazine #4",
+      "author": "Nick Kyme",
+      "description": "Half of the defending warband starts on or near a well-defended central tower (with special rules to reflect this).",
+      "tags": [
+        "Attacker/Defender",
+        "Objective Building"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-magazine/the-watchtower"
+    },
+    {
+      "id": "wolf-hunt",
+      "title": "Wolf Hunt!",
+      "name": "Wolf Hunt!",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Fanatic Magazine #6",
+      "author": "Nick Kyme",
+      "description": "Both warbands have been offered a reward to kill a pack of troublesome wolves.",
+      "tags": [
+        "Hostile NPC",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-magazine/wolf-hunt"
+    },
+    {
+      "id": "protect-hornsbys-ferry",
+      "title": "Protect Hornsby's Ferry!",
+      "name": "Protect Hornsby's Ferry!",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Fanatic Magazine #7",
+      "author": "Mark Havener",
+      "description": "Defenders must protect a boat & pull-rope style river ferry-crossing from sabotage. Attackers must sabotage it.",
+      "tags": [
+        "Turn Limit",
+        "Escort NPC",
+        "Objective Building",
+        "Attacker/Defender"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-magazine/protect-hornsbys-ferry"
+    },
+    {
+      "id": "stop-thief",
+      "title": "Stop Thief!",
+      "name": "Stop Thief!",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Fanatic Magazine #7",
+      "author": "Mark Havener",
+      "description": "Defenders must protect Halfling Thief HS (featured In this issue) from attacking warband.",
+      "tags": [
+        "Escort NPC",
+        "Treasure",
+        "Brawl",
+        "Attacker/Defender"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-magazine/stop-thief"
+    },
+    {
+      "id": "hunt-the-heretic",
+      "title": "Hunt the Heretic",
+      "name": "Hunt the Heretic",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Fanatic Magazine #9",
+      "author": "Nick Kyme",
+      "description": "Four members of the defenders' warband attempt to protect a tooled-up Warlock HS from the attackers plus an accompanying Witch Hunter Captain.",
+      "tags": [
+        "Friendly NPC",
+        "Reserves",
+        "Attacker/Defender"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-magazine/hunt-the-heretic"
+    },
+    {
+      "id": "river-watch",
+      "title": "River Watch",
+      "name": "River Watch",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Fanatic Magazine #9",
+      "author": "Nick Kyme",
+      "description": "Attackers at the south side must smuggle some loot across a east-west flowing river at night and get 25% of their band off the north edge.",
+      "tags": [
+        "Low Visibility",
+        "Attacker/Defender",
+        "Traverse the Board"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-magazine/river-watch"
+    },
+    {
+      "id": "night-of-the-dead",
+      "title": "Night Of The Dead",
+      "name": "Night Of The Dead",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Fanatic Online",
+      "author": "Andy Tabor",
+      "description": "Warband members must venture to the centre of the board, grab a Wyrdstone shard and escape from the table.",
+      "tags": [
+        "Reserves",
+        "Low Visibility",
+        "Wyrdstone Tokens",
+        "Hostile NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-online/night-of-the-dead"
+    },
+    {
+      "id": "happy-harpy-hunting-grounds",
+      "title": "Happy Harpy Hunting Grounds",
+      "name": "Happy Harpy Hunting Grounds",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Fanatic Online",
+      "author": "Chris Van Tigem",
+      "description": "A group of 3 Harpies have nested in one of the tall buildings and their scavenging and attacks on unfortunate warbands has ensured a sizable stash of valuables.",
+      "tags": [
+        "Hostile NPC",
+        "Wyrdstone Tokens",
+        "Treasure",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-online/happy-harpy-hunting-grounds"
+    },
+    {
+      "id": "roundup-at-the-mordheim-corral",
+      "title": "Round-up at the Mordheim Corral",
+      "name": "Round-up at the Mordheim Corral",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Fanatic Online",
+      "author": "Andy Tabor",
+      "description": "Two to four wild boars have eaten a merchant's Wyrdstone. Warbands must kill randomly moving and aggressive boars to recover it. Optional suggestion of using mutations.",
+      "tags": [
+        "Hostile NPC",
+        "Wyrdstone Tokens",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-online/roundup-at-the-mordheim-corral"
+    },
+    {
+      "id": "the-recipe",
+      "title": "The Recipe",
+      "name": "The Recipe",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Fanatic Online",
+      "author": "Mark Havener",
+      "description": "Warbands must attempt to abduct an esteemed pie-maker who is being stoutly defended by his ballistically adept bodyguard.",
+      "tags": [
+        "Hostile NPC",
+        "Objective",
+        "Treasure",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/fanatic-online/the-recipe"
+    },
+    {
+      "id": "ambush-archive-pestilen",
+      "title": "Ambush",
+      "name": "Ambush (Andrew \"Boss Orc\")",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Andrew \"Boss Orc\"",
+      "description": "Some more devious gangs use the element of surprise as a safer alternative to a drawn out battle of attrition. These gangs are often smaller than their rivals and use the surprise to their advantage.",
+      "tags": [
+        "Attacker/Defender",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/ambush-archive-pestilen"
+    },
+    {
+      "id": "ambush-2-archive-pestilen",
+      "title": "Ambush",
+      "name": "Ambush (Michael Reuvers)",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Michael Reuvers",
+      "description": "One warband is on the way back to their encampment with the wyrdstone they found in the ruins when suddenly they are surrounded.",
+      "tags": [
+        "Attacker/Defender",
+        "Wyrdstone Tokens"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/ambush-2-archive-pestilen"
+    },
+    {
+      "id": "breakthrough-archive-pestilen",
+      "title": "Breakthrough",
+      "name": "Breakthrough (Archive Pestilen)",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Andrew \"Boss Orc\"",
+      "description": "Warbands must get half their models off opposite edge.",
+      "tags": [
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/breakthrough-archive-pestilen"
+    },
+    {
+      "id": "defend-the-village",
+      "title": "Defend the Village!",
+      "name": "Defend the Village!",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Mark \"Rinku\" Dewis",
+      "description": "The Magnificent Seven without the cowboy hats.",
+      "tags": [
+        "Attacker/Defender",
+        "Friendly NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/defend-the-village"
+    },
+    {
+      "id": "dont-wake-the-giant",
+      "title": "Don't Wake the Giant",
+      "name": "Don't Wake the Giant",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Archive Pestilen",
+      "author": "David Gitchel",
+      "description": "Two warbands fight for the giant's goodies while trying not to wake him.",
+      "tags": [
+        "Hostile NPC",
+        "Treasure"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/dont-wake-the-giant"
+    },
+    {
+      "id": "grudge-match",
+      "title": "Grudge Match",
+      "name": "Grudge Match",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Mark \"rinku\" Dewis",
+      "description": "Honorable duel between two rival heroes, watched by their warbands and with a serious chance of crowd trouble breaking out.",
+      "tags": [
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/grudge-match"
+    },
+    {
+      "id": "haunted-treasure-archive-pestilen",
+      "title": "Haunted Treasure",
+      "name": "Haunted Treasure (Archive Pestilen)",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Michael Reuvers",
+      "description": "There is a rumor that a treasure of unimaginable wealth lies in the ruins of a old house. Unfortunately, it is also rumored that the treasure is guarded by evil spirit who's howl is so terrible it will make you go mad. Two rival warbands have heard about this house and have come to loot the treasure, if they can.",
+      "tags": [
+        "Hostile NPC",
+        "Treasure",
+        "Objective Building"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/haunted-treasure-archive-pestilen"
+    },
+    {
+      "id": "its-all-mine",
+      "title": "It's all MINE!!",
+      "name": "It's all MINE!!",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Paul Smith",
+      "description": "Attackers blow up a mine using gunpowder rules from Archive Pestilens (shamefully not described in the magazine) amid some random zombie shenanigans.",
+      "tags": [
+        "Warband - Skaven",
+        "Warband - Cult of the Possessed",
+        "Warband - Chaos",
+        "Official Scenario",
+        "Attacker/Defender",
+        "Objective",
+        "Hostile NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/its-all-mine"
+    },
+    {
+      "id": "raid",
+      "title": "Raid",
+      "name": "Raid",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Andrew \"Boss Orc\"",
+      "description": "Attack on warband's camp. Defender in centre, attacker on edges.",
+      "tags": [
+        "Attacker/Defender",
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/raid"
+    },
+    {
+      "id": "raids",
+      "title": "Raids",
+      "name": "Raids",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Christian Ellegaard",
+      "description": "Bad warband vs. townsfolk; Raid a village for loot & slaves.",
+      "tags": [
+        "Turn Limit",
+        "Friendly NPC",
+        "Treasure",
+        "Objective Building",
+        "Attacker/Defender"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/raids"
+    },
+    {
+      "id": "rawhide",
+      "title": "Rawhide",
+      "name": "Rawhide",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Paul Smith",
+      "description": "Get a wagon train across the board using wagon rules from Wyrdstone Archive while your opponent tries to stop you.",
+      "tags": [
+        "Warband - Marienburgers",
+        "Attacker/Defender",
+        "Treasure",
+        "Escort NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/rawhide"
+    },
+    {
+      "id": "rescue",
+      "title": "Rescue",
+      "name": "Rescue",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Andrew \"Boss Orc\"",
+      "description": "Rescue captive warrior. Defender in centre, attacker on edges.",
+      "tags": [
+        "Brawl"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/rescue"
+    },
+    {
+      "id": "romeros-pride",
+      "title": "Romero's Pride",
+      "name": "Romero's Pride",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Paul Smith, Lex & Donato",
+      "description": "A variation on the random zombie invasion theme.",
+      "tags": [
+        "Brawl",
+        "Hostile NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/romeros-pride"
+    },
+    {
+      "id": "scourge-and-purge-archive-pestilen",
+      "title": "Scourge and Purge",
+      "name": "Scourge and Purge",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Donato Ranzato",
+      "description": null,
+      "tags": [
+        "Brawl",
+        "Hostile NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/scourge-and-purge-archive-pestilen"
+    },
+    {
+      "id": "scripts-of-sigmar",
+      "title": "Scripts of Sigmar",
+      "name": "Scripts of Sigmar",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Paul Smith",
+      "description": "Witch Hunters vs. Sisters of Sigmar. Two linked scenarios involving burgling the Sisters' Abbey.",
+      "tags": [
+        "Warband - Witch Hunters",
+        "Warband - Sisters of Sigmar",
+        "Official Scenario",
+        "Attacker/Defender",
+        "Traverse the Board",
+        "Low Visibility"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/scripts-of-sigmar"
+    },
+    {
+      "id": "the-battle-at-koleshire-keep",
+      "title": "The Battle At Koleshire Keep",
+      "name": "The Battle At Koleshire Keep",
+      "core": false,
+      "setting": "The Empire",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Baby Cindi",
+      "description": "Skirmish over a keep.",
+      "tags": [
+        "Attacker/Defender",
+        "Warband - Orcs",
+        "Warband - Reiklanders"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/the-battle-at-koleshire-keep"
+    },
+    {
+      "id": "the-caravan-archive-pestilen",
+      "title": "The Caravan",
+      "name": "The Caravan (Archive Pestilen)",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Unknown",
+      "description": "Guard or plunder a caravan of gold before it gets to the other side.",
+      "tags": [
+        "Attacker/Defender",
+        "Escort NPC",
+        "Treasure"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/the-caravan-archive-pestilen"
+    },
+    {
+      "id": "the-forbidden-square",
+      "title": "The Forbidden Square",
+      "name": "The Forbidden Square",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Christian Ellegaard",
+      "description": null,
+      "tags": [
+        "Wyrdstone Tokens",
+        "Traverse the Board",
+        "Warband - Cult of the Possessed"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/the-forbidden-square"
+    },
+    {
+      "id": "the-restless-dead",
+      "title": "The Restless Dead",
+      "name": "The Restless Dead",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "1v1",
+        "Multiplayer"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Tom Webster-Deakin",
+      "description": "Random zombies invade the table, attacking both players.",
+      "tags": [
+        "Brawl",
+        "Hostile NPC"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/the-restless-dead"
+    },
+    {
+      "id": "the-square-of-the-snake",
+      "title": "The Square Of The Snake",
+      "name": "The Square Of The Snake",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Christian Ellegaard",
+      "description": "Four player scenario. Each player must take out his randomly specified enemy.",
+      "tags": [
+        "Objective"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/the-square-of-the-snake"
+    },
+    {
+      "id": "the-wizards-tower",
+      "title": "The Wizard's Tower",
+      "name": "The Wizard's Tower",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Archive Pestilen",
+      "author": "Christian Ellegaard",
+      "description": "Your warband is peacefully making their way through the city to a Wyrdstone deposit when they are set upon be a rival warband. They have no choice but to fight their way through them to get to the Wyrdstone.",
+      "tags": [
+        "Attacker/Defender",
+        "Treasure"
+      ],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/archive-pestilen/the-wizards-tower"
+    },
+    {
+      "id": "mordheims-burning",
+      "title": "Mordheim's Burning",
+      "name": "Mordheim's Burning",
+      "core": false,
+      "setting": "Mordheim",
+      "playerModes": [
+        "Multiplayer"
+      ],
+      "source": "Rynn Tyrr",
+      "author": "Rowan Coupland",
+      "description": "This scenario is set at the end of Mordheim's existence, and provides a very fitting ending to a campaign.",
+      "tags": [],
+      "url": "https://mordheimer.net/docs/campaigns/scenarios/other/mordheims-burning"
+    }
+  ]
+}

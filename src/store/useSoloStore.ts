@@ -20,7 +20,7 @@ export type SoloSession = {
   /** Opponent warband-definition id and its display name. */
   opponentType: string;
   opponentName: string;
-  scenario: string; // scenario id from scenarios.json
+  scenario: string; // scenario id from scenarioCatalog.json
   budget: number;
   startedAt: string; // ISO 8601
   turn: number;

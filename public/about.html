@@ -185,27 +185,6 @@
 
       /* Profile block — the one signature 2px-border element (§5.3), kept
          identical to the app so the motif reads the same on the page. */
-      .plate { margin-top: 40px; display: flex; justify-content: center; }
-      /* Portrait placeholder + statline sit side by side, exactly the pairing a
-         warrior's detail screen shows. The row wraps and centres on a phone so
-         the frame stacks above the table instead of squeezing it. */
-      .plate-row {
-        display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-        gap: 20px;
-      }
-      /* The model-portrait frame — the same 2px ink border and inset rule as the
-         profile block, since §11.4 gives photos the profile's book-plate framing.
-         Holds a sample warrior portrait, the picture the app would frame once you
-         upload one. */
-      .portrait {
-        width: 132px; height: 132px; flex: none;
-        border: 2px solid rgb(var(--ink)); background: rgb(var(--raised));
-        box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.35);
-        display: flex; align-items: center; justify-content: center;
-        overflow: hidden;
-      }
-      .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
-      .portrait svg { width: 74px; height: 74px; color: rgb(var(--ink-faded)); }
       .profile {
         border: 2px solid rgb(var(--ink)); background: rgb(var(--raised));
         box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.35);
@@ -218,7 +197,45 @@
         letter-spacing: 0.05em; border-bottom: 2px solid rgb(var(--ink)); color: rgb(var(--ink)); font-weight: 400;
       }
       table.stat td { color: rgb(var(--ink)); }
-      .plate-caption { text-align: center; color: rgb(var(--ink-faded)); font-size: 14px; margin-top: 8px; }
+
+      /* Roster teaser (§4.11) — one card after the features: a real painted
+         Witch Hunter warband's group photo beside its roster as compact rows
+         (the app's per-model photos), plus a single §5.3 profile block for the
+         leader. Kept deliberately small so it supports the wizard, not rivals it.
+         Figures from src/data/warbands/witch-hunters.json and hiredSwords.json. */
+      .showcase {
+        margin-top: 0; border-radius: 14px; overflow: hidden;
+        background: rgb(var(--raised)); border: 1px solid rgb(var(--ink-800));
+        display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      }
+      .showcase > img { display: block; width: 100%; height: 100%; min-height: 240px; object-fit: cover; object-position: 12% center; }
+      .showcase .body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+      .showcase .kicker {
+        margin: 0; font-family: 'Alegreya Sans', sans-serif; font-size: 12px; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.12em; color: rgb(var(--accent-bright));
+      }
+      .showcase h3 { margin: 2px 0 0; font-size: 24px; line-height: 1.15; color: rgb(var(--bone-100)); text-wrap: balance; }
+      .showcase .sum { margin: 2px 0 0; font-family: 'Alegreya Sans', sans-serif; font-size: 14px; color: rgb(var(--ink-faded)); }
+      .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+      .rows li {
+        display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; align-items: center; gap: 10px;
+        padding: 3px 0; border-bottom: 1px solid rgb(var(--ink-800) / 0.6);
+      }
+      .rows li:last-child { border-bottom: 0; }
+      .rows img {
+        width: 36px; height: 36px; object-fit: cover; display: block;
+        border: 1.5px solid rgb(var(--ink)); background: rgb(var(--ink-800));
+      }
+      .rows .who { min-width: 0; font-size: 16px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .rows .who span { font-family: 'Alegreya Sans', sans-serif; font-size: 13px; color: rgb(var(--ink-faded)); }
+      .rows .xp { font-family: 'Alegreya Sans', sans-serif; font-size: 13px; color: rgb(var(--ink-faded)); white-space: nowrap; }
+      .profile.mini { overflow: hidden; }
+      .profile.mini table.stat { width: 100%; table-layout: fixed; }
+      .profile.mini table.stat th, .profile.mini table.stat td { padding: 4px 0; font-size: 13px; }
+      @media (max-width: 700px) {
+        .showcase { grid-template-columns: 1fr; }
+        .showcase > img { height: auto; min-height: 0; aspect-ratio: 4 / 3; }
+      }
 
       /* Footer */
       footer { margin-top: 56px; border-top: 1px solid rgb(var(--ink-800)); padding: 24px 0 40px; }
@@ -295,6 +312,16 @@
       </section>
 
       <div class="changelog">
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-09-28</p>
+        <h3>Every Scenario, Not Just the Rulebook Nine</h3>
+        <p>The scenario pickers now list all 101 scenarios from the Mordheim rulebook, Town Cryer, Fanatic and Archive Pestilen, grouped by source. You can filter them by setting, player count and source, or tick “only scenarios that fit this game”, and the app remembers your filter next time. The battlefield generator draws a board for every one of them. Scenarios outside the rulebook get a generic layout based on their type (attacker and defender, cross the board, a corner each for multiplayer, and so on), with the matching wyrdstone and treasure counters, and a clear note to check the full rules for the real setup. “Suggest a scenario” skips anything that doesn't fit your game: no multiplayer scenarios for a one-on-one, and no Witch Hunter scenarios unless someone's bringing Witch Hunters. In the Rules Reference, the Scenarios chapter has the same filters and is grouped by source. Every scenario there now names its author, links to its full rules on mordheimer.net, and has a button to draw a board for it.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-09-27</p>
+        <h3>See When You Play</h3>
+        <p>Your Account screen has a new “Your activity” card: a calendar of the days you used the app over the last six months — battles reported, roster edits, campaigns joined, RSVPs, comments and the days you logged in. Switch between a heatmap for the big picture and a month view to tap through day by day. Only you (and the app admin) can see it, and it shows counts, never what's inside your warbands.</p>
+      </article>
       <article class="entry">
         <p class="entry-date ui tnum">2026-09-22</p>
         <h3>No More Black Screen After an Update</h3>

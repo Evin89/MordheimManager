@@ -14,6 +14,7 @@ import { schemaVersion as racialV, source as racialS } from '../data/racialMaxim
 import { schemaVersion as rulesV, source as rulesS } from '../data/rules.json';
 import { schemaVersion as scenarioWeightsV, source as scenarioWeightsS } from '../data/scenarioWeights.json';
 import { schemaVersion as scenariosV, source as scenariosS } from '../data/scenarios.json';
+import { schemaVersion as scenarioCatalogV, source as scenarioCatalogS } from '../data/scenarioCatalog.json';
 import { schemaVersion as skillsV, source as skillsS } from '../data/skills.json';
 import { schemaVersion as specialRulesV, source as specialRulesS } from '../data/specialRules.json';
 import { schemaVersion as spellsV, source as spellsS } from '../data/spells.json';
@@ -32,6 +33,7 @@ export const DATA_FILES: DataFileInfo[] = [
   { name: 'Racial maximums', version: racialV, source: racialS },
   { name: 'Rules reference', version: rulesV, source: rulesS },
   { name: 'Scenarios', version: scenariosV, source: scenariosS },
+  { name: 'Scenario catalogue', version: scenarioCatalogV, source: scenarioCatalogS },
   { name: 'Scenario weights', version: scenarioWeightsV, source: scenarioWeightsS },
   { name: 'Skills', version: skillsV, source: skillsS },
   { name: 'Special rules', version: specialRulesV, source: specialRulesS },
