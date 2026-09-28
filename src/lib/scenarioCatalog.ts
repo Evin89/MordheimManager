@@ -114,28 +114,36 @@ export function sourceGroupOf(s: CatalogScenario): SourceGroup {
   return 'Other';
 }
 
-export const SETTINGS = [...new Set(SCENARIO_CATALOG.map((s) => s.setting))];
+/** Every setting in the catalogue, most-used first (Mordheim, The Empire, …). */
+export const SETTINGS = (() => {
+  const counts = new Map<string, number>();
+  for (const s of SCENARIO_CATALOG) counts.set(s.setting, (counts.get(s.setting) ?? 0) + 1);
+  return [...counts.keys()].sort((a, b) => counts.get(b)! - counts.get(a)!);
+})();
 
 export type ScenarioFilter = {
-  setting: string; // 'any' or a SETTINGS value
+  /** Settings and sources ticked *off* — stored as exclusions so a setting or
+   * source the catalogue gains later shows up ticked, not silently hidden. */
+  hiddenSettings: string[];
+  hiddenSources: SourceGroup[];
   players: 'any' | '1v1' | 'Multiplayer';
-  source: 'any' | SourceGroup;
   /** Only scenarios that fit the game being set up (see `fitsGame`). Ignored
    * where there's no game to fit, e.g. the Rules Reference or `/map`. */
   fitsOnly: boolean;
 };
-export const ANY_FILTER: ScenarioFilter = { setting: 'any', players: 'any', source: 'any', fitsOnly: false };
+export const ANY_FILTER: ScenarioFilter = { hiddenSettings: [], hiddenSources: [], players: 'any', fitsOnly: false };
 
 /** How many of a filter's options are set — for a "Filter (2)" badge. */
 export function activeFilterCount(f: ScenarioFilter, withFit = false): number {
-  return [f.setting !== 'any', f.players !== 'any', f.source !== 'any', withFit && f.fitsOnly].filter(Boolean).length;
+  return [f.hiddenSettings.length > 0, f.players !== 'any', f.hiddenSources.length > 0, withFit && f.fitsOnly].filter(Boolean)
+    .length;
 }
 
 export function matchesFilter(s: CatalogScenario, f: ScenarioFilter): boolean {
   return (
-    (f.setting === 'any' || s.setting === f.setting) &&
+    !f.hiddenSettings.includes(s.setting) &&
     (f.players === 'any' || s.playerModes.includes(f.players)) &&
-    (f.source === 'any' || sourceGroupOf(s) === f.source)
+    !f.hiddenSources.includes(sourceGroupOf(s))
   );
 }
 

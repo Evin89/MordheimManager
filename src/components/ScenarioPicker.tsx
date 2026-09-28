@@ -21,6 +21,47 @@ function optionLabel(s: CatalogScenario): string {
   return notes.length ? `${s.name} — ${notes.join(', ')}` : s.name;
 }
 
+/** A row of tick boxes, one per option, all ticked unless hidden. Unticking
+ * hides that option's scenarios; the pills wrap on a phone. */
+function CheckGroup<T extends string>({
+  legend,
+  options,
+  hidden,
+  onChange,
+}: {
+  legend: string;
+  options: readonly T[];
+  hidden: T[];
+  onChange: (hidden: T[]) => void;
+}) {
+  return (
+    <fieldset>
+      <legend className="text-bone-300 text-sm pb-1">{legend}</legend>
+      <div className="flex flex-wrap gap-2">
+        {options.map((o) => {
+          const on = !hidden.includes(o);
+          return (
+            <label
+              key={o}
+              className={`inline-flex items-center gap-2 min-h-[44px] px-3 rounded-lg border text-sm cursor-pointer select-none ${
+                on ? 'border-ember-500 bg-ember-500/10 text-bone-100' : 'border-ink-700 bg-ink-900 text-bone-400'
+              }`}
+            >
+              <input
+                type="checkbox"
+                checked={on}
+                onChange={() => onChange(on ? [...hidden, o] : hidden.filter((h) => h !== o))}
+                className="h-4 w-4 accent-ember-500"
+              />
+              {o}
+            </label>
+          );
+        })}
+      </div>
+    </fieldset>
+  );
+}
+
 /**
  * The Setting / Players / Source filters (and, where there's a game to fit,
  * "only scenarios that fit this game"), with a line saying how many scenarios
@@ -49,21 +90,19 @@ export function ScenarioFilterFields({
   const count = `${shown} of ${SCENARIO_CATALOG.length}`;
   const fields = (
     <>
-      <div className="grid grid-cols-3 gap-2 pt-1">
-        <Field label="Setting" htmlFor={`${idPrefix}-setting`}>
-          <Select
-            id={`${idPrefix}-setting`}
-            value={filter.setting}
-            onChange={(e) => onFilterChange({ ...filter, setting: e.target.value })}
-          >
-            <option value="any">Any</option>
-            {SETTINGS.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </Select>
-        </Field>
+      <div className="space-y-3 pt-1">
+        <CheckGroup
+          legend="Setting"
+          options={SETTINGS}
+          hidden={filter.hiddenSettings}
+          onChange={(hiddenSettings) => onFilterChange({ ...filter, hiddenSettings })}
+        />
+        <CheckGroup
+          legend="Source"
+          options={SOURCE_GROUPS}
+          hidden={filter.hiddenSources}
+          onChange={(hiddenSources) => onFilterChange({ ...filter, hiddenSources })}
+        />
         <Field label="Players" htmlFor={`${idPrefix}-players`}>
           <Select
             id={`${idPrefix}-players`}
@@ -73,20 +112,6 @@ export function ScenarioFilterFields({
             <option value="any">Any</option>
             <option value="1v1">1v1</option>
             <option value="Multiplayer">Multiplayer</option>
-          </Select>
-        </Field>
-        <Field label="Source" htmlFor={`${idPrefix}-source`}>
-          <Select
-            id={`${idPrefix}-source`}
-            value={filter.source}
-            onChange={(e) => onFilterChange({ ...filter, source: e.target.value as ScenarioFilter['source'] })}
-          >
-            <option value="any">Any</option>
-            {SOURCE_GROUPS.map((g) => (
-              <option key={g} value={g}>
-                {g}
-              </option>
-            ))}
           </Select>
         </Field>
       </div>
@@ -133,7 +158,7 @@ export function ScenarioFilterFields({
         <span aria-hidden="true" className="inline-block transition-transform group-open:rotate-90">
           ▸
         </span>
-        Filter by setting, players, source{active > 0 ? ` (${active})` : ''} · {count}
+        Filter by setting, source, players{active > 0 ? ` (${active})` : ''} · {count}
       </summary>
       {fields}
     </details>

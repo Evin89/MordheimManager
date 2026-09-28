@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ANY_FILTER, SETTINGS, SOURCE_GROUPS, ScenarioFilter } from '../lib/scenarioCatalog';
+import { ANY_FILTER, SETTINGS, SOURCE_GROUPS, ScenarioFilter, SourceGroup } from '../lib/scenarioCatalog';
 
 /**
  * A scenario filter remembered between visits, per viewer, in localStorage — a
@@ -24,17 +24,18 @@ export function useScenarioFilter(key: 'picker' | 'rules') {
   return [filter, setFilter] as const;
 }
 
-/** Read a stored filter, dropping anything that isn't a current option (a
- * setting or source the catalogue no longer has resets to "any"). */
+/** Read a stored filter, dropping anything that isn't a current option. A
+ * filter saved in the older one-setting/one-source shape starts over as "all". */
 function read(storageKey: string): ScenarioFilter {
   try {
     const raw = window.localStorage.getItem(storageKey);
     if (!raw) return ANY_FILTER;
     const v = JSON.parse(raw) as Partial<ScenarioFilter>;
+    const list = (x: unknown) => (Array.isArray(x) ? x.filter((i): i is string => typeof i === 'string') : []);
     return {
-      setting: typeof v.setting === 'string' && SETTINGS.includes(v.setting) ? v.setting : 'any',
+      hiddenSettings: list(v.hiddenSettings).filter((s) => SETTINGS.includes(s)),
+      hiddenSources: list(v.hiddenSources).filter((s): s is SourceGroup => SOURCE_GROUPS.includes(s as SourceGroup)),
       players: v.players === '1v1' || v.players === 'Multiplayer' ? v.players : 'any',
-      source: SOURCE_GROUPS.includes(v.source as never) ? (v.source as ScenarioFilter['source']) : 'any',
       fitsOnly: v.fitsOnly === true,
     };
   } catch {
