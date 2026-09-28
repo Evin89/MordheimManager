@@ -2,12 +2,11 @@ import { useState } from 'react';
 import NumberInput from '../../components/NumberInput';
 import { Button, TextField, Textarea, Select } from '../../components/ui';
 import { strings } from '../../strings';
-import { SCENARIO_CATALOG, getCatalogScenarioByName, groupBySource } from '../../lib/scenarioCatalog';
+import { filterScenarios, getCatalogScenarioByName, groupBySource } from '../../lib/scenarioCatalog';
+import { ScenarioFilterFields } from '../../components/ScenarioPicker';
+import { useScenarioFilter } from '../../hooks/useScenarioFilter';
 import { BattleResult } from '../../types';
 import { StepProps } from './types';
-
-// Every catalogued scenario, by name (the battle log stores names), grouped by source.
-const SCENARIO_GROUPS = groupBySource(SCENARIO_CATALOG);
 
 const RESULTS: BattleResult[] = ['win', 'loss', 'draw'];
 const RESULT_LABEL: Record<BattleResult, string> = {
@@ -20,6 +19,13 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
   const [useCustomScenario, setUseCustomScenario] = useState(
     draft.scenario !== '' && !getCatalogScenarioByName(draft.scenario),
   );
+  // The same remembered filter as the other scenario pickers. Scenarios are
+  // listed by name (the battle log stores names), grouped by source; the one
+  // already chosen stays listed even when the filter would hide it.
+  const [filter, setFilter] = useScenarioFilter('picker');
+  const shown = filterScenarios(filter);
+  const chosen = getCatalogScenarioByName(draft.scenario);
+  const scenarioGroups = groupBySource(chosen && !shown.includes(chosen) ? [...shown, chosen] : shown);
 
   return (
     <div className="space-y-6">
@@ -41,7 +47,7 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
           }}
         >
           <option value="">—</option>
-          {SCENARIO_GROUPS.map((g) => (
+          {scenarioGroups.map((g) => (
             <optgroup key={g.label} label={g.label}>
               {g.scenarios.map((s) => (
                 <option key={s.id} value={s.name}>
@@ -52,6 +58,12 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
           ))}
           <option value="__custom__">{strings.postBattle.battleInfo.scenarioCustom}</option>
         </Select>
+        <ScenarioFilterFields
+          idPrefix="scenario-select"
+          filter={filter}
+          onFilterChange={setFilter}
+          shown={shown.length}
+        />
         {useCustomScenario && (
           <TextField
             type="text"
