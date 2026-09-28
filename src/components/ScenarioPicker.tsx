@@ -12,54 +12,13 @@ import {
   supportsOneVsOne,
   writtenFor,
 } from '../lib/scenarioCatalog';
-import { Field, Select } from './ui';
+import { CheckDropdown, Field, Select } from './ui';
 
 /** An option's text: the name, plus what a player needs to know before picking
  * it — that it needs more than two warbands, or is written for a given warband. */
 function optionLabel(s: CatalogScenario): string {
   const notes = [...(supportsOneVsOne(s) ? [] : ['multiplayer']), ...writtenFor(s)];
   return notes.length ? `${s.name} — ${notes.join(', ')}` : s.name;
-}
-
-/** A row of tick boxes, one per option, all ticked unless hidden. Unticking
- * hides that option's scenarios; the pills wrap on a phone. */
-function CheckGroup<T extends string>({
-  legend,
-  options,
-  hidden,
-  onChange,
-}: {
-  legend: string;
-  options: readonly T[];
-  hidden: T[];
-  onChange: (hidden: T[]) => void;
-}) {
-  return (
-    <fieldset>
-      <legend className="text-bone-300 text-sm pb-1">{legend}</legend>
-      <div className="flex flex-wrap gap-2">
-        {options.map((o) => {
-          const on = !hidden.includes(o);
-          return (
-            <label
-              key={o}
-              className={`inline-flex items-center gap-2 min-h-[44px] px-3 rounded-lg border text-sm cursor-pointer select-none ${
-                on ? 'border-ember-500 bg-ember-500/10 text-bone-100' : 'border-ink-700 bg-ink-900 text-bone-400'
-              }`}
-            >
-              <input
-                type="checkbox"
-                checked={on}
-                onChange={() => onChange(on ? [...hidden, o] : hidden.filter((h) => h !== o))}
-                className="h-4 w-4 accent-ember-500"
-              />
-              {o}
-            </label>
-          );
-        })}
-      </div>
-    </fieldset>
-  );
 }
 
 /**
@@ -90,19 +49,26 @@ export function ScenarioFilterFields({
   const count = `${shown} of ${SCENARIO_CATALOG.length}`;
   const fields = (
     <>
-      <div className="space-y-3 pt-1">
-        <CheckGroup
-          legend="Setting"
-          options={SETTINGS}
-          hidden={filter.hiddenSettings}
-          onChange={(hiddenSettings) => onFilterChange({ ...filter, hiddenSettings })}
-        />
-        <CheckGroup
-          legend="Source"
-          options={SOURCE_GROUPS}
-          hidden={filter.hiddenSources}
-          onChange={(hiddenSources) => onFilterChange({ ...filter, hiddenSources })}
-        />
+      <div className="grid grid-cols-3 gap-2 pt-1">
+        <Field label="Setting" htmlFor={`${idPrefix}-setting`}>
+          <CheckDropdown
+            id={`${idPrefix}-setting`}
+            label="Setting"
+            options={SETTINGS}
+            hidden={filter.hiddenSettings}
+            onChange={(hiddenSettings) => onFilterChange({ ...filter, hiddenSettings })}
+          />
+        </Field>
+        <Field label="Source" htmlFor={`${idPrefix}-source`}>
+          <CheckDropdown
+            id={`${idPrefix}-source`}
+            label="Source"
+            options={SOURCE_GROUPS}
+            hidden={filter.hiddenSources}
+            onChange={(hiddenSources) => onFilterChange({ ...filter, hiddenSources })}
+            align="right"
+          />
+        </Field>
         <Field label="Players" htmlFor={`${idPrefix}-players`}>
           <Select
             id={`${idPrefix}-players`}

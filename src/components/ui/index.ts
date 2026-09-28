@@ -9,3 +9,4 @@ export type { ButtonVariant, ButtonSize } from './Button';
 export { default as Card } from './Card';
 export { SectionHeading, Eyebrow } from './Section';
 export { Field, TextField, Textarea, Select, fieldClasses } from './Field';
+export { default as CheckDropdown } from './CheckDropdown';
