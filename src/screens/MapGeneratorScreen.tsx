@@ -73,19 +73,30 @@ export default function MapGeneratorScreen() {
                 onChange={setScenario}
                 filter={filter}
                 onFilterChange={setFilter}
+                filtersOpen
               />
             </Field>
-            {playerCounts.length > 1 && (
-              <Field label="Warbands" htmlFor="map-players" className="col-span-2">
-                <Select id="map-players" value={players} onChange={(e) => setPlayers(Number(e.target.value))}>
-                  {playerCounts.map((n) => (
-                    <option key={n} value={n}>
-                      {n}
-                    </option>
-                  ))}
-                </Select>
-              </Field>
-            )}
+            {/* Always shown, so it's clear the board can be drawn for more
+                warbands — only offered where the scenario plays that way. */}
+            <Field label="Warbands" htmlFor="map-players" className="col-span-2">
+              <Select
+                id="map-players"
+                value={players}
+                disabled={playerCounts.length < 2}
+                onChange={(e) => setPlayers(Number(e.target.value))}
+              >
+                {playerCounts.map((n) => (
+                  <option key={n} value={n}>
+                    {n}
+                  </option>
+                ))}
+              </Select>
+              {playerCounts.length < 2 && (
+                <p className="text-bone-400 text-xs">
+                  This scenario is for two warbands. Pick a multiplayer one (Players filter) for 3 or 4.
+                </p>
+              )}
+            </Field>
             <Field label="Width" htmlFor="map-w">
               <Select id="map-w" value={widthFt} onChange={(e) => setWidthFt(Number(e.target.value))}>
                 {[2, 3, 4].map((ft) => (

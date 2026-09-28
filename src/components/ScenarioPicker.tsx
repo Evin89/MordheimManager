@@ -23,8 +23,10 @@ function optionLabel(s: CatalogScenario): string {
 
 /**
  * The Setting / Players / Source filters (and, where there's a game to fit,
- * "only scenarios that fit this game"), behind a disclosure that says how many
- * scenarios are showing. Shared by the scenario picker and the Rules Reference.
+ * "only scenarios that fit this game"), with a line saying how many scenarios
+ * are showing. Behind a disclosure where space is tight (a form with other
+ * fields); `alwaysOpen` lays them out flat where they're the point, as on `/map`.
+ * Shared by the scenario picker and the Rules Reference.
  */
 export function ScenarioFilterFields({
   idPrefix,
@@ -32,6 +34,7 @@ export function ScenarioFilterFields({
   onFilterChange,
   shown,
   fit,
+  alwaysOpen = false,
 }: {
   idPrefix: string;
   filter: ScenarioFilter;
@@ -40,13 +43,12 @@ export function ScenarioFilterFields({
   shown: number;
   /** The game being set up; offers the "fits this game" option when given. */
   fit?: GameFit;
+  alwaysOpen?: boolean;
 }) {
   const active = activeFilterCount(filter, !!fit);
-  return (
-    <details className="group" open={active > 0 || undefined}>
-      <summary className="cursor-pointer select-none min-h-[44px] flex items-center text-ember-400 text-sm font-semibold">
-        Filter scenarios{active > 0 ? ` (${active})` : ''} · {shown} of {SCENARIO_CATALOG.length}
-      </summary>
+  const count = `${shown} of ${SCENARIO_CATALOG.length}`;
+  const fields = (
+    <>
       <div className="grid grid-cols-3 gap-2 pt-1">
         <Field label="Setting" htmlFor={`${idPrefix}-setting`}>
           <Select
@@ -114,6 +116,26 @@ export function ScenarioFilterFields({
           Clear filters
         </button>
       )}
+    </>
+  );
+
+  if (alwaysOpen) {
+    return (
+      <div>
+        <p className="text-bone-400 text-xs">Showing {count} scenarios</p>
+        {fields}
+      </div>
+    );
+  }
+  return (
+    <details className="group" open={active > 0 || undefined}>
+      <summary className="cursor-pointer select-none min-h-[44px] flex items-center gap-1.5 text-ember-400 text-sm font-semibold list-none [&::-webkit-details-marker]:hidden">
+        <span aria-hidden="true" className="inline-block transition-transform group-open:rotate-90">
+          ▸
+        </span>
+        Filter by setting, players, source{active > 0 ? ` (${active})` : ''} · {count}
+      </summary>
+      {fields}
     </details>
   );
 }
@@ -133,6 +155,7 @@ export default function ScenarioPicker({
   onFilterChange,
   fit,
   placeholder,
+  filtersOpen = false,
 }: {
   id: string;
   /** Selected scenario id ('' for none). */
@@ -144,6 +167,8 @@ export default function ScenarioPicker({
   fit?: GameFit;
   /** Text of an empty first option; omit to always have a scenario selected. */
   placeholder?: string;
+  /** Show the filters laid out rather than behind a disclosure. */
+  filtersOpen?: boolean;
 }) {
   const shown = filterScenarios(filter, fit);
   const selected = SCENARIO_CATALOG.find((s) => s.id === value);
@@ -169,6 +194,7 @@ export default function ScenarioPicker({
         onFilterChange={onFilterChange}
         shown={shown.length}
         fit={fit}
+        alwaysOpen={filtersOpen}
       />
     </div>
   );
