@@ -73,7 +73,6 @@ export default function MapGeneratorScreen() {
                 onChange={setScenario}
                 filter={filter}
                 onFilterChange={setFilter}
-                filtersOpen
               />
             </Field>
             {/* Always shown, so it's clear the board can be drawn for more
