@@ -6,6 +6,7 @@ import {
   deleteWarband as deleteWarbandApi,
   fetchPublicWarbands,
   fetchSharedWarband,
+  fetchWarbandOwnerName,
   fetchWarbands,
   insertWarband,
   setWarbandCampaign,
@@ -311,6 +312,16 @@ export function useSharedWarbandQuery(id: string | undefined) {
     queryKey: ['sharedWarband', id],
     queryFn: () => fetchSharedWarband(id!),
     enabled: !!id,
+  });
+}
+
+/** Owner's display name for a shared roster's byline ('' when unknown). */
+export function useWarbandOwnerNameQuery(id: string | undefined) {
+  return useQuery({
+    queryKey: ['warbandOwnerName', id],
+    queryFn: () => fetchWarbandOwnerName(id!),
+    enabled: !!id,
+    staleTime: 5 * 60_000,
   });
 }
 

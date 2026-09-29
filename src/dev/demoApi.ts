@@ -387,6 +387,11 @@ export async function fetchSharedWarband(id: string): Promise<Warband | null> {
   return db().warbands.find((w) => w.id === id)?.warband ?? null;
 }
 
+export async function fetchWarbandOwnerName(id: string): Promise<string> {
+  const owner = db().warbands.find((w) => w.id === id)?.ownerId;
+  return owner ? displayName(owner) : '';
+}
+
 // --- battles ---------------------------------------------------------------
 
 export async function fetchBattles(campaignId: string): Promise<BattleRecord[]> {

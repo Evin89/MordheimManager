@@ -362,3 +362,19 @@ export async function fetchSharedWarband(id: string): Promise<Warband | null> {
   if (error) throw error;
   return data ? (data as { data: Warband }).data : null;
 }
+
+/**
+ * The display name of whoever owns a warband, for the shared roster's byline.
+ * The same `profiles` join the public gallery uses, so it's readable exactly
+ * when the warband row is; '' when RLS returns nothing or the name is unset.
+ */
+export async function fetchWarbandOwnerName(id: string): Promise<string> {
+  if (isDemoMode()) return demo.fetchWarbandOwnerName(id);
+  const { data, error } = await supabase
+    .from('warbands')
+    .select('profiles (display_name)')
+    .eq('id', id)
+    .maybeSingle();
+  if (error) throw error;
+  return (data as unknown as { profiles: { display_name: string } | null } | null)?.profiles?.display_name ?? '';
+}
