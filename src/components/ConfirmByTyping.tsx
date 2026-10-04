@@ -2,6 +2,26 @@ import { ReactNode, useId, useState } from 'react';
 import { strings } from '../strings';
 
 /**
+ * Reduces a name to what a person would read off the screen.
+ *
+ * The label renders the name as HTML, which collapses runs of whitespace, and
+ * macOS/iOS keyboards silently turn ' " - into ‘’ “” – —. Either way the user
+ * types exactly what they see and the button stays locked — which reads as "I
+ * can't delete my warband". So: Unicode-normalise, straighten quotes and
+ * dashes, collapse whitespace, ignore case.
+ */
+export function normalizeForMatch(value: string): string {
+  return value
+    .normalize('NFKC')
+    .replace(/[\u2018\u2019\u201A\u201B\u2032\u00B4`]/g, "'")
+    .replace(/[\u201C\u201D\u201E\u201F\u2033]/g, '"')
+    .replace(/[\u2010-\u2015\u2212]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+/**
  * The confirmation used by every destructive action (spec §11.1).
  *
  * Inline rather than a dialog, deliberately: a pop-up is dismissed reflexively,
@@ -10,8 +30,9 @@ import { strings } from '../strings';
  * cheap way to be sure they know *which* thing they are destroying.
  *
  * Matching trims and ignores case — this is a test of intent, not of spelling.
- * A partial match is never accepted, since "Grim" would match half a roster's
- * worth of warband names.
+ * It also folds the differences a keyboard introduces without the user seeing
+ * them (see `normalizeForMatch`). A partial match is never accepted, since
+ * "Grim" would match half a roster's worth of warband names.
  */
 export default function ConfirmByTyping({
   phrase,
@@ -46,8 +67,17 @@ export default function ConfirmByTyping({
   const [acknowledged, setAcknowledged] = useState(false);
   const inputId = useId();
   const ackId = useId();
-  const matches =
-    typed.trim().toLowerCase() === phrase.trim().toLowerCase() && (!acknowledge || acknowledged);
+  const nameMatches = normalizeForMatch(typed) === normalizeForMatch(phrase);
+  const matches = nameMatches && (!acknowledge || acknowledged);
+  // Only once they've typed something — an empty field needs no telling off.
+  const hint =
+    typed.trim() === ''
+      ? null
+      : !nameMatches
+        ? strings.common.confirmTypeMismatch
+        : !matches
+          ? strings.common.confirmTickBox
+          : null;
 
   return (
     <div className="space-y-3 rounded-lg border border-blood-600 p-4">
@@ -87,6 +117,8 @@ export default function ConfirmByTyping({
         // field the user is being asked to read and type into.
         onFocus={(e) => e.currentTarget.scrollIntoView({ block: 'center', behavior: 'smooth' })}
       />
+
+      {hint && <p className="text-bone-400 text-sm">{hint}</p>}
 
       <button
         type="button"

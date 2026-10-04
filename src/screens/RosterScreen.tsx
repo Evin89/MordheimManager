@@ -418,6 +418,7 @@ export default function RosterScreen() {
               label={strings.roster.deleteWarbandTypeLabel(warband.name)}
               action={strings.roster.deleteWarbandAction}
               onConfirm={handleDelete}
+              busy={deleteWarband.isPending}
               // Only when there is a second party to warn about. A checkbox on
               // a standalone warband would be a tick-box for its own sake, and
               // ticking things for their own sake is how people learn to tick

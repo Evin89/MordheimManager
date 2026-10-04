@@ -99,6 +99,10 @@ export const strings = {
     discard: 'Discard',
     updateAvailableError: "Something didn't load — probably a new version of the app. Reload to get the current one.",
     reload: 'Reload',
+    // ConfirmByTyping: says why the button is still locked, instead of leaving
+    // a greyed-out button to guess at.
+    confirmTypeMismatch: 'That doesn’t match the name yet.',
+    confirmTickBox: 'Tick the box above to unlock the button.',
   },
   discord: {
     cta: 'Questions or ideas? Join the Discord',
