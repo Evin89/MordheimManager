@@ -1,5 +1,6 @@
 import { supabase } from '../lib/supabaseClient';
 import { isDemoMode } from '../dev/demoMode';
+import * as demo from '../dev/demoApi';
 
 /**
  * Soft-deleted warbands (migration 0009), read through the admin-only RPC in
@@ -19,7 +20,7 @@ export type AdminDeletedWarband = {
 };
 
 export async function fetchAdminDeletedWarbands(): Promise<AdminDeletedWarband[]> {
-  if (isDemoMode()) return [];
+  if (isDemoMode()) return demo.fetchAdminDeletedWarbands();
   const { data, error } = await supabase.rpc('admin_deleted_warbands');
   if (error) throw error;
   return (data ?? []) as AdminDeletedWarband[];

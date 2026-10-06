@@ -688,6 +688,30 @@ export async function fetchSelfReportBreakdown(_days = 30) {
   };
 }
 
+// --- admin deleted warbands (demo) ------------------------------------------
+
+export async function fetchAdminDeletedWarbands() {
+  const d = db();
+  const day = 86_400_000;
+  // Spread deletions over the purge window so the 3-days-or-fewer warning shows.
+  return [27, 12, 5, 1].map((ago, i) => {
+    const w = d.warbands[i];
+    const owner = d.users.find((u) => u.id === w?.ownerId);
+    const deleted = Date.now() - ago * day;
+    return {
+      id: `demo-deleted-${i}`,
+      name: w?.warband.name ?? `Deleted warband ${i + 1}`,
+      warband_type: w?.warband.warbandType ?? 'Reikland',
+      owner_id: w?.ownerId ?? `demo-user-${i}`,
+      owner_name: owner?.displayName ?? null,
+      campaign_name: i % 2 === 0 ? (d.campaigns[0]?.name ?? null) : null,
+      created_at: new Date(deleted - (40 + i * 9) * day).toISOString(),
+      deleted_at: new Date(deleted).toISOString(),
+      purge_at: new Date(deleted + 30 * day).toISOString(),
+    };
+  });
+}
+
 // --- §4.9.5 admin campaign view (demo) -------------------------------------
 
 export async function fetchAdminCampaigns(search?: string) {
