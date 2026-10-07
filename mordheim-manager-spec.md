@@ -2320,6 +2320,68 @@ A "someone registered" ping to a Slack Incoming Webhook — the ops counterpart 
 
 **Alternative not taken.** A Database Webhook → Edge Function → Slack would allow richer messages (warband counts, buttons) with the URL as a Function env-var, at the cost of more moving parts. The pure-SQL trigger was chosen for the same reason the rest of this layer is SQL: fewer parts, and it's the layer already owned.
 
+### 23.10 Weekly usage report (Slack) ⚠️ Built, not yet applied (migration 0055; Vault secret to be set)
+
+_Extends §23 and reuses the §23.9 poster. Same discipline: SQL-owned, `pg_cron`-scheduled, `pg_net`-async, counts only._
+
+Every **Sunday 19:00 Europe/Amsterdam** one Dutch Slack message summarises the week that just ended, every number with a delta against the week before (`▲ n` / `▼ n` / `＝`). It answers "how did last week go?" without opening `/admin`, from owned tables only, never PostHog. Sections with nothing to say still render with zeroes: a quiet week is information, and a missing line looks like a bug.
+
+```
+📊 *Mordheim Manager — week 40* (zo 27 sep 19:00 – zo 4 okt 19:00)
+
+*Groei*
+• Nieuwe registraties: 8 (▲ 1)  ·  bevestigd: 8
+• Totaal accounts: 58
+
+*Activiteit*
+• Actieve spelers: 20 (▲ 7)
+• Warbands aangemaakt: 12 (▼ 10)  ·  waarvan eerste warband: 7
+• Battles gelogd: 1 (▼ 1)
+• Campagnes aangemaakt: 0 (▼ 1)  ·  campagne-joins: 2 (▲ 2)
+
+*Activatie (cumulatief)*
+Geregistreerd 68 → warband 55 (81%) → campagne 18 (33%) → battle 16 (89%)
+
+*Herkomst nieuwe accounts*
+organic_search 8
+
+*Aandacht*
+• Nieuwe issue reports: 1 (▲ 1)  ·  open totaal: 1
+```
+
+_(Real figures for week 40, computed read-only against production with the report's logic inlined. The final `format()` assembly runs for the first time once 0055 is applied.)_
+
+**Definitions (pinned).**
+- **Week** = Sunday 19:00 → Sunday 19:00 local, aligned to the send moment so consecutive reports tile exactly. Labelled and keyed by the ISO week (Monday) its closing Sunday belongs to. Activity after 19:00 on a Sunday, the usual game night, lands in next week's report: counted once, a week later.
+- **Active player** = a distinct user with any dated activity in the window: a visit day (`user_visits`), a warband created, a roster edit (`warband_edits`), a battle reported, a campaign joined, an RSVP, a comment. These are the event sources of `_user_activity()` (0052) minus signup itself, in one helper, `_active_players(from, to)`. Not `user_last_seen()` (§26.1): that is a single latest timestamp, so it can't say who was active in the *previous* window, which the deltas need. Roster edits come from the edit log, never `warbands.updated_at` (overwritten per change).
+- **First warband** = owners whose earliest warband, soft-deleted ones included as in 0050, was created in the window.
+- **Campaign joins** = memberships whose `joined_at` falls in the window, excluding the creator's own row.
+- **Funnel** = the four §23.2 stages, cumulative and all-time; each percentage is against the previous stage.
+- **Acquisition** = the captured §23.4 channel of this week's signups; `unknown` renders as *onbekend*.
+
+**As built (migration 0055).**
+- `notify_slack(secret, text)` generalises 0031's poster: same body, secret name as a parameter, returns whether a request was queued. `notify_slack_signup()` is now a thin wrapper, so the signup triggers are unchanged.
+- `_activation_funnel()` and `_acquisition_breakdown(from, to)` hold the counting bodies; `admin_activation_funnel()` and `admin_acquisition_breakdown()` keep their admin gate and output shape and call them. The report cannot call the `admin_*` RPCs: under `pg_cron` there is no `auth.uid()`, so `is_admin()` would raise.
+- `weekly_usage_report_text(week_start date)` is a pure builder with no side effects, so it can be run by hand to preview.
+- `send_weekly_usage_report(p_force boolean default false)` is what cron calls. Two UTC entries (`0 17 * * 0` = 19:00 CEST, `0 18 * * 0` = 19:00 CET) plus a local-hour guard let exactly one through. `usage_report_log` (one row per `week_start`, deny-all RLS) makes a double-fire or retry harmless, and a row is written only when the message was actually queued, so an unconfigured webhook doesn't use up the week. `p_force => true` resends on purpose.
+- `pg_cron` is guarded as in 0014, so the migration applies where it's absent.
+
+**Properties (enforced).** (1) **Counts only** (§23.6): no names, e-mail, warband or campaign titles, jsonb, or objectives — stricter than the signup alert, which names the player. (2) **Not client-reachable**: `EXECUTE` revoked from `public`/`anon`/`authenticated` on every function above, so nobody can read admin aggregates through `rpc()` or spam the channel. (3) **Never fails noisily**: the poster swallows errors and a missing secret is a no-op. (4) **Once per week**, via `usage_report_log`.
+
+**Operator setup (one-time, not in the migration).**
+```sql
+select vault.create_secret('https://hooks.slack.com/services/…', 'slack_report_webhook');
+-- preview (last full Sun→Sun window):
+select public.weekly_usage_report_text((date_trunc('week', now() at time zone 'Europe/Amsterdam') - interval '7 days')::date);
+-- send now:
+select public.send_weekly_usage_report(p_force => true);
+```
+A separate secret by default, so the digest can live in its own channel; for the same channel, store the same URL under both names.
+
+**Left out, on purpose.**
+- **Top events.** The draft read them from `app_events`, but no such table exists: §26.4.3's events (`warband_created` with `is_first`, onboarding clicks) go to PostHog only (`src/lib/posthog.ts`), which is consent-gated and so not a complete count. Add the section if and when an owned event table is built.
+- **Mord Hive split.** Once the shared project gains a `system` column, split each count by it and render two blocks. Single-system for now, marked `-- TODO system split` in the builder.
+
 ---
 
 ## 24. Battlefield generator — the map ⚠️ Beta
