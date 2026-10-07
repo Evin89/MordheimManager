@@ -2320,7 +2320,7 @@ A "someone registered" ping to a Slack Incoming Webhook — the ops counterpart 
 
 **Alternative not taken.** A Database Webhook → Edge Function → Slack would allow richer messages (warband counts, buttons) with the URL as a Function env-var, at the cost of more moving parts. The pure-SQL trigger was chosen for the same reason the rest of this layer is SQL: fewer parts, and it's the layer already owned.
 
-### 23.10 Weekly usage report (Slack) ⚠️ Built, not yet applied (migration 0055; Vault secret to be set)
+### 23.10 Weekly usage report (Slack) ✅ (migration 0055 applied; Vault secret to be set)
 
 _Extends §23 and reuses the §23.9 poster. Same discipline: SQL-owned, `pg_cron`-scheduled, `pg_net`-async, counts only._
 
@@ -2349,7 +2349,7 @@ organic_search 8
 • Nieuwe issue reports: 1 (▲ 1)  ·  open totaal: 1
 ```
 
-_(Real figures for week 40, computed read-only against production with the report's logic inlined. The final `format()` assembly runs for the first time once 0055 is applied.)_
+_(Real figures for week 40, computed read-only against production with the report's logic inlined. 0055 is applied; the database-side preview needs the SQL editor, since the functions are not executable by other roles.)_
 
 **Definitions (pinned).**
 - **Week** = Sunday 19:00 → Sunday 19:00 local, aligned to the send moment so consecutive reports tile exactly. Labelled and keyed by the ISO week (Monday) its closing Sunday belongs to. Activity after 19:00 on a Sunday, the usual game night, lands in next week's report: counted once, a week later.
