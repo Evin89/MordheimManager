@@ -18,6 +18,7 @@ import {
   fetchSelfReportBreakdown,
   fetchTimeToActivation,
 } from '../api/adminAnalytics';
+import { fetchAdminDeletedWarbands } from '../api/adminDeletedWarbands';
 import {
   fetchAdminCampaigns,
   fetchAdminCampaignDetail,
@@ -95,6 +96,16 @@ export function useAdminTimeToActivationQuery() {
 export function useAdminSelfReportQuery() {
   const { data: isAdmin } = useIsAdminQuery();
   return useQuery({ queryKey: ['adminSelfReport'], queryFn: () => fetchSelfReportBreakdown(30), enabled: isAdmin === true });
+}
+
+/** Soft-deleted warbands (migration 0054), admin-only. */
+export function useAdminDeletedWarbandsQuery() {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['adminDeletedWarbands'],
+    queryFn: fetchAdminDeletedWarbands,
+    enabled: isAdmin === true,
+  });
 }
 
 /** §4.9.5 admin campaign list + detail + the stranded-count badge. */

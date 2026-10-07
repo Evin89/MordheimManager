@@ -37,6 +37,7 @@ const AdminIssuesScreen = lazy(() => import('./screens/admin/AdminIssuesScreen')
 const AdminPlayersScreen = lazy(() => import('./screens/admin/AdminPlayersScreen'));
 const AdminCampaignsScreen = lazy(() => import('./screens/admin/AdminCampaignsScreen'));
 const AdminCampaignDetailScreen = lazy(() => import('./screens/admin/AdminCampaignDetailScreen'));
+const AdminDeletedWarbandsScreen = lazy(() => import('./screens/admin/AdminDeletedWarbandsScreen'));
 const AdminMaintenanceScreen = lazy(() => import('./screens/admin/AdminMaintenanceScreen'));
 const AdminUserScreen = lazy(() => import('./screens/AdminUserScreen'));
 const AdminUserBattlesScreen = lazy(() => import('./screens/admin/AdminUserBattlesScreen'));
@@ -208,6 +209,7 @@ function AppShell() {
               <Route path="players/:userId/battles" element={<AdminUserBattlesScreen />} />
               <Route path="campaigns" element={<AdminCampaignsScreen />} />
               <Route path="campaigns/:id" element={<AdminCampaignDetailScreen />} />
+              <Route path="deleted-warbands" element={<AdminDeletedWarbandsScreen />} />
               <Route path="maintenance" element={<AdminMaintenanceScreen />} />
             </Route>
             {/* Old per-player URL, before the split. */}
