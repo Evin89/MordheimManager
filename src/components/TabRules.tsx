@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RuleEntryList from './RuleEntryList';
 import { Field, Select } from './ui';
 import { getRuleEntry, getTradingTabRuleEntries, getWarbandsTabRuleEntries } from '../lib/rulesIndex';
@@ -76,6 +76,9 @@ function WarbandsTabRules() {
           ))}
         </Select>
       </Field>
+      <Link to="/rules/custom-warbands" className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
+        {strings.customWarbandGallery.link} →
+      </Link>
     </div>
   );
 }

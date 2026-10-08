@@ -6,6 +6,7 @@ import {
   createCustomWarbandType,
   deleteCustomWarbandType,
   fetchCustomWarbandTypeById,
+  fetchAllCustomWarbandTypes,
   fetchCustomWarbandTypes,
   updateCustomWarbandType,
 } from '../api/customWarbands';
@@ -25,10 +26,17 @@ const KEY = ['customWarbandTypes'] as const;
 export function useCustomWarbandTypesQuery() {
   const { user } = useAuth();
   return useQuery({
-    queryKey: KEY,
-    queryFn: fetchCustomWarbandTypes,
+    // The owner is part of the key so a different account on the same device
+    // never sees the previous one's cached list.
+    queryKey: [...KEY, user?.id],
+    queryFn: () => fetchCustomWarbandTypes(user!.id),
     enabled: !!user,
   });
+}
+
+/** Every player's custom types (public list and admin tab). */
+export function useAllCustomWarbandTypesQuery() {
+  return useQuery({ queryKey: ['allCustomWarbandTypes'], queryFn: fetchAllCustomWarbandTypes });
 }
 
 /**
@@ -89,7 +97,10 @@ export function useCreateCustomWarbandMutation() {
   const mutation = useMutation({
     mutationFn: ({ baseType, name }: { baseType: string; name: string }) =>
       createCustomWarbandType(baseType, name),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: KEY }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: KEY });
+      queryClient.invalidateQueries({ queryKey: ['allCustomWarbandTypes'] });
+    },
   });
   return (baseType: string, name: string): Promise<CustomWarbandType> =>
     mutation.mutateAsync({ baseType, name });
@@ -100,7 +111,10 @@ export function useUpdateCustomWarbandMutation() {
   const mutation = useMutation({
     mutationFn: ({ id, name, definition }: { id: string; name: string; definition: WarbandDefinition }) =>
       updateCustomWarbandType(id, name, definition),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: KEY }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: KEY });
+      queryClient.invalidateQueries({ queryKey: ['allCustomWarbandTypes'] });
+    },
   });
   return (id: string, name: string, definition: WarbandDefinition): Promise<CustomWarbandType> =>
     mutation.mutateAsync({ id, name, definition });
@@ -110,7 +124,10 @@ export function useDeleteCustomWarbandMutation() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (id: string) => deleteCustomWarbandType(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: KEY }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: KEY });
+      queryClient.invalidateQueries({ queryKey: ['allCustomWarbandTypes'] });
+    },
   });
   return (id: string) => mutation.mutate(id);
 }

@@ -35,14 +35,67 @@ function toType(row: Row): CustomWarbandType {
   };
 }
 
-export async function fetchCustomWarbandTypes(): Promise<CustomWarbandType[]> {
+/**
+ * The signed-in player's own custom types. The owner filter is required, not
+ * defensive: since 0022 every row is readable by everyone, so without it each
+ * player's "Your custom types" listed every player's.
+ */
+export async function fetchCustomWarbandTypes(ownerId: string): Promise<CustomWarbandType[]> {
   if (isDemoMode()) return demo.fetchCustomWarbandTypes();
   const { data, error } = await supabase
     .from('custom_warband_types')
     .select('id, base_type, name, definition, updated_at')
+    .eq('owner_id', ownerId)
     .order('name', { ascending: true });
   if (error) throw error;
   return (data as Row[]).map(toType);
+}
+
+/** A custom type as listed for browsing: who made it, from what, and when. */
+export type CustomWarbandTypeSummary = {
+  id: string;
+  /** The id a warband stores as its `warbandType`, and the rules-page slug. */
+  typeId: string;
+  name: string;
+  baseType: string;
+  ownerId: string;
+  ownerName: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type SummaryRow = {
+  id: string;
+  name: string;
+  base_type: string;
+  owner_id: string;
+  created_at: string;
+  updated_at: string;
+  profiles: { display_name: string } | null;
+};
+
+/**
+ * Every player's custom types, newest first, for the public Custom Warbands
+ * page and the admin tab. Readable by anyone since 0022; the definitions stay
+ * behind, since a list needs only the names.
+ */
+export async function fetchAllCustomWarbandTypes(): Promise<CustomWarbandTypeSummary[]> {
+  if (isDemoMode()) return demo.fetchAllCustomWarbandTypes();
+  const { data, error } = await supabase
+    .from('custom_warband_types')
+    .select('id, name, base_type, owner_id, created_at, updated_at, profiles (display_name)')
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return (data as unknown as SummaryRow[]).map((row) => ({
+    id: row.id,
+    typeId: CUSTOM_ID_PREFIX + row.id,
+    name: row.name,
+    baseType: row.base_type,
+    ownerId: row.owner_id,
+    ownerName: row.profiles?.display_name || '',
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }));
 }
 
 /**

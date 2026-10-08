@@ -399,6 +399,18 @@ export default function RulesScreen() {
             />
           ))
         )}
+        {!searchResults && (group === 'all' || group === 'warbands') && (
+          <Link
+            to="/rules/custom-warbands"
+            className="flex items-center gap-3 min-h-[56px] px-4 border-b border-ink-800 hover:bg-ink-900 transition-colors"
+          >
+            <Users size={20} strokeWidth={1.75} className="text-ink-faded" aria-hidden="true" />
+            <span className="flex-1 font-ui font-semibold tracking-wide text-bone-100">
+              {strings.customWarbandGallery.link}
+            </span>
+            <ChevronRight size={18} className="text-ink-faded shrink-0" aria-hidden="true" />
+          </Link>
+        )}
       </main>
     </div>
   );

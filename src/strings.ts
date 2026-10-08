@@ -564,6 +564,18 @@ export const strings = {
     quickBuildHint: 'Fills a legal starting warband you can change afterwards, instead of an empty roster.',
     quickBuildPreview: (summary: string) => `Will add: ${summary}`,
   },
+  customWarbandGallery: {
+    title: 'Custom warbands',
+    intro:
+      'Warband types players have made by renaming a published list and changing its limits. They are not official lists, so agree one with your group before playing against it.',
+    link: 'Custom warbands made by players',
+    searchPlaceholder: 'Search by name, player or base warband',
+    count: (shown: number, total: number) => (shown === total ? `${total} custom warbands` : `${shown} of ${total}`),
+    basedOn: (base: string) => `Based on ${base}`,
+    by: (player: string) => `by ${player}`,
+    empty: 'No one has made a custom warband yet.',
+    loadError: 'Could not load custom warbands.',
+  },
   customWarbands: {
     title: 'Custom warband types',
     entry: 'Custom warband types',

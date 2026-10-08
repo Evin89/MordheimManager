@@ -38,6 +38,7 @@ const AdminPlayersScreen = lazy(() => import('./screens/admin/AdminPlayersScreen
 const AdminCampaignsScreen = lazy(() => import('./screens/admin/AdminCampaignsScreen'));
 const AdminCampaignDetailScreen = lazy(() => import('./screens/admin/AdminCampaignDetailScreen'));
 const AdminDeletedWarbandsScreen = lazy(() => import('./screens/admin/AdminDeletedWarbandsScreen'));
+const AdminCustomWarbandsScreen = lazy(() => import('./screens/admin/AdminCustomWarbandsScreen'));
 const AdminMaintenanceScreen = lazy(() => import('./screens/admin/AdminMaintenanceScreen'));
 const AdminUserScreen = lazy(() => import('./screens/AdminUserScreen'));
 const AdminUserBattlesScreen = lazy(() => import('./screens/admin/AdminUserBattlesScreen'));
@@ -88,6 +89,7 @@ const AddHiredSwordScreen = lazy(() => import('./screens/AddHiredSwordScreen'));
 const NewWarbandScreen = lazy(() => import('./screens/NewWarbandScreen'));
 
 const CustomWarbandsScreen = lazy(() => import('./screens/CustomWarbandsScreen'));
+const CustomWarbandGalleryScreen = lazy(() => import('./screens/CustomWarbandGalleryScreen'));
 
 const CustomWarbandEditScreen = lazy(() => import('./screens/CustomWarbandEditScreen'));
 
@@ -177,6 +179,7 @@ function AppShell() {
                 /rules so it sits in the reference family — /warbands/:id is the
                 guarded roster, which is why this can't be /warbands/:slug. */}
             <Route path="/rules/warbands/:warbandSlug" element={<WarbandRulesScreen />} />
+            <Route path="/rules/custom-warbands" element={<CustomWarbandGalleryScreen />} />
             <Route path="/rules/:ruleId" element={<RuleDetailScreen />} />
             {/* Public, like the rest of the Rules reference it is reached from —
                 a dice roller behind a login is useless at the table. */}
@@ -209,6 +212,7 @@ function AppShell() {
               <Route path="players/:userId/battles" element={<AdminUserBattlesScreen />} />
               <Route path="campaigns" element={<AdminCampaignsScreen />} />
               <Route path="campaigns/:id" element={<AdminCampaignDetailScreen />} />
+              <Route path="custom-warbands" element={<AdminCustomWarbandsScreen />} />
               <Route path="deleted-warbands" element={<AdminDeletedWarbandsScreen />} />
               <Route path="maintenance" element={<AdminMaintenanceScreen />} />
             </Route>

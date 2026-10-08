@@ -11,7 +11,7 @@ import {
   WarbandVisibility,
 } from '../types';
 import { DemoDatabase, DemoWarbandRow, generateDemoDatabase, ratingOf } from './demoData';
-import type { CustomWarbandType } from '../api/customWarbands';
+import type { CustomWarbandType, CustomWarbandTypeSummary } from '../api/customWarbands';
 import { WarbandDefinition } from '../data/types';
 import { getWarbandDefinition } from '../data/warbandRegistry';
 import { CUSTOM_ID_PREFIX, cloneWarbandDefinition } from '../lib/customWarband';
@@ -1444,6 +1444,19 @@ const customWarbandTypes: CustomWarbandType[] = (() => {
 
 export async function fetchCustomWarbandTypes(): Promise<CustomWarbandType[]> {
   return customWarbandTypes.map((t) => ({ ...t }));
+}
+
+export async function fetchAllCustomWarbandTypes(): Promise<CustomWarbandTypeSummary[]> {
+  return customWarbandTypes.map((t) => ({
+    id: t.id,
+    typeId: CUSTOM_ID_PREFIX + t.id,
+    name: t.name,
+    baseType: t.baseType,
+    ownerId: 'demo-user',
+    ownerName: 'Demo Player',
+    createdAt: t.updatedAt,
+    updatedAt: t.updatedAt,
+  }));
 }
 
 export async function fetchCustomWarbandTypeById(id: string): Promise<CustomWarbandType | null> {

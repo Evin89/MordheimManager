@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-10-08",
+    "title": "Browse Custom Warbands",
+    "description": "Players' custom warbands now have their own page in the Rules reference. See what everyone has made, what each is based on and who made it, and open any of them to read its full rules, which is handy before you face one. Also fixed: your list of custom types now shows only your own, not everyone's."
+  },
+  {
+    "date": "2026-10-08",
     "title": "Filter Warbands by Grade",
     "description": "Picking a warband type for a new warband? You can now filter the list by grade. Grade 1a is official, 1b was published by GW or Fanatic, 1c is experimental, and 2a is fan-made and tested. Every warband now shows its grade (following Broheim's warband list) in the picker and on its rules page."
   },

@@ -15,6 +15,7 @@ const TABS = [
   { to: '/admin/issues', label: 'Issues' },
   { to: '/admin/players', label: 'Players' },
   { to: '/admin/campaigns', label: 'Campaigns' },
+  { to: '/admin/custom-warbands', label: 'Custom' },
   { to: '/admin/deleted-warbands', label: 'Deleted' },
   { to: '/admin/maintenance', label: 'Maintenance' },
 ];

@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { buttonClasses } from '../components/ui';
 import { getWarbandDefinition, getWarbandProvenance } from '../data/warbandRegistry';
+import { useEnsureWarbandType } from '../hooks/useCustomWarbands';
+import { isCustomWarbandType } from '../lib/customWarband';
 import { parseWarbandSpecialRules, WarbandRule } from '../lib/warbandRulesFormat';
 import { resolveSpecialRules } from '../lib/specialRulesLookup';
 import { getSkillList } from '../lib/skillLookup';
@@ -496,7 +498,11 @@ function JumpNav({ items }: { items: NavItem[] }) {
 
 export default function WarbandRulesScreen() {
   const { warbandSlug } = useParams<{ warbandSlug: string }>();
+  // A player-made type isn't bundled: fetch it (readable by anyone since 0022)
+  // and register it, after which the registry lookup below resolves it.
+  const { loading } = useEnsureWarbandType(warbandSlug);
   const def = warbandSlug ? getWarbandDefinition(warbandSlug) : undefined;
+  const isCustom = !!warbandSlug && isCustomWarbandType(warbandSlug);
 
   // Parse the special-rules blob once: its lead-in is the closest thing the data
   // has to a background, and its named rules are the Special Rules section.
@@ -521,7 +527,17 @@ export default function WarbandRulesScreen() {
     [def, parsed],
   );
 
-  if (!def || !parsed) return <Navigate to="/rules" replace />;
+  if (loading) {
+    return (
+      <div className="min-h-full flex items-center justify-center">
+        <p className="text-bone-400">Loading…</p>
+      </div>
+    );
+  }
+  if (!def || !parsed) return <Navigate to={isCustom ? '/rules/custom-warbands' : '/rules'} replace />;
+
+  // The clone records its lineage in `source` ("… cloned from Reiklanders (…)").
+  const clonedFrom = isCustom ? def.source.match(/cloned from (.+?) \(/)?.[1] ?? null : null;
 
   const { source, grade } = getWarbandProvenance(def);
   const fanMade = source !== 'Core rulebook';
@@ -556,8 +572,11 @@ export default function WarbandRulesScreen() {
   return (
     <div className="min-h-full flex flex-col" ref={topRef}>
       <header className="px-4 pt-5 pb-4 border-b border-ink-800 space-y-3">
-        <Link to="/rules" className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
-          ← Rules
+        <Link
+          to={isCustom ? '/rules/custom-warbands' : '/rules'}
+          className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+        >
+          {isCustom ? '← Custom warbands' : '← Rules'}
         </Link>
         <div className="space-y-2">
           <h1 className="text-3xl text-bone-100">{def.name}</h1>
@@ -565,8 +584,13 @@ export default function WarbandRulesScreen() {
             <Chip tone="verdigris">{source}</Chip>
             {grade && <Chip tone="muted">{grade}</Chip>}
           </div>
-          {fanMade && (
-            <p className="text-bone-400 text-xs">Fan-made supplement — verify against your own books.</p>
+          {isCustom ? (
+            <p className="text-bone-400 text-xs">
+              Made by a player{clonedFrom ? ` from ${clonedFrom}` : ''}, with its own names and limits. Not a
+              published list — agree it with your group before playing.
+            </p>
+          ) : (
+            fanMade && <p className="text-bone-400 text-xs">Fan-made supplement — verify against your own books.</p>
           )}
         </div>
 
@@ -576,9 +600,11 @@ export default function WarbandRulesScreen() {
           <p className="text-bone-300 text-sm border-y border-ink-800 py-2">{keyFacts.join('  ·  ')}</p>
         )}
 
-        <Link to={`/warbands/new?type=${def.id}`} className={buttonClasses('primary')}>
-          Build this warband →
-        </Link>
+        {!isCustom && (
+          <Link to={`/warbands/new?type=${def.id}`} className={buttonClasses('primary')}>
+            Build this warband →
+          </Link>
+        )}
       </header>
 
       <JumpNav items={sections} />
@@ -642,11 +668,13 @@ export default function WarbandRulesScreen() {
           </section>
         )}
 
-        <div className="pt-2">
-          <Link to={`/warbands/new?type=${def.id}`} className={buttonClasses('primary')}>
-            Build this warband →
-          </Link>
-        </div>
+        {!isCustom && (
+          <div className="pt-2">
+            <Link to={`/warbands/new?type=${def.id}`} className={buttonClasses('primary')}>
+              Build this warband →
+            </Link>
+          </div>
+        )}
       </main>
     </div>
   );

@@ -165,7 +165,10 @@ export function getWarbandProvenance(definition: WarbandDefinition): WarbandProv
   const grade = definition.grade ? gradeLabel(definition.grade) : null;
 
   let source: string;
-  if (/border town burning/i.test(raw)) source = 'Border Town Burning';
+  // A custom type's source quotes its base's ("Custom warband — cloned from
+  // Reiklanders (Mordheim rulebook …)"), so it must be caught before the rest.
+  if (/^custom warband/i.test(raw)) source = 'Custom warband';
+  else if (/border town burning/i.test(raw)) source = 'Border Town Burning';
   else if (/mordheim rulebook/i.test(raw)) source = 'Core rulebook';
   else if (/new mordheimer/i.test(raw)) source = 'The New Mordheimer';
   else source = raw.split(/[,—]/)[0]?.trim() || 'Unknown source';
