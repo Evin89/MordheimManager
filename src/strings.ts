@@ -572,7 +572,7 @@ export const strings = {
     searchPlaceholder: 'Search by name, player or base warband',
     count: (shown: number, total: number) => (shown === total ? `${total} custom warbands` : `${shown} of ${total}`),
     basedOn: (base: string) => `Based on ${base}`,
-    by: (player: string) => `by ${player}`,
+    writtenBy: 'Written by',
     empty: 'No one has made a custom warband yet.',
     loadError: 'Could not load custom warbands.',
   },

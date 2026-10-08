@@ -99,6 +99,22 @@ export async function fetchAllCustomWarbandTypes(): Promise<CustomWarbandTypeSum
 }
 
 /**
+ * Who wrote a custom type, by bare row id, so the rules page can credit them.
+ * Null for an unknown (deleted) type, or an author with no display name.
+ */
+export async function fetchCustomWarbandAuthor(id: string): Promise<string | null> {
+  if (isDemoMode()) return 'Demo Player';
+  const { data, error } = await supabase
+    .from('custom_warband_types')
+    .select('profiles (display_name)')
+    .eq('id', id)
+    .maybeSingle();
+  if (error) throw error;
+  const row = data as unknown as { profiles: { display_name: string } | null } | null;
+  return row?.profiles?.display_name || null;
+}
+
+/**
  * One custom type by its row id, for resolving *someone else's* type when
  * reading a shared roster or a public warband built on it. Readable by anyone
  * since 0022; returns null when the id is unknown (a deleted type) so the caller

@@ -7,6 +7,7 @@ import {
   deleteCustomWarbandType,
   fetchCustomWarbandTypeById,
   fetchAllCustomWarbandTypes,
+  fetchCustomWarbandAuthor,
   fetchCustomWarbandTypes,
   updateCustomWarbandType,
 } from '../api/customWarbands';
@@ -31,6 +32,17 @@ export function useCustomWarbandTypesQuery() {
     queryKey: [...KEY, user?.id],
     queryFn: () => fetchCustomWarbandTypes(user!.id),
     enabled: !!user,
+  });
+}
+
+/** The display name of a custom type's author; idle for any other type id. */
+export function useCustomWarbandAuthorQuery(warbandType: string | undefined) {
+  const isCustom = !!warbandType && isCustomWarbandType(warbandType);
+  return useQuery({
+    queryKey: ['customWarbandAuthor', warbandType],
+    queryFn: () => fetchCustomWarbandAuthor(warbandType!.slice(CUSTOM_ID_PREFIX.length)),
+    enabled: isCustom,
+    staleTime: Infinity,
   });
 }
 

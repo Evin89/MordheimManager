@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { buttonClasses } from '../components/ui';
 import { getWarbandDefinition, getWarbandProvenance } from '../data/warbandRegistry';
-import { useEnsureWarbandType } from '../hooks/useCustomWarbands';
+import { useCustomWarbandAuthorQuery, useEnsureWarbandType } from '../hooks/useCustomWarbands';
 import { isCustomWarbandType } from '../lib/customWarband';
 import { parseWarbandSpecialRules, WarbandRule } from '../lib/warbandRulesFormat';
 import { resolveSpecialRules } from '../lib/specialRulesLookup';
@@ -503,6 +503,7 @@ export default function WarbandRulesScreen() {
   const { loading } = useEnsureWarbandType(warbandSlug);
   const def = warbandSlug ? getWarbandDefinition(warbandSlug) : undefined;
   const isCustom = !!warbandSlug && isCustomWarbandType(warbandSlug);
+  const { data: author } = useCustomWarbandAuthorQuery(warbandSlug);
 
   // Parse the special-rules blob once: its lead-in is the closest thing the data
   // has to a background, and its named rules are the Special Rules section.
@@ -580,14 +581,19 @@ export default function WarbandRulesScreen() {
         </Link>
         <div className="space-y-2">
           <h1 className="text-3xl text-bone-100">{def.name}</h1>
+          {isCustom && author && (
+            <p className="text-bone-200 text-sm">
+              Written by <span className="font-semibold text-ember-400">{author}</span>
+            </p>
+          )}
           <div className="flex flex-wrap items-center gap-1.5">
             <Chip tone="verdigris">{source}</Chip>
             {grade && <Chip tone="muted">{grade}</Chip>}
           </div>
           {isCustom ? (
             <p className="text-bone-400 text-xs">
-              Made by a player{clonedFrom ? ` from ${clonedFrom}` : ''}, with its own names and limits. Not a
-              published list — agree it with your group before playing.
+              A player's own version{clonedFrom ? ` of ${clonedFrom}` : ''}, with its own names and limits. Not
+              a published list — agree it with your group before playing.
             </p>
           ) : (
             fanMade && <p className="text-bone-400 text-xs">Fan-made supplement — verify against your own books.</p>

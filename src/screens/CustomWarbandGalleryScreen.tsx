@@ -58,11 +58,13 @@ export default function CustomWarbandGalleryScreen() {
                     className="block rounded-lg bg-ink-900 border border-ink-800 p-3 hover:border-ink-700"
                   >
                     <span className="block text-bone-100 font-semibold break-words">{c.name}</span>
+                    {c.ownerName && (
+                      <span className="block text-sm text-bone-200 mt-0.5">
+                        {t.writtenBy} <span className="font-semibold text-ember-400">{c.ownerName}</span>
+                      </span>
+                    )}
                     <span className="block font-ui text-xs text-bone-400 mt-0.5">
-                      {t.basedOn(getWarbandTypeName(c.baseType))}
-                      {c.ownerName ? ` · ${t.by(c.ownerName)}` : ''}
-                      {' · '}
-                      {new Date(c.createdAt).toLocaleDateString()}
+                      {t.basedOn(getWarbandTypeName(c.baseType))} · {new Date(c.createdAt).toLocaleDateString()}
                     </span>
                   </Link>
                 </li>
