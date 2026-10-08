@@ -786,6 +786,10 @@ export const strings = {
     equipmentLabel: 'Comes with',
     specialRulesLabel: 'Special rules',
     notCountedHint: "Hired Swords don't count toward your maximum warband size.",
+    hireFeeLabel: 'Hire fee',
+    listedGroup: 'Listed for your warband',
+    othersGroup: 'Other Hired Swords',
+    notListedHint: "Not listed for your warband — check “May be hired by” before hiring.",
   },
   addHenchmen: {
     title: 'Add Henchmen',

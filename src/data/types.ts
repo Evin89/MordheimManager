@@ -329,7 +329,15 @@ export type HiredSwordDefinition = {
   name: string;
   hireFee: number | null;
   upkeep: number | null;
+  /** The price as the source prints it, where it isn't plain gold: "2
+   * treasures", "70 +3D6", "1 wyrdstone", "n/a". `hireFee`/`upkeep` then hold
+   * the gold part, or null when there is none. */
+  hireFeeText?: string;
+  upkeepText?: string;
   mayBeHiredBy: string; // free text describing eligible warbands/exceptions
+  /** Warband ids the source lists as able to hire him. Advisory, like
+   * `mayBeHiredBy`: it sorts the picker, it doesn't forbid a hire. */
+  permittedWarbands?: string[];
   ratingBonus: string; // free text, e.g. "+22 points, plus 1 per Experience point"
   /** The flat part of `ratingBonus`, extracted so warband rating (§3.2) can
    * actually use the rulebook's per-type figure instead of approximating every
@@ -343,11 +351,15 @@ export type HiredSwordDefinition = {
   racialProfile?: string;
   equipment: string;
   skillLists: string[];
-  /** See HeroSlotDefinition. The Warlock is the only Hired Sword who casts. */
+  /** See HeroSlotDefinition. */
   spellLists?: string[];
   startingSpells?: number;
   specialRules: string;
+  /** Broheim's grade: 'core' for the rulebook seven, else as for warbands. */
+  grade?: 'core' | WarbandGrade;
   source: string;
+  /** The entry on mordheimer.net. */
+  url?: string;
 };
 
 export type HiredSwordsData = {

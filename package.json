@@ -13,7 +13,8 @@
     "design-sheet": "node scripts/design-sheet.mjs",
     "seed:scale": "node scripts/seed-scale-test.mjs",
     "seed:teardown": "node scripts/seed-teardown.mjs",
-    "import:scenarios": "node scripts/import-scenario-catalog.mjs"
+    "import:scenarios": "node scripts/import-scenario-catalog.mjs",
+    "import:hired-swords": "node scripts/import-hired-swords.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.8",

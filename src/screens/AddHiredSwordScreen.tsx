@@ -8,9 +8,33 @@ import { useSaveWarbandMutation, useWarbandLookup } from '../hooks/useWarbands';
 import { createHiredSwordFromDefinition } from '../lib/warbandFactory';
 import { resolveStatLine } from '../lib/statLine';
 import hiredSwordsData from '../data/hiredSwords.json';
-import { HiredSwordsData } from '../data/types';
+import { HiredSwordDefinition, HiredSwordsData } from '../data/types';
 
-const hiredSwords = (hiredSwordsData as HiredSwordsData).hiredSwords;
+const hiredSwords = [...(hiredSwordsData as HiredSwordsData).hiredSwords].sort((a, b) =>
+  a.name.localeCompare(b.name),
+);
+
+/**
+ * Splits the list into those the source names for this warband and the rest.
+ *
+ * Seventy Hired Swords in one dropdown is mostly noise for any one warband, but
+ * the source's lists aren't the last word — `mayBeHiredBy` has exceptions the
+ * lists can't hold, and a custom warband appears on none of them — so the rest
+ * stay hireable, just further down.
+ */
+function splitByEligibility(warbandType: string) {
+  const listed: HiredSwordDefinition[] = [];
+  const others: HiredSwordDefinition[] = [];
+  for (const h of hiredSwords) {
+    (h.permittedWarbands?.includes(warbandType) ? listed : others).push(h);
+  }
+  return { listed, others };
+}
+
+function priceLabel(gold: number | null, text: string | undefined): string {
+  if (text) return text;
+  return gold === null ? '?' : `${gold} ${strings.common.gold}`;
+}
 
 export default function AddHiredSwordScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
@@ -18,7 +42,7 @@ export default function AddHiredSwordScreen() {
   const { warband, loading } = useWarbandLookup(warbandId);
   const saveWarband = useSaveWarbandMutation();
 
-  const [definitionId, setDefinitionId] = useState(hiredSwords[0]?.id ?? '');
+  const [definitionId, setDefinitionId] = useState('');
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -31,7 +55,9 @@ export default function AddHiredSwordScreen() {
   }
   if (!warband) return <Navigate to="/warbands" replace />;
 
-  const definition = hiredSwords.find((h) => h.id === definitionId);
+  const { listed, others } = splitByEligibility(warband.warbandType);
+  const definition =
+    hiredSwords.find((h) => h.id === definitionId) ?? listed[0] ?? others[0];
   const fee = definition?.hireFee ?? 0;
   const canAfford = fee <= warband.gold;
 
@@ -68,12 +94,19 @@ export default function AddHiredSwordScreen() {
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="hired-sword">
             {strings.addHiredSword.pickType}
           </label>
-          <Select id="hired-sword" value={definitionId} onChange={(e) => setDefinitionId(e.target.value)}>
-            {hiredSwords.map((h) => (
-              <option key={h.id} value={h.id}>
-                {h.name} ({h.hireFee ?? '?'} {strings.common.gold})
-              </option>
-            ))}
+          <Select id="hired-sword" value={definition?.id ?? ''} onChange={(e) => setDefinitionId(e.target.value)}>
+            {listed.length > 0 ? (
+              <>
+                <optgroup label={strings.addHiredSword.listedGroup}>
+                  {listed.map(renderOption)}
+                </optgroup>
+                <optgroup label={strings.addHiredSword.othersGroup}>
+                  {others.map(renderOption)}
+                </optgroup>
+              </>
+            ) : (
+              others.map(renderOption)
+            )}
           </Select>
           <p className={`text-sm ${canAfford ? 'text-bone-300' : 'text-blood-500'}`}>
             {strings.roster.costVsTreasury(fee, warband.gold)}
@@ -91,8 +124,18 @@ export default function AddHiredSwordScreen() {
 
             <p className="text-bone-300 text-sm">
               <span className="text-bone-200 font-semibold">{strings.addHiredSword.upkeepLabel}: </span>
-              {definition.upkeep ?? '?'} {strings.common.gold} {strings.addHiredSword.perBattle}
+              {definition.upkeepText ?? `${definition.upkeep ?? '?'} ${strings.common.gold}`}{' '}
+              {strings.addHiredSword.perBattle}
             </p>
+            {definition.hireFeeText && (
+              <p className="text-bone-300 text-sm">
+                <span className="text-bone-200 font-semibold">{strings.addHiredSword.hireFeeLabel}: </span>
+                {definition.hireFeeText}
+              </p>
+            )}
+            {listed.length > 0 && !listed.includes(definition) && (
+              <p className="text-blood-500 text-sm">{strings.addHiredSword.notListedHint}</p>
+            )}
             <p className="text-bone-300 text-sm">
               <span className="text-bone-200 font-semibold">{strings.addHiredSword.hiredByLabel}: </span>
               {definition.mayBeHiredBy}
@@ -104,12 +147,22 @@ export default function AddHiredSwordScreen() {
               </p>
             )}
             {definition.specialRules && (
-              <p className="text-bone-300 text-sm">
+              <p className="text-bone-300 text-sm whitespace-pre-line">
                 <span className="text-bone-200 font-semibold">{strings.addHiredSword.specialRulesLabel}: </span>
                 {definition.specialRules}
               </p>
             )}
-            <p className="text-bone-400 text-xs">{definition.source}</p>
+            <p className="text-bone-400 text-xs">
+              {definition.source}
+              {definition.url && (
+                <>
+                  {' · '}
+                  <a href={definition.url} target="_blank" rel="noreferrer" className="underline">
+                    mordheimer.net ↗
+                  </a>
+                </>
+              )}
+            </p>
           </Card>
         )}
 
@@ -133,5 +186,13 @@ export default function AddHiredSwordScreen() {
         <Button onClick={handleHire}>{strings.addHiredSword.hireButton}</Button>
       </main>
     </div>
+  );
+}
+
+function renderOption(h: HiredSwordDefinition) {
+  return (
+    <option key={h.id} value={h.id}>
+      {h.name} ({priceLabel(h.hireFee, h.hireFeeText)})
+    </option>
   );
 }
