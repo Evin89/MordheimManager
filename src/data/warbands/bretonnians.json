@@ -44,7 +44,8 @@
         "strength",
         "speed",
         "bretonnianKnights",
-        "bretonnians"
+        "bretonnians",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,
@@ -92,7 +93,8 @@
         "combat",
         "speed",
         "bretonnianKnights",
-        "bretonnians"
+        "bretonnians",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,
@@ -133,7 +135,8 @@
       "startingXp": 0,
       "skillLists": [
         "combat",
-        "strength"
+        "strength",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,

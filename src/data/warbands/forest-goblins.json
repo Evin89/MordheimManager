@@ -43,7 +43,8 @@
         "combat",
         "shooting",
         "academic",
-        "speed"
+        "speed",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,

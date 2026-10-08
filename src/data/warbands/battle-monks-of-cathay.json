@@ -19,7 +19,8 @@
         "shooting",
         "academic",
         "speed",
-        "battleMonk"
+        "battleMonk",
+        "cavalry"
       ],
       "statLine": {
         "M": 4,
@@ -74,7 +75,8 @@
         "combat",
         "shooting",
         "strength",
-        "speed"
+        "speed",
+        "cavalry"
       ],
       "statLine": {
         "M": 4,

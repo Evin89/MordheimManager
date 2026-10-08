@@ -27,6 +27,7 @@ import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
 import { MAX_MELEE, MAX_MISSILE_TYPES, canAddWeapon, countWeaponSlots } from '../lib/weaponSlots';
 import { getAdvanceProgress } from '../lib/xpThresholds';
+import { heroSkillLists } from '../lib/ruleEffects';
 import { Advance, EquipmentItem, Hero, HiredSword, ModelStatus, StatLine, Warband } from '../types';
 
 type EditableModel = Hero | HiredSword;
@@ -549,7 +550,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
               {advanceMode === 'skill' && (
                 <SkillPicker
-                  skillLists={model.skillLists}
+                  skillLists={heroSkillLists(draft.warbandType, model)}
                   knownSkills={model.skills}
                   warbandType={draft.warbandType}
                   isLeader={model.isLeader}
@@ -636,7 +637,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           {addingSkill && (
             <Card>
               <SkillPicker
-                skillLists={model.skillLists}
+                skillLists={heroSkillLists(draft.warbandType, model)}
                 knownSkills={model.skills}
                 warbandType={draft.warbandType}
                 isLeader={model.isLeader}

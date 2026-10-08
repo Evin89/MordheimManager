@@ -48,11 +48,28 @@ export function promotionSkillListOptions(warbandType: string, unitType: string)
   const definition = getWarbandDefinition(warbandType);
   const heroLists = [...new Set((definition?.heroSlots ?? []).flatMap((h) => h.skillLists ?? []))];
 
-  const pool = (effect?.from ?? heroLists).filter((l) => !(effect?.exclude ?? []).includes(l));
+  // Cavalry skills go with having a mount, not with being a Hero, so a
+  // promoted Henchman never picks them as one of his two lists.
+  const pool = (effect?.from ?? heroLists).filter(
+    (l) => l !== 'cavalry' && !(effect?.exclude ?? []).includes(l),
+  );
   return {
     fixed: effect?.fixed ?? null,
     choose: effect?.choose ?? 2,
     options: pool,
     extra: effect?.extra ?? [],
   };
+}
+
+/**
+ * The skill lists a Hero may pick from: the ones stored on him, plus whatever
+ * his unit's slot grants now. A Hero copies his slot's lists when hired, so a
+ * list added to the data later (Cavalry, for one) would otherwise never reach
+ * Heroes already on a roster.
+ */
+export function heroSkillLists(warbandType: string, hero: { unitType?: string; skillLists: string[] }): string[] {
+  const slot = hero.unitType
+    ? getWarbandDefinition(warbandType)?.heroSlots.find((s) => s.unitType === hero.unitType)
+    : undefined;
+  return [...new Set([...hero.skillLists, ...(slot?.skillLists ?? [])])];
 }

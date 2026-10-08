@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "source": "The Mordheimer's Master Skill List Compilation v1.30 (compiled by Edwin \"The Mordheimer\" Molina, based on prior work by Tim Leach), fetched from https://www.broheim.net/downloads/resources/Master%20Skill%20List.pdf on 2026-07-03. Core lists cite the Mordheim rulebook (RB) page numbers as given in that document; owner should still cross-check against their own physical rulebook printing. Black Orc, Amazon, Lizardmen (Skink and Saurus) and Battle Monk special skill lists supplied directly by the owner on 2026-08-02. Dwarf Slayer Cult special skills supplied directly by the owner on 2026-10-08.",
+  "source": "The Mordheimer's Master Skill List Compilation v1.30 (compiled by Edwin \"The Mordheimer\" Molina, based on prior work by Tim Leach), fetched from https://www.broheim.net/downloads/resources/Master%20Skill%20List.pdf on 2026-07-03. Core lists cite the Mordheim rulebook (RB) page numbers as given in that document; owner should still cross-check against their own physical rulebook printing. Black Orc, Amazon, Lizardmen (Skink and Saurus) and Battle Monk special skill lists supplied directly by the owner on 2026-08-02. The Cavalry list (absent from the Master Skill List) is from Empire in Flames pp.24-26, fetched from https://www.broheim.net/downloads/rules/Empire%20In%20Flames.pdf on 2026-10-07. Dwarf Slayer Cult special skills supplied directly by the owner on 2026-10-08.",
   "lists": {
     "combat": {
       "name": "Combat",
@@ -270,6 +270,91 @@
           "id": "scaleSheerSurfaces",
           "name": "Scale Sheer Surfaces",
           "effect": "May climb up/down a height equal to twice normal Movement without Initiative tests. (RB 123)"
+        }
+      ]
+    },
+    "cavalry": {
+      "name": "Cavalry",
+      "skills": [
+        {
+          "id": "rideHorse",
+          "name": "Ride Horse",
+          "effect": "Lets the warrior ride a horse into combat. Ride is specific to one kind of animal: a different mount needs its own Ride skill. Without it a rider must pass a Leadership test when hit by a missile, and at the start of any Combat phase with a standing enemy in base contact, or roll on the Whoa Boy! table. Warriors that come with a riding animal already have Ride for it. (EiF 24-25)"
+        },
+        {
+          "id": "rideWarhorse",
+          "name": "Ride Warhorse",
+          "effect": "As Ride Horse, but for the more spirited warhorse; a warrior with Ride Horse still needs this skill to ride one into combat. (EiF 25)"
+        },
+        {
+          "id": "rideNightmare",
+          "name": "Ride Nightmare",
+          "effect": "As Ride Horse, but for a Nightmare. (EiF 25)"
+        },
+        {
+          "id": "cavalryCommander",
+          "name": "Cavalry Commander",
+          "effect": "If the warband's leader has this skill and is mounted, the range within which other warriors may use his Leadership is increased by a further 6\", on top of any other bonus. (EiF 25-26)",
+          "prerequisite": {
+            "text": "Leader only, and only while mounted.",
+            "requiresLeader": true
+          }
+        },
+        {
+          "id": "trickRiding",
+          "name": "Trick Riding",
+          "effect": "Declare before moving, then pass an Initiative test to move full distance (fail: roll on the Whoa Boy! table). While trick riding, missile attacks against the rider are at -1 to hit. Needs both hands, so no shield or missile weapons while using it, and may not be used in heavy armour. (EiF 26)",
+          "prerequisite": {
+            "text": "Requires Ride. Not usable in heavy armour."
+          }
+        },
+        {
+          "id": "combatRiding",
+          "name": "Combat Riding",
+          "effect": "When charging an unmounted opponent, makes one additional S4 attack as the mount tramples him. In later rounds, or when charged, fights as normal. (EiF 26)",
+          "prerequisite": {
+            "text": "Requires Ride."
+          }
+        },
+        {
+          "id": "evade",
+          "name": "Evade",
+          "effect": "Always strikes first in close combat against dismounted opponents. When charged, or against an enemy who also strikes first, attacks go in Initiative order (equal Initiative: higher Experience first). (EiF 26)",
+          "prerequisite": {
+            "text": "Requires Ride."
+          }
+        },
+        {
+          "id": "runningDismount",
+          "name": "Running Dismount",
+          "effect": "May ride up to the mount's normal move and then dismount at once; no further movement or shooting. Can be used to reach the enemy as a diving charge from 2\" (all diving charge rules apply), after which the rider counts as dismounted. (EiF 26)",
+          "prerequisite": {
+            "text": "Requires Ride."
+          }
+        },
+        {
+          "id": "athleticMount",
+          "name": "Athletic Mount",
+          "effect": "If within half his move of his steed, may leap onto it and spur it straight into a run or charge move, instead of losing half his move to mount. (EiF 26)",
+          "prerequisite": {
+            "text": "Requires Ride."
+          }
+        },
+        {
+          "id": "horseArcher",
+          "name": "Horse Archer",
+          "effect": "May shoot in a 360-degree arc while mounted, and may shoot while the mount runs at a further -1 to hit. (EiF 26)",
+          "prerequisite": {
+            "text": "Requires Ride."
+          }
+        },
+        {
+          "id": "mountedCombatMaster",
+          "name": "Mounted Combat Master",
+          "effect": "When fighting mounted against a mounted opponent and wounding him, the wounded model adds +1 to his roll on the Whoa Boy! table. (EiF 26)",
+          "prerequisite": {
+            "text": "Requires Ride."
+          }
         }
       ]
     }

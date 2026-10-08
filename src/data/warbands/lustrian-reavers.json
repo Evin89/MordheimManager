@@ -41,7 +41,8 @@
       "startingXp": 24,
       "skillLists": [
         "combat",
-        "strength"
+        "strength",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,
@@ -96,7 +97,8 @@
       "skillLists": [
         "combat",
         "strength",
-        "speed"
+        "speed",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,
@@ -147,7 +149,8 @@
       "skillLists": [
         "shooting",
         "strength",
-        "speed"
+        "speed",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,
@@ -210,7 +213,8 @@
       "skillLists": [
         "shooting",
         "academic",
-        "speed"
+        "speed",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,
@@ -265,7 +269,8 @@
       "skillLists": [
         "combat",
         "shooting",
-        "academic"
+        "academic",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,

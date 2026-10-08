@@ -53,7 +53,8 @@
         "strength",
         "speed",
         "bretonnianKnights",
-        "bretonnianChapelGuard"
+        "bretonnianChapelGuard",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,
@@ -99,7 +100,8 @@
       "startingXp": 12,
       "skillLists": [
         "academic",
-        "speed"
+        "speed",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,
@@ -160,7 +162,8 @@
         "strength",
         "speed",
         "bretonnianKnights",
-        "bretonnianChapelGuard"
+        "bretonnianChapelGuard",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,

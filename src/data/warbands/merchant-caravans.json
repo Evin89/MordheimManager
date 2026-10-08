@@ -38,7 +38,8 @@
       "skillLists": [
         "shooting",
         "academic",
-        "merchantCaravans"
+        "merchantCaravans",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,
@@ -81,7 +82,8 @@
         "combat",
         "shooting",
         "academic",
-        "speed"
+        "speed",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,
@@ -137,7 +139,8 @@
       "skillLists": [
         "combat",
         "strength",
-        "speed"
+        "speed",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,
@@ -187,7 +190,8 @@
       "startingXp": 8,
       "skillLists": [
         "academic",
-        "speed"
+        "speed",
+        "cavalry"
       ],
       "statMaximums": {
         "M": null,

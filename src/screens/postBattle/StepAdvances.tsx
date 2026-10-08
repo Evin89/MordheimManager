@@ -12,7 +12,7 @@ import advancesData from '../../data/advances.json';
 import { AdvanceTableEntry } from '../../data/types';
 import { StatLine } from '../../types';
 import { StatIncreases, StepProps } from './types';
-import { promotionSkillListOptions } from '../../lib/ruleEffects';
+import { heroSkillLists, promotionSkillListOptions } from '../../lib/ruleEffects';
 import { getSkillList } from '../../lib/skillLookup';
 
 type LastAdvanceRoll = {
@@ -398,7 +398,7 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
             <AdvanceRecorder
               statMaximums={hero.statMaximums}
               currentStats={hero.stats}
-              skillLists={hero.skillLists}
+              skillLists={heroSkillLists(warband.warbandType, hero)}
               knownSkills={hero.skills}
               spellLists={hero.spellLists}
               knownSpells={hero.spells}

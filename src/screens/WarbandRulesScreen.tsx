@@ -34,6 +34,11 @@ import {
 const STANDARD_SKILL_KEYS = ['combat', 'shooting', 'academic', 'strength', 'speed'] as const;
 const STANDARD_SKILL_SET = new Set<string>(STANDARD_SKILL_KEYS);
 
+// Cavalry skills (Empire in Flames) belong to Heroes who can take a mount. A
+// general list, not a warband's own, so it gets its own chip rather than
+// counting as "Special".
+const CAVALRY_SKILL_KEY = 'cavalry';
+
 // Special rules that change legality or army-wide behaviour get a boxed callout
 // (§5.4.7). Matched on the rule's name or text — a small allowlist, so an
 // ordinary rule stays plain rather than every rule shouting.
@@ -285,7 +290,7 @@ function SkillAccess({ heroes }: { heroes: HeroSlotDefinition[] }) {
     <div className="grid grid-cols-1 min-[460px]:grid-cols-2 lg:grid-cols-3 gap-3">
       {heroes.map((hero) => {
         const has = new Set(hero.skillLists);
-        const special = hero.skillLists.filter((k) => !STANDARD_SKILL_SET.has(k));
+        const special = hero.skillLists.filter((k) => !STANDARD_SKILL_SET.has(k) && k !== CAVALRY_SKILL_KEY);
         return (
           <div key={hero.id} className="rounded-lg bg-ink-900 border border-ink-800 p-3 space-y-2">
             <p className="text-bone-100 font-semibold text-sm">{hero.unitType}</p>
@@ -298,6 +303,9 @@ function SkillAccess({ heroes }: { heroes: HeroSlotDefinition[] }) {
                   </Chip>
                 );
               })}
+              {has.has(CAVALRY_SKILL_KEY) && (
+                <Chip tone="accent">{getSkillList(CAVALRY_SKILL_KEY)?.name ?? CAVALRY_SKILL_KEY}</Chip>
+              )}
               {special.length > 0 && (
                 <a href="#special-skills">
                   <Chip tone="verdigris">Special</Chip>
@@ -500,7 +508,7 @@ export default function WarbandRulesScreen() {
     if (!def) return [];
     const keys = new Set<string>();
     for (const hero of def.heroSlots)
-      for (const key of hero.skillLists) if (!STANDARD_SKILL_SET.has(key)) keys.add(key);
+      for (const key of hero.skillLists) if (!STANDARD_SKILL_SET.has(key) && key !== CAVALRY_SKILL_KEY) keys.add(key);
     return [...keys].filter((k) => getSkillList(k));
   }, [def]);
 
