@@ -32,6 +32,7 @@ import courtOfTheProfanePleasures from './warbands/court-of-the-profane-pleasure
 import theCursedCavalcade from './warbands/the-cursed-cavalcade.json';
 import darkElves from './warbands/dark-elves.json';
 import dwarfRangers from './warbands/dwarf-rangers.json';
+import dwarfSlayerCult from './warbands/dwarf-slayer-cult.json';
 import forestGoblins from './warbands/forest-goblins.json';
 import hochlandBandits from './warbands/hochland-bandits.json';
 import hornedHunters from './warbands/horned-hunters.json';
@@ -85,6 +86,7 @@ export const warbandDefinitions: WarbandDefinition[] = [
   theCursedCavalcade,
   darkElves,
   dwarfRangers,
+  dwarfSlayerCult,
   forestGoblins,
   hochlandBandits,
   hornedHunters,

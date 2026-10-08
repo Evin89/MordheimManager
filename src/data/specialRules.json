@@ -67,6 +67,29 @@
       "id": "prayers",
       "name": "Prayers",
       "description": "This model is a priest and may use prayers from its list. Prayers are not spells, so protection against spells does not affect them. Its prayers are shown on its own entry."
+    },
+    "dwarf": {
+      "id": "dwarf",
+      "name": "Dwarf",
+      "description": "Hard to Kill: only taken Out of Action on a roll of 6 on the Injury chart, not 5-6 (1-2 Knocked Down, 3-5 Stunned, 6 Out of Action). Hard Head: ignores the special rules for maces, clubs, etc."
+    },
+    "slayer": {
+      "id": "slayer",
+      "name": "Slayer",
+      "description": "Deathwish: immune to all psychology (including Hatred, Frenzy and Stupidity) and never tests for fighting alone. Damnable Luck: once per post-game, one Death result for a Slayer may be re-rolled. No Armour No Toys: may never use armour or cloaks that give a constant save bonus (Lucky Charms are allowed), no missile weapons that aren't thrown, and may not learn magic. See the warband's special rules for Only in Victory and Record of Valor."
+    },
+    "hatred": {
+      "id": "hatred",
+      "name": "Hatred",
+      "description": "This model hates {target}. See the Leadership & Psychology rules.",
+      "params": {
+        "target": "its foes"
+      }
+    },
+    "skittish": {
+      "id": "skittish",
+      "name": "Skittish",
+      "description": "As newly crowned Slayers, these warriors do not have Deathwish and suffer psychology like normal. When one gains 'That Lad's Got Talent', instead of making an immediate roll on the Hero Advance table, he must learn the skill Deathwish."
     }
   }
 }

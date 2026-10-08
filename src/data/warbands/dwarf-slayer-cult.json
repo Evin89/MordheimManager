@@ -1,0 +1,412 @@
+{
+  "id": "dwarf-slayer-cult",
+  "name": "Dwarf Slayer Cult",
+  "source": "The New Mordheimer, Grade 2a warband (Mordheim V5.0), by Dave 'Styrofoam King' Joria, based on Mark Havener's Dwarf Treasure Hunters. Text supplied directly by the owner on 2026-10-08 (not in the mordheimer data import).",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "giantSlayer",
+      "racialProfile": "dwarf",
+      "unitType": "Giant Slayer",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 85,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "dwarfSlayerCult"
+      ],
+      "statLine": {
+        "M": 3,
+        "WS": 5,
+        "BS": 4,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "slayerEquipmentList"
+      ],
+      "notes": "The most experienced and battle-scarred of all Slayers in the warband. Having dipped his hands in the blood of giants, he is off to Mordheim in search of the next big hunt: Daemons. Each warband must have one Giant Slayer.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "ref": "dwarf",
+          "note": "Grudgebearer: see the warband's special rules."
+        },
+        {
+          "ref": "slayer"
+        }
+      ]
+    },
+    {
+      "id": "doomseeker",
+      "racialProfile": "dwarf",
+      "unitType": "Doomseeker",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 55,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "strength",
+        "dwarfSlayerCult"
+      ],
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "doomseekerEquipmentList"
+      ],
+      "notes": "Doomseekers plow recklessly into the enemy, whirling axes on the end of chains about their heads.",
+      "specialRules": [
+        {
+          "ref": "dwarf",
+          "note": "Grudgebearer: see the warband's special rules."
+        },
+        {
+          "ref": "slayer"
+        }
+      ]
+    },
+    {
+      "id": "rememberer",
+      "racialProfile": "dwarf",
+      "unitType": "Rememberer",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 40,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "dwarfSlayerCult"
+      ],
+      "statLine": {
+        "M": 3,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "remembererEquipmentList"
+      ],
+      "notes": "The one sane member of the warband, a bard charged with recording each Slayer that falls in battle. Exempt from Only in Victory.",
+      "specialRules": [
+        {
+          "ref": "dwarf",
+          "note": "Grudgebearer: see the warband's special rules."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Orcs and Goblins"
+          },
+          "note": "Ignored if the warrior later becomes Immune to Psychology."
+        },
+        {
+          "name": "Record of Valor",
+          "description": "If a Slayer Hero is taken out of action by an enemy or NPC (directly or indirectly) while the Rememberer is on the board, receive +1 Exploration dice in the post-game. Lost if the Slayer is somehow brought back to the battlefield. See the warband's special rules."
+        },
+        {
+          "name": "Rememberer",
+          "description": "Once per game, any Slayer Hero fighting a Large creature or a creature with Toughness 5 or greater, within 6\" of the Rememberer, may re-roll any failed To Hit rolls once only."
+        },
+        {
+          "name": "Pick up the Slack",
+          "description": "If he was not taken out of action, the Rememberer may make a rarity or Dramatis Personae roll for each Slayer Hero taken out of action this game, in addition to the normal rarity search."
+        },
+        {
+          "name": "Not a Slayer",
+          "description": "The Slayer rules don't apply to him. He may not learn 'Slayers Only' skills and may never be the warband leader."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "trollSlayers",
+      "racialProfile": "dwarf",
+      "unitType": "Troll Slayers",
+      "cost": 40,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 3,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "slayerEquipmentList"
+      ],
+      "notes": "The most numerous part of a slayer cult: solitary souls who have whetted their blades in the blood of Orc bosses and Black Orcs.",
+      "specialRules": [
+        {
+          "ref": "dwarf",
+          "note": "Grudgebearer: see the warband's special rules."
+        },
+        {
+          "ref": "slayer"
+        }
+      ]
+    },
+    {
+      "id": "axeHurlers",
+      "racialProfile": "dwarf",
+      "unitType": "Axe Hurlers",
+      "cost": 40,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 3,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "slayerEquipmentList"
+      ],
+      "notes": "In a past life, probably Thunderers or Rangers. No one dares ask.",
+      "specialRules": [
+        {
+          "ref": "dwarf",
+          "note": "Grudgebearer: see the warband's special rules."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Orcs and Goblins"
+          },
+          "note": "Ignored if the warrior later becomes Immune to Psychology."
+        },
+        {
+          "name": "Strong Arm",
+          "description": "When throwing weapons, may throw the missile extra inches equal to his Strength (e.g. S3 = +3\")."
+        },
+        {
+          "name": "Born Marksmen",
+          "description": "If promoted by 'That Lad's Got Talent', he may always choose Shooting as one of his two skill lists, even if no Hero in the warband has Shooting. Even with Weapons Training he may not use missile weapons that aren't thrown."
+        },
+        {
+          "ref": "skittish"
+        }
+      ]
+    },
+    {
+      "id": "stubbles",
+      "racialProfile": "dwarf",
+      "unitType": "Stubbles",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 3,
+        "WS": 3,
+        "BS": 2,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 2,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "slayerEquipmentList"
+      ],
+      "notes": "New Slayers, their shaven heads still covered in stubble and the ink in their beards still wet.",
+      "specialRules": [
+        {
+          "ref": "dwarf",
+          "note": "Grudgebearer: see the warband's special rules."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Orcs and Goblins"
+          },
+          "note": "Ignored if the warrior later becomes Immune to Psychology."
+        },
+        {
+          "ref": "skittish"
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "slayerEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "dwarfAxe",
+      "sword",
+      "doubleHandedWeapon",
+      "gromrilWeapon",
+      "throwingAxes"
+    ],
+    "doomseekerEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "dwarfAxe",
+      "sword",
+      "doubleHandedWeapon",
+      "flail",
+      "whirlingBlades",
+      "gromrilWeapon"
+    ],
+    "remembererEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "dwarfAxe",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "gromrilWeapon",
+      "throwingAxes",
+      "pistol",
+      "crossbow",
+      "lightArmour",
+      "helmet",
+      "shield",
+      "buckler"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "dwarfAxe",
+      "name": "Dwarf Axe",
+      "category": "melee",
+      "cost": 15,
+      "rarity": 8,
+      "restriction": "Dwarf warbands only — included in the warband's own recruitment list at listed cost (no roll needed at recruitment); a Rare 8 roll is only needed when buying one later via the Trading Post.",
+      "rulesText": "Close combat, Strength as user. Cutting Edge: an extra -1 armour save modifier (e.g. a Strength 4 user gets -2 total). Parry: the wielder may attempt to parry one blow per combat phase — roll a D6 higher than the opponent's highest to-hit roll to negate it (never against an attack from double-or-more the wielder's own Strength). Two Dwarf axes (or a Dwarf axe + another Parry weapon) still only parries once, but may re-roll a failed parry."
+    },
+    {
+      "id": "throwingAxes",
+      "name": "Throwing Axes",
+      "category": "missile",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Common for Slayers (Rare 5 for non-Slayers).",
+      "rulesText": "Range 6\", Strength as user. Thrown Weapon: no penalty for throwing over half range or for moving and shooting. Axe Thrower: Heroes armed with Throwing Axes who have access to Shooting skills may learn Axe Thrower — throw up to two axes in the shooting phase, both at +1 Strength, split between any targets in range. Cannot be combined with Quick Shot or Knife Fighter; Knife Thrower does not allow throwing multiple Throwing Axes."
+    },
+    {
+      "id": "whirlingBlades",
+      "name": "Whirling Blades",
+      "category": "melee",
+      "cost": 30,
+      "rarity": 9,
+      "restriction": "Slayers only (Doomseeker list). 30 gc per pair.",
+      "rulesText": "Close combat, Strength as user. An axe on a chain, used in pairs. Cannot be parried: a model attacked by Whirling Blades may not parry with swords or bucklers. Cutting Edge: extra -1 armour save modifier. Pair: one in each hand, giving the usual off-hand attack; may not wield a different off-hand weapon or split the pair. Dance of Doom: when the Doomseeker charges, the main-hand blade gives +1 Attack in the first round; when he is charged it gives +1 Attack that must be used against a charger (only +1 total, however many charge). Whirlwind of Death: when charged, the Dance of Doom attack and the off-hand attack both Strike First (like a Steel Whip) that turn; his other attacks strike at normal speed. If the charger also strikes first, use Initiative order (roll off if equal)."
+    }
+  ],
+  "specialRules": "Hard to Kill: Dwarfs are only taken Out of Action on a roll of 6 on the Injury chart, not 5-6. Treat 1-2 as Knocked Down, 3-5 as Stunned, and 6 as Out of Action. | Hard Head: Dwarfs ignore the special rules for maces, clubs, etc. | Grudgebearers: A Dwarf warband may never include any kind of Elven Hired Sword or Dramatis Personae. | Hatred: The Rememberer, Stubbles and Axe Hurlers Hate Orcs and Goblins. Ignored if the warrior later becomes Immune to Psychology. | Deathwish: Unless stated otherwise, all Slayers are completely immune to all psychology (including Hatred, Frenzy and Stupidity) and never need to test for fighting alone. | Damnable Luck: In the post-game, after rolling for all injuries, you may re-roll one Death result for a single Slayer Hero or Henchman, accepting the second result. | No Armour No Toys: Slayers may never use armour of any kind, nor cloaks that provide a constant save bonus (Lucky Charms are allowed). They may not use any missiles that aren't thrown, nor learn magic. | Only in Victory: Slayer Heroes do not gain Exploration dice if the warband was defeated or routed; only if it won the scenario, was allied with the winner, or tied. Does not apply to the Rememberer. | Record of Valor: If a Slayer Hero is taken out of action while the Rememberer is on the board, receive +1 Exploration dice in the post-game. Only if caused directly or indirectly by an enemy or NPC (attacked by a warrior, falling off a cliff after a crossbow bolt, removed by a hostile random event, etc.) — not for losses with no opposing influence, such as deliberately walking off a cliff or failing a jump. If the Slayer is somehow brought back to the battlefield, the extra die is lost. | Back-up Records: A Bard Hired Sword also gains Record of Valor, but two Rememberers do not stack — one Slayer taken out of action gives at most one Exploration die. A backup for when the Rememberer misses a game or is taken out of action. | Gromril Weapons: Any weapon a Dwarf may buy may be bought as a Gromril weapon at 3x its cost when founding the warband. Later purchases use the normal Gromril price chart. | Rite of Trollslaying: If a Slayer Henchman takes out of action an enemy that was Large and started the game with multiple wounds, in the post-game it gains enough experience to reach its next advance (or 16 exp if maxed out) and is treated as rolling That Lad's Got Talent. With 6 Heroes already, you may roll a normal Henchman advance instead of replacing one. If promoted, give it a fitting title, like Ogreslayer. | Rite of Dragonslaying: If a Slayer takes out a Large or gigantic scaled monster (Hydra, Dragon, Wyvern, Sea Drake, Merwyrm, Turtigon, or their young) that has Skull of Iron and/or 4+ Wounds, and is an NPC or rolls a death injury, the Slayer may tan its hide and gain a Sea Dragon Cloak for free in the post-game, if he doesn't own one. It may not be sold or given away, and is the exception to No Armour. If lost or stolen it can't be bought, only won again. A Henchman also gets the Rite of Trollslaying; if it can't be promoted it may still wear the cloak. | Sea Dragon Cloak: Scales — 5+ armour save in close combat, 4+ armour save against missiles."
+}

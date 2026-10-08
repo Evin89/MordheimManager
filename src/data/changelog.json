@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-10-08",
+    "title": "Dwarf Slayer Cult",
+    "description": "A new warband, by request: the Dwarf Slayer Cult from The New Mordheimer. Lead a Giant Slayer with Doomseekers and a Rememberer, backed by Troll Slayers, Axe Hurlers and Stubbles. It comes with its own equipment lists, Throwing Axes and Whirling Blades, and a list of eleven special skills. Its rules page covers Deathwish, Damnable Luck, Record of Valor and the Rites of Trollslaying and Dragonslaying."
+  },
+  {
     "date": "2026-09-28",
     "title": "Every Scenario, Not Just the Rulebook Nine",
     "description": "The scenario pickers now list all 101 scenarios from the Mordheim rulebook, Town Cryer, Fanatic and Archive Pestilen, grouped by source. You can filter them by setting, player count and source, or tick “only scenarios that fit this game”, and the app remembers your filter next time. The battlefield generator draws a board for every one of them. Scenarios outside the rulebook get a generic layout based on their type (attacker and defender, cross the board, a corner each for multiplayer, and so on), with the matching wyrdstone and treasure counters, and a clear note to check the full rules for the real setup. “Suggest a scenario” skips anything that doesn't fit your game: no multiplayer scenarios for a one-on-one, and no Witch Hunter scenarios unless someone's bringing Witch Hunters. In the Rules Reference, the Scenarios chapter has the same filters and is grouped by source. Every scenario there now names its author, links to its full rules on mordheimer.net, and has a button to draw a board for it."
