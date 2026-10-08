@@ -2,6 +2,7 @@
   "id": "court-of-the-profane-pleasures",
   "name": "Court of the Profane Pleasures",
   "source": "Tuomas Pirinen",
+  "grade": "1c",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

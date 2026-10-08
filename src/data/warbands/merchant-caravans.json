@@ -2,6 +2,7 @@
   "id": "merchant-caravans",
   "name": "Merchant Caravans",
   "source": "Border Town Burning",
+  "grade": "1c",
   "startingGold": 600,
   "minWarbandSize": 3,
   "maxWarbandSize": 12,

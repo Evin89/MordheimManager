@@ -2,6 +2,7 @@
   "id": "kislevites",
   "name": "Kislevites",
   "source": "The New Mordheimer, https://mordheimer.net/docs/warbands/grade-1a-warbands/kislevites (fetched 2026-07-06). Grade 1a warband. Cited source: Town Cryer #16, revised in the Mordheim Annual 2002. Owner should cross-check against their own copy of that supplement/annual.",
+  "grade": "1a",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

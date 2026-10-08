@@ -2,6 +2,7 @@
   "id": "bretonnians",
   "name": "Bretonnians",
   "source": "Town Cryer #8",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 12,

@@ -2,6 +2,7 @@
   "id": "dwarf-rangers",
   "name": "Dwarf Rangers",
   "source": "Nemesis Crown Supplement",
+  "grade": "1b",
   "startingGold": null,
   "minWarbandSize": null,
   "maxWarbandSize": null,

@@ -2,6 +2,7 @@
   "id": "hochland-bandits",
   "name": "Hochland Bandits",
   "source": "Nemesis Crown Supplement",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 12,

@@ -2,6 +2,7 @@
   "id": "lizardmen",
   "name": "Lizardmen",
   "source": "Town Cryer #11 (Grade 1b), Lustria setting. Text supplied directly by the owner on 2026-08-02; cross-check against your own copy. Racial maximums are not given in the source and are left unverified. Sacred Markings are one-per-Hero upgrades bought only at recruitment and are listed as exclusive equipment.",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 20,

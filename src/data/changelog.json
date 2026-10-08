@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-10-08",
+    "title": "Filter Warbands by Grade",
+    "description": "Picking a warband type for a new warband? You can now filter the list by grade. Grade 1a is official, 1b was published by GW or Fanatic, 1c is experimental, and 2a is fan-made and tested. Every warband now shows its grade (following Broheim's warband list) in the picker and on its rules page."
+  },
+  {
+    "date": "2026-10-08",
     "title": "Dwarf Slayer Cult",
     "description": "A new warband, by request: the Dwarf Slayer Cult from The New Mordheimer. Lead a Giant Slayer with Doomseekers and a Rememberer, backed by Troll Slayers, Axe Hurlers and Stubbles. It comes with its own equipment lists, Throwing Axes and Whirling Blades, and a list of eleven special skills. Its rules page covers Deathwish, Damnable Luck, Record of Valor and the Rites of Trollslaying and Dragonslaying."
   },

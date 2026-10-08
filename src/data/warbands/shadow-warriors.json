@@ -2,6 +2,7 @@
   "id": "shadow-warriors",
   "name": "Shadow Warriors",
   "source": "Town Cryer #10, revised in Mordheim Annual 2002",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 12,

@@ -2,6 +2,7 @@
   "id": "norse-explorers",
   "name": "Norse Explorers",
   "source": "Town Cryer #13, Border Town Burning",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

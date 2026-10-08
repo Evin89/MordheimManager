@@ -7,7 +7,7 @@ import DisclosureChevron from '../components/DisclosureChevron';
 import { Button, TextField } from '../components/ui';
 import { strings } from '../strings';
 import { getWarbandProvenance, warbandDefinitionsByName } from '../data/warbandRegistry';
-import { WarbandDefinition } from '../data/types';
+import { WarbandDefinition, WarbandGrade } from '../data/types';
 import { isCustomWarbandType } from '../lib/customWarband';
 import { createWarband } from '../lib/warbandFactory';
 import { quickBuildStarterRoster, describeStarter } from '../lib/quickBuild';
@@ -20,6 +20,21 @@ function provenanceLabel(def: WarbandDefinition): string {
   if (isCustomWarbandType(def.id)) return strings.newWarband.customSectionLabel;
   const { source, grade } = getWarbandProvenance(def);
   return grade ? `${source} · ${grade}` : source;
+}
+
+/** A grade, or your own custom types, which have none. */
+type GradeFilter = 'all' | 'custom' | WarbandGrade;
+const GRADE_ORDER: GradeFilter[] = ['custom', '1a', '1b', '1c', '2a', '2b', '3'];
+
+function gradeOf(def: WarbandDefinition): GradeFilter {
+  if (isCustomWarbandType(def.id) || !def.grade) return 'custom';
+  return def.grade;
+}
+
+function gradeChipLabel(g: GradeFilter): string {
+  if (g === 'all') return strings.newWarband.typeGradeAll;
+  if (g === 'custom') return strings.newWarband.typeGradeCustom;
+  return g;
 }
 
 /**
@@ -41,13 +56,24 @@ function WarbandTypePicker({
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const [grade, setGrade] = useState<GradeFilter>('all');
   const selected = definitions.find((d) => d.id === value);
+
+  // Only the grades some list actually has, in grade order, each with its count.
+  const gradeOptions = useMemo(() => {
+    const counts = new Map<GradeFilter, number>();
+    for (const d of definitions) counts.set(gradeOf(d), (counts.get(gradeOf(d)) ?? 0) + 1);
+    return GRADE_ORDER.filter((g) => counts.has(g)).map((g) => ({ grade: g, count: counts.get(g)! }));
+  }, [definitions]);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return definitions;
-    return definitions.filter((d) => `${d.name} ${provenanceLabel(d)}`.toLowerCase().includes(q));
-  }, [query, definitions]);
+    return definitions.filter(
+      (d) =>
+        (grade === 'all' || gradeOf(d) === grade) &&
+        (!q || `${d.name} ${provenanceLabel(d)}`.toLowerCase().includes(q)),
+    );
+  }, [query, grade, definitions]);
 
   return (
     <div className="relative">
@@ -72,7 +98,35 @@ function WarbandTypePicker({
 
       {open && (
         <div className="mt-1 rounded-md border border-ink-700 bg-ink-900 overflow-hidden">
-          <div className="p-2 border-b border-ink-800">
+          <div className="p-2 border-b border-ink-800 space-y-2">
+            <div
+              role="group"
+              aria-label={strings.newWarband.typeGradeFilterLabel}
+              aria-describedby="warband-grade-hint"
+              className="flex flex-wrap gap-1.5"
+            >
+              {[{ grade: 'all' as GradeFilter, count: definitions.length }, ...gradeOptions].map((o) => {
+                const active = grade === o.grade;
+                return (
+                  <button
+                    key={o.grade}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => setGrade(o.grade)}
+                    className={`min-h-[36px] rounded px-2.5 font-ui text-xs whitespace-nowrap border ${
+                      active
+                        ? 'bg-ember-500/15 text-ember-400 border-ember-500/40'
+                        : 'bg-ink-800 text-bone-300 border-ink-700 hover:text-bone-100'
+                    }`}
+                  >
+                    {gradeChipLabel(o.grade)} <span className="opacity-70">{o.count}</span>
+                  </button>
+                );
+              })}
+            </div>
+            <p id="warband-grade-hint" className="text-bone-400 text-xs">
+              {strings.newWarband.typeGradeHint}
+            </p>
             <input
               type="text"
               autoFocus

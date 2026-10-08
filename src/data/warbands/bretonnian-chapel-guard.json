@@ -2,6 +2,7 @@
   "id": "bretonnian-chapel-guard",
   "name": "Bretonnian Chapel Guard",
   "source": "Fan made from the web",
+  "grade": "1c",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

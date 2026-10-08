@@ -2,6 +2,7 @@
   "id": "lustrian-reavers",
   "name": "Lustrian Reavers",
   "source": "Facebook (2024)",
+  "grade": "1c",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 10,

@@ -2,6 +2,7 @@
   "id": "battle-monks-of-cathay",
   "name": "Battle Monks of Cathay",
   "source": "Border Town Burning (Grade 1c), Grand Cathay setting. Text supplied directly by the owner on 2026-08-02; cross-check against your own copy. The source states Cathayans are humans and therefore use the human maximum profile.",
+  "grade": "1c",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

@@ -2,6 +2,7 @@
   "id": "orc-mob",
   "name": "Orc Mob",
   "source": "The New Mordheimer, https://mordheimer.net/docs/warbands/grade-1a-warbands/orc-mob (fetched 2026-07-06). Grade 1a warband, author Mark Havener. Cited source: Town Cryer #6, revised in the Mordheim Annual 2002. Owner should cross-check against their own copy of that supplement/annual.",
+  "grade": "1a",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 20,

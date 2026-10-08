@@ -2,6 +2,7 @@
   "id": "pit-fighters",
   "name": "Pit Fighters",
   "source": "Town Cryer #21 (Revised from TC #14)",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

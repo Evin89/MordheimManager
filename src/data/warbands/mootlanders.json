@@ -2,6 +2,7 @@
   "id": "mootlanders",
   "name": "Mootlanders",
   "source": "Citadel Journal 36",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 20,

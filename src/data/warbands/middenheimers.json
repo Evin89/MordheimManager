@@ -2,6 +2,7 @@
   "id": "middenheimers",
   "name": "Middenheim Mercenaries",
   "source": "Mordheim rulebook Part 2 - Warbands, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%202%20-%20Warbands.pdf on 2026-07-03. Cross-check against your own rulebook/errata (2005 Errata + Annual) before relying on it. Mercenary variants (Reikland/Middenheim/Marienburg) share the same recruitment list and profiles; only the special rules (and Middenheim's S4 heroes / Reikland's +1 BS Marksmen) differ.",
+  "grade": "1a",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

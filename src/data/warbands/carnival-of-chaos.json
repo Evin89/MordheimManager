@@ -2,6 +2,7 @@
   "id": "carnival-of-chaos",
   "name": "Carnival of Chaos",
   "source": "The New Mordheimer, https://mordheimer.net/docs/warbands/grade-1a-warbands/carnival-of-chaos (fetched 2026-07-06). Grade 1a warband. Cited source: Empire in Flames (PDF). Owner should cross-check against their own copy of that supplement.",
+  "grade": "1a",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

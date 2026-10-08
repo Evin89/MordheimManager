@@ -32,5 +32,7 @@ export function cloneWarbandDefinition(
   copy.id = id;
   copy.name = name.trim() || `${base.name} (custom)`;
   copy.source = `Custom warband — cloned from ${base.name} (${base.source})`;
+  // A grade vouches for the published list, not for an edited copy of it.
+  delete copy.grade;
   return copy;
 }

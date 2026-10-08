@@ -2,6 +2,7 @@
   "id": "undead",
   "name": "The Undead",
   "source": "Mordheim rulebook Part 2 - Warbands, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%202%20-%20Warbands.pdf on 2026-07-03. Cross-check against your own rulebook/errata (2005 Errata + Annual) before relying on it.",
+  "grade": "1a",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

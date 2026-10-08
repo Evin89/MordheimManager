@@ -2,6 +2,7 @@
   "id": "tileans",
   "name": "Tileans",
   "source": "Town Cryer #14",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": null,
   "maxWarbandSize": 15,

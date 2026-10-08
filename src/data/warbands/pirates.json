@@ -2,6 +2,7 @@
   "id": "pirates",
   "name": "Pirates",
   "source": "Town Cryer #9",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": null,
   "maxWarbandSize": 15,

@@ -2,6 +2,7 @@
   "id": "arabian-tomb-raiders",
   "name": "Arabian Tomb Raiders",
   "source": "Town Cryer #20",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

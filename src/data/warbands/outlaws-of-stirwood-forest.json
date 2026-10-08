@@ -2,6 +2,7 @@
   "id": "outlaws-of-stirwood-forest",
   "name": "Outlaws of Stirwood Forest",
   "source": "Town Cryer #29",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

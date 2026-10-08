@@ -2,6 +2,7 @@
   "id": "dwarf-slayer-cult",
   "name": "Dwarf Slayer Cult",
   "source": "The New Mordheimer, Grade 2a warband (Mordheim V5.0), by Dave 'Styrofoam King' Joria, based on Mark Havener's Dwarf Treasure Hunters. Text supplied directly by the owner on 2026-10-08 (not in the mordheimer data import).",
+  "grade": "2a",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 12,

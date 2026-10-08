@@ -2,6 +2,7 @@
   "id": "night-goblins",
   "name": "Night Goblins",
   "source": "Mordheimer's Information Centre",
+  "grade": "1c",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 20,

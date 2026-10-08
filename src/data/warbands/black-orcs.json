@@ -2,6 +2,7 @@
   "id": "black-orcs",
   "name": "Black Orcs",
   "source": "Nemesis Crown supplement (Grade 1b), Nemesis Crown setting. Text supplied directly by the owner on 2026-08-02; cross-check against your own copy. Racial maximums are not given in the source and are left unverified, matching the existing Orc Mob entry. The Animosity rules the entry points at are the 2002 Annual version, which triggers on a D6 roll of 1 rather than a Leadership test — the henchmen entries below say 'Ld Test', which the source itself flags as a probable misprint.",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 12,

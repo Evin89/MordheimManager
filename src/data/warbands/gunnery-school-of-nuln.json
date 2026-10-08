@@ -2,6 +2,7 @@
   "id": "gunnery-school-of-nuln",
   "name": "Gunnery School of Nuln",
   "source": "Nemesis Crown supplement (Grade 1b), Nemesis Crown setting, by the Mordheim Nemesis Crown Development Team. Text supplied directly by the owner on 2026-08-02; cross-check against your own copy. Cathayans aside, these are humans and use the standard human maximum profile.",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

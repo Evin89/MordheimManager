@@ -1,4 +1,4 @@
-import { ResolvedSpecialRule, WarbandDefinition } from './types';
+import { ResolvedSpecialRule, WarbandDefinition, WarbandGrade } from './types';
 import { resolveSpecialRules } from '../lib/specialRulesLookup';
 import { getCustomWarbandDefinition } from './customWarbandTypes';
 import { builtInWarbandNames } from './warbandNames';
@@ -143,22 +143,26 @@ if (import.meta.env.DEV) {
 export type WarbandProvenance = {
   /** Where the list comes from, e.g. "Core rulebook". */
   source: string;
-  /** Fan-supplement grade where the source states one, else null. */
+  /** "Grade 1b" and so on, or null for custom types. */
   grade: string | null;
 };
+
+/** Display label for a grade: "Grade 1a", … */
+export function gradeLabel(grade: WarbandGrade): string {
+  return `Grade ${grade}`;
+}
 
 /**
  * Short provenance label for a warband list.
  *
- * Derived from the `source` field each data file already carries rather than a
- * new hand-maintained column — the citation is the authority, so reading it
- * keeps the label honest and means a corrected source can't drift out of sync
- * with a separately stored grade. Unrecognised sources fall back to the raw
- * text's first clause rather than guessing.
+ * The source comes from the `source` citation each data file carries;
+ * unrecognised sources fall back to the raw text's first clause rather than
+ * guessing. The grade is its own field, because most citations don't state
+ * one — it was read off Broheim's warband index.
  */
 export function getWarbandProvenance(definition: WarbandDefinition): WarbandProvenance {
   const raw = definition.source ?? '';
-  const grade = /grade[-\s]?1a/i.test(raw) ? 'Grade 1a' : null;
+  const grade = definition.grade ? gradeLabel(definition.grade) : null;
 
   let source: string;
   if (/border town burning/i.test(raw)) source = 'Border Town Burning';

@@ -2,6 +2,7 @@
   "id": "the-sons-of-hashut",
   "name": "The Sons of Hashut",
   "source": "By GW Troll Magazine (Spain)",
+  "grade": "1c",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 14,

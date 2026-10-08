@@ -155,10 +155,22 @@ export type WarbandExclusiveEquipmentEntry = {
   rulesText: string;
 };
 
+/**
+ * Broheim's grading (broheim.net/warbands.html): `1a` official GW/Fanatic
+ * rules, the rulebook's own lists included; `1b` unofficial but released
+ * through GW/Fanatic; `1c` experimental, vouched for by grade 1 authors; `2a`
+ * fan-made and tested; `2b` supplemental, suited to its own campaign; `3`
+ * draft.
+ */
+export type WarbandGrade = '1a' | '1b' | '1c' | '2a' | '2b' | '3';
+
 export type WarbandDefinition = {
   id: string;
   name: string;
   source: string; // rulebook/BTB page reference, or TODO
+  /** Broheim's grade for this list (broheim.net/warbands.html).
+   * Absent on custom types, which have no published grade. */
+  grade?: WarbandGrade;
   startingGold: number | null;
   minWarbandSize: number | null;
   maxWarbandSize: number | null;

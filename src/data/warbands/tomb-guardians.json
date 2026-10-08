@@ -2,6 +2,7 @@
   "id": "tomb-guardians",
   "name": "Tomb Guardians",
   "source": "Town Cryer #18",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": null,
   "maxWarbandSize": 15,

@@ -2,6 +2,7 @@
   "id": "amazons-mordheim",
   "name": "Amazons (Mordheim)",
   "source": "Town Cryer #23 (Grade 1b), Mordheim setting. Text supplied directly by the owner on 2026-08-02; cross-check against your own copy. The source states that although outsiders consider the Amazons immortal, the maximum characteristics for each type are the same as any other human warband, so the standard human maximum profile is used.",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

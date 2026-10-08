@@ -2,6 +2,7 @@
   "id": "black-dwarfs",
   "name": "Black Dwarfs",
   "source": "Border Town Burning",
+  "grade": "1c",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

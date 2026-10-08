@@ -2,6 +2,7 @@
   "id": "horned-hunters",
   "name": "Horned Hunters",
   "source": "Nemesis Crown Supplement",
+  "grade": "1b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 12,

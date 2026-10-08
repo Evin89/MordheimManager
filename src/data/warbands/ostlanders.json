@@ -2,6 +2,7 @@
   "id": "ostlanders",
   "name": "Ostlander Mercenaries",
   "source": "The New Mordheimer, Ostlander Mercenaries (Grade 1a) — full page text provided directly by the owner on 2026-07-06, as the site page itself currently 404s. Cited source: Town Cryer #11, revised in the Mordheim Annual 2002. Owner should cross-check against their own copy of that supplement/annual.",
+  "grade": "1a",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 15,

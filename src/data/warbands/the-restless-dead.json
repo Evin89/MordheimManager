@@ -2,6 +2,7 @@
   "id": "the-restless-dead",
   "name": "The Restless Dead",
   "source": "Border Town Burning",
+  "grade": "1c",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 12,

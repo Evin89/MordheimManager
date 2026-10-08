@@ -2,6 +2,7 @@
   "id": "maneaters",
   "name": "Maneaters",
   "source": "Border Town Burning — Maneaters warband list, fetched from https://www.broheim.net/downloads/warbands/supplement/btb/Maneaters.pdf on 2026-07-03. Owner should still cross-check against their own BTB PDF/printing for errata.",
+  "grade": "1c",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 12,
