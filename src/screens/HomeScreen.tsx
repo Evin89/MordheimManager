@@ -9,7 +9,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { useWarbandList, useWarbandsQuery } from '../hooks/useWarbands';
 import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { computeWarbandRating } from '../lib/rating';
-import { getWarbandTypeName } from '../data/warbandNames';
+import { getWarbandTypeLabel } from '../data/warbandNames';
 import { consumeFreshSignIn } from '../lib/firstRun';
 import GoogleSelfReportCard from '../components/GoogleSelfReportCard';
 import { arrivedWithAuthLinkError } from '../lib/supabaseClient';
@@ -256,7 +256,7 @@ export default function HomeScreen() {
                   <div className="flex items-center justify-between gap-3">
                     <div className="min-w-0">
                       <p className="text-bone-100 font-semibold truncate">{warband.name}</p>
-                      <p className="text-bone-300 text-sm truncate">{getWarbandTypeName(warband.warbandType)}</p>
+                      <p className="text-bone-300 text-sm truncate">{getWarbandTypeLabel(warband.warbandType, warband.subfaction)}</p>
                     </div>
                     <div className="text-right shrink-0">
                       <p className="text-ember-400 font-semibold">

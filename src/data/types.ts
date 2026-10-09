@@ -164,6 +164,22 @@ export type WarbandExclusiveEquipmentEntry = {
  */
 export type WarbandGrade = '1a' | '1b' | '1c' | '2a' | '2b' | '3';
 
+/**
+ * A required choice inside one published list (§28) — the Tilean city-states.
+ * Lists the source prints as separate warbands (the Mercenaries) stay separate
+ * data files instead.
+ */
+export type WarbandSubfaction = {
+  id: string;
+  name: string;
+  /** The choice's own rules, in the same "Name: text. | Name: text." format as
+   * the warband's `specialRules`. Shown, not applied (§1). */
+  specialRules: string;
+  /** Hero skill lists that differ for this choice, keyed by `unitType`. A unit
+   * listed here uses these lists instead of its slot's. */
+  heroSkillLists?: Record<string, string[]>;
+};
+
 export type WarbandDefinition = {
   id: string;
   name: string;
@@ -187,6 +203,10 @@ export type WarbandDefinition = {
   // (e.g. Marienburg's "+1 when attempting to find rare items"). Omitted/0 for
   // warbands with no such bonus.
   rareItemRollBonus?: number;
+  /** §28 — a required choice at creation, e.g. the Tilean city-state. */
+  subfactions?: WarbandSubfaction[];
+  /** What that choice is called, e.g. "City-state". */
+  subfactionLabel?: string;
 };
 
 export type EquipmentTableEntry = {

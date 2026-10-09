@@ -5,7 +5,7 @@ import { Card, SectionHeading, Select } from '../components/ui';
 import { strings } from '../strings';
 import { useSharedWarbandQuery, useWarbandList } from '../hooks/useWarbands';
 import { computeWarbandRating, countModels } from '../lib/rating';
-import { getWarbandTypeName } from '../data/warbandRegistry';
+import { getWarbandTypeLabel } from '../data/warbandRegistry';
 import { Warband } from '../types';
 
 /**
@@ -32,7 +32,7 @@ function SummaryColumn({ warband }: { warband: Warband }) {
   return (
     <Card gap="none">
       <p className="text-bone-100 font-semibold truncate">{warband.name}</p>
-      <p className="text-bone-300 text-sm truncate mb-3">{getWarbandTypeName(warband.warbandType)}</p>
+      <p className="text-bone-300 text-sm truncate mb-3">{getWarbandTypeLabel(warband.warbandType, warband.subfaction)}</p>
       <dl className="space-y-1">
         {rows.map(([label, value]) => (
           <div key={label} className="flex items-baseline justify-between gap-2">

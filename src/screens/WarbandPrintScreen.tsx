@@ -7,7 +7,7 @@ import { useMyProfileQuery } from '../hooks/useProfile';
 import { useRosterPhotos } from '../hooks/usePhotos';
 import { computeWarbandRating, isInWarband } from '../lib/rating';
 import { TRACK_LENGTH, getAdvanceThresholds } from '../lib/xpThresholds';
-import { getWarbandTypeName } from '../data/warbandRegistry';
+import { getWarbandTypeLabel } from '../data/warbandRegistry';
 import { getSpell } from '../lib/spellLookup';
 import { PrintReference, ReferenceEntry, collectPrintReference } from '../lib/printReference';
 import { modelDisplayName } from '../lib/modelNames';
@@ -408,7 +408,7 @@ export default function WarbandPrintScreen() {
                 {strings.print.warbandType}
               </p>
               <p className="font-heading text-ink text-lg leading-tight">
-                {getWarbandTypeName(warband.warbandType)}
+                {getWarbandTypeLabel(warband.warbandType, warband.subfaction)}
               </p>
             </div>
           </div>

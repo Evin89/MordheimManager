@@ -7,7 +7,7 @@ import { useWarbandList, useWarbandsQuery } from '../hooks/useWarbands';
 import { useWarbandThumbnails } from '../hooks/usePhotos';
 import { WarbandThumb } from '../components/WarbandPhoto';
 import { computeWarbandRating } from '../lib/rating';
-import { getWarbandTypeName } from '../data/warbandNames';
+import { getWarbandTypeLabel } from '../data/warbandNames';
 
 // Lazy so rules.json and the catalogues stay out of the entry bundle — see TabRules.
 const TabRules = lazy(() => import('../components/TabRules'));
@@ -97,7 +97,7 @@ export default function WarbandListScreen() {
                   />
                   <div className="min-w-0 flex-1">
                     <p className="text-bone-100 font-semibold truncate">{warband.name}</p>
-                    <p className="text-bone-300 text-sm truncate">{getWarbandTypeName(warband.warbandType)}</p>
+                    <p className="text-bone-300 text-sm truncate">{getWarbandTypeLabel(warband.warbandType, warband.subfaction)}</p>
                   </div>
                   <div className="text-right shrink-0">
                     <p className="text-ember-400 font-semibold">

@@ -567,6 +567,14 @@ export const strings = {
     quickBuildHint: 'Fills a legal starting warband you can change afterwards, instead of an empty roster.',
     quickBuildPreview: (summary: string) => `Will add: ${summary}`,
   },
+  subfaction: {
+    skillsLine: (unit: string, lists: string) => `${unit}: ${lists}`,
+    required: (label: string) => `Choose a ${label.toLowerCase()} first.`,
+    rosterTitle: (label: string) => `Choose a ${label.toLowerCase()}`,
+    rosterIntro: (label: string) =>
+      `This warband was made before the app asked for its ${label.toLowerCase()}. It decides your Heroes' skill lists and adds its own rules. It's a founding choice, so it can't be changed afterwards.`,
+    rosterSave: 'Save choice',
+  },
   customWarbandGallery: {
     title: 'Custom warbands',
     intro:

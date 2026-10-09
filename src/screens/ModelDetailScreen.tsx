@@ -554,7 +554,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
               {advanceMode === 'skill' && (
                 <SkillPicker
-                  skillLists={heroSkillLists(draft.warbandType, model)}
+                  skillLists={heroSkillLists(draft.warbandType, model, draft.subfaction)}
                   knownSkills={model.skills}
                   warbandType={draft.warbandType}
                   isLeader={model.isLeader}
@@ -641,7 +641,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           {addingSkill && (
             <Card>
               <SkillPicker
-                skillLists={heroSkillLists(draft.warbandType, model)}
+                skillLists={heroSkillLists(draft.warbandType, model, draft.subfaction)}
                 knownSkills={model.skills}
                 warbandType={draft.warbandType}
                 isLeader={model.isLeader}
