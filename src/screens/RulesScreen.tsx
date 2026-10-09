@@ -110,7 +110,7 @@ function Highlighted({ text, start, end }: { text: string; start: number; end: n
   return (
     <>
       {text.slice(0, start)}
-      <mark className="bg-ember-500 text-ink-950 rounded-sm">{text.slice(start, end)}</mark>
+      <mark className="bg-ember-500 text-on-accent rounded-sm">{text.slice(start, end)}</mark>
       {text.slice(end)}
     </>
   );
@@ -373,7 +373,7 @@ export default function RulesScreen() {
                 onClick={() => setGroup(g.id)}
                 className={`shrink-0 min-h-[36px] px-4 rounded-lg font-ui text-sm font-semibold whitespace-nowrap ${
                   group === g.id
-                    ? 'bg-ember-500 text-ink-950'
+                    ? 'bg-ember-500 text-on-accent'
                     : 'bg-ink-900 border border-ink-800 text-bone-200'
                 }`}
               >

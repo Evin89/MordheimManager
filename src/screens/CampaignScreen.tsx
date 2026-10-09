@@ -1315,7 +1315,7 @@ export default function CampaignScreen() {
             type="button"
             onClick={() => setTab(t.id)}
             className={`flex-1 min-h-[40px] rounded-md border text-xs sm:text-sm font-semibold px-1 ${
-              tab === t.id ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+              tab === t.id ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
             }`}
           >
             {t.label}

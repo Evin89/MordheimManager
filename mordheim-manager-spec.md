@@ -940,6 +940,23 @@ A design sandbox at `/design` judges components against both themes before migra
 
 The tokens and fonts were always consistent; the *components* were not — the same button was hand-written ~11 ways, the card surface 20-odd, and errors sometimes used a raw `text-red-400` that neither palette owns. `src/components/ui/` settles each into one primitive — `Button` (primary/secondary/danger/ghost, md/dense), `Card`, `SectionHeading`/`Eyebrow`, `Field`/`TextField`/`Textarea`/`Select`, with `buttonClasses`/`fieldClasses` for `<Link>`-as-button cases. The primary button's label resolves through the `on-accent` token so it stays legible on the accent in both themes (near-black on Grimdark ember, white on Rulebook blood). Every product screen was migrated onto the kit — including the admin screens, which had been written in the full parchment/ink idiom and were reconciled to the app's dark tokens (a border-and-fill swap, since the role tokens already resolved correctly). The `/design` sandbox carries a live gallery of the kit in both themes. The landing page (`public/landing.html`) is a separate static file that already mirrors the §5.1 token *values* with its own `data-theme` toggle, so it shares the design without importing the bundle.
 
+
+### 5.7 Two token vocabularies — what each is for ⚠️
+
+The app speaks two colour vocabularies at once, and the audit of 2026-10-09 found that every contrast bug lived in the gap between them.
+
+- **Role tokens (§5.1)** say what a colour *does*: `parchment`, `parchment-raised`, `ink`, `ink-faded`, `blood`/accent, `verdigris`, and the label-on-fill pairs `on-accent`, `on-danger`, `on-verdigris`, plus `danger` for red text. ~950 uses.
+- **Legacy scale tokens** say where a colour sits on a ramp: `ink-950…700` (surfaces), `bone-100…400` (text), `ember-400…600`, `blood-500/600`. ~2,000 uses, including the UI kit itself. They resolve per theme too, so they are not wrong — but a scale step carries no promise about what it sits on, which is how `text-bone-100` ended up on a blood fill and `text-ink-950` on ember.
+
+**The rule, effective now:** a label on a *filled* surface always uses its `on-*` token (`bg-ember-500 text-on-accent`, `bg-blood-600 text-on-danger`, `bg-verdigris text-on-verdigris`); red text on the page is `text-danger`. Every such pair is checked by `design-sheet.mjs --check` in the build. All existing fills were migrated on 2026-10-09 (0 remaining `text-ink-950` / `text-bone-100` on an accent, blood or verdigris fill).
+
+❓ **Open decision — what happens to the scale tokens.** Two honest options:
+
+1. **Keep them, officially** (reasoned default). Surfaces and text steps (`ink-950…700`, `bone-100…400`) become the documented "neutral ramp" alongside the roles; only fills and their labels must use roles. Cost: none now; the rule above plus the build check already closes the bug class.
+2. **Migrate to roles.** Replace the ramp with roles (`page`, `surface`, `surface-sunken`, `border`, `text`, `text-muted`…) screen by screen, starting with `src/components/ui/`. Cost: ~2,000 class edits across 141 files, for no visible change — worth it only if a third theme is planned.
+
+Until decided, new code follows option 1.
+
 ---
 
 ## 6. Build order (as executed)

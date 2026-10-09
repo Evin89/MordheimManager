@@ -209,7 +209,7 @@ export default function NavTour() {
                 <button
                   type="button"
                   onClick={() => (step < total - 1 ? setStep(step + 1) : close())}
-                  className="min-h-[44px] px-4 rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 text-sm font-semibold transition-colors"
+                  className="min-h-[44px] px-4 rounded-md bg-ember-500 hover:bg-ember-600 text-on-accent text-sm font-semibold transition-colors"
                 >
                   {step < total - 1 ? strings.tour.next : strings.tour.done}
                 </button>

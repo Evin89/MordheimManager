@@ -363,7 +363,7 @@ export default function WarbandPrintScreen() {
           <button
             type="button"
             onClick={() => window.print()}
-            className="min-h-[48px] px-4 rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
+            className="min-h-[48px] px-4 rounded-md bg-ember-500 hover:bg-ember-600 text-on-accent font-semibold transition-colors"
           >
             {strings.print.printAction}
           </button>

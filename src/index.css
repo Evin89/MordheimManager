@@ -40,6 +40,9 @@
    */
   --color-danger: 230 96 84;
   --color-on-danger: 255 255 255;
+  /* Label on a verdigris fill. White in both themes (4.73:1 here, 7.08:1 under
+     Rulebook); near-black measured 4.18:1 and failed. */
+  --color-on-verdigris: 255 255 255;
 
   /*
    * Spec §5.1 roles under Grimdark. The names are the spec's; what they *mean*
@@ -146,6 +149,7 @@
      parchment (6.54:1), so danger text stays that value here. */
   --color-danger: 143 32 32;
   --color-on-danger: 255 255 255;
+  --color-on-verdigris: 255 255 255;
 
   /* The same six chart hues, darkened for the light parchment surface — see
      the Grimdark block for what each one is and why. */
@@ -269,6 +273,7 @@ body,
   --color-blood-600: 0 0 0;
   --color-danger: 0 0 0;
   --color-on-danger: 255 255 255;
+  --color-on-verdigris: 255 255 255;
 }
 
 @media print {

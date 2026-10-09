@@ -733,7 +733,7 @@ export default function DuringBattleScreen() {
                   type="button"
                   onClick={() => setViewSide('mine')}
                   className={`min-h-[36px] px-3 rounded-md border text-xs font-semibold ${
-                    viewSide === 'mine' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+                    viewSide === 'mine' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
                   }`}
                 >
                   {warband.name}
@@ -743,7 +743,7 @@ export default function DuringBattleScreen() {
                   onClick={() => setViewSide('opponent')}
                   className={`min-h-[36px] px-3 rounded-md border text-xs font-semibold ${
                     viewSide === 'opponent'
-                      ? 'bg-ember-500 text-ink-950 border-ember-500'
+                      ? 'bg-ember-500 text-on-accent border-ember-500'
                       : 'border-ink-700 text-bone-200'
                   }`}
                 >

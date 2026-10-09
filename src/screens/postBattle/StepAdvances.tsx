@@ -255,7 +255,7 @@ function AdvanceRecorder({
               type="button"
               onClick={onToggleLadsGotTalent}
               className={`flex-1 min-w-[9rem] min-h-[40px] rounded-md border text-sm font-semibold ${
-                ladsGotTalent ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+                ladsGotTalent ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
               }`}
             >
               {strings.postBattle.advances.ladsGotTalent}

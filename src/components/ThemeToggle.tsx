@@ -60,7 +60,7 @@ export default function ThemeToggle({
             tabIndex={active ? 0 : -1}
             onClick={() => onChange(option)}
             className={`relative z-10 flex-1 min-h-[44px] rounded-full px-3 flex items-center justify-center gap-2 text-sm font-semibold transition-colors ${
-              active ? 'text-ink-950' : 'text-bone-300'
+              active ? 'text-on-accent' : 'text-bone-300'
             }`}
           >
             {/* A plain disc of the theme's own paper colour, ringed in its

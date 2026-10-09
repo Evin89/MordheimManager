@@ -490,7 +490,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                   type="button"
                   onClick={() => setAdvanceMode('stat')}
                   className={`flex-1 min-h-[44px] rounded-md text-sm font-semibold border ${
-                    advanceMode === 'stat' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+                    advanceMode === 'stat' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
                   }`}
                 >
                   {strings.modelDetail.advanceTypeStat}
@@ -499,7 +499,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                   type="button"
                   onClick={() => setAdvanceMode('skill')}
                   className={`flex-1 min-h-[44px] rounded-md text-sm font-semibold border ${
-                    advanceMode === 'skill' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+                    advanceMode === 'skill' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
                   }`}
                 >
                   {strings.modelDetail.advanceTypeSkill}
@@ -511,7 +511,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                     type="button"
                     onClick={() => setAdvanceMode('spell')}
                     className={`flex-1 min-h-[44px] rounded-md text-sm font-semibold border ${
-                      advanceMode === 'spell' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+                      advanceMode === 'spell' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
                     }`}
                   >
                     {spellBlockLabel(spellLists, false)}

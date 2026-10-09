@@ -63,7 +63,7 @@ export default function StepDeadCleanup({ warband, draft, updateDraft }: StepPro
                       updateDraft({ heroes: { ...draft.heroes, [hero.id]: { ...state, equipmentFate: 'treasury' } } })
                     }
                     className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-                      state.equipmentFate === 'treasury' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+                      state.equipmentFate === 'treasury' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
                     }`}
                   >
                     {strings.postBattle.deadCleanup.toTreasury}
@@ -72,7 +72,7 @@ export default function StepDeadCleanup({ warband, draft, updateDraft }: StepPro
                     type="button"
                     onClick={() => updateDraft({ heroes: { ...draft.heroes, [hero.id]: { ...state, equipmentFate: 'lost' } } })}
                     className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-                      state.equipmentFate === 'lost' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+                      state.equipmentFate === 'lost' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
                     }`}
                   >
                     {strings.postBattle.deadCleanup.lost}
@@ -106,7 +106,7 @@ export default function StepDeadCleanup({ warband, draft, updateDraft }: StepPro
                     }
                     className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
                       state.equipmentFateForDead === 'treasury'
-                        ? 'bg-ember-500 text-ink-950 border-ember-500'
+                        ? 'bg-ember-500 text-on-accent border-ember-500'
                         : 'border-ink-700 text-bone-200'
                     }`}
                   >
@@ -120,7 +120,7 @@ export default function StepDeadCleanup({ warband, draft, updateDraft }: StepPro
                       })
                     }
                     className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-                      state.equipmentFateForDead === 'lost' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+                      state.equipmentFateForDead === 'lost' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
                     }`}
                   >
                     {strings.postBattle.deadCleanup.lost}

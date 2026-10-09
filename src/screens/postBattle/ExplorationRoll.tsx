@@ -141,7 +141,7 @@ export default function ExplorationRoll({ warband, draft, updateDraft }: StepPro
           <button
             type="button"
             onClick={handleRoll}
-            className="flex-1 min-h-[48px] rounded-md bg-ember-500 text-ink-950 font-semibold px-4"
+            className="flex-1 min-h-[48px] rounded-md bg-ember-500 text-on-accent font-semibold px-4"
           >
             {dice.length > 0 ? t.rerollButton : t.rollButton}
           </button>
@@ -263,7 +263,7 @@ export default function ExplorationRoll({ warband, draft, updateDraft }: StepPro
               type="button"
               onClick={handleApply}
               disabled={!!match.result.subTable && subRoll === null}
-              className="min-h-[44px] px-4 rounded-md bg-ember-500 text-ink-950 font-semibold text-sm disabled:opacity-50"
+              className="min-h-[44px] px-4 rounded-md bg-ember-500 text-on-accent font-semibold text-sm disabled:opacity-50"
             >
               {t.applyButton}
             </button>
