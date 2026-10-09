@@ -62,6 +62,9 @@ export type EquipmentItem = {
 
 export type ModelStatus = 'active' | 'missNextGame' | 'dead' | 'captured' | 'left';
 
+/** Every status in display order — for pickers. One list, so a new status can't reach one screen and not another. */
+export const MODEL_STATUSES: readonly ModelStatus[] = ['active', 'missNextGame', 'dead', 'captured', 'left'];
+
 export type Hero = {
   id: string;
   name: string;

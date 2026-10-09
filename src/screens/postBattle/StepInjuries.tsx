@@ -6,10 +6,9 @@ import { hasCarriedCasualties } from './draftHelpers';
 import { strings } from '../../strings';
 import { getInjuryByRoll, getUniqueInjuries } from '../../lib/injuryLookup';
 import { rollD6, rollD66 } from '../../lib/dice';
-import { HenchmenGroup, Hero, HiredSword, ModelStatus } from '../../types';
+import { HenchmenGroup, Hero, HiredSword, MODEL_STATUSES, ModelStatus } from '../../types';
 import { HenchmenBattleState, HeroBattleState, HiredSwordBattleState, StepProps } from './types';
 
-const STATUS_OPTIONS: ModelStatus[] = ['active', 'missNextGame', 'dead', 'captured', 'left'];
 const uniqueInjuries = getUniqueInjuries();
 
 function HeroInjuryCard({
@@ -103,7 +102,7 @@ function HeroInjuryCard({
                   onChange={(e) => onUpdate({ resultingStatus: e.target.value as ModelStatus })}
                   className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
                 >
-                  {STATUS_OPTIONS.map((status) => (
+                  {MODEL_STATUSES.map((status) => (
                     <option key={status} value={status}>
                       {status}
                     </option>

@@ -1,19 +1,6 @@
 import { StatIncreases } from '../screens/postBattle/types';
 import { StatLine } from '../types';
-import xpData from '../data/xpThresholds.json';
-import { XpThresholdsData } from '../data/types';
-
-const data = xpData as XpThresholdsData;
-
-function thresholdValues(entries: XpThresholdsData['heroThresholds']): number[] {
-  return entries
-    .map((e) => e.xp)
-    .filter((xp): xp is number => xp !== null)
-    .sort((a, b) => a - b);
-}
-
-const heroValues = thresholdValues(data.heroThresholds);
-const henchmenValues = thresholdValues(data.henchmenThresholds);
+import { getAdvanceThresholds } from './xpThresholds';
 
 /**
  * How many advances a model earned from this battle.
@@ -28,8 +15,8 @@ const henchmenValues = thresholdValues(data.henchmenThresholds);
  * ever hand out.
  */
 export function advancesDue(xpBefore: number, xpAfter: number, kind: 'hero' | 'henchmen'): number {
-  const values = kind === 'henchmen' ? henchmenValues : heroValues;
-  return values.filter((v) => v > xpBefore && v <= xpAfter).length;
+  // Read through xpThresholds.ts so the JSON is parsed in one place only.
+  return getAdvanceThresholds(kind).filter((v) => v > xpBefore && v <= xpAfter).length;
 }
 
 /** The characteristic value a model would have once staged increases apply. */

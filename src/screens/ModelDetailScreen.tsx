@@ -13,7 +13,6 @@ import EquipmentHistory from '../components/EquipmentHistory';
 import { appendEquipmentLog } from '../lib/equipmentLog';
 import SkillPicker from '../components/SkillPicker';
 import SpellBlock from '../components/SpellBlock';
-import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import SaveBar from '../components/SaveBar';
 import { Button, Card, SectionHeading } from '../components/ui';
 import { strings } from '../strings';
@@ -25,11 +24,12 @@ import { getSpell, resolveSpellLists, spellBlockLabel } from '../lib/spellLookup
 import { getUniqueInjuries } from '../lib/injuryLookup';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
-import { MAX_MELEE, MAX_MISSILE_TYPES, canAddWeapon, countWeaponSlots } from '../lib/weaponSlots';
+import { MAX_MELEE, MAX_MISSILE_TYPES, canAddWeapon } from '../lib/weaponSlots';
 import { getAdvanceProgress } from '../lib/xpThresholds';
 import { heroSkillLists } from '../lib/ruleEffects';
-import { Advance, EquipmentItem, Hero, HiredSword, ModelStatus, StatLine, Warband } from '../types';
+import { Advance, EquipmentItem, Hero, HiredSword, MODEL_STATUSES, ModelStatus, StatLine, Warband } from '../types';
 import { goldWarning, usePurchase } from '../hooks/usePurchase';
+import { EquipmentSection, RemoveModelControl } from '../components/EquipmentSection';
 
 type EditableModel = Hero | HiredSword;
 
@@ -37,7 +37,6 @@ type ModelDetailScreenProps = {
   kind: 'hero' | 'hiredSword';
 };
 
-const STATUS_OPTIONS: ModelStatus[] = ['active', 'missNextGame', 'dead', 'captured', 'left'];
 
 /** Names a spell for an advance record, falling back to the id. */
 function spellName(spellId: string): string {
@@ -64,8 +63,6 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const [injuryChoice, setInjuryChoice] = useState('custom');
   const [customInjuryName, setCustomInjuryName] = useState('');
   const [customInjuryEffect, setCustomInjuryEffect] = useState('');
-  const [shoppingOpen, setShoppingOpen] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
   // Gold, and the two-weapon limit, for both buying and assigning from the
   // treasury — one inline panel instead of window.confirm / window.alert.
   const purchase = usePurchase();
@@ -417,7 +414,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
             onChange={(e) => updateModel({ status: e.target.value as ModelStatus })}
             className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
           >
-            {STATUS_OPTIONS.map((status) => (
+            {MODEL_STATUSES.map((status) => (
               <option key={status} value={status}>
                 {status}
               </option>
@@ -785,89 +782,25 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           )}
         </section>
 
-        <section className="space-y-3">
-          <div className="flex items-center justify-between">
-            <SectionHeading>{strings.modelDetail.equipmentSection}</SectionHeading>
-            {/* Shown rather than only enforced: knowing a slot is full before
-                you go shopping beats being refused at the till. */}
-            <p className="text-ink-faded text-sm">
-              {(() => {
-                const usage = countWeaponSlots(model.equipment);
-                return strings.modelDetail.weaponSlots(
-                  usage.melee,
-                  MAX_MELEE,
-                  usage.missileTypes,
-                  MAX_MISSILE_TYPES,
-                );
-              })()}
-            </p>
-            <button
-              type="button"
-              onClick={() => setShoppingOpen((v) => !v)}
-              className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold shrink-0"
-            >
-              {shoppingOpen ? strings.modelDetail.hideShop : strings.modelDetail.buyEquipment}
-            </button>
-          </div>
-          {model.equipment.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noEquipment}</p>}
-          <div className="space-y-2">
-            {model.equipment.map((item) => (
-              <WeaponRulesDisclosure
-                key={item.id}
-                name={item.name}
-                action={
-                  <button
-                    type="button"
-                    onClick={() => moveToTreasury(item.id)}
-                    className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold shrink-0"
-                  >
-                    {strings.modelDetail.moveToTreasury}
-                  </button>
-                }
-              />
-            ))}
-          </div>
-
-          {purchase.panel}
-
-          {shoppingOpen && (
-            <div className="space-y-3 rounded-lg border border-ink-800 p-3">
-              <p className="text-ember-400 font-semibold text-sm">
-                {strings.modelDetail.shopGoldLabel}: {draft.gold} {strings.common.gold}
-              </p>
-              <EquipmentShop
-                buyer={kind === 'hero' ? 'hero' : 'hiredSword'}
-                unitType={'unitType' in model ? model.unitType : model.type}
-                skills={model.skills}
-                warband={warband}
-                onPurchase={buyForModel}
-                skipRarityRoll={!hasFoughtFirstBattle(draft.id, battles)}
-              />
-            </div>
-          )}
-
-          <h3 className="text-bone-200 text-sm font-semibold pt-2">{strings.modelDetail.treasurySection}</h3>
-          {draft.treasury.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noTreasury}</p>}
-          <div className="space-y-2">
-            {draft.treasury.map((item: EquipmentItem) => (
-              <WeaponRulesDisclosure
-                key={item.id}
-                name={item.name}
-                action={
-                  <button
-                    type="button"
-                    onClick={() => assignFromTreasury(item.id)}
-                    className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold shrink-0"
-                  >
-                    {strings.modelDetail.assignToModel}
-                  </button>
-                }
-              />
-            ))}
-          </div>
-
-          <EquipmentHistory log={model.equipmentLog} />
-        </section>
+        <EquipmentSection
+          equipment={model.equipment}
+          treasury={draft.treasury}
+          gold={draft.gold}
+          onMoveToTreasury={moveToTreasury}
+          onAssignFromTreasury={assignFromTreasury}
+          purchasePanel={purchase.panel}
+          shop={
+            <EquipmentShop
+              buyer={kind === 'hero' ? 'hero' : 'hiredSword'}
+              unitType={'unitType' in model ? model.unitType : model.type}
+              skills={model.skills}
+              warband={warband}
+              onPurchase={buyForModel}
+              skipRarityRoll={!hasFoughtFirstBattle(draft.id, battles)}
+            />
+          }
+          footer={<EquipmentHistory log={model.equipmentLog} />}
+        />
 
         <div className="space-y-2">
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="model-notes">
@@ -881,18 +814,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           />
         </div>
 
-        {confirmDelete ? (
-          <ConfirmAction
-            prompt={strings.modelDetail.deleteModelConfirm(model.name)}
-            action={strings.modelDetail.deleteModel}
-            onConfirm={handleDelete}
-            onCancel={() => setConfirmDelete(false)}
-          />
-        ) : (
-          <Button variant="danger" onClick={() => setConfirmDelete(true)}>
-            {strings.modelDetail.deleteModel}
-          </Button>
-        )}
+        <RemoveModelControl name={model.name} onRemove={handleDelete} />
 
         <SaveBar dirty={dirty} onSave={save} onDiscard={discard} />
       </main>
