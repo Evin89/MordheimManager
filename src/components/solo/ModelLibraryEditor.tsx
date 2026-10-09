@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { OwnedModel } from '../../api/collection';
 import { warbandDefinitionsByName, getWarbandDefinition, getWarbandTypeName } from '../../data/warbandRegistry';
 import { Button, Field, Select, fieldClasses } from '../ui';
+import { keepSelectionOnMouseUp, selectAllOnFocus } from '../../lib/selectOnFocus';
 
 /** One unit row: a label and a count you own, committed on blur / Enter so a
  * quick "8" is one write, not eight. */
@@ -36,6 +37,8 @@ function CountRow({
         inputMode="numeric"
         value={val}
         onChange={(e) => setVal(e.target.value)}
+        onFocus={selectAllOnFocus}
+        onMouseUp={keepSelectionOnMouseUp}
         onBlur={commit}
         onKeyDown={(e) => {
           if (e.key === 'Enter') (e.target as HTMLInputElement).blur();
