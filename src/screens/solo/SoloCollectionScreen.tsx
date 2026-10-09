@@ -33,7 +33,7 @@ export default function SoloCollectionScreen() {
           <Link to="/solo" className="text-ember-400 text-sm">
             ← Solo
           </Link>
-          <span className="text-[10px] font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
+          <span className="text-xs font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
             Beta
           </span>
         </div>

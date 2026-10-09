@@ -184,7 +184,7 @@ export default function AdminPlayersScreen() {
                       {u.displayName || 'Unnamed'}
                     </Link>
                     {u.isAdmin && (
-                      <span className="ml-2 rounded border border-ink-700 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-bone-400">
+                      <span className="ml-2 rounded border border-ink-700 px-1.5 py-0.5 font-ui text-xs uppercase tracking-wide text-bone-400">
                         admin
                       </span>
                     )}
@@ -192,7 +192,7 @@ export default function AdminPlayersScreen() {
                     {!u.emailConfirmed && (
                       <span
                         title="Email never confirmed — this account can't sign in"
-                        className="ml-2 rounded border border-blood-600 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-danger"
+                        className="ml-2 rounded border border-blood-600 px-1.5 py-0.5 font-ui text-xs uppercase tracking-wide text-danger"
                       >
                         unconfirmed
                       </span>

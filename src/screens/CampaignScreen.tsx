@@ -522,7 +522,7 @@ function CampaignRivalries({
                       {r.opponentName}
                       {r.opponentWarbandId &&
                         myWarbands.find((w) => w.id === block.warbandId)?.nemesisWarbandId === r.opponentWarbandId && (
-                          <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded border border-blood-600 text-danger align-middle">
+                          <span className="ml-2 text-xs font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded border border-blood-600 text-danger align-middle">
                             {strings.campaign.nemesisBadge}
                           </span>
                         )}

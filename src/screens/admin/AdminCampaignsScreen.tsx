@@ -73,10 +73,10 @@ export default function AdminCampaignsScreen() {
                     <p className="text-bone-100 font-semibold truncate">
                       {c.name}
                       {c.visibility === 'private' && (
-                        <span className="ml-2 font-ui text-[11px] uppercase tracking-wide text-bone-400">private</span>
+                        <span className="ml-2 font-ui text-xs uppercase tracking-wide text-bone-400">private</span>
                       )}
                       {stranded && (
-                        <span className="ml-2 rounded border border-blood-600 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-danger">
+                        <span className="ml-2 rounded border border-blood-600 px-1.5 py-0.5 font-ui text-xs uppercase tracking-wide text-danger">
                           stranded
                         </span>
                       )}

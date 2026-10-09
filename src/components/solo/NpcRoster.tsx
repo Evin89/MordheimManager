@@ -5,7 +5,7 @@ const STAT_KEYS: (keyof StatLine)[] = ['M', 'WS', 'BS', 'S', 'T', 'W', 'I', 'A',
 
 function StatRow({ stats }: { stats: StatLine }) {
   return (
-    <div className="flex gap-1.5 text-[11px] font-mono text-bone-300 tabular-nums flex-wrap">
+    <div className="flex gap-1.5 text-xs font-mono text-bone-300 tabular-nums flex-wrap">
       {STAT_KEYS.map((k) => (
         <span key={k}>
           <span className="text-bone-400">{k}</span> {stats[k]}

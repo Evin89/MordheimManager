@@ -242,7 +242,7 @@ export default function CampaignRatingChart({ warbands }: { warbands: ChartWarba
             aria-hidden="true"
             className={`absolute top-1 ${tooltipSide === 'left' ? 'left-1' : 'right-1'} min-w-[140px] max-w-[200px] rounded-md bg-ink-900 border border-ink-700 px-2.5 py-2 text-xs shadow-lg pointer-events-none`}
           >
-            <p className="text-ink-faded text-[10px] uppercase tracking-wide mb-1.5">
+            <p className="text-ink-faded text-xs uppercase tracking-wide mb-1.5">
               {new Date(hoverT).toLocaleDateString()}
             </p>
             <div className="space-y-1">

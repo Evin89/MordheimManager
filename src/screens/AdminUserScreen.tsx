@@ -22,7 +22,7 @@ function when(iso: string | null): string {
 function Stat({ label, value, to }: { label: string; value: number | string; to?: string }) {
   const inner = (
     <>
-      <p className="font-ui text-[11px] uppercase tracking-wide text-bone-400">
+      <p className="font-ui text-xs uppercase tracking-wide text-bone-400">
         {label}
         {to && <span className="text-ember-400"> →</span>}
       </p>
@@ -107,7 +107,7 @@ export default function AdminUserScreen() {
               <p className="text-bone-100">
                 {user.displayName || 'Unnamed'}
                 {user.isAdmin && (
-                  <span className="ml-2 rounded border border-ink-700 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-bone-400">
+                  <span className="ml-2 rounded border border-ink-700 px-1.5 py-0.5 font-ui text-xs uppercase tracking-wide text-bone-400">
                     admin
                   </span>
                 )}
@@ -199,7 +199,7 @@ export default function AdminUserScreen() {
                       <div className="flex items-baseline gap-2">
                         <span className="min-w-0 flex-1 truncate text-bone-100">{c.name}</span>
                         {c.role === 'campaign_leader' && (
-                          <span className="shrink-0 rounded border border-ink-700 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-bone-400">
+                          <span className="shrink-0 rounded border border-ink-700 px-1.5 py-0.5 font-ui text-xs uppercase tracking-wide text-bone-400">
                             leader
                           </span>
                         )}

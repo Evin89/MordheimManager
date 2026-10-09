@@ -36,7 +36,7 @@ function XpCard({ title, subtitle, xpAwarded, onDelta, scenarioAwards, showWinni
             type="button"
             onClick={() => onDelta(-1)}
             disabled={xpAwarded <= 0}
-            className="min-h-[40px] min-w-[40px] rounded-md border border-ink-700 text-bone-100 font-bold disabled:opacity-40"
+            className="min-h-[48px] min-w-[48px] rounded-md border border-ink-700 text-bone-100 font-bold disabled:opacity-40"
           >
             −
           </button>
@@ -44,7 +44,7 @@ function XpCard({ title, subtitle, xpAwarded, onDelta, scenarioAwards, showWinni
           <button
             type="button"
             onClick={() => onDelta(1)}
-            className="min-h-[40px] min-w-[40px] rounded-md border border-ink-700 text-bone-100 font-bold"
+            className="min-h-[48px] min-w-[48px] rounded-md border border-ink-700 text-bone-100 font-bold"
           >
             +
           </button>
@@ -54,7 +54,7 @@ function XpCard({ title, subtitle, xpAwarded, onDelta, scenarioAwards, showWinni
         <button
           type="button"
           onClick={() => onDelta(1)}
-          className="min-h-[36px] px-3 rounded-md border border-ink-700 text-bone-200 text-sm"
+          className="min-h-[48px] px-3 rounded-md border border-ink-700 text-bone-200 text-sm"
         >
           +1 Survived
         </button>
@@ -62,7 +62,7 @@ function XpCard({ title, subtitle, xpAwarded, onDelta, scenarioAwards, showWinni
           <button
             type="button"
             onClick={() => onDelta(1)}
-            className="min-h-[36px] px-3 rounded-md border border-ink-700 text-bone-200 text-sm"
+            className="min-h-[48px] px-3 rounded-md border border-ink-700 text-bone-200 text-sm"
           >
             +1 Winning Leader
           </button>
@@ -70,7 +70,7 @@ function XpCard({ title, subtitle, xpAwarded, onDelta, scenarioAwards, showWinni
         <button
           type="button"
           onClick={() => onDelta(1)}
-          className="min-h-[36px] px-3 rounded-md border border-ink-700 text-bone-200 text-sm"
+          className="min-h-[48px] px-3 rounded-md border border-ink-700 text-bone-200 text-sm"
         >
           +1 Per Enemy OOA
         </button>
@@ -79,7 +79,7 @@ function XpCard({ title, subtitle, xpAwarded, onDelta, scenarioAwards, showWinni
             key={award.id}
             type="button"
             onClick={() => onDelta(parseAwardAmount(award.amount))}
-            className="min-h-[36px] px-3 rounded-md border border-ink-700 text-bone-200 text-sm"
+            className="min-h-[48px] px-3 rounded-md border border-ink-700 text-bone-200 text-sm"
           >
             {award.amount} {award.label}
           </button>
