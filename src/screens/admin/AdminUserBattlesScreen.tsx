@@ -13,7 +13,7 @@ const RESULT_LABEL: Record<BattleResult, string> = {
 
 const RESULT_CLASSES: Record<BattleResult, string> = {
   win: 'border-ember-500 text-ember-400',
-  loss: 'border-blood-600 text-blood-500',
+  loss: 'border-blood-600 text-danger',
   draw: 'border-ink-700 text-bone-300',
 };
 
@@ -103,7 +103,7 @@ export default function AdminUserBattlesScreen() {
 
       {isError && (
         <div className="space-y-1">
-          <p className="text-blood-500 text-sm">Could not load battles.</p>
+          <p className="text-danger text-sm">Could not load battles.</p>
           <p className="font-ui text-xs text-bone-400">
             {(error as Error).message} — if this mentions <code>admin_user_battles</code>, migration 0036 has
             not been applied yet.

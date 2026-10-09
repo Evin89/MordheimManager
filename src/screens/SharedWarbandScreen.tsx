@@ -163,7 +163,7 @@ function SharedModelCard({ model, photoUrl }: { model: SharedModel; photoUrl?: s
           {injuries.map((injury, i) => (
             <li
               key={`${injury.name}-${i}`}
-              className="rounded-full border border-blood-500/60 bg-blood-500/10 px-2.5 py-0.5 text-xs font-semibold text-blood-500"
+              className="rounded-full border border-blood-500/60 bg-blood-500/10 px-2.5 py-0.5 text-xs font-semibold text-danger"
             >
               {injury.name}
             </li>

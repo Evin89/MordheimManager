@@ -287,7 +287,7 @@ export default function CampaignEventScreen() {
               />
             </Field>
 
-            {error && <p className="text-blood-500 text-sm">{error}</p>}
+            {error && <p className="text-danger text-sm">{error}</p>}
 
             <Button
               disabled={!draft?.title.trim() || !draft?.when || saving}

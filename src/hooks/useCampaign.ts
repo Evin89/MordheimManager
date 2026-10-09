@@ -400,12 +400,18 @@ export function useRemoveMemberMutation(campaignId: string | undefined) {
       queryClient.invalidateQueries({ queryKey: membersKey(campaignId) });
       queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });
     },
-    // The 0010 trigger refuses a leader who would orphan the campaign. That is
-    // a rule, not a connection fault, so it must not be reported as one.
-    onError: (err) =>
-      window.alert(err instanceof Error ? err.message : strings.connection.lost),
   });
-  return (userId: string) => mutation.mutate(userId);
+  // The 0010 trigger refuses a leader who would orphan the campaign. That is a
+  // rule, not a connection fault, so the message comes back for the Players
+  // list to show inline (it used to be a window.alert, which §5.4 bars).
+  return async (userId: string): Promise<string | null> => {
+    try {
+      await mutation.mutateAsync(userId);
+      return null;
+    } catch (err) {
+      return err instanceof Error ? err.message : strings.connection.lost;
+    }
+  };
 }
 
 /**

@@ -9,6 +9,7 @@ import { createHiredSwordFromDefinition } from '../lib/warbandFactory';
 import { resolveStatLine } from '../lib/statLine';
 import hiredSwordsData from '../data/hiredSwords.json';
 import { HiredSwordDefinition, HiredSwordsData } from '../data/types';
+import { goldWarning, usePurchase } from '../hooks/usePurchase';
 
 const hiredSwords = [...(hiredSwordsData as HiredSwordsData).hiredSwords].sort((a, b) =>
   a.name.localeCompare(b.name),
@@ -45,6 +46,7 @@ export default function AddHiredSwordScreen() {
   const [definitionId, setDefinitionId] = useState('');
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const purchase = usePurchase();
 
   if (loading) {
     return (
@@ -70,17 +72,19 @@ export default function AddHiredSwordScreen() {
     // Eligibility is free text in the source ("Any warband apart from Undead
     // and Skaven"), so it's shown for the player to read rather than enforced —
     // parsing prose into a rule would be guessing.
-    if (!canAfford) {
-      if (!window.confirm(strings.trading.insufficientGoldConfirm(fee, warband.gold))) return;
-    }
-
-    const sword = createHiredSwordFromDefinition(definition, name.trim());
-    saveWarband({
-      ...warband,
-      gold: warband.gold - fee,
-      hiredSwords: [...warband.hiredSwords, sword],
+    purchase.attempt({
+      warnings: [!canAfford && goldWarning(fee, warband.gold)],
+      action: strings.trading.hireAnyway,
+      proceed: () => {
+        const sword = createHiredSwordFromDefinition(definition, name.trim());
+        saveWarband({
+          ...warband,
+          gold: warband.gold - fee,
+          hiredSwords: [...warband.hiredSwords, sword],
+        });
+        navigate(`/warbands/${warband.id}`, { replace: true });
+      },
     });
-    navigate(`/warbands/${warband.id}`, { replace: true });
   }
 
   const stats = definition ? resolveStatLine(definition.statLine).stats : null;
@@ -108,7 +112,7 @@ export default function AddHiredSwordScreen() {
               others.map(renderOption)
             )}
           </Select>
-          <p className={`text-sm ${canAfford ? 'text-bone-300' : 'text-blood-500'}`}>
+          <p className={`text-sm ${canAfford ? 'text-bone-300' : 'text-danger'}`}>
             {strings.roster.costVsTreasury(fee, warband.gold)}
           </p>
           <p className="text-bone-400 text-xs">{strings.addHiredSword.notCountedHint}</p>
@@ -134,7 +138,7 @@ export default function AddHiredSwordScreen() {
               </p>
             )}
             {listed.length > 0 && !listed.includes(definition) && (
-              <p className="text-blood-500 text-sm">{strings.addHiredSword.notListedHint}</p>
+              <p className="text-danger text-sm">{strings.addHiredSword.notListedHint}</p>
             )}
             <p className="text-bone-300 text-sm">
               <span className="text-bone-200 font-semibold">{strings.addHiredSword.hiredByLabel}: </span>
@@ -180,9 +184,10 @@ export default function AddHiredSwordScreen() {
             }}
             placeholder={strings.addHiredSword.namePlaceholder}
           />
-          {error && <p className="text-blood-500 text-sm">{error}</p>}
+          {error && <p className="text-danger text-sm">{error}</p>}
         </div>
 
+        {purchase.panel}
         <Button onClick={handleHire}>{strings.addHiredSword.hireButton}</Button>
       </main>
     </div>

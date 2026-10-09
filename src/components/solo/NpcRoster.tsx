@@ -95,7 +95,7 @@ export default function NpcRoster({
                 aria-pressed={down}
                 className={`min-h-[36px] px-3 rounded-md border text-xs font-semibold flex-none ${
                   down
-                    ? 'border-blood-600 text-blood-500'
+                    ? 'border-blood-600 text-danger'
                     : 'border-ink-700 text-bone-200 hover:bg-ink-800'
                 }`}
               >

@@ -209,7 +209,7 @@ export default function CampaignEvents({ campaignId }: { campaignId: string }) {
             />
           </Field>
 
-          {error && <p className="text-blood-500 text-sm">{error}</p>}
+          {error && <p className="text-danger text-sm">{error}</p>}
 
           <div className="flex gap-2">
             <Button

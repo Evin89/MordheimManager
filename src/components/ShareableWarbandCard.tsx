@@ -89,7 +89,7 @@ export default function ShareableWarbandCard({ warband }: { warband: Warband }) 
         />
       )}
 
-      {state === 'error' && <p className="text-blood-500 text-sm">{t.failed}</p>}
+      {state === 'error' && <p className="text-danger text-sm">{t.failed}</p>}
 
       {state !== 'ready' ? (
         <Button variant="secondary" disabled={state === 'building'} onClick={build}>

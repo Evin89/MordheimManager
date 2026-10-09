@@ -26,7 +26,7 @@ export default function StepUpkeep({ warband, draft, updateDraft }: StepProps) {
   return (
     <div className="space-y-4">
       {totalUpkeepDue > goldAvailable && (
-        <p className="text-blood-500 text-sm rounded-md border border-blood-600 p-3">
+        <p className="text-danger text-sm rounded-md border border-blood-600 p-3">
           {strings.postBattle.upkeep.insufficientGoldWarning(totalUpkeepDue, goldAvailable)}
         </p>
       )}

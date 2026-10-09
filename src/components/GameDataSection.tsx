@@ -63,7 +63,7 @@ export default function GameDataSection() {
           {state === 'sending' ? strings.report.sending : s.reportButton}
         </Button>
         {state === 'sent' && <p className="text-verdigris text-sm">{strings.report.thanks}</p>}
-        {state === 'error' && <p className="text-blood-500 text-sm">{strings.report.failed}</p>}
+        {state === 'error' && <p className="text-danger text-sm">{strings.report.failed}</p>}
       </div>
     </Card>
   );

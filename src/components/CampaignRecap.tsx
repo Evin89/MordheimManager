@@ -11,6 +11,7 @@ import {
 } from '../api/campaignAwards';
 import { Button, SectionHeading } from './ui';
 import { strings } from '../strings';
+import ConfirmAction from './ConfirmAction';
 
 /** The award-string bundle computeAwards expects, pulled from the campaign strings. */
 const AWARD_STRINGS = {
@@ -50,6 +51,7 @@ export default function CampaignRecap({
   const setConcluded = useSetConcludedMutation(campaign.id);
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const [confirmConclude, setConfirmConclude] = useState(false);
   const hasData = battles.length > 0 && standings.some((r) => r.warbandName);
 
   // Concluding freezes the live §17.4 awards onto their winning warbands, so a
@@ -57,7 +59,7 @@ export default function CampaignRecap({
   // them again. The awards are a bonus on top of concluding — a failure to
   // persist them must not block the conclude itself.
   async function conclude() {
-    if (!window.confirm(t.concludeConfirm)) return;
+    setConfirmConclude(false);
     try {
       if (user) {
         const awards = computeAwards(battles, standings, AWARD_STRINGS)
@@ -151,9 +153,18 @@ export default function CampaignRecap({
               {t.reopenButton}
             </Button>
           ) : (
-            <Button variant="secondary" onClick={conclude}>
-              {t.concludeButton}
-            </Button>
+            confirmConclude ? (
+              <ConfirmAction
+                prompt={t.concludeConfirm}
+                action={t.concludeButton}
+                onConfirm={conclude}
+                onCancel={() => setConfirmConclude(false)}
+              />
+            ) : (
+              <Button variant="secondary" onClick={() => setConfirmConclude(true)}>
+                {t.concludeButton}
+              </Button>
+            )
           )}
         </>
       )}
@@ -165,7 +176,7 @@ export default function CampaignRecap({
           {state === 'ready' && previewUrl && (
             <img src={previewUrl} alt={t.shareCaption(campaign.name)} className="w-full rounded-md border border-ink-800" />
           )}
-          {state === 'error' && <p className="text-blood-500 text-sm">{strings.roster.card.failed}</p>}
+          {state === 'error' && <p className="text-danger text-sm">{strings.roster.card.failed}</p>}
 
           {state !== 'ready' ? (
             <Button disabled={state === 'building'} onClick={build}>

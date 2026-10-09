@@ -17,7 +17,7 @@ function AttentionBadge({ to, label, n, urgent }: { to: string; label: string; n
       to={to}
       className={`rounded-md border px-3 py-2 text-sm font-semibold ${
         n > 0 && urgent
-          ? 'border-blood-600 text-blood-500'
+          ? 'border-blood-600 text-danger'
           : n > 0
             ? 'border-ember-500/50 text-ember-400'
             : 'border-ink-700 text-bone-400'

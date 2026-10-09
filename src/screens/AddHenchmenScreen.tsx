@@ -12,6 +12,7 @@ import {
   remainingHenchmenSlots,
   remainingWarbandCapacity,
 } from '../lib/warbandLimits';
+import { goldWarning, usePurchase } from '../hooks/usePurchase';
 
 export default function AddHenchmenScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
@@ -26,6 +27,7 @@ export default function AddHenchmenScreen() {
   const [existingGroupId, setExistingGroupId] = useState('');
   const [count, setCount] = useState(1);
   const [error, setError] = useState<string | null>(null);
+  const purchase = usePurchase();
 
   if (loading) {
     return (
@@ -46,48 +48,57 @@ export default function AddHenchmenScreen() {
   function handleAdd() {
     if (!type || !warband || !definition) return;
 
-    const perType = remainingHenchmenSlots(warband, type);
-    if (perType !== null && count > perType && type.maxCount !== null) {
-      if (!window.confirm(strings.roster.slotLimitWarning(type.unitType, type.maxCount))) return;
+    // Validate the form first, so the player isn't asked to confirm a
+    // purchase that would then be refused for a missing name.
+    const group =
+      mode === 'existing' ? warband.henchmenGroups.find((g) => g.id === existingGroupId) : undefined;
+    if (mode === 'existing' && !group) {
+      setError('Choose a group to add to.');
+      return;
     }
+    if (mode === 'new' && !groupName.trim()) {
+      setError('Give the new group a name.');
+      return;
+    }
+    setError(null);
 
+    const perType = remainingHenchmenSlots(warband, type);
     // The old code only checked the per-type cap, so a group could be sized
     // straight past the warband's own maximum — you could recruit 30 henchmen
     // into a warband capped at 15 and nothing said a word.
     const capacity = remainingWarbandCapacity(warband, definition);
-    if (capacity !== null && count > capacity && definition.maxWarbandSize !== null) {
-      if (!window.confirm(strings.roster.warbandSizeWarning(definition.maxWarbandSize))) return;
-    }
-
     const totalCost = (type.cost ?? 0) * count;
-    if (totalCost > warband.gold) {
-      if (!window.confirm(strings.trading.insufficientGoldConfirm(totalCost, warband.gold))) return;
-    }
 
-    if (mode === 'existing') {
-      const group = warband.henchmenGroups.find((g) => g.id === existingGroupId);
-      if (!group) {
-        setError('Choose a group to add to.');
-        return;
-      }
-      const updated = warband.henchmenGroups.map((g) =>
-        g.id === group.id ? { ...g, count: g.count + count } : g,
-      );
-      saveWarband({ ...warband, gold: warband.gold - totalCost, henchmenGroups: updated });
-    } else {
-      if (!groupName.trim()) {
-        setError('Give the new group a name.');
-        return;
-      }
-      const group = createHenchmenGroupFromType(type, groupName.trim(), count);
-      saveWarband({
-        ...warband,
-        gold: warband.gold - totalCost,
-        henchmenGroups: [...warband.henchmenGroups, group],
-      });
-    }
-
-    navigate(`/warbands/${warband.id}`, { replace: true });
+    purchase.attempt({
+      warnings: [
+        perType !== null &&
+          count > perType &&
+          type.maxCount !== null &&
+          strings.roster.slotLimitWarning(type.unitType, type.maxCount),
+        capacity !== null &&
+          count > capacity &&
+          definition.maxWarbandSize !== null &&
+          strings.roster.warbandSizeWarning(definition.maxWarbandSize),
+        goldWarning(totalCost, warband.gold),
+      ],
+      action: strings.trading.addAnyway,
+      proceed: () => {
+        if (group) {
+          const updated = warband.henchmenGroups.map((g) =>
+            g.id === group.id ? { ...g, count: g.count + count } : g,
+          );
+          saveWarband({ ...warband, gold: warband.gold - totalCost, henchmenGroups: updated });
+        } else {
+          const created = createHenchmenGroupFromType(type, groupName.trim(), count);
+          saveWarband({
+            ...warband,
+            gold: warband.gold - totalCost,
+            henchmenGroups: [...warband.henchmenGroups, created],
+          });
+        }
+        navigate(`/warbands/${warband.id}`, { replace: true });
+      },
+    });
   }
 
   return (
@@ -125,14 +136,14 @@ export default function AddHenchmenScreen() {
                 : strings.roster.slotsRemaining(slotsLeft, type.maxCount ?? 0)}
             </p>
           )}
-          <p className={`text-sm ${totalCost <= warband.gold ? 'text-bone-300' : 'text-blood-500'}`}>
+          <p className={`text-sm ${totalCost <= warband.gold ? 'text-bone-300' : 'text-danger'}`}>
             {strings.roster.costVsTreasury(totalCost, warband.gold)}
           </p>
           {affordable === 0 ? (
-            <p className="text-blood-500 text-sm">{strings.roster.cannotRecruitMore}</p>
+            <p className="text-danger text-sm">{strings.roster.cannotRecruitMore}</p>
           ) : (
             count > affordable && (
-              <p className="text-blood-500 text-sm">{strings.roster.overLimitHint(affordable)}</p>
+              <p className="text-danger text-sm">{strings.roster.overLimitHint(affordable)}</p>
             )
           )}
         </div>
@@ -212,8 +223,9 @@ export default function AddHenchmenScreen() {
           />
         </div>
 
-        {error && <p className="text-blood-500 text-sm">{error}</p>}
+        {error && <p className="text-danger text-sm">{error}</p>}
 
+        {purchase.panel}
         <Button onClick={handleAdd}>{strings.common.add}</Button>
       </main>
     </div>

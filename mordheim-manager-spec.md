@@ -884,6 +884,8 @@ The visual direction is the 1999 Mordheim rulebook: aged parchment, heavy black 
 
 ⚠️ **Added token: `on-accent`.** "White on blood" holds in this theme. It does not hold in Grimdark, whose accent is a light ember orange — white on it measures 3.76:1 and fails AA. A shared component cannot hardcode white and stay accessible in both, so the legible foreground for the accent is itself a token: white under Rulebook, near-black under Grimdark.
 
+✅ **Added tokens: `danger` and `on-danger`** (2026-10-09). The legacy blood scale was used for two jobs it could not do in both themes: red *text* on the page (`text-blood-500`, 2.51:1 on Grimdark's near-black) and dark-ink labels on a blood *fill* (`text-bone-100` on `bg-blood-600`, 1.45:1 under Rulebook, where bone resolves to ink). `danger` is the red for text — a brighter brick red under Grimdark (5.81:1 on the page, 4.98:1 on `ink-800`), plain blood under Rulebook (6.54:1). `on-danger` is the label on a blood fill — white in both (≥ 7.87:1). Both pairs are in `design-sheet.mjs`, which now runs with `--check` as the first step of `npm run build`, so a token edit that breaks AA stops the deploy.
+
 A subtle parchment texture is allowed on the app background only: low-contrast CSS noise or gradient mottling, never a busy scanned-paper image, never behind body text — cards sit flat on top. If in doubt, flat colour.
 
 ### 5.2 Typography
@@ -917,6 +919,7 @@ Supporting details, used with restraint: woodcut-style SVG divider ornaments bet
 - Respect `prefers-reduced-motion`; keep motion minimal regardless.
 - **Numeric fields are always directly typeable.** Counts, quantities, gold, XP and shards use real number inputs (`type="number"` / `inputmode="numeric"`), select-on-focus so typing replaces rather than appends. No `<select>` dropdowns of numbers, no ±-only steppers as the sole input path.
 - Every destructive action gets a confirm step — and the destructive ones that can't be re-derived get §10's type-to-confirm panel, not a browser confirm.
+  - ✅ **No browser dialogs left in components** (2026-10-09). Every `window.confirm` moved inline: removing a player, leaving, handing over or giving up leadership, deleting a logged battle and importing a data file are type-to-confirm (§10.1, §10.3); the rest are `ConfirmAction`. Spending gold goes through one hook, `usePurchase` (`src/hooks/usePurchase.tsx`), used by all six purchase flows: rulebook limits a group may bend (slot cap, warband size, gold, the group's per-model cost) are listed together in one `ConfirmAction`, and the two-weapon limit is an inline notice. ⚠️ Connection-error `window.alert`s in `hooks/useCampaign.ts`, `useWarbands.ts` and `useObjective.ts` remain — a toast is the right replacement, not a confirm.
 
 ⚠️ **Known deviation:** tab buttons, the Buy button and the rules filters are 36–40px, short of the 48px minimum. A deliberate density trade-off on dense list screens, recorded rather than quietly accepted.
 

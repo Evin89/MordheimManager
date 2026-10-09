@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TerrainCategory, TerrainPiece, TerrainPieceInput } from '../../api/collection';
 import { Button, Field, Select, TextField, Textarea } from '../ui';
+import ConfirmAction from '../ConfirmAction';
 
 const CATEGORIES: { value: TerrainCategory; label: string }[] = [
   { value: 'building', label: 'Building / ruin' },
@@ -97,6 +98,7 @@ export default function TerrainLibraryEditor({
 }) {
   const [form, setForm] = useState<FormState>(EMPTY);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [confirmingPiece, setConfirmingPiece] = useState<string | null>(null);
 
   const set = (patch: Partial<FormState>) => setForm((f) => ({ ...f, ...patch }));
   const reset = () => {
@@ -121,40 +123,49 @@ export default function TerrainLibraryEditor({
       {pieces.length > 0 && (
         <ul className="space-y-2">
           {pieces.map((p) => (
-            <li
-              key={p.id}
-              className="rounded-md border border-ink-700 bg-ink-900 p-3 flex items-start justify-between gap-3"
-            >
-              <div className="min-w-0">
-                <p className="text-bone-100 text-sm font-semibold">
-                  {p.name}
-                  {p.quantity > 1 && <span className="text-bone-400 font-normal"> ×{p.quantity}</span>}
-                </p>
-                <p className="text-bone-400 text-xs">
-                  {CATEGORY_LABEL[p.category]} · {footprint(p)}
-                  {p.levels != null && ` · ${p.levels} level${p.levels === 1 ? '' : 's'}`}
-                  {p.height != null && ` · ${p.height}″ tall`}
-                </p>
-                {p.notes && <p className="text-bone-400 text-xs mt-1">{p.notes}</p>}
+            <li key={p.id} className="space-y-2">
+              <div className="rounded-md border border-ink-700 bg-ink-900 p-3 flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-bone-100 text-sm font-semibold">
+                    {p.name}
+                    {p.quantity > 1 && <span className="text-bone-400 font-normal"> ×{p.quantity}</span>}
+                  </p>
+                  <p className="text-bone-400 text-xs">
+                    {CATEGORY_LABEL[p.category]} · {footprint(p)}
+                    {p.levels != null && ` · ${p.levels} level${p.levels === 1 ? '' : 's'}`}
+                    {p.height != null && ` · ${p.height}″ tall`}
+                  </p>
+                  {p.notes && <p className="text-bone-400 text-xs mt-1">{p.notes}</p>}
+                </div>
+                <div className="flex gap-1.5 flex-none">
+                  <button
+                    type="button"
+                    onClick={() => edit(p)}
+                    className="min-h-[36px] px-3 rounded-md border border-ink-700 text-bone-200 text-xs hover:bg-ink-800"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    aria-expanded={confirmingPiece === p.id}
+                    onClick={() => setConfirmingPiece((id) => (id === p.id ? null : p.id))}
+                    className="min-h-[36px] px-3 rounded-md border border-blood-600 text-danger text-xs hover:bg-blood-600 hover:text-on-danger"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-              <div className="flex gap-1.5 flex-none">
-                <button
-                  type="button"
-                  onClick={() => edit(p)}
-                  className="min-h-[36px] px-3 rounded-md border border-ink-700 text-bone-200 text-xs hover:bg-ink-800"
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (window.confirm(`Remove “${p.name}” from your terrain?`)) onDelete(p.id);
+              {confirmingPiece === p.id && (
+                <ConfirmAction
+                  prompt={`Remove “${p.name}” from your terrain?`}
+                  action="Delete"
+                  onConfirm={() => {
+                    onDelete(p.id);
+                    setConfirmingPiece(null);
                   }}
-                  className="min-h-[36px] px-3 rounded-md border border-blood-600 text-blood-500 text-xs hover:bg-blood-600 hover:text-bone-100"
-                >
-                  Delete
-                </button>
-              </div>
+                  onCancel={() => setConfirmingPiece(null)}
+                />
+              )}
             </li>
           ))}
         </ul>

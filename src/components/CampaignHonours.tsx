@@ -10,6 +10,7 @@ import {
 } from '../hooks/useCampaignAwards';
 import { CampaignWarbandRow } from '../api/warbands';
 import { Campaign } from '../types';
+import ConfirmAction from './ConfirmAction';
 
 /**
  * §17.4 (manual) — the honours a leader has granted by hand, beside the computed
@@ -31,6 +32,7 @@ export default function CampaignHonours({
   const s = strings.campaign.honours;
 
   const [adding, setAdding] = useState(false);
+  const [confirmingAward, setConfirmingAward] = useState<string | null>(null);
   const [warbandId, setWarbandId] = useState('');
   const [title, setTitle] = useState('');
   const [note, setNote] = useState('');
@@ -128,15 +130,25 @@ export default function CampaignHonours({
                 {isLeader && (
                   <button
                     type="button"
-                    onClick={() => {
-                      if (window.confirm(s.removeConfirm(award.title))) removeAward(award.id);
-                    }}
-                    className="shrink-0 text-blood-500 text-xs font-semibold"
+                    aria-expanded={confirmingAward === award.id}
+                    onClick={() => setConfirmingAward((id) => (id === award.id ? null : award.id))}
+                    className="shrink-0 text-danger text-xs font-semibold"
                   >
                     {s.remove}
                   </button>
                 )}
               </div>
+              {confirmingAward === award.id && (
+                <ConfirmAction
+                  prompt={s.removeConfirm(award.title)}
+                  action={s.remove}
+                  onConfirm={() => {
+                    removeAward(award.id);
+                    setConfirmingAward(null);
+                  }}
+                  onCancel={() => setConfirmingAward(null)}
+                />
+              )}
               {award.note && (
                 <p className="text-bone-300 text-sm whitespace-pre-wrap">{award.note}</p>
               )}

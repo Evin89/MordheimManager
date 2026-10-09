@@ -91,7 +91,7 @@ export default function AdminUserScreen() {
 
       {isError && (
         <div className="space-y-1">
-          <p className="text-blood-500 text-sm">Could not load this player.</p>
+          <p className="text-danger text-sm">Could not load this player.</p>
           <p className="font-ui text-xs text-bone-400">
             {(error as Error).message} — if this mentions <code>admin_user_detail</code>, migration 0008 has
             not been applied yet.
@@ -126,7 +126,7 @@ export default function AdminUserScreen() {
                 {user.emailConfirmed ? (
                   <span className="text-bone-100">confirmed</span>
                 ) : (
-                  <span className="font-semibold text-blood-500">not confirmed — can't sign in</span>
+                  <span className="font-semibold text-danger">not confirmed — can't sign in</span>
                 )}
               </p>
               <p className="font-ui text-sm">

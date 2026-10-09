@@ -115,7 +115,7 @@ export default function RegisterScreen() {
                 onNote={setSelfReportNote}
               />
 
-              {error && <p className="text-sm text-blood-500">{error}</p>}
+              {error && <p className="text-sm text-danger">{error}</p>}
 
               <Button type="submit" disabled={submitting}>
                 {submitting ? strings.auth.registerSubmitting : strings.auth.registerButton}

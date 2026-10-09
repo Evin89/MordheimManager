@@ -288,7 +288,10 @@ export const strings = {
     dataSection: 'Your Data',
     exportButton: 'Export all data (.json)',
     importButton: 'Import data from file',
-    importOverwriteWarning: 'Importing will overwrite all warbands and campaign data currently stored on this device. This cannot be undone. Continue?',
+    importConfirmPhrase: 'overwrite',
+    importConfirmLabel: 'Type overwrite to confirm',
+    importConfirmAction: 'Replace my data',
+    importOverwriteWarning: 'Importing replaces every warband and all campaign data on your account with the contents of this file. This cannot be undone.',
     importSuccess: 'Import complete.',
     importError: (message: string) => `Import failed: ${message}`,
     notifications: {
@@ -756,11 +759,11 @@ export const strings = {
     costVsTreasury: (cost: number, gold: number) => `Cost ${cost} gc · treasury ${gold} gc`,
     atMaxSize: (max: number) => `Warband is at its maximum size of ${max} models.`,
     warbandSizeWarning: (max: number) =>
-      `This takes the warband past its maximum size of ${max} models. Add anyway?`,
+      `This takes the warband past its maximum size of ${max} models.`,
     cannotRecruitMore: 'No room or no gold for more of these right now.',
     overLimitHint: (max: number) => `Only ${max} can be added right now.`,
     slotLimitWarning:(unitType: string, max: number) =>
-      `Your warband already has the normal maximum of ${max} ${unitType}(s). Add another anyway?`,
+      `Your warband already has the normal maximum of ${max} ${unitType}(s).`,
     missNextGameBadge: 'Miss Next Game',
     deadBadge: 'Dead',
     capturedBadge: 'Captured',
@@ -997,6 +1000,7 @@ export const strings = {
       noSkills: 'No skills.',
       goToPostBattle: 'Go to Post-Battle Sequence',
       turnBackConfirm: (turn: number) => `Go back to turn ${turn}?`,
+      turnBackAction: 'Go back',
       markOutOfAction: 'Mark out of action',
       outOfActionMarked: 'Out of action',
       outOfActionCount: 'Out of action',
@@ -1203,9 +1207,9 @@ export const strings = {
     rareTab: 'Rare',
     buyButton: (cost: number) => `Buy (${cost} gc)`,
     groupPurchaseConfirm: (item: string, count: number, total: number) =>
-      `Every model in a Henchmen group carries the same gear, so this buys ${count}x ${item} for ${total} gc. Continue?`,
+      `Every model in a Henchmen group carries the same gear, so this buys ${count}x ${item} for ${total} gc.`,
     insufficientGoldConfirm: (cost: number, have: number) =>
-      `This costs ${cost} gc but the warband only has ${have} gc. Buy it anyway?`,
+      `This costs ${cost} gc but the warband only has ${have} gc.`,
     rarityLabel: (n: number) => `Rare ${n}`,
     rollHint: 'This item is found on a result of the Rare number shown, or higher. Roll for me, or roll 2D6 (plus any modifiers) yourself and report the result.',
     rollButton: 'Roll for this item',
@@ -1227,7 +1231,15 @@ export const strings = {
     treasuryHint: 'Assign items to a model from the warband roster.',
     sellButton: 'Sell',
     sellPriceLabel: 'Sell price',
-    sellConfirm: (name: string, price: number) => `Sell ${name} for ${price} gc?`,
+    // usePurchase (§5.4): every reason a purchase needs a second look, listed
+    // together in one inline panel instead of a chain of browser confirms.
+    purchasePrompt: 'Go ahead anyway?',
+    buyAnyway: 'Buy anyway',
+    addAnyway: 'Add anyway',
+    hireAnyway: 'Hire anyway',
+    buyAction: 'Buy',
+    sellAction: 'Sell',
+    dismiss: 'OK',
     exclusiveBadge: "Warband-exclusive",
     affordToggle: 'Only what I can afford',
     // Rare prices are a range resolved by a dice roll, so "afford" uses the
@@ -1426,6 +1438,18 @@ export const strings = {
       'You lead this campaign. Make someone else a leader first, or it would be left with nobody who can manage it.',
     removeMemberConfirm: (name: string) => `Remove ${name} from the campaign? Their warbands will be unlinked from the standings.`,
     leaveCampaign: 'Leave campaign',
+    // Inline confirm panels (§10.1 / §10.3) that replaced the browser confirms.
+    // Removing a player or giving up leadership can't be undone by the person
+    // doing it, so those type a name; the rest are one-tap ConfirmActions.
+    typeNameLabel: (name: string) => `Type ${name} to confirm`,
+    removeMemberAction: 'Remove from campaign',
+    leaveAction: 'Leave this campaign',
+    handOverAction: 'Hand over leadership',
+    stepDownAction: 'Step down',
+    removeLeaderAction: 'Remove leader role',
+    makeLeaderAction: 'Make co-leader',
+    regenerateAction: 'Issue new code',
+    deleteBattleAction: 'Remove from log',
     leaveConfirm:
       'Leave this campaign? Your warbands are withdrawn from its standings — they stay yours, and you can rejoin with the code.',
     standingsSection: 'Standings',

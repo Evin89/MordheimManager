@@ -68,7 +68,7 @@ export function JoinCampaignForm({ title, compact = false }: { title: string; co
             {strings.campaign.joinButton}
           </Button>
         </div>
-        {joinError && <p className="text-sm text-blood-500">{joinError}</p>}
+        {joinError && <p className="text-sm text-danger">{joinError}</p>}
       </section>
     );
   }
@@ -78,7 +78,7 @@ export function JoinCampaignForm({ title, compact = false }: { title: string; co
       <SectionHeading>{title}</SectionHeading>
       <p className="text-bone-300 text-sm">{strings.campaign.joinHint}</p>
       <Field label={strings.campaign.joinCodeLabel}>{field}</Field>
-      {joinError && <p className="text-sm text-blood-500">{joinError}</p>}
+      {joinError && <p className="text-sm text-danger">{joinError}</p>}
       <Button variant="secondary" onClick={handleJoin} disabled={joining || !code.trim()}>
         {strings.campaign.joinButton}
       </Button>
@@ -134,8 +134,8 @@ export function CreateCampaignForm({ title, hint, compact = false }: { title: st
           placeholder={strings.campaign.namePlaceholder}
         />
       </Field>
-      {knownTaken && <p className="text-blood-500 text-sm -mt-2">{strings.connection.duplicate}</p>}
-      {submitError && <p className="text-blood-500 text-sm -mt-2">{submitError}</p>}
+      {knownTaken && <p className="text-danger text-sm -mt-2">{strings.connection.duplicate}</p>}
+      {submitError && <p className="text-danger text-sm -mt-2">{submitError}</p>}
       <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm">
         <input
           type="checkbox"

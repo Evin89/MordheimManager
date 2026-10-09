@@ -55,6 +55,8 @@ function contrast(a, b) {
   return (hi + 0.05) / (lo + 0.05);
 }
 
+const CHECK_ONLY = process.argv.includes('--check');
+
 const AA = 4.5;
 // WCAG 1.4.11 (non-text contrast) rather than 1.4.3's 4.5:1: a chart line is a
 // graphical object, not text, so the applicable floor is 3:1 against the page
@@ -85,6 +87,13 @@ function sheet(theme, tokens) {
     // 3.95:1 failure that exists nowhere in the app — a reminder that the sheet
     // has to render what the components render, not a plausible substitute.
     ['white on verdigris', null, 'verdigris'],
+    // Destructive roles. Both pairs failed before these tokens existed: red
+    // text on Grimdark's near-black (2.51:1) and dark ink on a blood fill under
+    // Rulebook (1.45:1) — legacy pairs this sheet never looked at.
+    ['danger on parchment', 'danger', 'parchment'],
+    ['danger on parchment-raised', 'danger', 'parchment-raised'],
+    ['on-danger on blood-600', 'on-danger', 'blood-600'],
+    ['on-danger on blood-500', 'on-danger', 'blood-500'],
   ].map(([label, fg, bg]) => ({
     label,
     fg,
@@ -236,11 +245,22 @@ mkdirSync(OUT_DIR, { recursive: true });
 let failures = 0;
 for (const theme of THEMES) {
   const tokens = readTokens(css, theme.selector);
-  writeFileSync(resolve(OUT_DIR, `${theme.id}.svg`), sheet(theme, tokens));
+  // `--check` (run by `npm run build`) only verifies contrast and writes
+  // nothing, so a deploy can fail on a bad token without touching docs/.
+  if (!CHECK_ONLY) writeFileSync(resolve(OUT_DIR, `${theme.id}.svg`), sheet(theme, tokens));
 
   // Re-assert §5.1's contrast requirement on every run. The sheet renders a
   // FAIL badge, but a silent file nobody opens is not a check.
-  for (const [fg, bg] of [['ink', 'parchment'], ['on-accent', 'accent'], [null, 'verdigris']]) {
+  for (const [fg, bg] of [
+    ['ink', 'parchment'],
+    ['on-accent', 'accent'],
+    [null, 'verdigris'],
+    ['danger', 'parchment'],
+    ['danger', 'parchment-raised'],
+    ['danger', 'ink-800'],
+    ['on-danger', 'blood-600'],
+    ['on-danger', 'blood-500'],
+  ]) {
     const ratio = contrast(fg ? tokens[fg] : [255, 255, 255], tokens[bg]);
     const ok = ratio >= AA;
     if (!ok) failures += 1;
@@ -268,7 +288,7 @@ for (const theme of THEMES) {
     if (!ok) failures += 1;
     console.log(`${ok ? 'ok  ' : 'FAIL'}  ${theme.id.padEnd(10)} on-heat-${i} on heat-${i}: ${ratio.toFixed(2)}:1`);
   }
-  console.log(`      wrote docs/design/${theme.id}.svg`);
+  if (!CHECK_ONLY) console.log(`      wrote docs/design/${theme.id}.svg`);
 }
 
 if (failures > 0) {

@@ -11,6 +11,7 @@ import CampaignRecap from '../components/CampaignRecap';
 import CampaignRatingChart from '../components/CampaignRatingChart';
 import SaveBar from '../components/SaveBar';
 import ConfirmByTyping from '../components/ConfirmByTyping';
+import ConfirmAction from '../components/ConfirmAction';
 import { Button, Card, SectionHeading, Field, TextField, Textarea, Select, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
@@ -72,7 +73,7 @@ const RESULT_LABEL: Record<BattleRecord['result'], string> = {
 
 const RESULT_CLASSES: Record<BattleRecord['result'], string> = {
   win: 'border-ember-500 text-ember-400',
-  loss: 'border-blood-600 text-blood-500',
+  loss: 'border-blood-600 text-danger',
   draw: 'border-ink-700 text-bone-300',
 };
 
@@ -154,7 +155,7 @@ function BattleRow({
             <button
               type="button"
               onClick={onDelete}
-              className="min-h-[44px] text-blood-500 text-sm font-semibold"
+              className="min-h-[44px] text-danger text-sm font-semibold"
             >
               {strings.campaign.deleteBattle}
             </button>
@@ -278,7 +279,7 @@ function DeleteCampaign({ campaign, memberCount }: { campaign: Campaign; memberC
               }
             }}
           />
-          {error && <p className="text-blood-500 text-sm">{error}</p>}
+          {error && <p className="text-danger text-sm">{error}</p>}
           <button
             type="button"
             onClick={() => setConfirming(false)}
@@ -348,6 +349,7 @@ function CampaignEntry() {
 function JoinCodeCard({ campaign, isLeader }: { campaign: Campaign; isLeader: boolean }) {
   const regenerate = useRegenerateJoinCodeMutation();
   const [copied, setCopied] = useState(false);
+  const [confirmRegenerate, setConfirmRegenerate] = useState(false);
 
   async function copy() {
     if (!campaign.joinCode) return;
@@ -376,17 +378,26 @@ function JoinCodeCard({ campaign, isLeader }: { campaign: Campaign; isLeader: bo
         <InviteShareButtons campaignName={campaign.name} joinCode={campaign.joinCode} />
       )}
 
-      {isLeader && (
-        <button
-          type="button"
-          onClick={() => {
-            if (window.confirm(strings.campaign.regenerateConfirm)) regenerate(campaign.id);
-          }}
-          className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
-        >
-          {strings.campaign.regenerateCode}
-        </button>
-      )}
+      {isLeader &&
+        (confirmRegenerate ? (
+          <ConfirmAction
+            impact={<p>{strings.campaign.regenerateConfirm}</p>}
+            action={strings.campaign.regenerateAction}
+            onConfirm={() => {
+              regenerate(campaign.id);
+              setConfirmRegenerate(false);
+            }}
+            onCancel={() => setConfirmRegenerate(false)}
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => setConfirmRegenerate(true)}
+            className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+          >
+            {strings.campaign.regenerateCode}
+          </button>
+        ))}
     </section>
   );
 }
@@ -500,7 +511,7 @@ function CampaignRivalries({
                     ? strings.campaign.rivalryResultLoss
                     : strings.campaign.rivalryResultDraw;
               const resultColor = (result: BattleResult) =>
-                result === 'win' ? 'text-verdigris' : result === 'loss' ? 'text-blood-500' : 'text-bone-400';
+                result === 'win' ? 'text-verdigris' : result === 'loss' ? 'text-danger' : 'text-bone-400';
               return (
                 <details
                   key={r.opponentWarbandId ?? r.opponentName}
@@ -511,7 +522,7 @@ function CampaignRivalries({
                       {r.opponentName}
                       {r.opponentWarbandId &&
                         myWarbands.find((w) => w.id === block.warbandId)?.nemesisWarbandId === r.opponentWarbandId && (
-                          <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded border border-blood-600 text-blood-500 align-middle">
+                          <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded border border-blood-600 text-danger align-middle">
                             {strings.campaign.nemesisBadge}
                           </span>
                         )}
@@ -594,7 +605,7 @@ function StandingsTable({ rows, nemesisIds }: { rows: StandingsRow[]; nemesisIds
                     </Link>
                     {/* §17.2 — purely cosmetic: a rival one of your warbands has marked. */}
                     {nemesisIds.has(row.warbandId) && (
-                      <span className="ml-2 text-xs font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded border border-blood-600 text-blood-500 align-middle">
+                      <span className="ml-2 text-xs font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded border border-blood-600 text-danger align-middle">
                         {strings.campaign.nemesisBadge}
                       </span>
                     )}
@@ -626,6 +637,8 @@ function StandingsTable({ rows, nemesisIds }: { rows: StandingsRow[]; nemesisIds
   );
 }
 
+type MemberConfirm = 'leave' | 'stepDown' | 'makeLeader' | 'handOver' | 'removeLeader' | 'remove';
+
 function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boolean }) {
   const { user } = useAuth();
   const { data: members } = useCampaignMembersQuery(campaign.id);
@@ -634,6 +647,10 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
   const grantLeadership = useGrantLeadershipMutation(campaign.id);
   const revokeLeadership = useRevokeLeadershipMutation(campaign.id);
   const [leadershipError, setLeadershipError] = useState<string | null>(null);
+  // One open confirm panel at a time, under the row it belongs to (§10.1:
+  // inline, never a browser dialog).
+  const [confirming, setConfirming] = useState<{ userId: string; kind: MemberConfirm } | null>(null);
+  const [busy, setBusy] = useState(false);
 
   // A leader with company cannot leave or step down — the 0010 and 0012
   // triggers refuse it. Saying so beats letting them tap and read an exception.
@@ -643,123 +660,203 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
     others.length > 0 &&
     !others.some((m) => m.role === 'campaign_leader');
 
+  const open = (userId: string, kind: MemberConfirm) => {
+    setLeadershipError(null);
+    setConfirming((c) => (c?.userId === userId && c.kind === kind ? null : { userId, kind }));
+  };
+  const close = () => setConfirming(null);
+
+  async function run(action: () => Promise<string | null | void> | void) {
+    setBusy(true);
+    try {
+      const result = await action();
+      if (typeof result === 'string') setLeadershipError(result);
+    } finally {
+      setBusy(false);
+      close();
+    }
+  }
+
+  function renderConfirm(member: { userId: string; displayName: string | null }, kind: MemberConfirm) {
+    const name = member.displayName || strings.campaign.unnamedPlayer;
+    const c = strings.campaign;
+    switch (kind) {
+      // Unrecoverable for the person doing it → type-to-confirm (§10.3).
+      case 'leave':
+        // The campaign name, not your own: your own name is too easy to type
+        // absent-mindedly (§10.3).
+        return (
+          <ConfirmByTyping
+            phrase={campaign.name}
+            label={c.typeNameLabel(campaign.name)}
+            action={c.leaveAction}
+            impact={<p>{c.leaveConfirm}</p>}
+            busy={busy}
+            onConfirm={() => run(() => removeMember(member.userId))}
+          />
+        );
+      case 'remove':
+        return (
+          <ConfirmByTyping
+            phrase={name}
+            label={c.typeNameLabel(name)}
+            action={c.removeMemberAction}
+            impact={<p>{c.removeMemberConfirm(name)}</p>}
+            busy={busy}
+            onConfirm={() => run(() => removeMember(member.userId))}
+          />
+        );
+      case 'handOver':
+        return (
+          <ConfirmByTyping
+            phrase={name}
+            label={c.typeNameLabel(name)}
+            action={c.handOverAction}
+            impact={<p>{c.handOverConfirm(name)}</p>}
+            busy={busy}
+            onConfirm={() => run(() => transferLeadership(member.userId))}
+          />
+        );
+      case 'stepDown':
+        return (
+          <ConfirmByTyping
+            phrase={campaign.name}
+            label={c.typeNameLabel(campaign.name)}
+            action={c.stepDownAction}
+            impact={<p>{c.stepDownConfirm}</p>}
+            busy={busy}
+            onConfirm={() => run(() => revokeLeadership(member.userId))}
+          />
+        );
+      case 'removeLeader':
+        return (
+          <ConfirmByTyping
+            phrase={name}
+            label={c.typeNameLabel(name)}
+            action={c.removeLeaderAction}
+            impact={<p>{c.removeLeaderConfirm(name)}</p>}
+            busy={busy}
+            onConfirm={() => run(() => revokeLeadership(member.userId))}
+          />
+        );
+      // Additive and reversible (they can step down again) → one tap.
+      case 'makeLeader':
+        return (
+          <ConfirmAction
+            impact={<p>{c.makeLeaderConfirm(name)}</p>}
+            action={c.makeLeaderAction}
+            busy={busy}
+            onConfirm={() => run(() => grantLeadership(member.userId))}
+            onCancel={close}
+          />
+        );
+    }
+  }
+
   return (
     <section className="space-y-3">
       <SectionHeading>{strings.campaign.membersSection}</SectionHeading>
       {/* Names the way out rather than only the wall: the point of co-leaders
           is that being the only one is now a fixable state. */}
       {iAmOnlyLeader && <p className="text-bone-400 text-xs">{strings.campaign.onlyLeaderHint}</p>}
-      {leadershipError && <p className="text-blood-500 text-sm">{leadershipError}</p>}
+      {leadershipError && <p className="text-danger text-sm">{leadershipError}</p>}
       <div className="space-y-2">
         {(members ?? []).map((member) => {
           const isMe = member.userId === user?.id;
+          const openKind = confirming?.userId === member.userId ? confirming.kind : null;
           return (
-            <div
-              key={member.userId}
-              className="rounded-lg bg-ink-900 border border-ink-800 p-4 flex items-center justify-between gap-3"
-            >
-              <div className="min-w-0">
-                <p className="text-bone-100 font-semibold truncate">
-                  {member.displayName || strings.campaign.unnamedPlayer}{' '}
-                  {isMe && <span className="text-bone-400 font-normal">{strings.campaign.youSuffix}</span>}
-                </p>
-                <p className="text-bone-400 text-xs">
-                  {member.role === 'campaign_leader' ? strings.campaign.roleLeader : strings.campaign.rolePlayer}
-                </p>
-              </div>
-              {isMe ? (
-                <div className="shrink-0 flex flex-col items-end gap-1">
-                  {/* Stepping down is not the same as leaving, and conflating
-                      them was why handing the role over used to mean losing
-                      your seat in the campaign as well. */}
-                  {member.role === 'campaign_leader' && (
+            <div key={member.userId} className="space-y-2">
+              <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-bone-100 font-semibold truncate">
+                    {member.displayName || strings.campaign.unnamedPlayer}{' '}
+                    {isMe && <span className="text-bone-400 font-normal">{strings.campaign.youSuffix}</span>}
+                  </p>
+                  <p className="text-bone-400 text-xs">
+                    {member.role === 'campaign_leader' ? strings.campaign.roleLeader : strings.campaign.rolePlayer}
+                  </p>
+                </div>
+                {isMe ? (
+                  <div className="shrink-0 flex flex-col items-end gap-1">
+                    {/* Stepping down is not the same as leaving, and conflating
+                        them was why handing the role over used to mean losing
+                        your seat in the campaign as well. */}
+                    {member.role === 'campaign_leader' && (
+                      <button
+                        type="button"
+                        disabled={iAmOnlyLeader}
+                        title={iAmOnlyLeader ? strings.campaign.onlyLeaderHint : undefined}
+                        aria-expanded={openKind === 'stepDown'}
+                        onClick={() => open(member.userId, 'stepDown')}
+                        className="min-h-[44px] text-ember-400 text-sm font-semibold disabled:text-bone-400 disabled:cursor-not-allowed"
+                      >
+                        {strings.campaign.stepDown}
+                      </button>
+                    )}
+                    {/* Leaving is always yours to do; removing others is the leader's. */}
                     <button
                       type="button"
                       disabled={iAmOnlyLeader}
-                      title={iAmOnlyLeader ? strings.campaign.onlyLeaderHint : undefined}
-                      onClick={async () => {
-                        if (!window.confirm(strings.campaign.stepDownConfirm)) return;
-                        setLeadershipError(await revokeLeadership(member.userId));
-                      }}
-                      className="min-h-[44px] text-ember-400 text-sm font-semibold disabled:text-bone-400 disabled:cursor-not-allowed"
+                      title={iAmOnlyLeader ? strings.campaign.leaderCannotLeave : undefined}
+                      aria-expanded={openKind === 'leave'}
+                      onClick={() => open(member.userId, 'leave')}
+                      className="min-h-[44px] text-danger text-sm font-semibold disabled:text-bone-400 disabled:cursor-not-allowed"
                     >
-                      {strings.campaign.stepDown}
-                    </button>
-                  )}
-                  {/* Leaving is always yours to do; removing others is the leader's. */}
-                  <button
-                    type="button"
-                    disabled={iAmOnlyLeader}
-                    title={iAmOnlyLeader ? strings.campaign.leaderCannotLeave : undefined}
-                    onClick={() => {
-                      if (window.confirm(strings.campaign.leaveConfirm)) removeMember(member.userId);
-                    }}
-                    className="min-h-[44px] text-blood-500 text-sm font-semibold disabled:text-bone-400 disabled:cursor-not-allowed"
-                  >
-                    {strings.campaign.leaveCampaign}
-                  </button>
-                </div>
-              ) : (
-                isLeader && (
-                  <div className="shrink-0 flex flex-col items-end gap-1">
-                    {member.role !== 'campaign_leader' ? (
-                      <>
-                        {/* Promote, keeping your own role. This is the ordinary
-                            case: a campaign wants a second person who can run a
-                            game night, not a successor. */}
-                        <button
-                          type="button"
-                          onClick={async () => {
-                            const name = member.displayName || strings.campaign.unnamedPlayer;
-                            if (!window.confirm(strings.campaign.makeLeaderConfirm(name))) return;
-                            setLeadershipError(await grantLeadership(member.userId));
-                          }}
-                          className="min-h-[44px] text-ember-400 text-sm font-semibold"
-                        >
-                          {strings.campaign.makeLeader}
-                        </button>
-                        {/* Handing over is grant + step down, but as one
-                            statement it cannot stop halfway — which matters
-                            most to the person doing it precisely because they
-                            are on their way out. */}
-                        <button
-                          type="button"
-                          onClick={async () => {
-                            const name = member.displayName || strings.campaign.unnamedPlayer;
-                            if (!window.confirm(strings.campaign.handOverConfirm(name))) return;
-                            setLeadershipError(await transferLeadership(member.userId));
-                          }}
-                          className="min-h-[44px] text-bone-300 text-sm font-semibold"
-                        >
-                          {strings.campaign.handOver}
-                        </button>
-                      </>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={async () => {
-                          const name = member.displayName || strings.campaign.unnamedPlayer;
-                          if (!window.confirm(strings.campaign.removeLeaderConfirm(name))) return;
-                          setLeadershipError(await revokeLeadership(member.userId));
-                        }}
-                        className="min-h-[44px] text-bone-300 text-sm font-semibold"
-                      >
-                        {strings.campaign.removeLeader}
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const name = member.displayName || strings.campaign.unnamedPlayer;
-                        if (window.confirm(strings.campaign.removeMemberConfirm(name))) removeMember(member.userId);
-                      }}
-                      className="min-h-[44px] text-blood-500 text-sm font-semibold"
-                    >
-                      {strings.campaign.removeMember}
+                      {strings.campaign.leaveCampaign}
                     </button>
                   </div>
-                )
-              )}
+                ) : (
+                  isLeader && (
+                    <div className="shrink-0 flex flex-col items-end gap-1">
+                      {member.role !== 'campaign_leader' ? (
+                        <>
+                          {/* Promote, keeping your own role. This is the ordinary
+                              case: a campaign wants a second person who can run a
+                              game night, not a successor. */}
+                          <button
+                            type="button"
+                            aria-expanded={openKind === 'makeLeader'}
+                            onClick={() => open(member.userId, 'makeLeader')}
+                            className="min-h-[44px] text-ember-400 text-sm font-semibold"
+                          >
+                            {strings.campaign.makeLeader}
+                          </button>
+                          {/* Handing over is grant + step down, but as one
+                              statement it cannot stop halfway — which matters
+                              most to the person doing it precisely because they
+                              are on their way out. */}
+                          <button
+                            type="button"
+                            aria-expanded={openKind === 'handOver'}
+                            onClick={() => open(member.userId, 'handOver')}
+                            className="min-h-[44px] text-bone-300 text-sm font-semibold"
+                          >
+                            {strings.campaign.handOver}
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          type="button"
+                          aria-expanded={openKind === 'removeLeader'}
+                          onClick={() => open(member.userId, 'removeLeader')}
+                          className="min-h-[44px] text-bone-300 text-sm font-semibold"
+                        >
+                          {strings.campaign.removeLeader}
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        aria-expanded={openKind === 'remove'}
+                        onClick={() => open(member.userId, 'remove')}
+                        className="min-h-[44px] text-danger text-sm font-semibold"
+                      >
+                        {strings.campaign.removeMember}
+                      </button>
+                    </div>
+                  )
+                )}
+              </div>
+              {openKind && renderConfirm(member, openKind)}
             </div>
           );
         })}
@@ -794,8 +891,9 @@ function AnnouncementBanner({ campaign, isLeader }: { campaign: Campaign; isLead
     setAnnouncement(draft.trim() || null);
     setEditing(false);
   }
+  const [confirmClear, setConfirmClear] = useState(false);
   function clear() {
-    if (window.confirm(s.clearConfirm)) setAnnouncement(null);
+    setConfirmClear(true);
   }
 
   // A player with nothing pinned sees nothing; only a leader gets the affordance.
@@ -845,7 +943,7 @@ function AnnouncementBanner({ campaign, isLeader }: { campaign: Campaign; isLead
             <button type="button" onClick={openEditor} className="text-bone-300 text-xs font-semibold">
               {s.update}
             </button>
-            <button type="button" onClick={clear} className="text-blood-500 text-xs font-semibold">
+            <button type="button" onClick={clear} className="text-danger text-xs font-semibold">
               {s.clear}
             </button>
           </div>
@@ -856,6 +954,17 @@ function AnnouncementBanner({ campaign, isLeader }: { campaign: Campaign; isLead
         <p className="text-bone-400 text-xs">
           {s.posted(new Date(campaign.pinnedAnnouncementAt).toLocaleDateString())}
         </p>
+      )}
+      {confirmClear && (
+        <ConfirmAction
+          prompt={s.clearConfirm}
+          action={s.clear}
+          onConfirm={() => {
+            setAnnouncement(null);
+            setConfirmClear(false);
+          }}
+          onCancel={() => setConfirmClear(false)}
+        />
       )}
     </section>
   );
@@ -996,7 +1105,7 @@ function TerritoryTab({ campaignId }: { campaignId: string }) {
                 <button
                   type="button"
                   onClick={() => setConfirmingId(t.id)}
-                  className="text-blood-500 text-xs font-semibold"
+                  className="text-danger text-xs font-semibold"
                 >
                   {s.remove}
                 </button>
@@ -1023,6 +1132,7 @@ function NarrativeLog({
   const { data: entries } = useCampaignLogQuery(campaignId);
   const create = useCreateLogEntryMutation(campaignId);
   const remove = useDeleteLogEntryMutation(campaignId);
+  const [confirmingEntry, setConfirmingEntry] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [battleId, setBattleId] = useState('');
@@ -1089,15 +1199,25 @@ function NarrativeLog({
                   {canRemove && (
                     <button
                       type="button"
-                      onClick={() => {
-                        if (window.confirm(strings.campaign.narrative.removeConfirm)) remove.mutate(e.id);
-                      }}
-                      className="shrink-0 text-blood-500 text-xs font-semibold"
+                      aria-expanded={confirmingEntry === e.id}
+                      onClick={() => setConfirmingEntry((id) => (id === e.id ? null : e.id))}
+                      className="shrink-0 text-danger text-xs font-semibold"
                     >
                       {strings.campaign.narrative.remove}
                     </button>
                   )}
                 </div>
+                {confirmingEntry === e.id && (
+                  <ConfirmAction
+                    prompt={strings.campaign.narrative.removeConfirm}
+                    action={strings.campaign.narrative.remove}
+                    onConfirm={() => {
+                      remove.mutate(e.id);
+                      setConfirmingEntry(null);
+                    }}
+                    onCancel={() => setConfirmingEntry(null)}
+                  />
+                )}
                 <p className="text-bone-400 text-xs">
                   {strings.campaign.narrative.by(e.authorDisplayName, new Date(e.createdAt).toLocaleDateString())}
                   {linked && ` · ${strings.campaign.narrative.linkedTo(linked)}`}
@@ -1118,6 +1238,7 @@ export default function CampaignScreen() {
   const { data: campaign } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
   const deleteBattle = useDeleteBattleMutation(campaign?.id);
+  const [confirmingBattle, setConfirmingBattle] = useState<string | null>(null);
   const { data: standings } = useStandingsQuery(campaign?.id, battles);
   // Every entered warband's rating series, for the Standings comparison chart
   // (§18.3). Keyed by warbandId so the fetch stays one batched call rather
@@ -1242,16 +1363,35 @@ export default function CampaignScreen() {
                   ) : (
                     <div className="space-y-2">
                       {[...(battles ?? [])].reverse().map((battle) => (
-                        <BattleRow
-                          key={battle.id}
-                          battle={battle}
-                          warbandName={warbandName(battle.warbandId)}
-                          onDelete={isLeader ? () => {
-                            if (window.confirm(strings.campaign.deleteBattleConfirm(battle.scenario))) {
-                              deleteBattle(battle.id);
+                        <div key={battle.id} className="space-y-2">
+                          <BattleRow
+                            battle={battle}
+                            warbandName={warbandName(battle.warbandId)}
+                            onDelete={
+                              isLeader
+                                ? () => setConfirmingBattle((id) => (id === battle.id ? null : battle.id))
+                                : undefined
                             }
-                          } : undefined}
-                        />
+                          />
+                          {/* The record can't be brought back, so it's type-to-
+                              confirm (§10.1) — the scenario name, as printed on
+                              the row above. */}
+                          {confirmingBattle === battle.id && (
+                            <ConfirmByTyping
+                              // An unrecorded scenario would make the phrase empty
+                              // and unlock the button untyped; the date is on the
+                              // row too, so it stands in.
+                              phrase={battle.scenario || battle.date}
+                              label={strings.campaign.typeNameLabel(battle.scenario || battle.date)}
+                              action={strings.campaign.deleteBattleAction}
+                              impact={<p>{strings.campaign.deleteBattleConfirm(battle.scenario)}</p>}
+                              onConfirm={() => {
+                                deleteBattle(battle.id);
+                                setConfirmingBattle(null);
+                              }}
+                            />
+                          )}
+                        </div>
                       ))}
                     </div>
                   )}
@@ -1353,9 +1493,9 @@ export default function CampaignScreen() {
                     />
                   </Field>
                   {campaignNameKnownTaken && (
-                    <p className="text-blood-500 text-sm -mt-2">{strings.connection.duplicate}</p>
+                    <p className="text-danger text-sm -mt-2">{strings.connection.duplicate}</p>
                   )}
-                  {campaignSaveError && <p className="text-blood-500 text-sm -mt-2">{campaignSaveError}</p>}
+                  {campaignSaveError && <p className="text-danger text-sm -mt-2">{campaignSaveError}</p>}
                   <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm">
                     <input
                       type="checkbox"

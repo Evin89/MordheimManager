@@ -49,7 +49,7 @@ function AuditLogCleanup() {
             type="button"
             disabled={running}
             onClick={() => setConfirming(true)}
-            className="min-h-[44px] px-4 rounded-md border border-blood-600 text-blood-500 font-ui text-sm font-semibold hover:bg-blood-600 hover:text-bone-100 transition-colors disabled:opacity-40"
+            className="min-h-[44px] px-4 rounded-md border border-blood-600 text-danger font-ui text-sm font-semibold hover:bg-blood-600 hover:text-on-danger transition-colors disabled:opacity-40"
           >
             Run log cleanup now
           </button>
@@ -95,7 +95,7 @@ export default function AdminMaintenanceScreen() {
       <>
         <section className="space-y-1">
           <h2 className="text-bone-100 font-semibold">Storage cleanup</h2>
-          <p className="text-blood-500 text-sm">Could not read the cleanup queue.</p>
+          <p className="text-danger text-sm">Could not read the cleanup queue.</p>
           <p className="font-ui text-xs text-bone-400">
             {(error as Error).message} — if this mentions <code>storage_purge_queue</code>, migration 0014 has
             not been applied yet.
@@ -135,7 +135,7 @@ export default function AdminMaintenanceScreen() {
               type="button"
               disabled={running}
               onClick={() => setConfirming(true)}
-              className="min-h-[44px] px-4 rounded-md border border-blood-600 text-blood-500 font-ui text-sm font-semibold hover:bg-blood-600 hover:text-bone-100 transition-colors disabled:opacity-40"
+              className="min-h-[44px] px-4 rounded-md border border-blood-600 text-danger font-ui text-sm font-semibold hover:bg-blood-600 hover:text-on-danger transition-colors disabled:opacity-40"
             >
               Run purge now
             </button>

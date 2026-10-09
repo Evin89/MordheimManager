@@ -19,7 +19,7 @@ export default function AdminDeletedWarbandsScreen() {
   if (isError) {
     return (
       <div className="space-y-1">
-        <p className="text-blood-500 text-sm">Could not load deleted warbands.</p>
+        <p className="text-danger text-sm">Could not load deleted warbands.</p>
         <p className="font-ui text-xs text-bone-400">
           {(error as Error).message} — if this mentions <code>admin_deleted_warbands</code>, migration 0054 has
           not been applied yet.
@@ -48,7 +48,7 @@ export default function AdminDeletedWarbandsScreen() {
                 <div className="flex items-start justify-between gap-3">
                   <p className="text-bone-100 font-semibold break-words min-w-0">{w.name}</p>
                   <span
-                    className={`font-ui text-xs whitespace-nowrap ${left <= 3 ? 'text-blood-500' : 'text-bone-400'}`}
+                    className={`font-ui text-xs whitespace-nowrap ${left <= 3 ? 'text-danger' : 'text-bone-400'}`}
                   >
                     {left === 0 ? 'purged tonight' : `${left} day${left === 1 ? '' : 's'} left`}
                   </span>

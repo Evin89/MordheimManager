@@ -258,7 +258,7 @@ export default function NewWarbandScreen() {
             }}
             placeholder={strings.newWarband.namePlaceholder}
           />
-          {error && <p className="text-blood-500 text-sm">{error}</p>}
+          {error && <p className="text-danger text-sm">{error}</p>}
         </div>
 
         <div className="space-y-2">

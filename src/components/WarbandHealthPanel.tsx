@@ -13,7 +13,7 @@ import { strings } from '../strings';
 // Severity → a colour role and a glyph. Errors are rule-breaking (over a cap);
 // warnings are legal-but-off (understrength); info is a nudge (advances, upkeep).
 const STYLE: Record<HealthSeverity, { dot: string; text: string; icon: string }> = {
-  error: { dot: 'bg-blood-500', text: 'text-bone-100', icon: '!' },
+  error: { dot: 'bg-blood-500', text: 'text-on-danger', icon: '!' },
   warn: { dot: 'bg-ember-500', text: 'text-bone-100', icon: '!' },
   info: { dot: 'bg-verdigris', text: 'text-bone-200', icon: 'i' },
 };

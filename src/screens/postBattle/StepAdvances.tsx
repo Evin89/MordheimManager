@@ -138,7 +138,7 @@ function AdvanceRecorder({
                 type="button"
                 onClick={() => onRemoveStat(key as keyof StatLine)}
                 title={strings.postBattle.advances.removeHint}
-                className="px-2 py-1 rounded bg-ink-800 border border-ink-700 text-bone-200 text-xs hover:border-blood-500 hover:text-blood-500"
+                className="px-2 py-1 rounded bg-ink-800 border border-ink-700 text-bone-200 text-xs hover:border-blood-500 hover:text-danger"
               >
                 +1 {key} ✕
               </button>
@@ -150,7 +150,7 @@ function AdvanceRecorder({
               type="button"
               onClick={() => onRemoveSkill(skill)}
               title={strings.postBattle.advances.removeHint}
-              className="px-2 py-1 rounded bg-ink-800 border border-ink-700 text-bone-200 text-xs hover:border-blood-500 hover:text-blood-500"
+              className="px-2 py-1 rounded bg-ink-800 border border-ink-700 text-bone-200 text-xs hover:border-blood-500 hover:text-danger"
             >
               {skill} ✕
             </button>

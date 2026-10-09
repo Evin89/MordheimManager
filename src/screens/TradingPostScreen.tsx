@@ -15,6 +15,7 @@ import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { EQUIPMENT_CATEGORY_LABELS, groupByCategory } from '../lib/equipmentCategories';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
 import { EquipmentItem, Warband } from '../types';
+import { goldWarning, usePurchase } from '../hooks/usePurchase';
 
 type Tab = 'shop' | 'rules';
 
@@ -59,10 +60,10 @@ function TreasuryRow({
           <Button
             size="dense"
             fullWidth={false}
+            // The open row — price field, Sell, Cancel — is already the confirm
+            // step; a browser dialog on top of it was a second one (§5.4).
             onClick={() => {
-              if (window.confirm(strings.trading.sellConfirm(item.name, price))) {
-                onSell(item.id, price);
-              }
+              onSell(item.id, price);
               setSelling(false);
             }}
           >
@@ -84,6 +85,7 @@ export default function TradingPostScreen() {
   const { data: campaign } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
   const [tab, setTab] = useState<Tab>('shop');
+  const purchase = usePurchase();
 
   if (loading) {
     return (
@@ -96,9 +98,14 @@ export default function TradingPostScreen() {
 
   function buyItem(item: ResolvedEquipmentItem, price: number) {
     if (!warband) return;
-    if (price > warband.gold) {
-      if (!window.confirm(strings.trading.insufficientGoldConfirm(price, warband.gold))) return;
-    }
+    purchase.attempt({
+      warnings: [goldWarning(price, warband.gold)],
+      proceed: () => buyNow(item, price),
+    });
+  }
+
+  function buyNow(item: ResolvedEquipmentItem, price: number) {
+    if (!warband) return;
     const newItem: EquipmentItem = {
       id: generateId(),
       name: item.name,
@@ -155,6 +162,8 @@ export default function TradingPostScreen() {
                 {strings.trading.goldLabel}: {warband.gold} {strings.common.gold}
               </p>
             </Card>
+
+            {purchase.panel}
 
             <EquipmentShop
               warband={warband}
