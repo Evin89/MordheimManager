@@ -156,10 +156,18 @@ export function useSaveWarbandMutation() {
     mutationFn: (warband: Warband) =>
       // Read the record *inside* the queued task: by the time this runs, the
       // previous save has written its fresh `updated_at` into the cache.
-      enqueueSave(warband.id, () => {
+      enqueueSave(warband.id, async () => {
         const record = getRecord(warband.id);
         if (!record) throw new Error(`Unknown warband "${warband.id}"`);
-        return updateWarband(warband.id, user!.id, warband, record.updatedAt);
+        const saved = await updateWarband(warband.id, user!.id, warband, record.updatedAt);
+        // Write the fresh `updated_at` into the cache *inside* the queued task.
+        // onSuccess runs a tick later, after the queue has already started the
+        // next save — which then read the old timestamp and was refused as
+        // "changed elsewhere" on two quick taps in this same tab.
+        queryClient.setQueryData<WarbandRecord[]>(warbandsKey(user?.id), (list) =>
+          list?.map((r) => (r.warband.id === saved.warband.id ? { ...saved, warband: r.warband } : r)),
+        );
+        return saved;
       }),
     // Apply the edit to the cache before the server answers. Cancel in-flight
     // refetches first so a late response can't clobber the optimistic value, and
