@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import { getUnitSpecialRules, getUnitNotes } from '../data/warbandRegistry';
@@ -9,9 +8,8 @@ import ProfileBlock from '../components/ProfileBlock';
 import WarbandPhotoEditor from '../components/WarbandPhoto';
 import { STAT_KEYS } from '../lib/statLine';
 import EquipmentShop from '../components/EquipmentShop';
-import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
 import SaveBar from '../components/SaveBar';
-import { Button, SectionHeading, Textarea } from '../components/ui';
+import { SectionHeading, Textarea } from '../components/ui';
 import { strings } from '../strings';
 import { useWarbandLookup } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
@@ -19,11 +17,11 @@ import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
-import { MAX_MELEE, MAX_MISSILE_TYPES, canAddWeapon, countWeaponSlots } from '../lib/weaponSlots';
+import { MAX_MELEE, MAX_MISSILE_TYPES, canAddWeapon } from '../lib/weaponSlots';
 import { getAdvanceProgress } from '../lib/xpThresholds';
 import { EquipmentItem, HenchmenGroup, StatLine, Warband } from '../types';
-import ConfirmAction from '../components/ConfirmAction';
 import { goldWarning, usePurchase } from '../hooks/usePurchase';
+import { EquipmentSection, RemoveModelControl } from '../components/EquipmentSection';
 
 export default function HenchmenDetailScreen() {
   const { warbandId, groupId } = useParams<{ warbandId: string; groupId: string }>();
@@ -33,8 +31,6 @@ export default function HenchmenDetailScreen() {
   useUnsavedChangesWarning(dirty);
   const { data: campaign } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
-  const [shoppingOpen, setShoppingOpen] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
   const purchase = usePurchase();
 
   if (loading) {
@@ -273,84 +269,23 @@ export default function HenchmenDetailScreen() {
           </section>
         )}
 
-        <section className="space-y-3">
-          <div className="flex items-center justify-between">
-            <SectionHeading>{strings.modelDetail.equipmentSection}</SectionHeading>
-            <p className="text-ink-faded text-sm">
-              {(() => {
-                const usage = countWeaponSlots(group.equipment);
-                return strings.modelDetail.weaponSlots(
-                  usage.melee,
-                  MAX_MELEE,
-                  usage.missileTypes,
-                  MAX_MISSILE_TYPES,
-                );
-              })()}
-            </p>
-            <button
-              type="button"
-              onClick={() => setShoppingOpen((v) => !v)}
-              className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold shrink-0"
-            >
-              {shoppingOpen ? strings.modelDetail.hideShop : strings.modelDetail.buyEquipment}
-            </button>
-          </div>
-          {group.equipment.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noEquipment}</p>}
-          <div className="space-y-2">
-            {group.equipment.map((item) => (
-              <WeaponRulesDisclosure
-                key={item.id}
-                name={item.name}
-                action={
-                  <button
-                    type="button"
-                    onClick={() => moveToTreasury(item.id)}
-                    className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold shrink-0"
-                  >
-                    {strings.modelDetail.moveToTreasury}
-                  </button>
-                }
-              />
-            ))}
-          </div>
-
-          {purchase.panel}
-
-          {shoppingOpen && (
-            <div className="space-y-3 rounded-lg border border-ink-800 p-3">
-              <p className="text-ember-400 font-semibold text-sm">
-                {strings.modelDetail.shopGoldLabel}: {draft.gold} {strings.common.gold}
-              </p>
-              <EquipmentShop
-                buyer={'henchmenGroup'}
-                unitType={group.unitType}
-                warband={draft}
-                onPurchase={buyForGroup}
-                skipRarityRoll={!hasFoughtFirstBattle(draft.id, battles)}
-              />
-            </div>
-          )}
-
-          <h3 className="text-bone-200 text-sm font-semibold pt-2">{strings.modelDetail.treasurySection}</h3>
-          {draft.treasury.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noTreasury}</p>}
-          <div className="space-y-2">
-            {draft.treasury.map((item) => (
-              <WeaponRulesDisclosure
-                key={item.id}
-                name={item.name}
-                action={
-                  <button
-                    type="button"
-                    onClick={() => assignFromTreasury(item.id)}
-                    className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold shrink-0"
-                  >
-                    {strings.modelDetail.assignToModel}
-                  </button>
-                }
-              />
-            ))}
-          </div>
-        </section>
+        <EquipmentSection
+          equipment={group.equipment}
+          treasury={draft.treasury}
+          gold={draft.gold}
+          onMoveToTreasury={moveToTreasury}
+          onAssignFromTreasury={assignFromTreasury}
+          purchasePanel={purchase.panel}
+          shop={
+            <EquipmentShop
+              buyer={'henchmenGroup'}
+              unitType={group.unitType}
+              warband={draft}
+              onPurchase={buyForGroup}
+              skipRarityRoll={!hasFoughtFirstBattle(draft.id, battles)}
+            />
+          }
+        />
 
         <div className="space-y-2">
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="group-notes">
@@ -364,18 +299,7 @@ export default function HenchmenDetailScreen() {
           />
         </div>
 
-        {confirmDelete ? (
-          <ConfirmAction
-            prompt={strings.modelDetail.deleteModelConfirm(group.groupName)}
-            action={strings.modelDetail.deleteModel}
-            onConfirm={handleDelete}
-            onCancel={() => setConfirmDelete(false)}
-          />
-        ) : (
-          <Button variant="danger" onClick={() => setConfirmDelete(true)}>
-            {strings.modelDetail.deleteModel}
-          </Button>
-        )}
+        <RemoveModelControl name={group.groupName} onRemove={handleDelete} />
 
         <SaveBar dirty={dirty} onSave={save} onDiscard={discard} />
       </main>

@@ -352,7 +352,7 @@ export default function WarbandPrintScreen() {
     <div className="min-h-full">
       {/* Screen-only chrome. Everything below it is the sheet itself, which is
           all that reaches the paper. */}
-      <div className="print:hidden px-4 py-4 space-y-3 border-b border-ink-800">
+      <div className="print:hidden px-4 py-4 space-y-3 border-b border-ink-800 max-md:pr-14">
         <div className="flex items-center justify-between gap-3">
           <Link
             to={`/warbands/${warband.id}`}
@@ -363,7 +363,7 @@ export default function WarbandPrintScreen() {
           <button
             type="button"
             onClick={() => window.print()}
-            className="min-h-[48px] px-4 rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
+            className="min-h-[48px] px-4 rounded-md bg-ember-500 hover:bg-ember-600 text-on-accent font-semibold transition-colors"
           >
             {strings.print.printAction}
           </button>

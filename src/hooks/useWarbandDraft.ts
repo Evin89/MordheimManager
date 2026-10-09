@@ -30,9 +30,20 @@ export function useWarbandDraft(warband: Warband | undefined) {
   // render. Screens guarding on `!warband || !draft` redirected during exactly
   // that render, which is why opening a roster by URL or refreshing one bounced
   // back to the list.
-  const [edited, setEdited] = useState<Warband | undefined>(undefined);
+  const [edited, setEditedState] = useState<Warband | undefined>(undefined);
   const [dirty, setDirty] = useState(false);
   const draft = edited ?? warband;
+
+  // The edited copy is also kept in a ref, written synchronously. Two discrete
+  // actions in a row (buy, then move to treasury) can land before React
+  // re-renders; each must build on the one before, and the write must happen
+  // outside a state updater — StrictMode runs updaters twice, which used to
+  // send every saveNow to the server twice.
+  const editedRef = useRef<Warband | undefined>(undefined);
+  const setEdited = useCallback((next: Warband | undefined) => {
+    editedRef.current = next;
+    setEditedState(next);
+  }, []);
 
   // Read inside the effect without making it a dependency: adopting the server
   // copy must depend on the incoming warband, not on every keystroke.
@@ -45,17 +56,26 @@ export function useWarbandDraft(warband: Warband | undefined) {
     // Dropping the edited copy lets the derived draft fall back to the server
     // one, which is what "re-sync while clean" means now.
     if (!dirtyRef.current) setEdited(undefined);
-  }, [warband]);
+  }, [warband, setEdited]);
 
-  const update = useCallback((patch: Partial<Warband> | ((current: Warband) => Partial<Warband>)) => {
-    setEdited((current) => {
-      const base = current ?? warbandRef.current;
-      if (!base) return current;
+  const apply = useCallback(
+    (patch: Partial<Warband> | ((current: Warband) => Partial<Warband>)): Warband | undefined => {
+      const base = editedRef.current ?? warbandRef.current;
+      if (!base) return undefined;
       const resolved = typeof patch === 'function' ? patch(base) : patch;
-      return { ...base, ...resolved };
-    });
-    setDirty(true);
-  }, []);
+      const next = { ...base, ...resolved };
+      setEdited(next);
+      return next;
+    },
+    [setEdited],
+  );
+
+  const update = useCallback(
+    (patch: Partial<Warband> | ((current: Warband) => Partial<Warband>)) => {
+      if (apply(patch)) setDirty(true);
+    },
+    [apply],
+  );
 
   const save = useCallback(() => {
     if (!draft || !dirty) return;
@@ -75,24 +95,18 @@ export function useWarbandDraft(warband: Warband | undefined) {
    */
   const saveNow = useCallback(
     (patch: Partial<Warband> | ((current: Warband) => Partial<Warband>)) => {
-      setEdited((current) => {
-        const base = current ?? warbandRef.current;
-        if (!base) return current;
-        const resolved = typeof patch === 'function' ? patch(base) : patch;
-        const next = { ...base, ...resolved };
-        saveWarband(next);
-        return next;
-      });
+      const next = apply(patch);
+      if (next) saveWarband(next);
       setDirty(false);
     },
-    [saveWarband],
+    [apply, saveWarband],
   );
 
   // Dropping the edit makes the derived draft fall back to the server copy.
   const discard = useCallback(() => {
     setEdited(undefined);
     setDirty(false);
-  }, []);
+  }, [setEdited]);
 
   return { draft, update, dirty, save, saveNow, discard };
 }

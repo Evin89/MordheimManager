@@ -33,7 +33,7 @@ export default function SaveBar({
         <button
           type="button"
           onClick={onSave}
-          className="min-h-[44px] px-5 rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold transition-colors"
+          className="min-h-[44px] px-5 rounded-md bg-ember-500 hover:bg-ember-600 text-on-accent font-semibold transition-colors"
         >
           {strings.common.save}
         </button>

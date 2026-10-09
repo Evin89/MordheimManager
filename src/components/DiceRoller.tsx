@@ -189,7 +189,7 @@ export default function DiceRoller({ compact = false }: { compact?: boolean }) {
               aria-pressed={die.id === d.id}
               className={`min-h-[44px] px-3 rounded-md border font-semibold tabular-nums ${
                 die.id === d.id
-                  ? 'bg-ember-500 text-ink-950 border-ember-500'
+                  ? 'bg-ember-500 text-on-accent border-ember-500'
                   : 'border-ink-700 text-bone-200 hover:bg-ink-800'
               }`}
             >
@@ -233,7 +233,7 @@ export default function DiceRoller({ compact = false }: { compact?: boolean }) {
       <button
         type="button"
         onClick={roll}
-        className="w-full min-h-[52px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-bold text-lg transition-colors"
+        className="w-full min-h-[52px] rounded-md bg-ember-500 hover:bg-ember-600 text-on-accent font-bold text-lg transition-colors"
       >
         {strings.dice.rollButton}
       </button>

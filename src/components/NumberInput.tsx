@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { keepSelectionOnMouseUp, selectAllOnFocus } from '../lib/selectOnFocus';
 
 type NumberInputProps = {
   value: number;
@@ -81,9 +82,11 @@ export default function NumberInput({
       max={max}
       value={text}
       aria-label={ariaLabel}
-      onFocus={() => {
+      onFocus={(e) => {
         focused.current = true;
+        selectAllOnFocus(e);
       }}
+      onMouseUp={keepSelectionOnMouseUp}
       onChange={(e) => handleChange(e.target.value)}
       onBlur={handleBlur}
       onKeyDown={(e) => {

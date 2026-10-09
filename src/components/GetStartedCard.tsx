@@ -53,7 +53,7 @@ export default function GetStartedCard({
             <span
               className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                 i < current
-                  ? 'bg-verdigris text-ink-950'
+                  ? 'bg-verdigris text-on-verdigris'
                   : i === current
                     ? 'bg-ember-500 text-on-accent'
                     : 'border border-ink-700 text-bone-400'

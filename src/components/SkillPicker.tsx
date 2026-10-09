@@ -89,7 +89,7 @@ export default function SkillPicker({ skillLists, knownSkills, warbandType, isLe
           setListId('');
           setSkillName('');
         }}
-        className="w-full min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 disabled:opacity-40 text-ink-950 font-semibold"
+        className="w-full min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 disabled:opacity-40 text-on-accent font-semibold"
       >
         {strings.common.add}
       </button>

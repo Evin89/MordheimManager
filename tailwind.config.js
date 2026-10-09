@@ -69,6 +69,7 @@ export default {
         // `on-danger` for the label on a blood fill. See index.css for values.
         danger: themed('danger'),
         'on-danger': themed('on-danger'),
+        'on-verdigris': themed('on-verdigris'),
         verdigris: themed('verdigris'), // success/confirm — aged copper, never bright green
 
         // The one multi-series chart's categorical set (§18.3 campaign rating

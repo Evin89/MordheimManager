@@ -86,7 +86,7 @@ function sheet(theme, tokens) {
     // draft of this sheet guessed `parchment-raised` instead and produced a
     // 3.95:1 failure that exists nowhere in the app — a reminder that the sheet
     // has to render what the components render, not a plausible substitute.
-    ['white on verdigris', null, 'verdigris'],
+    ['on-verdigris on verdigris', 'on-verdigris', 'verdigris'],
     // Destructive roles. Both pairs failed before these tokens existed: red
     // text on Grimdark's near-black (2.51:1) and dark ink on a blood fill under
     // Rulebook (1.45:1) — legacy pairs this sheet never looked at.
@@ -254,7 +254,7 @@ for (const theme of THEMES) {
   for (const [fg, bg] of [
     ['ink', 'parchment'],
     ['on-accent', 'accent'],
-    [null, 'verdigris'],
+    ['on-verdigris', 'verdigris'],
     ['danger', 'parchment'],
     ['danger', 'parchment-raised'],
     ['danger', 'ink-800'],

@@ -20,7 +20,7 @@
       document.documentElement.setAttribute('data-theme', t);
       document.documentElement.classList.toggle('dark', t === 'grimdark');
       var m = document.querySelector('meta[name="theme-color"]');
-      if (m) m.setAttribute('content', t === 'parchment' ? '#e9e0cc' : '#0b0a09');
+      if (m) m.setAttribute('content', t === 'parchment' ? '#e8dec4' : '#0b0a09');
     } catch (e) {
       document.documentElement.setAttribute('data-theme', 'grimdark');
     }
@@ -356,7 +356,7 @@
     function apply(t) {
       root.setAttribute('data-theme', t);
       root.classList.toggle('dark', t === 'grimdark');
-      if (meta) meta.setAttribute('content', t === 'parchment' ? '#e9e0cc' : '#0b0a09');
+      if (meta) meta.setAttribute('content', t === 'parchment' ? '#e8dec4' : '#0b0a09');
       try { localStorage.setItem('mordheim.theme', t); } catch (e) {}
       label();
     }

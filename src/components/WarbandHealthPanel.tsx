@@ -12,10 +12,11 @@ import { strings } from '../strings';
 
 // Severity → a colour role and a glyph. Errors are rule-breaking (over a cap);
 // warnings are legal-but-off (understrength); info is a nudge (advances, upkeep).
-const STYLE: Record<HealthSeverity, { dot: string; text: string; icon: string }> = {
-  error: { dot: 'bg-blood-500', text: 'text-on-danger', icon: '!' },
-  warn: { dot: 'bg-ember-500', text: 'text-bone-100', icon: '!' },
-  info: { dot: 'bg-verdigris', text: 'text-bone-200', icon: 'i' },
+// `glyph` is the label colour on that dot — each fill has its own legible pair.
+const STYLE: Record<HealthSeverity, { dot: string; glyph: string; text: string; icon: string }> = {
+  error: { dot: 'bg-blood-500', glyph: 'text-on-danger', text: 'text-bone-100', icon: '!' },
+  warn: { dot: 'bg-ember-500', glyph: 'text-on-accent', text: 'text-bone-100', icon: '!' },
+  info: { dot: 'bg-verdigris', glyph: 'text-on-verdigris', text: 'text-bone-200', icon: 'i' },
 };
 
 export default function WarbandHealthPanel({ warband }: { warband: Warband }) {
@@ -49,7 +50,7 @@ export default function WarbandHealthPanel({ warband }: { warband: Warband }) {
             return (
               <li key={i} className="flex items-start gap-2.5">
                 <span
-                  className={`mt-0.5 h-4 w-4 rounded-full shrink-0 flex items-center justify-center text-[10px] font-bold text-ink-950 ${s.dot}`}
+                  className={`mt-0.5 h-5 w-5 rounded-full shrink-0 flex items-center justify-center text-xs font-bold ${s.glyph} ${s.dot}`}
                   aria-hidden="true"
                 >
                   {s.icon}

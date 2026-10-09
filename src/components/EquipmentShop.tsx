@@ -95,7 +95,7 @@ function RareItemRow({
             <button
               type="button"
               onClick={autoRoll}
-              className="w-full min-h-[40px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm"
+              className="w-full min-h-[40px] rounded-md bg-ember-500 hover:bg-ember-600 text-on-accent font-semibold text-sm"
             >
               {strings.trading.autoRollButton}
             </button>
@@ -136,7 +136,7 @@ function RareItemRow({
                 onBuy(item, price);
                 setRolling(false);
               }}
-              className="flex-1 min-h-[40px] rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm"
+              className="flex-1 min-h-[40px] rounded-md bg-ember-500 hover:bg-ember-600 text-on-accent font-semibold text-sm"
             >
               {strings.trading.confirmPurchase}
             </button>
@@ -236,7 +236,7 @@ export default function EquipmentShop({
           type="button"
           onClick={() => setTab('common')}
           className={`flex-1 min-h-[44px] rounded-md border font-semibold ${
-            tab === 'common' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+            tab === 'common' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
           }`}
         >
           {strings.trading.commonTab}
@@ -245,7 +245,7 @@ export default function EquipmentShop({
           type="button"
           onClick={() => setTab('rare')}
           className={`flex-1 min-h-[44px] rounded-md border font-semibold ${
-            tab === 'rare' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+            tab === 'rare' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
           }`}
         >
           {strings.trading.rareTab}
@@ -277,7 +277,7 @@ export default function EquipmentShop({
                     <button
                       type="button"
                       onClick={() => onPurchase(item, item.cost ?? 0)}
-                      className="min-h-[40px] px-3 rounded-md bg-ember-500 hover:bg-ember-600 text-ink-950 font-semibold text-sm shrink-0"
+                      className="min-h-[40px] px-3 rounded-md bg-ember-500 hover:bg-ember-600 text-on-accent font-semibold text-sm shrink-0"
                     >
                       {strings.trading.buyButton(item.cost ?? 0)}
                     </button>

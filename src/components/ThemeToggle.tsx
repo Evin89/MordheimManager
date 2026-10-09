@@ -2,10 +2,13 @@ import { Theme, THEMES } from '../lib/theme';
 import { strings } from '../strings';
 
 /** Swatch colours are hard-coded rather than themed: each half has to show what
- * it *would* look like, so it can't follow the theme currently in effect. */
+ * it *would* look like, so it can't follow the theme currently in effect. They
+ * are each theme's own `parchment` (page) and `accent` values from index.css —
+ * Rulebook's used to be a lighter paper with an ochre ring, which is no colour
+ * the theme actually uses. */
 const SWATCH: Record<Theme, { paper: string; accent: string }> = {
-  grimdark: { paper: '#141210', accent: '#f2751a' },
-  parchment: { paper: '#f4eede', accent: '#7a521a' },
+  grimdark: { paper: '#0b0a09', accent: '#dc5c0e' },
+  parchment: { paper: '#e8dec4', accent: '#7a1e1a' },
 };
 
 /**
@@ -60,7 +63,7 @@ export default function ThemeToggle({
             tabIndex={active ? 0 : -1}
             onClick={() => onChange(option)}
             className={`relative z-10 flex-1 min-h-[44px] rounded-full px-3 flex items-center justify-center gap-2 text-sm font-semibold transition-colors ${
-              active ? 'text-ink-950' : 'text-bone-300'
+              active ? 'text-on-accent' : 'text-bone-300'
             }`}
           >
             {/* A plain disc of the theme's own paper colour, ringed in its

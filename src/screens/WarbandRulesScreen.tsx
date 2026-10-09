@@ -475,7 +475,7 @@ function JumpNav({ items }: { items: NavItem[] }) {
   }, [items]);
 
   return (
-    <nav className="sticky top-0 z-10 -mx-4 px-4 py-2 bg-ink-950/95 backdrop-blur border-b border-ink-800">
+    <nav className="sticky top-0 z-10 px-4 py-2 bg-ink-950/95 backdrop-blur border-b border-ink-800">
       <ul className="flex gap-1.5 overflow-x-auto sm:flex-wrap sm:overflow-visible">
         {items.map((item) => (
           <li key={item.id}>

@@ -73,7 +73,7 @@ const html = `<!doctype html>
           document.documentElement.setAttribute('data-theme', t);
           document.documentElement.classList.toggle('dark', t === 'grimdark');
           var m = document.querySelector('meta[name="theme-color"]');
-          if (m) m.setAttribute('content', t === 'parchment' ? '#e9e0cc' : '#0b0a09');
+          if (m) m.setAttribute('content', t === 'parchment' ? '#e8dec4' : '#0b0a09');
         } catch (e) {
           document.documentElement.setAttribute('data-theme', 'grimdark');
         }
@@ -163,7 +163,7 @@ ${entriesHtml}
           document.documentElement.setAttribute('data-theme', theme);
           document.documentElement.classList.toggle('dark', theme === 'grimdark');
           var m = document.querySelector('meta[name="theme-color"]');
-          if (m) m.setAttribute('content', theme === 'parchment' ? '#e9e0cc' : '#0b0a09');
+          if (m) m.setAttribute('content', theme === 'parchment' ? '#e8dec4' : '#0b0a09');
           buttons.forEach(function (b) {
             b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === theme));
           });

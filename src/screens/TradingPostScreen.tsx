@@ -138,7 +138,7 @@ export default function TradingPostScreen() {
           type="button"
           onClick={() => setTab('shop')}
           className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-            tab === 'shop' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+            tab === 'shop' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
           }`}
         >
           {strings.trading.shopTab}
@@ -147,7 +147,7 @@ export default function TradingPostScreen() {
           type="button"
           onClick={() => setTab('rules')}
           className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-            tab === 'rules' ? 'bg-ember-500 text-ink-950 border-ember-500' : 'border-ink-700 text-bone-200'
+            tab === 'rules' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
           }`}
         >
           {strings.trading.rulesTab}

@@ -1,3 +1,4 @@
+import { keepSelectionOnMouseUp, selectAllOnFocus } from '../../lib/selectOnFocus';
 /**
  * Text inputs, textareas and selects (spec §5.1, §5.4).
  *
@@ -23,9 +24,26 @@ export function fieldClasses(className = ''): string {
 
 export function TextField({
   className = '',
+  onFocus,
+  onMouseUp,
   ...rest
 }: React.InputHTMLAttributes<HTMLInputElement>) {
-  return <input className={fieldClasses(className)} {...rest} />;
+  // §5.4: a number field selects its value on focus, so typing replaces it.
+  const numeric = rest.type === 'number';
+  return (
+    <input
+      className={fieldClasses(className)}
+      onFocus={(e) => {
+        if (numeric) selectAllOnFocus(e);
+        onFocus?.(e);
+      }}
+      onMouseUp={(e) => {
+        if (numeric) keepSelectionOnMouseUp(e);
+        onMouseUp?.(e);
+      }}
+      {...rest}
+    />
+  );
 }
 
 export function Textarea({
