@@ -7,6 +7,7 @@ import { useSaveWarbandMutation, useWarbandLookup } from '../hooks/useWarbands';
 import { getWarbandDefinition } from '../data/warbandRegistry';
 import { createHeroFromSlot } from '../lib/warbandFactory';
 import { remainingHeroSlots, remainingWarbandCapacity } from '../lib/warbandLimits';
+import { goldWarning, usePurchase } from '../hooks/usePurchase';
 
 export default function AddHeroScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
@@ -18,6 +19,7 @@ export default function AddHeroScreen() {
   const [slotId, setSlotId] = useState(definition?.heroSlots[0]?.id ?? '');
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const purchase = usePurchase();
 
   if (loading) {
     return (
@@ -46,23 +48,25 @@ export default function AddHeroScreen() {
 
     // Both limits are rulebook limits rather than app invariants, and groups do
     // bend them by agreement, so these confirm rather than refuse.
-    if (atSlotLimit && slot.maxCount !== null) {
-      if (!window.confirm(strings.roster.slotLimitWarning(slot.unitType, slot.maxCount))) return;
-    }
-    if (atSizeLimit && definition.maxWarbandSize !== null) {
-      if (!window.confirm(strings.roster.warbandSizeWarning(definition.maxWarbandSize))) return;
-    }
-    if (!canAfford) {
-      if (!window.confirm(strings.trading.insufficientGoldConfirm(cost, warband.gold))) return;
-    }
-
-    const hero = createHeroFromSlot(slot, name.trim());
-    saveWarband({
-      ...warband,
-      gold: warband.gold - cost,
-      heroes: [...warband.heroes, hero],
+    purchase.attempt({
+      warnings: [
+        atSlotLimit && slot.maxCount !== null && strings.roster.slotLimitWarning(slot.unitType, slot.maxCount),
+        atSizeLimit &&
+          definition.maxWarbandSize !== null &&
+          strings.roster.warbandSizeWarning(definition.maxWarbandSize),
+        !canAfford && goldWarning(cost, warband.gold),
+      ],
+      action: strings.trading.addAnyway,
+      proceed: () => {
+        const hero = createHeroFromSlot(slot, name.trim());
+        saveWarband({
+          ...warband,
+          gold: warband.gold - cost,
+          heroes: [...warband.heroes, hero],
+        });
+        navigate(`/warbands/${warband.id}`, { replace: true });
+      },
     });
-    navigate(`/warbands/${warband.id}`, { replace: true });
   }
 
   return (
@@ -121,6 +125,7 @@ export default function AddHeroScreen() {
           {error && <p className="text-danger text-sm">{error}</p>}
         </div>
 
+        {purchase.panel}
         <Button onClick={handleAdd}>{strings.common.add}</Button>
       </main>
     </div>

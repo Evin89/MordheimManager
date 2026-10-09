@@ -22,6 +22,8 @@ import { hasFoughtFirstBattle } from '../lib/battleHistory';
 import { MAX_MELEE, MAX_MISSILE_TYPES, canAddWeapon, countWeaponSlots } from '../lib/weaponSlots';
 import { getAdvanceProgress } from '../lib/xpThresholds';
 import { EquipmentItem, HenchmenGroup, StatLine, Warband } from '../types';
+import ConfirmAction from '../components/ConfirmAction';
+import { goldWarning, usePurchase } from '../hooks/usePurchase';
 
 export default function HenchmenDetailScreen() {
   const { warbandId, groupId } = useParams<{ warbandId: string; groupId: string }>();
@@ -32,6 +34,8 @@ export default function HenchmenDetailScreen() {
   const { data: campaign } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
   const [shoppingOpen, setShoppingOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const purchase = usePurchase();
 
   if (loading) {
     return (
@@ -93,32 +97,31 @@ export default function HenchmenDetailScreen() {
     if (!draft || !group) return;
     const item = draft.treasury.find((e) => e.id === itemId);
     if (!item) return;
-    if (!allowWeapon(item)) return;
+    purchase.attempt({ blocked: weaponBlock(item), proceed: () => assignNow(item) });
+  }
+
+  function assignNow(item: EquipmentItem) {
     saveNow((current: Warband) => ({
       henchmenGroups: current.henchmenGroups.map((g) =>
         g.id === groupId ? { ...g, equipment: [...g.equipment, item] } : g,
       ),
-      treasury: current.treasury.filter((e) => e.id !== itemId),
+      treasury: current.treasury.filter((e) => e.id !== item.id),
     }));
   }
 
   /** The two-weapon limits apply per model, and every model in a group carries
    * the same gear — so the group's own list is what gets checked. */
-  function allowWeapon(item: { name: string; category: EquipmentItem['category'] }): boolean {
-    if (!group) return false;
+  function weaponBlock(item: { name: string; category: EquipmentItem['category'] }): string | null {
+    if (!group) return null;
     const verdict = canAddWeapon(group.equipment, item);
-    if (verdict.allowed) return true;
-    window.alert(
-      verdict.reason === 'meleeFull'
-        ? strings.modelDetail.meleeFull(MAX_MELEE)
-        : strings.modelDetail.missileFull(MAX_MISSILE_TYPES),
-    );
-    return false;
+    if (verdict.allowed) return null;
+    return verdict.reason === 'meleeFull'
+      ? strings.modelDetail.meleeFull(MAX_MELEE)
+      : strings.modelDetail.missileFull(MAX_MISSILE_TYPES);
   }
 
   function buyForGroup(item: ResolvedEquipmentItem, price: number) {
     if (!draft || !group) return;
-    if (!allowWeapon(item)) return;
 
     // "Every model in each Henchman group must be armed and armoured in the
     // same way... if your Henchman group has four warriors, and you want to buy
@@ -127,14 +130,20 @@ export default function HenchmenDetailScreen() {
     // but paid for once per model.
     const total = price * group.count;
 
-    if (total > draft.gold) {
-      if (!window.confirm(strings.trading.insufficientGoldConfirm(total, draft.gold))) return;
-    } else if (group.count > 1) {
-      // Worth a confirm of its own: the shop showed a single item's price, and
-      // the warband is about to be charged several times that.
-      if (!window.confirm(strings.trading.groupPurchaseConfirm(item.name, group.count, total))) return;
-    }
+    purchase.attempt({
+      blocked: weaponBlock(item),
+      warnings: [
+        // Worth a confirm of its own: the shop showed a single item's price,
+        // and the warband is about to be charged several times that.
+        group.count > 1 && strings.trading.groupPurchaseConfirm(item.name, group.count, total),
+        goldWarning(total, draft.gold),
+      ],
+      action: group.count > 1 ? strings.trading.buyAction : strings.trading.buyAnyway,
+      proceed: () => buyNow(item, price, total),
+    });
+  }
 
+  function buyNow(item: ResolvedEquipmentItem, price: number, total: number) {
     const newItem: EquipmentItem = {
       id: generateId(),
       name: item.name,
@@ -152,12 +161,10 @@ export default function HenchmenDetailScreen() {
 
   function handleDelete() {
     if (!draft || !group) return;
-    if (window.confirm(strings.modelDetail.deleteModelConfirm(group.groupName))) {
-      saveNow((current: Warband) => ({
-        henchmenGroups: current.henchmenGroups.filter((g) => g.id !== groupId),
-      }));
-      navigate(`/warbands/${draft.id}`, { replace: true });
-    }
+    saveNow((current: Warband) => ({
+      henchmenGroups: current.henchmenGroups.filter((g) => g.id !== groupId),
+    }));
+    navigate(`/warbands/${draft.id}`, { replace: true });
   }
 
   return (
@@ -307,6 +314,8 @@ export default function HenchmenDetailScreen() {
             ))}
           </div>
 
+          {purchase.panel}
+
           {shoppingOpen && (
             <div className="space-y-3 rounded-lg border border-ink-800 p-3">
               <p className="text-ember-400 font-semibold text-sm">
@@ -355,9 +364,18 @@ export default function HenchmenDetailScreen() {
           />
         </div>
 
-        <Button variant="danger" onClick={handleDelete}>
-          {strings.modelDetail.deleteModel}
-        </Button>
+        {confirmDelete ? (
+          <ConfirmAction
+            prompt={strings.modelDetail.deleteModelConfirm(group.groupName)}
+            action={strings.modelDetail.deleteModel}
+            onConfirm={handleDelete}
+            onCancel={() => setConfirmDelete(false)}
+          />
+        ) : (
+          <Button variant="danger" onClick={() => setConfirmDelete(true)}>
+            {strings.modelDetail.deleteModel}
+          </Button>
+        )}
 
         <SaveBar dirty={dirty} onSave={save} onDiscard={discard} />
       </main>

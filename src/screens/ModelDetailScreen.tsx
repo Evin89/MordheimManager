@@ -29,6 +29,7 @@ import { MAX_MELEE, MAX_MISSILE_TYPES, canAddWeapon, countWeaponSlots } from '..
 import { getAdvanceProgress } from '../lib/xpThresholds';
 import { heroSkillLists } from '../lib/ruleEffects';
 import { Advance, EquipmentItem, Hero, HiredSword, ModelStatus, StatLine, Warband } from '../types';
+import { goldWarning, usePurchase } from '../hooks/usePurchase';
 
 type EditableModel = Hero | HiredSword;
 
@@ -64,6 +65,10 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const [customInjuryName, setCustomInjuryName] = useState('');
   const [customInjuryEffect, setCustomInjuryEffect] = useState('');
   const [shoppingOpen, setShoppingOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  // Gold, and the two-weapon limit, for both buying and assigning from the
+  // treasury — one inline panel instead of window.confirm / window.alert.
+  const purchase = usePurchase();
 
   // The removed-toast clears itself; a removal is re-derivable, so it's a note,
   // not something to dismiss.
@@ -286,7 +291,10 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     if (!draft || !model) return;
     const item = draft.treasury.find((e) => e.id === itemId);
     if (!item) return;
-    if (!allowWeapon(item)) return;
+    purchase.attempt({ blocked: weaponBlock(item), proceed: () => assignNow(item) });
+  }
+
+  function assignNow(item: EquipmentItem) {
     saveNow((current: Warband) => ({
       [listKey]: (current[listKey] as EditableModel[]).map((m) =>
         m.id === modelId
@@ -302,7 +310,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
             }
           : m,
       ),
-      treasury: current.treasury.filter((e: EquipmentItem) => e.id !== itemId),
+      treasury: current.treasury.filter((e: EquipmentItem) => e.id !== item.id),
     }));
   }
 
@@ -312,24 +320,25 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
    * The treasury itself stays unlimited: the rules cap what a warrior carries,
    * not what the warband owns.
    */
-  function allowWeapon(item: { name: string; category: EquipmentItem['category'] }): boolean {
-    if (!model) return false;
+  function weaponBlock(item: { name: string; category: EquipmentItem['category'] }): string | null {
+    if (!model) return null;
     const verdict = canAddWeapon(model.equipment, item);
-    if (verdict.allowed) return true;
-    window.alert(
-      verdict.reason === 'meleeFull'
-        ? strings.modelDetail.meleeFull(MAX_MELEE)
-        : strings.modelDetail.missileFull(MAX_MISSILE_TYPES),
-    );
-    return false;
+    if (verdict.allowed) return null;
+    return verdict.reason === 'meleeFull'
+      ? strings.modelDetail.meleeFull(MAX_MELEE)
+      : strings.modelDetail.missileFull(MAX_MISSILE_TYPES);
   }
 
   function buyForModel(item: ResolvedEquipmentItem, price: number) {
     if (!draft || !model) return;
-    if (!allowWeapon(item)) return;
-    if (price > draft.gold) {
-      if (!window.confirm(strings.trading.insufficientGoldConfirm(price, draft.gold))) return;
-    }
+    purchase.attempt({
+      blocked: weaponBlock(item),
+      warnings: [goldWarning(price, draft.gold)],
+      proceed: () => buyNow(item, price),
+    });
+  }
+
+  function buyNow(item: ResolvedEquipmentItem, price: number) {
     const newItem: EquipmentItem = {
       id: generateId(),
       name: item.name,
@@ -358,12 +367,10 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
   function handleDelete() {
     if (!draft || !model) return;
-    if (window.confirm(strings.modelDetail.deleteModelConfirm(model.name))) {
-      saveNow((current: Warband) => ({
-        [listKey]: (current[listKey] as EditableModel[]).filter((m) => m.id !== modelId),
-      }));
-      navigate(`/warbands/${draft.id}`, { replace: true });
-    }
+    saveNow((current: Warband) => ({
+      [listKey]: (current[listKey] as EditableModel[]).filter((m) => m.id !== modelId),
+    }));
+    navigate(`/warbands/${draft.id}`, { replace: true });
   }
 
   const unitTypeLabel = 'unitType' in model ? model.unitType : model.type;
@@ -821,6 +828,8 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
             ))}
           </div>
 
+          {purchase.panel}
+
           {shoppingOpen && (
             <div className="space-y-3 rounded-lg border border-ink-800 p-3">
               <p className="text-ember-400 font-semibold text-sm">
@@ -872,9 +881,18 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           />
         </div>
 
-        <Button variant="danger" onClick={handleDelete}>
-          {strings.modelDetail.deleteModel}
-        </Button>
+        {confirmDelete ? (
+          <ConfirmAction
+            prompt={strings.modelDetail.deleteModelConfirm(model.name)}
+            action={strings.modelDetail.deleteModel}
+            onConfirm={handleDelete}
+            onCancel={() => setConfirmDelete(false)}
+          />
+        ) : (
+          <Button variant="danger" onClick={() => setConfirmDelete(true)}>
+            {strings.modelDetail.deleteModel}
+          </Button>
+        )}
 
         <SaveBar dirty={dirty} onSave={save} onDiscard={discard} />
       </main>

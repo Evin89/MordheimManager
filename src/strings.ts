@@ -759,11 +759,11 @@ export const strings = {
     costVsTreasury: (cost: number, gold: number) => `Cost ${cost} gc · treasury ${gold} gc`,
     atMaxSize: (max: number) => `Warband is at its maximum size of ${max} models.`,
     warbandSizeWarning: (max: number) =>
-      `This takes the warband past its maximum size of ${max} models. Add anyway?`,
+      `This takes the warband past its maximum size of ${max} models.`,
     cannotRecruitMore: 'No room or no gold for more of these right now.',
     overLimitHint: (max: number) => `Only ${max} can be added right now.`,
     slotLimitWarning:(unitType: string, max: number) =>
-      `Your warband already has the normal maximum of ${max} ${unitType}(s). Add another anyway?`,
+      `Your warband already has the normal maximum of ${max} ${unitType}(s).`,
     missNextGameBadge: 'Miss Next Game',
     deadBadge: 'Dead',
     capturedBadge: 'Captured',
@@ -1206,9 +1206,9 @@ export const strings = {
     rareTab: 'Rare',
     buyButton: (cost: number) => `Buy (${cost} gc)`,
     groupPurchaseConfirm: (item: string, count: number, total: number) =>
-      `Every model in a Henchmen group carries the same gear, so this buys ${count}x ${item} for ${total} gc. Continue?`,
+      `Every model in a Henchmen group carries the same gear, so this buys ${count}x ${item} for ${total} gc.`,
     insufficientGoldConfirm: (cost: number, have: number) =>
-      `This costs ${cost} gc but the warband only has ${have} gc. Buy it anyway?`,
+      `This costs ${cost} gc but the warband only has ${have} gc.`,
     rarityLabel: (n: number) => `Rare ${n}`,
     rollHint: 'This item is found on a result of the Rare number shown, or higher. Roll for me, or roll 2D6 (plus any modifiers) yourself and report the result.',
     rollButton: 'Roll for this item',
@@ -1230,7 +1230,15 @@ export const strings = {
     treasuryHint: 'Assign items to a model from the warband roster.',
     sellButton: 'Sell',
     sellPriceLabel: 'Sell price',
-    sellConfirm: (name: string, price: number) => `Sell ${name} for ${price} gc?`,
+    // usePurchase (§5.4): every reason a purchase needs a second look, listed
+    // together in one inline panel instead of a chain of browser confirms.
+    purchasePrompt: 'Go ahead anyway?',
+    buyAnyway: 'Buy anyway',
+    addAnyway: 'Add anyway',
+    hireAnyway: 'Hire anyway',
+    buyAction: 'Buy',
+    sellAction: 'Sell',
+    dismiss: 'OK',
     exclusiveBadge: "Warband-exclusive",
     affordToggle: 'Only what I can afford',
     // Rare prices are a range resolved by a dice roll, so "afford" uses the
