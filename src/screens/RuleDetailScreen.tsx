@@ -42,7 +42,9 @@ export default function RuleDetailScreen() {
           </div>
         )}
 
-        <p className="text-bone-300 text-xs">
+        {/* Sources carry long unbroken URLs; let them wrap instead of
+            pushing the page sideways on a phone. */}
+        <p className="text-bone-300 text-xs [overflow-wrap:anywhere]">
           {strings.rules.sourceLabel}: {entry.source}
         </p>
 

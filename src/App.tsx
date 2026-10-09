@@ -169,7 +169,11 @@ function AppShell() {
       <SideNav />
       <div className="flex-1 min-w-0 pb-[56px] md:pb-0 print:pb-0">
         <ConnectionBanner />
-        <div className="mx-auto w-full max-w-4xl">
+        {/* On phones the ? and dice buttons (fixed, top-right, 40px wide at
+            right-2) sit over the first ~100px of every screen; a screen's top
+            header reserves that strip so its actions aren't covered. md+ has
+            the side rail and room to spare. */}
+        <div className="mx-auto w-full max-w-4xl max-md:[&>div>header:first-child]:pr-14">
           <Suspense fallback={<RouteFallback />}>
       <Routes>
             {/* --- Public: static reference content --- */}

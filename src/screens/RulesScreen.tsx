@@ -309,8 +309,9 @@ export default function RulesScreen() {
         <h1 className="text-4xl leading-none text-bone-100">{strings.rules.title}</h1>
       </header>
 
-      {/* Search is the hero: at a table you usually know the word. */}
-      <div className="px-4 pb-3">
+      {/* Search is the hero: at a table you usually know the word. Clears the
+          dice button on phones, which sits at this height. */}
+      <div className="px-4 pb-3 max-md:pr-14">
         <div className="flex items-center gap-2.5 h-[50px] px-3.5 rounded-xl bg-ink-900 border border-ink-800 focus-within:border-ember-500 transition-colors">
           <Search size={19} className="text-ink-faded shrink-0" aria-hidden="true" />
           <input
