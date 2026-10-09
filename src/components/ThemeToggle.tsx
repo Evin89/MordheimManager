@@ -2,10 +2,13 @@ import { Theme, THEMES } from '../lib/theme';
 import { strings } from '../strings';
 
 /** Swatch colours are hard-coded rather than themed: each half has to show what
- * it *would* look like, so it can't follow the theme currently in effect. */
+ * it *would* look like, so it can't follow the theme currently in effect. They
+ * are each theme's own `parchment` (page) and `accent` values from index.css —
+ * Rulebook's used to be a lighter paper with an ochre ring, which is no colour
+ * the theme actually uses. */
 const SWATCH: Record<Theme, { paper: string; accent: string }> = {
-  grimdark: { paper: '#141210', accent: '#f2751a' },
-  parchment: { paper: '#f4eede', accent: '#7a521a' },
+  grimdark: { paper: '#0b0a09', accent: '#dc5c0e' },
+  parchment: { paper: '#e8dec4', accent: '#7a1e1a' },
 };
 
 /**

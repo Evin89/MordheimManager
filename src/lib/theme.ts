@@ -9,7 +9,7 @@ const STORAGE_KEY = 'mordheim.theme';
  * doesn't stay black behind a page made of paper. */
 const META_THEME_COLOUR: Record<Theme, string> = {
   grimdark: '#0b0a09',
-  parchment: '#e9e0cc',
+  parchment: '#e8dec4', // §5.1 parchment
 };
 
 function isTheme(value: string | null): value is Theme {
