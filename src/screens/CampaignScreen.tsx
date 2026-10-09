@@ -1378,8 +1378,11 @@ export default function CampaignScreen() {
                               the row above. */}
                           {confirmingBattle === battle.id && (
                             <ConfirmByTyping
-                              phrase={battle.scenario}
-                              label={strings.campaign.typeNameLabel(battle.scenario)}
+                              // An unrecorded scenario would make the phrase empty
+                              // and unlock the button untyped; the date is on the
+                              // row too, so it stands in.
+                              phrase={battle.scenario || battle.date}
+                              label={strings.campaign.typeNameLabel(battle.scenario || battle.date)}
                               action={strings.campaign.deleteBattleAction}
                               impact={<p>{strings.campaign.deleteBattleConfirm(battle.scenario)}</p>}
                               onConfirm={() => {
