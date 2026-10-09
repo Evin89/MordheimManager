@@ -6,7 +6,8 @@ import GoogleSelfReportCard from '../components/GoogleSelfReportCard';
 import DisclosureChevron from '../components/DisclosureChevron';
 import { Button, TextField } from '../components/ui';
 import { strings } from '../strings';
-import { getWarbandProvenance, warbandDefinitionsByName } from '../data/warbandRegistry';
+import { getWarbandProvenance, subfactionLabel, warbandDefinitionsByName } from '../data/warbandRegistry';
+import SubfactionChoice from '../components/SubfactionChoice';
 import { WarbandDefinition, WarbandGrade } from '../data/types';
 import { isCustomWarbandType } from '../lib/customWarband';
 import { createWarband } from '../lib/warbandFactory';
@@ -183,6 +184,9 @@ export default function NewWarbandScreen() {
       ? preselectType
       : warbandDefinitionsByName[0]?.id ?? '',
   );
+  // §28 — the city-state (or similar) for lists that require one.
+  const [subfaction, setSubfaction] = useState<string | undefined>(undefined);
+  const [subfactionError, setSubfactionError] = useState<string | null>(null);
   const [quickBuild, setQuickBuild] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -207,8 +211,14 @@ export default function NewWarbandScreen() {
       return;
     }
     if (!definition || saving) return;
+    const needsSubfaction = (definition.subfactions?.length ?? 0) > 0;
+    if (needsSubfaction && !subfaction) {
+      // Shown under the choice, next to the button, not up by the name field.
+      setSubfactionError(strings.subfaction.required(subfactionLabel(definition)));
+      return;
+    }
 
-    const warband = createWarband(definition, name.trim());
+    const warband = createWarband(definition, name.trim(), needsSubfaction ? subfaction : undefined);
     if (quickBuild && starter) {
       // Rebuild here for fresh ids rather than reusing the preview's objects.
       const roster = quickBuildStarterRoster(definition);
@@ -265,7 +275,15 @@ export default function NewWarbandScreen() {
           <label className="block text-bone-200 text-sm font-semibold" id="warband-type-label">
             {strings.newWarband.typeLabel}
           </label>
-          <WarbandTypePicker value={typeId} onChange={setTypeId} definitions={allDefinitions} />
+          <WarbandTypePicker
+            value={typeId}
+            onChange={(id) => {
+              setTypeId(id);
+              setSubfaction(undefined);
+              setSubfactionError(null);
+            }}
+            definitions={allDefinitions}
+          />
           <Link
             to="/custom-warbands"
             className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
@@ -287,6 +305,24 @@ export default function NewWarbandScreen() {
             </>
           )}
         </div>
+
+        {definition?.subfactions?.length ? (
+          <div className="space-y-2">
+            <SubfactionChoice
+              definition={definition}
+              value={subfaction}
+              onChange={(id) => {
+                setSubfaction(id);
+                setSubfactionError(null);
+              }}
+            />
+            {subfactionError && (
+              <p role="alert" className="text-danger text-sm">
+                {subfactionError}
+              </p>
+            )}
+          </div>
+        ) : null}
 
         {definition && (starter?.heroes.length || starter?.henchmenGroups.length) ? (
           <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">

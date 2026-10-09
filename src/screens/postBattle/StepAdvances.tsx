@@ -398,7 +398,7 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
             <AdvanceRecorder
               statMaximums={hero.statMaximums}
               currentStats={hero.stats}
-              skillLists={heroSkillLists(warband.warbandType, hero)}
+              skillLists={heroSkillLists(warband.warbandType, hero, warband.subfaction)}
               knownSkills={hero.skills}
               spellLists={hero.spellLists}
               knownSpells={hero.spells}
@@ -531,6 +531,7 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
             {state.ladsGotTalent && (
               <PromotionListsPicker
                 warbandType={warband.warbandType}
+                subfaction={warband.subfaction}
                 unitType={group.unitType}
                 chosen={state.promotionSkillLists ?? []}
                 onChange={(lists) =>
@@ -629,17 +630,19 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
  */
 function PromotionListsPicker({
   warbandType,
+  subfaction,
   unitType,
   chosen,
   onChange,
 }: {
   warbandType: string;
+  subfaction?: string;
   unitType: string;
   chosen: string[];
   onChange: (lists: string[]) => void;
 }) {
   const t = strings.postBattle.advances.promotion;
-  const opts = promotionSkillListOptions(warbandType, unitType);
+  const opts = promotionSkillListOptions(warbandType, unitType, subfaction);
   const label = (id: string) => getSkillList(id)?.name ?? id;
 
   if (opts.fixed) {

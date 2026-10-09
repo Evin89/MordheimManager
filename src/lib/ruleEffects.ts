@@ -1,4 +1,4 @@
-import { getUnitSpecialRules, getWarbandDefinition } from '../data/warbandRegistry';
+import { getUnitSpecialRules, getWarbandDefinition, slotSkillLists } from '../data/warbandRegistry';
 import { SpecialRuleEffects } from '../data/types';
 
 /**
@@ -43,10 +43,16 @@ export type PromotionSkillListOptions = {
  * promotes him. Rulebook default: two of the lists the warband's Heroes use.
  * A unit rule's `promotionSkillLists` effect fixes, narrows or extends that.
  */
-export function promotionSkillListOptions(warbandType: string, unitType: string): PromotionSkillListOptions {
+export function promotionSkillListOptions(
+  warbandType: string,
+  unitType: string,
+  subfaction?: string,
+): PromotionSkillListOptions {
   const effect = unitRuleEffects(warbandType, unitType).promotionSkillLists;
   const definition = getWarbandDefinition(warbandType);
-  const heroLists = [...new Set((definition?.heroSlots ?? []).flatMap((h) => h.skillLists ?? []))];
+  const heroLists = [
+    ...new Set((definition?.heroSlots ?? []).flatMap((h) => slotSkillLists(definition, h.unitType, subfaction))),
+  ];
 
   // Cavalry skills go with having a mount, not with being a Hero, so a
   // promoted Henchman never picks them as one of his two lists.
@@ -67,9 +73,12 @@ export function promotionSkillListOptions(warbandType: string, unitType: string)
  * list added to the data later (Cavalry, for one) would otherwise never reach
  * Heroes already on a roster.
  */
-export function heroSkillLists(warbandType: string, hero: { unitType?: string; skillLists: string[] }): string[] {
-  const slot = hero.unitType
-    ? getWarbandDefinition(warbandType)?.heroSlots.find((s) => s.unitType === hero.unitType)
-    : undefined;
-  return [...new Set([...hero.skillLists, ...(slot?.skillLists ?? [])])];
+export function heroSkillLists(
+  warbandType: string,
+  hero: { unitType?: string; skillLists: string[] },
+  // §28 — the warband's sub-faction, which can replace a unit's lists.
+  subfaction?: string,
+): string[] {
+  const fromSlot = hero.unitType ? slotSkillLists(getWarbandDefinition(warbandType), hero.unitType, subfaction) : [];
+  return [...new Set([...hero.skillLists, ...fromSlot])];
 }

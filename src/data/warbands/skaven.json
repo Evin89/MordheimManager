@@ -19,6 +19,7 @@
       "skillLists": [
         "combat",
         "shooting",
+        "academic",
         "strength",
         "speed",
         "skaven"
@@ -165,7 +166,7 @@
       "skillLists": [
         "combat",
         "shooting",
-        "speed"
+        "skaven"
       ],
       "statLine": {
         "M": 6,

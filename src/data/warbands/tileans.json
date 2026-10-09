@@ -36,7 +36,13 @@
       ],
       "isLeader": true,
       "startingXp": 20,
-      "skillLists": [],
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "speed"
+      ],
       "statMaximums": {
         "M": null,
         "WS": null,
@@ -297,5 +303,59 @@
       "rulesText": "Like all swords, you may use a rapier to parry in hand to hand combat. When your opponent scores a hit you must roll a D6. If you can score greater than the highest 'to hit' roll you have parried the blow and the attack is discarded.\n\nA warrior armed with a rapier rolls to hit and wound as normal. However, if you mange to hit your opponent but fail to wound, you may attack again just as if you had another attack but at –1 to hit (down to a maximum to needing a 6 to hit). You may continue attacking as long as you hit and it is possible to strike your opponent many times, particularly if your warrior has more then one attack on his profile.\n\nBecause a rapier is a very light sword that lacks the thick armour breaking blade of the broadsword, armour saves are made at +1."
     }
   ],
-  "specialRules": ""
+  "specialRules": "Tilean warbands choose a city-state when they are founded — Miragliano, Remas or Trantio. Each has its own rules and decides which skill lists the Champions and Youngbloods use.",
+  "subfactionLabel": "City-state",
+  "subfactions": [
+    {
+      "id": "miragliano",
+      "name": "Miragliano",
+      "specialRules": "Crossbows: Miraglean Heroes have +1 to hit when using crossbows. | Marksmen: Marksmen have +1 to hit with any missile weapon. | Hatred of Skaven: Since the red pox outbreak of 1812, a Miraglean warband hates Skaven when fighting them. Hired Swords are not affected. | Hired Swords: A Miraglean warband may not hire Skaven Hired Swords.",
+      "heroSkillLists": {
+        "Champion": [
+          "combat",
+          "shooting",
+          "speed"
+        ],
+        "Youngblood": [
+          "shooting",
+          "strength",
+          "speed"
+        ]
+      }
+    },
+    {
+      "id": "remas",
+      "name": "Remas",
+      "specialRules": "Old enemies: When fighting Dark Elves, a Remasen warband may re-roll a Rout test once and must keep the second roll. | Steadfast officers: The Captain, Champions and Youngbloods always have +1 Leadership, whoever they fight. | Hired Swords: A Remasen warband may not hire Dark Elf Hired Swords.",
+      "heroSkillLists": {
+        "Champion": [
+          "combat",
+          "academic",
+          "strength"
+        ],
+        "Youngblood": [
+          "combat",
+          "academic",
+          "speed"
+        ]
+      }
+    },
+    {
+      "id": "trantio",
+      "name": "Trantio",
+      "specialRules": "Wealthy patrons: A Trantio warband starts a one-off game with an extra 100 gc, and a Lustrian campaign with an extra 20% gold.",
+      "heroSkillLists": {
+        "Champion": [
+          "combat",
+          "shooting",
+          "speed"
+        ],
+        "Youngblood": [
+          "combat",
+          "shooting",
+          "strength"
+        ]
+      }
+    }
+  ]
 }

@@ -153,6 +153,9 @@ export type Warband = {
   schemaVersion: number;
   name: string;
   warbandType: string; // key into warband definitions data
+  /** §28 — the chosen sub-faction's id, for lists that have them (Tileans).
+   * Unset on every other warband, and on Tilean rosters made before §28. */
+  subfaction?: string;
   gold: number;
   wyrdstoneShards: number;
   treasury: EquipmentItem[]; // stored, unassigned equipment

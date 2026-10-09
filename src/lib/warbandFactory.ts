@@ -156,12 +156,15 @@ export function createHiredSwordFromDefinition(
   };
 }
 
-export function createWarband(definition: WarbandDefinition, name: string): Warband {
+export function createWarband(definition: WarbandDefinition, name: string, subfaction?: string): Warband {
   return {
     id: generateId(),
     schemaVersion: WARBAND_SCHEMA_VERSION,
     name,
     warbandType: definition.id,
+    // §28 — only set for lists that have a choice; omitted, not undefined, so
+    // every other warband's stored blob is unchanged.
+    ...(subfaction ? { subfaction } : {}),
     gold: definition.startingGold ?? 0,
     wyrdstoneShards: 0,
     treasury: [],
