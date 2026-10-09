@@ -296,7 +296,7 @@ export default function SoloSetupScreen() {
             </Field>
 
             {soloSessions[warbandId] && (
-              <p className="text-blood-500 text-xs">
+              <p className="text-danger text-xs">
                 This warband already has a solo game in progress — starting a new one replaces it.
               </p>
             )}

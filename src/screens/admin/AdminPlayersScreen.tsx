@@ -119,7 +119,7 @@ export default function AdminPlayersScreen() {
   if (isError) {
     return (
       <div className="space-y-1">
-        <p className="text-blood-500 text-sm">Could not load players.</p>
+        <p className="text-danger text-sm">Could not load players.</p>
         <p className="font-ui text-xs text-bone-400">
           {(error as Error).message} — if this mentions <code>admin_user_overview</code>, migration 0007 has
           not been applied yet.
@@ -192,7 +192,7 @@ export default function AdminPlayersScreen() {
                     {!u.emailConfirmed && (
                       <span
                         title="Email never confirmed — this account can't sign in"
-                        className="ml-2 rounded border border-blood-600 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-blood-500"
+                        className="ml-2 rounded border border-blood-600 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-danger"
                       >
                         unconfirmed
                       </span>

@@ -24,7 +24,7 @@ export default function AdminCampaignDetailScreen() {
     return (
       <div className="space-y-2">
         {back}
-        <p className="text-blood-500 text-sm">{(error as Error).message}</p>
+        <p className="text-danger text-sm">{(error as Error).message}</p>
       </div>
     );
   }

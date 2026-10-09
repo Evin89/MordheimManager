@@ -53,7 +53,7 @@ export default function ForgotPasswordScreen() {
               />
             </Field>
 
-            {error && <p className="text-sm text-blood-500">{error}</p>}
+            {error && <p className="text-sm text-danger">{error}</p>}
 
             <Button type="submit" disabled={submitting}>
               {submitting ? strings.auth.forgotSubmitting : strings.auth.forgotButton}

@@ -36,7 +36,7 @@ export default function ResendConfirmationButton({ email }: { email: string }) {
         {state === 'sending' ? strings.auth.resendSubmitting : strings.auth.resendButton}
       </Button>
       {state === 'sent' && <p className="text-sm text-bone-300">{strings.auth.resendSent}</p>}
-      {error && <p className="text-sm text-blood-500">{error}</p>}
+      {error && <p className="text-sm text-danger">{error}</p>}
     </div>
   );
 }

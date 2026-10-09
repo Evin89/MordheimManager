@@ -108,7 +108,7 @@ export default function AddHiredSwordScreen() {
               others.map(renderOption)
             )}
           </Select>
-          <p className={`text-sm ${canAfford ? 'text-bone-300' : 'text-blood-500'}`}>
+          <p className={`text-sm ${canAfford ? 'text-bone-300' : 'text-danger'}`}>
             {strings.roster.costVsTreasury(fee, warband.gold)}
           </p>
           <p className="text-bone-400 text-xs">{strings.addHiredSword.notCountedHint}</p>
@@ -134,7 +134,7 @@ export default function AddHiredSwordScreen() {
               </p>
             )}
             {listed.length > 0 && !listed.includes(definition) && (
-              <p className="text-blood-500 text-sm">{strings.addHiredSword.notListedHint}</p>
+              <p className="text-danger text-sm">{strings.addHiredSword.notListedHint}</p>
             )}
             <p className="text-bone-300 text-sm">
               <span className="text-bone-200 font-semibold">{strings.addHiredSword.hiredByLabel}: </span>
@@ -180,7 +180,7 @@ export default function AddHiredSwordScreen() {
             }}
             placeholder={strings.addHiredSword.namePlaceholder}
           />
-          {error && <p className="text-blood-500 text-sm">{error}</p>}
+          {error && <p className="text-danger text-sm">{error}</p>}
         </div>
 
         <Button onClick={handleHire}>{strings.addHiredSword.hireButton}</Button>

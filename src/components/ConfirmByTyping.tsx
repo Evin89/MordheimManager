@@ -92,7 +92,7 @@ export default function ConfirmByTyping({
         type="button"
         disabled={!matches || busy}
         onClick={onConfirm}
-        className="w-full min-h-[48px] rounded-md bg-blood-600 text-bone-100 font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blood-500 transition-colors"
+        className="w-full min-h-[48px] rounded-md bg-blood-600 text-on-danger font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blood-500 transition-colors"
       >
         {busy ? strings.common.loading : action}
       </button>

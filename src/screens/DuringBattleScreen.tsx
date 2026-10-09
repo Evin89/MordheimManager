@@ -41,7 +41,7 @@ function OutOfActionButtons({ control }: { control: OutOfActionControl }) {
         aria-pressed={control.active}
         className={`w-full min-h-[44px] rounded-md border text-sm font-semibold transition-colors ${
           control.active
-            ? 'bg-blood-600 border-blood-600 text-bone-100'
+            ? 'bg-blood-600 border-blood-600 text-on-danger'
             : 'border-ink-700 text-bone-200 hover:bg-ink-800'
         }`}
       >
@@ -70,7 +70,7 @@ function OutOfActionButtons({ control }: { control: OutOfActionControl }) {
       </button>
       <span
         className={`min-w-[3.5rem] text-center font-semibold ${
-          control.downed > 0 ? 'text-blood-500' : 'text-bone-100'
+          control.downed > 0 ? 'text-danger' : 'text-bone-100'
         }`}
       >
         {control.downed}/{control.total}
@@ -429,7 +429,7 @@ function RoutTestPanel({
     >
       <div className="flex items-center justify-between gap-3">
         <p className="text-bone-100 font-semibold text-sm">{t.section}</p>
-        <p className={`text-sm tabular-nums ${mustTest ? 'text-blood-500 font-semibold' : 'text-bone-300'}`}>
+        <p className={`text-sm tabular-nums ${mustTest ? 'text-danger font-semibold' : 'text-bone-300'}`}>
           {t.status(down, total, pct)}
         </p>
       </div>
@@ -703,7 +703,7 @@ export default function DuringBattleScreen() {
                   <button
                     type="button"
                     onClick={() => removeEvent(event.id)}
-                    className="inline-flex items-center min-h-[44px] text-blood-500 text-xs font-semibold shrink-0"
+                    className="inline-flex items-center min-h-[44px] text-danger text-xs font-semibold shrink-0"
                   >
                     {strings.battle.duringBattle.removeEvent}
                   </button>
@@ -767,14 +767,14 @@ export default function DuringBattleScreen() {
                 </div>
                 {showWyrdstone && session.droppedWyrdstone > 0 && (
                   <div className="rounded-md border border-blood-600/50 bg-blood-600/10 p-2 space-y-1">
-                    <p className="text-blood-500 text-xs font-semibold">
+                    <p className="text-danger text-xs font-semibold">
                       {strings.battle.duringBattle.wyrdstoneDropped(session.droppedWyrdstone)}
                     </p>
                     <p className="text-bone-400 text-xs">{strings.battle.duringBattle.wyrdstoneDroppedHint}</p>
                     <button
                       type="button"
                       onClick={() => updateSession({ droppedWyrdstone: 0 })}
-                      className="min-h-[36px] text-blood-500 text-xs font-semibold"
+                      className="min-h-[36px] text-danger text-xs font-semibold"
                     >
                       {strings.battle.duringBattle.wyrdstoneMarkLost}
                     </button>

@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build:about": "node scripts/build-about.mjs",
-    "build": "node scripts/build-about.mjs && tsc -b && vite build",
+    "build": "node scripts/design-sheet.mjs --check && node scripts/build-about.mjs && tsc -b && vite build",
     "preview": "vite preview",
     "lint": "tsc --noEmit",
     "design-sheet": "node scripts/design-sheet.mjs",

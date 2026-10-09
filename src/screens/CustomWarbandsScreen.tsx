@@ -67,7 +67,7 @@ export default function CustomWarbandsScreen() {
               placeholder={t.namePlaceholder}
             />
           </Field>
-          {error && <p className="text-blood-500 text-sm">{error}</p>}
+          {error && <p className="text-danger text-sm">{error}</p>}
           <Button disabled={creating} onClick={handleCreate}>
             {creating ? t.creating : t.create}
           </Button>
@@ -101,7 +101,7 @@ export default function CustomWarbandsScreen() {
                     onClick={() => {
                       if (window.confirm(t.removeConfirm(type.name))) remove(type.id);
                     }}
-                    className="inline-flex items-center min-h-[44px] text-blood-500 text-sm font-semibold"
+                    className="inline-flex items-center min-h-[44px] text-danger text-sm font-semibold"
                   >
                     {t.remove}
                   </button>

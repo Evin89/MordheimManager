@@ -40,6 +40,18 @@
   <text x="592" y="304" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#221A12" text-anchor="start" letter-spacing="0">white on verdigris</text>
   <text x="788" y="304" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#221A12" text-anchor="end" letter-spacing="0">7.08:1</text>
   <text x="796" y="304" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#4A5D4E" text-anchor="start" letter-spacing="0">PASS</text>
+  <text x="32" y="334" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#221A12" text-anchor="start" letter-spacing="0">danger on parchment</text>
+  <text x="228" y="334" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#221A12" text-anchor="end" letter-spacing="0">6.54:1</text>
+  <text x="236" y="334" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#4A5D4E" text-anchor="start" letter-spacing="0">PASS</text>
+  <text x="312" y="334" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#221A12" text-anchor="start" letter-spacing="0">danger on parchment-raised</text>
+  <text x="508" y="334" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#221A12" text-anchor="end" letter-spacing="0">7.23:1</text>
+  <text x="516" y="334" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#4A5D4E" text-anchor="start" letter-spacing="0">PASS</text>
+  <text x="592" y="334" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#221A12" text-anchor="start" letter-spacing="0">on-danger on blood-600</text>
+  <text x="788" y="334" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#221A12" text-anchor="end" letter-spacing="0">11.82:1</text>
+  <text x="796" y="334" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#4A5D4E" text-anchor="start" letter-spacing="0">PASS</text>
+  <text x="32" y="364" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="13" font-weight="normal" font-style="normal" fill="#221A12" text-anchor="start" letter-spacing="0">on-danger on blood-500</text>
+  <text x="228" y="364" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="13" font-weight="bold" font-style="normal" fill="#221A12" text-anchor="end" letter-spacing="0">8.77:1</text>
+  <text x="236" y="364" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#4A5D4E" text-anchor="start" letter-spacing="0">PASS</text>
   <text x="32" y="314" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" font-weight="bold" font-style="normal" fill="#6A5A44" text-anchor="start" letter-spacing="1.5">CHART PALETTE (§18.3) — WCAG 1.4.11 NON-TEXT CONTRAST NEEDS 3:1</text>
   <rect x="32" y="334" width="126" height="34" fill="#E8DEC4" stroke="#C7B99B" stroke-width="1"/>
   <line x1="42" y1="351" x2="148" y2="351" stroke="#8A6318" stroke-width="3"/>

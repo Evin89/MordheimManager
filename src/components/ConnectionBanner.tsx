@@ -8,7 +8,7 @@ export default function ConnectionBanner() {
   if (!lastError) return null;
 
   return (
-    <div className="print:hidden sticky top-0 z-50 bg-blood-600 text-bone-100 px-4 py-2 flex items-center justify-between gap-3 text-sm">
+    <div className="print:hidden sticky top-0 z-50 bg-blood-600 text-on-danger px-4 py-2 flex items-center justify-between gap-3 text-sm">
       {/* `lastError` is the already-classified message (see main.tsx); fall back
           to the generic line if something reported a bare status. */}
       <span>{lastError || strings.connection.lost}</span>

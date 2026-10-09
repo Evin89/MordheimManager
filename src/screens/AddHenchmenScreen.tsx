@@ -125,14 +125,14 @@ export default function AddHenchmenScreen() {
                 : strings.roster.slotsRemaining(slotsLeft, type.maxCount ?? 0)}
             </p>
           )}
-          <p className={`text-sm ${totalCost <= warband.gold ? 'text-bone-300' : 'text-blood-500'}`}>
+          <p className={`text-sm ${totalCost <= warband.gold ? 'text-bone-300' : 'text-danger'}`}>
             {strings.roster.costVsTreasury(totalCost, warband.gold)}
           </p>
           {affordable === 0 ? (
-            <p className="text-blood-500 text-sm">{strings.roster.cannotRecruitMore}</p>
+            <p className="text-danger text-sm">{strings.roster.cannotRecruitMore}</p>
           ) : (
             count > affordable && (
-              <p className="text-blood-500 text-sm">{strings.roster.overLimitHint(affordable)}</p>
+              <p className="text-danger text-sm">{strings.roster.overLimitHint(affordable)}</p>
             )
           )}
         </div>
@@ -212,7 +212,7 @@ export default function AddHenchmenScreen() {
           />
         </div>
 
-        {error && <p className="text-blood-500 text-sm">{error}</p>}
+        {error && <p className="text-danger text-sm">{error}</p>}
 
         <Button onClick={handleAdd}>{strings.common.add}</Button>
       </main>

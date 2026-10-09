@@ -26,7 +26,7 @@ const VARIANTS: Record<ButtonVariant, string> = {
   // The established destructive look: outlined red that fills on hover, never a
   // near-black `on-accent` label on dark red (which neither theme reads).
   danger:
-    'border border-blood-600 text-blood-500 font-semibold hover:bg-blood-600 hover:text-bone-100',
+    'border border-blood-600 text-danger font-semibold hover:bg-blood-600 hover:text-on-danger',
   ghost: 'text-ember-400 font-semibold hover:text-ember-500',
 };
 

@@ -65,6 +65,10 @@ export default {
         // Rulebook's dark red, near-black on Grimdark's orange. A shared
         // component cannot hardcode either and stay accessible in both.
         'on-accent': themed('on-accent'),
+        // Destructive roles (§5.1 amendment): `danger` for red text on the page,
+        // `on-danger` for the label on a blood fill. See index.css for values.
+        danger: themed('danger'),
+        'on-danger': themed('on-danger'),
         verdigris: themed('verdigris'), // success/confirm — aged copper, never bright green
 
         // The one multi-series chart's categorical set (§18.3 campaign rating

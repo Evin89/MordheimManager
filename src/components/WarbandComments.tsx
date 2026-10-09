@@ -112,7 +112,7 @@ export default function WarbandComments({ warbandId }: { warbandId: string }) {
                             onClick={() => {
                               if (window.confirm(s.removeConfirm)) removeComment.mutate(comment.id);
                             }}
-                            className="text-blood-500 text-xs font-semibold"
+                            className="text-danger text-xs font-semibold"
                           >
                             {s.remove}
                           </button>
@@ -125,7 +125,7 @@ export default function WarbandComments({ warbandId }: { warbandId: string }) {
               })}
             </div>
           )}
-          {error && <p className="text-blood-500 text-sm">{error}</p>}
+          {error && <p className="text-danger text-sm">{error}</p>}
         </>
       )}
     </section>

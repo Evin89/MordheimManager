@@ -73,8 +73,8 @@ export default function LoginScreen() {
             />
           </Field>
 
-          {error && <p className="text-sm text-blood-500">{error}</p>}
-          {unconfirmedEmail && <p className="text-sm text-blood-500">{strings.auth.unconfirmedSignIn}</p>}
+          {error && <p className="text-sm text-danger">{error}</p>}
+          {unconfirmedEmail && <p className="text-sm text-danger">{strings.auth.unconfirmedSignIn}</p>}
 
           <Button type="submit" disabled={submitting}>
             {submitting ? strings.auth.loginSubmitting : strings.auth.loginButton}

@@ -34,7 +34,7 @@ export default function CustomWarbandGalleryScreen() {
         <p className="text-bone-300 text-sm leading-relaxed">{t.intro}</p>
 
         {isError ? (
-          <p className="text-blood-500 text-sm">{t.loadError}</p>
+          <p className="text-danger text-sm">{t.loadError}</p>
         ) : !types ? (
           <p className="text-bone-400 text-sm">{strings.common.loading}</p>
         ) : types.length === 0 ? (

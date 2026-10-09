@@ -59,7 +59,7 @@ export default function GoogleSignInButton() {
           {strings.auth.googleButton}
         </span>
       </Button>
-      {error && <p className="text-sm text-blood-500">{error}</p>}
+      {error && <p className="text-sm text-danger">{error}</p>}
     </div>
   );
 }

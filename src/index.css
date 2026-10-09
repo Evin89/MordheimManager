@@ -30,6 +30,18 @@
   --color-blood-600: 127 23 23;
 
   /*
+   * Destructive-action roles. `danger` is red *text* on the page — errors,
+   * warnings, the outlined Delete button. The blood scale above is too dark to
+   * read on near-black (blood-500 measured 2.51:1), so this theme lifts it to a
+   * brighter brick red: 5.81:1 on ink-950, 5.49:1 on ink-900, 4.98:1 on ink-800.
+   * `on-danger` is the label laid on a blood *fill* (confirm-delete buttons, the
+   * connection banner) — white in both themes, because bone-100 resolves to dark
+   * ink under Rulebook and measured 1.45:1 there. All checked by design-sheet.
+   */
+  --color-danger: 230 96 84;
+  --color-on-danger: 255 255 255;
+
+  /*
    * Spec §5.1 roles under Grimdark. The names are the spec's; what they *mean*
    * is the role, so `parchment` is "the page" and `ink` is "text on it" even
    * though here that is bone on near-black. Values reuse this theme's existing
@@ -129,6 +141,11 @@
 
   --color-blood-500: 143 32 32;
   --color-blood-600: 109 22 22;
+
+  /* Destructive roles — see the Grimdark block. Blood itself already reads on
+     parchment (6.54:1), so danger text stays that value here. */
+  --color-danger: 143 32 32;
+  --color-on-danger: 255 255 255;
 
   /* The same six chart hues, darkened for the light parchment surface — see
      the Grimdark block for what each one is and why. */
@@ -250,6 +267,8 @@ body,
   --color-ember-600: 0 0 0;
   --color-blood-500: 0 0 0;
   --color-blood-600: 0 0 0;
+  --color-danger: 0 0 0;
+  --color-on-danger: 255 255 255;
 }
 
 @media print {

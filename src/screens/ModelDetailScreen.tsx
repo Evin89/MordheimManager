@@ -527,7 +527,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                           type="button"
                           onClick={() => applyStatAdvance(key)}
                           className={`min-h-[44px] rounded-md border font-semibold ${
-                            atMax ? 'border-blood-500 text-blood-500' : 'border-ink-700 text-bone-100'
+                            atMax ? 'border-blood-500 text-danger' : 'border-ink-700 text-bone-100'
                           }`}
                         >
                           {key}
@@ -594,7 +594,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                     <button
                       type="button"
                       onClick={() => setConfirmSkill(skill)}
-                      className="shrink-0 text-blood-500 text-xs font-semibold"
+                      className="shrink-0 text-danger text-xs font-semibold"
                     >
                       {strings.common.remove}
                     </button>
@@ -629,7 +629,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           {/* Persistent §9.3 flag — remains until the item is unassigned or a
               lifting skill is re-added. */}
           {flaggedNow.length > 0 && (
-            <p className="text-blood-500 text-sm">
+            <p className="text-danger text-sm">
               {strings.modelDetail.ineligibleEquipmentWarning(flaggedNow.map((e) => e.name).join(', '))}
             </p>
           )}
@@ -682,7 +682,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                     <button
                       type="button"
                       onClick={() => setConfirmAdvanceId(adv.id)}
-                      className="shrink-0 text-blood-500 text-xs font-semibold"
+                      className="shrink-0 text-danger text-xs font-semibold"
                     >
                       {strings.common.remove}
                     </button>

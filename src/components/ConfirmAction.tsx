@@ -68,7 +68,7 @@ export default function ConfirmAction({
           type="button"
           disabled={busy}
           onClick={() => onConfirm(checked)}
-          className="flex-1 min-h-[48px] rounded-md bg-blood-600 text-bone-100 font-semibold disabled:opacity-40 hover:bg-blood-500 transition-colors"
+          className="flex-1 min-h-[48px] rounded-md bg-blood-600 text-on-danger font-semibold disabled:opacity-40 hover:bg-blood-500 transition-colors"
         >
           {busy ? strings.common.loading : action}
         </button>

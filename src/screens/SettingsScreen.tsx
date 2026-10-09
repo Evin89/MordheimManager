@@ -70,12 +70,12 @@ function DisplayNameField() {
         </Button>
       )}
 
-      {!trimmed && <p className="text-blood-500 text-xs">{strings.settings.displayNameEmpty}</p>}
+      {!trimmed && <p className="text-danger text-xs">{strings.settings.displayNameEmpty}</p>}
       {mutation.isSuccess && !dirty && (
         <p className="text-bone-300 text-xs">{strings.settings.displayNameSaved}</p>
       )}
       {mutation.isError && (
-        <p className="text-blood-500 text-xs">{(mutation.error as Error).message}</p>
+        <p className="text-danger text-xs">{(mutation.error as Error).message}</p>
       )}
     </div>
   );

@@ -20,7 +20,7 @@ export default function AdminCampaignsScreen() {
   if (isError) {
     return (
       <div className="space-y-1">
-        <p className="text-blood-500 text-sm">Could not load campaigns.</p>
+        <p className="text-danger text-sm">Could not load campaigns.</p>
         <p className="font-ui text-xs text-bone-400">
           {(error as Error).message} — if this mentions <code>admin_campaign_overview</code>, migration 0026
           has not been applied yet.
@@ -76,7 +76,7 @@ export default function AdminCampaignsScreen() {
                         <span className="ml-2 font-ui text-[11px] uppercase tracking-wide text-bone-400">private</span>
                       )}
                       {stranded && (
-                        <span className="ml-2 rounded border border-blood-600 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-blood-500">
+                        <span className="ml-2 rounded border border-blood-600 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-danger">
                           stranded
                         </span>
                       )}

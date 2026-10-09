@@ -130,7 +130,7 @@ export default function ActivityPanel({
   if (error) {
     return (
       <div className="space-y-1">
-        <p className="text-blood-500 text-sm">{s.loadError}</p>
+        <p className="text-danger text-sm">{s.loadError}</p>
         <p className="font-ui text-xs text-bone-400">
           {(error as Error).message} — {s.migrationHint}
         </p>

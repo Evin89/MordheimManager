@@ -178,7 +178,7 @@ export default function WarbandPhotoEditor({
               if (!window.confirm(strings.photo.removeConfirm)) return;
               setError(await remove());
             }}
-            className="min-h-[48px] px-4 rounded-md border border-blood-600 text-blood-500 font-semibold hover:bg-blood-600 hover:text-bone-100 transition-colors disabled:opacity-40"
+            className="min-h-[48px] px-4 rounded-md border border-blood-600 text-danger font-semibold hover:bg-blood-600 hover:text-on-danger transition-colors disabled:opacity-40"
           >
             {strings.photo.remove}
           </button>
@@ -186,7 +186,7 @@ export default function WarbandPhotoEditor({
       </div>
 
       {/* §11.3: a failed upload must say so rather than appear to succeed. */}
-      {error && <p className="text-blood-500 text-sm">{error}</p>}
+      {error && <p className="text-danger text-sm">{error}</p>}
       <p className="text-bone-400 text-xs">{strings.photo.hint}</p>
     </section>
   );

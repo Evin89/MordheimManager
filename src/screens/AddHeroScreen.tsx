@@ -96,11 +96,11 @@ export default function AddHeroScreen() {
               · {strings.roster.startingXpLabel(slot.startingXp ?? 0)}
             </p>
           )}
-          <p className={`text-sm ${canAfford ? 'text-bone-300' : 'text-blood-500'}`}>
+          <p className={`text-sm ${canAfford ? 'text-bone-300' : 'text-danger'}`}>
             {strings.roster.costVsTreasury(cost, warband.gold)}
           </p>
           {atSizeLimit && definition.maxWarbandSize !== null && (
-            <p className="text-blood-500 text-sm">{strings.roster.atMaxSize(definition.maxWarbandSize)}</p>
+            <p className="text-danger text-sm">{strings.roster.atMaxSize(definition.maxWarbandSize)}</p>
           )}
         </div>
 
@@ -118,7 +118,7 @@ export default function AddHeroScreen() {
             }}
             placeholder={strings.addHero.namePlaceholder}
           />
-          {error && <p className="text-blood-500 text-sm">{error}</p>}
+          {error && <p className="text-danger text-sm">{error}</p>}
         </div>
 
         <Button onClick={handleAdd}>{strings.common.add}</Button>

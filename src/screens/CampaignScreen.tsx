@@ -72,7 +72,7 @@ const RESULT_LABEL: Record<BattleRecord['result'], string> = {
 
 const RESULT_CLASSES: Record<BattleRecord['result'], string> = {
   win: 'border-ember-500 text-ember-400',
-  loss: 'border-blood-600 text-blood-500',
+  loss: 'border-blood-600 text-danger',
   draw: 'border-ink-700 text-bone-300',
 };
 
@@ -154,7 +154,7 @@ function BattleRow({
             <button
               type="button"
               onClick={onDelete}
-              className="min-h-[44px] text-blood-500 text-sm font-semibold"
+              className="min-h-[44px] text-danger text-sm font-semibold"
             >
               {strings.campaign.deleteBattle}
             </button>
@@ -278,7 +278,7 @@ function DeleteCampaign({ campaign, memberCount }: { campaign: Campaign; memberC
               }
             }}
           />
-          {error && <p className="text-blood-500 text-sm">{error}</p>}
+          {error && <p className="text-danger text-sm">{error}</p>}
           <button
             type="button"
             onClick={() => setConfirming(false)}
@@ -500,7 +500,7 @@ function CampaignRivalries({
                     ? strings.campaign.rivalryResultLoss
                     : strings.campaign.rivalryResultDraw;
               const resultColor = (result: BattleResult) =>
-                result === 'win' ? 'text-verdigris' : result === 'loss' ? 'text-blood-500' : 'text-bone-400';
+                result === 'win' ? 'text-verdigris' : result === 'loss' ? 'text-danger' : 'text-bone-400';
               return (
                 <details
                   key={r.opponentWarbandId ?? r.opponentName}
@@ -511,7 +511,7 @@ function CampaignRivalries({
                       {r.opponentName}
                       {r.opponentWarbandId &&
                         myWarbands.find((w) => w.id === block.warbandId)?.nemesisWarbandId === r.opponentWarbandId && (
-                          <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded border border-blood-600 text-blood-500 align-middle">
+                          <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded border border-blood-600 text-danger align-middle">
                             {strings.campaign.nemesisBadge}
                           </span>
                         )}
@@ -594,7 +594,7 @@ function StandingsTable({ rows, nemesisIds }: { rows: StandingsRow[]; nemesisIds
                     </Link>
                     {/* §17.2 — purely cosmetic: a rival one of your warbands has marked. */}
                     {nemesisIds.has(row.warbandId) && (
-                      <span className="ml-2 text-xs font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded border border-blood-600 text-blood-500 align-middle">
+                      <span className="ml-2 text-xs font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded border border-blood-600 text-danger align-middle">
                         {strings.campaign.nemesisBadge}
                       </span>
                     )}
@@ -649,7 +649,7 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
       {/* Names the way out rather than only the wall: the point of co-leaders
           is that being the only one is now a fixable state. */}
       {iAmOnlyLeader && <p className="text-bone-400 text-xs">{strings.campaign.onlyLeaderHint}</p>}
-      {leadershipError && <p className="text-blood-500 text-sm">{leadershipError}</p>}
+      {leadershipError && <p className="text-danger text-sm">{leadershipError}</p>}
       <div className="space-y-2">
         {(members ?? []).map((member) => {
           const isMe = member.userId === user?.id;
@@ -694,7 +694,7 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
                     onClick={() => {
                       if (window.confirm(strings.campaign.leaveConfirm)) removeMember(member.userId);
                     }}
-                    className="min-h-[44px] text-blood-500 text-sm font-semibold disabled:text-bone-400 disabled:cursor-not-allowed"
+                    className="min-h-[44px] text-danger text-sm font-semibold disabled:text-bone-400 disabled:cursor-not-allowed"
                   >
                     {strings.campaign.leaveCampaign}
                   </button>
@@ -753,7 +753,7 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
                         const name = member.displayName || strings.campaign.unnamedPlayer;
                         if (window.confirm(strings.campaign.removeMemberConfirm(name))) removeMember(member.userId);
                       }}
-                      className="min-h-[44px] text-blood-500 text-sm font-semibold"
+                      className="min-h-[44px] text-danger text-sm font-semibold"
                     >
                       {strings.campaign.removeMember}
                     </button>
@@ -845,7 +845,7 @@ function AnnouncementBanner({ campaign, isLeader }: { campaign: Campaign; isLead
             <button type="button" onClick={openEditor} className="text-bone-300 text-xs font-semibold">
               {s.update}
             </button>
-            <button type="button" onClick={clear} className="text-blood-500 text-xs font-semibold">
+            <button type="button" onClick={clear} className="text-danger text-xs font-semibold">
               {s.clear}
             </button>
           </div>
@@ -996,7 +996,7 @@ function TerritoryTab({ campaignId }: { campaignId: string }) {
                 <button
                   type="button"
                   onClick={() => setConfirmingId(t.id)}
-                  className="text-blood-500 text-xs font-semibold"
+                  className="text-danger text-xs font-semibold"
                 >
                   {s.remove}
                 </button>
@@ -1092,7 +1092,7 @@ function NarrativeLog({
                       onClick={() => {
                         if (window.confirm(strings.campaign.narrative.removeConfirm)) remove.mutate(e.id);
                       }}
-                      className="shrink-0 text-blood-500 text-xs font-semibold"
+                      className="shrink-0 text-danger text-xs font-semibold"
                     >
                       {strings.campaign.narrative.remove}
                     </button>
@@ -1353,9 +1353,9 @@ export default function CampaignScreen() {
                     />
                   </Field>
                   {campaignNameKnownTaken && (
-                    <p className="text-blood-500 text-sm -mt-2">{strings.connection.duplicate}</p>
+                    <p className="text-danger text-sm -mt-2">{strings.connection.duplicate}</p>
                   )}
-                  {campaignSaveError && <p className="text-blood-500 text-sm -mt-2">{campaignSaveError}</p>}
+                  {campaignSaveError && <p className="text-danger text-sm -mt-2">{campaignSaveError}</p>}
                   <label className="flex items-center gap-2 min-h-[44px] text-bone-200 text-sm">
                     <input
                       type="checkbox"

@@ -150,7 +150,7 @@ export default function TerrainLibraryEditor({
                   onClick={() => {
                     if (window.confirm(`Remove “${p.name}” from your terrain?`)) onDelete(p.id);
                   }}
-                  className="min-h-[36px] px-3 rounded-md border border-blood-600 text-blood-500 text-xs hover:bg-blood-600 hover:text-bone-100"
+                  className="min-h-[36px] px-3 rounded-md border border-blood-600 text-danger text-xs hover:bg-blood-600 hover:text-on-danger"
                 >
                   Delete
                 </button>

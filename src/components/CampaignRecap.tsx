@@ -165,7 +165,7 @@ export default function CampaignRecap({
           {state === 'ready' && previewUrl && (
             <img src={previewUrl} alt={t.shareCaption(campaign.name)} className="w-full rounded-md border border-ink-800" />
           )}
-          {state === 'error' && <p className="text-blood-500 text-sm">{strings.roster.card.failed}</p>}
+          {state === 'error' && <p className="text-danger text-sm">{strings.roster.card.failed}</p>}
 
           {state !== 'ready' ? (
             <Button disabled={state === 'building'} onClick={build}>

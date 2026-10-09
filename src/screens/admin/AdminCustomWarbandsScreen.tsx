@@ -26,7 +26,7 @@ export default function AdminCustomWarbandsScreen() {
   }, [stats]);
 
   if (isError) {
-    return <p className="text-blood-500 text-sm">Could not load custom warbands: {(error as Error).message}</p>;
+    return <p className="text-danger text-sm">Could not load custom warbands: {(error as Error).message}</p>;
   }
   if (!types) return <p className="text-bone-400 text-sm">{strings.common.loading}</p>;
 
@@ -54,7 +54,7 @@ export default function AdminCustomWarbandsScreen() {
         ))}
       </div>
       {orphaned > 0 && (
-        <p className="font-ui text-xs text-blood-500">
+        <p className="font-ui text-xs text-danger">
           {orphaned} warband{orphaned === 1 ? ' is' : 's are'} built on a custom type that has since been deleted.
         </p>
       )}

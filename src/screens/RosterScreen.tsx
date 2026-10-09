@@ -101,7 +101,7 @@ function ModelRow({
         <div className="text-right shrink-0 flex flex-col items-end gap-1">
           <p className="text-bone-300 text-sm">{model.xp} XP</p>
           {badge && (
-            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-blood-600 text-bone-100">{badge}</span>
+            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-blood-600 text-on-danger">{badge}</span>
           )}
           {model.injuries.length > 0 && (
             <span className="text-xs font-semibold px-2 py-0.5 rounded bg-ink-800 text-bone-300 border border-ink-700">
@@ -434,7 +434,7 @@ export default function RosterScreen() {
               }
             />
             {deleteError && (
-              <p role="alert" className="text-blood-500 text-sm">
+              <p role="alert" className="text-danger text-sm">
                 {deleteError}
               </p>
             )}

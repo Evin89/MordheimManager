@@ -131,7 +131,7 @@ export default function CampaignHonours({
                     onClick={() => {
                       if (window.confirm(s.removeConfirm(award.title))) removeAward(award.id);
                     }}
-                    className="shrink-0 text-blood-500 text-xs font-semibold"
+                    className="shrink-0 text-danger text-xs font-semibold"
                   >
                     {s.remove}
                   </button>

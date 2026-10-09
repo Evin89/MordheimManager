@@ -59,7 +59,7 @@ function Delta({ now, prev }: { now: number; prev: number }) {
   if (diff === 0) return <span className="text-bone-400 text-sm">±0</span>;
   const up = diff > 0;
   return (
-    <span className={`text-sm font-semibold ${up ? 'text-verdigris' : 'text-blood-500'}`}>
+    <span className={`text-sm font-semibold ${up ? 'text-verdigris' : 'text-danger'}`}>
       {up ? '▲' : '▼'} {Math.abs(diff)} vs prev 7d
     </span>
   );
