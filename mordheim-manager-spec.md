@@ -2743,3 +2743,29 @@ The owner went through every open marker in this spec. What was decided, and wha
 ### 27.3 Deploy checklist
 
 Migrations **0050** and **0051** (`npx supabase db push`); the Edge Function and its `RESEND_API_KEY` secret and schedule (27.1). No new client environment variables.
+
+---
+
+## 28. Warband sub-factions — one list, a choice at creation ✅
+
+_Decided 2026-10-09 by the owner, after the app-audit found the Tileans (Town Cryer #14) with no Champion or Youngblood skills._
+
+Some published lists are one warband with a required choice: the Tileans pick a city-state (Miragliano, Remas or Trantio), and that choice changes which skill lists the Champions and Youngbloods use and adds the city's own rules. The Mercenaries were already modelled the other way — three separate data files (Reiklanders, Middenheimers, Marienburgers) — and stay that way; this section is for lists the source prints as **one warband with a choice**.
+
+### 28.1 Data
+
+- `WarbandDefinition.subfactions?: WarbandSubfaction[]` and `subfactionLabel?: string` (what the choice is called, e.g. "City-state"; default "Sub-faction").
+- `WarbandSubfaction = { id, name, specialRules, heroSkillLists? }`. `specialRules` uses the same `Name: text. | Name: text.` format as the warband's own blob (§25.2), so the rules screen's parser reads both. `heroSkillLists` is keyed by `unitType` and **replaces** that Hero's lists for this choice; a unit not listed keeps its slot's `skillLists`.
+- `Warband.subfaction?: string` — the chosen id, inside the stored blob, so no migration.
+
+### 28.2 Behaviour
+
+- **Creation:** picking a list with sub-factions shows a required choice below the type picker, each option with its rules and the Heroes' lists it gives. *Create* without a pick asks for one, like a missing name.
+- **Skill lists:** `heroSkillLists()` and the Lad's-Got-Talent pool resolve through the chosen sub-faction, so Heroes already on a roster follow the choice without rewriting stored data.
+- **Existing warbands** of such a type with no choice yet (every Tilean roster made before this) show a *Choose a city-state* card on the roster. It is set once; the rulebook makes it a founding choice, so there is no change control afterwards — a wrong pick is corrected by editing the warband's data export, not in the app.
+- **Display:** the roster subtitle reads "Tileans · Remas"; the warband rules screen lists each option with its rules and the Heroes' lists per option.
+- **Not automated (§1 non-goal):** the rules' effects (Remas +1 Ld, Trantio +100 gc in a one-off, Miragliano's hatred of Skaven, the Hired Sword bans) are shown as text, not applied.
+
+### 28.3 Skill-access corrections in the same pass
+
+Checked against the mordheimer.net data: Reikland Champion (Combat, Shooting, Strength — had Speed for Strength), Skaven Assassin Adept (+ Academic), Skaven Night Runners (Combat, Shooting, Skaven — had Speed for the warband list), Undead Dregs (Combat, Strength — had Speed), Witch Hunters (Combat, Shooting, Academic, Speed — had Strength for Speed), Tilean Captain (all five; had none).

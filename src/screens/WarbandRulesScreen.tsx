@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { buttonClasses } from '../components/ui';
-import { getWarbandDefinition, getWarbandProvenance } from '../data/warbandRegistry';
+import { getWarbandDefinition, getWarbandProvenance, slotSkillLists, subfactionLabel } from '../data/warbandRegistry';
 import { useCustomWarbandAuthorQuery, useEnsureWarbandType } from '../hooks/useCustomWarbands';
 import { isCustomWarbandType } from '../lib/customWarband';
 import { parseWarbandSpecialRules, WarbandRule } from '../lib/warbandRulesFormat';
@@ -321,6 +321,31 @@ function SkillAccess({ heroes }: { heroes: HeroSlotDefinition[] }) {
   );
 }
 
+/**
+ * §28 — each option of a founding choice (the Tilean city-states): its rules,
+ * and the skill access of the Heroes whose lists it decides.
+ */
+function Subfactions({ def }: { def: WarbandDefinition }) {
+  return (
+    <div className="space-y-6">
+      {(def.subfactions ?? []).map((option) => {
+        const { lead, rules } = parseWarbandSpecialRules(option.specialRules);
+        const heroes = def.heroSlots
+          .filter((h) => option.heroSkillLists?.[h.unitType])
+          .map((h) => ({ ...h, skillLists: slotSkillLists(def, h.unitType, option.id) }));
+        return (
+          <div key={option.id} className="space-y-3">
+            <h3 className="text-bone-100 font-semibold text-lg">{option.name}</h3>
+            {lead.length > 0 && <Background paragraphs={lead} />}
+            {rules.length > 0 && <SpecialRules rules={rules} />}
+            {heroes.length > 0 && <SkillAccess heroes={heroes} />}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function SpecialSkills({ keys }: { keys: string[] }) {
   return (
     <div className="space-y-4">
@@ -554,10 +579,18 @@ export default function WarbandRulesScreen() {
     heroCap != null ? `Up to ${heroCap} Heroes` : null,
   ].filter(Boolean);
 
-  const hasSkillAccess = def.heroSlots.some((s) => s.skillLists.length > 0);
+  // §28 — Heroes whose lists a sub-faction decides are shown per option in the
+  // sub-faction section, not as an empty grid here.
+  const decidedBySubfaction = new Set(
+    (def.subfactions ?? []).flatMap((o) => Object.keys(o.heroSkillLists ?? {})),
+  );
+  const commonSkillHeroes = def.heroSlots.filter((h) => !decidedBySubfaction.has(h.unitType));
+  const hasSkillAccess = commonSkillHeroes.some((s) => s.skillLists.length > 0);
+  const hasSubfactions = (def.subfactions?.length ?? 0) > 0;
   const sections: NavItem[] = [
     parsed.lead.length > 0 && { id: 'background', label: 'Background' },
     parsed.rules.length > 0 && { id: 'special-rules', label: 'Special rules' },
+    hasSubfactions && { id: 'subfactions', label: subfactionLabel(def) + 's' },
     { id: 'choice', label: 'Warriors' },
     hasSkillAccess && { id: 'skill-access', label: 'Skills' },
     specialSkillKeys.length > 0 && { id: 'special-skills', label: 'Warband skills' },
@@ -630,6 +663,13 @@ export default function WarbandRulesScreen() {
           </section>
         )}
 
+        {hasSubfactions && (
+          <section id="subfactions" className="scroll-mt-24 space-y-3">
+            <SectionTitle>{subfactionLabel(def)}s</SectionTitle>
+            <Subfactions def={def} />
+          </section>
+        )}
+
         <section id="choice" className="scroll-mt-24 space-y-3">
           <SectionTitle>Choice of warriors</SectionTitle>
           <ChoiceOfWarriors def={def} />
@@ -638,7 +678,7 @@ export default function WarbandRulesScreen() {
         {hasSkillAccess && (
           <section id="skill-access" className="scroll-mt-24 space-y-3">
             <SectionTitle>Skill access</SectionTitle>
-            <SkillAccess heroes={def.heroSlots} />
+            <SkillAccess heroes={commonSkillHeroes} />
           </section>
         )}
 

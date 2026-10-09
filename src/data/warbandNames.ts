@@ -23,6 +23,19 @@ import { getCustomWarbandDefinition } from './customWarbandTypes';
 const ids = import.meta.glob<string>('./warbands/*.json', { eager: true, import: 'id', query: '?names' });
 const names = import.meta.glob<string>('./warbands/*.json', { eager: true, import: 'name', query: '?names' });
 
+// §28 — the lists with a sub-faction choice, named here by file: a named JSON
+// import fails the build for files without the key, so this can't glob them
+// all. The registry checks in dev that no list with sub-factions is missing.
+const subfactions = import.meta.glob<{ id: string; name: string }[]>('./warbands/tileans.json', {
+  eager: true,
+  import: 'subfactions',
+  query: '?names',
+});
+const subfactionsById = new Map(Object.keys(subfactions).map((path) => [ids[path], subfactions[path]]));
+
+/** Ids of the lists whose sub-faction names are loaded here (for the registry's dev check). */
+export const subfactionNameIds = [...subfactionsById.keys()];
+
 export type WarbandTypeName = { id: string; name: string };
 
 /** Every bundled warband type, A–Z by name. */
@@ -47,4 +60,15 @@ export function isBuiltInWarbandType(id: string): boolean {
  */
 export function getWarbandTypeName(id: string): string {
   return nameById.get(id) ?? getCustomWarbandDefinition(id)?.name ?? id;
+}
+
+/**
+ * The type name plus the §28 sub-faction when one is chosen: "Tileans · Remas".
+ * Every screen that names a warband's type uses this, so the choice shows
+ * wherever the list does.
+ */
+export function getWarbandTypeLabel(id: string, subfaction?: string): string {
+  const name = getWarbandTypeName(id);
+  const choice = subfaction ? subfactionsById.get(id)?.find((s) => s.id === subfaction)?.name : undefined;
+  return choice ? `${name} · ${choice}` : name;
 }
