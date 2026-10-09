@@ -133,7 +133,7 @@ export default function SoloSetupScreen() {
       <header className="px-4 pt-6 pb-4 border-b border-ink-800">
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold text-bone-100 tracking-wide">Solo battle</h1>
-          <span className="text-[10px] font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
+          <span className="text-xs font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
             Beta
           </span>
         </div>

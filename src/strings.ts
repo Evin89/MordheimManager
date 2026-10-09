@@ -899,6 +899,10 @@ export const strings = {
     notesLabel: 'Notes',
     deleteModel: 'Remove from Warband',
     deleteModelConfirm: (name: string) => `Remove ${name} from the warband? This cannot be undone.`,
+    deleteModelImpact:
+      'Their equipment, experience and advances go with them — nothing returns to the treasury or the gold.',
+    deleteModelFallbackPhrase: 'remove',
+    deleteModelTypeLabel: (name: string) => `Type ${name} to confirm`,
   },
   battle: {
     pickWarbandTitle: 'Battle',

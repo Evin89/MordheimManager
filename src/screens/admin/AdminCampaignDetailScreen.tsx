@@ -62,7 +62,7 @@ export default function AdminCampaignDetailScreen() {
                   <td className="px-3 py-2">
                     <span className="text-bone-100">{m.display_name || 'Unnamed'}</span>
                     {m.role === 'campaign_leader' && (
-                      <span className="ml-2 rounded border border-ember-500 px-1.5 py-0.5 font-ui text-[11px] uppercase tracking-wide text-ember-400">
+                      <span className="ml-2 rounded border border-ember-500 px-1.5 py-0.5 font-ui text-xs uppercase tracking-wide text-ember-400">
                         leader
                       </span>
                     )}

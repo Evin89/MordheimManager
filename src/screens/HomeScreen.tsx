@@ -289,13 +289,13 @@ export default function HomeScreen() {
                 as experimental next to the shipped actions. */}
             <Link to="/solo" className={buttonClasses('secondary')}>
               {strings.home.soloButton}
-              <span className="ml-2 text-[10px] font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
+              <span className="ml-2 text-xs font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
                 Beta
               </span>
             </Link>
             <Link to="/map" className={buttonClasses('secondary')}>
               {strings.home.mapButton}
-              <span className="ml-2 text-[10px] font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
+              <span className="ml-2 text-xs font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
                 Beta
               </span>
             </Link>

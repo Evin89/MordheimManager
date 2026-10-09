@@ -20,7 +20,7 @@ import { EquipmentItem, Injury, StatLine } from '../types';
 
 // One header style shared by the Equipment / Skills / Special rules columns,
 // so the three read as siblings — the same treatment the battle roster uses.
-const sectionHeaderClass = 'text-bone-400 text-[11px] font-semibold uppercase tracking-wide';
+const sectionHeaderClass = 'text-bone-400 text-xs font-semibold uppercase tracking-wide';
 
 /** Everything a card and its muster row need, flattened across the three
  * model kinds so the page can list them in one pass. */
@@ -53,7 +53,7 @@ function StatTile({ label, value, accent = false }: { label: string; value: numb
       <p className={`font-heading text-2xl leading-tight tabular-nums ${accent ? 'text-ember-400' : 'text-bone-100'}`}>
         {value}
       </p>
-      <p className="text-bone-400 text-[11px] font-semibold uppercase tracking-wide">{label}</p>
+      <p className="text-bone-400 text-xs font-semibold uppercase tracking-wide">{label}</p>
     </div>
   );
 }
@@ -106,7 +106,7 @@ function Muster({ models, photos }: { models: SharedModel[]; photos: Record<stri
                 </span>
               </span>
               {isLeader(m) && (
-                <span className="text-ember-400 text-[11px] font-semibold uppercase tracking-wide shrink-0">
+                <span className="text-ember-400 text-xs font-semibold uppercase tracking-wide shrink-0">
                   {strings.campaign.sharedLeaderBadge}
                 </span>
               )}
@@ -145,7 +145,7 @@ function SharedModelCard({ model, photoUrl }: { model: SharedModel; photoUrl?: s
             <h3 className="font-heading text-xl text-bone-100 leading-tight truncate">
               {model.name}
               {leader && (
-                <span className="ml-2 align-middle inline-block rounded-full border border-ember-500/50 px-2 py-px font-ui text-[11px] font-semibold uppercase tracking-wide text-ember-400">
+                <span className="ml-2 align-middle inline-block rounded-full border border-ember-500/50 px-2 py-px font-ui text-xs font-semibold uppercase tracking-wide text-ember-400">
                   {strings.campaign.sharedLeaderBadge}
                 </span>
               )}

@@ -919,7 +919,7 @@ Supporting details, used with restraint: woodcut-style SVG divider ornaments bet
 - Respect `prefers-reduced-motion`; keep motion minimal regardless.
 - **Numeric fields are always directly typeable.** Counts, quantities, gold, XP and shards use real number inputs (`type="number"` / `inputmode="numeric"`), select-on-focus so typing replaces rather than appends. No `<select>` dropdowns of numbers, no ±-only steppers as the sole input path.
 - Every destructive action gets a confirm step — and the destructive ones that can't be re-derived get §10's type-to-confirm panel, not a browser confirm.
-  - ✅ **No browser dialogs left in components** (2026-10-09). Every `window.confirm` moved inline: removing a player, leaving, handing over or giving up leadership, deleting a logged battle and importing a data file are type-to-confirm (§10.1, §10.3); the rest are `ConfirmAction`. Spending gold goes through one hook, `usePurchase` (`src/hooks/usePurchase.tsx`), used by all six purchase flows: rulebook limits a group may bend (slot cap, warband size, gold, the group's per-model cost) are listed together in one `ConfirmAction`, and the two-weapon limit is an inline notice. ⚠️ Connection-error `window.alert`s in `hooks/useCampaign.ts`, `useWarbands.ts` and `useObjective.ts` remain — a toast is the right replacement, not a confirm.
+  - ✅ **No browser dialogs left in components** (2026-10-09). Every `window.confirm` moved inline: removing a player, leaving, handing over or giving up leadership, deleting a logged battle, importing a data file and removing a Hero, Hired Sword or Henchmen group from a warband are type-to-confirm (§10.1, §10.3) — the last because the model's gear, XP and advances go with it; the rest are `ConfirmAction`. Spending gold goes through one hook, `usePurchase` (`src/hooks/usePurchase.tsx`), used by all six purchase flows: rulebook limits a group may bend (slot cap, warband size, gold, the group's per-model cost) are listed together in one `ConfirmAction`, and the two-weapon limit is an inline notice. ⚠️ Connection-error `window.alert`s in `hooks/useCampaign.ts`, `useWarbands.ts` and `useObjective.ts` remain — a toast is the right replacement, not a confirm.
 
 ⚠️ **Known deviation:** tab buttons, the Buy button and the rules filters are 36–40px, short of the 48px minimum. A deliberate density trade-off on dense list screens, recorded rather than quietly accepted.
 
@@ -941,7 +941,7 @@ A design sandbox at `/design` judges components against both themes before migra
 The tokens and fonts were always consistent; the *components* were not — the same button was hand-written ~11 ways, the card surface 20-odd, and errors sometimes used a raw `text-red-400` that neither palette owns. `src/components/ui/` settles each into one primitive — `Button` (primary/secondary/danger/ghost, md/dense), `Card`, `SectionHeading`/`Eyebrow`, `Field`/`TextField`/`Textarea`/`Select`, with `buttonClasses`/`fieldClasses` for `<Link>`-as-button cases. The primary button's label resolves through the `on-accent` token so it stays legible on the accent in both themes (near-black on Grimdark ember, white on Rulebook blood). Every product screen was migrated onto the kit — including the admin screens, which had been written in the full parchment/ink idiom and were reconciled to the app's dark tokens (a border-and-fill swap, since the role tokens already resolved correctly). The `/design` sandbox carries a live gallery of the kit in both themes. The landing page (`public/landing.html`) is a separate static file that already mirrors the §5.1 token *values* with its own `data-theme` toggle, so it shares the design without importing the bundle.
 
 
-### 5.7 Two token vocabularies — what each is for ⚠️
+### 5.7 Two token vocabularies — what each is for
 
 The app speaks two colour vocabularies at once, and the audit of 2026-10-09 found that every contrast bug lived in the gap between them.
 
@@ -950,12 +950,7 @@ The app speaks two colour vocabularies at once, and the audit of 2026-10-09 foun
 
 **The rule, effective now:** a label on a *filled* surface always uses its `on-*` token (`bg-ember-500 text-on-accent`, `bg-blood-600 text-on-danger`, `bg-verdigris text-on-verdigris`); red text on the page is `text-danger`. Every such pair is checked by `design-sheet.mjs --check` in the build. All existing fills were migrated on 2026-10-09 (0 remaining `text-ink-950` / `text-bone-100` on an accent, blood or verdigris fill).
 
-❓ **Open decision — what happens to the scale tokens.** Two honest options:
-
-1. **Keep them, officially** (reasoned default). Surfaces and text steps (`ink-950…700`, `bone-100…400`) become the documented "neutral ramp" alongside the roles; only fills and their labels must use roles. Cost: none now; the rule above plus the build check already closes the bug class.
-2. **Migrate to roles.** Replace the ramp with roles (`page`, `surface`, `surface-sunken`, `border`, `text`, `text-muted`…) screen by screen, starting with `src/components/ui/`. Cost: ~2,000 class edits across 141 files, for no visible change — worth it only if a third theme is planned.
-
-Until decided, new code follows option 1.
+✅ **Decided 2026-10-09 — keep both.** The scale tokens stay, officially, as the *neutral ramp*: surfaces (`ink-950…700`) and text steps (`bone-100…400`) alongside the roles. Only fills and their labels must use roles (the rule above), and the build check enforces that. A wholesale migration to roles (~2,000 class edits in 141 files, no visible change) is not planned; reopen it only if a third theme is added.
 
 ---
 

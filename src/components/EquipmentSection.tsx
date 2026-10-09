@@ -1,9 +1,9 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { EquipmentItem } from '../types';
 import { strings } from '../strings';
 import { MAX_MELEE, MAX_MISSILE_TYPES, countWeaponSlots } from '../lib/weaponSlots';
 import WeaponRulesDisclosure from './WeaponRulesDisclosure';
-import ConfirmAction from './ConfirmAction';
+import ConfirmByTyping from './ConfirmByTyping';
 import { Button, SectionHeading } from './ui';
 
 /**
@@ -120,16 +120,39 @@ function ItemList({
   );
 }
 
-/** "Remove from warband", with its inline confirm — the same on both detail screens. */
+/**
+ * "Remove from warband", the same on both detail screens.
+ *
+ * Unrecoverable — the model's gear, XP and advances go with it — so it takes
+ * the type-the-name tier (§10.1), not the one-tap ConfirmAction.
+ */
 export function RemoveModelControl({ name, onRemove }: { name: string; onRemove: () => void }) {
   const [confirming, setConfirming] = useState(false);
+  // A blank group name would make the phrase empty and the gate meaningless.
+  const phrase = name.trim() || strings.modelDetail.deleteModelFallbackPhrase;
+  // It opens at the very bottom of a long screen; bring it into view.
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (confirming) ref.current?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }, [confirming]);
   return confirming ? (
-    <ConfirmAction
-      prompt={strings.modelDetail.deleteModelConfirm(name)}
-      action={strings.modelDetail.deleteModel}
-      onConfirm={onRemove}
-      onCancel={() => setConfirming(false)}
-    />
+    <div ref={ref} className="space-y-2">
+      <ConfirmByTyping
+        phrase={phrase}
+        label={strings.modelDetail.deleteModelTypeLabel(phrase)}
+        action={strings.modelDetail.deleteModel}
+        impact={
+          <>
+            <p className="text-bone-100 font-semibold">{strings.modelDetail.deleteModelConfirm(phrase)}</p>
+            <p>{strings.modelDetail.deleteModelImpact}</p>
+          </>
+        }
+        onConfirm={onRemove}
+      />
+      <Button variant="secondary" onClick={() => setConfirming(false)}>
+        {strings.common.cancel}
+      </Button>
+    </div>
   ) : (
     <Button variant="danger" onClick={() => setConfirming(true)}>
       {strings.modelDetail.deleteModel}

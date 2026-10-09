@@ -132,7 +132,7 @@ type CounterControl = { value: number; onChange: (n: number) => void };
 
 // One header style shared by the Equipment / Skills / Special rules sections on
 // a model card, so the three read as siblings.
-const sectionHeaderClass = 'text-bone-400 text-[11px] font-semibold uppercase tracking-wide';
+const sectionHeaderClass = 'text-bone-400 text-xs font-semibold uppercase tracking-wide';
 
 function RosterCard({
   name,
