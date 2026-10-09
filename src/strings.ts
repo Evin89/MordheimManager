@@ -288,7 +288,10 @@ export const strings = {
     dataSection: 'Your Data',
     exportButton: 'Export all data (.json)',
     importButton: 'Import data from file',
-    importOverwriteWarning: 'Importing will overwrite all warbands and campaign data currently stored on this device. This cannot be undone. Continue?',
+    importConfirmPhrase: 'overwrite',
+    importConfirmLabel: 'Type overwrite to confirm',
+    importConfirmAction: 'Replace my data',
+    importOverwriteWarning: 'Importing replaces every warband and all campaign data on your account with the contents of this file. This cannot be undone.',
     importSuccess: 'Import complete.',
     importError: (message: string) => `Import failed: ${message}`,
     notifications: {
@@ -1426,6 +1429,18 @@ export const strings = {
       'You lead this campaign. Make someone else a leader first, or it would be left with nobody who can manage it.',
     removeMemberConfirm: (name: string) => `Remove ${name} from the campaign? Their warbands will be unlinked from the standings.`,
     leaveCampaign: 'Leave campaign',
+    // Inline confirm panels (§10.1 / §10.3) that replaced the browser confirms.
+    // Removing a player or giving up leadership can't be undone by the person
+    // doing it, so those type a name; the rest are one-tap ConfirmActions.
+    typeNameLabel: (name: string) => `Type ${name} to confirm`,
+    removeMemberAction: 'Remove from campaign',
+    leaveAction: 'Leave this campaign',
+    handOverAction: 'Hand over leadership',
+    stepDownAction: 'Step down',
+    removeLeaderAction: 'Remove leader role',
+    makeLeaderAction: 'Make co-leader',
+    regenerateAction: 'Issue new code',
+    deleteBattleAction: 'Remove from log',
     leaveConfirm:
       'Leave this campaign? Your warbands are withdrawn from its standings — they stay yours, and you can rejoin with the code.',
     standingsSection: 'Standings',

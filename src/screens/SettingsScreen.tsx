@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import ConfirmByTyping from '../components/ConfirmByTyping';
 import { Link } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import ThemeToggle from '../components/ThemeToggle';
@@ -231,6 +232,10 @@ export default function SettingsScreen() {
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [importMessage, setImportMessage] = useState<string | null>(null);
+  // A parsed file waiting for the type-to-confirm below (§10.1): importing
+  // overwrites everything on the account and can't be undone.
+  const [pendingImport, setPendingImport] = useState<ReturnType<typeof parseImportFile> | null>(null);
+  const [importing, setImporting] = useState(false);
 
   function handleImportClick() {
     fileInputRef.current?.click();
@@ -250,11 +255,23 @@ export default function SettingsScreen() {
     event.target.value = '';
     if (!file || !user) return;
 
+    setImportMessage(null);
     try {
       const text = await file.text();
-      const data = parseImportFile(text);
-      if (!window.confirm(strings.settings.importOverwriteWarning)) return;
-      await importAllData(user.id, data);
+      // Parse first, so a bad file is reported before anything is asked of
+      // the user; the overwrite itself waits for the inline confirm below.
+      setPendingImport(parseImportFile(text));
+    } catch (err) {
+      const message = err instanceof ImportValidationError ? err.message : 'Unexpected error reading file.';
+      setImportMessage(strings.settings.importError(message));
+    }
+  }
+
+  async function confirmImport() {
+    if (!pendingImport || !user) return;
+    setImporting(true);
+    try {
+      await importAllData(user.id, pendingImport);
       // Import replaces server-side rows wholesale, so drop every cached query
       // rather than trying to patch individual entries.
       await queryClient.invalidateQueries();
@@ -262,6 +279,9 @@ export default function SettingsScreen() {
     } catch (err) {
       const message = err instanceof ImportValidationError ? err.message : 'Unexpected error reading file.';
       setImportMessage(strings.settings.importError(message));
+    } finally {
+      setImporting(false);
+      setPendingImport(null);
     }
   }
 
@@ -301,6 +321,16 @@ export default function SettingsScreen() {
                   onChange={handleFileChange}
                 />
               </div>
+              {pendingImport && (
+                <ConfirmByTyping
+                  phrase={strings.settings.importConfirmPhrase}
+                  label={strings.settings.importConfirmLabel}
+                  action={strings.settings.importConfirmAction}
+                  impact={<p>{strings.settings.importOverwriteWarning}</p>}
+                  busy={importing}
+                  onConfirm={confirmImport}
+                />
+              )}
               {importMessage && <p className="text-sm text-bone-300">{importMessage}</p>}
             </>
           ) : (
