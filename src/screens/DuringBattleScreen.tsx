@@ -26,6 +26,7 @@ import { useSharedWarbandQuery, useWarbandList, useWarbandLookup } from '../hook
 import { useEnsureWarbandType } from '../hooks/useCustomWarbands';
 import { generateId } from '../lib/id';
 import { EquipmentItem, StatLine, Warband } from '../types';
+import ConfirmAction from '../components/ConfirmAction';
 
 /** Marks a single model down, or counts how many of a group went down. */
 type OutOfActionControl =
@@ -514,6 +515,7 @@ export default function DuringBattleScreen() {
   );
   const [newEventText, setNewEventText] = useState('');
   const [viewSide, setViewSide] = useState<'mine' | 'opponent'>('mine');
+  const [confirmTurnBack, setConfirmTurnBack] = useState(false);
   // Wyrdstone counters (§4.3.1 B) are off by default — the scenario flag is
   // unverified (§3.3), so the counter is available on demand rather than
   // auto-shown. A toggle reveals it when a scenario actually uses counters.
@@ -629,9 +631,7 @@ export default function DuringBattleScreen() {
               // thumb's width from "+".
               onClick={() => {
                 if (session.turn <= 1) return;
-                if (window.confirm(strings.battle.duringBattle.turnBackConfirm(session.turn - 1))) {
-                  updateSession({ turn: session.turn - 1 });
-                }
+                setConfirmTurnBack(true);
               }}
               disabled={session.turn <= 1}
               className="min-h-[48px] min-w-[48px] rounded-md border border-ink-700 text-bone-100 text-xl font-bold disabled:opacity-40"
@@ -647,6 +647,17 @@ export default function DuringBattleScreen() {
               +
             </button>
           </div>
+          {confirmTurnBack && (
+            <ConfirmAction
+              prompt={strings.battle.duringBattle.turnBackConfirm(session.turn - 1)}
+              action={strings.battle.duringBattle.turnBackAction}
+              onConfirm={() => {
+                updateSession({ turn: Math.max(1, session.turn - 1) });
+                setConfirmTurnBack(false);
+              }}
+              onCancel={() => setConfirmTurnBack(false)}
+            />
+          )}
         </Card>
 
         {/* Collapsed by default — the dice are at hand during the game without

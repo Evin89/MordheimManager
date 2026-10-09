@@ -50,7 +50,8 @@ export default function AddHenchmenScreen() {
 
     // Validate the form first, so the player isn't asked to confirm a
     // purchase that would then be refused for a missing name.
-    const group = mode === 'existing' ? warband.henchmenGroups.find((g) => g.id === existingGroupId) : undefined;
+    const group =
+      mode === 'existing' ? warband.henchmenGroups.find((g) => g.id === existingGroupId) : undefined;
     if (mode === 'existing' && !group) {
       setError('Choose a group to add to.');
       return;

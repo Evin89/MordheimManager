@@ -1000,6 +1000,7 @@ export const strings = {
       noSkills: 'No skills.',
       goToPostBattle: 'Go to Post-Battle Sequence',
       turnBackConfirm: (turn: number) => `Go back to turn ${turn}?`,
+      turnBackAction: 'Go back',
       markOutOfAction: 'Mark out of action',
       outOfActionMarked: 'Out of action',
       outOfActionCount: 'Out of action',

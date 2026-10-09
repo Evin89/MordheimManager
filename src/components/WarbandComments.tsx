@@ -10,6 +10,7 @@ import {
   useWarbandCommentsQuery,
 } from '../hooks/useWarbandComments';
 import { insertIssueReport } from '../api/issues';
+import ConfirmAction from './ConfirmAction';
 
 /**
  * §19.2 — comments on a shared warband's roster.
@@ -30,6 +31,7 @@ export default function WarbandComments({ warbandId }: { warbandId: string }) {
   const s = strings.comments;
 
   const [body, setBody] = useState('');
+  const [confirmingComment, setConfirmingComment] = useState<string | null>(null);
   const [reported, setReported] = useState<Set<string>>(new Set());
   const [error, setError] = useState<string | null>(null);
 
@@ -109,9 +111,10 @@ export default function WarbandComments({ warbandId }: { warbandId: string }) {
                         {canRemove && (
                           <button
                             type="button"
-                            onClick={() => {
-                              if (window.confirm(s.removeConfirm)) removeComment.mutate(comment.id);
-                            }}
+                            aria-expanded={confirmingComment === comment.id}
+                            onClick={() =>
+                              setConfirmingComment((id) => (id === comment.id ? null : comment.id))
+                            }
                             className="text-danger text-xs font-semibold"
                           >
                             {s.remove}
@@ -120,6 +123,17 @@ export default function WarbandComments({ warbandId }: { warbandId: string }) {
                       </div>
                     </div>
                     <p className="text-bone-200 text-sm whitespace-pre-wrap">{comment.body}</p>
+                    {confirmingComment === comment.id && (
+                      <ConfirmAction
+                        prompt={s.removeConfirm}
+                        action={s.remove}
+                        onConfirm={() => {
+                          removeComment.mutate(comment.id);
+                          setConfirmingComment(null);
+                        }}
+                        onCancel={() => setConfirmingComment(null)}
+                      />
+                    )}
                   </Card>
                 );
               })}

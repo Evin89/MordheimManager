@@ -9,6 +9,7 @@ import {
   useCreateCustomWarbandMutation,
   useDeleteCustomWarbandMutation,
 } from '../hooks/useCustomWarbands';
+import ConfirmAction from '../components/ConfirmAction';
 
 /**
  * Manage the signed-in user's custom (clone-and-rename) warband types (§21.2):
@@ -25,6 +26,7 @@ export default function CustomWarbandsScreen() {
   const [baseType, setBaseType] = useState(warbandDefinitionsByName[0]?.id ?? '');
   const [name, setName] = useState('');
   const [creating, setCreating] = useState(false);
+  const [confirmingType, setConfirmingType] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   async function handleCreate() {
@@ -79,33 +81,42 @@ export default function CustomWarbandsScreen() {
             <p className="text-bone-300 text-sm">{t.empty}</p>
           ) : (
             (types ?? []).map((type) => (
-              <div
-                key={type.id}
-                className="rounded-lg bg-ink-900 border border-ink-800 p-4 flex items-center justify-between gap-3"
-              >
-                <div className="min-w-0">
-                  <p className="text-bone-100 font-semibold truncate">{type.name}</p>
-                  <p className="text-bone-400 text-xs truncate">
-                    {t.clonedFrom(getWarbandTypeName(type.baseType))}
-                  </p>
+              <div key={type.id} className="space-y-2">
+                <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-bone-100 font-semibold truncate">{type.name}</p>
+                    <p className="text-bone-400 text-xs truncate">
+                      {t.clonedFrom(getWarbandTypeName(type.baseType))}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <Link
+                      to={`/custom-warbands/${type.id}`}
+                      className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+                    >
+                      {t.edit}
+                    </Link>
+                    <button
+                      type="button"
+                      aria-expanded={confirmingType === type.id}
+                      onClick={() => setConfirmingType((id) => (id === type.id ? null : type.id))}
+                      className="inline-flex items-center min-h-[44px] text-danger text-sm font-semibold"
+                    >
+                      {t.remove}
+                    </button>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 shrink-0">
-                  <Link
-                    to={`/custom-warbands/${type.id}`}
-                    className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
-                  >
-                    {t.edit}
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (window.confirm(t.removeConfirm(type.name))) remove(type.id);
+                {confirmingType === type.id && (
+                  <ConfirmAction
+                    prompt={t.removeConfirm(type.name)}
+                    action={t.remove}
+                    onConfirm={() => {
+                      remove(type.id);
+                      setConfirmingType(null);
                     }}
-                    className="inline-flex items-center min-h-[44px] text-danger text-sm font-semibold"
-                  >
-                    {t.remove}
-                  </button>
-                </div>
+                    onCancel={() => setConfirmingType(null)}
+                  />
+                )}
               </div>
             ))
           )}

@@ -31,6 +31,7 @@ import { useMyCampaignsQuery } from '../hooks/useCampaign';
 import { computeWarbandRating, countModels } from '../lib/rating';
 import { getWarbandTypeName, getUnitSpecialRules } from '../data/warbandRegistry';
 import { HenchmenGroup, Hero, HiredSword, ModelStatus } from '../types';
+import ConfirmAction from '../components/ConfirmAction';
 
 /**
  * The compact "what does this model carry" summary shown on each roster card:
@@ -221,6 +222,7 @@ export default function RosterScreen() {
   const deleteWarband = useDeleteWarbandMutation();
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [confirmUndo, setConfirmUndo] = useState(false);
   // Named, not just flagged: "drops out of Grudge Season" is a consequence
   // someone can weigh; "is in a campaign" is not.
   const { data: campaigns } = useMyCampaignsQuery();
@@ -270,9 +272,8 @@ export default function RosterScreen() {
 
   function handleUndo() {
     if (!warband) return;
-    if (window.confirm(strings.postBattle.undoConfirm)) {
-      undoLastBattle(warband.id);
-    }
+    setConfirmUndo(false);
+    undoLastBattle(warband.id);
   }
 
   return (
@@ -325,11 +326,19 @@ export default function RosterScreen() {
           {strings.postBattle.startButton}
         </Link>
 
-        {canUndo && (
-          <Button variant="secondary" onClick={handleUndo}>
-            {strings.postBattle.undoLastBattle}
-          </Button>
-        )}
+        {canUndo &&
+          (confirmUndo ? (
+            <ConfirmAction
+              prompt={strings.postBattle.undoConfirm}
+              action={strings.postBattle.undoLastBattle}
+              onConfirm={handleUndo}
+              onCancel={() => setConfirmUndo(false)}
+            />
+          ) : (
+            <Button variant="secondary" onClick={() => setConfirmUndo(true)}>
+              {strings.postBattle.undoLastBattle}
+            </Button>
+          ))}
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">

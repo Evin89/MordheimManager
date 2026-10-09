@@ -6,6 +6,7 @@ import {
   useUploadWarbandPhotoMutation,
 } from '../hooks/usePhotos';
 import { strings } from '../strings';
+import ConfirmAction from './ConfirmAction';
 
 /**
  * One list row's thumbnail, given an already-resolved URL.
@@ -118,6 +119,7 @@ export default function WarbandPhotoEditor({
   const { remove, removing } = useDeleteWarbandPhotoMutation(warbandId, modelId);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [confirmRemove, setConfirmRemove] = useState(false);
 
   async function onPick(file: File | undefined) {
     if (!file) return;
@@ -174,16 +176,27 @@ export default function WarbandPhotoEditor({
           <button
             type="button"
             disabled={busy}
-            onClick={async () => {
-              if (!window.confirm(strings.photo.removeConfirm)) return;
-              setError(await remove());
-            }}
+            aria-expanded={confirmRemove}
+            onClick={() => setConfirmRemove((v) => !v)}
             className="min-h-[48px] px-4 rounded-md border border-blood-600 text-danger font-semibold hover:bg-blood-600 hover:text-on-danger transition-colors disabled:opacity-40"
           >
             {strings.photo.remove}
           </button>
         )}
       </div>
+
+      {confirmRemove && (
+        <ConfirmAction
+          prompt={strings.photo.removeConfirm}
+          action={strings.photo.remove}
+          busy={busy}
+          onConfirm={async () => {
+            setConfirmRemove(false);
+            setError(await remove());
+          }}
+          onCancel={() => setConfirmRemove(false)}
+        />
+      )}
 
       {/* §11.3: a failed upload must say so rather than appear to succeed. */}
       {error && <p className="text-danger text-sm">{error}</p>}

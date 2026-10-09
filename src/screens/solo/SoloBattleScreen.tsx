@@ -10,6 +10,7 @@ import BattlefieldBoard from '../../components/solo/BattlefieldBoard';
 import NpcRoster from '../../components/solo/NpcRoster';
 import OraclePanel from '../../components/solo/OraclePanel';
 import { Button, Card, SectionHeading, TextField } from '../../components/ui';
+import ConfirmAction from '../../components/ConfirmAction';
 
 const scenarioName = (id: string) => getCatalogScenario(id)?.name ?? id;
 
@@ -28,6 +29,7 @@ export default function SoloBattleScreen() {
   const yourWarband = useWarband(warbandId);
   const navigate = useNavigate();
   const [note, setNote] = useState('');
+  const [confirmEnd, setConfirmEnd] = useState(false);
 
   if (!session) return <Navigate to="/solo" replace />;
 
@@ -65,7 +67,6 @@ export default function SoloBattleScreen() {
 
   function endGame() {
     if (!warbandId) return;
-    if (!window.confirm('End this solo game and discard the tracker? Your warband is untouched.')) return;
     clearSoloSession(warbandId);
     navigate('/solo');
   }
@@ -202,9 +203,18 @@ export default function SoloBattleScreen() {
           )}
         </Card>
 
-        <Button variant="danger" onClick={endGame}>
-          End solo game
-        </Button>
+        {confirmEnd ? (
+          <ConfirmAction
+            prompt="End this solo game and discard the tracker? Your warband is untouched."
+            action="End solo game"
+            onConfirm={endGame}
+            onCancel={() => setConfirmEnd(false)}
+          />
+        ) : (
+          <Button variant="danger" onClick={() => setConfirmEnd(true)}>
+            End solo game
+          </Button>
+        )}
       </main>
     </div>
   );

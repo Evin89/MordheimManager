@@ -50,7 +50,9 @@ export default function AddHeroScreen() {
     // bend them by agreement, so these confirm rather than refuse.
     purchase.attempt({
       warnings: [
-        atSlotLimit && slot.maxCount !== null && strings.roster.slotLimitWarning(slot.unitType, slot.maxCount),
+        atSlotLimit &&
+          slot.maxCount !== null &&
+          strings.roster.slotLimitWarning(slot.unitType, slot.maxCount),
         atSizeLimit &&
           definition.maxWarbandSize !== null &&
           strings.roster.warbandSizeWarning(definition.maxWarbandSize),
