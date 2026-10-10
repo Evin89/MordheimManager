@@ -155,9 +155,10 @@
   "henchmenTypes": [
     {
       "id": "shadow-warriors",
+      "racialProfile": "elf",
       "unitType": "Shadow Warrior",
       "cost": 35,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -190,9 +191,10 @@
     },
     {
       "id": "shadow-warrior-novices",
+      "racialProfile": "elf",
       "unitType": "Shadow Warrior Novice",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {

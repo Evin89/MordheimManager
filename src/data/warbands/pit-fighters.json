@@ -178,9 +178,10 @@
   "henchmenTypes": [
     {
       "id": "pit-fighters",
+      "racialProfile": "human",
       "unitType": "Pit Fighter",
       "cost": 35,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -218,9 +219,10 @@
     },
     {
       "id": "pursuers",
+      "racialProfile": "human",
       "unitType": "Pursuer",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 7,
       "statLine": {
@@ -262,9 +264,10 @@
     },
     {
       "id": "ogre-pit-fighter",
+      "racialProfile": "ogre",
       "unitType": "Ogre Pit Fighter",
       "cost": 165,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": true,
       "maxCount": 1,
       "statLine": {

@@ -211,9 +211,10 @@
   "henchmenTypes": [
     {
       "id": "thugs",
+      "racialProfile": "human",
       "unitType": "Thug",
       "cost": 30,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -246,9 +247,10 @@
     },
     {
       "id": "looters",
+      "racialProfile": "human",
       "unitType": "Looter",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 4,
       "statLine": {
@@ -286,9 +288,10 @@
     },
     {
       "id": "blackhearts",
+      "racialProfile": "human",
       "unitType": "Blackheart",
       "cost": 35,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 2,
       "statLine": {
@@ -326,9 +329,10 @@
     },
     {
       "id": "poachers",
+      "racialProfile": "human",
       "unitType": "Poacher",
       "cost": 35,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 2,
       "statLine": {
@@ -368,7 +372,7 @@
       "id": "gutterscum",
       "unitType": "Gutterscum",
       "cost": 10,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {

@@ -147,9 +147,10 @@
   "henchmenTypes": [
     {
       "id": "crew",
+      "racialProfile": "human",
       "unitType": "Crew",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -182,9 +183,10 @@
     },
     {
       "id": "gunners",
+      "racialProfile": "human",
       "unitType": "Gunner",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 7,
       "statLine": {
@@ -222,9 +224,10 @@
     },
     {
       "id": "boatswains",
+      "racialProfile": "human",
       "unitType": "Boatswain",
       "cost": 32,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {
@@ -262,7 +265,7 @@
       "id": "swabbies",
       "unitType": "Swabbie",
       "cost": 0,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {

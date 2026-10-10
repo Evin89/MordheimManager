@@ -211,9 +211,10 @@
   "henchmenTypes": [
     {
       "id": "sell-swords",
+      "racialProfile": "human",
       "unitType": "Sell-sword",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -246,9 +247,10 @@
     },
     {
       "id": "marksmen",
+      "racialProfile": "human",
       "unitType": "Marksmen",
       "cost": 30,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {
@@ -281,9 +283,10 @@
     },
     {
       "id": "blackguards",
+      "racialProfile": "human",
       "unitType": "Blackguard",
       "cost": 35,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 3,
       "statLine": {

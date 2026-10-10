@@ -163,9 +163,10 @@
   "henchmenTypes": [
     {
       "id": "forest-goblins",
+      "racialProfile": "goblin",
       "unitType": "Forest Goblin",
       "cost": 15,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -203,9 +204,10 @@
     },
     {
       "id": "red-toof-goblins",
+      "racialProfile": "goblin",
       "unitType": "Red Toof Goblin",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {
@@ -247,9 +249,10 @@
     },
     {
       "id": "sluggas",
+      "racialProfile": "goblin",
       "unitType": "Slugga",
       "cost": 20,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {

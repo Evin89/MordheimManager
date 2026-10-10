@@ -209,9 +209,10 @@
   "henchmenTypes": [
     {
       "id": "corsairs",
+      "racialProfile": "elf",
       "unitType": "Corsair",
       "cost": 35,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -244,9 +245,10 @@
     },
     {
       "id": "shades",
+      "racialProfile": "elf",
       "unitType": "Shade",
       "cost": 30,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {

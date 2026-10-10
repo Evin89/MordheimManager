@@ -154,9 +154,10 @@
   "henchmenTypes": [
     {
       "id": "night-goblins",
+      "racialProfile": "goblin",
       "unitType": "Night Goblin",
       "cost": 15,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -191,7 +192,7 @@
       "id": "fanatics",
       "unitType": "Fanatic",
       "cost": 20,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 2,
       "statLine": {

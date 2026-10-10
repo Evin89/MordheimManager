@@ -178,9 +178,10 @@
   "henchmenTypes": [
     {
       "id": "drunken-gang",
+      "racialProfile": "human",
       "unitType": "Drunken Gang",
       "cost": 30,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {
@@ -218,9 +219,10 @@
     },
     {
       "id": "zealots",
+      "racialProfile": "human",
       "unitType": "Zealot",
       "cost": 20,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {

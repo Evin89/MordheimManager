@@ -18,13 +18,25 @@ export function unitRuleEffects(warbandType: string, unitType: string): SpecialR
 }
 
 /**
+ * Whether a henchmen unit is an animal. Read from the warband definition, not
+ * the `isAnimal` copied onto the group when it was hired: the data once flagged
+ * every Henchman of ~25 warbands as an animal (Chaos Marauders, Tilean
+ * Warriors…), and a stored copy would keep them barred from Experience after
+ * the fix. The stored flag only answers for a unit the definition doesn't know.
+ */
+export function unitIsAnimal(warbandType: string, unit: { unitType: string; isAnimal?: boolean }): boolean {
+  const type = getWarbandDefinition(warbandType)?.henchmenTypes.find((h) => h.unitType === unit.unitType);
+  return type ? type.isAnimal : !!unit.isAnimal;
+}
+
+/**
  * Whether a unit gains Experience. `isAnimal` is the older flag the app used for
  * this, and still set on animal units; `noExperience` is the rule-derived one
  * that also covers non-animals the flag missed — Zombies' and Skeletons' siblings
  * like Plague Bearers, Nurglings and peasants, which were being awarded XP.
  */
 export function unitGainsExperience(warbandType: string, unit: { unitType: string; isAnimal?: boolean }): boolean {
-  if (unit.isAnimal) return false;
+  if (unitIsAnimal(warbandType, unit)) return false;
   return !unitRuleEffects(warbandType, unit.unitType).noExperience;
 }
 

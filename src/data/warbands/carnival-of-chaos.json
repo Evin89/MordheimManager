@@ -145,7 +145,8 @@
         "Ld": 9
       },
       "equipmentOptions": [
-        "carnivalEquipmentList"
+        "carnivalEquipmentList",
+        "blessingsOfNurgleList"
       ],
       "notes": "+ cost of Blessings, 0-2.",
       "specialRules": [
@@ -351,6 +352,14 @@
     "bruteEquipmentList": [
       "doubleHandedWeapon",
       "flail"
+    ],
+    "blessingsOfNurgleList": [
+      "streamOfCorruptionBlessing",
+      "nurglesRotBlessing",
+      "cloudOfFliesBlessing",
+      "bloatedFoulnessBlessing",
+      "markOfNurgleBlessing",
+      "hideousBlessing"
     ]
   },
   "exclusiveEquipment": [

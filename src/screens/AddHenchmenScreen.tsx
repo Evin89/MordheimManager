@@ -42,8 +42,14 @@ export default function AddHenchmenScreen() {
   const type = definition.henchmenTypes.find((t) => t.id === typeId);
   const existingGroupsOfType = warband.henchmenGroups.filter((g) => g.unitType === type?.unitType);
   const slotsLeft = type ? remainingHenchmenSlots(warband, type) : null;
-  const totalCost = (type?.cost ?? 0) * count;
-  const affordable = type ? maxAffordableHenchmen(warband, definition, type) : 0;
+  const targetGroup =
+    mode === 'existing' ? existingGroupsOfType.find((g) => g.id === existingGroupId) : undefined;
+  // "Every model in each Henchman group must be armed and armoured in the same
+  // way" — a recruit joining a group is bought the gear the group already
+  // carries. Each entry's cost is what one model's copy was bought for.
+  const equipmentPerModel = (targetGroup?.equipment ?? []).reduce((sum, e) => sum + (e.cost ?? 0), 0);
+  const totalCost = ((type?.cost ?? 0) + equipmentPerModel) * count;
+  const affordable = type ? maxAffordableHenchmen(warband, definition, type, equipmentPerModel) : 0;
 
   function handleAdd() {
     if (!type || !warband || !definition) return;
@@ -67,7 +73,6 @@ export default function AddHenchmenScreen() {
     // straight past the warband's own maximum — you could recruit 30 henchmen
     // into a warband capped at 15 and nothing said a word.
     const capacity = remainingWarbandCapacity(warband, definition);
-    const totalCost = (type.cost ?? 0) * count;
 
     purchase.attempt({
       warnings: [
@@ -139,6 +144,9 @@ export default function AddHenchmenScreen() {
           <p className={`text-sm ${totalCost <= warband.gold ? 'text-bone-300' : 'text-danger'}`}>
             {strings.roster.costVsTreasury(totalCost, warband.gold)}
           </p>
+          {equipmentPerModel > 0 && (
+            <p className="text-bone-300 text-sm">{strings.addHenchmen.includesEquipment(equipmentPerModel)}</p>
+          )}
           {affordable === 0 ? (
             <p className="text-danger text-sm">{strings.roster.cannotRecruitMore}</p>
           ) : (

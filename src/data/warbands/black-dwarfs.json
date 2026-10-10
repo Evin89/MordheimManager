@@ -164,7 +164,7 @@
       "id": "informers",
       "unitType": "Informer",
       "cost": 15,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -204,7 +204,7 @@
       "id": "chaos-dwarfs",
       "unitType": "Chaos Dwarf",
       "cost": 40,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {

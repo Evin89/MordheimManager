@@ -193,9 +193,10 @@
   "henchmenTypes": [
     {
       "id": "marksmen",
+      "racialProfile": "human",
       "unitType": "Marksman",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 7,
       "statLine": {
@@ -228,9 +229,10 @@
     },
     {
       "id": "outlaws",
+      "racialProfile": "human",
       "unitType": "Outlaw",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {

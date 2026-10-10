@@ -99,6 +99,7 @@ export const strings = {
     discard: 'Discard',
     updateAvailableError: "Something didn't load — probably a new version of the app. Reload to get the current one.",
     reload: 'Reload',
+    confirmTickToo: 'Name matches — tick the box above to unlock the button.',
   },
   discord: {
     cta: 'Questions or ideas? Join the Discord',
@@ -797,6 +798,8 @@ export const strings = {
   addHenchmen: {
     title: 'Add Henchmen',
     pickType: 'Choose a henchman type',
+    includesEquipment: (gold: number) =>
+      `Includes ${gold} gc of equipment per model, to match the rest of the group.`,
     groupNameLabel: 'Group name',
     groupNamePlaceholder: 'e.g. Gnoblar Mob',
     countLabel: 'Number of models',

@@ -281,7 +281,7 @@
       "id": "skeletons",
       "unitType": "Skeleton",
       "cost": 20,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 8,
       "statLine": {
@@ -342,7 +342,7 @@
       "id": "wights",
       "unitType": "Wight",
       "cost": 30,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 3,
       "statLine": {

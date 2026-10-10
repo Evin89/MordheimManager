@@ -65,6 +65,9 @@ export function maxAffordableHenchmen(
   warband: Warband,
   definition: WarbandDefinition,
   type: HenchmenTypeDefinition,
+  /** Gold on top of the unit's own cost — the gear each recruit joining an
+   * existing group must be bought to match it. */
+  extraPerModel = 0,
 ): number {
   const limits: number[] = [];
 
@@ -76,7 +79,9 @@ export function maxAffordableHenchmen(
 
   // A cost of null means the data is incomplete for this unit; don't invent a
   // price and don't block recruiting on one either.
-  if (type.cost !== null && type.cost > 0) limits.push(Math.floor(warband.gold / type.cost));
+  if (type.cost !== null && type.cost + extraPerModel > 0) {
+    limits.push(Math.floor(warband.gold / (type.cost + extraPerModel)));
+  }
 
   return limits.length === 0 ? Number.POSITIVE_INFINITY : Math.max(0, Math.min(...limits));
 }

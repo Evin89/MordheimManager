@@ -203,9 +203,10 @@
   "henchmenTypes": [
     {
       "id": "plague-novices",
+      "racialProfile": "skavenPestilens",
       "unitType": "Plague Novice",
       "cost": 20,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
