@@ -29,8 +29,14 @@ import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDr
 import { useEnsureWarbandType } from '../hooks/useCustomWarbands';
 import { useMyCampaignsQuery } from '../hooks/useCampaign';
 import { computeWarbandRating, countModels } from '../lib/rating';
-import { getWarbandTypeName, getUnitSpecialRules } from '../data/warbandRegistry';
-import { HenchmenGroup, Hero, HiredSword, ModelStatus } from '../types';
+import {
+  getWarbandDefinition,
+  getWarbandTypeLabel,
+  getUnitSpecialRules,
+  subfactionLabel,
+} from '../data/warbandRegistry';
+import SubfactionChoice from '../components/SubfactionChoice';
+import { HenchmenGroup, Hero, HiredSword, ModelStatus, Warband } from '../types';
 import ConfirmAction from '../components/ConfirmAction';
 
 /**
@@ -215,6 +221,30 @@ function RatingHistory({ warbandId }: { warbandId: string }) {
   );
 }
 
+/**
+ * §28 — a warband of a list with a founding choice (the Tilean city-state) that
+ * was made before the app asked for it. Shown until the choice is saved; it
+ * can't be changed afterwards, so there is no edit control once set.
+ */
+function SubfactionPrompt({ warband, onSave }: { warband: Warband; onSave: (id: string) => void }) {
+  const [choice, setChoice] = useState<string | undefined>(undefined);
+  const definition = getWarbandDefinition(warband.warbandType);
+  if (!definition?.subfactions?.length || warband.subfaction) return null;
+  const label = subfactionLabel(definition);
+  return (
+    <Card as="section" gap="lg">
+      <div className="space-y-1">
+        <h2 className="text-bone-100 font-semibold">{strings.subfaction.rosterTitle(label)}</h2>
+        <p className="text-bone-300 text-sm">{strings.subfaction.rosterIntro(label)}</p>
+      </div>
+      <SubfactionChoice definition={definition} value={choice} onChange={setChoice} name="roster-subfaction" hideLegend />
+      <Button disabled={!choice} onClick={() => choice && onSave(choice)}>
+        {strings.subfaction.rosterSave}
+      </Button>
+    </Card>
+  );
+}
+
 export default function RosterScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
@@ -231,7 +261,7 @@ export default function RosterScreen() {
   const undoLastBattle = useUndoLastBattleMutation();
   // Treasury figures are typed, so they're drafted and saved on request. The
   // roster's own actions (recruit, trade, delete) still write immediately.
-  const { draft, update, dirty, save, discard } = useWarbandDraft(warband);
+  const { draft, update, dirty, save, saveNow, discard } = useWarbandDraft(warband);
   // One records fetch and one signing call for the whole roster, keyed by model
   // id -- see useRosterPhotos. Asking per row would be two requests per warrior.
   const photos = useRosterPhotos(warbandId);
@@ -278,7 +308,7 @@ export default function RosterScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={warband.name} subtitle={getWarbandTypeName(warband.warbandType)} />
+      <BackHeader title={warband.name} subtitle={getWarbandTypeLabel(warband.warbandType, warband.subfaction)} />
 
       <main className="flex-1 px-4 py-6 space-y-6">
         <Card as="section" gap="lg">
@@ -303,6 +333,8 @@ export default function RosterScreen() {
 
         {/* Legality + housekeeping at a glance — reads the draft so a treasury
             or roster change is reflected before it's even saved. */}
+        <SubfactionPrompt warband={draft} onSave={(subfaction) => saveNow({ subfaction })} />
+
         <WarbandHealthPanel warband={draft} />
 
         <WarbandPhotoEditor warbandId={warband.id} warbandName={warband.name} />

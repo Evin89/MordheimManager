@@ -295,7 +295,7 @@ export function applyDraftToWarband(
     // His skill lists come from his unit's rule effects (ruleEffects): fixed by
     // the rules where they say so, otherwise the two the player picked in the
     // Advances step, plus any list the rules add on top.
-    const promotion = promotionSkillListOptions(warband.warbandType, group.unitType);
+    const promotion = promotionSkillListOptions(warband.warbandType, group.unitType, warband.subfaction);
     const promotedLists = [
       ...(promotion.fixed ?? (state.promotionSkillLists ?? []).slice(0, promotion.choose)),
       ...promotion.extra,

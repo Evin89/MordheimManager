@@ -1,7 +1,7 @@
-import { ResolvedSpecialRule, WarbandDefinition, WarbandGrade } from './types';
+import { ResolvedSpecialRule, WarbandDefinition, WarbandGrade, WarbandSubfaction } from './types';
 import { resolveSpecialRules } from '../lib/specialRulesLookup';
 import { getCustomWarbandDefinition } from './customWarbandTypes';
-import { builtInWarbandNames } from './warbandNames';
+import { builtInWarbandNames, subfactionNameIds } from './warbandNames';
 import maneaters from './warbands/maneaters.json';
 import reiklanders from './warbands/reiklanders.json';
 import middenheimers from './warbands/middenheimers.json';
@@ -121,10 +121,35 @@ export function getWarbandDefinition(id: string): WarbandDefinition | undefined 
   return warbandDefinitions.find((def) => def.id === id) ?? getCustomWarbandDefinition(id);
 }
 
+/** §28 — the chosen sub-faction, or undefined when none is set or the list has none. */
+export function getSubfaction(warbandType: string, subfactionId: string | undefined): WarbandSubfaction | undefined {
+  if (!subfactionId) return undefined;
+  return getWarbandDefinition(warbandType)?.subfactions?.find((s) => s.id === subfactionId);
+}
+
+/** §28 — what the list's choice is called ("City-state"). */
+export function subfactionLabel(definition: WarbandDefinition): string {
+  return definition.subfactionLabel ?? 'Sub-faction';
+}
+
+/**
+ * A Hero slot's skill lists under a sub-faction: the choice's lists for that
+ * unit when it sets them, else the slot's own.
+ */
+export function slotSkillLists(
+  definition: WarbandDefinition | undefined,
+  unitType: string,
+  subfactionId?: string,
+): string[] {
+  const override = definition?.subfactions?.find((s) => s.id === subfactionId)?.heroSkillLists?.[unitType];
+  if (override) return override;
+  return definition?.heroSlots.find((s) => s.unitType === unitType)?.skillLists ?? [];
+}
+
 // The name lookup lives in warbandNames.ts, which reads only each data file's
 // id and name — so the screens on the first-load path can use it without this
 // module's ~400 kB of definitions. Re-exported for everything else.
-export { getWarbandTypeName } from './warbandNames';
+export { getWarbandTypeName, getWarbandTypeLabel } from './warbandNames';
 
 // Dev-only drift check: the name map globs the warbands folder, while this
 // registry lists its files by hand. A file added to one and not the other
@@ -137,6 +162,11 @@ if (import.meta.env.DEV) {
   }
   for (const id of globbed.keys()) {
     if (!registered.has(id)) console.error(`[warbandRegistry] src/data/warbands has ${id}, but it isn't registered`);
+  }
+  for (const d of warbandDefinitions) {
+    if (d.subfactions?.length && !subfactionNameIds.includes(d.id)) {
+      console.error(`[warbandRegistry] ${d.id} has sub-factions; add its file to warbandNames' subfaction glob`);
+    }
   }
 }
 
