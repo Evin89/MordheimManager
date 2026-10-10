@@ -25,6 +25,9 @@ const NAMED = new RegExp(`^(${LABEL}):\\s+([\\s\\S]+)$`);
 const SENTENCE_BREAK = new RegExp(`\\.\\s+(?=${LABEL}:\\s)`, 'g');
 const SENTINEL = '';
 
+// Labels that open a sentence inside a rule rather than starting a new one.
+const RUN_IN = /^(note|notes|pick one|choose one|example|exception)$/i;
+
 /** Parse a warband's `specialRules` blob into a lead-in plus named rules. */
 export function parseWarbandSpecialRules(body: string): ParsedWarbandRules {
   const segments = body
@@ -37,7 +40,12 @@ export function parseWarbandSpecialRules(body: string): ParsedWarbandRules {
   const rules: WarbandRule[] = [];
   for (const seg of segments) {
     const match = seg.match(NAMED);
-    if (match) rules.push({ name: match[1].trim(), text: match[2].trim() });
+    // "Note:" or "Pick one:" inside a rule reads like a heading but belongs to
+    // the rule before it. Rule text is kept 1:1 from the source, so the parser
+    // folds these back instead of the text being reworded.
+    if (match && RUN_IN.test(match[1].trim()) && rules.length > 0) {
+      rules[rules.length - 1].text += ` ${seg}`;
+    } else if (match) rules.push({ name: match[1].trim(), text: match[2].trim() });
     else lead.push(seg);
   }
   return { lead, rules };
