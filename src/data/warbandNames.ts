@@ -63,7 +63,7 @@ export function getWarbandTypeName(id: string): string {
 }
 
 /**
- * The type name plus the §28 sub-faction when one is chosen: "Tileans · Remas".
+ * The type name plus the §28 sub-faction when one is chosen: "Tileans · Remasens".
  * Every screen that names a warband's type uses this, so the choice shows
  * wherever the list does.
  */

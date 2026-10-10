@@ -336,7 +336,13 @@ function Subfactions({ def }: { def: WarbandDefinition }) {
         return (
           <div key={option.id} className="space-y-3">
             <h3 className="text-bone-100 font-semibold text-lg">{option.name}</h3>
-            {lead.length > 0 && <Background paragraphs={lead} />}
+            {/* An option's unnamed paragraphs are its rules, not background
+                flavour, so they're shown in full rather than folded away. */}
+            {lead.map((p) => (
+              <p key={p} className="text-bone-200 text-sm leading-relaxed">
+                {p}
+              </p>
+            ))}
             {rules.length > 0 && <SpecialRules rules={rules} />}
             {heroes.length > 0 && <SkillAccess heroes={heroes} />}
           </div>

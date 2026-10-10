@@ -306,13 +306,13 @@
       "rulesText": "Like all swords, you may use a rapier to parry in hand to hand combat. When your opponent scores a hit you must roll a D6. If you can score greater than the highest 'to hit' roll you have parried the blow and the attack is discarded.\n\nA warrior armed with a rapier rolls to hit and wound as normal. However, if you mange to hit your opponent but fail to wound, you may attack again just as if you had another attack but at –1 to hit (down to a maximum to needing a 6 to hit). You may continue attacking as long as you hit and it is possible to strike your opponent many times, particularly if your warrior has more then one attack on his profile.\n\nBecause a rapier is a very light sword that lacks the thick armour breaking blade of the broadsword, armour saves are made at +1."
     }
   ],
-  "specialRules": "Tilean warbands choose a city-state when they are founded — Miragliano, Remas or Trantio. Each has its own rules and decides which skill lists the Champions and Youngbloods use.",
+  "specialRules": "",
   "subfactionLabel": "City-state",
   "subfactions": [
     {
-      "id": "miragliano",
-      "name": "Miragliano",
-      "specialRules": "Crossbows: Miraglean Heroes have +1 to hit when using crossbows. | Marksmen: Marksmen have +1 to hit with any missile weapon. | Hatred of Skaven: Since the red pox outbreak of 1812, a Miraglean warband hates Skaven when fighting them. Hired Swords are not affected. | Hired Swords: A Miraglean warband may not hire Skaven Hired Swords.",
+      "id": "miragleans",
+      "name": "Miragleans",
+      "specialRules": "The Miragleans are deadly accurate with the city’s official weapon, the crossbow. Therefore Miraglean Heroes have a +1 to hit when using crossbows only. | Marksmen get a +1 to hit with any missile weapon they use. | All Miragleans have a deep-seated hatred toward Skaven. This dates back to the red pox outbreak of 1812 when three quarters of the population of the city perished. When fighting Skaven a Miraglean warband will be affected by the rules for hatred towards them. Hired swords are not affected by the Hatred rule. | Hired Swords: Miragleans warband cannot have Skaven Hired Swords.",
       "heroSkillLists": {
         "Champion": [
           "combat",
@@ -327,9 +327,9 @@
       }
     },
     {
-      "id": "remas",
-      "name": "Remas",
-      "specialRules": "Old enemies: When fighting Dark Elves, a Remasen warband may re-roll a Rout test once and must keep the second roll. | Steadfast officers: The Captain, Champions and Youngbloods always have +1 Leadership, whoever they fight. | Hired Swords: A Remasen warband may not hire Dark Elf Hired Swords.",
+      "id": "remasens",
+      "name": "Remasens",
+      "specialRules": "In 1487 a fleet of Dark Elf warships invaded the coastal city of Remas and ever since the people of that city have a deep dislike of the Druchii. A warband from Remas will fight to the death against any Dark Elf warband they encounter. To represent this, the Remasen player is allowed to re-roll any rout test one time and must abide by the second roll. This only applies when fighting Dark Elves. | Remasen officers are steadfast individuals whose years of training have afforded them excellent leadership. The leadership value of a Remasen captain, champion and young blood are always one point higher regardless of whom they are fighting. | Hired Swords: Remasens warband cannot have Dark Elf Hired Swords.",
       "heroSkillLists": {
         "Champion": [
           "combat",
@@ -344,9 +344,9 @@
       }
     },
     {
-      "id": "trantio",
-      "name": "Trantio",
-      "specialRules": "Wealthy patrons: A Trantio warband starts a one-off game with an extra 100 gc, and a Lustrian campaign with an extra 20% gold.",
+      "id": "trantios",
+      "name": "Trantios",
+      "specialRules": "A warband hailing from Trantio will be the best-equipped and most experienced human warband in Lustria. To represent this a Trantio war band will always start a one-off match with an extra 100 GC and in a Lustrian campaign they will start with an extra 20% GC added to their total.",
       "heroSkillLists": {
         "Champion": [
           "combat",
