@@ -2770,3 +2770,17 @@ Some published lists are one warband with a required choice: the Tileans pick a 
 
 Checked against the mordheimer.net data: Reikland Champion (Combat, Shooting, Strength — had Speed for Strength), Skaven Assassin Adept (+ Academic), Skaven Night Runners (Combat, Shooting, Skaven — had Speed for the warband list), Undead Dregs (Combat, Strength — had Speed), Witch Hunters (Combat, Shooting, Academic, Speed — had Strength for Speed), Tilean Captain (all five; had none).
 - **Rule text is the source's own (owner, 2026-10-10):** rules taken from the Mordheimer data are copied 1:1 — only markup is removed and paragraph breaks become ` | `. Option names are the source's headings (Miragleans, Remasens, Trantios).
+
+### 28.4 Marauders of Chaos tribes
+
+The second list with a founding choice: the Norse, the Kurgan or the Hung (`subfactionLabel: "Tribe"`). The tribes change no skill lists, so the options carry rules only. Their effects (Norse +1 rarity and 13+ Eye of the Gods, Kurgan unlimited Warhounds and bone bows, Hung 12-model limit and Ride Warhorse) are shown, not applied.
+
+## 30. Warband-wide rules for 22 warbands ✅
+
+The audit found 22 warbands (counted as 21 plus the Tileans at the time) whose `specialRules` was empty although the mordheimer.net data prints warband-wide rules for them. They now carry those rules in the standard `Name: text. | Name: text.` format, 77 in all: Arabian Tomb Raiders, Black Dwarfs, Bretonnian Chapel Guard, Court of the Profane Pleasures, the Cursed Cavalcade, Dark Elves, Dwarf Rangers, Forest Goblins, Hochland Bandits, Horned Hunters, Imperial Outriders, Lustrian Reavers, Marauders of Chaos, Merchant Caravans, Night Goblins, Norse Explorers, Outlaws of Stirwood Forest, Pirates, Pit Fighters, Shadow Warriors, Tomb Guardians and the Sons of Hashut. The Tileans are §28.
+
+- Rule text is the source's own, 1:1 (owner, 2026-10-10); only markup is removed. Tables in the source (Forest Goblin Animosity, Merchant Trade) are written row by row as "1: …; 2-5: …; 6: …", cell text unchanged.
+- A run-in "Note:" or "Pick one:" inside a rule stays part of that rule (`parseWarbandSpecialRules` folds such labels into the rule before them) rather than the text being reworded to dodge the split.
+- `parseWarbandSpecialRules` now accepts ‘, ! and & in a rule heading ("Don't Trust 'Em", "Powder's Expensive!", "Weapons & Armour").
+- Not added: *Ostermark* on the Reikland file — it is a fourth Mercenary city in the source and belongs in its own file if wanted.
+- Fixed alongside: 14 equipment lists named `clubMaceHammer` twice (the source lists mace and hammer separately), which React warned about on the rules screen.

@@ -448,7 +448,6 @@
     "thralls-equipment-list": [
       "dagger",
       "clubMaceHammer",
-      "clubMaceHammer",
       "axe",
       "sword",
       "spear",
@@ -508,5 +507,5 @@
       "rulesText": ""
     }
   ],
-  "specialRules": ""
+  "specialRules": "Foolish Nobleness: Even if all non-animal member of the warband are Human, the distorted and perverted power of the dark gods bent the morale and psyche of these men beyond any imaginable level, even for the most tolerant of mercenary. For this reason, the Cursed Cavalcade is treated as an Evil warband, and, similarly to the Cult of the Possessed, for all game effects purpose (such as, for example, for the effect 333 - Prisoners, on the exploration chart). They cannot hire any Hired Sword or Dramatis Personae, other than the Crow Master and anyone that specifically says otherwise. | Capture!: If a Hero takes Out of Action an enemy human Henchmen model with a Misericordia, and you have less than 5 Captured Thrall in you warband, roll a die: on a 5+ the model is captured. Enemy Heroes can only be Captured as a result of a roll of “61 - Captured!” on the Serious Injuries Table. It’s not possible to Capture more than 2 model per game. If you already captured 2 henchmen, or already have 5 Captured Thrall in your warband, reroll any result of “61- Captured!” for the heroes. | The Throne of Worms: The most horrible end for an enemy of the Cavalcade is not death but capture! Captured models are brought down to the Throne of Worms and abandoned to the judgment of this abomination. Only a few survive this madness but they emerge lost forever! For each enemy captured, instead of rolling on the Serious Injury Table after the battle, roll 1d6: 1-2 The warrior is swallowed up forever by the Throne of Worms. Remove the warrior from the original warband’s roster. 3-5 The warrior completely loses his mind and is submitted to the power of the Throne. Remove the warrior from the original warband’s roster and You gain a Captured Thrall for your warband. 6 The warrior is sacrificed with a ritual to the Throne. Remove the warrior from the original warband’s roster and a random Hero in your warband gains 1 XP. Note: this replaces the Captured! standard rules on the Serious Injuries Table for Heroes."
 }

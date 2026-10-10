@@ -335,7 +335,6 @@
     "ogre-slayer-equipment-list": [
       "dagger",
       "clubMaceHammer",
-      "clubMaceHammer",
       "axe",
       "dwarfAxe",
       "sword",
@@ -420,5 +419,5 @@
       "rulesText": "Can parry enemy blows"
     }
   ],
-  "specialRules": ""
+  "specialRules": "Pit Fighter: All Pit Fighters have the Pit Fighter skill as described in the Strength Skill List (+1 WS, +1 A when fighting in ruins, buildings and The Pit). | Hired Swords: Pit Fighters may hire all Hired Swords available except for the Elf Ranger, who feels working with such dirty and brutish individuals would just not do! | Weapons & Armour: Unlike other warbands that may chose which weapons and armour to equip their warriors with, Pit Fighters have to chose a specific fighting style which dictates their weapons and armour configuration. This is with the exception of Trollslayers and Ogres that may chose from a limited selection of equipment. The fighting style does not restrict Heroes from using items not on their list if they learn the appropriate skills. Pit Fighters may chose to change their fighting style at any stage by either swapping with another warrior in the warband or by simply buying a new style (or the separate components). Pit Fighter warbands also differ from other warbands in that a Henchman group may contain a mix of several different fighting styles and does not have to equip all of its warriors in the same manner. | Free the Slaves!: Pit Fighters hate all slavers. The Pit Fighters will never sell their captured opponents to the slavers. | In the Pit!: Pit Fighters who capture an opponent may decide to let him fight in the infamous fighting pits of Cutthroat’s Haven (use the rules that appeared earlier in this magazine). The Pit Fighter warband may decide to send in one or more of their own fighters to fight the captive. If the Pit Fighter wins, he gains +2 Experience, the warband gets all the captive’s armour and weapons +50gc. If the Pit Fighter loses, then roll to see whether he is dead or injured as normal (ignore all following results: Robbed, Captured, Hardened, Sold to the Pits, and Survives against the Odds). He will not lose his armour or weapons. The captive will get the 50gc and the +2 Experience when he wins. If the captive wins, the audience decides whether he gains his freedom. Roll a D6; on a 4+ the audience raises their thumbs and he is free. A 1-3 means he remains the Pit Fighters’ captive and may be fielded in the pits after future games."
 }

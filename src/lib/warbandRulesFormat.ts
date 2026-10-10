@@ -14,7 +14,9 @@ export type ParsedWarbandRules = { lead: string[]; rules: WarbandRule[] };
 const DEV_NOTE = /^(TODO\b|Human models use the standard)/i;
 
 // A run-in rule heading: a short capitalised label ending in a colon.
-const LABEL = "[A-Z][A-Za-z'’ \\-]{1,34}";
+// Also ‘ ! and &, for headings like "Don't Trust 'Em", "Powder's Expensive!"
+// and "Weapons & Armour" in the warband rules taken from mordheimer.net.
+const LABEL = "[A-Z][A-Za-z'’‘ \\-!&]{1,34}";
 const NAMED = new RegExp(`^(${LABEL}):\\s+([\\s\\S]+)$`);
 
 // Split a segment before a sentence that starts a new named rule ("… foo.

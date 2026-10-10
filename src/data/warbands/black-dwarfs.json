@@ -240,7 +240,6 @@
     "chaos-dwarf-equipment-list": [
       "dagger",
       "clubMaceHammer",
-      "clubMaceHammer",
       "axe",
       "sword",
       "steelWhip",
@@ -296,5 +295,5 @@
       "rulesText": "When searching for Chaos armour a warrior gains +1 on his Rarity roll for each model he took out of action in the previous battle.\n\nThe cost for found Chaos armour is decreased by 1 gold crown for each Experience point the Hero has.\n\nChaos armour is a gift from the Dark Gods to the worthy warrior. A Hero who has successfully purchased a suit of Chaos armour will never give it away to another warband member but put it on himself immediately. Chaos armour becomes fused to the body of its wearer. It can never be removed.\n\nChaos armour does not hinder its wearer from casting spells or rituals. It can be worn by spellcasters but they cannot combine it with a shield or buckler without appropriate skills.\n\nA Sorcerer equipped with a Mechanical suit receives +3 to Movement.\n\nThere is no Movement penalty for combining Chaos Armour with a Shield."
     }
   ],
-  "specialRules": ""
+  "specialRules": "Hard to Kill: Like their uncorrupted brethren, Chaos Dwarfs are tough, resilient individuals who can only be taken out of action on a roll of 6 instead of 5-6 when rolling on the Injury chart. Treat a roll of 1-2 as knocked down, 3-5 as stunned, and 6 as out of action. | Hard Head: Chaos Dwarfs ignore the special rules for clubs, maces, etc. They too are not easy to knock out! | Armour: Chaos Dwarfs never suffer movement penalties for wearing armour. | Hired Swords: A Chaos Dwarf warband may hire the following Hired Swords: Ogre Bodyguard, Pit Fighter, Warlock, Imperial Assassin, and Hobgoblin Scout. They may hire any Hired Sword described as all may hire, or allowed by Orc warbands and Chaos warbands. They may never hire Elves of any sort!"
 }

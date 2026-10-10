@@ -302,7 +302,6 @@
     "horned-hunter-equipment-list": [
       "dagger",
       "clubMaceHammer",
-      "clubMaceHammer",
       "axe",
       "sword",
       "spear",
@@ -319,7 +318,6 @@
     ],
     "henchmen-equipment-list": [
       "dagger",
-      "clubMaceHammer",
       "clubMaceHammer",
       "axe",
       "sword",
@@ -340,5 +338,5 @@
       "rulesText": "Toughened leathers cannot be combined with the effects of any other armour except a helmet or buckler (so not a shield).❓\n\nToughened leathers cannot be sold back at the Trading Posts; the stench alone is enough to drive away even the most desperate of buyers!\n\nEven though Toughened Leathers are purchased as miscellaneous equipment and need not be listed on a Hero’s starting armour list to be taken, they are still armour and prevent spell casting.✏️"
     }
   ],
-  "specialRules": ""
+  "specialRules": "Woodcraft: Followers of Taal make their homes in the wilderness and shall only frequent towns or cities when it is compulsory for them to do so. They are expert woodsmen and their knowledge of the wilds is unrivalled by all except perhaps the Wood Elves. Horned Hunter warbands move through any difficult terrain they encounter without suffering any movement penalties."
 }
