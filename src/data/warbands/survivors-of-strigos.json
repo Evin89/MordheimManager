@@ -1,0 +1,397 @@
+{
+  "id": "survivors-of-strigos",
+  "name": "Survivors of Strigos",
+  "source": "Sylvania Supplement, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/survivors-of-strigos) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "strigoiVampire",
+      "racialProfile": "vampire",
+      "unitType": "Strigoi Vampire",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 115,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed",
+        "strigoiVampire"
+      ],
+      "statLine": {
+        "M": 6,
+        "WS": 4,
+        "BS": 4,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 6,
+        "A": 2,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "A feral vampire of the fallen Strigoi bloodline and the warband's only Undead model. Each warband must have exactly one; if he dies the warband does not disband, but a new one may never be hired.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Vampires of other bloodlines"
+          },
+          "note": "Kindred Hatred."
+        },
+        {
+          "ref": "fear"
+        },
+        {
+          "ref": "immuneToPsychology",
+          "note": "Never leaves combat."
+        },
+        {
+          "name": "Immune to Poison",
+          "description": "Not affected by any poison."
+        },
+        {
+          "name": "No Pain",
+          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+        },
+        {
+          "name": "Tooth and Claw",
+          "description": "May not wield any weapons or use equipment from the lists; suffers no penalties for fighting unarmed."
+        },
+        {
+          "name": "Dark Arts",
+          "description": "If he learns the Dark Arts special skill he becomes a caster and rolls spells from the Dark Arts list (see spells.txt)."
+        }
+      ],
+      "spellLists": [
+        "strigoiDarkArts"
+      ],
+      "startingSpells": 0
+    },
+    {
+      "id": "seer",
+      "racialProfile": "human",
+      "unitType": "Seer",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 40,
+      "startingXp": 12,
+      "skillLists": [
+        "academic",
+        "speed",
+        "striganyHeroes"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "striganyHeroList"
+      ],
+      "notes": "A Strigany fortune-teller and hedge-witch. 0-1 per warband.",
+      "specialRules": [
+        {
+          "ref": "wizard",
+          "note": "Starts with one random spell from the Strigany Charms & Hexes list (a variant of the standard list, see spells.txt)."
+        },
+        {
+          "name": "Seeker",
+          "description": "If she took part in the battle and was not taken Out of Action, she may modify one exploration die by +1 or -1."
+        }
+      ],
+      "spellLists": [
+        "striganyCharmsAndHexes"
+      ],
+      "startingSpells": 1
+    },
+    {
+      "id": "domnu",
+      "racialProfile": "human",
+      "unitType": "Domnu",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "cost": 30,
+      "startingXp": 4,
+      "skillLists": [
+        "combat",
+        "strength",
+        "striganyHeroes"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "striganyHeroList"
+      ],
+      "notes": "Strigany men of the clans who still serve the last of the Strigoi. 0-3 per warband.",
+      "specialRules": [
+        {
+          "name": "Child of Darkness",
+          "description": "Immune to the Spooky special rule for Sylvania."
+        },
+        {
+          "name": "Gypsy Ward",
+          "description": "A special save of 5+ against magical attacks."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "strigany",
+      "racialProfile": "human",
+      "unitType": "Strigany",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "striganyHenchmanList"
+      ],
+      "notes": "Strigany clansfolk who follow the Strigoi. 0-5 per warband.",
+      "specialRules": []
+    },
+    {
+      "id": "ghouls",
+      "racialProfile": "ghoul",
+      "unitType": "Ghouls",
+      "cost": 40,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 3,
+        "A": 2,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "Twisted, repulsive cannibals. They never carry any equipment apart from a few bones used as primitive weapons (no equipment list).",
+      "specialRules": [
+        {
+          "ref": "fear"
+        }
+      ]
+    },
+    {
+      "id": "giantBats",
+      "unitType": "Giant Bats",
+      "cost": 40,
+      "isAnimal": true,
+      "isLargeCreature": true,
+      "maxCount": 2,
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 0,
+        "S": 3,
+        "T": 3,
+        "W": 2,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "Huge bats that fight with jaws and brutality and use no equipment. 0-2 per warband.",
+      "specialRules": [
+        {
+          "ref": "animal"
+        },
+        {
+          "name": "No Experience",
+          "description": "Animals never gain experience.",
+          "effects": { "noExperience": true }
+        },
+        {
+          "ref": "largeTarget"
+        },
+        {
+          "name": "Flying",
+          "description": "Does not need to climb or leap over gaps, even if its movement ends over open air."
+        },
+        {
+          "name": "Sonic",
+          "description": "Navigates by sonic vibrations; no Line of Sight is needed to declare a charge."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "striganyHeroList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "halberd",
+      "chestTalon",
+      "doubleHandedWeapon",
+      "throwingKnivesStars",
+      "bow",
+      "shortBow",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "helmet",
+      "blackGoldWristbands",
+      "ringOfStrigos",
+      "holyUnholyRelic",
+      "cursedBook"
+    ],
+    "striganyHenchmanList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "throwingKnivesStars",
+      "lightArmour",
+      "shield"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "chestTalon",
+      "name": "Chest Talon",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Strigany only.",
+      "rulesText": "Close combat, Strength as user +1. Two-handed: may not use a shield, buckler or additional weapon in close combat (a shield still gives +1 armour save against shooting). Heart-pierce: +1 to wound against a blood-thirster (vampire)."
+    },
+    {
+      "id": "blackGoldWristbands",
+      "name": "Black Gold Wristbands",
+      "category": "misc",
+      "cost": 35,
+      "rarity": 10,
+      "restriction": "Heroes only. 35 gc in the warband list; 35 + 2D6 gc when bought later (Rare 10).",
+      "rulesText": "Quickened: the wearer gets a 6+ save against all missile fire, including magical missiles. Stacks with Dodge."
+    },
+    {
+      "id": "ringOfStrigos",
+      "name": "Ring of Strigos",
+      "category": "misc",
+      "cost": 20,
+      "rarity": 9,
+      "restriction": "Heroes only. 20 gc in the warband list; 20 + D6 gc when bought later (Rare 9).",
+      "rulesText": "Arcane Barrier: the wearer gets a 6+ save against spells that target or affect him."
+    },
+    {
+      "id": "cursedBook",
+      "name": "Cursed Book",
+      "category": "misc",
+      "cost": 50,
+      "rarity": 11,
+      "restriction": "Heroes only. 50 gc in the warband list; 50 + 3D6 gc when bought later (Rare 11).",
+      "rulesText": "Cursed Aura: enemy models within 2\" of the bearer suffer -1 to hit in close combat."
+    }
+  ],
+  "specialRules": "Undead Leader: The Strigoi Vampire is the only Undead model in the warband. The warband does not disband if the Strigoi is killed, but it may never hire a new one. | Hired Swords: The warband may hire any Hired Sword available to Undead warbands. | Heroes Only Items: Black Gold Wristbands, the Ring of Strigos, Unholy Relics and Cursed Books may only be bought by Heroes. | Chest Talon: Only Strigany (not the Strigoi Vampire, Ghouls or Giant Bats) may use the Chest Talon. | Strigoi Weapons: The Strigoi Vampire may never wield weapons and fights with tooth and claw, without penalties for fighting unarmed."
+}

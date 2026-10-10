@@ -1,0 +1,398 @@
+{
+  "id": "ogre-hunting-party",
+  "name": "Ogre Hunting Party",
+  "source": "WEB, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/ogre-hunting-party) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 20,
+  "heroSlots": [
+    {
+      "id": "ogreHunter",
+      "unitType": "Ogre Hunter",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 145,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "strength",
+        "ogreHuntingParty"
+      ],
+      "statLine": {
+        "M": 6,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 3,
+        "A": 2,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": 6,
+        "WS": 6,
+        "BS": 4,
+        "S": 5,
+        "T": 5,
+        "W": 5,
+        "I": 4,
+        "A": 5,
+        "Ld": 9
+      },
+      "equipmentOptions": [
+        "ogreList"
+      ],
+      "notes": "A lone Ogre hunter followed by a band of Gnoblars and his half-tamed Sabretusk cubs. Each warband must have exactly one. Gets no free dagger.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "ref": "fear"
+        },
+        {
+          "ref": "largeTarget"
+        },
+        {
+          "name": "Huuuuge",
+          "description": "Causes Fear, is a Large Target and never takes All Alone tests. May never have Ithilmar, Gromril or heavy armour. Adds 20 + his Experience to the warband rating."
+        },
+        {
+          "name": "Slow Witted",
+          "description": "Needs twice the usual Experience for each advance."
+        },
+        {
+          "name": "Don't Fight with Eating Knives",
+          "description": "Never fights with a dagger in close combat. If he has no other weapon he fights unarmed: no -1 Strength penalty, but enemies still get +1 armour save. Unarmed attacks equal his Attacks and can't be combined with a weapon."
+        },
+        {
+          "name": "Lazy",
+          "description": "Does not add exploration dice or search for wyrdstone or rare items unless no Gnoblar Hero is able to."
+        },
+        {
+          "name": "Central Figure",
+          "description": "If he is taken out of action, the warband automatically reaches its Rout level."
+        }
+      ]
+    },
+    {
+      "id": "trapper",
+      "unitType": "Trappers",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "cost": 30,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed",
+        "ogreHuntingParty"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 4,
+        "S": 2,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 5,
+        "BS": 6,
+        "S": 3,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "gnoblarList"
+      ],
+      "notes": "Gnoblar trackers who hunt for the Ogre. 0-3.",
+      "specialRules": [
+        {
+          "name": "Greenskin",
+          "description": "Counts as a Greenskin for all purposes but does not suffer Animosity."
+        },
+        {
+          "name": "Veteran Tracker",
+          "description": "When hired, choose one special skill for free: Infiltration (only one Trapper in the warband may take it), Set Traps, Netter or Scent Hound."
+        }
+      ]
+    },
+    {
+      "id": "sabreBaiter",
+      "unitType": "Sabre-Baiter",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 20,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "speed",
+        "ogreHuntingParty"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 2,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 5,
+        "BS": 6,
+        "S": 3,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "gnoblarList"
+      ],
+      "notes": "The unlucky Gnoblar who lures prey for the Sabretusks. 0-1.",
+      "specialRules": [
+        {
+          "name": "Greenskin",
+          "description": "Counts as a Greenskin for all purposes but does not suffer Animosity."
+        },
+        {
+          "name": "Bait",
+          "description": "Once per turn, when a model declares a charge against him and he is not knocked down, stunned or in combat, he may immediately move D6\" directly away from the charger. Against a Sabretusk he moves 2D6\" instead and may move around models in the way."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "gnoblarFighters",
+      "unitType": "Gnoblar Fighters",
+      "cost": 15,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 2,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 5,
+        "BS": 6,
+        "S": 3,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "gnoblarList"
+      ],
+      "notes": "Common Gnoblars armed with whatever they can find. Any number.",
+      "specialRules": [
+        {
+          "name": "Greenskin",
+          "description": "Counts as a Greenskin for all purposes but does not suffer Animosity."
+        },
+        {
+          "name": "Bicker",
+          "description": "At the start of your turn, roll a D6 for each Gnoblar Henchman not in combat; on a 1 it spends the turn insulting the nearest Gnoblar and may not move, shoot or cast. Lost if it gains That Lad's Got Talent."
+        }
+      ]
+    },
+    {
+      "id": "flingers",
+      "unitType": "Flingers",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 7,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 2,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 5,
+        "BS": 6,
+        "S": 3,
+        "T": 4,
+        "W": 3,
+        "I": 6,
+        "A": 4,
+        "Ld": 7
+      },
+      "equipmentOptions": [
+        "gnoblarList"
+      ],
+      "notes": "Gnoblars who pelt the enemy with sharp stuff. 0-7. Only Flingers may buy slings.",
+      "specialRules": [
+        {
+          "name": "Greenskin",
+          "description": "Counts as a Greenskin for all purposes but does not suffer Animosity."
+        },
+        {
+          "name": "Bicker",
+          "description": "At the start of your turn, roll a D6 for each Gnoblar Henchman not in combat; on a 1 it spends the turn insulting the nearest Gnoblar and may not move, shoot or cast. Lost if it gains That Lad's Got Talent."
+        },
+        {
+          "name": "Scrap Slinger",
+          "description": "Throws 3 pieces of Sharp Stuff per turn instead of 1. Does not combine with Knife Thrower and does not apply to throwing knives."
+        }
+      ]
+    },
+    {
+      "id": "sabretuskCubs",
+      "unitType": "Sabretusk Cubs",
+      "cost": 50,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 0,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "Young Sabretusks the Ogre is training to hunt. 0-3. Fight with tusks and primal ferocity; carry no equipment.",
+      "specialRules": [
+        {
+          "ref": "fear"
+        },
+        {
+          "name": "Animal",
+          "description": "An animal: never gains Experience.",
+          "effects": { "noExperience": true }
+        },
+        {
+          "name": "Untamed",
+          "description": "Does not Bicker. At the start of each turn roll a D6 for each Sabretusk not in combat; on a 1 it charges 3D6\" at the nearest model that is not a Sabretusk. If it charges a member of its own warband, move it 1\" away after the combat."
+        },
+        {
+          "name": "Charge",
+          "description": "Has 2 Attacks in the turn it charges."
+        },
+        {
+          "name": "Tough Hide",
+          "description": "Natural 5+ armour save."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "ogreList": [
+      "axe",
+      "ogreClub",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "harpoonCrossbow",
+      "lightArmour",
+      "helmet"
+    ],
+    "gnoblarList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "sharpStuff",
+      "throwingKnivesStars",
+      "sling",
+      "lightArmour",
+      "shield",
+      "helmet",
+      "ropeAndHook",
+      "pigbackMount"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "ogreClub",
+      "name": "Ogre Club",
+      "category": "melee",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "Ogres only.",
+      "rulesText": "Close combat. No profile is printed on the source page (cost 10 gc only)."
+    },
+    {
+      "id": "harpoonCrossbow",
+      "name": "Harpoon Crossbow",
+      "category": "missile",
+      "cost": 50,
+      "rarity": null,
+      "restriction": "Ogres only.",
+      "rulesText": "Missile weapon. No profile is printed on the source page (cost 50 gc only)."
+    },
+    {
+      "id": "sharpStuff",
+      "name": "Sharp Stuff",
+      "category": "missile",
+      "cost": 3,
+      "rarity": null,
+      "restriction": "Gnoblars only. First one free, further ones 3 gc.",
+      "rulesText": "Range 8\", Strength 2. No Limit: does not count towards the missile weapon limit. Thrown Weapon: no penalty for moving and shooting or for long range. Targets hit get +1 to their armour save. Stuff Thrower: with Knife Thrower a Gnoblar may throw three pieces instead of one, but not three pieces and three knives in the same turn."
+    },
+    {
+      "id": "pigbackMount",
+      "name": "Pigback Mount",
+      "category": "misc",
+      "cost": 50,
+      "rarity": null,
+      "restriction": "Gnoblar Heroes only.",
+      "rulesText": "A pig ridden by a Gnoblar. Profile M5 WS2 BS- S2 T- W1 I3 A1 Ld5. Like a Mount: uses the mounted rules, moves at the mount's speed, cannot climb, can jump obstacles up to 2\", uses mounted spear rules, and the rider cannot Infiltrate. Not Like a Mount: not a Large Target, may enter buildings, gives no +1 armour save and may not have barding. Extra Hand: the pig has one free hand holding a free dagger; it may instead be given a club or axe, or a shield (+1 to the rider's save, but the pig can no longer attack)."
+    }
+  ],
+  "specialRules": "Greenskins: Gnoblars count as Greenskins for all purposes. They do not suffer Animosity but do suffer Bicker. | Bicker: At the start of your turn, roll a D6 for each Gnoblar Henchman not in combat. On a 1 it does nothing but insult the nearest Gnoblar and may not move, shoot or cast that turn. A Gnoblar promoted by That Lad's Got Talent loses Bicker. | Ideas Above Their Station: If the Ogre Hunter dies, the Gnoblar Hero with the highest Leadership becomes leader (highest Experience breaks ties). A new Ogre Hunter may be bought and becomes the leader. | Distasteful Company: The warband may only hire the Hobgoblin Scout, Gnoblar Botcher and Ninja Gnoblar as Hired Swords. Without an Ogre Hunter it may also hire an Ogre Bodyguard and/or Ogre Slaver; hiring a new Ogre Hunter makes all other Ogres leave. | Equipment Limits: Ogres get no free dagger and never fight with daggers. Throwing knives and the Pigback Mount are for Gnoblar Heroes only; slings are for Flingers only. On the Ogre list a Cleaver counts as an axe."
+}

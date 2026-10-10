@@ -1,0 +1,413 @@
+{
+  "id": "mazzalupo",
+  "name": "Mazzalupo",
+  "source": "WEB, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/mazzalupo) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "wanderingKnight",
+      "racialProfile": "human",
+      "unitType": "Wandering Knight",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 70,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "knightNobleList"
+      ],
+      "notes": "A knight errant leading a band of shepherds and hangers-on. Each warband must have exactly one Wandering Knight.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "name": "Riding (Horses)",
+          "description": "Has the Riding (horses) skill and may ride a horse."
+        },
+        {
+          "name": "Commands",
+          "description": "Knows one Command at creation and learns more whenever he would learn a new spell. Commands follow the casting rules but are not spells and he is not a wizard. Animals, allies, Dramatis Personae and Hired Swords cannot be targeted, and unless stated otherwise the Knight is not affected himself. If he dies, the new Captain gains Commands, starting with one random Command. See the warband's special rules."
+        }
+      ],
+      "spellLists": [
+        "wanderingKnightCommands"
+      ],
+      "startingSpells": 1
+    },
+    {
+      "id": "masterOfFinances",
+      "racialProfile": "human",
+      "unitType": "Master of Finances",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 25,
+      "startingXp": 0,
+      "skillLists": [
+        "shooting",
+        "academic"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "financesSquireList"
+      ],
+      "notes": "The penny-counting treasurer of the band. 0-1.",
+      "specialRules": [
+        {
+          "name": "Corruption",
+          "description": "When hit in close combat, before wounds are rolled, you may pay 5 gc per hitting model; each bribed model must re-roll one successful hit. Each model can be corrupted only once per game. Models Immune to Psychology cannot be corrupted."
+        },
+        {
+          "name": "Haggle",
+          "description": "Has the Haggle skill."
+        }
+      ]
+    },
+    {
+      "id": "fallenNobles",
+      "racialProfile": "human",
+      "unitType": "Fallen Nobles",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 40,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "academic",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "knightNobleList"
+      ],
+      "notes": "Impoverished aristocrats following the Knight. 0-2. May only ride a horse if the Captain rides one.",
+      "specialRules": [
+        {
+          "name": "Indolent",
+          "description": "Can never be the target of the Wandering Knight's Commands."
+        },
+        {
+          "name": "Riding (Horses)",
+          "description": "Has the Riding (horses) skill and may ride a horse."
+        },
+        {
+          "name": "Ye Give Way",
+          "description": "When charging a Hero he may challenge it to yield. If refused, he cannot charge that model but may carry on his turn (even challenging again), and the refusing model has -1 to hit in close combat for the rest of the game (not cumulative). If accepted, no other warrior may join that fight, though area effects and spells still affect both. If he takes the challenged model out of action, he gains +1 to hit and +1 Strength for the rest of the game (not cumulative)."
+        }
+      ]
+    },
+    {
+      "id": "squire",
+      "racialProfile": "human",
+      "unitType": "Squire",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 20,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "financesSquireList"
+      ],
+      "notes": "The Knight's young attendant and standard bearer. 0-1.",
+      "specialRules": [
+        {
+          "name": "Petty Thief",
+          "description": "If not taken out of action by the end of the game, roll a D6. On a 5+, take one Wyrdstone shard from a random opposing warband and add it to your own."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "sheepherders",
+      "racialProfile": "human",
+      "unitType": "Sheepherders",
+      "cost": 30,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "sheepherderChurlList"
+      ],
+      "notes": "Tough mountain shepherds. 0-2. May buy a Bearcloak at creation without a test.",
+      "specialRules": []
+    },
+    {
+      "id": "churls",
+      "racialProfile": "human",
+      "unitType": "Churls",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "sheepherderChurlList"
+      ],
+      "notes": "Common peasants. Any number.",
+      "specialRules": []
+    },
+    {
+      "id": "blackSheep",
+      "unitType": "Black Sheep",
+      "cost": 10,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 6,
+        "WS": 2,
+        "BS": 0,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "Ill-tempered rams that follow the shepherds. 0-5. May not use equipment.",
+      "specialRules": [
+        {
+          "ref": "stupidity",
+          "note": "Only when no Sheepherder is within 6\"."
+        },
+        {
+          "ref": "animal"
+        },
+        {
+          "name": "Animals",
+          "description": "Black Sheep are animals and never gain experience.",
+          "effects": { "noExperience": true }
+        },
+        {
+          "name": "Butcher's Meat",
+          "description": "Enemies may ignore Black Sheep when choosing the closest target to shoot. Warriors engaged only with Black Sheep may shoot; hits are allocated randomly among all models in that combat."
+        },
+        {
+          "name": "Mountain Animals",
+          "description": "Unlike other animals, they may climb using the normal rules."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "knightNobleList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "morningStar",
+      "doubleHandedWeapon",
+      "halberd",
+      "spear",
+      "lance",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet",
+      "horse"
+    ],
+    "financesSquireList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "crossbow",
+      "bow",
+      "shortBow",
+      "sling",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet"
+    ],
+    "sheepherderChurlList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "morningStar",
+      "doubleHandedWeapon",
+      "spear",
+      "crossbow",
+      "shortBow",
+      "sling",
+      "lightArmour",
+      "shield",
+      "helmet",
+      "bearcloak"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "bearcloak",
+      "name": "Bearcloak",
+      "category": "armour",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "Special availability, Sheepherders only. After paying 10 gc the Sheepherder must roll equal to or under his Strength on a D6 to slay the bear; at warband creation no test is needed.",
+      "rulesText": "The wearer gains +1 to his armour save against shooting attacks."
+    }
+  ],
+  "specialRules": "Hired Swords: The Mazzalupo may hire the same Hired Swords and Dramatis Personae as Mercenary warbands. | Commands: In the Recovery phase, a Wandering Knight who is not knocked down, stunned or out of action may issue one Command instead of running, using the casting rules (roll 2D6 against the difficulty). It affects friendly models within 6\" that can hear him (not stunned or knocked down) unless the Command says otherwise. A model may benefit from only one Command per turn. Animals, allies, Dramatis Personae, Hired Swords and Fallen Nobles cannot be targeted. | Raise Our Insignia: Difficulty 6. If the Squire is within 12\" and not fleeing, knocked down, stunned or out of action, until the next Shooting phase models with line of sight to him may re-roll failed Leadership tests, including Rout tests. | Move Ye Miscreant: Difficulty 6. One warrior within 6\" may move again up to its full Movement; contacting an enemy counts as a charge. | Follow Me Mine Pugnacious Ones: Difficulty 8. Warriors within 4\" gain +1 to hit in close combat until the end of the turn. | Be on Guard My Brave Ones: Difficulty 7. One warrior within 12\" that is in close combat may move away up to its Movement, but may not move into contact with an enemy. | Pay Them No Heed: Difficulty 6. One model within 12\" may shoot at any enemy, not just the closest, until the next Shooting phase. | Art Thou Ready to Die Fighting: Difficulty 8. Mazzalupo models within 4\", the Knight included, are only taken out of action on a 6 until the next Mazzalupo turn. | Lance Price: The Lance costs 20 gc in this warband's Knight and Noble list."
+}

@@ -1,0 +1,444 @@
+{
+  "id": "skaven-of-clan-moulder",
+  "name": "Skaven of Clan Moulder",
+  "source": "WEB, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/skaven-of-clan-moulder) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 20,
+  "heroSlots": [
+    {
+      "id": "packmaster",
+      "racialProfile": "skaven",
+      "unitType": "Packmaster",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 75,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "speed",
+        "clanMoulder"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "moulderHeroesList",
+        "moulderMountList"
+      ],
+      "notes": "The master beast-breeder leading the warband. Each warband must have exactly one Packmaster. Starts with the Ride Wolf Rat skill plus one Beast Handling skill (Giant Rats or Wolf Rats).",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "name": "Master Handler",
+          "description": "May Goad (see the warband's special rules). Begins any one-off game or campaign with the Ride Wolf Rat skill and one additional Beast Handling skill of your choice (Giant Rats or Wolf Rats)."
+        },
+        {
+          "name": "Poke 'em in the Squidgy Bits",
+          "description": "If equipped with both, he gains the benefits of a Beastwhip and a Thingcatcher during the same Goading attempt."
+        }
+      ]
+    },
+    {
+      "id": "stormvermin",
+      "racialProfile": "skaven",
+      "unitType": "Stormvermin",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 40,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed",
+        "clanMoulder"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "moulderHeroesList",
+        "moulderMountList"
+      ],
+      "notes": "Elite Skaven warriors guarding the Packmaster. 0-2. Only Stormvermin may take the Twistkin skill.",
+      "specialRules": []
+    },
+    {
+      "id": "apprentice",
+      "racialProfile": "skaven",
+      "unitType": "Apprentices",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 25,
+      "startingXp": 4,
+      "skillLists": [
+        "combat",
+        "academic",
+        "speed",
+        "clanMoulder"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "moulderHeroesList",
+        "moulderMountList"
+      ],
+      "notes": "Young beast-handlers learning the trade from the Packmaster. 0-2.",
+      "specialRules": [
+        {
+          "name": "Novice Handler",
+          "description": "May Goad (see the warband's special rules), but can only use the benefit of either a Beastwhip or a Thingcatcher in a single Goading attempt, not both."
+        },
+        {
+          "name": "Heir to Power",
+          "description": "If the Packmaster dies, one Apprentice becomes the new Packmaster and is treated as one from then on; a new Apprentice may then be hired. If the Packmaster and all Apprentices die together, or there are no Apprentices when the Packmaster dies, the warband disbands."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "clanrats",
+      "racialProfile": "skaven",
+      "unitType": "Clanrats",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "moulderHenchmenList"
+      ],
+      "notes": "Ordinary Skaven warriors of the clan. 0-5.",
+      "specialRules": []
+    },
+    {
+      "id": "giantRats",
+      "unitType": "Giant Rats",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 6,
+        "WS": 2,
+        "BS": 0,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "Giant rats bred in the Moulder fleshpits. Any number (within the warband maximum). Never use weapons or armour.",
+      "specialRules": [
+        {
+          "ref": "animal"
+        },
+        {
+          "name": "No Experience",
+          "description": "Never gains Experience.",
+          "effects": { "noExperience": true }
+        },
+        {
+          "name": "No Weapons or Armour",
+          "description": "Giant Rats may never use weapons or armour."
+        },
+        {
+          "name": "Goaded Beast",
+          "description": "May be Goaded by the Packmaster or an Apprentice (Difficulty 6)."
+        }
+      ]
+    },
+    {
+      "id": "wolfRats",
+      "unitType": "Wolf Rats",
+      "cost": 30,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 9,
+        "WS": 3,
+        "BS": 0,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "Huge rats the size of wolves. 0-3. Never use weapons or armour.",
+      "specialRules": [
+        {
+          "ref": "animal"
+        },
+        {
+          "name": "No Experience",
+          "description": "Never gains Experience.",
+          "effects": { "noExperience": true }
+        },
+        {
+          "name": "No Weapons or Armour",
+          "description": "Wolf Rats may never use weapons or armour."
+        },
+        {
+          "name": "Poisoned Attack",
+          "description": "Their attacks count as Strength 4 and do not modify the target's armour save."
+        },
+        {
+          "name": "Goaded Beast",
+          "description": "May be Goaded by the Packmaster or an Apprentice (Difficulty 8)."
+        }
+      ]
+    },
+    {
+      "id": "ratOgre",
+      "unitType": "Rat Ogre",
+      "cost": 200,
+      "isAnimal": false,
+      "isLargeCreature": true,
+      "maxCount": 2,
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 3,
+        "S": 5,
+        "T": 5,
+        "W": 3,
+        "I": 4,
+        "A": 3,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "A hulking monstrosity of jaws, claws and brute force. 0-2. Must buy one Possessed mutation when hired.",
+      "specialRules": [
+        {
+          "ref": "fear"
+        },
+        {
+          "ref": "stupidity",
+          "note": "Only applies when no Clan Moulder Hero is within 6\"."
+        },
+        {
+          "ref": "largeTarget"
+        },
+        {
+          "name": "No Experience",
+          "description": "Never gains Experience.",
+          "effects": { "noExperience": true }
+        },
+        {
+          "name": "No Weapons or Armour",
+          "description": "Rat Ogres never use weapons or armour."
+        },
+        {
+          "name": "It's Alive!",
+          "description": "When hired, the Rat Ogre must buy one Mutation from the Possessed warband list (Mordheim rulebook) at its listed price."
+        },
+        {
+          "name": "Hard to Handle",
+          "description": "Bought individually; Rat Ogres never form a Henchmen group."
+        },
+        {
+          "name": "Goaded Beast",
+          "description": "May be Goaded by the Packmaster or an Apprentice (Difficulty 10)."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "moulderHeroesList": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "halberd",
+      "flail",
+      "spear",
+      "beastwhip",
+      "thingcatcher",
+      "sling",
+      "warplockPistol",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet"
+    ],
+    "moulderHenchmenList": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "spear",
+      "sling",
+      "lightArmour",
+      "shield",
+      "helmet"
+    ],
+    "moulderMountList": [
+      "wolfRatMount"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "beastwhip",
+      "name": "Beastwhip",
+      "category": "melee",
+      "cost": 25,
+      "rarity": 8,
+      "restriction": "Clan Moulder only; Packmaster or Apprentices only.",
+      "rulesText": "Close combat, Strength as user. Cannot be parried: weapons and bucklers cannot parry its attacks. Whipcrack: +1 Attack in a turn the wielder charges (added after other modifiers); when charged, +1 Attack against the charger only, which strikes first (only +1 however many charge). If two whips are used, only one gets the bonus. Cruel Barbs: +1 to the Goading roll; applies once per attempt even with two Beastwhips."
+    },
+    {
+      "id": "thingcatcher",
+      "name": "Thingcatcher",
+      "category": "melee",
+      "cost": 20,
+      "rarity": 9,
+      "restriction": "Clan Moulder only; Packmaster or Apprentices only.",
+      "rulesText": "Close combat, Strength as user +1. Two-handed: no shield, buckler or second weapon in close combat (a shield still gives +1 armour save against shooting). Iron Grip: may force a beast to re-roll a failed Stupidity test caused by a failed Goading attempt."
+    },
+    {
+      "id": "warplockPistol",
+      "name": "Warplock Pistol",
+      "category": "missile",
+      "cost": 35,
+      "rarity": null,
+      "restriction": "Heroes only. 35 wt, or 70 wt for a brace.",
+      "rulesText": "The source page gives only the price. Use the standard Skaven warplock pistol profile from the Mordheim rulebook."
+    },
+    {
+      "id": "wolfRatMount",
+      "name": "Wolf Rat Mount",
+      "category": "misc",
+      "cost": 90,
+      "rarity": 11,
+      "restriction": "Clan Moulder only. A Hero needs the Ride Wolf Rat skill to ride it.",
+      "rulesText": "A Wolf Rat broken to be ridden: M9 WS3 BS0 S4 T3 W1 I4 A1 Ld4. Poisoned Attack: its attacks count as Strength 4 and do not modify armour saves."
+    }
+  ],
+  "specialRules": "Warp Tokens: The warband starts with 500 Warp Tokens, which work exactly like gold crowns. | Blazing Saddles: The warband is designed for the updated Blazing Saddles mounted rules from the 2002 Mordheim Annual; without them it is likely overcosted. | Mutations: Certain models may buy Mutations from the Possessed warband list in the Mordheim rulebook. Rat Ogres must buy one when hired, and Stormvermin with the Twistkin skill buy one at half price. | Animals: Giant Rats, Wolf Rats and Rat Ogres never gain Experience unless stated otherwise. | Clan Moulder Only: Equipment and skills marked Clan Moulder only cannot be used by any other warband. | Goading: At the very start of the Moulder turn, before any movement, the Packmaster and each Apprentice may each try to Goad one Giant Rat, Wolf Rat or Rat Ogre model or henchman group that is within 6\" (for a group, at least half its members must be within 6\"). Roll 2D6 and score the Difficulty or higher, which is 6 for Giant Rats, 8 for Wolf Rats and 10 for Rat Ogres. If successful, roll a D6 on the Goading table; on a double 6 for the Goad you may choose the result instead. If failed, the target takes an immediate Stupidity test, and if that test is failed with a double 1 the beasts turn on the Goader, moving into base contact and making one attack against him per beast in the group, returning to the Moulder player's control at the start of their next turn. | Goading Table: 1–2 Yelp, the target must run in the Movement phase at up to triple its Move instead of double, even with enemies within 8\"; 3–4 Growl, if an enemy is in line of sight the target must charge it (player picks if several) at triple its Move, using the normal charge rules except that the charge cannot be intercepted; 5–6 Roar, the target is subject to Frenzy and Hates the entire opposing warband until the start of the next Moulder turn."
+}

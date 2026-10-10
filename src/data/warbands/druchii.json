@@ -1,0 +1,512 @@
+{
+  "id": "druchii",
+  "name": "Druchii",
+  "source": "Mordheimer's Information Centre, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/druchii) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "noble",
+      "racialProfile": "elf",
+      "unitType": "Noble",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 75,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "speed",
+        "druchii"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 5,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 6,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "druchiiHeroList"
+      ],
+      "notes": "A Dark Elf noble come to Mordheim in search of wyrdstone and slaves. Each warband must have one Noble.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "High Elves"
+          },
+          "note": "Kindred Hatred: includes High Elf Hired Swords."
+        }
+      ]
+    },
+    {
+      "id": "lordling",
+      "racialProfile": "elf",
+      "unitType": "Lordlings",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 45,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed",
+        "druchii"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 6,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "druchiiHeroList"
+      ],
+      "notes": "Young Druchii nobles eager to prove themselves. 0-2.",
+      "specialRules": [
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "High Elves"
+          },
+          "note": "Kindred Hatred: includes High Elf Hired Swords."
+        }
+      ]
+    },
+    {
+      "id": "sorceress",
+      "racialProfile": "elf",
+      "unitType": "Sorceress",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 45,
+      "startingXp": 8,
+      "skillLists": [
+        "academic",
+        "speed",
+        "druchii"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "druchiiHeroList"
+      ],
+      "notes": "A Dark Elf witch who casts Dark Magic. 0-1. Cannot cast spells while wearing armour.",
+      "specialRules": [
+        {
+          "ref": "wizard",
+          "note": "Uses Dark Magic (see spells.txt; differs from the app's Dark Elf Magic in spell 4). May not cast spells while wearing armour."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "High Elves"
+          },
+          "note": "Kindred Hatred: includes High Elf Hired Swords."
+        }
+      ],
+      "spellLists": [
+        "druchiiDarkMagic"
+      ]
+    },
+    {
+      "id": "beastmaster",
+      "racialProfile": "elf",
+      "unitType": "Beastmaster",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 40,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "speed",
+        "druchii"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "druchiiHeroList"
+      ],
+      "notes": "Handler of the warband's Slavehounds. 0-1. Only he may buy the Beastlash.",
+      "specialRules": [
+        {
+          "name": "Houndmaster",
+          "description": "The warband may include up to three Slavehounds, bought as Henchmen, only while it has a Beastmaster."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "High Elves"
+          },
+          "note": "Kindred Hatred: includes High Elf Hired Swords."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "corsairs",
+      "racialProfile": "elf",
+      "unitType": "Corsairs",
+      "cost": 35,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "corsairList"
+      ],
+      "notes": "Dark Elf sea raiders who form the bulk of the warband. Any number.",
+      "specialRules": [
+        {
+          "name": "Sea Dragon Cloaks",
+          "description": "Corsairs may wear Sea Dragon Cloaks even though they are not Heroes."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "High Elves"
+          },
+          "note": "Kindred Hatred: includes High Elf Hired Swords."
+        }
+      ]
+    },
+    {
+      "id": "shades",
+      "racialProfile": "elf",
+      "unitType": "Shades",
+      "cost": 35,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "shadesList"
+      ],
+      "notes": "Stealthy Druchii scouts and skirmishers. 0-5.",
+      "specialRules": [
+        {
+          "name": "Natural Stealth",
+          "description": "While a Shade is Hidden, enemy models halve their Initiative when trying to detect it."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "High Elves"
+          },
+          "note": "Kindred Hatred: includes High Elf Hired Swords."
+        }
+      ]
+    },
+    {
+      "id": "witchElves",
+      "racialProfile": "elf",
+      "unitType": "Witch Elves",
+      "cost": 45,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "witchElfList"
+      ],
+      "notes": "Frenzied devotees of Khaine. 0-3. Only Witch Elves may use the warband's 5 gc Black Lotus.",
+      "specialRules": [
+        {
+          "name": "Frenzy",
+          "description": "Witch Elves are subject to the standard Frenzy rules."
+        },
+        {
+          "name": "Maibd Poison",
+          "description": "A warband with Witch Elves may buy Black Lotus at 5 gc per dose. Only Witch Elves may use it; it must be used in the next battle and may not be sold or traded."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "High Elves"
+          },
+          "note": "Kindred Hatred: includes High Elf Hired Swords."
+        }
+      ]
+    },
+    {
+      "id": "slavehounds",
+      "unitType": "Slavehounds",
+      "cost": 25,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 7,
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "Vicious hunting hounds that need no weapons. 0-3, and only while the warband has a Beastmaster; without one they must stay in camp.",
+      "specialRules": [
+        {
+          "ref": "animal"
+        },
+        {
+          "name": "Animals",
+          "description": "Slavehounds are animals and never gain experience.",
+          "effects": { "noExperience": true }
+        },
+        {
+          "name": "Beastmaster",
+          "description": "May use the Beastmaster's Leadership while within 6\" of him, as long as he is not Knocked Down, Stunned or Out of Action. They may never use the warband Leader's Leadership. If the warband has no Beastmaster they cannot take part in battles."
+        },
+        {
+          "name": "Pack Work",
+          "description": "If one Slavehound knows of an enemy model, the Beastmaster and the other Slavehounds may declare a charge against it without seeing it and without rolling Initiative."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "druchiiHeroList": [
+      "dagger",
+      "axe",
+      "sword",
+      "draich",
+      "halberd",
+      "spear",
+      "beastlash",
+      "darksteelBlade",
+      "repeaterCrossbow",
+      "crossbowPistol",
+      "throwingKnivesStars",
+      "helmet",
+      "lightArmour",
+      "shield",
+      "buckler",
+      "seaDragonCloak",
+      "darkVenom"
+    ],
+    "corsairList": [
+      "dagger",
+      "axe",
+      "sword",
+      "halberd",
+      "spear",
+      "repeaterCrossbow",
+      "helmet",
+      "lightArmour",
+      "shield",
+      "buckler",
+      "seaDragonCloak"
+    ],
+    "shadesList": [
+      "dagger",
+      "axe",
+      "sword",
+      "repeaterCrossbow",
+      "bow",
+      "throwingKnivesStars",
+      "helmet",
+      "lightArmour"
+    ],
+    "witchElfList": [
+      "dagger",
+      "axe",
+      "sword",
+      "halberd",
+      "spear",
+      "helmet",
+      "lightArmour",
+      "blackLotus"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "draich",
+      "name": "Draich",
+      "category": "melee",
+      "cost": 25,
+      "rarity": 8,
+      "restriction": "Druchii Heroes (Hero list, 25 gc at founding). Later purchases cost 25 + D6 gc, Rare 8.",
+      "rulesText": "Close combat, Strength as user +2. Two-handed: the wielder may not use a shield, buckler or additional weapon in close combat, though a shield still gives +1 to armour saves against shooting. Swift: unlike other double-handed weapons it does not strike last."
+    },
+    {
+      "id": "darksteelBlade",
+      "name": "Darksteel Blade",
+      "category": "melee",
+      "cost": null,
+      "rarity": 9,
+      "restriction": "Any Druchii Hero. Costs 3x the base weapon's price, Rare 9.",
+      "rulesText": "A Darksteel version of a normal weapon, Strength as user. Critical Damage: +1 to rolls on the Critical Hit table. Wicked Edge: an Injury roll of 2-4 counts as Stunned."
+    },
+    {
+      "id": "beastlash",
+      "name": "Beastlash",
+      "category": "melee",
+      "cost": 10,
+      "rarity": 8,
+      "restriction": "Beastmaster only. 10 gc on the Hero list; the item entry gives 10 + D6 gc, Rare 8.",
+      "rulesText": "Close combat, Strength as user. Beastbane: animals must take a Fear test before charging or being charged by the wielder. Whipcrack: +1 Attack when the wielder charges, or +1 Attack that strikes first against a charger; the two do not stack. Cannot be parried. Enemies wounded by it get +1 to their armour save, or a 6+ save if they have none."
+    }
+  ],
+  "specialRules": "Kindred Hatred: Dark Elves Hate all High Elf warriors, including High Elf Hired Swords. | Fey Acuity: When checking for artifacts or wyrdstone in the Exploration phase, a Dark Elf warband finds one extra piece if at least one Hero was searching. | Disdain: Dark Elves may never use black powder weapons. | Slavers: When prisoners are found in the Exploration phase (a roll of 333), the Druchii may use the Skaven rules for prisoners. | Naggaroth Prices: The reduced prices for the Repeater Crossbow (20 gc), Sea Dragon Cloak (30 gc), Dark Venom (15 gc) and Black Lotus (5 gc) only apply when founding the warband, when no rarity roll is needed. Afterwards Dark Elves pay normal prices and must roll to find these items. | Promoted Henchmen: A Henchman promoted to Hero keeps choosing equipment from his Henchman list, not the Hero list. | Sea Dragon Cloak: 30 + 2D6 gc, Rare 10. Gives +2 to armour saves against shooting (5+ if the wearer has no save) and +1 in close combat (6+ if none). Can be combined with a shield or light armour without penalty."
+}

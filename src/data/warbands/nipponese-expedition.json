@@ -1,0 +1,490 @@
+{
+  "id": "nipponese-expedition",
+  "name": "Nipponese Expedition",
+  "source": "WEB, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/nipponese-expedition) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "hatamoto",
+      "racialProfile": "human",
+      "unitType": "Hatamoto",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "speed",
+        "nipponese"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "nipponNobleList"
+      ],
+      "notes": "A Nipponese noble commanding the expedition. Each warband must have exactly one.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "name": "Ride",
+          "description": "Has the Ride skill as detailed in the Blazing Saddles article (may ride horses and warhorses)."
+        }
+      ]
+    },
+    {
+      "id": "vimToMage",
+      "racialProfile": "human",
+      "unitType": "Vim-To Mage",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 45,
+      "startingXp": 8,
+      "skillLists": [
+        "academic",
+        "speed",
+        "nipponese"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "vimToMageList"
+      ],
+      "spellLists": [
+        "arabianElementalMagic"
+      ],
+      "notes": "The warband's spiritual and magical leader. 0-1. May never carry any equipment except a walking staff (club) and a dagger.",
+      "specialRules": [
+        {
+          "ref": "wizard",
+          "note": "Arcane Vim-Toist: casts Vim-Toist Magic (Arabian Elemental Magic) and starts with one spell from it."
+        },
+        {
+          "name": "Tenants of the Order",
+          "description": "Apart from a walking staff (club) and a dagger, the Vim-To Mage may never have any equipment."
+        }
+      ]
+    },
+    {
+      "id": "shinobi",
+      "racialProfile": "human",
+      "unitType": "Shinobi",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 70,
+      "startingXp": 15,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed",
+        "nipponese"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "shinobiList"
+      ],
+      "notes": "A hired shadow warrior. 0-1.",
+      "specialRules": [
+        {
+          "name": "Infiltration",
+          "description": "Always set up after the opposing warband, out of enemy sight and more than 12\" from any enemy model. If both warbands have infiltrators, each player rolls a D6 and the lower roll sets up first."
+        },
+        {
+          "name": "Loner",
+          "description": "May never become the leader of the warband."
+        }
+      ]
+    },
+    {
+      "id": "retainer",
+      "racialProfile": "human",
+      "unitType": "Retainers",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 40,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed",
+        "nipponese"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "nipponNobleList"
+      ],
+      "notes": "Sworn samurai retainers of the Hatamoto. 0-2.",
+      "specialRules": [
+        {
+          "name": "Ride",
+          "description": "Has the Ride skill as detailed in the Blazing Saddles article (may ride horses and warhorses)."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "ashigaru",
+      "racialProfile": "human",
+      "unitType": "Ashigaru",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "nipponWarriorList"
+      ],
+      "notes": "Common foot soldiers. Any number, hired in groups of 1-5.",
+      "specialRules": [
+        {
+          "name": "Wall of Steel",
+          "description": "May wield a spear (Yari) two-handed; it then gains the Parry rule."
+        }
+      ]
+    },
+    {
+      "id": "onnabushi",
+      "racialProfile": "human",
+      "unitType": "Onnabushi",
+      "cost": 30,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "nipponWarriorList"
+      ],
+      "notes": "Female warriors who guard the castle. 0-2.",
+      "specialRules": [
+        {
+          "name": "Wardens of the Castle",
+          "description": "Causes Fear while inside buildings or ruins. Agree before the battle which terrain counts."
+        }
+      ]
+    },
+    {
+      "id": "warriorMonks",
+      "racialProfile": "human",
+      "unitType": "Warrior Monks",
+      "cost": 30,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "warriorMonkList"
+      ],
+      "notes": "Fighting monks travelling with the expedition. 0-3.",
+      "specialRules": []
+    }
+  ],
+  "equipmentLists": {
+    "nipponWarriorList": [
+      "dagger",
+      "sword",
+      "katana",
+      "doubleHandedWeapon",
+      "spear",
+      "halberd",
+      "kanabo",
+      "shortBow",
+      "bow",
+      "crossbow",
+      "handgun",
+      "lightArmour",
+      "heavyArmour",
+      "helmet",
+      "sashimono"
+    ],
+    "nipponNobleList": [
+      "dagger",
+      "sword",
+      "katana",
+      "doubleHandedWeapon",
+      "spear",
+      "halberd",
+      "kanabo",
+      "nagamaki",
+      "shortBow",
+      "bow",
+      "crossbow",
+      "handgun",
+      "pistol",
+      "lightArmour",
+      "heavyArmour",
+      "helmet",
+      "sashimono",
+      "horo",
+      "barding",
+      "horse",
+      "warhorse"
+    ],
+    "shinobiList": [
+      "dagger",
+      "sword",
+      "katana",
+      "spear",
+      "kusarigama",
+      "fightingClaws",
+      "swordBreaker",
+      "throwingKnivesStars",
+      "blowPipe",
+      "shortBow",
+      "bow",
+      "crossbow",
+      "caltrops",
+      "flashPowder",
+      "lockPicks",
+      "ropeAndHook",
+      "tripWire"
+    ],
+    "warriorMonkList": [
+      "dagger",
+      "sword",
+      "katana",
+      "doubleHandedWeapon",
+      "spear",
+      "halberd",
+      "kanabo",
+      "bow",
+      "lightArmour",
+      "sashimono"
+    ],
+    "vimToMageList": [
+      "dagger",
+      "clubMaceHammer"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "katana",
+      "name": "Katana",
+      "category": "melee",
+      "cost": 20,
+      "rarity": null,
+      "restriction": "Nippon lists only.",
+      "rulesText": "Close combat. No profile is printed on the source page (cost 20 gc only)."
+    },
+    {
+      "id": "kanabo",
+      "name": "Kanabo",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Nippon lists only.",
+      "rulesText": "Close combat, Strength as user +1. Two-handed: may not be used with a shield, buckler or second weapon in close combat (a shield still gives +1 armour save against shooting). Concussion: injury rolls of 2-4 are treated as Stunned."
+    },
+    {
+      "id": "sashimono",
+      "name": "Sashimono",
+      "category": "armour",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Nippon lists only.",
+      "rulesText": "The wearer may re-roll any failed Leadership test that is not a Rout test, but must keep the second result."
+    },
+    {
+      "id": "nagamaki",
+      "name": "Nagamaki (Cathayan Longsword)",
+      "category": "melee",
+      "cost": 75,
+      "rarity": null,
+      "restriction": "Hatamoto and Retainers only (Noble list).",
+      "rulesText": "Close combat. Listed as a Cathayan Longsword; no profile is printed on the source page."
+    },
+    {
+      "id": "horo",
+      "name": "Horo",
+      "category": "armour",
+      "cost": 10,
+      "rarity": 6,
+      "restriction": "Hatamoto and Retainers only (Noble list); only works while mounted.",
+      "rulesText": "While mounted on a horse or warhorse, the wearer gets +1 to all armour saves against ranged attacks (a 6+ save if no other armour is worn)."
+    },
+    {
+      "id": "kusarigama",
+      "name": "Kusarigama",
+      "category": "melee",
+      "cost": 20,
+      "rarity": 8,
+      "restriction": "Shinobi only.",
+      "rulesText": "Close combat, Strength as user. Two-handed: may not be used with a shield, buckler or second weapon in close combat. Cannot be parried by swords or bucklers. Chain Strike: a model armed with a Kusarigama that is not engaged in combat may knock down enemies that fail a charge against it, or that charge friendly models within 3\"."
+    },
+    {
+      "id": "fightingClaws",
+      "name": "Fighting Claws",
+      "category": "melee",
+      "cost": 35,
+      "rarity": null,
+      "restriction": "Shinobi only.",
+      "rulesText": "Close combat. No profile is printed on the source page (cost 35 gc only)."
+    },
+    {
+      "id": "blowPipe",
+      "name": "Blow Pipe",
+      "category": "missile",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "Shinobi only.",
+      "rulesText": "Missile weapon. No profile is printed on the source page (cost 25 gc only)."
+    }
+  ],
+  "specialRules": "Hired Swords: The warband may hire the same Hired Swords as Human Mercenary warbands. | Strategic Minded: The warband may choose to make a voluntary Rout after suffering one fewer casualty than normal. | Nipponese Names: Tanto is a dagger, Wakizashi a sword, Yari a spear, Naginata a halberd, Hankyu a short bow, Yumi a bow, Teppo a handgun, Shuriken throwing stars and Sai a sword breaker. The first Tanto is free, further ones cost 2 gc. | Henchmen Groups: Henchmen are hired in groups of 1 to 5 and start with 0 Experience."
+}

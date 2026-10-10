@@ -1,0 +1,455 @@
+{
+  "id": "order-of-the-mare",
+  "name": "Order of the Mare",
+  "source": "WEB, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/order-of-the-mare) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "paragon",
+      "unitType": "Paragon",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "academic",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "knightList"
+      ],
+      "notes": "The knightly leader of the warband. Each warband must have exactly one Paragon. May buy one horse or warhorse at half price when recruited (Horse and Rider).",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "name": "Knight's Virtue",
+          "description": "Never panics and breaks from combat, so does not have to pass a Leadership test for being all alone."
+        },
+        {
+          "name": "Vow of Poverty",
+          "description": "The Paragon may not use a Lance."
+        }
+      ]
+    },
+    {
+      "id": "dameOfTheMare",
+      "unitType": "Dame of the Mare",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 55,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "academic",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 8
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dameList"
+      ],
+      "notes": "The holy lady the warband follows. Exactly one; if she is removed, a new Dame must be recruited without delay and no other warriors may be recruited before her.",
+      "specialRules": [
+        {
+          "name": "Ancient Armour",
+          "description": "Comes with ancient armour that may never be removed, traded or stolen. It gives a 5+ armour save that cannot be modified, does not prevent spellcasting, and does not work against magical attacks."
+        },
+        {
+          "ref": "prayers",
+          "note": "Uses the Blessings of the Mare list and starts with one randomly determined prayer."
+        }
+      ],
+      "spellLists": [
+        "blessingsOfTheMare"
+      ],
+      "startingSpells": 1
+    },
+    {
+      "id": "gallant",
+      "unitType": "Gallant",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 35,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "knightList"
+      ],
+      "notes": "A young knight seeking glory. 0-1. May buy one horse or warhorse at half price when recruited (Horse and Rider).",
+      "specialRules": [
+        {
+          "name": "Knight's Virtue",
+          "description": "Never panics and breaks from combat, so does not have to pass a Leadership test for being all alone."
+        }
+      ]
+    },
+    {
+      "id": "esquiresses",
+      "unitType": "Esquiresses",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 15,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "esquiressList"
+      ],
+      "notes": "Young squires in the Dame's service. 0-2.",
+      "specialRules": []
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "pilgrims",
+      "unitType": "Pilgrims",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "pilgrimList"
+      ],
+      "notes": "Devout peasants following the Dame of the Mare.",
+      "specialRules": [
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "all enemies who defy the Dame of the Mare"
+          },
+          "note": "In practice, all enemy models."
+        },
+        {
+          "name": "Peasants",
+          "description": "Pilgrims may never become Heroes. Re-roll any 'The Lad's Got Talent' result."
+        }
+      ]
+    },
+    {
+      "id": "bowmen",
+      "unitType": "Bowmen",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 7,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "archerList"
+      ],
+      "notes": "Common archers. 0-7.",
+      "specialRules": []
+    },
+    {
+      "id": "redeemedKnights",
+      "unitType": "Redeemed Knights",
+      "cost": 35,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "knightList"
+      ],
+      "notes": "Knights seeking redemption in the Dame's service. 0-5.",
+      "specialRules": [
+        {
+          "name": "Knight's Virtue",
+          "description": "Never panics and breaks from combat, so does not have to pass a Leadership test for being all alone."
+        }
+      ]
+    },
+    {
+      "id": "companionFilly",
+      "unitType": "Companion Filly",
+      "cost": 45,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 8,
+        "WS": 4,
+        "BS": 0,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 2,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "A spectral steed that accompanies the Dame. 0-1. May never take any equipment.",
+      "specialRules": [
+        {
+          "name": "Hooves",
+          "description": "Fights with its hooves and suffers no penalty for fighting unarmed."
+        },
+        {
+          "name": "Spectral Covering",
+          "description": "Its covering gives a 5+ armour save that cannot be modified and does not work against magical attacks. It may never take any equipment other than this covering."
+        },
+        {
+          "name": "Animal",
+          "description": "The Filly is an animal and gains no experience.",
+          "effects": { "noExperience": true }
+        },
+        {
+          "name": "Horse",
+          "description": "Follows the movement rules for mounted warriors."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "knightList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "flail",
+      "morningStar",
+      "lance",
+      "shield",
+      "helmet",
+      "lightArmour",
+      "heavyArmour",
+      "barding",
+      "warhorse",
+      "horse"
+    ],
+    "pilgrimList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "halberd",
+      "doubleHandedWeapon",
+      "flail",
+      "morningStar",
+      "bow",
+      "shield",
+      "helmet",
+      "lightArmour"
+    ],
+    "archerList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "bow",
+      "longBow",
+      "shield",
+      "helmet",
+      "lightArmour"
+    ],
+    "esquiressList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "bow",
+      "longBow",
+      "shield",
+      "helmet",
+      "lightArmour",
+      "horse"
+    ],
+    "dameList": [
+      "dagger",
+      "clubMaceHammer",
+      "sword",
+      "morningStar"
+    ]
+  },
+  "exclusiveEquipment": [],
+  "specialRules": "Knight's Virtue: The Paragon, Gallant and Redeemed Knights never panic and break from combat, so they do not have to pass a Leadership test for being all alone. | Hired Swords: The warband may recruit the same Hired Swords as a Mercenary warband. | Horse and Rider: Because Bretonnian knights are typically mounted, the Paragon and the Gallant may each buy a single horse or warhorse at half the normal price upon recruitment. | Footman List Prices: In the Footman list a Lance costs 20 gc and Barding 30 gc; a Warhorse costs 80 gc. Lance, heavy armour, barding and warhorse are for Knights only (the Paragon may not use a Lance). Spear, halberd and bow are for Pilgrims only. | Archer List: Spear and horse (40 gc) are for Esquiresses only. | Dame of the Mare: If the Dame is removed, a new one must be recruited without delay; no other warriors may be recruited before her. | Blazing Saddles Option: Optional rule from Town Cryer 14. The Paragon, Gallant, Esquiresses and Redeemed Knights automatically gain the Ride skill, and the warband may ignore the normal limit of two mounts in dense terrain."
+}

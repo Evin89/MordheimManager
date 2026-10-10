@@ -1,0 +1,423 @@
+{
+  "id": "masters-of-horror",
+  "name": "Masters of Horror",
+  "source": "Sylvania Supplement, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/masters-of-horror) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "madScientist",
+      "racialProfile": "human",
+      "unitType": "Mad Scientist",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": [
+        "academic",
+        "speed",
+        "mastersOfHorror"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "horrorHeroList"
+      ],
+      "notes": "A deranged genius who stitches the dead back together. Each warband must have exactly one Mad Scientist.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "ref": "immuneToPsychology"
+        }
+      ]
+    },
+    {
+      "id": "thrall",
+      "unitType": "Thrall",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 70,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed",
+        "mastersOfHorror"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "horrorHeroList"
+      ],
+      "notes": "The Scientist's masterpiece, a tireless revived servant. 0-1.",
+      "specialRules": [
+        {
+          "ref": "fear"
+        },
+        {
+          "ref": "immuneToPsychology",
+          "note": "Never leaves combat."
+        },
+        {
+          "name": "Immune to Poison",
+          "description": "Not affected by any poison."
+        },
+        {
+          "name": "No Pain",
+          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+        }
+      ]
+    },
+    {
+      "id": "wolfman",
+      "unitType": "Wolfman",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 65,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed",
+        "mastersOfHorror"
+      ],
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 2,
+        "I": 2,
+        "A": 2,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 6,
+        "WS": 4,
+        "BS": 3,
+        "S": 5,
+        "T": 4,
+        "W": 3,
+        "I": 7,
+        "A": 4,
+        "Ld": 8
+      },
+      "equipmentOptions": [],
+      "notes": "A man cursed to be a beast, kept chained by the Scientist. 0-1. Cannot use any equipment.",
+      "specialRules": [
+        {
+          "name": "Beast",
+          "description": "Cannot carry or use any equipment. Fights with teeth and claws without the usual penalty for fighting unarmed."
+        }
+      ]
+    },
+    {
+      "id": "hunchback",
+      "racialProfile": "human",
+      "unitType": "Hunchbacks",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 25,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed",
+        "mastersOfHorror"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "horrorHeroList"
+      ],
+      "notes": "Twisted lab assistants. 0-2.",
+      "specialRules": []
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "zombies",
+      "unitType": "Zombies",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 0,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 1,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "Reanimated corpses. Any number. May not use equipment. Cannot be promoted by That Lad's Got Talent.",
+      "specialRules": [
+        {
+          "ref": "fear"
+        },
+        {
+          "ref": "immuneToPsychology"
+        },
+        {
+          "name": "Immune to Poison",
+          "description": "Not affected by any poison."
+        },
+        {
+          "name": "No Pain",
+          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+        },
+        {
+          "name": "Slow",
+          "description": "May not run, but may charge."
+        },
+        {
+          "name": "No Brain",
+          "description": "Zombies never gain experience (unless the Mad Scientist has Apt Revitalist).",
+          "effects": { "noExperience": true }
+        }
+      ]
+    },
+    {
+      "id": "fleshConstruct",
+      "unitType": "Flesh Construct",
+      "cost": 80,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 0,
+        "S": 4,
+        "T": 5,
+        "W": 2,
+        "I": 2,
+        "A": 2,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "A huge creature stitched together from many bodies. 0-1. May not use weapons or armour. Cannot be promoted by That Lad's Got Talent.",
+      "specialRules": [
+        {
+          "ref": "fear"
+        },
+        {
+          "ref": "immuneToPsychology"
+        },
+        {
+          "name": "Immune to Poison",
+          "description": "Not affected by any poison."
+        },
+        {
+          "name": "No Pain",
+          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+        },
+        {
+          "name": "Slow",
+          "description": "May not run, but may charge."
+        },
+        {
+          "name": "A Bit Unhinged",
+          "description": "Must pass a Leadership test after a game to gain experience."
+        },
+        {
+          "name": "It's Only a Flesh Wound",
+          "description": "On a Henchman Injury roll of 1-2 it can be repaired for D6x5 gc. If not paid it misses the next battle and stays on the roster until repaired or abandoned."
+        }
+      ]
+    },
+    {
+      "id": "theBitten",
+      "racialProfile": "human",
+      "unitType": "The Bitten",
+      "cost": 40,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "bittenList"
+      ],
+      "notes": "Humans infected by the Wolfman's bite. 0-3.",
+      "specialRules": [
+        {
+          "name": "Curse of the Wolf",
+          "description": "Roll a D6 for each Bitten every turn. 1: subject to Stupidity this turn, and a transformed Bitten reverts to human form; 2-5: acts normally; 6: transforms, gaining Frenzy and Sprint until a 1 is rolled. Transformed Bitten do not roll while in combat. Once transformed, a Bitten drops all equipment except a dagger and fights unarmed without penalty."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "horrorHeroList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "halberd",
+      "doubleHandedWeapon",
+      "bow",
+      "shortBow",
+      "lightArmour",
+      "shield",
+      "helmet",
+      "chainsawSword",
+      "electricTrident",
+      "repeaterPistol"
+    ],
+    "bittenList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "shield"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "chainsawSword",
+      "name": "Chainsaw Sword",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Masters of Horror Heroes only. Costs 15 + D6 gc.",
+      "rulesText": "Close combat, Strength as user. Causes Fear. Shredder: all hits have a -2 armour save modifier."
+    },
+    {
+      "id": "electricTrident",
+      "name": "Electric Trident",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Masters of Horror Heroes only. Costs 15 + D6 gc.",
+      "rulesText": "Close combat, Strength as user. Zzap!: a model wounded by it is Stunned on an Injury roll of 2-4. Shocking: a natural 6 to hit followed by a natural 6 to wound releases a 2\" field that hits every other model (not the bearer) at S3. Nail in Boot: a to-hit roll of 1 hits the bearer at S3."
+    },
+    {
+      "id": "repeaterPistol",
+      "name": "Repeater Pistol",
+      "category": "missile",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "Masters of Horror Heroes only. Costs 25 + 3D6 gc.",
+      "rulesText": "Range 8\", Strength 4, -2 armour save modifier. Too Much Tinkering: roll a D6 each time the trigger is pulled; 4+ it fires, 2-3 nothing happens, 1 roll on the Misfire chart. Repeater: after a shot it may try another, rolling on the same table at -1 per extra shot; at most 3 shots per Shooting phase."
+    }
+  ],
+  "specialRules": "Hired Swords: The warband may hire the same Hired Swords as an Undead warband. | No Promotion: Zombies and Flesh Constructs can never become Heroes through That Lad's Got Talent. | Special Skills: All Heroes may take Lunatic from the Masters of Horror skill list. The Mad Scientist may choose from the special list instead of a standard skill list."
+}

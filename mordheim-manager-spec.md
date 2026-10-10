@@ -2801,6 +2801,21 @@ The audit's "23 + 21 + 9" import, as built:
 - **Equipment:** 19 rare items — nine animals as Miscellaneous with their profile in the notes (Chaos Steed, Cold One, Elven Steed, Giant Spider, Giant Wolf, Mule, Rhinox, Temple Dog, War Boar), Chaos and Lamellar Armour, Pavise, Brass Knuckles, Brazier Iron, Horseman's Hammer, Sons of Hashut Obsidian Weapon, Sword Breaker, Trident and Cathayan Candles. Warband-locked items carry `warbandIds`. Left out: Masterwork Heavy Armour, Bec de Corbin and Miraglian Firepots, which the source gives no price or availability for; Club, Mace and Fist (already covered) and the Riding Horse (already "Horse").
 - **Skills:** six Academic (Animal Handling, Tomb Raider, Trap Expert, Driver, Strategist, Scholar) and two Strength (Handyman, Beastmaster), each citing its source. The ninth, *Ride*, is the generic form of the Cavalry list's Ride Horse/Warhorse/Nightmare and isn't added separately. The remaining 53 unmatched skills belong to warbands the app doesn't have.
 
+## 32. Grade 2a warbands ✅
+
+Decided 2026-10-10 by the owner: add all 18 grade 2a warbands the mordheimer.net index lists and the app lacked (Dwarf Slayer Cult was already in). The local dataset only indexes them, so each was converted from its mordheimer.net page: Dreamwalkers (Cult of Morr), Druchii, Grave Robbers, Halflings, Masters of Horror, Mazzalupo, Necrarchs the Soul Stealers, Nipponese Expedition, Ogre Hunting Party, Order of the Mare, Outlaws of Stirwood Forest (Redux), Protectorate of Sigmar, Skaven of Clan Moulder, Snotlings, Sorcerous Society, Survivors of Strigos, Vampire Hunters of Sylvania, Wood Elves of Athel Loren.
+
+- **Data:** one file per warband in `src/data/warbands/`, registered in `warbandRegistry.ts`; 15 warband skill lists in `skills.json` (`warbandSpecific`); 13 spell and prayer lists in `spells.json`, including source variants kept separate from the app list they resemble (`druchiiDarkMagic` vs `darkElfMagic`, `striganyCharmsAndHexes` vs `charmsAndHexes`, `funeraryRitesSylvania` vs `funeraryRites`).
+- **Rule text** is written in our own words from the pages, precise about numbers and dice; nothing is invented — unknown values are `null` (Scythe price, Wheelo's Move).
+- **Not modelled, shown as text (§1):** warband-specific prices that differ from the shared catalogue (cheaper Elven gear for the Wood Elves, Lance 20 gc for Mazzalupo and the Order of the Mare, Barding 30 gc, Druchii founding prices); "X only" item restrictions on shared lists; the Sorcerous Society's one-lore-per-wizard rule (Magus and Mages are offered Lesser Magic and all four elemental lores).
+- **Judgement calls worth a check against the source:**
+  - Dreamwalkers: the Dreamer is the Leader; the Priest of Morr leads until he is hired.
+  - Grave Robbers: the Graver is taken as the Leader; the page doesn't say so.
+  - Necrarchs: the Necrarch uses the printed *Dreaded Scrolls of Nagash*, not Necromancy as the Wizard rule says.
+  - Halflings: the Village Ogre keeps the Long Bow despite "Too Big".
+  - Snotlings: the page header says grade 2b.
+  - Mazzalupo: the Wandering Knight's Commands are a `magic` list, so the app labels them "Spells".
+
 ## 33. Rule text 1:1 from the Mordheimer data ✅
 
 Decided 2026-10-10 by the owner: **rules taken from the Mordheimer data are copied word for word, never reworded or summarised.** Only markup is removed (tooltips, bold, `<br>`; paragraph breaks become ` | ` where a field is paragraphs, a space inside one rule), and source tables are written row by row ("1: …; 2-5: …"). Typos and quote marks stay as printed.

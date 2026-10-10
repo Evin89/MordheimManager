@@ -1,0 +1,372 @@
+{
+  "id": "vampire-hunters-of-sylvania",
+  "name": "Vampire Hunters of Sylvania",
+  "source": "Letters of the Damned #5, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/vampire-hunters-of-sylvania) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "vampireHunter",
+      "racialProfile": "human",
+      "unitType": "Vampire Hunter",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "speed",
+        "vampireHuntersSylvania"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "vampireHunterHeroList"
+      ],
+      "notes": "A grim, driven hunter of the undead who leads the warband into Sylvania. Each warband must have exactly one.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "name": "Stake the Vampire!",
+          "description": "Hates Vampires. Must always move towards a Vampire on the battlefield that he can see, unless he can shoot at it instead (in which case he may choose)."
+        }
+      ]
+    },
+    {
+      "id": "priestOfMorr",
+      "racialProfile": "human",
+      "unitType": "Priest of Morr",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 35,
+      "startingXp": 12,
+      "skillLists": [
+        "academic",
+        "speed",
+        "vampireHuntersSylvania"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "priestOfMorrList"
+      ],
+      "spellLists": [
+        "funeraryRitesSylvania"
+      ],
+      "notes": "A priest of the god of death, sworn to lay the restless dead to rest. 0-1 per warband. May only be armed with a Dagger and a Scythe and may never wear armour. From the special skill list he may only take Blessing of Morr and Thirst for Vengeance.",
+      "specialRules": [
+        {
+          "ref": "prayers",
+          "note": "Randomly generates one rite from the Funerary Rites list (this source's version has different difficulties, see spells.txt)."
+        },
+        {
+          "name": "Loner",
+          "description": "Does not suffer from the All Alone rules."
+        },
+        {
+          "name": "Servant of Morr",
+          "description": "May only be armed with a Dagger and a Scythe, and may never wear armour."
+        }
+      ],
+      "startingSpells": 1
+    },
+    {
+      "id": "slayers",
+      "racialProfile": "human",
+      "unitType": "Slayers",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "cost": 25,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "speed",
+        "vampireHuntersSylvania"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "vampireHunterHeroList"
+      ],
+      "notes": "Hardened followers of the Vampire Hunter. 0-3 per warband.",
+      "specialRules": [
+        {
+          "name": "Stake the Vampire!",
+          "description": "Hates Vampires. Must always move towards a Vampire on the battlefield that he can see, unless he can shoot at it instead (in which case he may choose)."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "villagers",
+      "racialProfile": "human",
+      "unitType": "Villagers",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "villagerList"
+      ],
+      "notes": "Desperate Sylvanian peasants armed with whatever they could find. Any number may be taken.",
+      "specialRules": []
+    },
+    {
+      "id": "pilgrims",
+      "racialProfile": "human",
+      "unitType": "Pilgrims",
+      "cost": 40,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 4,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 10
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "pilgrimList"
+      ],
+      "notes": "Pilgrims of Pain who believe the world will end unless the undead are stopped. 0-4 per warband.",
+      "specialRules": [
+        {
+          "name": "Fanatical",
+          "description": "Automatically passes any Leadership-based tests. A Pilgrim may never become the warband leader."
+        },
+        {
+          "name": "Blunt",
+          "description": "Ignores all bladed and ranged weapons in favour of maces, hammers and staffs; the only exception is the Silver-tip Stake."
+        }
+      ]
+    },
+    {
+      "id": "wolfhounds",
+      "unitType": "Wolfhounds",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 4,
+      "statLine": {
+        "M": 6,
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "Hunting hounds that fight with jaws and brutality and never use or need weapons or armour. 0-4 per warband.",
+      "specialRules": [
+        {
+          "ref": "animal"
+        },
+        {
+          "name": "No Experience",
+          "description": "Animals never gain experience.",
+          "effects": { "noExperience": true }
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "vampireHunterHeroList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "scythe",
+      "silverTipStake",
+      "doubleHandedWeapon",
+      "crossbow",
+      "pistol",
+      "crossbowPistol",
+      "lightArmour",
+      "shield",
+      "helmet",
+      "blessedWater",
+      "blessedBolts",
+      "holyUnholyRelic",
+      "throatGuard"
+    ],
+    "priestOfMorrList": [
+      "dagger",
+      "scythe"
+    ],
+    "pilgrimList": [
+      "clubMaceHammer",
+      "silverTipStake"
+    ],
+    "villagerList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "scythe",
+      "name": "Scythe",
+      "category": "melee",
+      "cost": 10,
+      "rarity": null,
+      "restriction": null,
+      "rulesText": "Close combat, Strength as user +1. Two-handed: the user may not also use a shield, buckler or additional close combat weapon."
+    },
+    {
+      "id": "silverTipStake",
+      "name": "Silver-tip Stake",
+      "category": "melee",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "Costs 10 gc in the warband's lists; its own entry says 15 gc (source conflict).",
+      "rulesText": "Close combat, Strength as user. Heart-seeker: adds +1 to the injury roll when it causes a wound."
+    },
+    {
+      "id": "throatGuard",
+      "name": "Throat Guard",
+      "category": "armour",
+      "cost": 10,
+      "rarity": 7,
+      "restriction": "Heroes only.",
+      "rulesText": "Life Saver: all injury rolls caused by a Vampire get a special 6+ save while this is worn. The save is not modified by Strength, can be bypassed by criticals that ignore armour, adds no armour save modifiers, and may be worn alone or with light or heavy armour."
+    },
+    {
+      "id": "blessedBolts",
+      "name": "Blessed Bolts",
+      "category": "missile",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "Heroes only. The source gives no rarity.",
+      "rulesText": "Rules not printed on the warband page, which refers to the Protectorate of Sigmar warband's Blessed Bolts entry."
+    }
+  ],
+  "specialRules": "Hired Swords: The warband may recruit Hired Swords as if it were a Human Mercenary warband. | Stake the Vampire!: The Vampire Hunter and Slayers Hate Vampires and must always move towards a Vampire they can see, unless they can shoot at it instead (in which case they may choose). | Heroes Only Items: Holy Water, Blessed Bolts, Holy Relics and Throat Guards may only be bought by Heroes. | Priest of Morr: He may only be armed with a Dagger and a Scythe and may never wear armour."
+}

@@ -1,0 +1,337 @@
+{
+  "id": "grave-robbers",
+  "name": "Grave Robbers",
+  "source": "Sylvania Supplement, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/grave-robbers) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "graver",
+      "racialProfile": "human",
+      "unitType": "Graver",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "speed",
+        "graveRobbers"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "graveRobberHeroList"
+      ],
+      "notes": "The head of the gang of body-snatchers. Each warband must have one Graver.",
+      "specialRules": [
+        {
+          "ref": "leader",
+          "note": "The page does not state the Leader rule explicitly; the Graver is the warband's only compulsory Hero."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Undead"
+          }
+        }
+      ]
+    },
+    {
+      "id": "graveRobber",
+      "racialProfile": "human",
+      "unitType": "Grave Robbers",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 25,
+      "startingXp": 4,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "speed",
+        "graveRobbers"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "graveRobberHeroList"
+      ],
+      "notes": "Seasoned diggers who loot the tombs of Sylvania. 0-2.",
+      "specialRules": [
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Undead"
+          }
+        }
+      ]
+    },
+    {
+      "id": "juniorMedic",
+      "racialProfile": "human",
+      "unitType": "Junior Medic",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 40,
+      "startingXp": 2,
+      "skillLists": [
+        "academic",
+        "speed",
+        "graveRobbers"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "graveRobberHeroList"
+      ],
+      "notes": "A student surgeon who buys bodies from the gang and patches up its members. 0-1. Only he can use the Surgeon's Journal.",
+      "specialRules": [
+        {
+          "name": "Sawbones",
+          "description": "After a battle, may re-roll one friendly Hero's Serious Injury result; the second result stands. Cannot be used if the Junior Medic was taken out of action during the battle."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Undead"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lookout",
+      "racialProfile": "human",
+      "unitType": "Lookouts",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 15,
+      "startingXp": 0,
+      "skillLists": [
+        "shooting",
+        "speed",
+        "graveRobbers"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "graveRobberHeroList"
+      ],
+      "notes": "Youngsters who keep watch while the others dig. 0-2.",
+      "specialRules": [
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Undead"
+          }
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "thugs",
+      "racialProfile": "human",
+      "unitType": "Thugs",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "graveRobberHenchmenList"
+      ],
+      "notes": "Hired muscle for the dig. Bought in groups of 1-5; any number, within the 15-model warband limit.",
+      "specialRules": [
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Undead"
+          }
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "graveRobberHeroList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "halberd",
+      "doubleHandedWeapon",
+      "pryBar",
+      "shortBow",
+      "bow",
+      "crossbow",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet",
+      "hoodedLanternAndRig",
+      "surgeonsJournal",
+      "fingerPendant"
+    ],
+    "graveRobberHenchmenList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "halberd",
+      "shortBow",
+      "bow",
+      "lightArmour",
+      "shield"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "pryBar",
+      "name": "Pry Bar",
+      "category": "melee",
+      "cost": 10,
+      "rarity": null,
+      "restriction": "Grave Robbers warband only; Heroes only.",
+      "rulesText": "Close combat, Strength as user. Counts as a club. Parry: the wielder may parry blows as with a sword."
+    },
+    {
+      "id": "hoodedLanternAndRig",
+      "name": "Hooded Lantern & Rig",
+      "category": "misc",
+      "cost": 15,
+      "rarity": 9,
+      "restriction": "Heroes only. 15 gc at founding (Hero list); later 15 + D6 gc, Rare 9.",
+      "rulesText": "Concealed Light: works as a normal Lantern, but enemy models cannot see the bearer because of it. Free-hand: the rig leaves the bearer's hands free."
+    },
+    {
+      "id": "surgeonsJournal",
+      "name": "Surgeon's Journal",
+      "category": "misc",
+      "cost": 80,
+      "rarity": 11,
+      "restriction": "Heroes only; its effect is used by the Junior Medic. 80 gc at founding (Hero list); later 80 + 4D6 gc, Rare 11.",
+      "rulesText": "Skilled Hand: instead of using Sawbones, the Medic may modify one friendly model's Serious Injury die by +1 or -1."
+    },
+    {
+      "id": "fingerPendant",
+      "name": "Finger Pendant",
+      "category": "misc",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Grave Robbers warband only; Heroes only.",
+      "rulesText": "Death-Ward: a one-use 5+ save against a Necromantic or Dark Arts spell."
+    }
+  ],
+  "specialRules": "Grave Goods: In the Exploration phase, gain +1 gc for each enemy model taken out of action during the battle. | Shady Reputation: May not hire Bounty Hunters, Roadwardens, Law-Enforcers, Holy Men or any Follower of Morr. | Undead Foes: All members of the warband Hate Undead models. | Shovels: The Shovel on the equipment lists is a Halberd (10 gc)."
+}

@@ -1687,6 +1687,706 @@
           "effect": "This spell has a range of 12\" and causes one Strength 2 hit with no armour save. If the model is taken out of action roll for Serious Injuries immediately. If they die replace the killed warrior with a Horror of Tzeentch (see Bestiary for rules) until the end of the game. If the Seer is stunned or taken out of action the Horror disappears into the Realm of Chaos."
         }
       ]
+    },
+    "druchiiDarkMagic": {
+      "id": "druchiiDarkMagic",
+      "name": "Dark Magic (Druchii)",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Druchii Sorceress"
+      ],
+      "notes": "The Druchii version of Dark Elf Magic: spell 4 is Black Blade of Khaine (not Flamesword), Doombolt is difficulty 8 (not 9) and Deathspasm difficulty 9 (not 10). The Sorceress cannot cast spells while wearing armour.",
+      "source": "Druchii (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "druchiiDarkMagic.doombolt",
+          "roll": 1,
+          "name": "Doombolt",
+          "difficulty": 8,
+          "effect": "Range 18\". Causes one Strength 5 hit on an enemy model in line of sight. If it wounds, the next closest model within 6\" of the target is hit on a 4+ at -1 Strength. The bolt can leap up to 4 times in this way, and no model can be hit more than once per casting. Armour saves are taken as normal."
+        },
+        {
+          "id": "druchiiDarkMagic.word_of_pain",
+          "roll": 2,
+          "name": "Word of Pain",
+          "difficulty": 8,
+          "effect": "Cast on one enemy model within 12\". The victim must re-roll all successful to-hit and to-wound rolls, and must pass a Leadership test before it may charge. Lasts until the start of the next Dark Elf turn."
+        },
+        {
+          "id": "druchiiDarkMagic.soul_stealer",
+          "roll": 3,
+          "name": "Soul Stealer",
+          "difficulty": 9,
+          "effect": "Once cast, the Sorceress makes a to-hit roll against one model in base contact. If it hits, the model suffers one wound with no armour save allowed, and the Sorceress gains +1 Wound. She can never have more than one extra wound from this spell at a time, and it is lost at the end of the battle."
+        },
+        {
+          "id": "druchiiDarkMagic.black_blade_of_khaine",
+          "roll": 4,
+          "name": "Black Blade of Khaine",
+          "difficulty": 8,
+          "effect": "The hand-to-hand weapon of one friendly model within 6\" gains +2 Strength and ignores armour saves. Lasts until the Sorceress's next shooting phase."
+        },
+        {
+          "id": "druchiiDarkMagic.deathspasm",
+          "roll": 5,
+          "name": "Deathspasm",
+          "difficulty": 9,
+          "effect": "Range 6\". Must target the closest enemy model, which must roll on the Injury table. If the spell is successfully cast, the Sorceress is knocked down; the Jump Up skill cannot prevent this."
+        },
+        {
+          "id": "druchiiDarkMagic.witch_flight",
+          "roll": 6,
+          "name": "Witch Flight",
+          "difficulty": 7,
+          "effect": "The Sorceress may immediately move anywhere within 12\" and may count as charging. If she engages a fleeing enemy she scores 1 automatic hit in close combat and the enemy flees again."
+        }
+      ]
+    },
+    "wanderingKnightCommands": {
+      "id": "wanderingKnightCommands",
+      "name": "Commands of the Wandering Knight",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Mazzalupo Wandering Knight"
+      ],
+      "notes": "Commands, not spells: the Knight is not a wizard but issues them using the casting rules (2D6 equal to or above the difficulty). He issues one Command in the Recovery phase instead of running, if not knocked down, stunned or out of action. A Command affects friendly models within 6\" that can hear him (not stunned or knocked down) unless the Command says otherwise, and a model may benefit from only one Command per turn. Animals, allies, Dramatis Personae, Hired Swords and Fallen Nobles cannot be targeted; the Knight is unaffected unless stated. The Knight knows one Command at creation and learns more whenever he would learn a new spell; if he dies, the new Captain gains Commands, starting with one random Command.",
+      "source": "Mazzalupo (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "wanderingKnightCommands.raise_our_insignia",
+          "roll": 1,
+          "name": "Raise our Insignia!",
+          "difficulty": 6,
+          "effect": "If the Squire is within 12\" of the Knight and is not fleeing, knocked down, stunned or out of action: until the next Shooting phase, friendly models with line of sight to the Squire may re-roll failed Leadership tests, including Rout tests."
+        },
+        {
+          "id": "wanderingKnightCommands.move_ye_miscreant",
+          "roll": 2,
+          "name": "Move, ye Miscreant!",
+          "difficulty": 6,
+          "effect": "One friendly warrior within 6\" may immediately move again, up to its maximum Movement. Moving into base contact with an enemy counts as a charge."
+        },
+        {
+          "id": "wanderingKnightCommands.follow_me_mine_pugnacious_ones",
+          "roll": 3,
+          "name": "Follow me, mine Pugnacious Ones!",
+          "difficulty": 8,
+          "effect": "Friendly warriors within 4\" of the Knight gain +1 to hit in close combat until the end of the turn."
+        },
+        {
+          "id": "wanderingKnightCommands.be_on_guard_my_brave_ones",
+          "roll": 4,
+          "name": "Be on Guard, my Brave Ones!",
+          "difficulty": 7,
+          "effect": "One friendly warrior within 12\" that is in close combat may move away up to its Movement. It may not move into base contact with enemy models."
+        },
+        {
+          "id": "wanderingKnightCommands.pay_them_no_heed",
+          "roll": 5,
+          "name": "Pay them no Heed!",
+          "difficulty": 6,
+          "effect": "One friendly model within 12\" may shoot at any enemy model, not only the closest, until the next Shooting phase."
+        },
+        {
+          "id": "wanderingKnightCommands.art_thou_ready_to_die_fighting",
+          "roll": 6,
+          "name": "Art thou Ready to Die Fighting?",
+          "difficulty": 8,
+          "effect": "Until the next Mazzalupo turn, Mazzalupo models within 4\" of the Knight (including the Knight himself) are only taken out of action on an Injury roll of 6."
+        }
+      ]
+    },
+    "dreadedScrollsOfNagash": {
+      "id": "dreadedScrollsOfNagash",
+      "name": "Dreaded Scrolls of Nagash",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Necrarchs Necrarch Vampire",
+        "Necrarchs Thrall (on becoming leader)"
+      ],
+      "notes": "The source's Wizard rule names the Necromancy list, but the page prints this list and the Pupil of Nagash skill refers to it. If the Necrarch dies, the Thrall becomes leader and immediately rolls one spell from this list.",
+      "source": "Necrarchs, the Soul Stealers (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "dreadedScrollsOfNagash.soulcage",
+          "roll": 1,
+          "name": "Soulcage",
+          "difficulty": 9,
+          "effect": "Choose a model within 6\". All wounds the caster suffers are transferred to that model instead, and it rolls on the Injury chart at +1 for them. If it rolls a natural 6 on such an Injury roll it is taken out of action and the caster is Stunned. Only one Soulcage can be in effect at a time."
+        },
+        {
+          "id": "dreadedScrollsOfNagash.black_breath",
+          "roll": 2,
+          "name": "Black Breath",
+          "difficulty": 8,
+          "effect": "Range 8\". The first model in the path suffers two Strength 4 hits, and every model within 2\" of it suffers one Strength 3 hit."
+        },
+        {
+          "id": "dreadedScrollsOfNagash.servants_eternal",
+          "roll": 3,
+          "name": "Servants Eternal",
+          "difficulty": null,
+          "effect": "Automatic (the source gives the difficulty as Auto). Cast once only, before the game. Summons D3 Zombies, which crumble to dust after the battle and do not count towards the warband's maximum size."
+        },
+        {
+          "id": "dreadedScrollsOfNagash.fear_of_the_ages",
+          "roll": 4,
+          "name": "Fear of the Ages",
+          "difficulty": 9,
+          "effect": "Every enemy model within 4\" of the caster suffers a Strength 3 hit with no armour save allowed. Servants of Morr, Sigmar and Ulric suffer a Strength 4 hit instead."
+        },
+        {
+          "id": "dreadedScrollsOfNagash.wall_of_despair",
+          "roll": 5,
+          "name": "Wall of Despair",
+          "difficulty": 6,
+          "effect": "The caster becomes immune to all spells and prayers. Roll a D6 in each of his Recovery phases; on a 1 or 2 the effect ends."
+        },
+        {
+          "id": "dreadedScrollsOfNagash.claws_of_nagash",
+          "roll": 6,
+          "name": "Claws of Nagash",
+          "difficulty": 10,
+          "effect": "The caster gains +1 Weapon Skill and becomes subject to Frenzy. Roll a D6 in each of his Recovery phases; on a 2 or less the effect ends."
+        }
+      ]
+    },
+    "blessingsOfTheMare": {
+      "id": "blessingsOfTheMare",
+      "name": "Blessings of the Mare",
+      "kind": "prayer",
+      "die": "D6",
+      "usedBy": [
+        "Order of the Mare Dame of the Mare"
+      ],
+      "notes": "Prayers, so armour does not hinder them. The Dame starts with one randomly determined prayer (D6). The source does not say how she learns further prayers.",
+      "source": "Order of the Mare (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "blessingsOfTheMare.unnerving_gaze",
+          "roll": 1,
+          "name": "Unnerving Gaze",
+          "difficulty": 7,
+          "effect": "Hand-to-hand attacks against the Dame are at -1 to hit, and enemy models in base contact with her must strike last. Lasts until the start of the warband's next Shooting phase."
+        },
+        {
+          "id": "blessingsOfTheMare.phantom_hoof",
+          "roll": 2,
+          "name": "Phantom Hoof",
+          "difficulty": 9,
+          "effect": "One enemy warrior within 6\" of the Dame suffers a Strength 5 hit with the Concussion special rule."
+        },
+        {
+          "id": "blessingsOfTheMare.dames_inspiration",
+          "roll": 3,
+          "name": "Dame's Inspiration",
+          "difficulty": 7,
+          "effect": "The Dame gains +1 to hit and +1 Strength in close combat. At the start of each of her turns she must roll 2D6 equal to or above the difficulty (7) to keep the effect."
+        },
+        {
+          "id": "blessingsOfTheMare.thirst_for_valour",
+          "roll": 4,
+          "name": "Thirst for Valour",
+          "difficulty": 8,
+          "effect": "One friendly warrior within 12\" (not the Dame herself) becomes subject to Frenzy. Only one warrior can be affected at a time; casting it on a new target removes it from the previous one."
+        },
+        {
+          "id": "blessingsOfTheMare.aura_of_dauntlessness",
+          "roll": 5,
+          "name": "Aura of Dauntlessness",
+          "difficulty": 10,
+          "effect": "For the rest of the battle, the armour saves of the Dame and of a friendly Companion Filly improve by 1. The rest of the warband gains a 6+ save against non-magical attacks that cannot be modified, taken after any other saves."
+        },
+        {
+          "id": "blessingsOfTheMare.the_dames_charger",
+          "roll": 6,
+          "name": "The Dame's Charger",
+          "difficulty": 8,
+          "effect": "The Dame mounts a spectral steed with the profile M8 WS4 BS0 S4 T4 W1 I4 A2 Ld7. The steed has no armour save of its own, but the Dame's armour save improves by 1, and the steed causes Fear. Lasts until the end of the game or until the Dame is dismounted."
+        }
+      ]
+    },
+    "snotlingWaaaghMagic": {
+      "id": "snotlingWaaaghMagic",
+      "name": "Snotling Waaagh! Magic",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Snotlings Snotling Shaman"
+      ],
+      "notes": "Distinct from the standard Waaagh! Magic. After each casting attempt the Shaman tests for 'Eadache! (see the warband).",
+      "source": "Snotlings (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "snotlingWaaaghMagic.morks_blessing",
+          "roll": 1,
+          "name": "Mork's Blessing",
+          "difficulty": 6,
+          "effect": "Target one friendly greenskin Hero; line of sight is not needed and the Shaman may target himself. When that Hero is taken out of action, roll a D6: on a 4+ the attacker suffers an automatic wound with no save. Lasts until the end of the game or until the Hero goes out of action. Recasting replaces the existing blessing.",
+          "errata": "The source spells it \"Morks' Blessing\"."
+        },
+        {
+          "id": "snotlingWaaaghMagic.we_can_fly",
+          "roll": 2,
+          "name": "We Can Fly!",
+          "difficulty": 7,
+          "effect": "The Shaman and the closest D6 friendly models within 6\" of him move 12\" towards the nearest enemy. Models that reach an enemy count as charging."
+        },
+        {
+          "id": "snotlingWaaaghMagic.foot_of_gork",
+          "roll": 3,
+          "name": "Foot of Gork!",
+          "difficulty": 9,
+          "effect": "Randomly select an enemy model. It and every model within 3\" of it, friend or foe, suffers D3 hits. These wound enemies on a 3+ and Snotlings on a 5+, and all have a -3 armour save modifier."
+        },
+        {
+          "id": "snotlingWaaaghMagic.pebbles_of_doom",
+          "roll": 4,
+          "name": "Pebbles of Doom",
+          "difficulty": 6,
+          "effect": "One friendly Hero within 6\" gains D6 magical pebbles, which are +1 to hit and +1 Strength. They last until used, until the Hero goes out of action, until the end of the game, or until the spell is recast (recasting removes any existing pebbles)."
+        },
+        {
+          "id": "snotlingWaaaghMagic.pointy_stick_of_death",
+          "roll": 5,
+          "name": "Pointy Stick of Death",
+          "difficulty": 7,
+          "effect": "The Shaman gains +2 Weapon Skill and +1 Strength and strikes first in every round of close combat, even when charged. He must pass the difficulty test (7) again at the start of each Recovery phase to keep the effect."
+        },
+        {
+          "id": "snotlingWaaaghMagic.blessing_of_the_shrimp",
+          "roll": 6,
+          "name": "Blessing of the Shrimp",
+          "difficulty": 6,
+          "effect": "One Hero within 6\" gains +1 WS, +1 T and +1 Ld for D3 rounds. If cast on the Leader, all friendly models within 12\" may use his Leadership; otherwise friendly models within 6\" may use the blessed model's Leadership as if he were an additional Leader. Only one model may hold the blessing at a time."
+        }
+      ]
+    },
+    "elementalWater": {
+      "id": "elementalWater",
+      "name": "Lore of Water",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Sorcerous Society Magus",
+        "Sorcerous Society Mages"
+      ],
+      "notes": "One of the four Elemental lores of the Sorcerous Society. Each wizard draws all his spells from ONE lore of his choice (Water, Fire, Earth or Air) or from Lesser Magic.",
+      "source": "Sorcerous Society (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "elementalWater.geyser",
+          "roll": 1,
+          "name": "Geyser",
+          "difficulty": 9,
+          "effect": "Range 10\"; cannot target elevated models. The target suffers one Strength 4 hit and is blown 2\" in a random direction. If it collides with another model, both suffer a Strength 2 hit."
+        },
+        {
+          "id": "elementalWater.portent_of_amul",
+          "roll": 2,
+          "name": "Portent of Amul",
+          "difficulty": 6,
+          "effect": "All friendly models may re-roll results of 1 in close combat, in both players' turns. A re-roll cannot itself be re-rolled."
+        },
+        {
+          "id": "elementalWater.premonition",
+          "roll": 3,
+          "name": "Premonition",
+          "difficulty": 8,
+          "effect": "While the wizard stays standing, the warband has +1 Leadership and may re-roll failed Rout tests."
+        },
+        {
+          "id": "elementalWater.frostbolts",
+          "roll": 4,
+          "name": "Frostbolts",
+          "difficulty": 8,
+          "effect": "Magic missile with a range of 16\", causing D3 Strength 3 hits."
+        },
+        {
+          "id": "elementalWater.blindness_of_the_depths",
+          "roll": 5,
+          "name": "Blindness of the Depths",
+          "difficulty": 7,
+          "effect": "Range 12\". The target must pass an Initiative test or be Blind: it cannot fight, shoot or cast spells, and cannot be charged or targeted. It takes a new Initiative test in each of its Recovery phases."
+        },
+        {
+          "id": "elementalWater.lifespring",
+          "roll": 6,
+          "name": "Lifespring",
+          "difficulty": 8,
+          "effect": "One friendly model within 4\" regains one wound and recovers from being knocked down or stunned, acting normally that turn."
+        }
+      ]
+    },
+    "elementalFire": {
+      "id": "elementalFire",
+      "name": "Lore of Fire",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Sorcerous Society Magus",
+        "Sorcerous Society Mages"
+      ],
+      "notes": "One of the four Elemental lores of the Sorcerous Society. Each wizard draws all his spells from ONE lore of his choice (Water, Fire, Earth or Air) or from Lesser Magic.",
+      "source": "Sorcerous Society (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "elementalFire.joruns_blast_of_brimstone",
+          "roll": 1,
+          "name": "Jorun's Blast of Brimstone",
+          "difficulty": 9,
+          "effect": "Range equal to the caster's Strength + D6 inches. Causes a Strength 3 hit on the target and on every model within 1.5\" of it."
+        },
+        {
+          "id": "elementalFire.tazouls_burning_skull",
+          "roll": 2,
+          "name": "Tazoul's Burning Skull",
+          "difficulty": 9,
+          "effect": "Range 8\". One Strength 5 hit on the target. Then roll a D6: on a 5+ the nearest other enemy model suffers a Strength 3 hit; if that happens, roll again and on a 4+ the next nearest enemy model suffers a Strength 2 hit. No model can be hit twice."
+        },
+        {
+          "id": "elementalFire.hades_heat",
+          "roll": 3,
+          "name": "Hades Heat",
+          "difficulty": 6,
+          "effect": "Place the small (3\") blast template within 8\". Models under it suffer -1 WS and -1 S until the caster's next turn."
+        },
+        {
+          "id": "elementalFire.shield_of_flame",
+          "roll": 4,
+          "name": "Shield of Flame",
+          "difficulty": 8,
+          "effect": "The caster gets a 4+ save in close combat and a 5+ save against shooting. Does not stack with other saves."
+        },
+        {
+          "id": "elementalFire.uzhuls_inferno",
+          "roll": 5,
+          "name": "U'Zhul's Inferno",
+          "difficulty": 9,
+          "effect": "A line 12\" long and 1\" wide. Every model in its path suffers a Strength 2 hit, and the target a Strength 4 hit. All hits have a -1 armour save modifier."
+        },
+        {
+          "id": "elementalFire.flesh_of_the_forge",
+          "roll": 6,
+          "name": "Flesh of the Forge",
+          "difficulty": 6,
+          "effect": "Enemies are at -1 to hit the wizard in close combat. Roll a D6 in each of the caster's Recovery phases; on a 1 or 2 the effect ends."
+        }
+      ]
+    },
+    "elementalEarth": {
+      "id": "elementalEarth",
+      "name": "Lore of Earth",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Sorcerous Society Magus",
+        "Sorcerous Society Mages"
+      ],
+      "notes": "One of the four Elemental lores of the Sorcerous Society. Each wizard draws all his spells from ONE lore of his choice (Water, Fire, Earth or Air) or from Lesser Magic.",
+      "source": "Sorcerous Society (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "elementalEarth.flesh_of_clay",
+          "roll": 1,
+          "name": "Flesh of Clay",
+          "difficulty": 8,
+          "effect": "The caster's Toughness is doubled and his Movement and Initiative are halved until he is knocked down, stunned or taken out of action."
+        },
+        {
+          "id": "elementalEarth.healing_might",
+          "roll": 2,
+          "name": "Healing Might",
+          "difficulty": 9,
+          "effect": "Friendly models within 4\" stand up from being knocked down or stunned. Friendly models within 2\" have all lost wounds restored."
+        },
+        {
+          "id": "elementalEarth.curse_of_thorns",
+          "roll": 3,
+          "name": "Curse of Thorns",
+          "difficulty": 6,
+          "effect": "Range 18\". The target must pass a Toughness test or become immobile and may only defend itself. Passing a later Toughness test ends the effect."
+        },
+        {
+          "id": "elementalEarth.jozuns_decay",
+          "roll": 4,
+          "name": "Jozun's Decay",
+          "difficulty": 9,
+          "effect": "Range 12\". The target must pass a Leadership test or lose 1 Toughness. In each of its Recovery phases it tests Leadership again, losing another point on a failure; at Toughness 0 it is removed from play. A passed test ends further loss. May affect each model only once per game.",
+          "errata": "The source text also calls this spell \"Eternal Rot\" in places (an apparent leftover name)."
+        },
+        {
+          "id": "elementalEarth.the_hunters_spear",
+          "roll": 5,
+          "name": "The Hunter's Spear",
+          "difficulty": 8,
+          "effect": "The caster gains +2 Strength and +1 Attack. He must pass a Leadership test in each of his Recovery phases or the spear fades."
+        },
+        {
+          "id": "elementalEarth.shifting_sands",
+          "roll": 6,
+          "name": "Shifting Sands",
+          "difficulty": 8,
+          "effect": "One enemy model in sight must pass an Initiative test or be knocked down until its next Recovery phase, when it may test again. Each friendly model within 1\" of the target reduces this spell's difficulty by 1 (to a minimum of 1)."
+        }
+      ]
+    },
+    "elementalAir": {
+      "id": "elementalAir",
+      "name": "Lore of Air",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Sorcerous Society Magus",
+        "Sorcerous Society Mages"
+      ],
+      "notes": "One of the four Elemental lores of the Sorcerous Society. Each wizard draws all his spells from ONE lore of his choice (Water, Fire, Earth or Air) or from Lesser Magic.",
+      "source": "Sorcerous Society (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "elementalAir.winters_gale",
+          "roll": 1,
+          "name": "Winter's Gale",
+          "difficulty": 10,
+          "effect": "Place the large (5\") blast template within 12\". Models under it suffer a Strength 4 hit, or a Strength 2 hit against Undead and Possessed."
+        },
+        {
+          "id": "elementalAir.crows_feast",
+          "roll": 2,
+          "name": "Crow's Feast",
+          "difficulty": 9,
+          "effect": "Magic missile with a range of 24\", causing D6 Strength 3 hits."
+        },
+        {
+          "id": "elementalAir.dust_dervish",
+          "roll": 3,
+          "name": "Dust Dervish",
+          "difficulty": 9,
+          "effect": "Summons D3 Dervishes, which attack models within 12\" of the caster, ignoring the normal targeting restrictions. Each Dervish inflicts D6 Strength 1 hits."
+        },
+        {
+          "id": "elementalAir.howler_wind",
+          "roll": 4,
+          "name": "Howler Wind",
+          "difficulty": 8,
+          "effect": "Non-magical missile attacks against the caster and against models within 8\" of him are at -2 BS. Missiles that merely pass over them are unaffected."
+        },
+        {
+          "id": "elementalAir.celestial_shield",
+          "roll": 5,
+          "name": "Celestial Shield",
+          "difficulty": 8,
+          "effect": "The caster or one friendly model within 6\" gets a 4+ save against shooting and a 5+ save against hostile spells. If the shield saves against an area-effect spell, no model suffers that spell's effects."
+        },
+        {
+          "id": "elementalAir.shade_mount",
+          "roll": 6,
+          "name": "Shade Mount",
+          "difficulty": 8,
+          "effect": "The caster or one Hero within 8\" flies up to 12\". Ending in base contact with an enemy counts as a charge."
+        }
+      ]
+    },
+    "striganyCharmsAndHexes": {
+      "id": "striganyCharmsAndHexes",
+      "name": "Strigany Charms & Hexes",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Survivors of Strigos Seer"
+      ],
+      "notes": "A variant of the standard Charms & Hexes: Scry and Curse are difficulty 8 (standard 6), and spell 6 is Cure of Thorns instead of Cure.",
+      "source": "Survivors of Strigos (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "striganyCharmsAndHexes.scry",
+          "roll": 1,
+          "name": "Scry",
+          "difficulty": 8,
+          "effect": "For the duration of the turn, one Hero or Henchman may re-roll D3 dice rolls and add +1 or -1 to the results."
+        },
+        {
+          "id": "striganyCharmsAndHexes.curse",
+          "roll": 2,
+          "name": "Curse",
+          "difficulty": 8,
+          "effect": "One enemy model within 12\" must re-roll all successful dice rolls for the duration of this turn and its next turn."
+        },
+        {
+          "id": "striganyCharmsAndHexes.dust_of_the_blind",
+          "roll": 3,
+          "name": "Dust of the Blind",
+          "difficulty": 9,
+          "effect": "One enemy model within 16\" is struck blind: it may not shoot, charge or run, is at half Weapon Skill, and moves in a random direction at the start of its turn. Lasts until the Seer casts another spell or moves."
+        },
+        {
+          "id": "striganyCharmsAndHexes.age_of_stone",
+          "roll": 4,
+          "name": "Age of Stone",
+          "difficulty": 8,
+          "effect": "One enemy model within 12\" has all its characteristics reduced by 1 for the duration of this turn and its next turn."
+        },
+        {
+          "id": "striganyCharmsAndHexes.warriors_bane",
+          "roll": 5,
+          "name": "Warrior's Bane",
+          "difficulty": 7,
+          "effect": "One enemy model within 18\" cannot use any of its weapons: it cannot shoot and counts as fighting with fists in close combat, for this turn and its next turn."
+        },
+        {
+          "id": "striganyCharmsAndHexes.cure_of_thorns",
+          "roll": 6,
+          "name": "Cure of Thorns",
+          "difficulty": 9,
+          "effect": "For each knocked down or stunned friendly model within 6\" of the Seer, one enemy model within 6\" of her is knocked down or stunned in turn (the injury is transferred). If no enemies are in range, the Seer may take the injury herself to let one friendly model stand up; that model may then only cast spells or shoot this turn."
+        }
+      ]
+    },
+    "strigoiDarkArts": {
+      "id": "strigoiDarkArts",
+      "name": "Dark Arts (Strigoi)",
+      "kind": "magic",
+      "die": "D3",
+      "usedBy": [
+        "Survivors of Strigos Strigoi Vampire"
+      ],
+      "notes": "Only available to a Strigoi Vampire who takes the Dark Arts special skill, which gives him Arcane Lore and one spell rolled on this table; later advances may buy further Dark Arts spells instead of skills. The source prints only three spells, so the die is assumed to be a D3.",
+      "source": "Survivors of Strigos (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "strigoiDarkArts.fires_of_strigos",
+          "roll": 1,
+          "name": "Fires of Strigos",
+          "difficulty": 7,
+          "effect": "Range 18\". Causes one Strength 4 hit on the first model in its path. Armour saves are taken at -1."
+        },
+        {
+          "id": "strigoiDarkArts.winged_flight",
+          "roll": 2,
+          "name": "Winged Flight",
+          "difficulty": 9,
+          "effect": "The Vampire moves up to 18\" and may move into base contact with an enemy, counting as charging. If he engages a fleeing enemy he scores 1 automatic hit and the enemy flees again."
+        },
+        {
+          "id": "strigoiDarkArts.lifestealer",
+          "roll": 3,
+          "name": "Lifestealer",
+          "difficulty": 10,
+          "effect": "One target within 6\" suffers one wound with no save of any kind. The Vampire gains one extra Wound for the rest of the battle, which may take him above his starting maximum. Has no effect on the Possessed. The difficulty is increased by 1 if cast on another Vampire."
+        }
+      ]
+    },
+    "funeraryRitesSylvania": {
+      "id": "funeraryRitesSylvania",
+      "name": "Funerary Rites (Vampire Hunters of Sylvania)",
+      "kind": "prayer",
+      "die": "D6",
+      "usedBy": [
+        "Vampire Hunters of Sylvania Priest of Morr"
+      ],
+      "notes": "This source's version of the Funerary Rites. Differs from the app's funeraryRites in difficulties (Sanctity of the Fallen 5 vs 7, Do You Know Who I Am? 9 vs 7, I Am Death! 7 vs 8) and in some rule text (Morr's Protection duration, Hand of Morr also affecting Daemons and Chaos creatures, the Leadership test on I Am Death!).",
+      "source": "Vampire Hunters of Sylvania (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "funeraryRitesSylvania.morrs_protection",
+          "roll": 1,
+          "name": "Morr's Protection",
+          "difficulty": 6,
+          "effect": "Any magical attack by a Necromancer, Magister or Daemon that directly targets the priest is negated. Lasts until his next shooting phase."
+        },
+        {
+          "id": "funeraryRitesSylvania.death_holds_no_fear",
+          "roll": 2,
+          "name": "Death Holds No Fear",
+          "difficulty": null,
+          "effect": "Automatic (the source gives the difficulty as Auto). The priest is Fearless for the rest of the game."
+        },
+        {
+          "id": "funeraryRitesSylvania.sanctity_of_the_fallen",
+          "roll": 3,
+          "name": "Sanctity of the Fallen",
+          "difficulty": 5,
+          "effect": "The priest performs the Rite of Sanctity on one model, friend or foe, that has been taken out of action within 6\" of him. That model may not be raised by a Necromancer."
+        },
+        {
+          "id": "funeraryRitesSylvania.hand_of_morr",
+          "roll": 4,
+          "name": "Hand of Morr",
+          "difficulty": 9,
+          "effect": "The priest must be in base contact with an Undead model; attempt this before close combat. If successful the foe goes out of action immediately (this affects Zombies, Dire Wolves and Vampires). Ghouls, Possessed, Daemons and Chaos creatures affected instead flee their full Move directly away from the priest."
+        },
+        {
+          "id": "funeraryRitesSylvania.do_you_know_who_i_am",
+          "roll": 5,
+          "name": "Do You Know Who I Am?",
+          "difficulty": 9,
+          "effect": "Range 6\". Must target the closest Undead model; if none is in range, the closest human servant of the Undead (Dregs, Ghouls, Necromancers); otherwise any model. If successful the target is Stunned, or Knocked Down if it cannot be Stunned."
+        },
+        {
+          "id": "funeraryRitesSylvania.i_am_death",
+          "roll": 6,
+          "name": "I Am Death!",
+          "difficulty": 7,
+          "effect": "The priest gains a 6+ armour save, and his Weapon Skill becomes either his WS +1 or 4, whichever is greater. He must pass a Leadership test to keep the effect in subsequent rounds."
+        }
+      ]
+    },
+    "woodlandIncantations": {
+      "id": "woodlandIncantations",
+      "name": "Woodland Incantations",
+      "kind": "magic",
+      "die": "D6",
+      "usedBy": [
+        "Wood Elves of Athel Loren Forest Mage"
+      ],
+      "source": "Wood Elves of Athel Loren (grade 2a), converted from mordheimer.net on 2026-10-10",
+      "spells": [
+        {
+          "id": "woodlandIncantations.song_of_thorns",
+          "roll": 1,
+          "name": "Song of Thorns",
+          "difficulty": 8,
+          "effect": "Range 8\". The target suffers 2D6 Strength 1 hits."
+        },
+        {
+          "id": "woodlandIncantations.murmuring_of_the_wind",
+          "roll": 2,
+          "name": "Murmuring of the Wind",
+          "difficulty": 7,
+          "effect": "The caster moves up to 12\" to any location. Moving into close combat counts as charging."
+        },
+        {
+          "id": "woodlandIncantations.the_rain_song",
+          "roll": 3,
+          "name": "The Rain Song",
+          "difficulty": 9,
+          "effect": "Every model other than Wood Elves within 6\" of the caster suffers -1 to hit and -1 Initiative until the start of the caster's next magic phase."
+        },
+        {
+          "id": "woodlandIncantations.lyrics_of_feral_infatuation",
+          "roll": 4,
+          "name": "Lyrics of Feral Infatuation",
+          "difficulty": 8,
+          "effect": "Any animal or monster must pass a Leadership test on its own Leadership in order to attack an opponent; if it fails it does nothing else that turn, not even fighting back if attacked. The source gives no range or duration for this spell."
+        },
+        {
+          "id": "woodlandIncantations.song_of_the_sun",
+          "roll": 5,
+          "name": "Song of the Sun",
+          "difficulty": 6,
+          "effect": "One target within 18\" suffers -1 Movement until the caster's next magic phase. It must also take a test or suffer a Strength 4 hit; the source does not say which characteristic is tested."
+        },
+        {
+          "id": "woodlandIncantations.eagles_cry",
+          "roll": 6,
+          "name": "Eagle's Cry",
+          "difficulty": 8,
+          "effect": "All Wood Elves within 6\" of the caster gain +1 to hit and +1 on the critical hit table until the start of the caster's next magic phase."
+        }
+      ]
     }
   }
 }
