@@ -7,7 +7,7 @@
       "name": "Aenur, the Sword of Twilight",
       "hireFee": 150,
       "upkeep": null,
-      "mayBeHiredBy": "Any warband except Skaven, Undead and the Possessed.",
+      "mayBeHiredBy": "Any warband except Skaven, Undead and the Possessed may hire Aenur.",
       "ratingBonus": "+100 points.",
       "statLine": {
         "M": 5,
@@ -20,7 +20,7 @@
         "A": 3,
         "Ld": 8
       },
-      "equipment": "Ithilmar armour, an Elven cloak, and an enormous sword known as Ienh-Khain (the Hand of Khaine).",
+      "equipment": "Aenur wears Ithilmar Armour, an Elven Cloak and carries an enormous sword known as Ienh-Khain.",
       "skills": [
         "strikeToInjure",
         "expertSwordsman",
@@ -30,15 +30,16 @@
         "dodge",
         "mightyBlow"
       ],
-      "specialRules": "Invincible Swordsman: always hits opponents on a 2+ in hand-to-hand combat. Wanderer: only stays with a warband for the duration of one battle; a warband that used him last battle cannot seek him out again until they have fought at least one battle without him. Ienh-Khain: allows Aenur to parry, adds +1 to his Strength, and causes a critical hit on a to-wound roll of 5-6.",
-      "source": "rulebook p.112"
+      "specialRules": "Invincible Swordsman: Aenur always hits his opponents on a roll of 2+ in hand-to-hand combat. | Wanderer: Aenur only ever stays with a warband for the duration of the battle. A warband who used Aenur in their last battle may not seek him out until they have fought at least one battle without him. | Ienh-Khain (the Hand of Khaine): Ienh-Khain is an incredibly long single-edged sword, which Aenur uses with consummate skill. This sword allows Aenur to parry, adds +1 to his Strength and causes a critical hit on a roll of 5-6 when rolling to wound.",
+      "source": "rulebook p.112",
+      "skillsText": "Aenur has the following skills: Strike to Injure, Expert Swordsman, Step Aside, Sprint, Lightning Reflexes, Dodge and Mighty Blow."
     },
     {
       "id": "johannTheKnife",
       "name": "Johann the Knife",
       "hireFee": 70,
       "upkeep": 30,
-      "mayBeHiredBy": "Any warband except Skaven, Undead and the Possessed.",
+      "mayBeHiredBy": "Any warband except Skaven, Undead and the Possessed may hire Johann.",
       "ratingBonus": "+60 points.",
       "statLine": {
         "M": 4,
@@ -51,7 +52,7 @@
         "A": 1,
         "Ld": 7
       },
-      "equipment": "Countless throwing knives and several long daggers (always counts as having two swords in close combat). Weapons are always coated with Black Lotus; may take Crimson Shade before a battle.",
+      "equipment": "Johann is armed with countless Throwing Knives and several long daggers (he always counts as having two Swords in close combat). His weapons are always coated with Black Lotus and he may take Crimson Shade before a battle if you want him to.",
       "skills": [
         "dodge",
         "scaleSheerSurfaces",
@@ -59,15 +60,16 @@
         "eagleEyes",
         "knifeFighter"
       ],
-      "specialRules": "Hire fee may instead be paid with one portion of Crimson Shade (he is addicted to it). Knife Fighter Extraordinaire: unlike normal warriors, may combine Knife-Fighter and Quick Shot (throwing up to six knives in one turn if he does not move).",
-      "source": "rulebook p.113"
+      "specialRules": "Hiring Fee: 70, Johann is addicted to Crimson Shade, so you may hire him for one portion of Crimson Shade if you wish. | Knife Fighter Extraordinaire: Johann has a deserved reputation for being the greatest knifefighter in whole of the Empire. Unlike normal warriors, he can combine the Knife Fighter and Quick Shot skills (yes, he can throw six throwing knives in one turn if he does not move!).",
+      "source": "rulebook p.113",
+      "skillsText": "Johann has the following skills: Dodge, Scale Sheer Surfaces, Quick Shot, Eagle Eyes and Knife Fighter."
     },
     {
       "id": "berthaBestraufrung",
       "name": "Bertha Bestraufrung, High Matriarch of the Sisterhood",
       "hireFee": 0,
       "upkeep": null,
-      "mayBeHiredBy": "Sisters of Sigmar warbands only. No hire fee — instead, one or more Heroines must search for her after a battle (roll under Initiative), and she will only aid a warband whose enemy has a higher warband rating, per a lookup table (0-49 difference: will not aid; 50-99: 6+; 100-149: 5+; 150-199: 4+; 200+: 3+ on a D6 to agree). A request must be made fresh for each battle.",
+      "mayBeHiredBy": "Bertha Bestraufrung will only join Sisters of Sigmar warbands.",
       "ratingBonus": "+105 points.",
       "statLine": {
         "M": 4,
@@ -80,21 +82,22 @@
         "A": 3,
         "Ld": 10
       },
-      "equipment": "Two Sigmarite warhammers, gromril armour, a vial of blessed water, and a holy relic.",
+      "equipment": "Bertha is armed with two Sigmarite Warhammers, wears Gromril Armour, and carries a vial of Blessed Water and a Holy Relic.",
       "skills": [
         "mightyBlow",
         "unstoppableCharge",
         "righteousFury"
       ],
-      "specialRules": "Knows all six Prayers of Sigmar. High Matriarch: automatically becomes the leader of any warband she joins. Sigmar's Handmaiden: +2 to all rolls to see whether her Prayers of Sigmar are granted.",
-      "source": "rulebook p.114"
+      "specialRules": "Hiring Fee: None. Bertha will come to the aid of any Sisters of Sigmar warband if they send one or more of their Heroines to look for her in the normal manner, rolling under their Initiative (representing their efforts to gain audience with the High Matriarch). If she does grant an audience, she might decide that her personal help is needed in the forthcoming battle. She will only come to the aid of a Sisters of Sigmar warband if their enemy has a higher warband rating. Consult the table below, and roll a D6 to see whether Bertha will aid the warband. A request for Bertha to aid the warband must be made for each battle you wish her to help the warband. Difference in Warband RatingDice roll required0-49Nil50-996+100-1495+150-1994+200+3+ | High Matriarch: As the High Matriarch of the Sisters of Sigmar’s Mercy, Bertha will automatically be the leader of any warband she joins. | Sigmar’s Handmaiden: Bertha is favoured above all other Sisters in the eyes of Sigmar. She gains +2 to all her rolls to see whether her Prayers of Sigmar are granted.",
+      "source": "rulebook p.114",
+      "skillsText": "Bertha has the following skills: Mighty Blow, Unstoppable Charge and Righteous Fury."
     },
     {
       "id": "veskit",
       "name": "Veskit, High Executioner of Clan Eshin",
       "hireFee": 80,
       "upkeep": 35,
-      "mayBeHiredBy": "Skaven warbands only.",
+      "mayBeHiredBy": "Veskit may only be hired by Skaven warbands.",
       "ratingBonus": "+70 points.",
       "statLine": {
         "M": 5,
@@ -107,9 +110,9 @@
         "A": 4,
         "Ld": 8
       },
-      "equipment": "Eshin Fighting Claws (extra attack already included in his profile); each claw has a built-in warplock pistol, so Veskit can shoot every turn and fights in close combat at Strength 5 with a -3 armour save modifier (and can still parry twice).",
+      "equipment": "Eshin Fighting Claws (the extra attack is included in his profile). Each Fighting Claw incorporates an in-built Warplock Pistol, so Veskit can shoot in every turn, and he fights in close combat with Strength 5 and a save modifier of -3 (note that he can still parry twice with his claws!).",
       "skills": [],
-      "specialRules": "Unfeeling: immune to all psychology. No Pain: ignores Knocked Down and Stunned results on the Injury chart — must lose his last wound and be taken out of action to be removed from battle. Unblinking Eye: spots hidden enemies within twice his Initiative value in inches. Metallic Body: grants his high Toughness and a 3+ armour save.",
+      "specialRules": "Unfeeling: Veskit is a cold, calculating killing machine, and feels few of the emotions that living things do. He is therefore immune to all psychology. | No Pain: Veskit ignores knocked down and stunned results on the Injury chart. He must lose his last wound and be taken out of action before he is removed from battle. | Unblinking Eye: Thanks to the sorcerous devices built by the Warlock Engineers of Clan Skryre, Veskit can spot hidden enemies within twice his Initiative value in inches. | Metallic Body: These give Veskit his high Toughness and a 3+ armour save.",
       "source": "rulebook p.115"
     },
     {
