@@ -2793,6 +2793,14 @@ The audit found 22 warbands (counted as 21 plus the Tileans at the time) whose `
 - Not added: *Ostermark* on the Reikland file — it is a fourth Mercenary city in the source and belongs in its own file if wanted.
 - Fixed alongside: 14 equipment lists named `clubMaceHammer` twice (the source lists mace and hammer separately), which React warned about on the rules screen.
 
+## 31. Dramatis Personae, equipment and skills from the mordheimer.net data ✅
+
+The audit's "23 + 21 + 9" import, as built:
+
+- **Dramatis Personae:** `dramatisPersonae.json` grows from the rulebook four to 27; the three Border Town Burning characters stay in `btb/dramatisPersonae.json`. The rulebook four were in the data but on no screen, so a **Dramatis Personae** chapter (after Hired Swords, Trading tab) now lists all 27. They are reference entries — the app does not hire them. New optional fields mirror the Hired Swords: `hireFeeText`/`upkeepText` for prices that aren't plain gold, `skillsText`, `notes` (extra profiles, guises, spells), `grade`, `url`. Imported characters store skill names, the rulebook four keep skill ids.
+- **Equipment:** 19 rare items — nine animals as Miscellaneous with their profile in the notes (Chaos Steed, Cold One, Elven Steed, Giant Spider, Giant Wolf, Mule, Rhinox, Temple Dog, War Boar), Chaos and Lamellar Armour, Pavise, Brass Knuckles, Brazier Iron, Horseman's Hammer, Sons of Hashut Obsidian Weapon, Sword Breaker, Trident and Cathayan Candles. Warband-locked items carry `warbandIds`. Left out: Masterwork Heavy Armour, Bec de Corbin and Miraglian Firepots, which the source gives no price or availability for; Club, Mace and Fist (already covered) and the Riding Horse (already "Horse").
+- **Skills:** six Academic (Animal Handling, Tomb Raider, Trap Expert, Driver, Strategist, Scholar) and two Strength (Handyman, Beastmaster), each citing its source. The ninth, *Ride*, is the generic form of the Cavalry list's Ride Horse/Warhorse/Nightmare and isn't added separately. The remaining 53 unmatched skills belong to warbands the app doesn't have.
+
 ## 33. Rule text 1:1 from the Mordheimer data ✅
 
 Decided 2026-10-10 by the owner: **rules taken from the Mordheimer data are copied word for word, never reworded or summarised.** Only markup is removed (tooltips, bold, `<br>`; paragraph breaks become ` | ` where a field is paragraphs, a space inside one rule), and source tables are written row by row ("1: …; 2-5: …"). Typos and quote marks stay as printed.
@@ -2805,10 +2813,3 @@ Applied across the existing data (counts at the time):
 - **Equipment:** notes for the catalogue items are the source's rules, prefixed with its range, Strength, save and profile; warband-exclusive items' `rulesText` likewise (131), including mutations, blessings and Sacred Markings from the warband files.
 - **Hired Swords:** the seven rulebook entries now take their hire permission, equipment and rules from the source like the other 63 (`import-hired-swords.mjs` keeps only their ids, numbers and skill lists).
 - **Not covered:** `rules.json` (the core rules, sourced from the rulebook PDF rather than the Mordheimer data).
-## 31. Dramatis Personae, equipment and skills from the mordheimer.net data ✅
-
-The audit's "23 + 21 + 9" import, as built:
-
-- **Dramatis Personae:** `dramatisPersonae.json` grows from the rulebook four to 27; the three Border Town Burning characters stay in `btb/dramatisPersonae.json`. The rulebook four were in the data but on no screen, so a **Dramatis Personae** chapter (after Hired Swords, Trading tab) now lists all 27. They are reference entries — the app does not hire them. New optional fields mirror the Hired Swords: `hireFeeText`/`upkeepText` for prices that aren't plain gold, `skillsText`, `notes` (extra profiles, guises, spells), `grade`, `url`. Imported characters store skill names, the rulebook four keep skill ids.
-- **Equipment:** 19 rare items — nine animals as Miscellaneous with their profile in the notes (Chaos Steed, Cold One, Elven Steed, Giant Spider, Giant Wolf, Mule, Rhinox, Temple Dog, War Boar), Chaos and Lamellar Armour, Pavise, Brass Knuckles, Brazier Iron, Horseman's Hammer, Sons of Hashut Obsidian Weapon, Sword Breaker, Trident and Cathayan Candles. Warband-locked items carry `warbandIds`. Left out: Masterwork Heavy Armour, Bec de Corbin and Miraglian Firepots, which the source gives no price or availability for; Club, Mace and Fist (already covered) and the Riding Horse (already "Horse").
-- **Skills:** six Academic (Animal Handling, Tomb Raider, Trap Expert, Driver, Strategist, Scholar) and two Strength (Handyman, Beastmaster), each citing its source. The ninth, *Ride*, is the generic form of the Cavalry list's Ride Horse/Warhorse/Nightmare and isn't added separately. The remaining 53 unmatched skills belong to warbands the app doesn't have.
