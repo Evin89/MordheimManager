@@ -25,6 +25,7 @@ import {
   Coins,
   ShoppingBag,
   UserPlus,
+  Crown,
   Flame,
   BookOpen,
   type LucideIcon,
@@ -100,6 +101,7 @@ const CHAPTER_ICONS: Record<string, LucideIcon> = {
   Income: Coins,
   Trading: ShoppingBag,
   'Hired Swords': UserPlus,
+  'Dramatis Personae': Crown,
   'Border Town Burning': Flame,
 };
 

@@ -1,6 +1,10 @@
 [
   {
     "date": "2026-10-10",
+    "title": "Dramatis Personae, New Gear and Skills",
+    "description": "The Rules reference has a new Dramatis Personae chapter with 27 characters, from Johann the Knife and Aenur to the Crow Master, Khar-mel the Djinn and the Headless Horseman. Each shows its hire fee, who may hire it, its profile, gear, skills and rules. The rare-item list gains 19 items, among them mounts like the Cold One, Elven Steed and War Boar, Chaos and Lamellar Armour, the Pavise, the Horseman's Hammer, the Sword Breaker and the Trident. Heroes can also learn eight more skills: Animal Handling, Tomb Raider, Trap Expert, Driver, Strategist and Scholar (Academic), and Handyman and Beastmaster (Strength)."
+  },
+  {
     "title": "Unit and Equipment List Fixes",
     "description": "Nurglings now list all their rules: Cloud of Flies, Daemonic, Immune to Poison and Psychology, Daemonic Aura and Instability. The Plague Cart shows its four profiles and its own rules. The Kislevite Esaul and Youths may buy weapons only, as the list says. Middenheimers can buy a Wolfcloak, Dwarf Treasure Hunters a Gromril Weapon, and Maneaters an Axe (the Ogre cleaver). The \"To do\" tag on some warriors' notes is gone, the warband picker no longer repeats the source and grade, and every form field now has a label for screen readers."
   },

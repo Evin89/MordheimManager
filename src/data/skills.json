@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "source": "The Mordheimer's Master Skill List Compilation v1.30 (compiled by Edwin \"The Mordheimer\" Molina, based on prior work by Tim Leach), fetched from https://www.broheim.net/downloads/resources/Master%20Skill%20List.pdf on 2026-07-03. Core lists cite the Mordheim rulebook (RB) page numbers as given in that document; owner should still cross-check against their own physical rulebook printing. Black Orc, Amazon, Lizardmen (Skink and Saurus) and Battle Monk special skill lists supplied directly by the owner on 2026-08-02. The Cavalry list (absent from the Master Skill List) is from Empire in Flames pp.24-26, fetched from https://www.broheim.net/downloads/rules/Empire%20In%20Flames.pdf on 2026-10-07. Dwarf Slayer Cult special skills supplied directly by the owner on 2026-10-08.",
+  "source": "The Mordheimer's Master Skill List Compilation v1.30 (compiled by Edwin \"The Mordheimer\" Molina, based on prior work by Tim Leach), fetched from https://www.broheim.net/downloads/resources/Master%20Skill%20List.pdf on 2026-07-03. Core lists cite the Mordheim rulebook (RB) page numbers as given in that document; owner should still cross-check against their own physical rulebook printing. Black Orc, Amazon, Lizardmen (Skink and Saurus) and Battle Monk special skill lists supplied directly by the owner on 2026-08-02. The Cavalry list (absent from the Master Skill List) is from Empire in Flames pp.24-26, fetched from https://www.broheim.net/downloads/rules/Empire%20In%20Flames.pdf on 2026-10-07. Dwarf Slayer Cult special skills supplied directly by the owner on 2026-10-08. Eight further Academic and Strength skills (Blazing Saddles, Town Cryer #10 and #17, Border Town Burning) added from the mordheimer.net dataset on 2026-10-10.",
   "lists": {
     "combat": {
       "name": "Combat",
@@ -195,6 +195,42 @@
           "prerequisite": {
             "text": "Requires a chariot to drive."
           }
+        },
+        {
+          "id": "animalHandling",
+          "name": "Animal Handling",
+          "effect": "This skill is highly beneficial if non-ridden animals are to be included in a warband. This skill must be taken for specific animals and may be taken multiple times for different animals. It represents knowledge of the general care and well being of the animal as well as training techniques. A warrior with this skill has a beneficial effect on the animals under his care. If a warrior has the Animal Handling skill for a particular animal, any such animals may use his Leadership provided he is within 6\". If the warband's leader is also nearby, a player may choose which of the warriors' Leadership to use unless the animal is stupid, in which case only the handler's Leadership may be used. In addition, stubborn animals with a handler in base contact, ignore the effects of stubbornness. (Blazing Saddles)"
+        },
+        {
+          "id": "tombRaider",
+          "name": "Tomb Raider",
+          "effect": "The hero is experienced in traversing the underground tunnels to locate the hidden chambers. If the hero was not taken out of action and is free to explore in the Exploration phase, you may re-roll one dice on the Exploration chart. Note that this skill replaces the Wyrdstone Hunter skill in the Mordheim Rulebook. (Town Cryer #10)",
+          "prerequisite": {
+            "text": "Replaces Wyrdstone Hunter in a Lustria or Khemri campaign."
+          }
+        },
+        {
+          "id": "trapExpert",
+          "name": "Trap Expert",
+          "effect": "This Hero is able to detect traps in the tombs with relative ease. A character who possesses this skill will never set off traps himself (but may be subject to their effects if he is too close to one if it goes off). (Town Cryer #17)"
+        },
+        {
+          "id": "driver",
+          "name": "Driver",
+          "effect": "A wagon driven by a Hero with this skill may re-roll results on the Out of Control chart. The second result must be accepted even if it is worse. (Border Town Burning)"
+        },
+        {
+          "id": "strategist",
+          "name": "Strategist",
+          "effect": "The Hero has great strategic skills. Before each battle a Hero with this skill may decide to develop plans that further the tactical ambitions of the warband. Choosing to have this model voluntarily miss the next battle due to the Hero's pondering means the warband gains +1 campaign point after the battle. The Hero does count for calculating warband rating as normal and determining the prices for selling wyrdstone/treasure. However, he does not count as part of the warband when taking Rout tests. Initial warband size is considered to be one model less during the battle. The Hero does not gain +1 Experience for surviving a battle since he did not take part in the fight. (Border Town Burning)"
+        },
+        {
+          "id": "scholar",
+          "name": "Scholar",
+          "effect": "Only warriors capable of casting spells or using prayers may pick this skill. Whenever the warrior may learn a new spell or prayer through an advance, he may choose which one he learns instead of determining at random, or he may decrease the difficulty of any one spell or prayer he already knows by –1 permanently. (Border Town Burning)",
+          "prerequisite": {
+            "text": "Spellcasters and prayer users only."
+          }
         }
       ]
     },
@@ -230,6 +266,16 @@
           "id": "unstoppableCharge",
           "name": "Unstoppable Charge",
           "effect": "When he charges, the warrior is almost impossible to halt. He adds +1 to his Weapon Skill when charging."
+        },
+        {
+          "id": "handyman",
+          "name": "Handyman",
+          "effect": "The warrior is skilled in fixing minor damage on the wagon. If the wagon is stationary and has not moved during the last turn then if the warrior is in contact with the wagon, he may repair one previously damaged wheel. The Hero may do nothing else that turn and the wagon may not be moved. He can even set in a new wheel if it flew off. A wagon cannot be repaired if an enemy model is in contact with the handyman or the wagon, as the situation is far too dangerous to focus on the cart. (Border Town Burning)"
+        },
+        {
+          "id": "beastmaster",
+          "name": "Beastmaster",
+          "effect": "The Hero is able to communicate on a primal level with any beast he encounters. If the model confronts an animal (not mount!) in hand-to-hand combat, then before combat is fought he may take a Leadership test. If the test is failed combat proceeds as normal. If the test is successful the animal falls under his command. Place the models 1\" apart from each other. The player may now control the animal model. However, the beastmaster must pass a Leadership test at the beginning of his turn otherwise control over the animal is lost. The animal must always remain within 6\" of the Hero or control is lost immediately. No more than one animal can be controlled this way. (Border Town Burning)"
         }
       ]
     },

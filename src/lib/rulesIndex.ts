@@ -7,6 +7,7 @@ import { getScenarioSetup } from './scenarioSetup';
 import explorationData from '../data/exploration.json';
 import btbObjectivesData from '../data/btb/objectives.json';
 import btbDramatisPersonaeData from '../data/btb/dramatisPersonae.json';
+import dramatisPersonaeData from '../data/dramatisPersonae.json';
 import glossaryData from '../data/reference/glossary.json';
 import errataData from '../data/reference/errata.json';
 import faqData from '../data/reference/faq.json';
@@ -15,6 +16,7 @@ import { getUniqueInjuries } from './injuryLookup';
 import {
   BtbDramatisPersonaeData,
   BtbObjectivesData,
+  DramatisPersonaeData,
   ExplorationData,
   ExplorationMultipleKind,
   ExplorationResult,
@@ -32,6 +34,14 @@ const typedSpells = spellsData as unknown as SpellsData;
 const typedExploration = explorationData as ExplorationData;
 const typedBtbObjectives = btbObjectivesData as BtbObjectivesData;
 const typedBtbDramatisPersonae = btbDramatisPersonaeData as BtbDramatisPersonaeData;
+const typedDramatisPersonae = dramatisPersonaeData as DramatisPersonaeData;
+
+// Skill ids (the rulebook four store ids) back to their names.
+const skillNameById = new Map(
+  [...Object.values(typedSkills.lists), ...Object.values(typedSkills.warbandSpecific)].flatMap((list) =>
+    list.skills.map((skill) => [skill.id, skill.name] as const),
+  ),
+);
 
 function slugify(text: string): string {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -310,6 +320,44 @@ function btbObjectiveEntries(): RuleEntry[] {
   }));
 }
 
+/**
+ * The Dramatis Personae outside Border Town Burning: the rulebook four and the
+ * rest of the mordheimer.net catalogue. The rulebook four were in the data but
+ * reached no screen before; the app doesn't hire them, so they are reference
+ * entries in their own chapter next to Hired Swords.
+ */
+function dramatisPersonaEntries(): RuleEntry[] {
+  const STATS = ['M', 'WS', 'BS', 'S', 'T', 'W', 'I', 'A', 'Ld'] as const;
+  return typedDramatisPersonae.characters.map((c) => {
+    const statLine = STATS.filter((k) => c.statLine[k] != null)
+      .map((k) => `${k}${c.statLine[k]}`)
+      .join(' ');
+    const fee = c.hireFeeText ?? (c.hireFee != null ? `${c.hireFee} gc` : null);
+    const upkeep = c.upkeepText ?? (c.upkeep != null ? `${c.upkeep} gc` : null);
+    const skills = c.skillsText ?? c.skills.map((s) => skillNameById.get(s) ?? s).join(', ');
+    return {
+      id: `persona-${c.id}`,
+      title: c.name,
+      category: 'trading' as const,
+      chapter: 'Dramatis Personae',
+      source: c.grade && c.grade !== 'core' ? `${c.source} · Grade ${c.grade}` : c.source,
+      sourceUrl: c.url,
+      body: [
+        [fee && `Hire fee: ${fee}`, upkeep && `Upkeep: ${upkeep}`].filter(Boolean).join(' — '),
+        c.mayBeHiredBy && `May be hired by: ${c.mayBeHiredBy}`,
+        c.ratingBonus && `Rating bonus: ${c.ratingBonus}`,
+        statLine && `Profile: ${statLine}`,
+        c.equipment && `Equipment: ${c.equipment}`,
+        skills && `Skills: ${skills}`,
+        ...c.specialRules.split(' | '),
+        c.notes,
+      ]
+        .filter(Boolean)
+        .join('\n\n'),
+    };
+  });
+}
+
 function btbDramatisPersonaEntries(): RuleEntry[] {
   return typedBtbDramatisPersonae.characters.map((c) => ({
     id: `btb-persona-${c.id}`,
@@ -358,6 +406,7 @@ const allEntries: RuleEntry[] = [
   ...explorationEntries(),
   ...warbandSpecialEntries(),
   ...btbObjectiveEntries(),
+  ...dramatisPersonaEntries(),
   ...btbDramatisPersonaEntries(),
   ...referenceEntries(),
 ].sort((a, b) => chapterRank(a.chapter) - chapterRank(b.chapter));
@@ -385,7 +434,7 @@ export function getWarbandsTabRuleEntries(): RuleEntry[] {
 }
 
 export function getTradingTabRuleEntries(): RuleEntry[] {
-  return getEntriesByChapters(['Trading', 'Hired Swords']);
+  return getEntriesByChapters(['Trading', 'Hired Swords', 'Dramatis Personae']);
 }
 
 export function getCampaignTabRuleEntries(): RuleEntry[] {
