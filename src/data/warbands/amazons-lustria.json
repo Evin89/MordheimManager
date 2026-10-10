@@ -222,7 +222,7 @@
       "specialRules": [
         {
           "name": "One with the Jungle",
-          "description": "A Jaguar has lived her life in the deepest parts of the jungle and can move through jungle terrain without penalty."
+          "description": "A Jaguar has lived her life in the deepest parts and can move through jungle terrain without penalty."
         }
       ]
     }
@@ -278,7 +278,7 @@
       "cost": 15,
       "rarity": 7,
       "restriction": "Amazons only",
-      "rulesText": "Range: Close Combat; Strength: as user.\n\n+1 enemy armour save: the enemy gets +1 to his armour save.\n\nPotential parry: a Starblade can parry the first successful hit of any combat on a 4+."
+      "rulesText": "Strength As user. +1 Enemy armour save: Enemy gets +1 to armour save Potential Parry: A Starblade can parry the first successful hit of any combat on a 4+."
     },
     {
       "id": "starsword",
@@ -287,7 +287,7 @@
       "cost": 30,
       "rarity": 10,
       "restriction": "Amazons only",
-      "rulesText": "Range: Close Combat; Strength: as user +1.\n\nParry: can parry enemy blows.\n\nIgnores armour: a Starsword ignores all armour saves except ward and dodge saves."
+      "rulesText": "Strength As user +1. Parry: Can parry enemy blows Ignores Armour: A Starsword ignores all armour saves except for ward and Dodge saves."
     },
     {
       "id": "sunstaffLustria",
@@ -296,7 +296,7 @@
       "cost": 35,
       "rarity": 10,
       "restriction": "Amazons only",
-      "rulesText": "Range: 12\" / Close Combat; Strength: as user.\n\nSunbolt: in the shooting phase the wielder may discharge a beam of energy with a range of 12\", hitting at Strength 4. Aside from ward and dodge saves, a Sunbolt ignores armour saves and penalties for long range."
+      "rulesText": "Range 12\" / Close Combat. Strength As user. Sunbolt: The wielder of the sunstaff can discharge a beam of energy in the shooting phase that is akin to rays of the sun. The Sunbolt has a range of 12\" and hits at Strength 4. Aside from ward and dodge saves a Sunbolt ignores armour saves and penalties for long range."
     },
     {
       "id": "bolas",
@@ -305,7 +305,7 @@
       "cost": 5,
       "rarity": null,
       "restriction": "",
-      "rulesText": "Range: 16\"; Strength: special. Usable once per battle and automatically recovered afterwards.\n\nDangerous: if the roll to hit is a natural 1, the bolas brain the wielder for a Strength 3 hit.\n\nEntangle: a model hit is not hurt, but his legs are entangled and he cannot move. He also suffers -2 Weapon Skill in hand-to-hand combat, though he may still shoot normally. He may try to free himself in the recovery phase, and is freed on a 4+."
+      "rulesText": "Range 16\". Strength Special. Dangerous: If the to hit roll is a natural 1, the bolas brain the wielder with a Strength 3 hit. Entangle: A model hit by bolas isn't hurt, but his legs are entangled and he is unable to move. The model also suffers a –2 Weapon Skill penalty in hand-to-hand combat, but may still shoot normally. The model may try to free himself in the Recovery phase. If the model rolls a 4+ on a D6 he is freed and may move and fight normally."
     },
     {
       "id": "javelins",
@@ -314,8 +314,9 @@
       "cost": 5,
       "rarity": null,
       "restriction": "",
-      "rulesText": "Range: 8\"; Strength: as user.\n\nThrown weapon: the warrior suffers no penalty for range or for moving."
+      "rulesText": "Range 8\". Strength As user. Thrown weapon: Javelins are thrown weapons and the warrior suffers no penalty for range or moving."
     }
   ],
-  "specialRules": "Amazons (Lustria, Town Cryer #15). Isolationists: Amazons re-roll any attack rolls that miss in the first round of combat against Lizardmen and Norse. | Sacrifice: they follow the rules for the Possessed when it comes to captives; sacrificing a captured Lizardman also grants a free set of Enchanted Skins. | Norse Enmity: against a Norse warband, Amazons may re-roll their first failed Rout test, and may never voluntarily rout unless their leader has been taken out of action. | Not one of us: Amazons may not hire any Hired Swords or Dramatis Personae unless those are themselves Amazons. | Min warband size 3, max 15. Exactly one Serpent Priestess. At least one Amazon Warrior."
+  "specialRules": "Isolationists: The Amazons are constantly battling against the predations of the Lizardmen and greedy treasure-seeking Norse. Amazon culture reflects their dislike and distrust of outsiders and in battle they are particularly savage. Amazons get to re-roll any attack rolls that miss in the first round of combat against Lizardmen and Norse. | Sacrifice: The Amazons are quick to sacrifice any captive to their gods. The Amazons follow the rules for Possessed in the Rulebook when it comes to captives. lf an Amazon Warband captures a Lizardman, they may sacrifice him as normal, plus get a free Skins and Charms. | Norse Enmity: When facing a Norse Warband an Amazon Warband will fight to the death. The Amazons can re-roll their first failed Rout against the Norse. Remember you can't re-roll a failed re-roll. In addition, Amazons can never choose to voluntarily rout when facing a Norse warband unless their Warband Leader has been taken Out of Action. | Not one of us: Due to the Amazons' isolationism and suspicions about other races they never side with anyone else. For this reason, the Amazons may not have any Hired Swords or Dramatis Personae unless they are Amazons themselves.",
+  "background": "The Amazons live on an island in the centre of the great river Amazon that penetrates the heart of Lustria. The island is heavily overgrown with vines and brush that make it difficult to view the interior of the island, save for the pyramidal ruins that can be seen over the treetops. | Most of the brave Elf and Old World warbands that have dared to attempt a landfall at the island have been defeated on the beaches. The Amazons would pour forth from the dense jungle and attack all that tried to disembark. The survivors returned to the Old World recounting exaggerated stories of powerful women warriors. | The Norse living in the Lustrian colony of Skeggi tell a tale that the Amazons are a group of widows that left Skeggi many years earlier. The Norse knew them as Valkyries, just like the fabled female warriors of the Norse gods who come to collect the souls of the bravest Norse warriors that die in battle. Why have they flourished among the jungle denizens for so long? Some say that the Amazons have discovered the fabled elixir of youth. | The more common tales suggest the Amazons are master herbalists. That they prepare distilled potions of tropical plants for use in their sacrificial ceremonies. One story from Juan Cornetto suggests the Amazons have discovered a way of brewing this \"elixir of youth\". For any reason, death among the Amazons is uncommon, occurring only from mortal wounds or natural disaster. | The Amazons are fierce hunters that stalk Skinks and game in the surrounding swamps. They use the hides of Skinks for clothes and it should therefore come as no surprise that the Amazons and the Lizardmen are bitter enemies. In addition they clothe themselves with animal skins of the forest and wear plumes of exotic tropical birds for headdresses. | The Amazons defend their island vigorously and bravely. They despise men, so often encountering them as would be conquerors or tricksters. Any man they find lost, or wounded in the jungle ends up being sacrificed to their savage gods. From time to time though, they will venture forth into the ruins in search of more ancient Slann artefacts that they know still lie in the long-forgotten tunnels and caves. It is these artefacts that they use as weapons to defend their island. Weapons of such exotic nature that none in the entire world have seen before."
 }

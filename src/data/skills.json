@@ -8,32 +8,32 @@
         {
           "id": "strikeToInjure",
           "name": "Strike to Injure",
-          "effect": "Add +1 to all injury rolls caused by the model in hand-to-hand combat. (RB 122)"
+          "effect": "The warrior can land his blows with uncanny accuracy. Add +1 to all injury rolls caused by the model in hand-to-hand combat."
         },
         {
           "id": "combatMaster",
           "name": "Combat Master",
-          "effect": "If the warrior fights against more than one enemy at a time, he gains an extra Attack in each hand-to-hand combat phase as long as he is fighting two or more enemy models. The warrior is also immune to 'All Alone' tests. (RB 122)"
+          "effect": "The warrior is able to take on several opponents at once. If he fights against more than one enemy at a time, he gains an extra Attack in each hand-to-hand combat phase as long as he is fighting two or more enemy models. In addition, the warrior is immune to 'All Alone' tests."
         },
         {
           "id": "weaponsTraining",
           "name": "Weapons Training",
-          "effect": "The warrior may use any hand-to-hand combat weapon he comes across, not just those in his equipment options. (RB 122)"
+          "effect": "A warrior with this skill is adept at using many different weapons. He may use any hand-to-hand combat weapon he comes across, not just those in his equipment options."
         },
         {
           "id": "webOfSteel",
           "name": "Web of Steel",
-          "effect": "The model gains +1 to all his rolls on Critical Hit tables in hand-to-hand combat. (RB 122)"
+          "effect": "Few can match the ability of this warrior. He fights with great skill, weaving a web of steel around him. The model gains +1 to all his rolls on Critical Hit tables in hand-to-hand combat."
         },
         {
           "id": "expertSwordsman",
           "name": "Expert Swordsman",
-          "effect": "The warrior may re-roll all missed attacks if using a sword in the hand-to-hand phase of the turn he charges. Only applies when armed with normal swords or weeping blades, not double-handed swords or other weapons. (RB 122)"
+          "effect": "This warrior has been expertly taught in the art of swordsmanship. He may re-roll all missed attacks if he is using a sword in the hand-to-hand phase of the turn that he charges. Note that this only applies when they are armed with normal swords or weeping blades, and not with doublehanded swords or any other weapons."
         },
         {
           "id": "stepAside",
           "name": "Step Aside",
-          "effect": "Each time the warrior suffers a wound in close combat he may make an additional saving throw of 5+. This save is never modified and is taken after all other armour saves. (RB 122)"
+          "effect": "The warrior has a natural ability to avoid injury in combat. Each time he suffers a wound in close combat he may make an additional saving throw of 5+. This save is never modified and is taken after all other armour saves."
         }
       ]
     },
@@ -43,42 +43,42 @@
         {
           "id": "quickShot",
           "name": "Quick Shot",
-          "effect": "The warrior may shoot twice per turn with a bow or crossbow (but not a crossbow pistol). (RB 122 — Official Errata 2002)"
+          "effect": "The warrior may shoot twice per turn with a bow or crossbow (but not a crossbow pistol)."
         },
         {
           "id": "pistolier",
           "name": "Pistolier",
-          "effect": "If equipped with a brace of pistols of any type (including crossbow pistols), the warrior may fire twice in the Shooting phase (normal reloading rules apply). With a single pistol he may fire it the same turn it was reloaded. (RB 122 — Official Errata 2002)"
+          "effect": "The warrior is an expert at using all kinds of pistols. If he is equipped with a brace of pistols of any type (including crossbow pistols), he may fire twice in the Shooting phase (though note that normal reloading rules apply). If he has a single pistol then he may fire it in the same turn it was reloaded."
         },
         {
           "id": "eagleEyes",
           "name": "Eagle Eyes",
-          "effect": "The warrior adds +6\" to the range of any missile weapon he is using. (RB 122)"
+          "effect": "The warrior's sight is exceptionally keen. He adds +6\" to the range of any missile weapon he is using."
         },
         {
           "id": "weaponsExpert",
           "name": "Weapons Expert",
-          "effect": "The warrior may use any missile weapon he comes across, not just the weapons available from his warband's list. (RB 122, implied — page reference not explicit in source)"
+          "effect": "The warrior has been trained to use some of the more unusual weapons of the known world. He may use any missile weapon he comes across, not just the weapons available from his warband's list."
         },
         {
           "id": "nimble",
           "name": "Nimble",
-          "effect": "The warrior may move and fire with weapons that are normally only used if the firer has not moved. Cannot be combined with Quick Shot. (RB 122)"
+          "effect": "The warrior may move and fire with weapons that are normally only used if the firer has not moved. Note that this skill cannot be combined with the Quick Shot skill."
         },
         {
           "id": "trickShooter",
           "name": "Trick Shooter",
-          "effect": "The warrior ignores all modifiers for cover when using missile weapons. (RB 122) Suggested Changes: not usable with Quick Shot."
+          "effect": "The warrior can shoot through the tiniest gap without it affecting his aim. He ignores all modifiers for cover when using missile weapons."
         },
         {
           "id": "hunter",
           "name": "Hunter",
-          "effect": "The warrior may fire each turn with a handgun or Hochland long rifle. (RB 122) Suggested Changes: may be used with Pistolier."
+          "effect": "The warrior is an expert at getting his weapon loaded and ready. He may fire each turn with a handgun or Hochland long rifle."
         },
         {
           "id": "knifeFighter",
           "name": "Knife-Fighter",
-          "effect": "The warrior can throw a maximum of three throwing knives/throwing stars in his shooting phase and may divide his shots between any targets within range. Cannot be combined with Quick Shot. (RB 122)"
+          "effect": "The warrior is an unrivalled expert at using throwing knives and throwing stars. He can throw a maximum of three of these missiles in his shooting phase and may divide his shots between any targets within range as he wishes. Note that this skill cannot be combined with the Quick Shot skill."
         }
       ]
     },
@@ -88,7 +88,7 @@
         {
           "id": "battleTongue",
           "name": "Battle Tongue",
-          "effect": "Leader only. Increases the range of his Leader ability by 6\". Undead leaders may not use this skill. (RB 123)",
+          "effect": "This skill may only be chosen by a leader. The warrior has drilled his warband to follow short barked commands. This increases the range of his Leader ability by 6\". Note that Undead leaders may not use this skill.",
           "prerequisite": {
             "text": "Leader only. Undead leaders may not use this skill.",
             "requiresLeader": true,
@@ -100,7 +100,7 @@
         {
           "id": "sorcery",
           "name": "Sorcery",
-          "effect": "Heroes capable of casting spells only. +1 to rolls to see whether a spell is cast successfully. Sisters of Sigmar and Warrior-Priests may not use this skill. (RB 123)",
+          "effect": "This skill may only be taken by Heroes capable of casting spells. A warrior with this skill gains +1 to his rolls to see whether he can cast spells successfully or not. Note that Sisters of Sigmar and Warrior-Priests may not use this skill.",
           "prerequisite": {
             "text": "Heroes capable of casting spells only.",
             "excludedWarbandTypes": [
@@ -111,17 +111,17 @@
         {
           "id": "streetwise",
           "name": "Streetwise",
-          "effect": "+2 to the roll that determines chances of finding Rare items (see Trading section). (RB 123)"
+          "effect": "A warrior with this skill has good contacts and knows where to purchase rare items. He may add +2 to the roll that determines his chances of finding such items (see the Trading section)."
         },
         {
           "id": "haggle",
           "name": "Haggle",
-          "effect": "Deduct 2D6 gold crowns from the price of any single item (minimum cost 1gc) once per post-battle sequence. (RB 123)"
+          "effect": "The warrior knows all the tricks of bargaining and haggling. He may deduct 2D6 gold crowns from the price of any single item (to a minimum cost of 1gc) once per post battle sequence."
         },
         {
           "id": "arcaneLore",
           "name": "Arcane Lore",
-          "effect": "Witch Hunters, Sisters of Sigmar and Warrior-Priests may not have this skill. A warrior with this skill may learn Lesser Magic if he owns a Tome of Magic. (RB 123)",
+          "effect": "Witch Hunters, Sisters of Sigmar and Warrior-Priests may not have this skill. Any warrior with this skill may learn Lesser Magic if he owns a Tome of Magic.",
           "prerequisite": {
             "text": "Witch Hunters, Sisters of Sigmar and Warrior-Priests may not have this skill.",
             "excludedWarbandTypes": [
@@ -133,12 +133,12 @@
         {
           "id": "wyrdstoneHunter",
           "name": "Wyrdstone Hunter",
-          "effect": "If a Hero with this skill searches ruins in the exploration phase, re-roll one dice when rolling on the Exploration chart; the second result stands. (RB 123)"
+          "effect": "The warrior has an uncanny ability to find hidden shards of wyrdstone. If a Hero with this skill is searching the ruins in the exploration phase you may re-roll one dice when rolling on the Exploration chart. The second result stands."
         },
         {
           "id": "warriorWizard",
           "name": "Warrior Wizard",
-          "effect": "Spellcasters only. Allows the wizard to wear armour and cast spells. (RB 123)",
+          "effect": "This skill may only be taken by spellcasters. The mental powers of the wizard allow him to wear armour and cast spells.",
           "prerequisite": {
             "text": "Spellcasters only."
           }
@@ -146,7 +146,7 @@
         {
           "id": "scribe",
           "name": "Scribe",
-          "effect": "Any warrior able to cast spells or use prayers may take this. Allows making a scroll before battle inscribed with one known spell/prayer, usable just before casting it for +2 to the difficulty roll; the scroll crumbles after use and cannot be saved between battles. (TC7)",
+          "effect": "The warrior is a natural adept at writing and making scrolls. Any warrior with the ability to cast spells or use prayers may take this skill. It allows them to make a scroll before the battle and inscribe a single spell or prayer upon it that they are versed in. The scroll may be used just before they are about to cast the spell or prayer and allows the caster +2 to his difficulty roll.\n\nOnce used the scroll will crumble to dust and is useless. Scrolls may not be saved up from battle to battle if they are not used.",
           "prerequisite": {
             "text": "Any warrior able to cast spells or use prayers."
           }
@@ -154,7 +154,7 @@
         {
           "id": "mindFocus",
           "name": "Mind Focus",
-          "effect": "Spellcasters/prayer users only. May re-roll one dice roll used in the difficulty roll when using a spell or prayer. (TC7)",
+          "effect": "The warrior possesses a great strength of mind which allows him to concentrate beyond the levels of most normal men. This skill may only be taken by a warrior capable of using prayers or casting spells. When using a spell or prayer the warrior with this skill may reroll one dice roll used in the difficulty roll.",
           "prerequisite": {
             "text": "Spellcasters/prayer users only."
           }
@@ -162,7 +162,7 @@
         {
           "id": "tactician",
           "name": "Tactician",
-          "effect": "Warband leader only. May reposition his warriors after the opponent has set up, and may advance them up to 12\" onto the board instead of 8\". (TC7)",
+          "effect": "This skill may only be taken by a warband leader. The warrior has a great tactical mind and can often find the best positions for his warriors to meet the oncoming attack. In any scenario the warband leader may reposition his warriors after his opponent has set up and may even advance them up to 12 inch onto the board instead of 8 inch.",
           "prerequisite": {
             "text": "Warband leader only.",
             "requiresLeader": true
@@ -171,7 +171,7 @@
         {
           "id": "hunch",
           "name": "Hunch",
-          "effect": "Warband leader only. May position up to 3 of his XP-earning men in any ruined building on the board at least 12\" from an enemy model and not in the enemy deployment zone. (TC7)",
+          "effect": "This skill may only be taken by the warband leader. The warrior has an uncanny knack of placing his men in the right place at the right time, as if he senses danger through instinct alone. In any scenario the warband leader may position up to 3 of his men capable of earning experience in any ruined building on the board that is at least 12 inch away from an enemy model and not in the enemy deployment zone.",
           "prerequisite": {
             "text": "Warband leader only.",
             "requiresLeader": true
@@ -180,7 +180,7 @@
         {
           "id": "magicalAptitude",
           "name": "Magical Aptitude",
-          "effect": "Spellcasters only (not Sisters of Sigmar or Warrior Priests). May attempt to cast two spells per turn if not in hand-to-hand combat; after the first, take a Toughness test — pass to attempt a second (even the same spell); fail and roll on the injury table immediately with no saves, treating out of action as stunned. (TC7)",
+          "effect": "This skill may only be taken by a warrior capable of casting spells. It may not be used by Sisters of Sigmar or Warrior Priests. The warrior has a keep aptitude for magic and can push himself beyond normal limits to produce a storm of spells. The warrior may attempt to cast two spells each turn as long as he is not in hand-to-hand combat. After attempting the first spell, he must take a toughness test. If he passes he may attempt a second spell that turn or even cast the same spell twice. If he fails he must roll on the injury table immediately with no saves treating out of action results as stunned instead.",
           "prerequisite": {
             "text": "Spellcasters only.",
             "excludedWarbandTypes": [
@@ -191,7 +191,7 @@
         {
           "id": "driveChariot",
           "name": "Drive Chariot",
-          "effect": "Required to drive a chariot effectively in combat; a charioteer without this skill cannot charge. (TC18)",
+          "effect": "Chariots are very difficult to control and a warrior must have this skill to drive a chariot effectively in combat. A charioteer without this skill cannot charge.",
           "prerequisite": {
             "text": "Requires a chariot to drive."
           }
@@ -204,32 +204,32 @@
         {
           "id": "mightyBlow",
           "name": "Mighty Blow",
-          "effect": "+1 Strength bonus in close combat (excluding pistols), applying to all close combat weapons. (RB 123)"
+          "effect": "The warrior knows how to use his strength to maximum effect and has a +1 Strength bonus in close combat (excluding pistols). As his Strength is used for close combat weapons, the bonus applies to all such weapons."
         },
         {
           "id": "pitFighter",
           "name": "Pit Fighter",
-          "effect": "+1 WS and +1 Attacks when fighting inside buildings or ruins. Agree with your opponent what counts as 'buildings or ruins' before the battle. (RB 123)"
+          "effect": "The warrior has learned how to fight in enclosed spaces from his time in the dangerous fighting pits of the Empire. He is an expert at fighting in confined areas and adds +1 to his WS and +1 to his Attacks if he is fighting inside buildings or ruins. It's a good idea to define which bits of your terrain collection count as 'buildings or ruins' at the start of a battle to avoid confusion later."
         },
         {
           "id": "resilient",
           "name": "Resilient",
-          "effect": "Deduct -1 Strength from all hits against the warrior in close combat. Does not affect armour save modifiers. (RB 123)"
+          "effect": "The warrior is covered in battle scars. Deduct -1 Strength from all hits against him in close combat. This does not affect armour save modifiers."
         },
         {
           "id": "fearsome",
           "name": "Fearsome",
-          "effect": "The model causes fear in opposing models. (RB 123)"
+          "effect": "Such is the reputation and physique of the model that he causes fear in opposing models."
         },
         {
           "id": "strongman",
           "name": "Strongman",
-          "effect": "The warrior may use a double-handed weapon without the usual penalty of always striking last. (RB 123)"
+          "effect": "The warrior is capable of great feats of strength. He may use a double-handed weapon without the usual penalty of always striking last. Work out order of battle as you would with other weapons."
         },
         {
           "id": "unstoppableCharge",
           "name": "Unstoppable Charge",
-          "effect": "+1 to Weapon Skill when charging. (RB 123)"
+          "effect": "When he charges, the warrior is almost impossible to halt. He adds +1 to his Weapon Skill when charging."
         }
       ]
     },
@@ -239,37 +239,37 @@
         {
           "id": "leap",
           "name": "Leap",
-          "effect": "May leap D6\" in the movement phase in addition to normal movement (once per turn); may jump over man-sized models/obstacles up to 1\" high without penalty, or leap gaps (committing to the leap before rolling). (RB 123)"
+          "effect": "The warrior may leap D6\" in the movement phase in addition to his normal movement. He may move and leap, run and leap, or charge and leap, but he can only leap once per turn.\n\nA leaping warrior may jump over opposing man-sized models, including enemies, and obstacles 1\" high, without penalty.\n\nThe leap may also be used to leap over gaps, but in this case you must commit the warrior to making the leap before rolling the dice to see how far he jumps. If he fails to make it all the way across, he falls through the gap (see Falling)."
         },
         {
           "id": "sprint",
           "name": "Sprint",
-          "effect": "Triples Movement rate when running or charging, instead of doubling. (RB 123)"
+          "effect": "The warrior may triple his Movement rate when he runs or charges, rather than doubling it as normal."
         },
         {
           "id": "acrobat",
           "name": "Acrobat",
-          "effect": "May fall/jump from up to 12\" without damage on a passed Initiative test, and may re-roll failed Diving Charge rolls (still limited to a 6\" diving charge). (RB 123)"
+          "effect": "The warrior is incredibly supple and agile. He may fall or jump from a height of up to 12\" without taking any damage if he passes a single Initiative test, and can re-roll failed Diving Charge rolls. He can still only make a diving charge from a height of up to 6\"."
         },
         {
           "id": "lightningReflexes",
           "name": "Lightning Reflexes",
-          "effect": "If charged, 'strikes first' against the charger(s); order between multiple 'strike first' combatants is resolved by comparing Initiative. (RB 123)"
+          "effect": "If the warrior is charged he will 'strike first' against those that charged that turn. As the charger(s) will also normally 'strike first' (for charging), the order of attack between the charger(s) and the warrior with this skill will be determined by comparing Initiative values."
         },
         {
           "id": "jumpUp",
           "name": "Jump Up",
-          "effect": "May ignore Knocked Down results when rolling for injuries, unless knocked down via a successful helmet save or the No Pain special rule. (RB 123)"
+          "effect": "The warrior can regain his footing in an instant, springing to his feet immediately if he is knocked down. The warrior may ignore knocked down results when rolling for injuries, unless he is knocked down because of a successful save from wearing a helmet or because he has the No Pain special rule."
         },
         {
           "id": "dodge",
           "name": "Dodge",
-          "effect": "May avoid a missile hit on a D6 roll of 5+, rolled as soon as the hit is scored, before rolling to wound and before other skill/equipment effects. (RB 123)"
+          "effect": "A warrior with this skill is nimble and as fast as quicksilver. He can avoid any hits from a missile weapon on a D6 roll of 5+. Note that this roll is taken against missiles as soon as a hit is scored to see whether the warrior dodges it or not, before rolling to wound, and before any effects from other skills or equipment (such as lucky charms)."
         },
         {
           "id": "scaleSheerSurfaces",
           "name": "Scale Sheer Surfaces",
-          "effect": "May climb up/down a height equal to twice normal Movement without Initiative tests. (RB 123)"
+          "effect": "A warrior with this skill can scale even the highest wall or fence with ease. He can climb up or down a height equal to twice his normal Movement, and does not need to make Initiative tests when doing so."
         }
       ]
     },
@@ -294,7 +294,7 @@
         {
           "id": "cavalryCommander",
           "name": "Cavalry Commander",
-          "effect": "If the warband's leader has this skill and is mounted, the range within which other warriors may use his Leadership is increased by a further 6\", on top of any other bonus. (EiF 25-26)",
+          "effect": "Mounted heroes are an impressive sight. With a good vantage point, they can see (and be seen) far more readily than if they were on foot. If the warband's leader has this skill and is mounted, he may add an extra 6\" to the distance within which other warriors in the warband may use his Leadership. This is in addition to any other bonuses that increase the range of the leader's influence.",
           "prerequisite": {
             "text": "Leader only, and only while mounted.",
             "requiresLeader": true
@@ -303,7 +303,7 @@
         {
           "id": "trickRiding",
           "name": "Trick Riding",
-          "effect": "Declare before moving, then pass an Initiative test to move full distance (fail: roll on the Whoa Boy! table). While trick riding, missile attacks against the rider are at -1 to hit. Needs both hands, so no shield or missile weapons while using it, and may not be used in heavy armour. (EiF 26)",
+          "effect": "By athletically hanging off the side of his mount, a rider makes himself harder to hit. While a rider is trick riding all missile attacks against him suffer -1 to hit in addition to other modifiers. The rider must declare that he is trick riding before moving. He must then make an Initiative test and, if successful, may move full distance. If he fails he loses control of his mount and must roll immediately on the Whoa Boy! table. This skill may not be used with heavy armour because of the agility required. In addition, trick riding requires both hands, so the model may not use a shield or missile weapons whilst using the skill. Warriors without Ride may not use this skill.",
           "prerequisite": {
             "text": "Requires Ride. Not usable in heavy armour."
           }
@@ -311,7 +311,7 @@
         {
           "id": "combatRiding",
           "name": "Combat Riding",
-          "effect": "When charging an unmounted opponent, makes one additional S4 attack as the mount tramples him. In later rounds, or when charged, fights as normal. (EiF 26)",
+          "effect": "The rider has trained his mount to use its bulk to trample any unmounted enemy before him. A warrior with this skill may make a single additional S4 attack when charging an unmounted opponent. In subsequent rounds of combat, or if charged by enemy warriors, the mounted warrior fights as normal.",
           "prerequisite": {
             "text": "Requires Ride."
           }
@@ -319,7 +319,7 @@
         {
           "id": "evade",
           "name": "Evade",
-          "effect": "Always strikes first in close combat against dismounted opponents. When charged, or against an enemy who also strikes first, attacks go in Initiative order (equal Initiative: higher Experience first). (EiF 26)",
+          "effect": "The rider has trained his mount to swerve from side to side in combat, wrong-footing his opponent. A rider with this skill always strikes first in close combat against dismounted opponents. When charged by an opponent, or otherwise fighting an enemy also entitled to strike first, attacks are carried out in order of Initiative. If Initiative is equal, the model with greater experience strikes first. Warriors without Ride may not use this skill.",
           "prerequisite": {
             "text": "Requires Ride."
           }
@@ -327,7 +327,7 @@
         {
           "id": "runningDismount",
           "name": "Running Dismount",
-          "effect": "May ride up to the mount's normal move and then dismount at once; no further movement or shooting. Can be used to reach the enemy as a diving charge from 2\" (all diving charge rules apply), after which the rider counts as dismounted. (EiF 26)",
+          "effect": "The rider is able to dismount from his mount at speed. The rider may ride up to the mount's normal move distance and then dismount immediately. No further movement or shooting is possible. This skill may be used to move into contact with the enemy, counting as a Diving Charge from a height of 2\" - all the usual rules for diving charges apply. Note that the rider then counts as dismounted, gaining no further assistance from his mount.",
           "prerequisite": {
             "text": "Requires Ride."
           }
@@ -335,7 +335,7 @@
         {
           "id": "athleticMount",
           "name": "Athletic Mount",
-          "effect": "If within half his move of his steed, may leap onto it and spur it straight into a run or charge move, instead of losing half his move to mount. (EiF 26)",
+          "effect": "Without breaking stride, the warrior is able to leap onto the back of his mount and immediately spur it into a full gallop. Once the warrior is on board, the mount may make a run or charge move as normal. The warrior must be within half his full move distance of his steed to use this skill.",
           "prerequisite": {
             "text": "Requires Ride."
           }
@@ -343,7 +343,7 @@
         {
           "id": "horseArcher",
           "name": "Horse Archer",
-          "effect": "May shoot in a 360-degree arc while mounted, and may shoot while the mount runs at a further -1 to hit. (EiF 26)",
+          "effect": "The rider has learned the skills of the steppe nomads and can shoot from a running mount. The rider may shoot in a 360 degree arc whilst mounted, and may shoot while his mount is running; however the shot suffers a -1 to hit penalty in addition to all other normal modifiers. Warriors without Ride may not use this skill.",
           "prerequisite": {
             "text": "Requires Ride."
           }
@@ -351,7 +351,7 @@
         {
           "id": "mountedCombatMaster",
           "name": "Mounted Combat Master",
-          "effect": "When fighting mounted against a mounted opponent and wounding him, the wounded model adds +1 to his roll on the Whoa Boy! table. (EiF 26)",
+          "effect": "The rider is especially skilled at combat against a mounted opponent. If the model is fighting mounted against a mounted opponent and successfully wounds the enemy, the wounded model must add +1 to his roll on the Whoa Boy! table. Warriors without Ride may not use this skill.",
           "prerequisite": {
             "text": "Requires Ride."
           }
@@ -366,27 +366,27 @@
         {
           "id": "masterOfArms",
           "name": "Master of Arms",
-          "effect": "The Ogre may wield a Difficult to Use weapon and a hand weapon at the same time, but not two Difficult to Use weapons."
+          "effect": "The Ogre learns how to use his size. He may now wield a Difficult to Use weapon and a hand weapon at the same time, but not two Difficult to Use weapons."
         },
         {
           "id": "crudeBelch",
           "name": "Crude Belch",
-          "effect": "A Hero with this may unleash thunderous fumes on all enemies engaged in close combat; those who fail a Ld test suffer -1 to hit for the turn. Must wait for a new enemy to engage before using again."
+          "effect": "Ogres and Gnoblars eat almost anything. Consequences are to be expected from those inconsiderate enough to consume a rich meal before battle. A Hero with this 'condition' may unleash his thunderous fumes on all enemies engaged in close combat. Those that do not pass a Ld test suffer a –1 ‘to hit’ modifier for the turn. The Ogre must wait until a new enemy engages him in combat before he relieves himself again."
         },
         {
           "id": "maneater",
           "name": "Maneater",
-          "effect": "May immediately learn one skill from the Shooting or Academic skill list. May be taken only once and may not be taken by the Guide."
+          "effect": "Ogres are not civilized of their own accord but it is proven they are prone to absorb foreign customs when travelling the world. Some eventually learn strange new skills before returning home to their tribes. This Ogre may immediately learn one skill from the Shooting or Academic skill lists. This skill may be taken only once and may not be taken by the Guide."
         },
         {
           "id": "bullCharge",
           "name": "Bull Charge",
-          "effect": "When charging, may attempt a single attack at +1 to hit instead of normal attacks; on a hit the enemy is automatically knocked down."
+          "effect": "Ogres learn to use their vast bulk in a charge, trampling the enemy to the ground. When charging, an Ogre with this skill may attempt a single attack with a +1 ‘to hit’ modifier rather than making his normal attacks. If successful the enemy model is automatically knocked down."
         },
         {
           "id": "dogOfWar",
           "name": "Dog of War",
-          "effect": "The warband may hire Hired Swords available to Mercenaries. Only the leader may take this skill; if he dies, all Hired Swords are removed from the warband.",
+          "effect": "When an Ogre travels south he can find employment as a tavern bouncer. Some are enlisted by Paymasters to fight for Tilean City States. Drawing from experience gained during a stint on foreign soil, the band can now hire those Hired Swords available for Mercenaries. This skill may only be taken by the leader and if he dies all Hired Swords are removed from the warband.",
           "prerequisite": {
             "text": "Only the leader may take this skill.",
             "requiresLeader": true
@@ -395,7 +395,7 @@
         {
           "id": "bellowingRoar",
           "name": "Bellowing Roar",
-          "effect": "Warband leader only. Allows a re-roll of the first failed Rout test.",
+          "effect": "An Ogre leader expects challenges to his authority. One of the best ways to suppress a mutineer in the ranks is to give his ear drums a good pounding. This skill may only be taken by the warband leader, allowing him to re-roll the first failed Rout test.",
           "prerequisite": {
             "text": "Warband leader only.",
             "requiresLeader": true
@@ -464,7 +464,7 @@
         {
           "id": "masterOfPoisonsAssassin",
           "name": "Master of Poisons",
-          "effect": "If the hero does not search for rare items, he may brew 3D-1 portions of dark venom or black lotus (single-weapon sized, must be used next battle). (New — by Archeonicus)"
+          "effect": "The Dark Elf is proficient in concocting different poisons. If the Hero doesn’t search for rare items, he may make D3–1 doses of Dark Venom instead. There is a chance of getting none, as the hero doesn’t have access to a stable workplace. The poison must be used in the next battle and cannot be sold or traded to other warbands as the Dark Elves guard their secrets very carefully."
         },
         {
           "id": "shadowDefense",
@@ -489,32 +489,32 @@
         {
           "id": "shaggyHide",
           "name": "Shaggy Hide",
-          "effect": "Gains a 6+ Armour Save, combinable with other armour as normal. (EiF 74)"
+          "effect": "The Beastman’s massively shaggy hide acts as armour, deflecting sword strokes and protecting him from harm. The model gains a 6+ Armour Save that can be combined with other armour as normal."
         },
         {
           "id": "mutant",
           "name": "Mutant",
-          "effect": "May buy one mutation. (EiF 74)"
+          "effect": "The Hero may buy one mutation. See Mutants section on special rules."
         },
         {
           "id": "fearlessBeastman",
           "name": "Fearless",
-          "effect": "Immune to Fear and All Alone tests. (EiF 74)"
+          "effect": "Immune to fear and All Alone tests."
         },
         {
           "id": "hornedOne",
           "name": "Horned One",
-          "effect": "May make an additional Attack at basic Strength on a turn it charges. (EiF 74)"
+          "effect": "The Beastman has mighty horns, and can make an additional Attack with its basic Strength on a turn it charges."
         },
         {
           "id": "bellowingRoarBeastman",
           "name": "Bellowing Roar",
-          "effect": "Beastman Chief only. May re-roll any failed Rout tests. (EiF 74)"
+          "effect": "Only the Beastmen Chief may have this skill. He may re-roll any failed Rout tests."
         },
         {
           "id": "manhater",
           "name": "Manhater",
-          "effect": "Affected by the rules of Hatred when fighting any Human warbands. (EiF 74)"
+          "effect": "Will be affected by the rules of hatred when fighting any Human warbands."
         }
       ]
     },
@@ -524,7 +524,7 @@
         {
           "id": "virtueOfPurity",
           "name": "Virtue of Purity",
-          "effect": "Any spell cast against the Knight is dispelled on a D6 roll of 4+. (TC8)"
+          "effect": "The Knight's sole purpose is to serve the Lady of the Lake. His purity of heart and discipline endow him with the strength of spirit to resist enemy magic. Any spell cast against the knight will be dispelled on the D6 roll of a 4+. This is a natural dispel on account of the knight's extreme piety."
         },
         {
           "id": "virtueOfValor",
@@ -534,12 +534,12 @@
         {
           "id": "virtueOfDiscipline",
           "name": "Virtue of Discipline",
-          "effect": "Once per game, if not Out of Action, Stunned or Knocked Down, may re-roll a failed Rout Test. (TC8)"
+          "effect": "The Knight has total faith in his chivalric code: he maintains self-control in the face of adversity, and displays complete confidence whatever the odds. Once per game, if the knight is not out of action, stunned or knocked down, you may re-roll a failed rout test."
         },
         {
           "id": "virtueOfNobleDisdain",
           "name": "Virtue of Noble Disdain",
-          "effect": "Subject to Hatred of all enemies armed with shooting weapons. (TC8)"
+          "effect": "The Knight has nothing but contempt for enemies who hide behind weapons of dishonour. The Knight is subject to hatred of all enemies armed with shooting weapons."
         },
         {
           "id": "virtueOfTheImpetuous",
@@ -554,27 +554,27 @@
         {
           "id": "furyOfKhaine",
           "name": "Fury of Khaine",
-          "effect": "May make a 4\" follow-up move after taking all opponents in a combat out of action, starting a new combat (counts as charging) the following turn if it makes contact. May not follow up in the opponent's turn. (TC10)"
+          "effect": "The Dark Elf is infused with an intense raging thirst for blood and is a whirlwind in hand-to-hand combat, moving from opponent to opponent. The Dark Elf may make a 4&quot; follow up move if he takes all of his opponents Out Of Action. If he comes into contact with another enemy this starts a new combat. This new combat takes place in the following turn and the model counts as charging. May not follow up in the opponent’s turn."
         },
         {
           "id": "powerfulBuildDarkElf",
           "name": "Powerful Build",
-          "effect": "May choose skills from the Strength table. The Sorceress may never take this; no more than two warriors in the warband may have it at once. (TC10)"
+          "effect": "The warrior is strongly built for an Elf, and is capable of feats of strength not often seen among the people of Ulthuan. A warrior with this skill may choose skills from the Strength skills table from now on. This skill may not be taken by Shadow Weavers. There may never be more than two Elves with this skill in the warband at any one time."
         },
         {
           "id": "feyQuickness",
           "name": "Fey Quickness",
-          "effect": "Avoids melee/missile attacks on a roll of 6; combined with Step Aside or Dodge this improves to 4+ in the relevant area. (TC10)"
+          "effect": "Few can ever hope to match an Elf’s inhuman quickness and agility. An Elf with Fey Quickness can avoid melee or missile attacks on a roll of 6. If the Elf also has Step Aside or Dodge this will increase to a 4+ in the relevant area. For example, an Elf with Fey Quickness and Step Aside avoids melee attacks on a 4+ and missile attacks on a 6."
         },
         {
           "id": "infiltrationDarkElf",
           "name": "Infiltration",
-          "effect": "Always placed on the battlefield after the opposing warband, anywhere out of sight and more than 12\" from any enemy model. If both sides have infiltrators, lowest D6 sets up first. (RB 93)"
+          "effect": "A warrior with this skill is always placed on the battlefield after the opposing warband and can be placed anywhere on the table as long as it is out of sight of the opposing warband and more than 12\" away from any enemy model. If both players have models which infiltrate, roll a D6 for each, and the lowest roll sets up first."
         },
         {
           "id": "masterOfPoisonsDarkElf",
           "name": "Master of Poisons",
-          "effect": "If the Hero doesn't search for rare items, may make D3-1 doses of Dark Venom instead (may be none); must be used next battle, cannot be sold/traded. (TC10)"
+          "effect": "The Dark Elf is proficient in concocting different poisons. If the Hero doesn’t search for rare items, he may make D3–1 doses of Dark Venom instead. There is a chance of getting none, as the hero doesn’t have access to a stable workplace. The poison must be used in the next battle and cannot be sold or traded to other warbands as the Dark Elves guard their secrets very carefully."
         }
       ]
     },
@@ -584,27 +584,27 @@
         {
           "id": "masterOfBlades",
           "name": "Master of Blades",
-          "effect": "Parries successfully with a Parry weapon on an equal-or-higher roll (not just higher); with two Parry weapons may parry two attacks instead of one; two Dwarf axes allow re-rolling failed parries. (A02 24)"
+          "effect": "This Dwarf’s martial skills surpass those of a normal warrior; he has fought unscathed against hordes of Orcs and Goblins. When using a weapon that has a Parry special rule, this hero parries successfully if he beats or matches his opponent’s highest ‘to hit’ roll, not just if he beats the roll. In addition, if this warrior is using two weapons that have the Parry special rule, he is allowed to parry two attacks (if his two dice match or beat the two highest Attack dice against him) instead of the normal maximum of one. Note that if this Dwarf has two Dwarf axes (as detailed above) he can re-roll any failed parries."
         },
         {
           "id": "extraTough",
           "name": "Extra Tough",
-          "effect": "When rolling on the Heroes Serious Injury chart after being taken out of action, may re-roll once; the second result must be accepted even if worse. (A02 24)"
+          "effect": "This Dwarf is notorious for walking away from wounds that would kill a lesser being. When rolling on the Heroes Serious Injury chart for this Hero after a game in which he has been taken out of action, the dice may be re-rolled once. The result of this second dice roll must be accepted, even if it is a worse result."
         },
         {
           "id": "resourceHunter",
           "name": "Resource Hunter",
-          "effect": "May modify one Exploration chart dice roll by +1/-1. (A02 24)"
+          "effect": "This Dwarf is especially good at locating valuable resources. When rolling on the Exploration chart at the end of a game, the Hero may modify one dice roll by +1/-1."
         },
         {
           "id": "trueGrit",
           "name": "True Grit",
-          "effect": "On the Injury table for this Hero: 1-3 is Knocked Down, 4-5 is Stunned, 6 is Out of Action. (A02 24)"
+          "effect": "Dwarfs are hardy individuals and this Hero is hardy even for a Dwarf! When rolling on the Injury table for this Hero, a roll of 1-3 is treated as knocked down, 4-5 as stunned, and 6 as out of action."
         },
         {
           "id": "thickSkullDwarf",
           "name": "Thick Skull",
-          "effect": "3+ save on a D6 to avoid being Stunned (treated as Knocked Down if saved); 2+ instead of 3+ if also wearing a helmet (replaces the normal Helmet rule). (A02 24)"
+          "effect": "The Hero has a thick skull, even for a Dwarf. He has a 3+ save on a D6 to avoid being stunned. If the save is made, treat a stunned result as knocked down instead. If the Dwarf also wears a helmet, this save is 2+ instead of 3+ (this takes the place of the normal Helmet special rule)."
         }
       ]
     },
@@ -614,27 +614,27 @@
         {
           "id": "quietAsAMouse",
           "name": "Quiet as a Mouse",
-          "effect": "Enemy warriors must use half their Initiative value in inches (rounded down) when trying to detect this hidden Halfling."
+          "effect": "The halfling is adept at staying as quiet as a mouse whilst hiding. Enemy warriors must use half their initiative value in inches (rounded down) when trying to detect this hidden halfling."
         },
         {
           "id": "crudeBelchHalfling",
           "name": "Crude Belch",
-          "effect": "In the first round of hand-to-hand combat, releases fumes on all enemies in base contact; those failing a Ld test miss their first attack that round."
+          "effect": "Having eaten a meal or six, this halfling may release a withering belch to distract his enemies. During the first round of hand to hand combat the halfling can release his noxious fumes upon all enemies within base contact. All enemies effected must take a leadership test. If the leadership test is failed then the putrid odor has severely affected the warrior's fighting ability and he must miss his first attack (regardless of whether he has only one attack or not)."
         },
         {
           "id": "wizenedHalfling",
           "name": "Wizened Halfling",
-          "effect": "Leaders only. All Halflings within 6\" may re-roll failed Leadership tests and use his Leadership for both tests."
+          "effect": "This old halfling is greatly respected by the other members of the warband and they never question his word. All halflings may also re-roll any failed leadership test when within 6&quot; of the leader as well as using his leadership for both tests."
         },
         {
           "id": "stealthyHalflingThief",
           "name": "Stealthy",
-          "effect": "Halfling Thieves only. May hide even after running, and may run within 8\" of enemy models if starting and ending the move hidden."
+          "effect": "The Halfling Thief can hide even after running, and can run while within 8&quot; of enemy models if he starts and ends his move hidden."
         },
         {
           "id": "skilledHuntsman",
           "name": "Skilled Huntsman",
-          "effect": "May fire a ranged weapon and remain hidden: roll D6, on a 3+ stays hidden that turn. Not combinable with black powder weapons."
+          "effect": "The halfling has been hunting things ever since he was young (the more food he has, the better!) and has become well adapted to firing as silently and discreetly as possible. To represent this a Halfling may try and fire a ranged weapon and remain hidden. When shooting from hiding roll D6. On a 3+ the Halfling has managed to keep his actions inconspicuous to the eye of the enemy and may remain hidden that turn. Note this skill may not be combined with black powder weapons, they are just too noisy!"
         },
         {
           "id": "layersOfFat",
@@ -659,7 +659,7 @@
         {
           "id": "dedShooty",
           "name": "Ded Shooty",
-          "effect": "The clever little git adds +6\" to the range of any missile weapons he uses (not including nets)."
+          "effect": "The clever little git adds +6&quot; to the range of any missile weapons he uses (not including nets)."
         },
         {
           "id": "sneakyGit",
@@ -669,7 +669,7 @@
         {
           "id": "netter",
           "name": "Netter",
-          "effect": "The goblin is adept at using a net to disable his enemies. They learn their skill hunting wild cave squigs in the depths of the mountains. The technique he has mastered is 'chuck and charge'. The goblin may declare that he is making a net charge. He throws the net at a target in the same way as described in the Mordheim rulebook. If he hits and the target fails to escape the net then target counts as knocked down and the goblin completes his charge. If he misses or the target escapes then the goblin makes a failed charge. If the failed charge would take him into base contact then stop him 1\" away. A warrior who is caught in a net will be automatically hit in combat. The goblin must still roll to wound just as with a knocked down enemy. In the warrior's next recovery phase, unless he is stunned or out of action he will cut himself out of the net but cannot do anything else and will go last in combat just as if he had stood up from being knocked down."
+          "effect": "The goblin is adept at using a net to disable his enemies. They learn their skill hunting wild cave squigs in the depths of the mountains. The technique he has mastered is 'chuck and charge'. The goblin may declare that he is making a net charge. He throws the net at a target in the same way as described in the Mordheim rulebook. If he hits and the target fails to escape the net then target counts as knocked down and the goblin completes his charge. If he misses or the target escapes then the goblin makes a failed charge. If the failed charge would take him into base contact then stop him 1&quot; away. A warrior who is caught in a net will be automatically hit in combat. The goblin must still roll to wound just as with a knocked down enemy. In the warrior's next recovery phase, unless he is stunned or out of action he will cut himself out of the net but cannot do anything else and will go last in combat just as if he had stood up from being knocked down."
         }
       ]
     },
@@ -679,32 +679,32 @@
         {
           "id": "ardEad",
           "name": "'ard ead",
-          "effect": "3+ save on a D6 to avoid being Stunned (treated as Knocked Down if saved); 2+ instead of 3+ if also wearing a helmet (replaces the normal Helmet rule). (A02 13)"
+          "effect": "The warrior has a thick skull even for an Orc. He has a special 3+ save on a D6 to avoid being stunned. If the save is made, treat a stunned result as knocked down instead. If the Orc also wears a helmet, this save is 2+ instead of 3+ (this takes the place of the normal helmet special rule)."
         },
         {
           "id": "waaagh",
           "name": "Waaagh!",
-          "effect": "+D3\" to charge range. (A02 13)"
+          "effect": "Orcs are aggressive creatures and some are experts at bulldozing charges. The warrior may add +D3&quot; to his charge range."
         },
         {
           "id": "ereWeGo",
           "name": "'ere we go!",
-          "effect": "May ignore Fear and Terror tests when charging. (A02 13)"
+          "effect": "Orcs often charge even the most fearsome opponents. The model may ignore fear tests when charging."
         },
         {
           "id": "daCunninPlan",
           "name": "da cunnin' plan",
-          "effect": "Boss only. The warband may re-roll failed Rout tests as long as the Boss is not out of action. (A02 13)"
+          "effect": "Only the Boss may have this skill. The warband may re-roll any failed Rout tests as long as the Boss is not out of action."
         },
         {
           "id": "wellArd",
           "name": "well 'ard",
-          "effect": "+1 to any armour saves. (A02 13)"
+          "effect": "The Orc has a thick, dark-green skin, possibly indicating Black Orc blood. Such is the toughness of the Orc that he may add +1 to any armour saves."
         },
         {
           "id": "eadbasher",
           "name": "'eadbasher",
-          "effect": "Any Knocked Down results this Orc causes in hand-to-hand count as Stunned instead. (A02 13)"
+          "effect": "Orcs have massive physical strength and some of them even learn to aim their blows at the heads of their opponents, with obvious results. Any knocked down results which the Orc causes in hand-to-hand count as stunned results instead."
         }
       ]
     },
@@ -714,7 +714,7 @@
         {
           "id": "bullRush",
           "name": "Bull Rush",
-          "effect": "When charging, may attempt to knock down the opponent instead of making normal attacks: roll to hit once at +1, no to-wound roll needed — a hit Knocks Down the target. (A02 46)"
+          "effect": "This warrior is huge, even by Ostlander standards, and can use his massive girth to overpower his opponents. When he charges, this Hero may attempt to knock down his opponent rather than making his normal attacks. Roll to hit once with a +1 to hit modifier, though no ‘to wound’ roll is necessary. Instead, if the warrior hits with this attack, the opposing model is Knocked Down (Models with the Bull Rush skill should have a suitably large beer-belly modelled out of putty whenever possible!)."
         },
         {
           "id": "foulOdor",
@@ -724,17 +724,17 @@
         {
           "id": "taunt",
           "name": "Taunt",
-          "effect": "In the shooting phase, instead of shooting/casting, may taunt one visible enemy (nearest, per LOS rules); on a failed Ld test the enemy must move toward the taunter next movement phase. (A02 13)"
+          "effect": "After years of baiting opponents into drunken brawls, this Ostlander has learned some of the most vile insults in the Empire. During the Shooting phase, the warrior may choose to taunt one enemy instead of shooting with a missile weapon or casting a spell. The warrior must be able to see the enemy and taunting follows all the LOS rules for shooting (you must taunt the nearest opponent, etc). The player should insult the enemy model in some manner whenever possible (perhaps his hat looks like a strangled parrot or his mother was a Bretonnian!). The enemy then takes a Leadership test. If he passes, nothing happens, but if he fails he must spend his next Movement phase trying to get into close combat with the warrior who taunted him."
         },
         {
           "id": "animalFriendship",
           "name": "Animal Friendship",
-          "effect": "Normal animals never attack this warrior; up to two Wardogs he owns do not count against the warband's maximum model count. (A02 13)"
+          "effect": "Having grown up amidst the animals of the forest, this warrior exudes a certain charm to all ‘normal’ animals (ie, warhorses, warhounds, etc). Animals will never attack him and up to two wardogs that the warrior owns do not count against the maximum number of models in the warband."
         },
         {
           "id": "bloodOath",
           "name": "Blood Oath",
-          "effect": "Warband leader only. May re-roll a single Rout test once per game. (A02 13)",
+          "effect": "The leader of an Ostlander warband sometimes takes a blood oath never to leave any of his fallen ‘family’ members behind. Such is his determination to protect his fallen blood-kin that it is extremely difficult to cause him to rout from the field. Only a warband’s leader may have this skill, which allows him to re-roll a single Rout test once per game.",
           "prerequisite": {
             "text": "Warband leader only.",
             "requiresLeader": true
@@ -753,17 +753,17 @@
         {
           "id": "seaLegs",
           "name": "Sea Legs",
-          "effect": "Even in the strongest seas, the pirate has learned to keep his footing and equilibrium. If he Falls during a battle, he may ignore the effects of the D3 hits on a roll of 4+ (make a single roll to see if any of the hits take effect or not). In addition, if he is knocked down or stunned within 1\" of a precipice he may re-roll his Initiative test to see if he falls down or not."
+          "effect": "Even in the strongest seas, the pirate has learned to keep his footing and equilibrium. If he Falls during a battle, he may ignore the effects of the D3 hits on a roll of 4+ (make a single roll to see if any of the hits take effect or not). In addition, if he is knocked down or stunned within 1&quot; of a precipice he may re-roll his Initiative test to see if he falls down or not."
         },
         {
           "id": "cutlassMaster",
           "name": "Cutlass Master",
-          "effect": "These short, single bladed swords are the mainstay weapon of any pirate crew, and in the hands of a trained seaman they are superb weapons for close quarters fighting. If the pirate is equipped with a Sword, this skill will give him the additional benefit of also being able to parry successfully if the player rolls equal to the number rolled to hit, not just higher as normal. This extra ability only applies if the Pirate is not in the open; ie., only when in cover or in a building, within 2\" of a terrain feature like a wall or tree, etc."
+          "effect": "These short, single bladed swords are the mainstay weapon of any pirate crew, and in the hands of a trained seaman they are superb weapons for close quarters fighting. If the pirate is equipped with a Sword, this skill will give him the additional benefit of also being able to parry successfully if the player rolls equal to the number rolled to hit, not just higher as normal. This extra ability only applies if the Pirate is not in the open; ie., only when in cover or in a building, within 2&quot; of a terrain feature like a wall or tree, etc."
         },
         {
           "id": "boomingVoice",
           "name": "Booming Voice",
-          "effect": "(Captain only) The Captain has spent many a battle bellowing orders to his crew, yelling above the roar of the cannons and the screams of the enemy. Once per turn, the captain may shout encouraging words (or threats) at any one pirate within 8\" who just failed his test to see if he runs away from combat, or to stop running away if he was already fleeing. That pirate may then re-roll the test. This can only be done if the Captain is on his feet, but not if the Captain is in close combat himself."
+          "effect": "(Captain only) The Captain has spent many a battle bellowing orders to his crew, yelling above the roar of the cannons and the screams of the enemy. Once per turn, the captain may shout encouraging words (or threats) at any one pirate within 8&quot; who just failed his test to see if he runs away from combat, or to stop running away if he was already fleeing. That pirate may then re-roll the test. This can only be done if the Captain is on his feet, but not if the Captain is in close combat himself."
         },
         {
           "id": "hardyConstitution",
@@ -828,27 +828,27 @@
         {
           "id": "signOfSigmar",
           "name": "Sign of Sigmar",
-          "effect": "Possessed or Undead opponents lose their first attack against her in the first round of hand-to-hand combat (minimum 1 attack retained). (RB 83)"
+          "effect": "The Sister is favoured by the great god Sigmar. Possessed or Undead opponents lose their first attack against the Priestess in the first round of hand-to-hand combat (down to a minimum of 1)."
         },
         {
           "id": "protectionOfSigmar",
           "name": "Protection of Sigmar",
-          "effect": "Any spell targeting her is nullified on a D6 roll of 4+ (and does not affect any other models either if nullified). (RB 83)"
+          "effect": "The Sister has been blessed by the High Matriarch. Any spell which would affect her is nullified on a D6 roll of 4+. Note that if the spell is nullified it will not affect any other models either."
         },
         {
           "id": "utterDetermination",
           "name": "Utter Determination",
-          "effect": "Matriarch only. May re-roll any failed Rout tests. (RB 83)"
+          "effect": "Only the Matriarch may have this skill, which allows her to re-roll any failed Rout tests."
         },
         {
           "id": "righteousFury",
           "name": "Righteous Fury",
-          "effect": "Hates all Skaven, Undead or Possessed warbands and models. Suggested Changes: may extend to other 'evil'/'neutral' warbands case-by-case. (RB 83)"
+          "effect": "The Sister feels cold fury and utter contempt towards any evil that pollutes the soil of the holy Empire with its presence. The model hates all Skaven, Undead, Possessed, Beastmen, Dark Elves and any other 'evil' warband and all models in them. Non-Chaos humans who just like to kill, loot, etc, are not included."
         },
         {
           "id": "absoluteFaith",
           "name": "Absolute Faith",
-          "effect": "May re-roll any Fear tests and need not test when fighting alone against several opponents. (RB 83)"
+          "effect": "The Sister puts her faith in Sigmar, and faces dangers unflinchingly. She may re-roll any fear tests and does not have to test if she is fighting alone against several opponents."
         }
       ]
     },
@@ -863,7 +863,7 @@
         {
           "id": "seeInShadows",
           "name": "See in Shadows",
-          "effect": "The warrior’s senses have become especially keen from years spent walking the shadows. As long as he has movement to reach them, the warrior may always roll to charge opponents he cannot see (instead of the normal 4\")."
+          "effect": "The warrior’s senses have become especially keen from years spent walking the shadows. As long as he has movement to reach them, the warrior may always roll to charge opponents he cannot see (instead of the normal 4&quot;)."
         },
         {
           "id": "hideInShadows",
@@ -893,27 +893,27 @@
         {
           "id": "blackHunger",
           "name": "Black Hunger",
-          "effect": "Declared at the start of the Skaven's turn: +1 Attack and +D3\" move for that turn, but suffers D3 S3 hits with no armour save at the end of the turn. (RB 93)"
+          "effect": "The Skaven can draw upon the dreaded Black Hunger, the fighting frenzy which gives him unnatural strength and speed but can ravage him from inside. The Skaven Hero may declare at the beginning of his turn that he is using this skill. The Hero may add +1 attack and +D3&quot; to the total move to his profile for the duration of his own turn but will suffer D3 S3 hits with no armour save possible at the end of the turn."
         },
         {
           "id": "tailFighting",
           "name": "Tail Fighting",
-          "effect": "May wield a shield, knife, or sword with its tail, gaining an extra attack with that weapon or a +1 armour save bonus. (RB 93)"
+          "effect": "The Skaven may wield a shield, knife or a sword with its tail. The model gains an extra attack with the appropriate weapon or a +1 bonus to its armour save."
         },
         {
           "id": "wallRunner",
           "name": "Wall Runner",
-          "effect": "No Initiative test needed to climb walls/sheer surfaces. Suggested Changes: may run/charge up walls, always striking last when doing so. (RB 93)"
+          "effect": "The Skaven does not need to take an Initiative test when climbing up walls and other sheer surfaces."
         },
         {
           "id": "infiltrationSkaven",
           "name": "Infiltration",
-          "effect": "Always placed on the battlefield after the opposing warband, anywhere out of sight and more than 12\" from any enemy model. If both sides have infiltrators, lowest D6 sets up first. (RB 93)"
+          "effect": "A warrior with this skill is always placed on the battlefield after the opposing warband and can be placed anywhere on the table as long as it is out of sight of the opposing warband and more than 12\" away from any enemy model. If both players have models which infiltrate, roll a D6 for each, and the lowest roll sets up first."
         },
         {
           "id": "artOfSilentDeath",
           "name": "Art of Silent Death",
-          "effect": "Fights bare-pawed without penalty, counting as two weapons (+1 attack); causes a critical hit on a to-wound roll of 5-6 instead of just 6. Stacks with Eshin Fighting Claws (+2 Attacks instead of +1). (RB 93)"
+          "effect": "The Skaven has patiently mastered the deadly art of open-hand fighting, as taught by the mystics of Cathay in the temples of the far East. In hand-to-hand combat, the Skaven can fight with his bare paws without any penalties and counts as having two weapons (ie, +1 attack). In addition, a Skaven Hero with this skill will cause a critical hit on a To Wound roll of 5-6 instead of just 6. This skill may be used in conjunction with the Eshin Fighting Claws (+2 Attacks instead of +1)."
         }
       ]
     },
@@ -923,17 +923,17 @@
         {
           "id": "ferociousCharge",
           "name": "Ferocious Charge",
-          "effect": "May double Attacks on the turn he charges, at -1 to hit that turn. (TC14)"
+          "effect": "The Slayer may double his attacks on the turn in which he charges. He will suffer a –1 to hit penalty on that turn."
         },
         {
           "id": "monsterSlayer",
           "name": "Monster Slayer",
-          "effect": "Always wounds on a 4+ regardless of Toughness, unless his own (modified) Strength would need a lower roll. (TC14)"
+          "effect": "The Slayer always wounds any opponent on a roll of 4+, regardless of Toughness, unless his own strength (with weapon modifiers) would mean that a lower roll than this is needed."
         },
         {
           "id": "berserkerTrollSlayer",
           "name": "Berserker",
-          "effect": "+1 to close combat to-hit rolls on the turn he charges; not usable with Ferocious Charge. (TC14)"
+          "effect": "The Slayer may add +1 to his to hit rolls during the turn in which he charges."
         }
       ]
     },
@@ -973,22 +973,22 @@
         {
           "id": "provenWarrior",
           "name": "Proven Warrior",
-          "effect": "May only be taken by a Young'un with the Black Orc Blood ability and 25 experience. Once he gains this skill the model is considered a full Black Orc Warrior, though he keeps the title of Young'un. He follows all the rules for Black Orcs, uses their equipment list, and has access to the same skill lists as a Black Orc."
+          "effect": "This young warrior has proven himself worthy of his Black Orc heritage. This skill may only be taken by a Young’un with the Black Orc blood ability and 25 experience. Once he gains this skill, the model is now considered a full Black Orc Warrior (yet still retains the title of Young’un). He follows all the rules for Black Orcs and uses their equipment list and has access to the same skill lists as a Black Orc."
         },
         {
           "id": "ardEad",
           "name": "'ard Ead",
-          "effect": "The warrior has a thick skull even for an Orc. He has a special 3+ save on a D6 to avoid being stunned; if the save is made, treat a stunned result as knocked down instead. If he also wears a helmet the save is 2+ instead, taking the place of the normal helmet special rule."
+          "effect": "The warrior has a thick skull even for an Orc. He has a special 3+ save on a D6 to avoid being stunned. If the save is made, treat a stunned result as knocked down instead. If the Orc also wears a helmet, this save is 2+ instead of 3+ (this takes the place of the normal helmet special rule)."
         },
         {
           "id": "waaagh",
           "name": "Waaagh!",
-          "effect": "The warrior may add +D3\" to his charge range."
+          "effect": "Orcs are aggressive creatures and some are experts at bulldozing charges. The warrior may add +D3&quot; to his charge range."
         },
         {
           "id": "ereWeGo",
           "name": "'ere We Go!",
-          "effect": "The model may ignore fear tests when charging."
+          "effect": "Orcs often charge even the most fearsome opponents. The model may ignore fear tests when charging."
         },
         {
           "id": "daCunninPlan",
@@ -998,7 +998,7 @@
         {
           "id": "eadbasher",
           "name": "'eadbasher",
-          "effect": "Any knocked down results the Orc causes in hand-to-hand count as stunned results instead."
+          "effect": "Orcs have massive physical strength and some of them even learn to aim their blows at the heads of their opponents, with obvious results. Any knocked down results which the Orc causes in hand-to-hand count as stunned results instead."
         }
       ]
     },
@@ -1008,27 +1008,27 @@
         {
           "id": "skinkHunter",
           "name": "Skink Hunter",
-          "effect": "An Amazon with this skill always strikes first in the first round of combat against Skink models, no matter who charged."
+          "effect": "Through her exploits the Amazon has proven herself a master when it comes to hunting Lizardmen, particularly Skinks. An Amazon with this skill will always strike first in the first round of combat against Skink models no matter who charged."
         },
         {
           "id": "elixirOfLife",
           "name": "Elixir of Life",
-          "effect": "Any Amazon with this Elixir may re-roll a Serious Injury roll once after the battle, accepting the result of the second roll."
+          "effect": "After years of service among her tribe an Amazon is granted access to the waters that make the Elixir of Life. The Elixir is said to heal wounds and make the Amazons immortal. Any Amazon with this Elixir can re­roll an Out of Action roll once after the battle accepting the result of the second roll."
         },
         {
           "id": "mesmerisingDance",
           "name": "Mesmerising Dance",
-          "effect": "Any model fighting in base contact with the Amazon must take a Leadership test at the start of each turn. If they fail they cannot attack that turn, but may defend themselves. The dance is useless against Lizardmen and Undead, who are immune to their charms."
+          "effect": "Some Amazon women develop their fighting motions into a graceful dance that can transfix their foes. Any model fighting in base contact with the Amazon must take a Leadership test at the start of each turn. If they fail they cannot attack that turn but may defend themselves. The dance however is useless against Lizardmen and Undead who are immune to their charms."
         },
         {
           "id": "savageFury",
           "name": "Savage Fury",
-          "effect": "The Amazon receives +1 Attack when charging and is immune to charm effects and fear."
+          "effect": "The Amazon has learned to channel her anger and aggression making her a veritable animal while attacking her foes. Any Amazon model with this skill receives +1 Attack when charging and is immune to charm effects and fear."
         },
         {
           "id": "concealment",
           "name": "Concealment",
-          "effect": "When hiding in jungle terrain, all enemy models must halve the range at which they can spot her."
+          "effect": "The Amazon is adept at blending in with her surroundings. When hiding in jungle terrain all enemy models must halve the range at which they can spot them."
         }
       ]
     },
@@ -1038,12 +1038,12 @@
         {
           "id": "infiltration",
           "name": "Infiltration",
-          "effect": "The Hero may set up anywhere on the table but no closer than 12\" to an enemy, and must start the game hiding."
+          "effect": "The Skink is a great hunter and is an expert at sneaking upon his prey unnoticed. The Hero may set up anywhere on the table but no closer than 12&quot; to an enemy and he must start the game in hiding."
         },
         {
           "id": "greatHunter",
           "name": "Great Hunter",
-          "effect": "The Skink is adept at making the most of available cover and imposes an additional -1 to hit him while he is in cover, i.e. a -2 to hit penalty."
+          "effect": "The Skink Great Crest is adept at making the most of the cover available and imposes an additional –1 to hit the Skink if he is in cover, IE a –2 to hit penalty."
         }
       ]
     },
@@ -1053,12 +1053,12 @@
         {
           "id": "bellowingBattleRoar",
           "name": "Bellowing Battle Roar",
-          "effect": "The Saurus' roar is so deafening that enemy models in base contact suffer -1 to hit in the first round of combat against him."
+          "effect": "The Saurus’ roar is so deafening that enemy models in base contact suffer –1 to hit in the first round of combat against them."
         },
         {
           "id": "toughenedHide",
           "name": "Toughened Hide",
-          "effect": "Through years of battle the Saurus' hide has hardened, and he will only be taken out of action on a 6+."
+          "effect": "Through years of battle the Saurus’ hide has become hardened and the Saurus will only be taken out of action on a 6+."
         }
       ]
     },
@@ -1068,27 +1068,27 @@
         {
           "id": "energyFocus",
           "name": "Energy Focus",
-          "effect": "If fighting unarmed, the Hero may reduce his Attacks by -1 to gain +1 Strength in close combat. He may sacrifice any number of attacks this way."
+          "effect": "If fighting unarmed, the Hero may choose to reduce his Attacks by –1 and thus gain +1 Strength in close combat. The monk may sacrifice any number of attacks this way."
         },
         {
           "id": "lightningSpeed",
           "name": "Lightning Speed",
-          "effect": "The monk may triple his Movement when running or charging, and may run even when there are enemy models within 8\"."
+          "effect": "The monk may triple his Movement whilst running or charging and may run even when there are enemy models within 8”."
         },
         {
           "id": "leapOfFaith",
           "name": "Leap of Faith",
-          "effect": "The Hero cannot be intercepted while charging. He may escape from combat by leaping away without having to pass a Leadership test, and may declare a leaping charge in the same turn."
+          "effect": "The Hero cannot be intercepted whilst charging. He may escape from combat (as described on p. 161 in the Mordheim rulebook) by leaping away without having to pass an Ld test and may declare a leaping charge at the same time in the same turn."
         },
         {
           "id": "humanShield",
           "name": "Human Shield",
-          "effect": "If two or more models are engaged in close combat with the monk, he may grab one to use as a shield instead of making his normal attacks. He must pass an Initiative test after the first model has attacked but before the second does. On a success he grabs the first model and the second directs its full attacks at that friendly model; after the combat phase the model breaks free. On a failure both the monk and the second model use their normal attacks."
+          "effect": "If two or more models are engaged in close combat with the monk, he may choose to grab one to use it as a shield instead of his normal attacks. To do this, he must pass an Initiative test after the first model has attacked, but before the second model attacks. On a successful roll, the monk grabs the first model – the second model directs its full attacks on the friendly model. After the combat phase, the model breaks free and the battle goes on as usual. On a failed roll, the monk and the second model use their normal attacks."
         },
         {
           "id": "warmonger",
           "name": "Warmonger",
-          "effect": "Emissary only. The Emissary may make a Leadership test before the battle. If it succeeds, D3+1 Raging Peasants join the warband for the next game, which may exceed the maximum number of warriors. Each Raging Peasant is subject to Hatred for the duration of that battle."
+          "effect": "The Emissary may make an Ld test before the battle. If the test is successful, D3+1 Raging Peasants join the warband for the next game (this may exceed the maximum number of warriors). Each Raging Peasant in the warband is subject to Hatred for the duration of the battle."
         }
       ]
     },
@@ -1173,7 +1173,7 @@
         {
           "id": "virtueOfImpetuous",
           "name": "Virtue of Impetuous",
-          "effect": "The Knight is eager to get to grips with the enemy. He charges into combat with reckless enthusiasm. The Knight may add +D3\" to his move when charging. Roll the dice each time you wish to charge and before moving the model."
+          "effect": "The Knight is eager to get to grips with the enemy. He charges into combat with reckless enthusiasm. The Knight may add +D3&quot; to his move when charging. Roll the dice each time you wish to charge and before moving the model."
         }
       ]
     },
@@ -1218,7 +1218,7 @@
         {
           "id": "furyOfKhaine",
           "name": "Fury of Khaine",
-          "effect": "The Dark Elf is infused with an intense raging thirst for blood and is a whirlwind in hand-to-hand combat, moving from opponent to opponent. The Dark Elf may make a 4\" follow up move if he takes all of his opponents Out Of Action. If he comes into contact with another enemy this starts a new combat. This new combat takes place in the following turn and the model counts as charging. May not follow up in the opponent’s turn."
+          "effect": "The Dark Elf is infused with an intense raging thirst for blood and is a whirlwind in hand-to-hand combat, moving from opponent to opponent. The Dark Elf may make a 4&quot; follow up move if he takes all of his opponents Out Of Action. If he comes into contact with another enemy this starts a new combat. This new combat takes place in the following turn and the model counts as charging. May not follow up in the opponent’s turn."
         },
         {
           "id": "feyQuickness",
@@ -1308,7 +1308,7 @@
         {
           "id": "jumpBack",
           "name": "jump back",
-          "effect": "This warrior is an expert at getting himself out of sticky situations. If the warrior is in close combat with an enemy warrior (and not Knocked Down or Stunned) at the start of his Movement Phase, he may attempt to jump out of combat. To attempt to do so, the warrior must make an Initiative test. If he fails the test, the warrior will automatically strike last in that round of combat. However, if he passes, immediately move him 1\" away from the enemy warrior (this does not count against his movement for that Movement Phase); he may then move and otherwise act normally for the rest of that turn (even charging back into combat if he chooses!)."
+          "effect": "This warrior is an expert at getting himself out of sticky situations. If the warrior is in close combat with an enemy warrior (and not Knocked Down or Stunned) at the start of his Movement Phase, he may attempt to jump out of combat. To attempt to do so, the warrior must make an Initiative test. If he fails the test, the warrior will automatically strike last in that round of combat. However, if he passes, immediately move him 1&quot; away from the enemy warrior (this does not count against his movement for that Movement Phase); he may then move and otherwise act normally for the rest of that turn (even charging back into combat if he chooses!)."
         },
         {
           "id": "sniper",
@@ -1338,7 +1338,7 @@
         {
           "id": "masterTrapper",
           "name": "master trapper",
-          "effect": "This huntsman is a masterful trap setter. Trip wire range has been extended by this warrior to reach 4\". Traps set by a master trapper are triggered by a score of 2+."
+          "effect": "This huntsman is a masterful trap setter. Trip wire range has been extended by this warrior to reach 4&quot;. Traps set by a master trapper are triggered by a score of 2+."
         },
         {
           "id": "foulOdour",
@@ -1428,7 +1428,7 @@
         {
           "id": "battleTongue",
           "name": "battle tongue",
-          "effect": "Only a hero with the leader skill may gain this skill. It allows models within 12\" of him to use his leadership, rather than the normal 6\"."
+          "effect": "Only a hero with the leader skill may gain this skill. It allows models within 12&quot; of him to use his leadership, rather than the normal 6&quot;."
         },
         {
           "id": "berserkCharge",
@@ -1453,7 +1453,7 @@
         {
           "id": "blackHunger",
           "name": "black hunger",
-          "effect": "The Skaven can draw upon the dreaded Black Hunger, the fighting frenzy which gives him unnatural strength and speed but can ravage him from inside. The Skaven Hero may declare at the beginning of his turn that he is using this skill. The Hero may add +1 attack and +D3\" to the total move to his profile for the duration of his own turn but will suffer D3 S3 hits with no armour save possible at the end of the turn."
+          "effect": "The Skaven can draw upon the dreaded Black Hunger, the fighting frenzy which gives him unnatural strength and speed but can ravage him from inside. The Skaven Hero may declare at the beginning of his turn that he is using this skill. The Hero may add +1 attack and +D3&quot; to the total move to his profile for the duration of his own turn but will suffer D3 S3 hits with no armour save possible at the end of the turn."
         },
         {
           "id": "censerBearer",
@@ -1538,7 +1538,7 @@
         {
           "id": "deathwishSlayerCult",
           "name": "Deathwish",
-          "effect": "The Hero is completely immune to all psychology and never needs to test for fighting alone.",
+          "effect": "The hero is completely immune to all psychology and never needs to test if fighting alone.",
           "prerequisite": {
             "text": "Stubbles and Axe Hurlers promoted by 'That Lad's Got Talent' only (they must take it). Slayers only."
           }
@@ -1546,7 +1546,7 @@
         {
           "id": "ferociousChargeSlayerCult",
           "name": "Ferocious Charge",
-          "effect": "The Slayer may double his attacks on the turn in which he charges, at -1 to hit that turn.",
+          "effect": "The Slayer may double his attacks on the turn in which he charges. He will suffer a –1 to hit penalty on that turn.",
           "prerequisite": {
             "text": "Slayers only (not the Rememberer)."
           }
@@ -1554,7 +1554,7 @@
         {
           "id": "monsterSlayerSlayerCult",
           "name": "Monster Slayer",
-          "effect": "In close combat, always wounds any opponent on a 4+ regardless of Toughness, unless his own Strength (after all modifiers) would need a lower roll.",
+          "effect": "The Slayer always wounds any opponent on a roll of 4+, regardless of Toughness, unless his own strength (with weapon modifiers) would mean that a lower roll than this is needed.",
           "prerequisite": {
             "text": "Slayers only (not the Rememberer)."
           }
@@ -1562,7 +1562,7 @@
         {
           "id": "berserkerSlayerCult",
           "name": "Berserker",
-          "effect": "+1 to close combat to-hit rolls during the turn in which he charges.",
+          "effect": "The Slayer may add +1 to his to hit rolls during the turn in which he charges.",
           "prerequisite": {
             "text": "Slayers only (not the Rememberer)."
           }
@@ -1570,7 +1570,7 @@
         {
           "id": "deathblow",
           "name": "Deathblow",
-          "effect": "If the Hero is taken out of action in hand-to-hand, he may immediately make the remainder of his attacks before being removed, if he hasn't made all of them already this turn. Also usable if he is knocked down or stunned.",
+          "effect": "If taken out of action in hand-to-hand combat, the Hero may immediately make his remaining attacks. Usable even if stunned or knocked down.",
           "prerequisite": {
             "text": "Slayers only (not the Rememberer)."
           }
@@ -1578,7 +1578,7 @@
         {
           "id": "relentless",
           "name": "Relentless",
-          "effect": "If the Hero's charge fails, he may still move his full move distance. Only against enemies within sight or that the Slayer can detect.",
+          "effect": "If the Hero fails a charge, he may still move his full distance toward the target.",
           "prerequisite": {
             "text": "Slayers only (not the Rememberer)."
           }
@@ -1586,22 +1586,22 @@
         {
           "id": "axeMastery",
           "name": "Axe Mastery",
-          "effect": "May re-roll all missed attacks if using an axe or Dwarf axe in the hand-to-hand phase of the turn he charges. May not be used with Whirling Blades."
+          "effect": "The Hero may reroll missed attacks if wielding an axe or Dwarf axe when charging."
         },
         {
           "id": "trueGritSlayerCult",
           "name": "True Grit",
-          "effect": "When rolling on the Injury table for this Hero, 1-3 is knocked down, 4-5 stunned, and 6 out of action."
+          "effect": "Dwarfs are hardy individuals and this Hero is hardy even for a Dwarf! When rolling on the Injury table for this Hero, a roll of 1-3 is treated as knocked down, 4-5 as stunned, and 6 as out of action."
         },
         {
           "id": "thickSkullSlayerCult",
           "name": "Thick Skull",
-          "effect": "A 3+ save on a D6 to avoid being stunned; if made, treat the stunned result as knocked down instead."
+          "effect": "The Hero has a thick skull, even for a Dwarf. He has a 3+ save on a D6 to avoid being stunned. If the save is made, treat a stunned result as knocked down instead. If the Dwarf also wears a helmet, this save is 2+ instead of 3+ (this takes the place of the normal Helmet special rule)."
         },
         {
           "id": "songster",
           "name": "Songster",
-          "effect": "Any friendly model within 6\" of the Rememberer may re-roll any failed Leadership test at +1 Leadership (max 10), including Rout tests.",
+          "effect": "All friendly models within 6&quot; may reroll Leadership tests with +1 Ld (max 10).",
           "prerequisite": {
             "text": "Rememberer only."
           }
@@ -1609,7 +1609,7 @@
         {
           "id": "songOfHonor",
           "name": "Song of Honor",
-          "effect": "In the post-game, if one or more Slayers in your warband died, all Heroes and Henchmen gain +1 Experience.",
+          "effect": "If a Slayer dies, one surviving Slayer Hero may gain +2 Experience.",
           "prerequisite": {
             "text": "Rememberer only."
           }

@@ -57,7 +57,7 @@
         },
         {
           "name": "No Pain",
-          "description": "treats 'stunned' as 'knocked down'."
+          "description": "Vampires treat a ‘stunned’ result on the Injury chart as ‘knocked down’."
         }
       ]
     },
@@ -224,7 +224,7 @@
         },
         {
           "name": "No Brain",
-          "description": "never gain experience. (isAnimal=true is used here as the 'does not gain experience' flag.)",
+          "description": "Zombies never gain experience. They do not learn from their mistakes. What did you expect?",
           "effects": { "noExperience": true }
         }
       ]
@@ -263,11 +263,11 @@
       "specialRules": [
         {
           "name": "Charge",
-          "description": "2 attacks on the turn they charge. May not run (may charge). Cause fear. Immune to Psychology/Poison. No Pain."
+          "description": "Dire Wolves are slavering creatures that overpower their opponents when they charge. Dire Wolves fight with 2 attacks instead of 1 during the turn they charge."
         },
         {
           "name": "Unliving",
-          "description": "never gain experience. (isAnimal=true used as the 'no experience' flag.)",
+          "description": "Dire Wolves do not gain experience. You can’t teach an old dog new tricks!",
           "effects": { "noExperience": true }
         }
       ]
@@ -291,5 +291,6 @@
     ]
   },
   "exclusiveEquipment": [],
-  "specialRules": "The Undead. Vampire is the mandatory leader (no more, no less). Many models cause fear and are immune to psychology/poison with No Pain (stunned counts as knocked down). Zombies and Dire Wolves do not gain experience; Ghouls do. Min warband size 3, max 15. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
+  "specialRules": "",
+  "background": "Count Vlad von Carstein and his wife Isabella have ruled the province of Sylvania for as long as anyone can remember – peasants whisper of some dark secret, Witch Hunters revile them, and the Priests of Sigmar shun their court. Indeed, Sylvania has the most dire reputation of all the provinces of the Empire. Few men sent to spy on the rulers of Sylvania have ever returned from those dark Sylvanian forests, and then rarely with their sanity intact. | In the dimly-lit chamber of the Drakenhof castle, on a throne of black obsidian, sits Vlad von Carstein, the ruler of Sylvania. He waits in shadows, having set himself apart from the politics and bickering of the Empire. For he holds a terrible secret: he, and all the ruling aristocracy of his province are Vampires, undying monsters from beyond the grave. Here he patiently waits, drinking the blood of maidens from gold goblets. | For many long years Vlad has gathered his strength and mustered his Undead legions in secrecy. One day soon he will march from the forests of Sylvania at the head of an army of restless dead. The pieces of magic stone that lie scattered among the ruins of Mordheim can give the Count the power to challenge the nobles of the Empire and enslave the men of the Old World. | Wyrdstone holds enough captured magical energy to unleash a great spell of doom to rival that of Nagash the Black. If the Count is successful, he will raise all the dead between the Worlds Edge Mountains and the borders of Stirland, and go to war against the divided rulers of the Empire. His plans laid out, Vlad sends his thralls, the immortal Vampires, to do his bidding. | During dark, moonless nights, black coaches arrive at the gates of Mordheim carrying coffins. Ghouls scuttle from their hiding places to greet them, and corpses are stirred by a command which the living cannot hear. Following the commands of the Vampire, they hunt for shards of wyrdstone. | The night belongs to the Undead, and in Mordheim it is always night."
 }

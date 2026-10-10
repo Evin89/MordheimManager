@@ -331,8 +331,9 @@
       "cost": 200,
       "rarity": 11,
       "restriction": "",
-      "rulesText": "You may not move and fire a Hochland long rifle in the same turn, other than to pivot on the spot to face your target or stand up from knocked down.\n\nA Hochland long rifle takes a complete turn to reload❓, so you may only fire it every other turn.\n\nA model armed with a Hochland long rifle can target any enemy model in sight, not just the closest one.\n\nHochland long rifles are even better at penetrating armour than their Strength 4 suggests. A warrior wounded by a long rifle must make his armour save with a -2 modifier."
+      "rulesText": "Range 48\". Strength 4. Move or fire: You may not move and fire a Hochland long rifle in the same turn, other than to pivot on the spot to face your target or stand up from knocked down. Prepare shot: A Hochland long rifle takes a complete turn to reload, so you may only fire it every other turn. Pick target: A model armed with a Hochland long rifle can target any enemy model in sight, not just the closest one. Save modifier: Hochland long rifles are even better at penetrating armour than their Strength 4 suggests. A warrior wounded by a long rifle must make his armour save with a -2 modifier."
     }
   ],
-  "specialRules": "Hired Swords: The Imperial Outriders may only be accompanied by mounted Hired Swords. This includes the Freelance Knight from the Mordheim Rulebook and the Roadwarden from the Empire In Flames supplement. The Highwayman keeps himself a safe distance from any official representatives of the Empire and so may not be hired."
+  "specialRules": "Hired Swords: The Imperial Outriders may only be accompanied by mounted Hired Swords. This includes the Freelance Knight from the Mordheim Rulebook and the Roadwarden from the Empire In Flames supplement. The Highwayman keeps himself a safe distance from any official representatives of the Empire and so may not be hired.",
+  "background": "As rumours of the discovery of the Nemesis Crown spread across the land, the various provinces of the Empire despatch bands of swift horsemen to scout the Great Forest. | Theirs is not to take on the enemy in a head-on clash. Instead their role is about stealth. Outpacing and outmanouevring the enemy to leave them empty-handed as they gallop into the distance with the prize."
 }

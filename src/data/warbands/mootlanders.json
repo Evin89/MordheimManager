@@ -258,7 +258,7 @@
       "cost": 8,
       "rarity": 0,
       "restriction": "",
-      "rulesText": "A Master Chef equipped with a cooking pot helmet has a special save of 5+ against being stunned. This save is never modified."
+      "rulesText": "Avoid Stun: A Master Chef equipped with a cooking pot helmet has a special save of 5+ against being stunned. This save is never modified."
     },
     {
       "id": "kitchenKnife",
@@ -267,7 +267,7 @@
       "cost": 2,
       "rarity": 0,
       "restriction": "",
-      "rulesText": "Kitchen knives are not the best weapons to use for penetrating an enemy model's armour. An enemy wounded by a kitchen knife gains a +1 bonus to his armour save, and a 6+ armour save if he has none normally.✏️"
+      "rulesText": "Strength As user. +1 Enemy armour save: Kitchen knives are not the best weapons to use for penetrating an enemy model's armour. An enemy wounded by a kitchen knife gains a +1 bonus to his armour save, and a 6+ armour save if he has none normally."
     },
     {
       "id": "cleaver",
@@ -276,7 +276,7 @@
       "cost": 3,
       "rarity": 0,
       "restriction": "",
-      "rulesText": "Target gets -1 to armour save"
+      "rulesText": "Strength As user. -1 Save: Target gets -1 to armour save"
     },
     {
       "id": "ladle",
@@ -285,7 +285,7 @@
       "cost": 2,
       "rarity": 0,
       "restriction": "",
-      "rulesText": "A Master Chef knows exactly where to aim his ladle, helmets and breast plates are of little use against a ladle whacked across the hands. The only saving throws allowed are from shields or skills.\n\nIf a Master Chef manages to hit an enemy in close combat (a feat within itself) and scores a '6' in doing so he has rapped his enemy across the knuckles and forced him to drop his weapon."
+      "rulesText": "Strength As user. No save except shields: A Master Chef knows exactly where to aim his ladle, helmets and breast plates are of little use against a ladle whacked across the hands. The only saving throws allowed are from shields or skills. Knuckle Cracking: If a Master Chef manages to hit an enemy in close combat (a feat within itself) and scores a '6' in doing so he has rapped his enemy across the knuckles and forced him to drop his weapon."
     },
     {
       "id": "tenderiser",
@@ -294,8 +294,9 @@
       "cost": 3,
       "rarity": 0,
       "restriction": "",
-      "rulesText": "Stuns on 2-4"
+      "rulesText": "Strength As user. Stuns on 2-4: Stuns on 2-4"
     }
   ],
-  "specialRules": ""
+  "specialRules": "Halflings are very weak and puny and even the lightest of blows tends to knock them senseless. When rolling for a Halfling’s injury, treat a roll of a 2 as ‘stunned’.",
+  "background": "Although it is exceedingly rare, Halflings will form Warbands and go marching off to Mordheim. With dreams of mountains of iced buns and rivers of fizzy drink, they fearlessly enter the gates of Mordheim in search of gold, wyrdstone and abandoned kitchens to plunder. | Lord Charlie Gutbuckett is famous in the Moot for being extremely rich and spoilt but also for being exceptional with the bow (which is well reputed considering his constant boasting). The only time that he has ever been beaten in an archery contest was by his father, after a dispute over a blueberry muffin. Totally shamed by this event, Charlie formed up his Warband of similarly eccentric Halflings and headed off to Mordheim with his parents last profound words echoing through his head ‘Bring us back some chocolate hob-nobs son’. His warband was named ‘The Knights of the Kitchen Table’ and even his brother Archie joined up for the adventure. This was a terrible shame for the rest of the family as Archie’s recipe for strawberry flapjacks was second to none."
 }

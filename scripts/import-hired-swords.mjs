@@ -2,9 +2,10 @@
 // dataset (MordheimerData/Sourcedata `hiredSwords.json`), normalised for the app.
 //
 // The seven core-rulebook entries were transcribed by hand from the rulebook
-// before this import existed; their curated text and ids are kept as they are
-// (saved warbands and the rating table look them up by name). They only gain
-// what the source adds: grade, permitted warbands, race and a link.
+// before this import existed; their ids, numbers and skill lists are kept as
+// they are (saved warbands and the rating table look them up by name). Their
+// rule text — who may hire, equipment, special rules — now comes from the
+// source 1:1, like everyone else's.
 // Everything else is converted. What this script fixes on the way in:
 //  - the scraped `<Tooltip>`, `<a>`, `<em>`, `<br />` and `<table>` markup,
 //    with tables flattened to one "cell — cell" line per row and the source's
@@ -216,9 +217,15 @@ for (const [slug, v] of Object.entries(raw)) {
   const id = camel(slug);
   const curated = existingById.get(id);
   if (curated) {
-    // Keep the hand-transcribed entry; add only what the source knows and it doesn't.
+    // Keep the curated entry's id, numbers and lists (saved warbands and the
+    // rating table rely on them), but its rule text is the source's, 1:1 —
+    // the owner wants Mordheimer rules copied, not reworded (2026-10-10).
+    const fromSource = convert(slug, v);
     hiredSwords.push({
       ...curated,
+      mayBeHiredBy: fromSource.mayBeHiredBy,
+      equipment: fromSource.equipment,
+      specialRules: fromSource.specialRules,
       permittedWarbands: permitted(v),
       ...(curated.racialProfile ? {} : racial(slug, v)),
       grade: v.grade,
@@ -243,7 +250,7 @@ writeFileSync(
     {
       schemaVersion: 1,
       source:
-        'Core seven transcribed from the Mordheim rulebook (Part 3, Hired Swords, p.106-109); the rest imported from MordheimerData/Sourcedata hiredSwords.json (mordheimer.net) by scripts/import-hired-swords.mjs, markup stripped. Grade is Broheim\'s (core, 1a, 1b, 1c, 2a). The Priest of Morr and Wolf Priest of Ulric are left out: they replace a Hero rather than being hired.',
+        'All rule text imported 1:1 from MordheimerData/Sourcedata hiredSwords.json (mordheimer.net) by scripts/import-hired-swords.mjs, markup stripped; the core seven keep their hand-checked ids, numbers and skill lists. Grade is Broheim\'s (core, 1a, 1b, 1c, 2a). The Priest of Morr and Wolf Priest of Ulric are left out: they replace a Hero rather than being hired.',
       hiredSwords,
     },
     null,

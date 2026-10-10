@@ -2784,3 +2784,16 @@ The audit found 22 warbands (counted as 21 plus the Tileans at the time) whose `
 - `parseWarbandSpecialRules` now accepts ‘, ! and & in a rule heading ("Don't Trust 'Em", "Powder's Expensive!", "Weapons & Armour").
 - Not added: *Ostermark* on the Reikland file — it is a fourth Mercenary city in the source and belongs in its own file if wanted.
 - Fixed alongside: 14 equipment lists named `clubMaceHammer` twice (the source lists mace and hammer separately), which React warned about on the rules screen.
+
+## 33. Rule text 1:1 from the Mordheimer data ✅
+
+Decided 2026-10-10 by the owner: **rules taken from the Mordheimer data are copied word for word, never reworded or summarised.** Only markup is removed (tooltips, bold, `<br>`; paragraph breaks become ` | ` where a field is paragraphs, a space inside one rule), and source tables are written row by row ("1: …; 2-5: …"). Typos and quote marks stay as printed.
+
+Applied across the existing data (counts at the time):
+- **Unit special rules:** 98 rewritten to the source text, 290 were already exact; matched by rule name on the unit, else on the warband's own rules (Lizardmen's Scaly Skin, Battle Monks' Strictures). Not in the source as rules: the Reikland Marksmen's city note and the Saurus "No missile weapons".
+- **Warband rules:** every warband's `specialRules` is rebuilt from the source's warband rules; its lore moves to a new `background` field, copied 1:1 and shown as the warband's Background. Unnamed source rules (Bretonnians, Mootlanders, Outlaws) show under Special rules. The three Mercenary files each take their own city rule.
+- **Skills:** 145 effects replaced with the source text (page citations like "(RB 122)" dropped with the old wording); 25 have no Mordheimer entry and are unchanged.
+- **Spells and prayers:** 56 effects replaced; difficulties already matched.
+- **Equipment:** notes for the catalogue items are the source's rules, prefixed with its range, Strength, save and profile; warband-exclusive items' `rulesText` likewise (131), including mutations, blessings and Sacred Markings from the warband files.
+- **Hired Swords:** the seven rulebook entries now take their hire permission, equipment and rules from the source like the other 63 (`import-hired-swords.mjs` keeps only their ids, numbers and skill lists).
+- **Not covered:** `rules.json` (the core rules, sourced from the rulebook PDF rather than the Mordheimer data).

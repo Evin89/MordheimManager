@@ -199,6 +199,9 @@ export type WarbandDefinition = {
   // Equipment only this warband may buy (per the source material).
   exclusiveEquipment: WarbandExclusiveEquipmentEntry[];
   specialRules: string;
+  /** The source's lore, 1:1, paragraphs separated by ` | `. Shown as the
+   * warband's Background; when present, `specialRules` holds only rules. */
+  background?: string;
   // Flat modifier applied to the 2D6 roll when trying to locate a Rare item
   // (e.g. Marienburg's "+1 when attempting to find rare items"). Omitted/0 for
   // warbands with no such bonus.

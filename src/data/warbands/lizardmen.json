@@ -61,11 +61,11 @@
         },
         {
           "name": "Scaly Skin",
-          "description": "Skinks have a natural 6+ armour save. It cannot be modified beyond 6 by Strength modifiers, but a 'no save' result on the injury chart negates it. Light armour adds +1, as does a shield."
+          "description": "All Lizardmen have a natural save thanks to their thick scales. Saurus have a 5+ save and Skinks have a 6+. This save cannot be modified beyond 6 due to Strength modifiers but any result of ‘no save’ on the injury chart will negate this 6+ save. Light Armour adds +1 to the save, as does the addition of a shield."
         },
         {
           "name": "Aquatic",
-          "description": "Skinks may move through water terrain with no penalty, and count as being in cover while in the water."
+          "description": "Skinks may move through water terrain with no penalty, and count as being in cover whilst they are in the water."
         },
         {
           "name": "Jungle born",
@@ -73,7 +73,7 @@
         },
         {
           "name": "Cold Blooded",
-          "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test."
+          "description": "All Lizardmen are slow to react to psychology, they may roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. A Lizardmen Warband may never use the Leadership of Saurus or Kroxigor when taking a rout test."
         }
       ]
     },
@@ -120,15 +120,15 @@
       "specialRules": [
         {
           "name": "Scaly Skin",
-          "description": "Saurus have a natural 5+ armour save. It cannot be modified beyond 6 by Strength modifiers, but a 'no save' result on the injury chart negates it. Light armour adds +1, as does a shield."
+          "description": "All Lizardmen have a natural save thanks to their thick scales. Saurus have a 5+ save and Skinks have a 6+. This save cannot be modified beyond 6 due to Strength modifiers but any result of ‘no save’ on the injury chart will negate this 6+ save. Light Armour adds +1 to the save, as does the addition of a shield."
         },
         {
           "name": "Bite Attack",
-          "description": "An extra attack using the Saurus' own Strength to wound, with no penalty for being unarmed. The bite always strikes last, regardless of who charged or which weapon is used."
+          "description": "Saurus have a powerful bite attack, this bite attack uses the Saurus’ own Strength to wound and receive no penalty for not using a weapon. The Bite attack always strikes last, regardless of who charged or which weapon is used. The Bite even attacks after Double-Handed Weapons."
         },
         {
           "name": "Cold Blooded",
-          "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. A Lizardmen warband may never use the Leadership of a Saurus or Kroxigor for a Rout test."
+          "description": "All Lizardmen are slow to react to psychology, they may roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. A Lizardmen Warband may never use the Leadership of Saurus or Kroxigor when taking a rout test."
         },
         {
           "name": "No missile weapons",
@@ -179,11 +179,11 @@
       "specialRules": [
         {
           "name": "Scaly Skin",
-          "description": "Skinks have a natural 6+ armour save. It cannot be modified beyond 6 by Strength modifiers, but a 'no save' result on the injury chart negates it. Light armour adds +1, as does a shield."
+          "description": "All Lizardmen have a natural save thanks to their thick scales. Saurus have a 5+ save and Skinks have a 6+. This save cannot be modified beyond 6 due to Strength modifiers but any result of ‘no save’ on the injury chart will negate this 6+ save. Light Armour adds +1 to the save, as does the addition of a shield."
         },
         {
           "name": "Aquatic",
-          "description": "Skinks may move through water terrain with no penalty, and count as being in cover while in the water."
+          "description": "Skinks may move through water terrain with no penalty, and count as being in cover whilst they are in the water."
         },
         {
           "name": "Jungle born",
@@ -191,7 +191,7 @@
         },
         {
           "name": "Cold Blooded",
-          "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test."
+          "description": "All Lizardmen are slow to react to psychology, they may roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. A Lizardmen Warband may never use the Leadership of Saurus or Kroxigor when taking a rout test."
         }
       ]
     }
@@ -234,19 +234,19 @@
       "specialRules": [
         {
           "name": "Scaly Skin",
-          "description": "Skinks have a natural 6+ armour save. Light armour adds +1, as does a shield."
+          "description": "All Lizardmen have a natural save thanks to their thick scales. Saurus have a 5+ save and Skinks have a 6+. This save cannot be modified beyond 6 due to Strength modifiers but any result of ‘no save’ on the injury chart will negate this 6+ save. Light Armour adds +1 to the save, as does the addition of a shield."
         },
         {
           "name": "Aquatic",
-          "description": "May move through water terrain with no penalty, and count as being in cover while in the water."
+          "description": "Skinks may move through water terrain with no penalty, and count as being in cover whilst they are in the water."
         },
         {
           "name": "Jungle born",
-          "description": "Can move through jungle terrain without penalty."
+          "description": "All Skinks can move through jungle terrain without penalty."
         },
         {
           "name": "Cold Blooded",
-          "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test."
+          "description": "All Lizardmen are slow to react to psychology, they may roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. A Lizardmen Warband may never use the Leadership of Saurus or Kroxigor when taking a rout test."
         }
       ]
     },
@@ -287,15 +287,15 @@
       "specialRules": [
         {
           "name": "Scaly Skin",
-          "description": "Saurus have a natural 5+ armour save. Light armour adds +1, as does a shield."
+          "description": "All Lizardmen have a natural save thanks to their thick scales. Saurus have a 5+ save and Skinks have a 6+. This save cannot be modified beyond 6 due to Strength modifiers but any result of ‘no save’ on the injury chart will negate this 6+ save. Light Armour adds +1 to the save, as does the addition of a shield."
         },
         {
           "name": "Bite Attack",
-          "description": "An extra attack using the Saurus' own Strength to wound, with no penalty for being unarmed. The bite always strikes last."
+          "description": "Saurus have a powerful bite attack, this bite attack uses the Saurus’ own Strength to wound and receive no penalty for not using a weapon. The Bite attack always strikes last, regardless of who charged or which weapon is used. The Bite even attacks after Double-Handed Weapons."
         },
         {
           "name": "Cold Blooded",
-          "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test."
+          "description": "All Lizardmen are slow to react to psychology, they may roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. A Lizardmen Warband may never use the Leadership of Saurus or Kroxigor when taking a rout test."
         },
         {
           "name": "No missile weapons",
@@ -337,11 +337,11 @@
       "specialRules": [
         {
           "name": "Scaly Skin",
-          "description": "The Kroxigor has a natural save of 4+."
+          "description": "Kroxigor has a natural save of 4+."
         },
         {
           "name": "Aquatic",
-          "description": "May move through water with no penalty, and counts as being in cover while in water."
+          "description": "Kroxigor may move through water with no penalty, and count as being in cover whilst in water."
         },
         {
           "name": "Cause Fear",
@@ -349,14 +349,14 @@
         },
         {
           "name": "Large",
-          "description": "A Kroxigor stands out among the rest of the warband and may be picked out by an archer even if he is not the closest model."
+          "description": "Kroxigor stand out amongst the rest of the Warband and may be picked out by an archer even if he is not the closest model."
         },
         {
           "ref": "animal"
         },
         {
           "name": "Cold Blooded",
-          "description": "Roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. The warband may never use a Kroxigor's Leadership for a Rout test."
+          "description": "All Lizardmen are slow to react to psychology, they may roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. A Lizardmen Warband may never use the Leadership of Saurus or Kroxigor when taking a rout test."
         }
       ]
     }
@@ -416,7 +416,7 @@
       "cost": 50,
       "rarity": null,
       "restriction": "Lizardmen — armour is rare among them",
-      "rulesText": "Counts as light armour. Armour is rare amongst the Lizardmen and always costs 50 gc, even when bought from the standard equipment chart."
+      "rulesText": "Save 6+. Movement Penalty: No penalty when worn with a shield."
     },
     {
       "id": "blowpipe",
@@ -425,7 +425,7 @@
       "cost": 25,
       "rarity": null,
       "restriction": "Skinks",
-      "rulesText": "Range: 8\"; Strength: 1.\n\nPoison: a roll of 6 to hit automatically wounds; a blowpipe cannot cause critical hits. Armour saves improve by one step against it (a normal 5+ save becomes 4+; a model with no save gets a 6+).\n\nStealthy: may fire while hidden without revealing the firer's position; the target may attempt to spot the shooter with an Initiative test."
+      "rulesText": "Range 8\". Strength 1. Poison: The needles fired by a blowpipe are coated in a venom very similar in its effects to the Black Lotus (if you roll a 6 on the To Hit roll, the victim is automatically wounded). A blowpipe cannot cause critical hits. This weapon has a positive armour save modifier, so a model that normally has a save of 5+ will get a save of 4+ against a blowpipe dart. Even models that normally do not have an armour save will get a 6+ save to take into account protection offered by clothes, fur or the like. Stealthy: A model armed with a blowpipe can fire while hidden without revealing his position to the enemy. The target model can take an Initiative test in order to try to spot the firing model. If the test is successful, the model no longer counts as hidden."
     },
     {
       "id": "bolas",
@@ -434,7 +434,7 @@
       "cost": 5,
       "rarity": null,
       "restriction": "",
-      "rulesText": "Range: 16\"; Strength: special. Usable once per battle and automatically recovered afterwards.\n\nDangerous: if the roll to hit is a natural 1, the bolas brain the wielder for a Strength 3 hit.\n\nEntangle: a model hit is not hurt, but his legs are entangled and he cannot move. He also suffers -2 Weapon Skill in hand-to-hand combat, though he may still shoot normally. He may try to free himself in the recovery phase, and is freed on a 4+."
+      "rulesText": "Range 16\". Strength Special. Dangerous: If the to hit roll is a natural 1, the bolas brain the wielder with a Strength 3 hit. Entangle: A model hit by bolas isn't hurt, but his legs are entangled and he is unable to move. The model also suffers a –2 Weapon Skill penalty in hand-to-hand combat, but may still shoot normally. The model may try to free himself in the Recovery phase. If the model rolls a 4+ on a D6 he is freed and may move and fight normally."
     },
     {
       "id": "javelins",
@@ -443,7 +443,7 @@
       "cost": 10,
       "rarity": null,
       "restriction": "",
-      "rulesText": "Range: 8\"; Strength: as user.\n\nThrown weapon: the warrior suffers no penalty for range or for moving.\n\nNote: the Skink list prices these at 10 gc, where the Amazon lists give 5 gc."
+      "rulesText": "Range 8\". Strength As user. Thrown weapon: Javelins are thrown weapons and the warrior suffers no penalty for range or moving."
     },
     {
       "id": "oversizedJaws",
@@ -452,7 +452,7 @@
       "cost": 40,
       "rarity": null,
       "restriction": "Saurus Heroes only — one Sacred Marking per Hero, bought at recruitment",
-      "rulesText": "The Hero may make his bite attack with +1 Strength."
+      "rulesText": "The Hero may make his bite attack with +1 Strength. (Saurus Only)"
     },
     {
       "id": "poisonGlands",
@@ -461,7 +461,7 @@
       "cost": 40,
       "rarity": null,
       "restriction": "Skink Heroes only — one Sacred Marking per Hero, bought at recruitment",
-      "rulesText": "He may choose to make any number of attacks with his teeth instead of his weapons; these are treated as a Saurus bite attack. They carry a +1 save modifier regardless of the Skink's Strength, and add +1 to the roll on the Injury table."
+      "rulesText": "He may choose to make any number of attacks with his teeth instead of his weapons; these attacks are treated just like a Saurus bite attack. These attacks at +1 save modifier, regardless of the Strength of the Skinks, in addition add +1 to the roll on the Injury table as well. (Skinks only)"
     },
     {
       "id": "markOfTheOldOnes",
@@ -470,8 +470,9 @@
       "cost": 50,
       "rarity": null,
       "restriction": "Lizardmen Heroes only — one Sacred Marking per Hero, bought at recruitment",
-      "rulesText": "The Hero may change one of his failed dice rolls into a successful one. Usable once per battle and only on actions the Hero makes himself. It may be used on a failed Rout test."
+      "rulesText": "The Hero may change one of his failed dice rolls into a successful one; this mark may only be used once per battle and only on actions that the Hero is making himself. You may use this mark on a failed Rout test if you wish."
     }
   ],
-  "specialRules": "Lizardmen (Town Cryer #11). Scaly Skin: Saurus have a 5+ save, Skinks a 6+. The save cannot be modified beyond 6 by Strength modifiers, but a 'no save' result on the injury chart negates it. Light armour adds +1, as does a shield. | Armour: armour is rare amongst the Lizardmen and light armour always costs 50 gc, even from the standard equipment chart. | Bite Attack: Saurus have a bite that uses their own Strength to wound with no penalty for being unarmed, and always strikes last. | Cold Blooded: all Lizardmen roll 3D6 and select the lowest two when taking a psychology or Rout test. A warband may never use the Leadership of a Saurus or Kroxigor for a Rout test. | Aquatic: Skinks move through water with no penalty and count as being in cover there. | Jungle born: all Skinks move through jungle terrain without penalty. | Saurus Rarity: a warband may never contain more Saurus Braves than Skink Braves. | Saurus cannot receive Academic skills and can never use missile weapons. | Min warband size 3, max 20. | Poisons: Skink Heroes may buy Dark Venom at 20 gc and Black Lotus at 10 gc as common items, usable only on missile weapons; only Saurus may use them on close combat weapons, bought as normal from the trading chart. Skink henchmen may buy Reptile Venom at 5 gc per weapon."
+  "specialRules": "Scaly Skin: All Lizardmen have a natural save thanks to their thick scales. Saurus have a 5+ save and Skinks have a 6+. This save cannot be modified beyond 6 due to Strength modifiers but any result of ‘no save’ on the injury chart will negate this 6+ save. Light Armour adds +1 to the save, as does the addition of a shield. | Armour: Armour is rare amongst the Lizardmen and the cost of light armour is always 50 gc, even if you are buying it from Equipment chart. | Bite Attack: Saurus have a powerful bite attack, this bite attack uses the Saurus’ own Strength to wound and receive no penalty for not using a weapon. The Bite attack always strikes last, regardless of who charged or which weapon is used. The Bite even attacks after Double-Handed Weapons. | Cold Blooded: All Lizardmen are slow to react to psychology, they may roll 3D6 and select the lowest two dice when taking a psychology test or Rout test. A Lizardmen Warband may never use the Leadership of Saurus or Kroxigor when taking a rout test. | Aquatic: Skinks may move through water terrain with no penalty, and count as being in cover whilst they are in the water. | Jungle born: All Skinks can move through jungle terrain without penalty. | Saurus Rarity: The Slann Mage-Priests would never include more Saurus braves in a Warband than Skink braves and thus you can never have more Saurus braves than Skink braves in the Warband.",
+  "background": "The Lizardmen and indeed their bloated toadlike masters, the Slann, were once the servants of the divine ‘Old Ones’. Ever since the great catastrophe and the departure of the Old Ones from the world the Lizardmen have been closely observing the rituals and plans laid down by the Old Ones as closely as possible. But the tranquil peace of this once hidden race has been shattered forever since the coming of the dreaded ‘Dry Skins’! | Many of the Temple cities of the Lizardmen have been raided and plundered by the likes of Human explorers and other more sinister races. But the plunder is not over as more and more adventurers arrive at the shores of Lustria, drawn by the tall tales told in taverns– tales of cities filled with gold! | The ruined temple cities of Huatl, Tlax and Xahutec are the most frequently raided due to their location near the coast. In recent years, more and more Lizardmen, Elven and Tilean explorers have arrived seeking treasure and arcane knowledge. With the arrival of these intruders the indigenous Lizardmen have been hard-pressed to keep what is rightfully theirs. It is by guerrilla style hit and run attacks by war-parties of Skink and Saurus warriors that somewhat stems the tide of the foreign plunderers. The beaches, the jungle and parts of the ruined cities themselves are home to numerous small bands of these lone defenders against the ravages of the ‘dryskinned ones’. | Not only do the Lizardmen keep watch over the ruins they are also protected by a fiendish variety of traps and mazes of tunnels that lead would-be-robbers around in circles. The plunderers are thus forced to camp outside the ruins while they explore the depths of the temples and try to overcome the traps. | A player who chooses The Temple Guard to play will find them to be both rewarding and challenging to play. The Lizardmen are the ‘home team’ as it were and enjoy some unique benefits. But they also will have some weaknesses that astute players will enjoy ‘hiding’ from their opponents."
 }

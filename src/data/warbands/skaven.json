@@ -56,7 +56,7 @@
         },
         {
           "name": "Perfect Killer",
-          "description": "an extra -1 armour-save modifier to all wounds he inflicts (shooting and close combat)."
+          "description": "An Assassin Adept always has an extra -1 modifier to any armour save the enemy has to take against wounds they inflicted (both with shooting and close combat weapons)."
         }
       ]
     },
@@ -353,7 +353,7 @@
       "cost": 50,
       "rarity": 9,
       "restriction": "Rare 9, Skaven only (per pair)",
-      "rulesText": "Range: Close Combat; Strength: as user. Pair: +1 attack. Venomous: permanently coated in black lotus (no extra poison may be applied). Parry: may parry as a sword."
+      "rulesText": "Strength As user. Pair: Weeping Blades are traditionally used in pairs, one in each hand. A warrior armed with Weeping Blades gets an additional attack. Venomous: The venom of Weeping Blades will enter the blood of the victim and ravage his organs and muscles. These weapons count as being permanently coated in black lotus. No additional poison may be applied to Weeping Blades. Parry: Weeping Blades are swords and can be used for parrying."
     },
     {
       "id": "fightingClaws",
@@ -362,7 +362,7 @@
       "cost": 35,
       "rarity": 7,
       "restriction": "Rare 7, Skaven only (per pair)",
-      "rulesText": "Range: Close Combat; Strength: as user. Pair: +1 attack. Climb: +1 Initiative on Climbing tests. Parry: may parry and re-roll a failed attempt once (as sword+buckler). Cumbersome: no other weapons may be used the entire battle."
+      "rulesText": "Strength As user. Pair: Fighting Claws are traditionally used in pairs, one in each hand. A warrior armed with Fighting Claws gets an additional attack. Climb: A Skaven equipped with Fighting Claws can add +1 to his Initiative when making Climbing tests. Parry: A Skaven armed with Fighting Claws may parry blows and can re-roll a failed attempt once, in the same way as a model armed with a sword and buckler. Cumbersome: A model armed with Fighting Claws may not use any other weapons in the entire battle."
     },
     {
       "id": "blowpipe",
@@ -371,7 +371,7 @@
       "cost": 25,
       "rarity": 7,
       "restriction": "Rare 7, Skaven only",
-      "rulesText": "Range 8\"; Strength 1; +1 save modifier. Poison: a natural 6 to hit auto-wounds (as Black Lotus); cannot cause criticals; even models with no save get a 6+. Stealthy: may fire while hidden; target may take an Initiative test to spot the shooter."
+      "rulesText": "Range 8\". Strength 1. Poison: The needles fired by a blowpipe are coated in a venom very similar in its effects to the Black Lotus (if you roll a 6 on the To Hit roll, the victim is automatically wounded). A blowpipe cannot cause critical hits. This weapon has a positive armour save modifier, so a model that normally has a save of 5+ will get a save of 4+ against a blowpipe dart. Even models that normally do not have an armour save will get a 6+ save to take into account protection offered by clothes, fur or the like. Stealthy: A model armed with a blowpipe can fire while hidden without revealing his position to the enemy. The target model can take an Initiative test in order to try to spot the firing model. If the test is successful, the model no longer counts as hidden."
     },
     {
       "id": "warplockPistol",
@@ -380,7 +380,7 @@
       "cost": 35,
       "rarity": 11,
       "restriction": "Rare 11, Skaven only (70 gc for a brace)",
-      "rulesText": "Range 8\"; Strength 5; -3 save modifier. Fires every other turn."
+      "rulesText": "Range 8\". Strength 5. Prepare shot: A pistol takes a whole turn to reload, so you may only fire every other turn. If you have a brace of pistols (ie, two) you may fire every turn. Save modifier: Warplock Pistols are even better at penetrating armour than their Strength 5 suggests. A warrior wounded by a pistol must make his armour save with a -3 modifier. Hand-to-hand: Pistols can be used in hand-to-hand combat as well as for shooting. A model armed with a pistol and another close combat weapon gains +1 Attack, which is resolved at Strength 5 with a -3 save modifier. This bonus attack can be used only once per combat. If you are firing a brace of pistols, your model can fight with 2 Attacks in the first turn of close combat. These attacks are resolved with a model’s Weapon Skill like any normal close combat attack and likewise may be parried. Successful hits are resolved at Strength 5 and with a -3 save modifier, regardless of the firer’s Strength."
     },
     {
       "id": "throwingStars",
@@ -389,8 +389,9 @@
       "cost": 15,
       "rarity": null,
       "restriction": "Skaven Heroes equipment list",
-      "rulesText": "Range: 6\"; Strength: as user.\n\nThrown Weapon: no penalties for range or moving. Cannot be used in close combat."
+      "rulesText": "Range 6\". Strength As user. Thrown Weapon: Models using throwing stars or knives do not suffer penalties for range or moving as these weapons are perfectly balanced for throwing. They cannot be used in close combat."
     }
   ],
-  "specialRules": "Skaven (Clan Eshin). Skaven Heroes may use their own Special skill list instead of a standard one (skillLists id 'skaven'): Black Hunger (+1A and +D3\" move for the turn, then D3 S3 hits with no save); Tail Fighting (extra attack with shield/knife/sword via the tail, or +1 armour save); Wall Runner (no Initiative test to climb); Infiltration (deploy after the enemy, anywhere out of sight and >12\" from foes); Art of Silent Death (fight bare-pawed with no penalty as two weapons, +1A, and cause criticals on a to-wound 5-6; with Fighting Claws gives +2A). Highest warband cap in the core game: max 20 models. Min warband size 3. | Human models use the standard human Maximum Profile (M4 WS6 BS6 S4 T4 W3 I6 A4 Ld9) from the core-rules Maximum Profile table — verify. Non-human models are left null; fill their racial maximums from that same table. | TODO: verify each Hero's skill-table access (Combat/Shooting/Academic/Strength/Speed) against the rulebook — the checkmark columns were ambiguous in the source PDF extraction."
+  "specialRules": "",
+  "background": "Unbeknownst to man, for thousands of years he has shared his world with another and altogether different race. There have always been signs for those who cared to see them: a scurrying black shadow, an inhuman scream from the sewer, scuttling shapes at the back of the cellar. All these years these creatures have worked away in secret, burrowing beneath the world of man, undermining his great cities, infiltrating his sewers and cellars, and joining all up into a vast worldspanning labyrinth of tunnels and nests. These creatures call themselves Skaven and they are ratmen, the mutant spawn of an older age of chaos and mutation. | Doubtless one day the Skaven will be ready to emerge from their tunnels and wage open war upon mankind. For centuries they have been content to feed upon his ruins, to seed plague in his cities, and spread contagion amongst his lands. At least they were content to wait and watch, for now everything has suddenly changed. Now the destruction of Mordheim has created new opportunities in the secret war against mankind. | Since ancient times the Skaven have searched the world for the stones of power that men in their ignorance call wyrdstone but which Skaven have long since known as warpstone, blackstone, or seerstone. It was as a result of gnawing upon this magic stone in ages past that commonplace rats began the slow process of mutation that spawned the Skaven race. Wyrdstone is quite literally in their blood, for they feed upon it and make use of it in their foul sorceries. Until now the ratmen’s search for wyrdstone has been difficult and time-consuming as the stone has grown increasingly rare, but now a new and abundant source has appeared – a dark blessing from the skies! | For the Skaven of Clan Eshin, this is an especially opportune time for such a thing to happen, for, just as the Empire is divided, so the Skaven race is divided amongst itself. Clan fights clan the world over, each struggling for domination of the Council of Thirteen whose masters rule the Skaven race. Mordheim’s secret is not yet revealed to all the clans, or else the City of the Damned would already be overrun with ratmen. The Nightmaster of Clan Eshin is keen to guard this secret, and for this reason has not sent his multitudinous armies into Mordheim. Instead, he has sent small warbands of Skaven skittering through secret tunnels into the city to gather up the shining stones and bring them back to the clan nests. | The Skaven of Clan Eshin are supremely adapted to their task. Masters of the art of bringing silent death to their foes, they are skilled in the use of poison and trained in the thousand secrets of the assassin. Since birth Skaven warriors practise martial crafts in the ruinous temples of the Horned Rat, their everhungering and hideous god. There are none better amongst their verminous kind to gather up the treasure of Mordheim, but they must be silent, swift and efficient. Were rival Skaven clans to discover the secret of Mordheim there would come not hundreds, not thousands, but millions upon millions to contend for the wyrdstone in the City of the Damned."
 }

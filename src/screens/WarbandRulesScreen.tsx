@@ -585,6 +585,13 @@ export default function WarbandRulesScreen() {
     heroCap != null ? `Up to ${heroCap} Heroes` : null,
   ].filter(Boolean);
 
+  // The source's lore is its own field (`background`), copied 1:1; the rules
+  // blob then holds only rules, so its unnamed paragraphs are rules too and
+  // belong in Special rules. Older files without the field still keep their
+  // lead-in as background.
+  const background = def.background ? def.background.split(' | ') : parsed.lead;
+  const unnamedRules = def.background ? parsed.lead : [];
+
   // §28 — Heroes whose lists a sub-faction decides are shown per option in the
   // sub-faction section, not as an empty grid here.
   const decidedBySubfaction = new Set(
@@ -594,8 +601,8 @@ export default function WarbandRulesScreen() {
   const hasSkillAccess = commonSkillHeroes.some((s) => s.skillLists.length > 0);
   const hasSubfactions = (def.subfactions?.length ?? 0) > 0;
   const sections: NavItem[] = [
-    parsed.lead.length > 0 && { id: 'background', label: 'Background' },
-    parsed.rules.length > 0 && { id: 'special-rules', label: 'Special rules' },
+    background.length > 0 && { id: 'background', label: 'Background' },
+    (parsed.rules.length > 0 || unnamedRules.length > 0) && { id: 'special-rules', label: 'Special rules' },
     hasSubfactions && { id: 'subfactions', label: subfactionLabel(def) + 's' },
     { id: 'choice', label: 'Warriors' },
     hasSkillAccess && { id: 'skill-access', label: 'Skills' },
@@ -655,16 +662,21 @@ export default function WarbandRulesScreen() {
       <JumpNav items={sections} />
 
       <main className="flex-1 px-4 py-6 space-y-8">
-        {parsed.lead.length > 0 && (
+        {background.length > 0 && (
           <section id="background" className="scroll-mt-24 space-y-3">
             <SectionTitle>Background</SectionTitle>
-            <Background paragraphs={parsed.lead} />
+            <Background paragraphs={background} />
           </section>
         )}
 
-        {parsed.rules.length > 0 && (
+        {(parsed.rules.length > 0 || unnamedRules.length > 0) && (
           <section id="special-rules" className="scroll-mt-24 space-y-3">
             <SectionTitle>Special rules</SectionTitle>
+            {unnamedRules.map((p) => (
+              <p key={p} className="text-bone-200 text-sm leading-relaxed">
+                {p}
+              </p>
+            ))}
             <SpecialRules rules={parsed.rules} />
           </section>
         )}
