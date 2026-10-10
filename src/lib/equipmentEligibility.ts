@@ -96,7 +96,8 @@ export type EligibilityContext = {
  *    That governs the whole `misc` category; the few the rules do name carry
  *    `henchmenAllowed` in the data rather than being special-cased here.
  * 3. "Your warriors can only use the weapons and armour listed in their warband
- *    entry", widened by Weapons Training and Weapons Expert as above.
+ *    entry", widened by Weapons Training and Weapons Expert as above. Not
+ *    applied to Miscellaneous items, which no list names.
  *
  * The treasury is exempt from 2 and 3: buying into the warband's chest is not
  * the same as arming a model, and the rules restrict *use*, not purchase.
@@ -120,7 +121,11 @@ export function checkEligibility(
     return { allowed: false, reason: 'heroesOnly' };
   }
 
-  if (allowedIds && !allowedIds.has(item.id)) {
+  // The lists govern weapons and armour only; Miscellaneous gear is bounded by
+  // rule 2 instead, and no warband list names it, so checking it here barred
+  // Heroes from every lantern and rope. Anything else a list can carry — a
+  // Possessed's mutations, a Tainted One's Blessings — stays list-bound.
+  if (allowedIds && item.category !== 'misc' && !allowedIds.has(item.id)) {
     const exempting = LIST_EXEMPTING_SKILLS[item.category];
     // Only Heroes and Hired Swords learn skills, so a henchmen group is bound
     // to its list whatever it happens to be carrying.

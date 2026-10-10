@@ -290,9 +290,10 @@
   "henchmenTypes": [
     {
       "id": "prospects",
+      "racialProfile": "human",
       "unitType": "Prospect",
       "cost": 35,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {

@@ -5,6 +5,7 @@ import { rollD6, rollDiceExpression } from '../../lib/dice';
 import { GrantOffers, magicalArtefacts } from '../../lib/exploration';
 import { resolveEquipmentItem } from '../../lib/equipmentLookup';
 import { getWarbandDefinition } from '../../data/warbandRegistry';
+import { unitIsAnimal } from '../../lib/ruleEffects';
 import { ExplorationGrant } from '../../data/types';
 import { Warband } from '../../types';
 import { AppliedGrant } from './types';
@@ -73,7 +74,9 @@ export default function ExplorationGrants({
   const heroes = warband.heroes;
   const leader = heroes.find((h) => h.isLeader) ?? heroes[0];
   const artefacts = magicalArtefacts();
-  const recruitGroups = warband.henchmenGroups.filter((g) => !g.isAnimal && !g.isLargeCreature);
+  const recruitGroups = warband.henchmenGroups.filter(
+    (g) => !unitIsAnimal(warband.warbandType, g) && !g.isLargeCreature,
+  );
 
   const unitFor = (unit: 'zombie' | 'dog') =>
     definition?.henchmenTypes.find((h) => (unit === 'zombie' ? /zombie/i : /hound|dog/i).test(h.unitType));

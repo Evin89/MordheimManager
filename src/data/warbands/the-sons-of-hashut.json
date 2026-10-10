@@ -155,9 +155,10 @@
   "henchmenTypes": [
     {
       "id": "chaos-dwarf-warriors",
+      "racialProfile": "dwarf",
       "unitType": "Chaos Dwarf Warrior",
       "cost": 40,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 6,
       "statLine": {
@@ -190,9 +191,10 @@
     },
     {
       "id": "blunderbuss-chaos-dwarfs",
+      "racialProfile": "dwarf",
       "unitType": "Blunderbuss Chaos Dwarf",
       "cost": 40,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 3,
       "statLine": {
@@ -225,9 +227,10 @@
     },
     {
       "id": "hobgoblins",
+      "racialProfile": "hobgoblin",
       "unitType": "Hobgoblin",
       "cost": 15,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {

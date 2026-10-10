@@ -163,9 +163,10 @@
   "henchmenTypes": [
     {
       "id": "dwarf-longbeards",
+      "racialProfile": "dwarf",
       "unitType": "Dwarf Longbeard",
       "cost": 50,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {
@@ -198,9 +199,10 @@
     },
     {
       "id": "dwarf-clansmen",
+      "racialProfile": "dwarf",
       "unitType": "Dwarf Clansmen",
       "cost": 40,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -233,9 +235,10 @@
     },
     {
       "id": "dwarf-crossbowmen",
+      "racialProfile": "dwarf",
       "unitType": "Dwarf Crossbowmen",
       "cost": 40,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {
@@ -268,9 +271,10 @@
     },
     {
       "id": "beardlings",
+      "racialProfile": "dwarf",
       "unitType": "Beardling",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {

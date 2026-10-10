@@ -282,7 +282,7 @@
       "id": "slaaneshi-beastmen",
       "unitType": "Slaaneshi Beastman",
       "cost": 35,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 3,
       "statLine": {
@@ -315,9 +315,10 @@
     },
     {
       "id": "slaaneshi-wretches",
+      "racialProfile": "human",
       "unitType": "Slaaneshi Wretch",
       "cost": 10,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -355,9 +356,10 @@
     },
     {
       "id": "cultists",
+      "racialProfile": "human",
       "unitType": "Cultist",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {

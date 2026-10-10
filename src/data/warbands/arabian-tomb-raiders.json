@@ -155,9 +155,10 @@
   "henchmenTypes": [
     {
       "id": "bedouin",
+      "racialProfile": "human",
       "unitType": "Bedouin",
       "cost": 35,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 2,
       "statLine": {
@@ -195,9 +196,10 @@
     },
     {
       "id": "nomad-warriors",
+      "racialProfile": "human",
       "unitType": "Nomad Warrior",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -230,9 +232,10 @@
     },
     {
       "id": "slaves",
+      "racialProfile": "human",
       "unitType": "Slave",
       "cost": 15,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {

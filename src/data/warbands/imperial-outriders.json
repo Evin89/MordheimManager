@@ -163,9 +163,10 @@
   "henchmenTypes": [
     {
       "id": "chasseurs",
+      "racialProfile": "human",
       "unitType": "Chasseur",
       "cost": 55,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {
@@ -204,9 +205,10 @@
     },
     {
       "id": "hussars",
+      "racialProfile": "human",
       "unitType": "Hussar",
       "cost": 60,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {
@@ -248,9 +250,10 @@
     },
     {
       "id": "grooms",
+      "racialProfile": "human",
       "unitType": "Groom",
       "cost": 50,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 2,
       "statLine": {

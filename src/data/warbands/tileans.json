@@ -130,9 +130,10 @@
   "henchmenTypes": [
     {
       "id": "warriors",
+      "racialProfile": "human",
       "unitType": "Warrior",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -165,9 +166,10 @@
     },
     {
       "id": "marksmen",
+      "racialProfile": "human",
       "unitType": "Marksman",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 7,
       "statLine": {
@@ -200,9 +202,10 @@
     },
     {
       "id": "duelists",
+      "racialProfile": "human",
       "unitType": "Duelist",
       "cost": 35,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {

@@ -1,6 +1,20 @@
 import { ReactNode, useId, useState } from 'react';
 import { strings } from '../strings';
 
+// Case, accents, runs of spaces and curly/straight quotes and dashes all
+// compare equal; see the matching note below.
+function normalizeConfirmPhrase(text: string): string {
+  return text
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[\u2018\u2019\u201a\u201b\u2032`´]/g, "'")
+    .replace(/[\u201c\u201d\u201e\u201f\u2033]/g, '"')
+    .replace(/[\u2010-\u2015\u2212]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
 /**
  * The confirmation used by every destructive action (spec §11.1).
  *
@@ -9,9 +23,11 @@ import { strings } from '../strings';
  * user type the thing's own name, in the place the thing lives, is the only
  * cheap way to be sure they know *which* thing they are destroying.
  *
- * Matching trims and ignores case — this is a test of intent, not of spelling.
- * A partial match is never accepted, since "Grim" would match half a roster's
- * worth of warband names.
+ * Matching ignores case, accents, runs of spaces and the curly/straight
+ * variants of quotes and dashes — this is a test of intent, not of spelling,
+ * and "Ulric’s Wolves" can't be typed on most keyboards. A partial match is
+ * never accepted, since "Grim" would match half a roster's worth of warband
+ * names.
  */
 export default function ConfirmByTyping({
   phrase,
@@ -46,8 +62,8 @@ export default function ConfirmByTyping({
   const [acknowledged, setAcknowledged] = useState(false);
   const inputId = useId();
   const ackId = useId();
-  const matches =
-    typed.trim().toLowerCase() === phrase.trim().toLowerCase() && (!acknowledge || acknowledged);
+  const typedMatches = normalizeConfirmPhrase(typed) === normalizeConfirmPhrase(phrase);
+  const matches = typedMatches && (!acknowledge || acknowledged);
 
   return (
     <div className="space-y-3 rounded-lg border border-blood-600 p-4">
@@ -87,6 +103,10 @@ export default function ConfirmByTyping({
         // field the user is being asked to read and type into.
         onFocus={(e) => e.currentTarget.scrollIntoView({ block: 'center', behavior: 'smooth' })}
       />
+
+      {/* The name is right but the box isn't ticked: say so, or the greyed
+          button reads as the name being wrong. */}
+      {typedMatches && !matches && <p className="text-bone-300 text-sm">{strings.common.confirmTickToo}</p>}
 
       <button
         type="button"

@@ -96,7 +96,9 @@
         "A": null,
         "Ld": null
       },
-      "equipmentOptions": [],
+      "equipmentOptions": [
+        "mutationsList"
+      ],
       "notes": "+ cost of mutations, 0-2. Never uses weapons or armour. Causes fear. May start with one or more mutations (see exclusiveEquipment; first at listed price, each further mutation on the same model costs double).",
       "specialRules": []
     },
@@ -136,7 +138,8 @@
         "Ld": 9
       },
       "equipmentOptions": [
-        "possessedEquipmentList"
+        "possessedEquipmentList",
+        "mutationsList"
       ],
       "notes": "+ cost of mutations, 0-2. MUST start with one or more mutations (first at listed price, each further mutation on the same model costs double).",
       "specialRules": []
@@ -283,6 +286,17 @@
       "heavyArmour",
       "shield",
       "helmet"
+    ],
+    "mutationsList": [
+      "daemonSoul",
+      "greatClaw",
+      "clovenHoofs",
+      "tentacle",
+      "blackblood",
+      "spines",
+      "scorpionTail",
+      "extraArm",
+      "hideous"
     ]
   },
   "exclusiveEquipment": [

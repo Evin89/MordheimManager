@@ -160,7 +160,7 @@
       "id": "skeleton-warriors",
       "unitType": "Skeleton Warrior",
       "cost": 20,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -200,7 +200,7 @@
       "id": "tomb-guardians",
       "unitType": "Tomb Guardian",
       "cost": 30,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 2,
       "statLine": {

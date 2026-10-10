@@ -183,9 +183,10 @@
   "henchmenTypes": [
     {
       "id": "squires",
+      "racialProfile": "human",
       "unitType": "Squire",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {
@@ -225,9 +226,10 @@
     },
     {
       "id": "battle-pilgrims",
+      "racialProfile": "human",
       "unitType": "Battle Pilgrim",
       "cost": 30,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {
@@ -277,9 +279,10 @@
     },
     {
       "id": "bowmen",
+      "racialProfile": "human",
       "unitType": "Bowman",
       "cost": 15,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 7,
       "statLine": {

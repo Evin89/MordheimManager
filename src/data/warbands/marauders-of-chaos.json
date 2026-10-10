@@ -212,9 +212,10 @@
   "henchmenTypes": [
     {
       "id": "chaos-marauders",
+      "racialProfile": "marauderOfChaos",
       "unitType": "Chaos Marauder",
       "cost": 35,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {

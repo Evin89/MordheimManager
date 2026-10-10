@@ -205,9 +205,10 @@
   "henchmenTypes": [
     {
       "id": "thrall",
+      "racialProfile": "human",
       "unitType": "Thrall",
       "cost": 25,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -242,7 +243,7 @@
       "id": "captured-thrall",
       "unitType": "Captured Thrall",
       "cost": 0,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {
@@ -278,7 +279,8 @@
         },
         {
           "name": "Not really clever",
-          "description": "Captured Thralls cannot earn experience points, and therefore cannot gain any advancement."
+          "description": "Captured Thralls cannot earn experience points, and therefore cannot gain any advancement.",
+          "effects": { "noExperience": true }
         }
       ]
     },

@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-10-10",
+    "title": "Fixes from Your Reports",
+    "description": "Henchmen in 26 warbands, Chaos Marauders, Tilean Warriors, Dwarf Clansmen and Pirate Crew among them, were wrongly marked as animals and couldn't gain Experience. They now gain it as normal, including groups already on your roster. The Possessed and Mutants can now buy their mutations, and Tainted Ones their Blessings of Nurgle, from their own page. Heroes can also buy Miscellaneous gear like rope & hooks and lanterns there again. Adding Henchmen to an existing group now charges for the gear the group already carries, as the rules require. Deleting a warband no longer gets stuck when its name has curly apostrophes, accents or double spaces. If it's in a campaign, the screen now tells you to tick the box too."
+  },
+  {
     "date": "2026-10-08",
     "title": "70 Hired Swords",
     "description": "The hire screen had only the seven Hired Swords from the rulebook. It now has 70, from Town Cryer, Fanatic, the Nemesis Crown and Border Town Burning campaigns and more: Bounty Hunters, Duellists, Witches, Norse Shamans, Chaos Centaurs, Ninjas and a Clan Skryre Rat Ogre among them. The ones your warband may hire are listed first, and the rest sit below with a reminder to check who may hire them. Each one shows its full rules and links to its mordheimer.net page. Casters such as the Elf Mage and the Witch come with their spell lists, and every Hired Sword adds its own figure to your warband rating."

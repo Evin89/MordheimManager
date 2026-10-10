@@ -154,9 +154,10 @@
   "henchmenTypes": [
     {
       "id": "warriors",
+      "racialProfile": "halfling",
       "unitType": "Warrior",
       "cost": 15,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": null,
       "statLine": {
@@ -189,9 +190,10 @@
     },
     {
       "id": "scouts",
+      "racialProfile": "halfling",
       "unitType": "Scout",
       "cost": 20,
-      "isAnimal": true,
+      "isAnimal": false,
       "isLargeCreature": false,
       "maxCount": 5,
       "statLine": {

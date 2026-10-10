@@ -1110,7 +1110,7 @@ Every model is created with a free dagger — cost 0, per the rule that every wa
 
 1. **Warband locks** — exclusive gear is buyable only by the warbands that own it (`warbandIds`).
 2. **Heroes only** — Miscellaneous equipment is Heroes-only unless explicitly marked `henchmenAllowed`.
-3. **Per-model equipment list** — a model may only use items from its own unit's list, *unless* it has the skill that lifts the restriction: **Weapons Training** for hand-to-hand weapons, **Weapons Expert** for missile weapons.
+3. **Per-model equipment list** — a model may only use weapons and armour (and list-bound extras such as mutations) from its own unit's list — Miscellaneous items are governed by rule 2 alone — *unless* it has the skill that lifts the restriction: **Weapons Training** for hand-to-hand weapons, **Weapons Expert** for missile weapons.
 
 The **treasury is exempt** from all three. The rules restrict what a model may *use*, not what the warband may own, so buying is always allowed and the check happens at assignment.
 

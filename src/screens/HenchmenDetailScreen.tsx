@@ -1,7 +1,7 @@
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import { getUnitSpecialRules, getUnitNotes } from '../data/warbandRegistry';
-import { unitGainsExperience } from '../lib/ruleEffects';
+import { unitGainsExperience, unitIsAnimal } from '../lib/ruleEffects';
 import SpecialRulesList from '../components/SpecialRulesList';
 import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
@@ -206,7 +206,7 @@ export default function HenchmenDetailScreen() {
           <SectionHeading>{strings.modelDetail.statsSection}</SectionHeading>
           <p className="text-bone-300 text-xs">
             {!gainsXp
-              ? group.isAnimal
+              ? unitIsAnimal(draft.warbandType, group)
                 ? 'Animal — does not gain Experience.'
                 : 'Does not gain Experience (see its special rules).'
               : 'Shared by the whole group.'}
