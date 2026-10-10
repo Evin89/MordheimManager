@@ -540,7 +540,7 @@
         "Sprint",
         "Quick Shot"
       ],
-      "specialRules": "Evil Eye: Luthor is immune to any and all Eye Injuries. Ignore the result 31 on the Permanent Injury roll table when rolling for Luthor. | I am Everywhere: Two Warbands fighting against each other may each use Luthor. How this is possible is one of the enduring mysteries of Mordheim. In addition to the above, depending on which role he assumes, Luthor will be affected by the following Special Rules. Choose one set (see Guises).",
+      "specialRules": "Evil Eye: Luthor is immune to any and all Eye Injuries. Ignore the result 31 on the Permanent Injury roll table when rolling for Luthor. | I am Everywhere: Two Warbands fighting against each other may each use Luthor. How this is possible is one of the enduring mysteries of Mordheim. In addition to the above, depending on which role he assumes, Luthor will be affected by the following Special Rules. Choose ones set:",
       "source": "Mordheim Facebook Group",
       "grade": "1c",
       "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1c#luthor-wolfenbaum",
@@ -756,7 +756,7 @@
       "source": "Sylvania Supplement",
       "grade": "2a",
       "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-2a#sigmund-spindle-the-harvester-of-flesh",
-      "hireFeeText": "70 gc, or one body part: a chosen Hero suffers a Severe Arm Wound and may only use one single-handed weapon from then on."
+      "hireFeeText": "70 gold crowns to hire, Sigmund Sprandle may also be hired in the payment of one body part. If you wish to do this then a chosen Hero suffers one Severe Arm Wound and may only use one single handed weapon from now on."
     },
     {
       "id": "williamSchakestangeMasterBard",
@@ -764,7 +764,7 @@
       "hireFee": 70,
       "upkeep": 30,
       "mayBeHiredBy": "Any Mercenaries, Sisters of Sigmar and Witch Hunters may hire William. Furthermore, any good-aligned warband may hire William on a roll of 4+.",
-      "ratingBonus": "+60 points (+6 with the Pantomime Horse).",
+      "ratingBonus": "60 (+6 with Pantomime Horse)",
       "statLine": {
         "M": 4,
         "WS": 5,
