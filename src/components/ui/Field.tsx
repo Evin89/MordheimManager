@@ -1,3 +1,4 @@
+import { createContext, useContext, useId } from 'react';
 import { keepSelectionOnMouseUp, selectAllOnFocus } from '../../lib/selectOnFocus';
 /**
  * Text inputs, textareas and selects (spec §5.1, §5.4).
@@ -22,6 +23,14 @@ export function fieldClasses(className = ''): string {
     .join(' ');
 }
 
+/**
+ * The id a `Field` gives its control when the caller didn't pass `htmlFor`.
+ * Without it, 23 Fields drew a `<label>` that pointed at nothing, so screen
+ * readers announced those inputs with no name. The controls below take the id
+ * from here unless they were given their own.
+ */
+const FieldIdContext = createContext<string | undefined>(undefined);
+
 export function TextField({
   className = '',
   onFocus,
@@ -30,8 +39,10 @@ export function TextField({
 }: React.InputHTMLAttributes<HTMLInputElement>) {
   // §5.4: a number field selects its value on focus, so typing replaces it.
   const numeric = rest.type === 'number';
+  const fieldId = useContext(FieldIdContext);
   return (
     <input
+      id={fieldId}
       className={fieldClasses(className)}
       onFocus={(e) => {
         if (numeric) selectAllOnFocus(e);
@@ -53,8 +64,10 @@ export function Textarea({
 }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
   // Textareas grow with rows, so the min-height floor is dropped in favour of
   // vertical padding while keeping the same frame.
+  const fieldId = useContext(FieldIdContext);
   return (
     <textarea
+      id={fieldId}
       rows={rows}
       className={fieldClasses('min-h-0 py-2 ' + className)}
       {...rest}
@@ -67,8 +80,9 @@ export function Select({
   children,
   ...rest
 }: React.SelectHTMLAttributes<HTMLSelectElement>) {
+  const fieldId = useContext(FieldIdContext);
   return (
-    <select className={fieldClasses(className)} {...rest}>
+    <select id={fieldId} className={fieldClasses(className)} {...rest}>
       {children}
     </select>
   );
@@ -86,12 +100,16 @@ export function Field({
   children: React.ReactNode;
   className?: string;
 }) {
+  const generated = useId();
+  const id = htmlFor ?? generated;
   return (
     <div className={`space-y-1 ${className}`.trim()}>
-      <label htmlFor={htmlFor} className="text-bone-300 text-sm">
+      <label htmlFor={id} className="text-bone-300 text-sm">
         {label}
       </label>
-      {children}
+      {/* With htmlFor the caller wires its own control; otherwise the first
+          TextField/Textarea/Select inside takes the generated id. */}
+      <FieldIdContext.Provider value={htmlFor ? undefined : generated}>{children}</FieldIdContext.Provider>
     </div>
   );
 }

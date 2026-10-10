@@ -1,6 +1,10 @@
 [
   {
     "date": "2026-10-10",
+    "title": "Unit and Equipment List Fixes",
+    "description": "Nurglings now list all their rules: Cloud of Flies, Daemonic, Immune to Poison and Psychology, Daemonic Aura and Instability. The Plague Cart shows its four profiles and its own rules. The Kislevite Esaul and Youths may buy weapons only, as the list says. Middenheimers can buy a Wolfcloak, Dwarf Treasure Hunters a Gromril Weapon, and Maneaters an Axe (the Ogre cleaver). The \"To do\" tag on some warriors' notes is gone, the warband picker no longer repeats the source and grade, and every form field now has a label for screen readers."
+  },
+  {
     "title": "Rules Text Exactly as Written",
     "description": "Rules in the app are now word for word as the source prints them, instead of shortened summaries. That covers warriors' special rules, each warband's rules and background, skills, spells and prayers, equipment, and the seven rulebook Hired Swords. Warband pages now show the warband's own background story too."
   },

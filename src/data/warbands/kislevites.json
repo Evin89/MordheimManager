@@ -96,10 +96,15 @@
         "Ld": 9
       },
       "equipmentOptions": [
-        "kislevWarriorEquipmentList"
+        "kislevWarriorWeaponsOnlyList"
       ],
       "notes": "Cossack honorific meaning \"Best Warrior\", given to a veteran fighter.",
-      "specialRules": []
+      "specialRules": [
+        {
+          "name": "Weapons Only",
+          "description": "An Esaul may be equipped with weapons chosen from the Kislevite Warrior Equipment list."
+        }
+      ]
     },
     {
       "id": "bearTamer",
@@ -185,10 +190,15 @@
         "Ld": 9
       },
       "equipmentOptions": [
-        "kislevWarriorEquipmentList"
+        "kislevWarriorWeaponsOnlyList"
       ],
       "notes": "",
-      "specialRules": []
+      "specialRules": [
+        {
+          "name": "Weapons Only",
+          "description": "Youths may be equipped with weapons chosen from the Kislevite Warrior Equipment list."
+        }
+      ]
     }
   ],
   "henchmenTypes": [
@@ -340,7 +350,7 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Requires a Bear Tamer in the warband to recruit; may not take part in any battle the Bear Tamer doesn't, and if the warband has no Bear Tamer at all the Bear must stay behind at camp. No weapons/armour beyond claws and teeth. statMaximums null: animals have no Human Maximum Profile.",
+      "notes": "Requires a Bear Tamer in the warband to recruit; may not take part in any battle the Bear Tamer doesn't, and if the warband has no Bear Tamer at all the Bear must stay behind at camp. No weapons/armour beyond claws and teeth.",
       "specialRules": [
         {
           "name": "Trained",
@@ -406,6 +416,22 @@
       "lightArmour",
       "shield",
       "helmet"
+    ],
+    "kislevWarriorWeaponsOnlyList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "morningStar",
+      "doubleHandedWeapon",
+      "spear",
+      "halberd",
+      "throwingKnivesStars",
+      "shortBow",
+      "bow",
+      "crossbow",
+      "pistol",
+      "duellingPistol"
     ]
   },
   "exclusiveEquipment": [

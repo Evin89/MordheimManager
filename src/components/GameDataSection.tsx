@@ -57,6 +57,7 @@ export default function GameDataSection() {
           value={body}
           onChange={(e) => setBody(e.target.value)}
           placeholder={s.reportPlaceholder}
+          aria-label={s.reportHeading}
           rows={2}
         />
         <Button size="dense" disabled={body.trim().length === 0 || state === 'sending'} onClick={report}>

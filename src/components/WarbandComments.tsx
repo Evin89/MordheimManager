@@ -75,6 +75,7 @@ export default function WarbandComments({ warbandId }: { warbandId: string }) {
               value={body}
               onChange={(e) => setBody(e.target.value)}
               placeholder={s.placeholder}
+              aria-label={s.placeholder}
               rows={2}
             />
             <Button size="dense" disabled={!canPost} onClick={post}>

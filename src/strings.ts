@@ -855,7 +855,6 @@ export const strings = {
     weaponSlots: (melee: number, maxMelee: number, missile: number, maxMissile: number) =>
       `Weapons carried: ${melee}/${maxMelee} close combat, ${missile}/${maxMissile} missile`,
     unstructuredNotes: 'Notes from the source',
-    todoBadge: 'To do',
     skillsSection: 'Skills',
     noSkills: 'No skills learned yet.',
     // Hand-editing skills/spells/advances (§4.2.1).
@@ -1284,6 +1283,7 @@ export const strings = {
       bodyPlaceholder: 'What happened…',
       linkBattleLabel: 'Link a battle (optional)',
       noBattleOption: 'No battle',
+      battleLabel: 'Linked battle',
       add: 'Add entry',
       adding: 'Adding…',
       empty: 'No log entries yet.',
