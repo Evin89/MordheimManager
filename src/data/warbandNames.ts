@@ -23,14 +23,17 @@ import { getCustomWarbandDefinition } from './customWarbandTypes';
 const ids = import.meta.glob<string>('./warbands/*.json', { eager: true, import: 'id', query: '?names' });
 const names = import.meta.glob<string>('./warbands/*.json', { eager: true, import: 'name', query: '?names' });
 
-// §28 — the lists with a sub-faction choice, named here by file: a named JSON
-// import fails the build for files without the key, so this can't glob them
-// all. The registry checks in dev that no list with sub-factions is missing.
-const subfactions = import.meta.glob<{ id: string; name: string }[]>('./warbands/tileans.json', {
-  eager: true,
-  import: 'subfactions',
-  query: '?names',
-});
+// §28 — the lists with a sub-faction choice (Tileans, Marauders of Chaos),
+// named here by file: a named JSON import fails the build for files without
+// the key, so this can't glob them all. The registry checks in dev that no list with sub-factions is missing.
+const subfactions = import.meta.glob<{ id: string; name: string }[]>(
+  ['./warbands/tileans.json', './warbands/marauders-of-chaos.json'],
+  {
+    eager: true,
+    import: 'subfactions',
+    query: '?names',
+  },
+);
 const subfactionsById = new Map(Object.keys(subfactions).map((path) => [ids[path], subfactions[path]]));
 
 /** Ids of the lists whose sub-faction names are loaded here (for the registry's dev check). */

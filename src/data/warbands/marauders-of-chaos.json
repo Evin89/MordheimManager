@@ -395,5 +395,23 @@
       "rulesText": "As a great axe requires two hands to use, a model using a great axe may not use a shield, buckler or additional weapon in close combat. If the model has a shield he still gets a +1 bonus to his armour save against shooting.\n\nGreat Axes are so heavy that the model using them always strikes last, even when charging, unless it has the Strongman skill.\n\nA Great Axe has an extra save modifier of -1, so a model with Strength 4 using a Chaos Battle Axe has a -4 save modifier in hand-to-hand combat."
     }
   ],
-  "specialRules": ""
+  "specialRules": "Eye of the Gods: An aspiring chaos follower is always Eye of the Gods: watched by the vigilant eyes of the dark gods, who reward the successful generously but punish failures harshly. Roll 2D6 after every battle. | Spawn of Chaos: If you lost the preceding battle, add +1 to the roll for each of your Heroes that was taken out of action during the battle. On a total of 12 or more the warband’s leader turns into a Chaos spawn. His experience, skills, injuries and equipment are lost. | Mark of Chaos: If you won the battle, add +1 for every enemy model the leader took out of action. On a total of 12 or more you may choose a Mark of Chaos for the winning leader (see Marks of the Dark Gods below). As soon as the leader receives a Mark of Chaos through the Eye of the Gods special rule this test is no longer taken – until the leader leaves the warband in which case the new leader must prove himself to the Dark Gods the same way his predecessor did. If the warband already includes a Spawn of Chaos the doomed leader is simply erased from the roster. There may never be more than one Spawn of Chaos in a single warband. The Eye of the Dark Gods rule is not in effect if the warband leader did not take part in the previous battle | Hired Swords: Marauders of Chaos may only hire the following Hired Swords: Pit Fighters, Ogres, Norse Shamans and Imperial Assassins plus any other Hired Swords which specify they may be hired by Marauders of Chaos. Witches and Warlocks may be hired except by warbands that include warriors with the Mark of Arkhar.",
+  "subfactionLabel": "Tribe",
+  "subfactions": [
+    {
+      "id": "norse",
+      "name": "The Norse",
+      "specialRules": "Reavers: Due to their proximity to the Empire and the frequency of their raiding, the Norse excel at finding the best equipment and supplies quickly. As such, they gain a +1 to their rarity rolls when searching during the post-game sequence. Pantheon: The Norse worship a myriad of gods, spirits and ancestors. As a result of their wide pantheon the Eye of the Gods special rule's effect (of becoming a Chaos Spawn or receiving a Mark) happens on a result of 13+ instead of 12+."
+    },
+    {
+      "id": "kurgan",
+      "name": "The Kurgan",
+      "specialRules": "Pedigree: Some Kurgan tribes delight in the spectacle of trained pit hounds fighting against bears, trolls and other creatures. A Kurgan warband may include any number of Warhounds of Chaos – not only up to five. Bone Bows: The Kurgans are renowned for making scary bows, using the bones of their fallen enemies. Heroes and Chaos Marauder Henchmen may use bows (cost: 10 gold crowns, availability: common). Difficult Customers: While some of the less bloodthirsty of the Norse and Hung tribes even trade with merchants from the south, the Kurgan live far away from civilisation and when they come to raid the southern farmsteads and villages they are certainly not welcomed. Therefore a Kurgan warband suffers –1 when rolling to find Rare items except for Great Axes and Barbed Whips."
+    },
+    {
+      "id": "hung",
+      "name": "The Hung",
+      "specialRules": "Disloyalty: The treachery of the Hung is infamous. As one horseman is no more trustworthy than the next, these nomads tribal allegiance is flimsy at best. The maximum number of warriors in the warband is 12 (instead of 15). Affinity with Horses: Warhorses always cost 40 gold crowns to the warband – not only to starting warbands. In addition, all Heroes (including Henchmen that advance to Heroes) automatically have the Ride Warhorse skill. Note that the number of mounts per warband is not restricted in the Border Town Burning setting."
+    }
+  ]
 }
