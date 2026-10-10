@@ -388,7 +388,7 @@
       "cost": 15,
       "rarity": 8,
       "restriction": "Dwarf warbands only — included in the warband's own recruitment list at listed cost (no roll needed at recruitment); a Rare 8 roll is only needed when buying one later via the Trading Post.",
-      "rulesText": "Close combat, Strength as user. Cutting Edge: an extra -1 armour save modifier (e.g. a Strength 4 user gets -2 total). Parry: the wielder may attempt to parry one blow per combat phase — roll a D6 higher than the opponent's highest to-hit roll to negate it (never against an attack from double-or-more the wielder's own Strength). Two Dwarf axes (or a Dwarf axe + another Parry weapon) still only parries once, but may re-roll a failed parry."
+      "rulesText": "Strength As user. Cutting Edge: Dwarf axes have an extra save modifier of -1, so a model with Strength 4 using a Dwarf axe has a -2 save modifier when he hits an opponent with the axe in close combat. Parry: Dwarf axes offer an excellent balance of defence and offense. A model armed with a Dwarf axe may parry blows. When his opponent rolls to hit, the model armed with a Dwarf axe may roll a D6. If the score is greater than the highest to hit score of his opponent, the model has parried the blow and that attack is discarded. A model may not parry attacks made with double or more its own Strength - they are simply too powerful to be stopped. A model may not parry more than one attack in a single Close Combat phase; a model armed with two Dwarf axes (or a Dwarf axe and a sword, etc) does not get to parry two attacks but may instead re-roll a failed parry."
     },
     {
       "id": "throwingAxes",

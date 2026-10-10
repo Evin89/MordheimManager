@@ -13,63 +13,63 @@
       "name": "Axe",
       "category": "melee",
       "cost": 5,
-      "notes": ""
+      "notes": "Strength As user. Cutting Edge: An axe has an extra save modifier of -1, so a model with Strength 4 using an axe has a -2 save modifier when he hits an opponent in hand-to-hand combat."
     },
     {
       "id": "clubMaceHammer",
       "name": "Club, Mace or Hammer",
       "category": "melee",
       "cost": 3,
-      "notes": ""
+      "notes": "Strength As user. Concussion: Hammers and other bludgeoning weapons are excellent to use for striking your enemy senseless. When using a hammer, club or mace, a roll of 2-4 is treated as stunned when rolling to see the extent of a model's injuries."
     },
     {
       "id": "dagger",
       "name": "Dagger",
       "category": "melee",
       "cost": 2,
-      "notes": "First dagger is free for most warband types (see warband entry); 2 gc for additional/replacement daggers."
+      "notes": "Strength As user. +1 Enemy armour save: Daggers are not the best weapons to use for penetrating an enemy model's armour. An enemy wounded by a dagger gains a +1 bonus to his armour save, and a 6+ armour save if he has none normally."
     },
     {
       "id": "doubleHandedWeapon",
       "name": "Double-Handed Weapon",
       "category": "melee",
       "cost": 15,
-      "notes": ""
+      "notes": "Strength As user +2. Two-handed: A model armed with a double-handed weapon may not use a shield, buckler or additional weapon in close combat. If the model is equipped with a shield he will still get a +1 bonus to his armour save against shooting. Strike last: Double-handed weapons are so heavy that the model using them always strikes last, even when charging."
     },
     {
       "id": "flail",
       "name": "Flail",
       "category": "melee",
       "cost": 15,
-      "notes": ""
+      "notes": "Strength As user +2. Heavy: A flail is extremely tiring to use and thus the +2 Strength bonus applies only in the first turn of each hand-to-hand combat. Two-handed: As a flail requires two hands to use, a model using a flail may not use a shield, buckler or additional weapon in close combat. If the model has a shield he still gets a +1 bonus to his armour save against shooting."
     },
     {
       "id": "halberd",
       "name": "Halberd",
       "category": "melee",
       "cost": 10,
-      "notes": ""
+      "notes": "Strength As user +1. Two-handed: A model armed with a halberd may not use a shield, buckler or additional weapon in close combat.\n\nIf the model has a shield he still gets a +1 bonus to his armour save against shooting."
     },
     {
       "id": "morningStar",
       "name": "Morning Star",
       "category": "melee",
       "cost": 15,
-      "notes": ""
+      "notes": "Strength As user +1. Heavy: The morning star is extremely tiring to use, so its +1 Strength bonus applies only in the first turn of each hand-to-hand combat. Difficult to use: A model with a morning star may not use a second weapon or buckler in his other hand because it requires all his skill to wield it. He may carry a shield as normal though."
     },
     {
       "id": "spear",
       "name": "Spear",
       "category": "melee",
       "cost": 10,
-      "notes": ""
+      "notes": "Strength As user. Strike first: A warrior with a spear 'strikes first' in the first turn of hand-to-hand combat. Unwieldy: A warrior with a spear may only use a shield or a buckler in his other hand. He may not use a second weapon. Cavalry bonus: If using the rules for mounted models, a mounted warrior armed with a spear receives a +1 Strength bonus when he charges. This bonus only applies for that turn."
     },
     {
       "id": "sword",
       "name": "Sword",
       "category": "melee",
       "cost": 10,
-      "notes": ""
+      "notes": "Strength As user. Parry: Swords offer an excellent balance of defence and offence. A model armed with a sword may parry blows. When his opponent rolls to hit, the model armed with a sword may roll a D6. If the score is greater than the highest to hit score of his opponent, the model has parried the blow, and that attack is discarded. A model may not parry attacks made with double or more its own Strength – they are simply too powerful to be stopped."
     },
     {
       "id": "bow",
@@ -83,7 +83,7 @@
       "name": "Crossbow",
       "category": "missile",
       "cost": 25,
-      "notes": ""
+      "notes": "Range 30\". Strength 4. Move or Fire: You may not move and fire a crossbow on the same turn, other than to pivot on the spot to face your target or to stand up."
     },
     {
       "id": "longBow",
@@ -104,63 +104,63 @@
       "name": "Sling",
       "category": "missile",
       "cost": 2,
-      "notes": ""
+      "notes": "Range 18\". Strength 3. Fire twice at half range: A slinger may fire twice in the shooting phase if he does not move in the movement phase. He cannot shoot over half range (9\") though, if he fires twice. If the model fires twice then each shot is at -1 to hit."
     },
     {
       "id": "buckler",
       "name": "Buckler",
       "category": "armour",
       "cost": 5,
-      "notes": ""
+      "notes": "Parry: A model equipped with a buckler may parry the first blow in each round of hand-to-hand combat. When his opponent scores a hit, a model with a buckler may roll 1D6. If the score is greater than the highest to hit score of his opponent, the model has parried the blow, and that attack is discarded. A model may not parry attacks made with double or more its own Strength – they are simply too powerful to be stopped."
     },
     {
       "id": "heavyArmour",
       "name": "Heavy Armour",
       "category": "armour",
       "cost": 50,
-      "notes": ""
+      "notes": "Save 5+. Movement Penalty: A warrior that is armed with both heavy armour and a shield suffers a -1 Movement penalty"
     },
     {
       "id": "helmet",
       "name": "Helmet",
       "category": "armour",
       "cost": 10,
-      "notes": ""
+      "notes": "Avoid Stun: A model that is equipped with a helmet has a special 4+ save on a D6 against being stunned. If the save is made, treat the stunned result as knocked down instead. This save is not modified by the opponent's Strength."
     },
     {
       "id": "lightArmour",
       "name": "Light Armour",
       "category": "armour",
       "cost": 20,
-      "notes": ""
+      "notes": "Save 6+. Movement Penalty: No penalty when worn with a shield."
     },
     {
       "id": "shield",
       "name": "Shield",
       "category": "armour",
       "cost": 5,
-      "notes": ""
+      "notes": "Save 6+. Combined Save: As explained in the Armour section, shields combine with armour to give +1 to the save. Movement Penalty: There is no movement penalty."
     },
     {
       "id": "garlic",
       "name": "Garlic",
       "category": "misc",
       "cost": 1,
-      "notes": "May not be bought by Undead."
+      "notes": "A Vampire must pass a Leadership test or it will be unable to charge a model carrying a clove of garlic. Garlic lasts for the duration of one battle only, whether it is used or not."
     },
     {
       "id": "lantern",
       "name": "Lantern",
       "category": "misc",
       "cost": 10,
-      "notes": "A model in possession of a lantern may add +4\" to the distance from which he is able to spot hidden enemies."
+      "notes": "A model that is in possession of a lantern may add +4&quot; to the distance from which he is able to spot hidden enemies."
     },
     {
       "id": "net",
       "name": "Net",
       "category": "misc",
       "cost": 5,
-      "notes": "Once per game, the net may be thrown in the shooting phase instead of shooting a missile weapon. Treat it as a missile weapon with a range of 8\". Use the model's BS to hit — no movement or range penalties. If it hits, the target rolls a D6: equal to or lower than his Strength and he rips the net apart; higher and he may not move, shoot or cast spells in his next turn, though he is not otherwise affected. Either way the net is lost for that battle (it is not a one-use item and is repaired between battles)."
+      "notes": "Once per game, the net may be thrown in the shooting phase instead of the model shooting a missile weapon. Treat the net as a missile weapon in all respects with a range of 8\". Use the model's BS to determine whether the net hits or not – there are no movement or range penalties. If it hits, the target must immediately roll a D6. If the result is equal to, or lower than his Strength, he rips the net apart. If the result is higher, he may not move, shoot or cast spells in his next turn, although he is not otherwise affected. In either case the net is lost."
     },
     {
       "id": "ropeAndHook",
@@ -174,21 +174,21 @@
       "name": "Torch",
       "category": "misc",
       "cost": 2,
-      "notes": "Acts as a lantern, adding +4\" to the range at which the model may spot hidden enemies, and lasts one game. A model armed with a torch causes fear in animals (hunting dogs, riding steeds, bears, wolves) and may use it as a makeshift club at -1 to hit. Models with Regeneration cannot regenerate wounds caused by a torch during the battle."
+      "notes": "Torches act exactly as lanterns, adding +4\" to the range the model may spot hidden enemies, but has a few other special rules as well. A torch will only last one game. A model armed with a torch counts as causing fear in animals (Hunting Dogs, all riding steeds, Bears, Wolves, etc), and may use a torch as a makeshift club. When used in combat, a torch is treated as a normal club, though with a -1 to hit modifier. Any models that have a Regeneration special rule (like Trolls) will not be able to regenerate wounds caused by a torch during the battle. (Torches may also cause buildings to catch fire – see 'Let the Damned Burn', from Town Cryer 8)."
     },
     {
       "id": "chest",
       "name": "Chest",
       "category": "misc",
       "cost": 5,
-      "notes": "Cumbersome: a chest must be carried by two models, who must remain in base contact with it or it is dropped. They may not use ranged weapons or attack in combat."
+      "notes": "Cumbersome: A chest must be carried by two models. The carriers must remain in base contact with the chest or it is dropped. They may not use ranged weapons or attack in combat."
     },
     {
       "id": "smallLadder",
       "name": "Small Ladder",
       "category": "misc",
       "cost": 5,
-      "notes": "Placed on the board like a model. Requires two models (or one large model) to carry; a single model may carry it alone at half speed. Carriers may not run and may drop it at any time. Setting it up costs a quarter of their Movement. Ladders count as open ground. Any model in base contact may try to knock it over in close combat with a Strength test at -1 per model on the ladder after the first; if it passes, treat models as falling from where they were.",
+      "notes": "A ladder is placed on the board like any other model. If you have no adequate model, use a marker to represent the ladder. A Ladder requires two models, Heroes or Henchmen, (or a single large model) to carry it. However, one model can carry a ladder alone, but may then move at half speed only (quarter for large ladders). Models carrying a ladder may not run. They may drop the ladder any time they wish (e.g. when charged). A ladder may be set up in the Movement phase in base contact with any of the carriers. This requires a quarter of their Movement (half for large ladders). Note that if one of the models has a lower Movement than the other, both models are slowed down while carrying the ladder. Ladders are considered open ground and do not affect the model's movement rate (see Mordheim Rulebook). Any model in base contact with a ladder may try to knock it over in the hand-to-hand combat phase. The model must pass a Strength test with a –1 modifier for every model on the ladder after the first. If the test is successful treat the models as falling from where they were. Small ladders have a length of up to 3”, large ladders are longer than 3”.",
       "restriction": "Up to 3\" long"
     },
     {
@@ -196,7 +196,7 @@
       "name": "Victuals",
       "category": "misc",
       "cost": 8,
-      "notes": "May be used after a battle. If the warband sells Treasures, it counts as one size category lower (a warband of 10-12 counts as 7-9). Any number may be used, but the warband can never count as lower than 1-3 models.",
+      "notes": "Fire: Victuals may be used after a battle. If the warband sells Treasures, the warband is considered to be one size lower (so a warband with 10-12 members is considered to be comprised of 7-9 members instead). A warband may use as many victuals as they wish, but note that the warband size cannot be considered lower than 1-3 models.",
       "henchmenAllowed": true
     },
     {
@@ -204,7 +204,7 @@
       "name": "Winter Furs",
       "category": "misc",
       "cost": 5,
-      "notes": "Gloves, snow shoes and pelts. The wearer is immune to the Deep Snow and Chilling Cold special rules from Bitter Cold weather. If the pelts become soaked with water they are useless for the rest of the battle. Like Rain Coats, this item may be used by Henchmen.",
+      "notes": "If the pelt clothing becomes soaked with water, it is useless for the rest of the battle. Note that like Rain Coats, this item may be used by Henchmen also.",
       "restriction": "Not available to Beastmen",
       "henchmenAllowed": true
     },
@@ -213,7 +213,7 @@
       "name": "Rain Coat",
       "category": "misc",
       "cost": 10,
-      "notes": "Protects the wearer, and especially his equipment, from becoming soaked. Note that this item is an exception to the normal rules, as it is available to Henchmen.",
+      "notes": "Note that this miscellaneous item is an exception to the normal rules as it is available to Henchmen.",
       "henchmenAllowed": true
     },
     {
@@ -221,14 +221,14 @@
       "name": "Bota Bag",
       "category": "misc",
       "cost": 5,
-      "notes": "Like a wine skin, it allows the owner to carry one more water unit than normal. Each character may only take one Bota Bag."
+      "notes": "Like a wine skin it allows the owner to carry one more water unit than normal. Each character may only take one Bota Bag."
     },
     {
       "id": "wolfcloak",
       "name": "Wolfcloak",
       "category": "misc",
       "cost": 10,
-      "notes": "To acquire a Wolfcloak a Hero pays 10 gc and must roll equal to or under his Strength on a D6; if successful he slays the wolf and wears its cloak. Middenheimers may buy Wolfcloaks when starting their warband without testing for availability. A model wearing a Wolfcloak gains +1 to armour saves against all shooting attacks.",
+      "notes": "To acquire a Wolfcloak, a Hero must pay 10 gc (to represent the expense of traveling to Middenheim and taking part in a hunt). In addition, the Hero must roll equal to or under his Strength on a D6. If successful, the Hero finds and slays the wolf and can wear its cloak as a mark of his skill and prowess. Note that Middenheimers may buy Wolfcloaks when starting their warband without making a test for availability. A model wearing a Wolfcloak will gain +1 to his armour saves against all shooting attacks.",
       "restriction": "Middenheimers, Norse Explorers and Marauders of Chaos only",
       "warbandIds": [
         "middenheimers"
@@ -239,7 +239,7 @@
       "name": "Hook Hand",
       "category": "misc",
       "cost": 4,
-      "notes": "The wearer cannot use two-handed weapons but always counts as having a close combat weapon in that hand, striking as a dagger. A new pirate may start with a Hook Hand. Further Hand Injuries or Arm Wounds are ignored on a 4+.",
+      "notes": "The wearer of the stylish new device cannot use any two-handed weapons, but will always count as having a close combat weapon in that hand. The hook strikes in close combat in the same manner as a dagger. A new pirate joining the warband, either during initial warband creation or as a new hire, may also start out with a Hook Hand. If the wearer gets a Hand Injury or Arm Wound in further battles, these can be ignored on a roll of 4+ as the hit was taken by the Hook Hand instead.",
       "restriction": "Pirates only",
       "warbandIds": [
         "pirates"
@@ -250,7 +250,7 @@
       "name": "Peg Leg",
       "category": "misc",
       "cost": 8,
-      "notes": "Reduces Movement (and maximum Movement) by -1, but grants an unmodified 6+ special save usable whenever another save fails, even if no save is normally allowed. Further Leg Wounds or Smashed Legs are ignored on a 4+.",
+      "notes": "This will reduce his Movement (and maximum possible Movement characteristic) by -1, but offers a chance that stray hits will strike the leg instead. This gives him a special saving throw of 6+, which can be taken whenever he fails any other saving throws allowed against any wounding shooting or hand-to-hand hits. This save is not modified, and can be used even if no saving throw is normally allowed. A new pirate joining the warband, either during initial warband creation or as a new hire, may also start out with a Peg Leg. If the wearer gets a Leg Wound or Smashed Leg in further battles, these can be ignored on a roll of 4+ as the hit was taken by the Peg Leg instead.",
       "restriction": "Pirates only, one per model",
       "warbandIds": [
         "pirates"
@@ -261,7 +261,7 @@
       "name": "Hardtack Biscuits",
       "category": "misc",
       "cost": 5,
-      "notes": "At the start of one of his turns, if not in hand-to-hand combat, the pirate may eat some. Toughness is temporarily +1 for that turn and the following enemy turn. Roll a D6 afterwards: on a 1 the biscuits were tainted and he must miss the next game.",
+      "notes": "At the start of any one of his turns the pirate may pop some in his mouth as long as he is not already in hand-to-hand combat. His Toughness is temporarily increased by +1 for the duration of that turn and the following enemy turn, with the effects generally wearing off afterwards. Roll a D6 after that turn; on a 1 his biscuits were tainted and filled with maggots (yuck!). Make a note of his name – the pirate must miss the next game as he recovers (and thumps the cook a few times to boot!). If the Pirate winds up missing a game because of other effects, the losses will add together and he will miss the next two games.",
       "restriction": "Pirates only",
       "warbandIds": [
         "pirates"
@@ -272,7 +272,7 @@
       "name": "Poisoned Weapon",
       "category": "misc",
       "cost": 25,
-      "notes": "Once bought, the poison is applied to one weapon and may not be traded or sold. That weapon adds +1 to any injury rolls from then on.",
+      "notes": "Once this poison is bought, it is applied to one weapon, and may not be traded or sold later on. The weapon in question, once poisoned, adds +1 to any injury rolls from then on.",
       "restriction": "Forest Goblins only",
       "warbandIds": [
         "forest-goblins"
@@ -283,7 +283,7 @@
       "name": "Reptile Venom",
       "category": "misc",
       "cost": 5,
-      "notes": "Skink Henchmen may buy low-strength Reptile Venom for their missile weapons. Adds +1 to the Strength of the weapon but does not grant the -1 save modifier. Lasts one battle. Remember that all Henchmen in a group must be armed in the same manner.",
+      "notes": "Skink henchmen may buy low-strength Reptile Venom for their missile weapons at a cost of 5 pts per weapon. This poison is a common item. This adds +1 to the Strength of the weapon but does not grant the -1 save modifier. The poison only lasts for one battle and remember that all the henchmen in a group must be armed in the same manner.",
       "restriction": "Skink Henchmen only",
       "warbandIds": [
         "lizardmen"
@@ -295,7 +295,7 @@
       "name": "Trip Wire",
       "category": "misc",
       "cost": 15,
-      "notes": "A Hero may set a trap by spending a turn doing nothing else. Place a marker in base contact. When a model, friend or foe, moves within 2\" of it, roll a D6: on 3+ the trap triggers and causes a Strength 4 hit (the Hero does not trigger his own traps). If it did not wound or did not trigger, the victim finishes his move; otherwise he is placed knocked down or stunned 2\" from the marker. The marker is removed either way.",
+      "notes": "A Hero may set a trap if he spends a turn doing nothing else (he may not set traps if he's just recovered from being knocked down). Place a marker in base contact with the Hero. When a model, friend or foe, moves within 2&quot; of the marker he risks setting off the trap – roll a D6. On a score of 3+ he has triggered the trap and suffers a S4 hit (note that the Hero won't trigger his own traps). If the trap did not wound the model or it didn't trigger, the victim may finish his move otherwise he is placed knocked down or stunned 2&quot; from the marker. The marker is removed whether the trap was triggered or not.",
       "restriction": "Horned Hunters only",
       "warbandIds": [
         "horned-hunters"
@@ -306,7 +306,7 @@
       "name": "Asp Arrows",
       "category": "misc",
       "cost": 10,
-      "notes": "Made from the mummified remains of poisonous snakes and guided by ancient magic: +1 to hit.",
+      "notes": "+1 to hit",
       "restriction": "Tomb Guardians Tomb Lord only",
       "warbandIds": [
         "tomb-guardians"
@@ -317,7 +317,7 @@
       "name": "Skeleton Chariot",
       "category": "misc",
       "cost": null,
-      "notes": "A chariot of bone pulled by two Skeleton Steeds. Moves 8\" and may not run, but may double its move when charging. Difficult ground causes D3 Strength 4 hits (2D3 Strength 6 if charging). If one steed dies the chariot is at half movement and loses impact hits; if both die it is immobile. Charging more than half its move allows impact hits: models in the path may take an Initiative test to dodge, otherwise a single Strength 4 wound with a -2 armour save. A warrior gains +1 to hit when shooting at it; roll a D6 for location (1-2 steed, 3-4 chariot, 5-6 charioteer). Requires the Drive Chariot academic skill to charge.",
+      "notes": "Chariot: S4 T4 W3. Steed: M8 WS2 BS2 S3 T3 W1 I2 A1 Ld5. Mounting: A charioteer may mount and dismount a chariot in the same way as a ridden steed. Movement: A Skeleton Chariot normally moves at 8\" and may not run. However, it may double its normal move when charging. Difficult Ground: If a chariot moves over difficult ground it suffers D3 Strength 4 hits. If the chariot is charging over difficult ground, it suffers 2D3 Strength 6 hits. Steeds: If one steed dies, the chariot is reduced to half movement but may still charge (also at half normal charge distance). However impact hits will no longer be effective. If both steeds die, the chariot is immobile and the charioteer must fight on foot. Combat: Chariots are feared for their devastating charges that make use of their horrible scythed wheels that will cut down any warriors in their path. A charioteer is allowed to charge any enemy warrior that he can see who is in the open, he is not forced to charge the closest warrior. If the chariot moves more than half its normal move, it may make impact bits. Anyone directly in the path of a charging chariot is permitted an Initiative test to dodge out of the way and avoid being hit. The charioteer must roll to hit as normal, a successful hit causing a single wound at Strength 4 with a -2 armour save. At the end of the charge move, the charioteer may fight any enemy models in base contact, as if he had charged normally. In combat, enemy warriors in contact may elect to strike the chariot or its driver. If hitting the chariot, the attacker must still make a to hit roll against the charioteer. If in base contact with only a Skeletal Steed, then only the steed can be hit. Shooting: A chariot is a large target and a warrior gains +1 to hit when shooting at a chariot. If the chariot is hit, roll a D6 to see where it is hit: 1-2 steed, 3-4 chariot, 5-6 charioteer.",
       "restriction": "Tomb Guardians only (200 + 10D6 gc)",
       "warbandIds": [
         "tomb-guardians"
@@ -328,7 +328,7 @@
       "name": "Trade Wagon",
       "category": "misc",
       "cost": 180,
-      "notes": "Follows the Wagon rules (Empire in Flames p.30-33); the cost includes two draft horses and one model must drive it. All the warband's stored equipment and treasures are kept inside — if it is destroyed they are lost. For every five different rare items stored inside, the Merchant gets +1 to rolls for finding rare items. If the warband routs with no driver, the wagon falls to the winner.",
+      "notes": "Cart: T8 W4. Wheel: T6 W1. Draft Horse: M8 WS1 BS0 S3 T3 W1 I3 A0 Ld5. Wagon: The Trade Wagon is a wagon and so follows all rules for Wagons (see Empire in Flames Supplement, p. 30–33). The cost of the Trade Wagon includes two draft horses. Remember that one model from the warband needs to act as the wagon driver. Storage: All the warband's stored equipment and treasures are stored inside the Trade Wagon. Note that this does not include the warband's gold crowns. If the Trade Wagon is destroyed, all the warband's stored equipment and treasures are lost. Until a new Trade Wagon (or Stage Coach, if the player wishes) is bought, equipment cannot be stored. Any treasures gained after a battle are lost if they are not sold before the next game. Reputation: For every five different rare items stored inside the Trade Wagon, the Merchant gets +1 to his rolls for finding rare items. Abandoned: If the warband fails its Rout test and no model is driving the Trade Wagon, then it is abandoned. The wagon falls into the winning warband's hands. They may choose to steal the contents, to keep the wagon for themselves if allowed to (treat as Wagon or Stage Coach), or agree to cut a deal (using the ransom rules in Captured from the Serious Injuries chart on page 119 of the Mordheim rulebook) with the Merchant. A warband capturing a Wagon from a Merchant Caravan may not search for rare items following the battle unless every model from the Merchant's warband was taken out of action, as word of it spreads and they are avoided by the fearful local traders.",
       "restriction": "Merchant Caravans only",
       "warbandIds": [
         "merchant-caravans"
@@ -342,7 +342,7 @@
       "category": "melee",
       "rarity": 11,
       "priceRange": "4x base weapon price",
-      "notes": ""
+      "notes": "Gromril: A gromril weapon has an extra -1 save modifier, and costs four times the price of a normal weapon of its kind. You may choose which type of hand-to-hand weapon is offered to you as explained in the Trading section."
     },
     {
       "id": "ithilmarWeapon",
@@ -350,7 +350,7 @@
       "category": "melee",
       "rarity": 9,
       "priceRange": "3x base weapon price",
-      "notes": ""
+      "notes": "Ithilmar: An ithilmar weapon gives its user +1 Initiative in hand-to-hand combat, and costs three times the price of a normal weapon of its kind. You may choose which hand-to-hand weapon is offered to you as explained in the Trading section."
     },
     {
       "id": "lance",
@@ -358,7 +358,7 @@
       "category": "melee",
       "rarity": 8,
       "priceRange": "40 gc",
-      "notes": ""
+      "notes": "Strength As user +2 when charging on horseback. Cavalry weapon: A warrior must own a warhorse to use a lance, as it can only be used whilst he is on horseback. Cavalry bonus: If using optional rules for mounted models, a warrior armed with a lance receives a +2 Strength bonus when he charges. This bonus only applies for that turn."
     },
     {
       "id": "blunderbuss",
@@ -366,7 +366,7 @@
       "category": "missile",
       "rarity": 9,
       "priceRange": "30 gc",
-      "notes": ""
+      "notes": "Range Special. Strength 3. Shot: When your model fires the blunderbuss, draw a line 16&quot; long and 1&quot; wide in any direction from the firer (the line must be absolutely straight). Any and all models in its path are automatically hit by a Strength 3 hit. Fire Once: It takes a very long time to load a blunderbuss so it may only be fired it once per battle."
     },
     {
       "id": "crossbowPistol",
@@ -374,7 +374,7 @@
       "category": "missile",
       "rarity": 9,
       "priceRange": "35 gc",
-      "notes": ""
+      "notes": "Range 10\". Strength 4. Shoot In Hand-To-Hand Combat: A model armed with a crossbow pistol may shoot it in the first round of a hand-to-hand combat and this shot is always resolved first, before any blows are struck. This shot has an extra -2 to hit penalty. Use model's Ballistic Skill to see whether it hits or not. This bonus attack is in addition to any close combat weapon attacks. Hand-To-Hand: Pistols can be used in hand-to-hand combat as well as for shooting. A model armed with a pistol and another close combat weapon gains +1 Attack, which is resolved at Strength 4. This bonus attack can be used only once per combat. If you are firing a brace of pistols, your model can fight with 2 Attacks in the first turn of close combat. These attacks are resolved with a model's Weapon Skill like any normal close combat attack and likewise may be parried. Successful hits are resolved at Strength 4, regardless of the firer's Strength."
     },
     {
       "id": "duellingPistol",
@@ -382,7 +382,7 @@
       "category": "missile",
       "rarity": 10,
       "priceRange": "30 gc (60 gc for a brace)",
-      "notes": ""
+      "notes": "Range 10\". Strength 4. Accuracy: A duelling pistol is built for accuracy as a skilled duellist is able to hit a coin from twenty paces. All shots and close combat attacks from a duelling pistol have a +1 bonus to hit. Prepare shot: A duelling pistol takes a complete turn to reload, so your model may only fire every other turn. If he has a brace of duelling pistols he may fire every turn. Save modifier: Duelling pistols are even better at penetrating armour than their Strength 4 suggests. A warrior wounded by a duelling pistol must make his armour save with a -2 modifier. Hand-to-hand: Duelling pistols can be used in hand-to-hand combat as well as for shooting. A model armed with a duelling pistol and another close combat weapon gains +1 Attack, which is resolved at Strength 4 with a -2 save modifier. This bonus attack can be used only once per combat. If you are firing a brace of duelling pistols, your model can fight with 2 Attacks in the first turn of close combat. These attacks are resolved with a model's Weapon Skill like any normal close combat attack and likewise may be parried. Successful hits are resolved at Strength 4 and with a -2 save modifier, regardless of the firer's Strength."
     },
     {
       "id": "elfBow",
@@ -390,7 +390,7 @@
       "category": "missile",
       "rarity": 12,
       "priceRange": "35 + 3D6 gc",
-      "notes": ""
+      "notes": "Range 36\". Strength 3. Save Modifier: An Elf bow has a -1 save modifier on armour saves against it."
     },
     {
       "id": "handgun",
@@ -398,7 +398,7 @@
       "category": "missile",
       "rarity": 8,
       "priceRange": "35 gc",
-      "notes": ""
+      "notes": "Range 24\". Strength 4. Prepare shot: A handgun takes a complete turn to reload, so you may only fire it every other turn. Move or fire: You may not move and fire a handgun in the same turn, other than to pivot on the spot to face your target or stand up. Save Modifier: Handguns are even better at penetrating armour than their Strength 4 suggests. A warrior wounded by a handgun must take its armour save with a -2 modifier."
     },
     {
       "id": "huntingRifle",
@@ -406,7 +406,7 @@
       "category": "missile",
       "rarity": 11,
       "priceRange": "200 gc",
-      "notes": ""
+      "notes": "Range 48\". Strength 4. Move or fire: You may not move and fire a Hochland long rifle in the same turn, other than to pivot on the spot to face your target or stand up from knocked down. Prepare shot: A Hochland long rifle takes a complete turn to reload, so you may only fire it every other turn. Pick target: A model armed with a Hochland long rifle can target any enemy model in sight, not just the closest one. Save modifier: Hochland long rifles are even better at penetrating armour than their Strength 4 suggests. A warrior wounded by a long rifle must make his armour save with a -2 modifier."
     },
     {
       "id": "pistol",
@@ -414,7 +414,7 @@
       "category": "missile",
       "rarity": 8,
       "priceRange": "15 gc (30 gc for a brace)",
-      "notes": ""
+      "notes": "Range 6\". Strength 4. Prepare shot: A pistol takes a whole turn to reload, so you may only fire every other turn. If you have a brace of pistols (ie, two) you may fire every turn. Save modifier: Pistols are even better at penetrating armour than their Strength 4 suggests. A warrior wounded by a pistol must make his armour save with a -2 modifier. Hand-to-hand: Pistols can be used in hand-to-hand combat as well as for shooting. A model armed with a pistol and another close combat weapon gains +1 Attack, which is resolved at Strength 4 with a -2 save modifier. This bonus attack can be used only once per combat. If you are firing a brace of pistols, your model can fight with 2 Attacks in the first turn of close combat. These attacks are resolved with a model's Weapon Skill like any normal close combat attack and likewise may be parried. Successful hits are resolved at Strength 4 and with a -2 save modifier, regardless of the firer's Strength."
     },
     {
       "id": "repeaterCrossbow",
@@ -422,7 +422,7 @@
       "category": "missile",
       "rarity": 8,
       "priceRange": "40 gc",
-      "notes": ""
+      "notes": "Range 24\". Strength 3. Fire twice: A model armed with a repeater crossbow may choose to fire twice per turn with an extra -1 to hit penalty on both shots."
     },
     {
       "id": "throwingKnivesStars",
@@ -430,7 +430,7 @@
       "category": "missile",
       "rarity": 5,
       "priceRange": "15 gc",
-      "notes": ""
+      "notes": "Range 6\". Strength As user. Thrown Weapon: Models using throwing stars or knives do not suffer penalties for range or moving as these weapons are perfectly balanced for throwing. They cannot be used in close combat."
     },
     {
       "id": "barding",
@@ -438,7 +438,7 @@
       "category": "armour",
       "rarity": 8,
       "priceRange": "80 gc",
-      "notes": "Horse armour; +1 armour save, -1 Movement. Only a warhorse may wear barding."
+      "notes": "Save +1 to existing save. Movement Penalty: Armour, called barding, may be purchased for a warhorse. It adds a further +1 bonus to the model's armour save, but subtracts one from its Movement. A normal horse may not wear barding. Durability: A barded warhorse is only killed on a serious injury roll of ‘1' if the model goes out of action."
     },
     {
       "id": "gromrilArmour",
@@ -446,7 +446,7 @@
       "category": "armour",
       "rarity": 11,
       "priceRange": "150 gc",
-      "notes": ""
+      "notes": "Save 4+. Movement Penalty: Gromril armour gives the wearer a 4+ basic save, and does not slow him down if he is also armed with a shield."
     },
     {
       "id": "ithilmarArmour",
@@ -454,7 +454,7 @@
       "category": "armour",
       "rarity": 11,
       "priceRange": "90 gc",
-      "notes": ""
+      "notes": "Save 5+. Movement Penalty: Ithilmar armour gives the wearer a 5+ basic save, and does not slow him down if he is also armed with a shield."
     },
     {
       "id": "blackLotus",
@@ -462,7 +462,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "10 + D6 gc",
-      "notes": "Not available to Witch Hunters, Warrior-Priests or Sisters of Sigmar. Rare 7 for Skaven."
+      "notes": "A weapon coated with the sap of the Black Lotus will wound its target automatically if you roll a 6 to hit. Note that you can still roll a dice for every wound inflicted in this way. If you roll a 6, you will inflict a critical hit with that roll. If you do not roll a 6, you will cause a normal wound. Take armour saves as normal."
     },
     {
       "id": "blessedWater",
@@ -470,7 +470,7 @@
       "category": "misc",
       "rarity": 6,
       "priceRange": "10 + 3D6 gc",
-      "notes": "Common for Warrior-Priests and Sisters of Sigmar. May not be bought by Undead."
+      "notes": "A vial of blessed water contains enough liquid for just one use, and has a thrown range of twice the thrower's Strength in inches. Roll to hit using the model's BS. No modifiers for range or moving apply. Blessed water causes 1 wound on Undead, Daemon or Possessed models automatically. There is no armour save. Undead or Possessed models may not use blessed water."
     },
     {
       "id": "bugmansAle",
@@ -478,7 +478,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "50 + 3D6 gc",
-      "notes": "A warband that drinks a barrel of Bugman's before a battle is immune to fear for the whole battle. Elves may not drink it — they are far too delicate to cope with its effects. There is only enough ale for one battle."
+      "notes": "A warband that drinks a barrel of Bugman's before a battle will be immune to fear for the whole of the battle. Elves may not drink Bugman's ale as they are far too delicate to cope with its effects. There is only enough ale to supply the warband for one battle."
     },
     {
       "id": "cathayanSilkClothes",
@@ -486,7 +486,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "50 + 2D6 gc",
-      "notes": "Any Mercenary warband whose leader wears silk clothes may re-roll the first failed Rout test. After each battle in which the leader is taken out of action, roll a D6: on a 1-3 the clothes are ruined and must be discarded."
+      "notes": "Any Mercenary warband whose leader is wearing silk clothes may re-roll the first failed Rout test. However, after each battle in which the leader is taken out of action, roll a D6. On a roll of 1-3 the clothes are ruined and must be discarded."
     },
     {
       "id": "crimsonShade",
@@ -494,7 +494,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "35 + D6 gc",
-      "notes": "Effect: Initiative increased by +D3, and Movement and Strength by +1, for one game. No effect on Undead such as Vampires and Zombies, or on the Possessed.\n\nSide effects: after the battle roll 2D6. On a 2-3 the model becomes addicted and you must buy him a new batch before every battle from now on, or he leaves the warband. On a 12 his Initiative increases permanently by +1."
+      "notes": "Effect: A model using Crimson Shade has his Initiative increased by +D3 points, and Movement and Strength by +1 (this effect lasts for one game). Crimson Shade has no effect on Undead such as Vampires and Zombies, or the Possessed. Side effects: After the battle, roll 2D6. On a roll of 2-3, the model becomes addicted and you must try to buy him a new batch of Crimson Shade before every battle from now on. If you fail to buy any, he will leave your warband. On a roll of 12 the model's Initiative is increased permanently by +1."
     },
     {
       "id": "darkVenom",
@@ -502,7 +502,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "30 + 2D6 gc",
-      "notes": "Not available to Witch Hunters, Warrior-Priests, or Sisters of Sigmar."
+      "notes": "Any hit caused by a weapon coated with Dark Venom counts as having +1 Strength, so, for example, if a warrior with Strength 3 wielding a poisoned sword hits an opponent, he will cause a Strength 4 hit instead. Armour saving throws are modified to take into account the increased Strength of the attack."
     },
     {
       "id": "elvenCloak",
@@ -518,7 +518,7 @@
       "category": "misc",
       "rarity": 7,
       "priceRange": "30 + 3D6 gc",
-      "notes": "The maximum number of warriors allowed in your warband is increased by +1. Neither an Undead warband nor a Carnival of Chaos warband can use this item."
+      "notes": "The maximum number of warriors allowed in your warband is increased by +1 (note that neither an Undead warband nor a Carnival of Chaos warband can use this item)."
     },
     {
       "id": "healingHerbs",
@@ -526,7 +526,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "20 + 2D6 gc",
-      "notes": "A Hero with healing herbs can use them at the beginning of any of his recovery phases, as long as he is not engaged in hand-to-hand combat. This restores all wounds he has lost during the game.\n\nNote: the rules as written place no limit on uses. Tuomas Pirinen has said this was an oversight and they were meant to sit under Poisons and Drugs as a one-use item — agree with your group which you play."
+      "notes": "A Hero with healing herbs can use them at the beginning of any of his recovery phases as long as he is not engaged in hand-to-hand combat. This restores all wounds he has previously lost during the game."
     },
     {
       "id": "holyUnholyRelic",
@@ -534,7 +534,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "15 + 3D6 gc",
-      "notes": "Rare 6 for Warrior-Priests and Sisters of Sigmar."
+      "notes": "A model with a holy relic will automatically pass the first Leadership test he is required to make in the game. If worn by the leader, it will allow him to automatically pass the first Rout test if he has not taken any Leadership tests before. You can only ignore the first Leadership test in any single game – owning two or more holy relics will not allow you to ignore second and subsequent tests."
     },
     {
       "id": "holyTome",
@@ -542,7 +542,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "100 + D6x10 gc",
-      "notes": "Only available to Warrior-Priests and Sisters of Sigmar."
+      "notes": "A Warrior Priest or Sister of Sigmar with a holy tome can add +1 to the score when determining whether he (or she) can recite a spell successfully or not."
     },
     {
       "id": "horse",
@@ -566,7 +566,7 @@
       "category": "misc",
       "rarity": 6,
       "priceRange": "10 gc",
-      "notes": "The first time a model with a lucky charm is hit in a battle, roll a D6. On a 4+ the hit is discarded and no damage is suffered. Owning two or more charms confers no extra benefit — the model may still only try to discard the first hit."
+      "notes": "The first time a model with a lucky charm is hit in a battle they roll a D6. On a 4+ the hit is discarded and no damage is suffered. Owning two or more charms does not confer any extra benefits, the model may still only try to discard the first hit."
     },
     {
       "id": "madCapMushrooms",
@@ -574,7 +574,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "30 + 3D6 gc",
-      "notes": "Effect: any warrior who takes Mad Cap Mushrooms before a battle is subject to frenzy. No effect on Undead such as Vampires and Zombies, or on the Possessed.\n\nSide effect: after the battle roll a D6. On a 1 the model becomes permanently stupid."
+      "notes": "Effect: Any warrior who takes Mad Cap Mushrooms before a battle will be subject to frenzy. The Mad Cap Mushroom has no effect on Undead such as Vampires and Zombies, or the Possessed. Side effect: After the battle, roll a D6. On a roll of a 1 the model becomes permanently stupid."
     },
     {
       "id": "mandrakeRoot",
@@ -582,7 +582,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "25 + D6 gc",
-      "notes": "Effect: Toughness increased by +1 for the duration of a battle, and the model treats all stunned results as knocked down instead. No effect on Undead such as Vampires and Zombies, or on the Possessed.\n\nSide effects: at the end of the battle roll 2D6. On a 2-3 the model loses 1 point of Toughness permanently."
+      "notes": "Effect: Mandrake Root makes a man almost oblivious to pain. His Toughness is increased by +1 for the duration of a battle and he treats all stunned results as knocked down instead. Mandrake Root has no effect on Undead, such as Vampires and Zombies, or on the Possessed. Side effects: Mandrake Root is highly poisonous. At the end of the battle, roll 2D6. On a roll of 2-3 the model loses 1 point of Toughness permanently."
     },
     {
       "id": "mordheimMap",
@@ -590,7 +590,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "20 + 4D6 gc",
-      "notes": "A map can help a warband find its way into areas with rich buildings to loot. When you buy a map, roll a D6:\n\n1 — Fake. Worthless; your opponent may automatically choose the next scenario you play.\n2-3 — Vague. Re-roll any one dice during the next exploration phase; you must accept the second roll.\n4 — Catacomb map. You may automatically choose the scenario next time you fight a battle.\n5 — Accurate. Re-roll up to three dice during the next exploration phase; you must accept the second rolls.\n6 — Master map. From now on you may always re-roll one dice on the Exploration chart, as long as the Hero who possesses the map was not taken out of action in the battle."
+      "notes": "A map can help a warband find their way through the confusing maze of streets and into areas with rich buildings to loot. When you buy a map, roll a D6: D6Result1Fake. The map is a fake, and is completely worthless. It leads you on a fool's errand. Your opponent may automatically choose the next scenario you play.2-3Vague. Though crude, the map is generally accurate (well... parts of it are... perhaps!). You may re-roll any one dice during the next exploration phase if you wish but you must accept the result of the second roll.4Catacomb map. The map shows a way through the catacombs into the city. You may automatically choose the scenario next time you fight a battle.5Accurate. The map is recently made and very detailed. You may re-roll up to three dice during the next exploration phase if you wish. You must accept the result of the second roll.6Master map. This is one of the twelve master maps of Mordheim made for Count von Steinhardt of Ostermark. From now on you may always re-roll one dice when rolling on the Exploration chart as long as the Hero who possesses this map was not taken out of action in the battle."
     },
     {
       "id": "superiorBlackpowder",
@@ -598,7 +598,7 @@
       "category": "misc",
       "rarity": 11,
       "priceRange": "30 gc",
-      "notes": "Adds +1 Strength to all blackpowder weapons the model has. There is enough superior blackpowder to last for one game."
+      "notes": "This new batch adds +1 Strength to all blackpowder weapons that the model has. There is enough superior blackpowder to last for one game."
     },
     {
       "id": "tearsOfShallaya",
@@ -606,7 +606,7 @@
       "category": "misc",
       "rarity": 7,
       "priceRange": "10 + 2D6 gc",
-      "notes": "Not available to Possessed or Undead."
+      "notes": "A model who drinks a vial of the Tears of Shallaya at the beginning of a battle will be completely immune to all poisons for the duration of combat. Undead and Possessed warriors may not use the Tears of Shallaya. There is enough liquid in a vial of the Tears of Shallaya to last for the duration of one battle."
     },
     {
       "id": "tomeOfMagic",
@@ -614,7 +614,7 @@
       "category": "misc",
       "rarity": 12,
       "priceRange": "200 + D6x25 gc",
-      "notes": "Not available to Witch Hunters or Sisters of Sigmar."
+      "notes": "If a warband includes a wizard, he will gain an extra spell from the tome, permanently. He may randomly generate this new spell from his own list or the Lesser Magic list. See the Magic section for details. The benefits from each Tome of Magic apply to only one model."
     },
     {
       "id": "warhorse",
@@ -622,7 +622,7 @@
       "category": "misc",
       "rarity": 11,
       "priceRange": "80 gc",
-      "notes": "Only available to Humans."
+      "notes": "Warhorse: M8 WS3 BS0 S3 T3 W1 I3 A1 Ld5. Battle Schooled: The mount has been specially trained to fight on a battlefield. The rider may re‑roll any failed loss of control tests. Only one re‑roll is allowed per test."
     },
     {
       "id": "wardog",
@@ -630,7 +630,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "25 + 2D6 gc",
-      "notes": "Not available to Skaven."
+      "notes": "Wardog: M6 WS4 BS0 S4 T3 W1 I4 A1 Ld5. If you purchase a wardog, it will fight exactly like a member of your warband, though it is treated as part of the equipment of the Hero who bought it. You will need a model to represent it on a battlefield. Wardogs never gain experience, and if they are put out of action they have exactly the same chance of recovering as Henchmen (ie, 1-2: Dead; 3-6: Alive). Wardogs count towards the maximum number of warriors allowed in your warband."
     },
     {
       "id": "rabbitsFoot",
@@ -638,7 +638,7 @@
       "category": "misc",
       "rarity": 5,
       "priceRange": "10 gc",
-      "notes": "Allows the wearer to re-roll one dice during the battle. If not used in the battle, it may instead re-roll one dice during the exploration phase, provided the Hero is able to search the ruins."
+      "notes": "A rabbit's foot allows the warrior wearing it to reroll one dice during the battle. If not used in the battle it can be used to reroll one dice during the exploration phase providing the hero is able to search through the ruins."
     },
     {
       "id": "banner",
@@ -646,7 +646,7 @@
       "category": "misc",
       "rarity": 5,
       "priceRange": "10 gc",
-      "notes": "Requires one hand to use and may be carried by any Hero. Friendly warriors within 12\" of the bearer may re-roll any failed 'All Alone' test — but you may never re-roll a re-roll."
+      "notes": "A banner requires one hand to use and can be carried by any Hero in the warband. Friendly warriors within 12\" of the banner bearer may re-roll any failed 'All Alone' test; but remember, you can't re-roll a failed re-roll."
     },
     {
       "id": "caltrops",
@@ -654,7 +654,7 @@
       "category": "misc",
       "rarity": 6,
       "priceRange": "15 + 2D6 gc",
-      "notes": "One use only. May be thrown when an opponent declares a charge: the defender throws them into the attacker's path, reducing his charge range by D6\". If he can no longer reach his target the charge fails."
+      "notes": "There are enough caltrops to last for one use only. They may be used when an opponent decides to charge. The defender simply throws the caltrops into the path of his attacker and they reduce his charge range by D6 inches. If this means that the attacker cannot reach his target then it is a failed charge."
     },
     {
       "id": "lockPicks",
@@ -662,7 +662,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "15 gc",
-      "notes": "A model with lock picks may test to open doors on his Initiative rather than Strength, at the end of his Movement phase. There is no -1 modifier and no chance the door is too damaged to be locked again later."
+      "notes": "A model equipped with a set of lock picks may make his test to open doors on his Initiative rather than his Strength characteristic if he wishes. This is done at the end of his Movement phase as if the model were ripping the door off its hinges, though he uses his Initiative rather than Strength, there is no -1 modifier, and there is no chance that the door is too damaged to be locked again later."
     },
     {
       "id": "warHorn",
@@ -670,7 +670,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "30 + 2D6 gc",
-      "notes": "May be used once per battle at the beginning of any turn, increasing the warband's Leadership by +1 until the start of the next turn. It can be used just before taking a Rout test."
+      "notes": "A war horn may be used once per battle at the beginning of any turn. It allows the warband to increase its Leadership by +1. The effect will last from the start of one turn to the start of the next. The war horn can be used just before a warband is about to take a rout test."
     },
     {
       "id": "tarotCards",
@@ -678,7 +678,7 @@
       "category": "misc",
       "rarity": 7,
       "priceRange": "50 gc",
-      "notes": "A Hero may consult the cards before each game and make a Leadership test. If it passes, you may modify the result of any one dice in the Exploration phase by -1/+1, even if that Hero is taken out of action. If the test is failed by three or more, the Hero refuses to fight and must miss the next game.",
+      "notes": "A Hero with a deck of tarot cards may consult them before each game. Make a Leadership test. If successful, the Hero gains a favorable insight into the future and you may modify the result of any one dice in the Exploration phase by -1/+1 (even if the Hero with the cards is taken Out Of Action). If the Leadership test is failed by three or more (i.e., a Hero with Ld of 8 rolls 11 or 12) the cards show a portent of doom and despair and the Hero refuses to fight in the following battle and must miss the next game.",
       "restriction": "Not available to Witch Hunters or Sisters of Sigmar"
     },
     {
@@ -687,7 +687,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "30 + 1D6 gc",
-      "notes": "If you hit with a fire arrow, roll a D6: on 4+ the target is set on fire. He must roll 4+ in the recovery phase to put himself out, or suffer a Strength 4 hit and be unable to do anything but move. Allies in base contact may help on a 4+. Lasts one battle."
+      "notes": "If you hit with a fire arrow roll a D6. If you score a 4+ your opponent has been set on fire. They must roll a D6 in the recovery phase and score a 4+ to put themselves out or they will suffer a strength 4 hit and will be unable to do anything other than move for each turn they are on fire. Allies may also attempt to put the warrior out. They must be in base contact and need a 4+ to be successful. The fire arrows last for one battle only."
     },
     {
       "id": "fireBomb",
@@ -695,7 +695,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "35 + 2D6 gc",
-      "notes": "Thrown in the shooting phase like blessed water. On target, the warrior hit takes D3 Strength 4 hits with no armour saves, and all warriors within 1\" take one Strength 3 hit with saves as normal. If the thrower rolls a 1 to hit, the bomb misfires and explodes as though he had been hit by it himself."
+      "notes": "The fire bomb may be thrown in the shooting phase in the same way as blessed water (see p53 Mordheim rule book). If the bomb lands on target the warrior hit takes D3 Strength 4 hits with no saves for armour and all warriors, friend or foe, within 1 inch of him take 1 Strength 3 hit with saves as normal. If the throwing warrior rolls a 1 when rolling to hit the bomb misfires and explodes just as if the throwing warrior had been hit by his own fire bomb!"
     },
     {
       "id": "flashPowder",
@@ -703,7 +703,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "25 + 2D6 gc",
-      "notes": "May be thrown as an enemy charges the wielder. The charger must pass an immediate Initiative test to cover his eyes; if he fails he is temporarily blinded and the charge fails. One use per battle."
+      "notes": "Flash powder can be thrown as an enemy charges the wielder (as an interrupt). The charger must take an immediate Initiative test in order to cover their eyes. If he fails, he is temporarily blinded and it counts as a failed charge. There is only enough flash powder for one use during the battle."
     },
     {
       "id": "firecrackers",
@@ -711,7 +711,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "20 gc",
-      "notes": "If an animal or mounted warrior charges the model while it is not in combat, knocked down or stunned, it may pass an Initiative test to use the firecrackers; the animal must then pass a Ld test (animals may not use the leader's Ld, mounts may not use the rider's) or the charge fails and mounted warriors roll on the Whoa Boy! table. May also be thrown up to 8\" in the shooting phase: all mounts or animals within 3\" test as above. Enough for one game."
+      "notes": "If an animal or mounted warrior tries to charge the model, while it is not in combat, knocked down or stunned, it may pass an Initiative test in order to use the firecrackers. If it succeeds the animal must pass an Ld test (animals may not use the Ld of the warband's leader and mounts may not use the Ld of its rider). If it fails the test, the charge has failed and mounted warriors have to roll on the Whoa Boy! table. If the mount has the battle schooled special rule, the rider may re-roll the result of the Whoa Boy! table once. The model can also throw the firecrackers in the shooting phase. It may throw them at any point in 8” distance. All Mounts or Animals in 3” around the detonation spot have to take a Ld test. If it fails, mounts have to roll on the Whoa Boy! table, and animals flee as if they failed an all alone test. There are enough firecrackers to last for one game."
     },
     {
       "id": "smokeBomb",
@@ -719,7 +719,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "30 + 2D6 gc",
-      "notes": "Thrown at the beginning of the Movement phase at any point within 4\", creating a 2\" radius of thick smoke lasting until the start of the model's next turn. If in close combat the thrower must pass an Initiative test or suffer one automatic hit from each enemy; the bomb detonates regardless. Models within the smoke may not attack, shoot, be attacked or shot at, or cast; models in close combat are moved 1\" apart. Models may move through it freely. If a model carrying one is knocked down, stunned or taken out of action, it detonates on a 4+."
+      "notes": "At the beginning of the Movement phase, a smoke bomb may be thrown at any point within 4\" where it creates a thick smoke of 2\" radius that lasts until the beginning of the model's next turn. If the model is in close combat, it must pass an Initiative test or suffer one automatic hit from each enemy model. After that the bomb detonates anyhow – even if the model is wounded. Models within the smoke may not attack/shoot or be attacked/shot at. Same applies to casting spells and prayers. Models engaged in close combat are immediately moved 1\" away from each other. As models cannot see through the smoke, they cannot attack through it either. However, models can move in the smoke, out of it and through it as normal. Note that the Augur of the Sisters of Sigmar is not affected by smoke bombs due to her Blessed Sight. Whenever a model carrying a smoke bomb is knocked down, stunned or out of action, the bomb detonates on a roll of 4+. Note that no extra roll is needed when a stunned model turns knocked down at the beginning of its turn."
     },
     {
       "id": "powderKeg",
@@ -727,7 +727,7 @@
       "category": "misc",
       "rarity": 7,
       "priceRange": "15 gc",
-      "notes": "Treated as a chest, except that it can be made to explode. It may be shot with blackpowder weapons, Cathayan candles, fire bombs and fire arrows, or attacked in close combat with torches and brazier irons. Hit and wound as usual (Toughness 4), then roll a D6: on 4+ it explodes; a critical hit detonates it automatically. An exploding keg causes an automatic Strength 6 hit to all models within D6+3\"."
+      "notes": "Warriors may shoot at a powder keg with blackpowder weapons, Cathayan candles, fire bombs and fire arrows and they may attack the keg in close combat using torches and brazier irons. Of course, they may also use all similar weapons and items that can ignite the powder inside. The model must hit and wound as usual (Toughness 4). Then roll a D6: on a 4+ the keg explodes (remove the keg from the game). If the model rolled a critical hit the keg automatically explodes. An exploding powder keg causes an automatic Strength 6 hit to all models within a range of D6+3”. When playing the Horrors of the Underground scenario, roll another D6: on a 4+ the explosion caused the tunnel to cave in. Place a marker at the powder keg's previous position as described in the Tunnel collapse event."
     },
     {
       "id": "wheelbarrow",
@@ -735,7 +735,7 @@
       "category": "misc",
       "rarity": 5,
       "priceRange": "5 gc",
-      "notes": "A Hero or Henchman who is neither an animal nor stupid may push a wheelbarrow while in base contact with it. Pushing does not affect movement, but the model cannot charge while pushing; it may let go at any time. It can carry one cumbersome item (chest, barrel) plus any number of smaller items.",
+      "notes": "A wheelbarrow is placed on the board like any other model. If you have no adequate model, use a marker to represent the wheelbarrow. A Hero or Henchman who is neither an animal nor stupid may push a wheelbarrow while he is in base-contact with it. Pushing a wheelbarrow does not affect the normal movement of the model. However, it cannot charge whilst pushing a wheelbarrow but it may let go of it at any time. A wheelbarrow can be used to transport cumbersome items such as chests and barrels. First, the item must be dropped on the wheelbarrow. After that, a model can push the wheelbarrow and its load. A wheelbarrow can contain no more than one cumbersome item at a time, but any number of smaller items (weapons, armour and small misc equipment).",
       "henchmenAllowed": true
     },
     {
@@ -744,7 +744,7 @@
       "category": "misc",
       "rarity": 5,
       "priceRange": "10 gc",
-      "notes": "As a small ladder, but a single carrier moves at quarter speed and setting it up costs half their Movement.",
+      "notes": "A ladder is placed on the board like any other model. If you have no adequate model, use a marker to represent the ladder. A Ladder requires two models, Heroes or Henchmen, (or a single large model) to carry it. However, one model can carry a ladder alone, but may then move at half speed only (quarter for large ladders). Models carrying a ladder may not run. They may drop the ladder any time they wish (e.g. when charged). A ladder may be set up in the Movement phase in base contact with any of the carriers. This requires a quarter of their Movement (half for large ladders). Note that if one of the models has a lower Movement than the other, both models are slowed down while carrying the ladder. Ladders are considered open ground and do not affect the model's movement rate (see Mordheim Rulebook). Any model in base contact with a ladder may try to knock it over in the hand-to-hand combat phase. The model must pass a Strength test with a –1 modifier for every model on the ladder after the first. If the test is successful treat the models as falling from where they were. Small ladders have a length of up to 3”, large ladders are longer than 3”.",
       "restriction": "Longer than 3\""
     },
     {
@@ -753,7 +753,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "20 + 3D6 gc",
-      "notes": "The wearer may make an additional kick attack in hand-to-hand combat each turn, resolved at -1 to hit."
+      "notes": "Any warrior wearing a pair of iron shod boots may make an additional kick attack in hand-to-hand combat each turn. The attack is resolved at -1 to hit."
     },
     {
       "id": "elvenBoots",
@@ -761,7 +761,7 @@
       "category": "misc",
       "rarity": 12,
       "priceRange": "75 + D6 x 10 gc",
-      "notes": "Increase the wearer's Movement characteristic by +1. This can take a warrior's Movement above its maximum."
+      "notes": "Elven boots increase the wearer's move characteristic by +1. This can take a warrior's move value above its maximum."
     },
     {
       "id": "telescope",
@@ -769,7 +769,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "75 + 3D6 gc",
-      "notes": "Any Hero using a telescope may increase the range of any missile weapon he is using by D6\" each turn, and triples the distance at which he can spot hidden enemies."
+      "notes": "Any hero using a telescope may increase the range of any missile weapon he is using by D6 inches each turn. Furthermore, he triples the distance at which he can spot hidden enemies."
     },
     {
       "id": "familiar",
@@ -777,7 +777,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "20 + 1D6 gc",
-      "notes": "The cost represents materials for the summoning ritual and is always paid if the rarity roll is attempted, whatever the result. Only spell-casters may attempt to find a familiar. A wizard with a familiar may re-roll one failed casting roll each turn; the re-roll must be accepted. Spell-users only — this does not include users of Prayers.",
+      "notes": "Familiars cannot actually be purchased as normal equipment. The cost to ‘purchase' a familiar actually represents the cost of materials to cast the ritual to summon a familiar and form a magical bond with it; the Rarity level represents the chances of the ritual actually working. As such, the cost of the familiar must always be paid if the rarity roll is attempted, regardless of the success of the roll. Also, only spell-casters can attempt to ‘find' a familiar. If a familiar is found, it should be modelled on the spellcaster as with any other piece of equipment. A familiar may be placed on a separate base (in fact many of the familiars that GW sells come this way), but if this is done the familiar must always remain in base-to-base contact with the wizard, and it is ignored for game purposes (so it may not attack enemy models or be attacked itself, may not intercept attackers, does not increase the wizard's base size, etc.), other than the effect below. A wizard with a familiar is allowed to re-roll one failed roll to cast a spell each turn. The result of this re-roll must be accepted, even if it fails, and remember that you may never reroll a re-roll. Spell-users only (does not include users of Prayers). Note that unlike many of the warband specific items, this item is equipment that any warband with a spell-user may use, if he can summon it successfully.",
       "restriction": "Spell-casters only; the cost is paid even if the rarity roll fails"
     },
     {
@@ -786,7 +786,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "25 + 3D6 gc",
-      "notes": "If he was not taken out of action, the Hero carrying the pendulum may make a Leadership test after the battle. If he passes, you may re-roll any one dice in the Exploration phase."
+      "notes": "If he was not taken out, the Hero using the Wyrdstone Pendulum may make a Leadership test after the battle. If he is successful, you may re-roll any one dice in the Exploration phase. This dice may not be re-rolled"
     },
     {
       "id": "opulentCoach",
@@ -794,7 +794,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "250 gc",
-      "notes": "The warband leader gains +3 to any rolls to locate rare items. Border Town Burning suggests treating it as a wagon with two draft horses, where the additional 70 gc over that cost buys the bonus."
+      "notes": "The opulent coach impresses even the most suspicious merchant and they will flock to offer their most exotic wares to the obviously rich warband leader. The warband leader gains +3 to any rolls to locate rare items. EXPANDED RULES Border Town Burning Since the opulent coach was written long before the rules for wagons, we suggest that it is treated as a wagon with two draft horses, where the additional 70 gold crowns (100 gc wagon + 2 x 40 gc horses = 180 gold crowns total) spent, grants the +3 bonus for finding rare items. With respect to the previous rules whereby an opulent coach must not be placed on the table, we suggest the following. The warband may choose either to leave the opulent coach at their camp or to use the coach in battles. The warband may always use the coach when visiting the merchants after the battle. Note that a merchant caravan may not buy an opulent coach to replace a destroyed trade wagon with. They must have the trade wagon to transport goods and offer their specialist services. They can always buy a stage coach, wagon or opulent coach in addition to the trade wagon. That would be sure to impress!"
     },
     {
       "id": "manticoreSpoor",
@@ -802,7 +802,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "30 + 2D6 gc",
-      "notes": "Any model wounded by a weapon smeared with Manticore Spoor rolls a D6 at the beginning of its turn: on a 1 it loses one wound, on a 6 the poison's effect ends. Multiple wounds from the same weapon do not cause more than one test per turn."
+      "notes": "Any model wounded by a weapon smeared with Manticore Spoor must roll a D6 at the beginning of its turn: On a roll of 1 the poisoned model loses one wound. On a roll of 6 the poison's effect ends and the model has to test no more. Multiple wounds caused by a weapon using Manticore Spoor do not cause the victim to test more than once per turn."
     },
     {
       "id": "spiderSpittle",
@@ -810,7 +810,7 @@
       "category": "misc",
       "rarity": 7,
       "priceRange": "30 + 1D6 gc",
-      "notes": "Any warrior hit by a weapon laced with Spider Spittle must pass an immediate Toughness test or be paralyzed. A paralyzed warrior cannot move or fight and is hit automatically in close combat, until it passes a Toughness test in its recovery phase."
+      "notes": "Any warrior hit by a weapon laced with Spider Spittle must pass an immediate Toughness test or becomes paralyzed. A paralyzed warrior cannot move or fight and is hit automatically in close combat. The model remains paralyzed until it passes a Toughness test in its recovery phase."
     },
     {
       "id": "rosary",
@@ -818,7 +818,7 @@
       "category": "misc",
       "rarity": 6,
       "priceRange": "10 gc",
-      "notes": "A prayer user wearing a Rosary may re-roll a failed Difficulty test if he has done nothing that turn except move (not run) or remain stationary. A Rosary cannot be used in combat."
+      "notes": "A prayer user wearing a Rosary may re-roll a failed Difficulty test if he hasn't done anything that turn except moving (no running) or remaining stationary. A Rosary cannot be used in combat."
     },
     {
       "id": "mapOfCathay",
@@ -826,7 +826,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "20 + 4D6 gc",
-      "notes": "Roll a D6 to determine what the map depicts.\n\n1 — Fake and completely useless.\n2-3 — The first random happening in the next battle is automatically 'The Old Crone' (56).\n4-5 — The next time a 4+ is scored on the progress table, this warband automatically counts as having the most campaign points and chooses the next scenario.\n6 — Whenever the warband rolls a 1 for random happenings, they may choose 'Belandysh comes!' (42-43) instead."
+      "notes": "Roll a D6 to determine what the map depicts. D6 ResultOutcome1The map is fake and completely useless!2-3The map shows the way to a mysterious lady. As the warband follows the depicted route, the first random happening to occur in the next battle will be \"The Old Crone\" (56) automatically.4-5The next time a roll of 4+ is scored on the progress table, the warband with a map of Cathay automatically counts as having the most campaign points and thus may choose the next scenario. If both warbands have a map of Cathay, compare campaign points as usual.6The map leads to the hideout of Belandysh! Whenever the warband with this map rolls a 1 for random happenings, they may choose to have the \"Belandysh comes!\" (42-43) event happen automatically instead of determining at random."
     },
     {
       "id": "vialOfPestilens",
@@ -834,7 +834,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "25 + 2D6 gc",
-      "notes": "May be opened and shoved in the face of a model in base contact that just took the Skaven out of action. The opponent must roll equal to or under its Toughness or be taken out of action automatically, with no save. If it succumbs, the Skaven is only stunned rather than out of action. One use.",
+      "notes": "The vial may be opened and shoved in the face of the model in base contact that just took the Skaven Out of Action. The opponent must roll equal to or under its Toughness or automatically be taken Out of Action, no save is allowed. If the opponent succumbs to the disease, he didn't manage to go through with the attack and the Skaven is only Stunned not Out of Action. The vial may be used once.",
       "restriction": "Skaven only",
       "warbandIds": [
         "skaven"
@@ -846,7 +846,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "100 gc",
-      "notes": "A Hero with the Hammer of Witches hates all Possessed, Skaven, Beastmen, Chaos, Daemons, Dark Elves, Orcs & Goblins and Sigmarite Sisters.",
+      "notes": "A Hero with the Hammer of Witches will hate all Possessed, Skaven, Beastmen, Chaos, Daemons, Dark Elf, Orc & Goblins and Sigmarite Sisters.",
       "restriction": "Witch Hunters only",
       "warbandIds": [
         "witch-hunters"
@@ -870,7 +870,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "40 gc",
-      "notes": "This cannot be removed. The model is subject to the rules for Frenzy.",
+      "notes": "This cannot be removed. The model will now be subject to the rules for Frenzy as described in the Mordheim rulebook.",
       "restriction": "Forest Goblins only",
       "warbandIds": [
         "forest-goblins"
@@ -882,7 +882,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "40 gc",
-      "notes": "Bestows unchallenged grace on the wearer, allowing the re-roll of a failed Initiative test once per turn.",
+      "notes": "A blessed hide bestows unchallenged grace to the wearer allowing the re-roll of a failed Initiative test once per turn.",
       "restriction": "Horned Hunters only",
       "warbandIds": [
         "horned-hunters"
@@ -894,7 +894,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "50 gc",
-      "notes": "So long as the wearer is beside a tree, bush or hedge, any enemy shooting at him is at an additional -1 to hit. A spellcaster wishing to target him with a magical attack may only do so by rolling 4+ on a D6. The exception is if the shooter or spellcaster is already within his Initiative range in inches.",
+      "notes": "So long as the wearer is beside a tree, bush or hedge, any enemy using any kind of missile weapon at a warrior wearing a Forest Cloak is at an additional –1BS to hit (in addition to all other modifiers). Similarly, if any spellcaster wishes to target a magical attack against an Outlaw camouflaged in this way, he can only do so by successfully rolling a 4+ on a D6. The only exception to this is if the shooting warrior or the spellcaster is already within their Initiative range in inches.",
       "restriction": "Heroes only"
     },
     {
@@ -903,7 +903,7 @@
       "category": "misc",
       "rarity": 12,
       "priceRange": "200 + D6 x 25 gc",
-      "notes": "A Vampire can learn Necromantic magic with the Arcane Lore skill and this book; a Necromancer gains a new spell permanently.",
+      "notes": "A Vampire can learn Necromantic magic with the Arcane Lore skill and this book and a Necromancer will gain a new spell permanently.",
       "restriction": "Vampires and Necromancers only",
       "warbandIds": [
         "undead"
@@ -915,7 +915,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "50 + 2D6 gc",
-      "notes": "Scales: 5+ armour save in close combat, 4+ armour save against missiles. It was never fully clarified whether this may be combined with armour and shields — agree with your group.",
+      "notes": "Scales: 5+ armour save in close combat, 4+ armour save against missiles.",
       "restriction": "Dark Elves only",
       "warbandIds": [
         "dark-elves"
@@ -927,7 +927,7 @@
       "category": "misc",
       "rarity": 12,
       "priceRange": "50 gc",
-      "notes": "Missile fire directed at a model equipped with the amulet suffers -1 to hit. The amulet also confers a special save of 5+ against missile fire.",
+      "notes": "Any missile fire directed at a model equipped with the amulet suffers a penalty of -1 to hit. The amulet also confers a special save of 5+ against missile fire.",
       "restriction": "Amazons only",
       "warbandIds": [
         "amazons-mordheim",
@@ -940,7 +940,7 @@
       "category": "misc",
       "rarity": 6,
       "priceRange": "20 gc",
-      "notes": "Any model wearing Skins and Charms receives a 6+ special save versus any wounds inflicted. In addition, the wearer is unaffected by enemy magic on a roll of 5+.",
+      "notes": "To represent this, any model wearing Skins and Charms receives a 6+ special save versus any wounds inflicted. In addition, the wearer of Skins and Charms is unaffected by enemy magic on a roll of 5+.",
       "restriction": "Amazons (Lustria) only",
       "warbandIds": [
         "amazons-mordheim",
@@ -953,7 +953,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "25 gc",
-      "notes": "At the beginning of the game a Piranha warrior may use the horn to re-roll when deciding who deploys first and who goes first. Multiple horns cannot force a second re-roll.",
+      "notes": "At the beginning of the game a Piranha warrior may use the horn to re-roll when deciding who deploys first and who goes first. Multiple models that have the horn cannot force a second re-roll.",
       "restriction": "Amazons (Lustria) Piranha Warrior only",
       "warbandIds": [
         "amazons-mordheim",
@@ -966,7 +966,7 @@
       "category": "misc",
       "rarity": 11,
       "priceRange": "50 + 2D6 gc",
-      "notes": "A mage with Elven Runestones may attempt to dispel a spell successfully cast against himself or another member of his warband by rolling against the spell's Difficulty (Sorcery does not help). If he succeeds the spell fails; if not, it works normally.",
+      "notes": "A mage with Elven Runestones may use them to attempt to dispel a spell that has been successfully cast against himself or another member of his warband. To dispel such a spell, the mage must roll against the spell's Difficulty (Sorcery does not help here). If he succeeds, the spell fails to work. If the roll fails, the spell works normally",
       "restriction": "Shadow Warrior Weavers only",
       "warbandIds": [
         "shadow-warriors"
@@ -978,7 +978,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "50 + 3D6 gc",
-      "notes": "A Shadow Warrior warband that drinks Elven Wine before a battle is immune to fear for the whole battle.",
+      "notes": "A Shadow Warrior Warband that drinks Elven Wine before a battle will be immune to fear for the whole of the battle.",
       "restriction": "Shadow Warriors only",
       "warbandIds": [
         "shadow-warriors"
@@ -990,7 +990,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "75 + 3D6 gc",
-      "notes": "Serves as a second rallying point. Shadow Warriors within 12\" may re-roll failed Leadership tests. If the standard is captured (its bearer taken out of action), the whole warband is subject to Hatred for the rest of the game and may not voluntarily Rout. Hired Swords are unaffected. Carrying it requires one free hand, and no double-handed weapons may be used. It may be used in close combat as a makeshift spear at -1 to hit.",
+      "notes": "A Standard of Nagarythe can serve as a second rallying point (the Shadow Master is the first, represented by his Leader skill) for the unit. Any members of the Shadow Warrior warband within 12\" of their standard may re-roll any failed Leadership tests, should the standard be captured by the enemy (model holding the standard is taken Out of Action), all members of the warband will be subject to Hatred for the remainder of the game, and may not voluntarily Rout. Note that these effects do not affect any Hired Swords in the warband, only actual Shadow Warriors (including Shadow Warrior heroes) are affected. A model carrying a standard requires one hand free to do so, so no weapons, shields, etc, may be carried in this hand, and no double-handed weapons may be used while the standard is carried. A standard may be used in close combat as a makeshift spear (use the rules for a spear but with -1 on the to hit rolls). A standard may only ever be purchased when the warband is created and may never be added later to the warband.",
       "restriction": "Shadow Warriors only; may only be purchased when the warband is created",
       "warbandIds": [
         "shadow-warriors"
@@ -1002,7 +1002,7 @@
       "category": "misc",
       "rarity": 6,
       "priceRange": "25 + 1D6 gc",
-      "notes": "The rules are the same as for a normal War Horn, differing only in rarity and price.",
+      "notes": "The rules for the War Horn of Nagarythe are the same as for a normal War Horn above (except for Rarity and price).",
       "restriction": "Shadow Warriors only",
       "warbandIds": [
         "shadow-warriors"
@@ -1014,7 +1014,7 @@
       "category": "misc",
       "rarity": 5,
       "priceRange": "10 gc",
-      "notes": "A model within 12\" of the standard bearer may re-roll every failed All Alone test once. The staff counts as a two-handed weapon. A warband may have a single Clan Pestilens banner at any one time. Clan Pestilens members use this instead of the normal Banner.",
+      "notes": "A model within 12&quot; of the standard bearer of the band, usually a Plague Monk or a Monk Initiate, may reroll once every failed all alone test. The staff of the Clan Pestilens banner counts as a two-handed weapon. A warband may have a single Clan Pestilens banner at any one time. (Clan Pestilens members use this item instead of the normal Banner).",
       "restriction": "Skaven of Clan Pestilens only",
       "warbandIds": [
         "skaven"
@@ -1026,7 +1026,7 @@
       "category": "misc",
       "rarity": 12,
       "priceRange": "200 + D6 x 25 gc",
-      "notes": "A Pestilens Sorcerer may use it to permanently learn an additional spell randomly chosen from the Horned Rat list. A Plague Priest with the Magical Aptitude skill may use it to become a spellcaster with the Horned Rat list and learn one random spell. Usable once; a warband may not have or use more than one in a campaign. Clan Pestilens members use this instead of the Tome of Magic.",
+      "notes": "If a Clan Pestilens warband includes a Pestilens Sorcerer, he may use the Liber Bubonicus to permanently learn an additional spell randomly chosen from the Horned Rat spell list. A Plague Priest may use the Liber Bubonicus to learn the Horned Rat magic if he has the Magical Aptitude skill: that means he would gain the special rule \"Spellcaster: is a spellcaster and may cast spells from the Horned Rat spell list.\" and permanently learn a randomly chosen spell from the Horned Rat spell List. The Liber Bubonicus may be used a single time, and a warband cannot have and use more than one Liber Bubonicus in a given campaign (Clan Pestilens members use this item instead of the Tome of Magic).",
       "restriction": "Skaven of Clan Pestilens only",
       "warbandIds": [
         "skaven"
@@ -1038,7 +1038,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "30 + 2D6 gc",
-      "notes": "At the beginning of a turn, or just before taking a Rout test, the warband may chant it for a +1 Leadership bonus until the end of the turn. Clan Pestilens members use this instead of the War Horn.",
+      "notes": "At the beginning of a turn, or just before taking a Rout Test, the warband may chant the Liturgicus Infecticus, and benefit of a +1 Leadership bonus until the end of the turn. (Clan Pestilens members use this item instead of the War horn).",
       "restriction": "Skaven of Clan Pestilens only",
       "warbandIds": [
         "skaven"
@@ -1050,7 +1050,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "100 + D6 x 10 gc",
-      "notes": "The wielder of a censer who also carries these shards is a difficult target: models suffer -1 to hit when targeting him with missile weapons. Clan Pestilens members use this instead of the Elven Cloak.",
+      "notes": "The wielder of a censer who also have some fog-enhancing warpstone shards is a difficult target to shoot at, and other models suffer a -1 penalty to hit when targeting him with missile weapons (Clan Pestilens members use this item instead of the Elven Cloak).",
       "restriction": "Skaven of Clan Pestilens only",
       "warbandIds": [
         "skaven"
@@ -1062,7 +1062,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "25 + 1D6 gc",
-      "notes": "Bears a spell usable by a Pestilens Sorcerer as often as he wants. If the warband includes a Giant Rat, the spell may be cast on it before combat to make it a Rat Familiar. With the familiar within 6\", the sorcerer may re-roll once per game to overcome a spell's difficulty. A sorcerer may only have one at a time; it is a henchman and counts toward the warband maximum. If the sorcerer dies it reverts to a Giant Rat. Clan Pestilens members use this instead of the normal Familiar.",
+      "notes": "The Scroll of Familiar Rat has a spell inscribed on it, usable by a Pestilens Sorcerer as many times as he wants. If the warband includes at least one Giant Rat, the spell may be cast on it before the combat begins, transforming it in a Rat Familiar. If his Rat Familiar is within 6\", the sorcerer may reroll once in a game the dice to overcome the difficulty of a spell. A sorcerer may only have one Rat Familiar at any one time, it is an henchman and it counts normally toward the maximum number of models permitted co the warband. If the sorcerer dies, his Rat Familiar turns back to Giant Rat form. (Clan Pestilens members use this item instead of the normal Familiar). Rat Familiar: The Rat Familiar is a Giant Rat enchanted with the Scroll of the Rat Familiar.ProfileMWSBSSTWIALd620331414 Enchanted Animal: The Rat Familiar earns experience as an henchman. A result of 10 - 12 on the henchmen advancement table, instead of the promotion to hero status gives as a result \"Improved spellcasting: if the sorcerer is within 6\" of the Rat Familiar, he gain a +1 bonus when rolling dice to overcome the difficulty of a spell. This ability is cumulative.\"",
       "restriction": "Skaven of Clan Pestilens only",
       "warbandIds": [
         "skaven"
@@ -1074,7 +1074,7 @@
       "category": "misc",
       "rarity": 5,
       "priceRange": "10 gc",
-      "notes": "The owner may re-roll a single die during the battle, or — if not out of combat at the end of the game — a single die when looking for wyrdstone shards. Clan Pestilens members use this instead of the Rabbit's Foot.",
+      "notes": "The owner of a warpstone amulet may reroll a single die during the battle or, if not out of combat at the end of the game, a single die when looking for wyrdstone shards (Clan Pestilens members use this item instead of the Rabbit's Foot).",
       "restriction": "Skaven of Clan Pestilens only",
       "warbandIds": [
         "skaven"
@@ -1086,7 +1086,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "45 + 2D6 gc",
-      "notes": "In scenarios where players roll to see which side deploys first, the warband may re-roll their result, provided the pirate with the compass is not missing the game. Only one re-roll is allowed however many compasses you have, and if both sides have one, no re-rolls are allowed.",
+      "notes": "In any scenarios where players roll to see which side deploys first, then his warband may re-roll their result. This can only be done if the pirate with the compass is not missing the game though! Note that only one re-roll is allowed, even If multiple pirates have a Compass, and if both sides have one then no re-rolls are allowed.",
       "restriction": "Pirates only",
       "warbandIds": [
         "pirates"
@@ -1098,7 +1098,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "40 + 2D6 gc",
-      "notes": "Any Hero may carry it. Pirates within 12\" never count as being all alone in combat. Carrying it takes one hand, so no two-handed weapons may be carried or used. Swabbies gain no benefit.",
+      "notes": "Any Hero may carry the Jolly Roger; the cost represents the effort to have the ship's sail makers create a smaller version that one man may carry on a long pole. Any Pirates within 12&quot; of the Jolly Roger never count as being all alone in combat. Carrying the banner takes up one hand though, so that model may not carry or use any two-handed weapons during the game. Note that Swabbies, lacking the true Pirate spirit, do not gain any benefit from the Jolly Roger.",
       "restriction": "Pirates only",
       "warbandIds": [
         "pirates"
@@ -1110,7 +1110,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "15 gc",
-      "notes": "All enemies in base contact with the owner are at -1 to hit in their first round of combat with the pirate, unless they pass a Leadership test.",
+      "notes": "All enemy in base contact with the owner will be at –1 to hit in their first round of combat with the pirate unless they can pass a Leadership Test.",
       "restriction": "Pirate Captain and Mates only",
       "warbandIds": [
         "pirates"
@@ -1122,7 +1122,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "20 gc",
-      "notes": "At the start of his turn the owner may try to detect one hidden enemy model in normal line of sight. On a 4+ that model loses its hidden status. The pirate may move as normal that turn but cannot run or charge.",
+      "notes": "At the start of his turn, the owner can try to detect one Hidden enemy model to which he has normal Line of Sight. On a roll of 4+, the model looses his Hidden status. The spying Pirate can move as normal in that turn, but cannot run or charge.",
       "restriction": "Pirates only",
       "warbandIds": [
         "pirates"
@@ -1134,7 +1134,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "75 + 4D6 gc",
-      "notes": "Pirates may use a Treasure Map instead of regular exploration. Roll a D6 after the game:\n\n1 — Fake, but you trounce the seller for D6x5 gc.\n2 — A minor stash: 1 wyrdstone shard and jewels worth 2D6x10 gc.\n3 — One of Long Drong Slayer's alestashes: a barrel usable as Bugman's Ale, the rest sold for 2D6x10 gc.\n4 — Facio's stash: on your next visit to the trading posts you may buy any one item on the regular Price Chart as if it were Common, then sell the notebooks for 2D6x10 gc. Captured models, Stragglers and Prisoners are impressed: the Captain's Leadership is +1 when testing whether they join.\n5 — A booby-trapped chest: a Hero must pass an Initiative test. If he passes he finds a Lucky Charm and 3D6x10 gc; if he fails he misses the next game, though the crew still gain the gold.\n6 — Black-Wyrd's burial spot: 2+D3 wyrdstone shards and a Mordheim Map.",
+      "notes": "Roll a D6 after the game to determine where the map leads you (note that any gold crowns found represent the profit after all shares have been given to the crew).D6Result1The map turns out to be a fake! However, you do manage to return and trounce the bilge-drinking swine who sold it to you, and he gives your Warband D6x5 gold crowns to make amends (and prevent himself getting keel-hauled!).2The map leads your crew to a minor stash. After some hours digging, the find a chest containing 1 shard of wyrdstone and some jewels worth 2D6x10 gold crowns.3The map reveals one of the fabled alestashes of Long Drong Slayer himself! You uncover several barrels of the finest rums, ales, and other assorted spirits. One is a barrel of Bugman's XXXX, which can be used as per the rules for Bugman's Ale. After 'sampling' many of the other barrels, the remainders are sold off for 2D6x10 gold crowns (after the crew wakes up, of course).4Buried deep in the ruins of an unassuming hovel you find several chests filled with fine clothes, plus several notebooks outlining blackmail information for many of the local trading merchants. You realise this must be one of the stashes left by Facio, the great Tilean trickster and rogue. Armed with your new clothing and information, on your next visit to the trading posts you may buy any one item listed on the regular Price Chart as if it was Common (except any other Pirate Warband unique items, such as Swivel Guns or Treasure Maps), assuming you have the money. Once the transaction is complete, you turn around and sell the notebooks to his competitors for 2D6x10 gold crowns, and make any other trading post purchases as normal. Also, if in your next game your warband captures anyone, or finds any Stragglers or Prisoners, the fine clothing impresses them quite a bit! The Captain's Leadership is increased by +1 when testing to see if any join your warband.5The treasure chest that is found has been carefully booby-trapped! One of your Heroes must try to penetrate the maze of poisoned dart-shooters and collapsing pathways that surround the chest by passing an Initiative test. If he passes, his expert approach reveals a Lucky Charm near the chest (which he claims for himself!), and 3D6x10 gold crowns in the chest itself. If he fails the test, he must sit out the next game as he recovers, but the crew do manage to open the chest now that the traps have been set off and gain the gold as above. They do not find the Lucky Charm though as it is drawn back into it's hiding place, there to await a more careful adventurer.6Your crew bow their heads in reverent silence, as the map has lead them to one of the legendary secret burial spots used by Black-Wyrd the Pirate King, first and finest pirate to ever ravage Mordheim. Known for tying shards of Wyrdstone into the thick strands of his hair and beard and then setting them alight so they set off sparks of unholy fire, he was rightly feared by all Warbands throughout the land and sea. Though only a small chest is found at the site, when opened it reveals 2+D3 shards of Wyrdstone, plus a Mordheim Map!",
       "restriction": "Pirates only",
       "warbandIds": [
         "pirates"
@@ -1146,7 +1146,7 @@
       "category": "misc",
       "rarity": 12,
       "priceRange": "50 + 2D6 gc",
-      "notes": "Each time a Hero uses the lamp it grants three wishes, but each roll on the Light table must be matched by a roll on the Dark table.\n\nLight (D6): 1 gain D6 Experience; 2 gain one skill from your skill list; 3 gain D6x10 gc; 4 gain a random item from the equipment list; 5 choose an item from the equipment list; 6 roll twice more.\n\nDark (D6): 1-2 nothing happens; 3 lose D6x10 gc; 4 lose D6 weapons; 5 lose the lamp; 6 roll once on the injury chart."
+      "notes": "Each time a hero uses the lamp it grants him three wishes but each time you roll on the 'Light table' you must roll on the 'Dark table' and apply the results. D6Light1Gain D6 Experience points2Gain one skill from your skill list3Gain D6x10 gc4Gain a random item from the equipment list5Choose an item from the equipment list6Roll twice more on this chart D6Dark1Nothing happens2Nothing happens3Lose D6x10 gc4Lose D6 weapons5Lose the lamp6Roll once on the injury chart"
     },
     {
       "id": "monkeysPaw",
@@ -1154,7 +1154,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "50 + 1D6 gc",
-      "notes": "Each time a Hero uses the paw it grants three wishes, but you roll only once on the dark side. If you roll this item you must take it. Every two games you have it and do not use it, you must roll on the dark side. You may not get rid of it until you have used it three times or rolled 'lose the paw'. After the third use it disappears.\n\nLight (D6): 1 gain D6 Experience; 2 gain one skill; 3 gain D6x10 gc; 4 gain an extra Hero even above your maximum; 5 gain an extra Henchman even above your maximum; 6 roll twice more.\n\nDark (D6): 1 lose D6 Experience; 2 lose one random skill; 3 lose D6x10 gc; 4 lose a Hero; 5 lose a Henchman; 6 lose the paw."
+      "notes": "Each time a Hero uses the paw it grants three wishes but you only have to roll once on the dark side. If you roll this item you must take it. Every two games you have it and don't use it you have to roll on the dark side. You may not get rid of the paw unless you use it three times or roll lose the paw. After the third use it disappears. D6Light1Gain D6 Experience points2Gain one skill from your skill list3Gain D6x10 gc4Gain an extra Hero even if it is above your maximum allowed5Gain an extra Henchman even if it is above your maximum allowed6Roll twice more on this chart D6Dark1Lose D6 Experience points2Lose one random skill3Lose D6x10 gc4Lose a Hero5Lose a Henchman6Lose the paw"
     },
     {
       "id": "magicCarpet",
@@ -1162,7 +1162,7 @@
       "category": "misc",
       "rarity": 12,
       "priceRange": "50 + 4D6 gc",
-      "notes": "A carpet that flies. It counts as a mount and allows movement of 16\" with no restrictions for terrain, including onto roofs and other high places. It may carry up to three men, or one large creature and a man; one rider must be a character. Due to its magical nature it cannot be destroyed."
+      "notes": "A magic carpet is indeed just that – a carpet that flies! It counts as a mount and allows movement of 16\" with no restrictions for terrain. You can move onto the roofs of buildings and other high places with no penalty. The carpet may carry up to three men or one large creature and a man. One of the riders must be a character. Due to its magical nature it cannot be destroyed."
     },
     {
       "id": "magicGourd",
@@ -1170,7 +1170,7 @@
       "category": "misc",
       "rarity": 7,
       "priceRange": "10 gc",
-      "notes": "May be used at the end of each battle to supply 1D3 units of water. Once the amount is determined, roll an additional D6: on a 6 the gourd's magic is exhausted and it shatters."
+      "notes": "The power of the gourd may be used at the end of each battle. It will supply 1D3 units of water. Once the amount of water is determined, roll an additional D6 – on a roll of 6, the gourd's magic is exhausted and it shatters."
     },
     {
       "id": "scorpionRing",
@@ -1178,7 +1178,7 @@
       "category": "misc",
       "rarity": 11,
       "priceRange": "10 + 1D6 gc",
-      "notes": "At the beginning of the battle the warrior may call forth a single Tomb Scorpion to fight for the warband if he passes a Leadership test. The scorpion fights for a single battle only."
+      "notes": "At the beginning of the battle the warrior is able to call forth a single Tomb Scorpion to fight for the warband if he can pass a Leadership test. The summoned scorpion will fight for a single battle only (use Tomb Scorpion from Tomb Guardians list)."
     },
     {
       "id": "venomRing",
@@ -1186,7 +1186,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "20 + 1D6 gc",
-      "notes": "Renders the wearer immune to the effects of all poisons."
+      "notes": "The Venom Ring renders the wearer immune to the effects of all poisons."
     },
     {
       "id": "nomadRobes",
@@ -1194,7 +1194,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "25 gc",
-      "notes": "The wearer suffers only half penalties from Weather Conditions.\n\nIt's Raining: when rolling a D6 for a blackpowder weapon, the shot is only wasted on a 1.\nHot as Hades: only -1 to WS and BS, and only the normal amount of water is required.\nHot: no penalty to WS or BS. If at least half the warband wear robes, they only require the normal amount of water.\nDust Storm: no effect — apply the rules for a Dust Storm as normal."
+      "notes": "Woven by native desert dwellers these robes enable the wearer to suffer only half penalties from Weather Conditions. The robes affect the following results on the Weather table: It's Raining: The robe protects the warrior's equipment. When rolling a D6 each time that you fire a black powder weapon, the shot is only wasted on a 1. Hot as Hades: A warrior wearing a Nomad Robe only suffers a penalty of -1 to WS and BS and he only requires the normal amount of water. Hot: A warrior wearing a Nomad Robe suffers no penalty to WS or BS. If at least half of the warband are wearing Nomad Robes, they only require the normal amount of water. Dust Storm: The robe has no effect – not even the Nomad Robes can protect the warrior from the ferocity of the storm. Apply rules for a Dust Storm as normal"
     },
     {
       "id": "snakeCharmersFlute",
@@ -1202,7 +1202,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "10 + 1D6 gc",
-      "notes": "If the warrior does nothing for a whole turn he may play the flute. Any serpent within 6\" may not move or attack in their subsequent turn."
+      "notes": "A warrior who possesses this item is able to transfix and control serpents. If the warrior does nothing for a whole turn, he may play the flute. If this happens, any serpent within 6\" may not move or attack in their subsequent turn."
     },
     {
       "id": "nehekharanMap",
@@ -1210,7 +1210,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "20 + 4D6 gc",
-      "notes": "Maps of the Land of the Dead are rare and accurate ones rarer still. Use the rules for the Mordheim map."
+      "notes": "Maps of the Land of the Dead are rare. Accurate ones are even rarer. The shifting sands and dry riverbeds can render a map obsolete in a season. Use the rules for the Mordheim map in the rulebook."
     },
     {
       "id": "rickshaw",
@@ -1218,7 +1218,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "70 gc",
-      "notes": "One non-animal warband member must be assigned as the runner; he cannot charge or run while pulling. There is one seat for a passenger. Models shooting at a rickshaw get +1 to hit; roll a D6 for location: 1-2 runner, 3-4 rickshaw (T8, W2), 5 wheel (T6, W1), 6 passenger. In close combat attackers choose their target; the passenger is hit on 6+. If a wheel is destroyed the rickshaw can no longer be pulled. Unless destroyed completely it can be repaired after the battle.",
+      "notes": "One non-animal warband member must be assigned as the runner in order to move the rickshaw. He cannot charge or run whilst pulling the cart. As long as he pulls the rickshaw it remains in base contact with the runner and both are moved together. The runner may stop pulling the rickshaw at any time and move normally the same turn (including declaring charges). There is one seat in the rickshaw for one passenger to sit down. Boarding and deboarding the cart works the same way as mounting and dismounting. Models shooting at a rickshaw get a +1 on their ‘to hit' rolls. For each hit, roll on the table below to determine which part of the rickshaw and crew is hit. Then apply ‘to wound' rolls accordingly. D6Result1-2Runner3-4Rickshaw (Toughness 8, Wounds 2)5Wheel (Toughness 6, Wounds 1)6Passenger In hand-to-hand combat attackers may choose whether they want to attack the runner, a wheel, the rickshaw itself or the passenger as long as they are in base contact with the respective part. The passenger is hit on 6+ only. Note that as soon as one of the wheels is destroyed (i.e. loses its last wound) the rickshaw can be pulled no more. Unless the rickshaw is destroyed completely it can be repaired after the battle.",
       "restriction": "Humans only"
     },
     {
@@ -1227,7 +1227,7 @@
       "category": "misc",
       "rarity": 10,
       "priceRange": "195 gc",
-      "notes": "A living prison on wheels, following the Wagon rules. Powered by a bound daemon: all references to draft animals refer to it, and its movement is unaffected by cargo. A Chaos Dwarf must drive; no models but captives may ride, to a maximum of six (large creatures count as two). Captives can be freed by destroying the engine or by taking the prison keys from a Gaoler put out of action. Captives may be sacrificed to Hashut after a battle: the engine and one Hero miss the next battle, and the warband gains Experience by the number sacrificed.",
+      "notes": "Engine: T8 W4. Wheel: T6 W1. Daemon: M6 T6 W3. Wagon: The Engine of Chaos follows all rules for Wagons (see Empire in Flames Supplement, p. 30–33) unless specified otherwise here. Daemon: The Engine of Chaos is powered by the binding of a daemon. All references to draft animals pulling the Wagon should be treated as referring to its daemon. Daemon movement is unaffected by cargo. Passengers: A Chaos Dwarf must function as the driver. No other models but captives may passage the Engine of Chaos. No more than six captives may be imprisoned in the Engine at a time – large creatures (Ogres, Minotaurs, etc.) count as two models. Pedal to the Metal: The driver may apply the effects of the lash. If an Engine of Chaos goes out of control for then refer to the Out of Control table. In the event of rolling the result ‘Loss of Control', replace a result of 5 (The wagon yoke pole snaps…) with; The Daemon has released itself from the sorcery which bound it to the Engine of Chaos. The Engine moves 6\" straight ahead and then comes to a halt. The vehicle may no longer move for the remainder of this battle. Prisoners: Models always become captives when fighting a battle against a Chaos Dwarf warband that has an Engine of Chaos by rolling the Captured result on the Serious Injuries table or by being taken out of action by a Man-catcher. Note that in both cases their equipment is lost to the Chaos Dwarf warband. Some results on the Mordheim Exploration chart let Chaos Dwarfs acquire captives: Straggler (one) and Prisoners (D3). From the Empire in Flames Exploration chart: Raving Lunatic (one), Lost Children (two), Mordheim Refugees (D3), The Hanging Tree (one), Small Farm and Large Farm (two). Models held as captives can be set free by destroying the Engine of Chaos or by using the prison keys. If a model puts one of the Chaos Dwarf warband's Gaolers out of action they take the keys. A model that takes the keys may free the captives by moving into base contact with the engine. If the Chaos Dwarfs rout before this happens or if the model with the keys is taken out of action (losing the keys to a new keeper), the captives remain captured. Freed captives must always move towards the closest table edge. Captives not from participating warbands use the basic profile for human warriors (see Mercenary warband). Rescued captives return to their former warbands. Hashut's Reward: The Chaos Dwarfs may choose to send captives back to the Dark Lands after a battle. If they do this, any number of captives must be sacrificed to Hashut. The Engine of Chaos plus one Hero must miss the next battle. Unless there is another engine, no models may be captured until they return. Captives must be removed from their warbands rosters permanently. After the Hero rejoins the warband consult the following table. CaptivesHashut's Reward1-3+1 Experience points for the leader.4-5+D3 Experience points which can be distributed among the Heroes.6+2D3 Experience points which can be distributed among the Heroes plus D6x5 gold crowns.",
       "restriction": "Chaos Dwarfs only",
       "warbandIds": [
         "chaos-dwarfs"
@@ -1239,7 +1239,7 @@
       "category": "misc",
       "rarity": 7,
       "priceRange": "40 gc",
-      "notes": "See the Vehicles of the Empire section for the full rules on Rowboats, Riverboats and Barges."
+      "notes": "For all the rules on how to use Rowboats, Riverboats, and Barges in your campaign, see the Vehicles of the Empire section."
     },
     {
       "id": "riverboat",
@@ -1247,7 +1247,7 @@
       "category": "misc",
       "rarity": 8,
       "priceRange": "100 gc",
-      "notes": "See the Vehicles of the Empire section for the full rules on Rowboats, Riverboats and Barges."
+      "notes": "For all the rules on how to use Rowboats, Riverboats, and Barges in your campaign, see the Vehicles of the Empire section."
     },
     {
       "id": "riverBarge",
@@ -1255,7 +1255,7 @@
       "category": "misc",
       "rarity": 9,
       "priceRange": "200 gc",
-      "notes": "See the Vehicles of the Empire section for the full rules on Rowboats, Riverboats and Barges."
+      "notes": "For all the rules on how to use Rowboats, Riverboats, and Barges in your campaign, see the Vehicles of the Empire section."
     },
     {
       "id": "wagonStagecoach",
@@ -1263,7 +1263,7 @@
       "category": "misc",
       "rarity": 7,
       "priceRange": "100 gc",
-      "notes": "See the Vehicles of the Empire section for the full rules.",
+      "notes": "For all the rules on how to use Rowboats, Riverboats, and Barges in your campaign, see the Vehicles of the Empire section.",
       "restriction": "Without draft animals"
     }
   ]

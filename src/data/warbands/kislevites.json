@@ -55,7 +55,7 @@
         },
         {
           "name": "Inheritance",
-          "description": "at warband creation only, may buy one item from the Kislevite Warrior equipment list at half price (an ancestral heirloom). If that specific item is ever lost (e.g. a \"Robbed\" Serious Injury result), it must be replaced at 150% of its normal price as soon as possible, or the Captain suffers -1 to all tests and to-hit rolls until it's replaced."
+          "description": "When the Kislevite warband is first created, the Druzhina Captain is allowed to purchase one item from the Kislevite Warrior equipment list at half the normal cost. This item represents a treasured family heirloom that has been passed down through the generations. Losing an ancestral item is considered very disrespectful and if the item is ever lost (e.g. from a Robbed result on the Serious Injury chart), the Captain MUST replace it with a finely-made substitute as quickly as possible or risk being haunted by the angry spirits of his ancestors. To replace an ancestral item, the Captain must purchase the same item of equipment at 150% of its normal price. This higher cost represents the fine detail and valuable materials used in the item’s manufacture. Until the item is replaced, the Captain suffers a -1 penalty to all tests and rolls to hit."
         }
       ]
     },
@@ -144,7 +144,7 @@
       "specialRules": [
         {
           "name": "Bear Handler",
-          "description": "a warband including a Bear Tamer may recruit a Trained Bear henchman; the Bear auto-passes Stupidity tests while within 6\" of the Tamer (even if the Tamer is Knocked Down/Stunned)."
+          "description": "A Kislevite Warband that includes a Bear Tamer is allowed to purchase a Bear as a henchman. This bear has been trained to follow the Tamer’s commands, and so will automatically pass its stupidity tests when within 6\" of the Bear Tamer (even if the Tamer has been Knocked Down or Stunned)."
         }
       ]
     },
@@ -265,7 +265,7 @@
       "specialRules": [
         {
           "name": "Hate Chaos",
-          "description": "subject to Hatred against any warband the group would apply the warband's Ancient Enemies rule to."
+          "description": "Years of bitter struggle against the forces of Chaos have left their mark on the Cossack people. Cossacks are subject to hatred against all forces of Chaos (e.g. members of any warband the players would apply the Ancient Enemies special rule to)."
         }
       ]
     },
@@ -306,7 +306,7 @@
       "specialRules": [
         {
           "name": "Gun-Rest",
-          "description": "a Streltsi armed with both halberd and handgun gets +1 to hit with the handgun as long as he didn't move that turn (even via a skill that would otherwise let him move and shoot)."
+          "description": "A Streltsi warrior armed with both halberd and handgun may use the halberd as a gun-rest. The warrior receives a +1 on his ‘to hit’ roll with the handgun, as long as he did not move that turn (this applies even if the warrior has a skill that allows him to move and shoot with his handgun – he must not move if he is to rest the gun)."
         }
       ]
     },
@@ -344,19 +344,19 @@
       "specialRules": [
         {
           "name": "Trained",
-          "description": "subject to Stupidity, but doesn't test while within 6\" of the Bear Tamer; only ever uses the Bear Tamer's Leadership (within 6\"), never the warband leader's."
+          "description": "A bear doesn’t care about the warband’s mission or enmity for other warbands – it’s just following the orders of its trainer. Sometimes it gets bored waiting for orders; for this reason Trained Bears are subject to the rules for Stupidity. If given ‘special attention’ by its trainer, it will mind a bit better, so a bear is not required to take these Stupidity tests if the warband’s Bear Tamer is within 6\". In fact this is the only member of the warband the bear will listen to; a Trained Bear will never use the warband leader’s Leadership for any tests it is required to take. It may use the Bear Tamer’s leadership if within 6\" of him however. Note that the warband cannot control the bear without a Bear Tamer. The Trained Bear may not be used in any game in which the warband's Bear Tamer does not take part (and this means that if the warband does not include a Bear Tamer at all, the warband must keep the bear staked back at camp until they hire a new one!)."
         },
         {
           "name": "Fearsome",
-          "description": "causes Fear."
+          "description": "A charging bear is a very scary sight indeed! A Trained Bear causes fear."
         },
         {
           "name": "Bear Hug",
-          "description": "if both of the Bear's attacks hit the same enemy in one round, may instead make a single Bear Hug attack — both players roll a D6 + their model's Strength; if the Bear's total is equal or higher, the enemy takes one automatic wound with no armour save, otherwise the enemy breaks free and takes no damage."
+          "description": "If the Bear hits the same enemy warrior with both of his attacks in the same round of combat, the player may choose to make a single ‘Bear Hug’ attack instead of resolving the attacks normally. If this option is chosen, each player must roll a D6 and add his model’s Strength to the roll. If the Bear’s total is higher or the totals are equal, the opposing warrior takes a single automatic wound with no armour save allowed. If the enemy warrior’s total is higher, the warrior has broken the Bear’s hold and suffers no damage from the attack."
         },
         {
           "name": "Fiercely Loyal",
-          "description": "as long as the Bear isn't taken Out of Action, the Bear Tamer ignores \"Sold to the Pits\", \"Robbed\", and \"Captured\" results on the Serious Injury table (treat as \"Full Recovery\" instead)."
+          "description": "Such dedication is built into the relationship between Bear Tamer and bear that if his trainer is injured, a bear will often stand over the body to protect it, or even drag the trainer’s body to safety. As long as his bear is not taken Out of Action during a game, a Bear Tamer ignores the following results on the Serious Injuries table: ‘Sold to the Pits’, ‘Robbed’, and ‘Captured’ (and ignore equivalent results in settings such as Lustria that have their own special Serious Injury table). If any of these results are rolled for the Bear Tamer, treat the result as a ‘Full Recovery’ instead."
         },
         {
           "ref": "animal"
@@ -416,7 +416,7 @@
       "cost": 75,
       "rarity": 9,
       "restriction": "Heroes only.",
-      "rulesText": "A necklace of bear claws (or teeth), sacred in Kislev and reputed to carry the bear's strength and ferocity. The wearer becomes subject to Frenzy. Variable price: 75 + 3D6 gc — the base 75 gc is what the app can prefill; roll and add 3D6 gc when actually buying it."
+      "rulesText": "A warrior wearing a bearclaw necklace receives some of the strength and wild ferocity of the bear it came from. A warrior wearing a bear-claw necklace becomes subject to Frenzy."
     },
     {
       "id": "vodka",
@@ -425,8 +425,9 @@
       "cost": 35,
       "rarity": 8,
       "restriction": "Heroes only. One-use: given to the warband before a battle begins, then consumed.",
-      "rulesText": "Every warrior in the warband gets +1 Leadership (max 10) for that game. Because of the alcohol, every warband member must also test Toughness before the game starts — on a failure, -1 Initiative for the whole game. Variable price: 35 + 2D6 gc — the base 35 gc is what the app can prefill; roll and add 2D6 gc when actually buying it."
+      "rulesText": "In game terms, vodka is a one-use item of equipment that a Kislevite Hero may give to the warband before the start of the game. Every warrior in the warband receives +1 Leadership (up to a maximum of 10) for that game. In addition, because of its nullifying alcoholic effects, every warband member must test against their Toughness before the start of the game — a failure resulting in -1 Initiative for the duration of the game."
     }
   ],
-  "specialRules": "Kislev lies to the north-east of the Empire, a harsh land of endless winters under constant threat from Chaos and the raiding Norse — its people are famously resilient, warm-hearted among their own, and bitterly, unrelentingly hostile to anything tainted by Chaos. May hire: a Kislevite warband may hire the same Hired Swords as a Human Mercenary warband. Ancient Enemies: a Kislevite warband may never ally with any Chaos-aligned warband (Possessed, Beastmen, Skaven, Dark Elf, Chaos Dwarf, or any other warband the players judge sufficiently Chaotic)."
+  "specialRules": "May Hire: A Kislevite warband is allowed the same selection of Hired Swords as Human Mercenary warbands. | Ancient Enemies: Kislevite warbands may never ally with any type of Chaos warband. This restriction pertains to the following warbands: Possessed, Beastmen, Skaven, Dark Elf, Chaos Dwarf, and any other warbands the players judge to be sufficiently 'Chaotic'.",
+  "background": "The land of Kislev lies to the north and east of the Empire. The further east one travels the dense forests give way to open steppes stretching to the foothills of the Worlds Edge Mountains. The winters of Kislev are harsh and cruelly long and for months the land is gripped by snow blizzards and ice. The townships of Kislev are mainly built of timber for stone is rare and only the most important of the cities have stone buildings and walls. In the ancient capital city of Kislev the massive white buildings are topped by vast gilded domes and decorated with golden statues and gargoyles. It has been said that Kislev is a poor country filled with rich people. It is certainly true that the people that live in this beleaguered land have an outlook on life that strangers often find surprisingly positive. For Kislev is a country under constant threat of invasion. Armies of savage Norse often venture into Kislev, raiding and pillaging, and to make matters worse Kislev lies right on the border of the Chaos Wastes, so that any Chaos incursion passes through the land (and its people) first. | To aid them in their struggle against these murderous foes, the Tzars of Kislev have forged strong ties with the Empire. This alliance benefits both countries, as the rulers of the Empire have long understood the benefit of a northern bulwark against the tides of Chaos. Both countries have a tradition of sending troops to aid the other in times of need, and in fact the Gryphon Legion, pride of the Kislevite nobility, was formed as a symbol of the unity between the two countries. This knightly order is made up entirely of Kislevite nobles, but is garrisoned and trained in the Empire. | Despite the constant threat of invading armies, the people of Kislev sing and dance and play as much as or perhaps more than the people of any other country in the Old World. Some say that their relative happiness derives from their love of strong drink. Whether this is true or not, Kislevites certainly do enjoy their spirits, and in fact many of their people attribute almost magical qualities to that most famous of Kislevite drinks – vodka. | A Kislevite warband represents a group of individuals from this unique northern realm. Kislevites tend to be quiet in the face of strangers, but they hold much joy in their hearts. In fact they are loud and boisterous when amongst their own people. Kislevites are known to be extremely brave warriors, and they hold a loathing for Chaos that is much stronger than most of the peoples of the Old World. While many citizens of the Empire may remain ignorant to the initial signs of a Chaos cult, Kislevite citizens will immediately seek out any signs of depravity and cleanse the infected individuals with sword and flame. Keep these things in mind when you play a Kislev warband. Most citizens of Kislev have lost homes or loved ones to the warriors of Chaos, and they realise that anything less than constant vigilance could lead to their downfall. They are therefore unrelenting in their resolve against their ancient enemies. Give the forces of Chaos no quarter, and expect none in return."
 }

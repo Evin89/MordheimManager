@@ -97,7 +97,7 @@
       "specialRules": [
         {
           "name": "Expert Weaponsmith",
-          "description": "while he takes part in a battle, missile weapons bought from the warband's basic equipment lists get +3\" range for pistols and +6\" for crossbows/handguns (applies even if he's not yet entered play or has already been taken Out of Action that battle; no effect on Hired Sword equipment)."
+          "description": "A Dwarf Engineer is a master of mechanical devices. By using stronger construction materials and time-tested secrets of Dwarf engineering, a Dwarf Engineer can increase the distance the warband's missile weapons can shoot. Missile weapons bought from the warband's basic equipment lists have their range increased by 3\" for pistols and 6\" for crossbows and handguns. Range increases only apply in battles in which the Engineer takes part (though they do apply even if he is yet to enter the battlefield or has already been taken out of action in this battle). He has no effect on the equipment of Hired Swords."
         }
       ]
     },
@@ -145,11 +145,11 @@
       "specialRules": [
         {
           "name": "Deathwish",
-          "description": "immune to all psychology, never needs to test for fighting alone."
+          "description": "Troll Slayers seek an honourable death in combat. They are completely immune to all psychology and never need to test if fighting alone."
         },
         {
           "name": "Slayer Skills",
-          "description": "may pick from the Troll Slayer skill list as well as their normal lists.",
+          "description": "Troll Slayers may choose a skill from the Troll Slayer Skill table instead of the normal Skill tables when they gain a new skill.",
           "effects": { "promotionSkillLists": { "choose": 2, "extra": ["trollSlayers"] } }
         }
       ]
@@ -304,8 +304,9 @@
       "cost": 15,
       "rarity": 8,
       "restriction": "Dwarf warbands only — included in the warband's own recruitment list at listed cost (no roll needed at recruitment); a Rare 8 roll is only needed when buying one later via the Trading Post.",
-      "rulesText": "Close combat, Strength as user. Cutting Edge: an extra -1 armour save modifier (e.g. a Strength 4 user gets -2 total). Parry: the wielder may attempt to parry one blow per combat phase — roll a D6 higher than the opponent's highest to-hit roll to negate it (never against an attack from double-or-more the wielder's own Strength). Two Dwarf axes (or a Dwarf axe + another Parry weapon) still only parries once, but may re-roll a failed parry."
+      "rulesText": "Strength As user. Cutting Edge: Dwarf axes have an extra save modifier of -1, so a model with Strength 4 using a Dwarf axe has a -2 save modifier when he hits an opponent with the axe in close combat. Parry: Dwarf axes offer an excellent balance of defence and offense. A model armed with a Dwarf axe may parry blows. When his opponent rolls to hit, the model armed with a Dwarf axe may roll a D6. If the score is greater than the highest to hit score of his opponent, the model has parried the blow and that attack is discarded. A model may not parry attacks made with double or more its own Strength - they are simply too powerful to be stopped. A model may not parry more than one attack in a single Close Combat phase; a model armed with two Dwarf axes (or a Dwarf axe and a sword, etc) does not get to parry two attacks but may instead re-roll a failed parry."
     }
   ],
-  "specialRules": "Dwarf Nobles fallen on hard times — a hold overrun, a disgrace suffered — gather kin and friends to go treasure hunting rather than wallow, and the greatest hoard in the Known World is rumoured to lie in Mordheim. All Dwarfs: Hard to Kill (only taken Out of Action on a roll of 6 on the Injury chart, not 5-6 — treat 1-2 as Knocked Down, 3-5 as Stunned, 6 as Out of Action). Hard Head: ignore special rules for maces, clubs, etc. Armour: never suffer movement penalties for wearing armour. Hate Orcs and Goblins (see Psychology). Grudgebearers: may never include any Elven Hired Sword or Dramatis Personae. Incomparable Miners: +1 to the number of wyrdstone shards found when checking the Exploration chart."
+  "specialRules": "Hard to Kill: Dwarfs are tough, resilient individuals who can only be taken out of action on a roll of 6 instead of 5-6 when rolling on the Injury chart. Treat a roll of 1-2 as knocked down, 3-5 as stunned, and 6 as out of action. | Hard Head: Dwarfs ignore the special rules for maces, clubs, etc. They are not easy to knock out! | Armour: Dwarfs never suffer movement penalties for wearing armour. | Hate Orcs and Goblins: All Dwarfs hate Orcs and Goblins. See the psychology section of the Mordheim rules for details on the effects of hatred. | Grudgebearers: Dwarfs hold an ancient grudge against Elves from the days when the two races fought for supremacy in the Old World. A Dwarf warband may never include any kind of Elven Hired Sword or Dramatis Personae. | Incomparable Miners: Dwarfs spend much of their lives underground searching for precious minerals, and they are the best in the world at this kind of work. In the city of Mordheim they apply similar skills to the search for wyrdstone. When checking for wyrdstone at the end of a game, add +1 to the number of pieces found for a Dwarf warband.",
+  "background": "Dwarfs are a grim and exceptionally proud people. They respect three things above all else: age, wealth and skill. It is no surprise then that these grim warriors can be found in Mordheim searching for fame and fortune. | Occasionally, a Dwarf noble will find himself in desperate times. His family hold may have been overrun by Goblins or Skaven, or he may have somehow disgraced himself and been banished. Other Dwarfs know these warriors as the Dispossessed. Dwarfs are a proud race and it is against a Dwarf’s nature to lose himself in despair. Instead, a noble who finds himself in such dire straits will gather together a group of his closest friends and kin and go treasure hunting, hoping to accumulate a large enough hoard to establish his own holding. At this time, the largest source of wealth in the Known World is rumoured to be a city in the Empire. The city is known as Mordheim…"
 }

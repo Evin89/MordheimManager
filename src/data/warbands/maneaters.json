@@ -53,7 +53,7 @@
         },
         {
           "name": "Large",
-          "description": "Large (causes fear, valid ranged target with +1 to hit even if not closest)."
+          "description": "Except for Youngbloods and Half-growns Ogres are huge, lumbering creatures and therefore make tempting targets for archers. Any model may shoot at them, even if they are not the closest target and gets a +1 bonus on the ‘to hit’ roll."
         }
       ]
     },
@@ -100,15 +100,15 @@
       "specialRules": [
         {
           "name": "Large",
-          "description": "Large."
+          "description": "Except for Youngbloods and Half-growns Ogres are huge, lumbering creatures and therefore make tempting targets for archers. Any model may shoot at them, even if they are not the closest target and gets a +1 bonus on the ‘to hit’ roll."
         },
         {
           "name": "Ranger",
-          "description": "if not taken out of action, roll two dice for Exploration and pick one (not a re-roll)."
+          "description": "A Mountain Guide is a dedicated tracker. If he’s not put out of action in the battle, you may roll two dice for Exploration and pick one as the result. Note that this is not a re-roll."
         },
         {
           "name": "Loner",
-          "description": "never claims a Gnoblar, immune to All Alone tests, may never become warband leader. Required for the warband to be allowed to include Sabretusks (0-2 Sabretusks 'if it includes a Guide')."
+          "description": "Mountain Guides are Ogre Hunters. They become used to the solitude of the highest peaks in the Mountains of Mourn. A Mountain Guide hunts the slopes alone and will never claim a Gnoblar or take one as a pet. They are immune to all alone tests and may never become the warband leader."
         }
       ]
     },
@@ -193,11 +193,11 @@
       "specialRules": [
         {
           "name": "Bull Charge",
-          "description": "when charging may attempt a single attack at +1 to hit instead of normal attacks; on a hit the target is automatically knocked down."
+          "description": "Ogres learn to use their vast bulk in a charge, trampling the enemy to the ground. When charging, Bulls may attempt a single attack with a +1 ‘to hit’ modifier rather than making their normal attacks. If successful the enemy model is automatically knocked down."
         },
         {
           "name": "Large",
-          "description": "Large (full Ogre)."
+          "description": "Except for Youngbloods and Half-growns Ogres are huge, lumbering creatures and therefore make tempting targets for archers. Any model may shoot at them, even if they are not the closest target and gets a +1 bonus on the ‘to hit’ roll."
         }
       ]
     },
@@ -323,7 +323,7 @@
       "cost": 10,
       "rarity": null,
       "restriction": "Common (Ogres only)",
-      "rulesText": "Range: Close Combat; Strength: as user. Special rules — Concussion: a roll of 2-4 on the Injury table is treated as Stunned when this weapon is used. Crushing Attack: imposes -1 to enemy armour saves and the wielder's Strength counts as one higher for the defender's parry attempts; only applies when wielded two-handed."
+      "rulesText": "Strength As user. Concussion: Ogre clubs are excellent to use for striking enemies senseless. When using an Ogre club, a roll of 2-4 is treated as stunned when rolling for Injuries. Crushing Attack: Ogre clubs may be wielded with impressive strength imposing -1 to enemy armour saves. Also the Strength of the attack is considered one higher for parry attempts by the defender, so a S3 model may not parry attacks by a S5 Ogre wielding the club. Crushing Attack only applies if the Ogre uses the club with both hands."
     },
     {
       "id": "ironFist",
@@ -332,7 +332,7 @@
       "cost": 15,
       "rarity": null,
       "restriction": "Common (Ogres only)",
-      "rulesText": "Range: Close Combat; Strength: as user. Special rules — Parry. Gloved: cannot hold another weapon (e.g. a double-handed weapon) in that hand; two iron fists means no other close combat weapons may be used. Dual-role: re-roll failed parry attempts if paired with a sword or another iron fist."
+      "rulesText": "Strength As user. Parry: A model with an iron fist may parry enemy blows. Gloved: A model armed with an iron fist may not hold another weapon in the same hand. This means a double-handed weapon cannot be used. Having two iron fists means the Ogre may not use any other close combat weapons during a battle. Dual-role: Iron fists operate like a buckler and a bladed hand weapon at the same time. This means that an iron fist allows the wearer to re-roll failed parry attempts if paired with a sword or another iron fist."
     },
     {
       "id": "cathayanLongsword",
@@ -341,7 +341,7 @@
       "cost": 75,
       "rarity": null,
       "restriction": "Captain only",
-      "rulesText": "Range: Close Combat; Strength: as user.\n\nMastercrafted: attacks made with a Cathayan longsword give the bearer +1 Initiative and +1 Weapon Skill."
+      "rulesText": "Strength As user. Mastercrafted: Attacks made with a Cathayan longsword give the bearer +1 Initiative and +1 Weapon Skill. Cutting Edge: An axe has an extra save modifier of -1, so a model with Strength 4 using an axe has a -2 save modifier when he hits an opponent in hand-to-hand combat."
     },
     {
       "id": "handHeldMortar",
@@ -351,7 +351,7 @@
       "priceRange": "80 + 2D6 gc",
       "rarity": 12,
       "restriction": "Rare 12 (Ogres only)",
-      "rulesText": "Cost: 80 + 2D6 gc. Range: 24\"; Strength: 4. Special rules — Move or fire, Prepare shot, Scatter (misses land 2D6\" in a random direction), Experimental (subject to optional Blackpowder Weapons rules; anything but 'BOOM!' jams/empties the weapon), Explosive Radius (target and anything within 1.5\" of the final landing spot takes a single S4 hit)."
+      "rulesText": "Range 24\". Strength 4. Prepare shot: A Hand-held Mortar takes a complete turn to reload, so you may only fire it every other turn. Move or fire: You may not move and fire a Hand-held Mortar in the same turn, other than to pivot on the spot to face your target or stand up. Save Modifier: Hand-held Mortar are even better at penetrating armour than their Strength 4 suggests. A warrior wounded by a Hand-held Mortar must take its armour save with a -2 modifier. Scatter: If the warrior misses his roll to hit, the shot will land 2D6” in a random direction (determined using a Warhammer directional die, using the “clockface method” of scattering, or whatever other method the players can agree to). Experimental: The Hand-held Mortar is always Experimental: subject to the optional Blackpowder Weapons rules from the Mordheim rulebook, even if they are not normally used in your campaign. On any result other than “BOOM!”, the weapon has jammed or run out of loaded barrels and must be reloaded. Explosive Radius: After determining the final landing spot, the explosion created by the bomb will cover a small area. The target and any models within 1 ½” of him each take a single S4 hit from the blast."
     },
     {
       "id": "harpoonCrossbow",
@@ -360,7 +360,7 @@
       "cost": 50,
       "rarity": 10,
       "restriction": "Rare 10 (Ogres only, Guide equipment list)",
-      "rulesText": "Range: 30\"; Strength: 5. Special rules — Move or fire, Prepare shot."
+      "rulesText": "Range 30\". Strength 5. Move or fire: May not move and fire in the same turn. Prepare shot: Requires a full turn to prepare before shooting."
     },
     {
       "id": "lookoutGnoblar",
@@ -369,7 +369,7 @@
       "cost": 20,
       "rarity": 8,
       "restriction": "Rare 8 (Ogres only). Not a model — counts as equipment, does not occupy a base. Max 2 different Claimed Gnoblars per Ogre.",
-      "rulesText": "The owning Ogre gains the Dodge skill from the Speed skill list. If the Ogre is taken out of action, roll a D6 for each Claimed Gnoblar he owns: on a 1-2 it is dead and removed from his equipment."
+      "rulesText": "An Ogre with a Lookout-Gnoblar gains the skill Dodge from the Speed skill list."
     },
     {
       "id": "luckGnoblar",
@@ -378,7 +378,7 @@
       "cost": 25,
       "rarity": 9,
       "restriction": "Rare 9 (Ogres only). Not a model — counts as equipment, does not occupy a base. Max 2 different Claimed Gnoblars per Ogre.",
-      "rulesText": "The owning Ogre may re-roll one dice during the battle (never re-roll a re-roll). If the Ogre is taken out of action, roll a D6 for each Claimed Gnoblar he owns: on a 1-2 it is dead and removed from his equipment."
+      "rulesText": "An Ogre with a Luck-Gnoblar may re-roll one dice during the battle. Remember you may never re-roll a re-roll."
     },
     {
       "id": "swordGnoblar",
@@ -387,7 +387,7 @@
       "cost": 30,
       "rarity": 10,
       "restriction": "Rare 10 (Ogres only). Not a model — counts as equipment, does not occupy a base. Max 2 different Claimed Gnoblars per Ogre.",
-      "rulesText": "The owning Ogre gains one extra Strength 2 attack in close combat at the owning model's Weapon Skill, made against a model the Ogre is already directing attacks toward. If the Ogre is taken out of action, roll a D6 for each Claimed Gnoblar he owns: on a 1-2 it is dead and removed from his equipment."
+      "rulesText": "An Ogre with a Sword-Gnoblar gains one extra Strength 2 attack in Close Combat, at the weapon skill of the owning model. This attack is made at the same time as the owning Hero's attacks and must be directed at a model the Ogre has directed attacks toward. The opponent's attention is on the Ogre!"
     },
     {
       "id": "gnoblarFighter",
@@ -396,8 +396,9 @@
       "cost": 15,
       "rarity": null,
       "restriction": "Maneaters only",
-      "rulesText": "M4 WS2 BS3 S2 T3 W1 I3 A1 Ld5. Armed with a dagger and thrown sharp stuff (Strength 2, range 8\", fires twice).\n\nLargely Insignificant: counts towards warband size but is never considered for Rout tests, neither for determining initial warband size nor as a loss.\n\nBicker: roll a D6 at the start of the turn for each Gnoblar within 2\" of another Gnoblar and not in close combat — on a 1 he bickers and does nothing else that turn.\n\nGnoblars count as Greenskins but do not suffer from Animosity, and do not count as animals despite otherwise following War Dog rules."
+      "rulesText": "Weapons/Armour: Dagger and sharp stuff (treat as thrown weapon with S2, range 8\" and fire twice) Largely Insignificant: Gnoblars count towards the number of warriors in a warband but are not considered for Rout tests - neither for determining the initial warband size nor as lost models. Bicker: Roll a D6 at the beginning of the turn for each Gnoblar within 2\" of another Gnoblar and not engaged in close combat. On a result of 1 the Gnoblar starts to bicker, insult and/or bully the other Gnoblar and may do nothing else this turn."
     }
   ],
-  "specialRules": "Fear: Ogres are large, threatening creatures that cause fear, with the exception of Youngbloods. | Large: except for Youngbloods and Half-growns, Ogres are huge and make tempting targets for archers — any model may shoot at them even if not the closest target, at +1 to hit. | Gluttony: each Ogre model counts as two models when selling wyrdstone or treasure. A model captured (Serious Injuries or Exploration) can instead be devoured, reducing the combined model count of your warband by one (two if the eaten captive is a Large Target); an Ogre always counts as at least one model no matter how much he eats. An Ogre Hero devouring captured models gains XP equal to the number of models consumed; any warband member or animal (including mounts) can be eaten this way and is removed from the roster immediately. | Slow Witted: Ogres only improve at half the normal rate — they need twice the usual XP to gain an advance. | Difficult Customers: Ogre Heroes suffer -1 when rolling to find Rare items that are not exclusively available to Ogres. | Cannibals: an Ogre warband may never hire Hired Swords except Halflings (Scout, Thief, etc.) and the Ogre Bodyguard (or unless stated otherwise), and may choose to devour a Hired Sword when his contract ends. | Minimum warband size is 3 models; maximum warband size is 12. | Characteristic maximums for all Ogre-kin (Captain, Mountain Guide, Youngblood, Bulls, Half-growns) are M6 WS6 BS5 S5 T5 W5 I6 A5 Ld9 — Sabretusks are not Ogres and have no stated maximum profile in this source. | Ogres never carry or fight with daggers; they receive no free starting dagger unlike other warbands' warriors."
+  "specialRules": "Fear: Ogres are large, threatening creatures that with the exception of Youngbloods, cause fear. | Large: Except for Youngbloods and Half-growns Ogres are huge, lumbering creatures and therefore make tempting targets for archers. Any model may shoot at them, even if they are not the closest target and gets a +1 bonus on the ‘to hit’ roll. | Gluttony: Because of a voracious appetite, each Ogre model counts as two models when selling wyrdstone or treasure. Any model which is captured due to Serious Injuries or Exploration can be devoured and his possessions retained, reducing the combined model count of your warband by one (or two if the captive ‘shared meal’ is a Large Target). Each Ogre always counts as at least one model towards the total, no matter how much he eats! An Ogre Hero devouring captured models is granted experience points equal to the number of models that were consumed. Any member or animal (including mounts) from your warband can be eaten in the same way! Remove any consumed comrades from the warband roster immediately. | Slow Witted: Although Ogres are capable of earning experience and bettering themselves they are not the smartest of creatures. Ogres only improve at half the rate of everyone else. They must earn twice the usual number of experience points to gain an advance. | Difficult Customers: Unable to create anything of lasting worth, Ogres tend to rely on more civilised folk for the acquisition of quality goods. Widely regarded by vendors as their least popular and most frightening customers, Ogre Heroes suffer -1 when rolling to find Rare items that are not exclusively available to Ogres. | Cannibals: Most Hired Swords refuse to work for Ogres, as they know for sure they’ll end up being a meal sooner or later. An Ogre warband may never hire any Hired Swords, except for Halflings (Scout, Thief, etc.) and the Ogre Bodyguard, or unless stated otherwise, in which case Ogres can choose to devour him when the contract ends (see Gluttony).",
+  "background": "In their natural environment Ogres move in herds. They exist in tribes spread across the Mountains of Mourn. Drifting through foreign lands, Ogres take up employment as hired muscle to anyone with enough coin and the nerve to go with it. | The call of the wild is too much for some bands and they prey upon merchants and travellers. The Ivory Road is never easy pickings as land trains are always guarded by heavily armed hirelings. Ogres sometimes end up fighting their own kind before looting the caravans and returning to their tribes with whatever is left of the spoils. | A company of these undisciplined savages who agree to fight under the command of a ballsy merchant will have their witless brawn put to good use in a fight. Spectacular mercenaries known as Maneaters all too often find themselves on the road, escorting a wealthy caravan great distances along dangerous trade routes. A few of these retinues make their way to the ruins of Mordheim."
 }
