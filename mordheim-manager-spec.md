@@ -2775,6 +2775,14 @@ Checked against the mordheimer.net data: Reikland Champion (Combat, Shooting, St
 
 The second list with a founding choice: the Norse, the Kurgan or the Hung (`subfactionLabel: "Tribe"`). The tribes change no skill lists, so the options carry rules only. Their effects (Norse +1 rarity and 13+ Eye of the Gods, Kurgan unlimited Warhounds and bone bows, Hung 12-model limit and Ride Warhorse) are shown, not applied.
 
+## 29. Data and form fixes from the 2026-10-09 audit ✅
+
+- **Units (mordheimer.net data, rule text 1:1 from the source):** Nurglings carry their seven rules (were only Swarm); the Plague Cart's notes give its four profiles (Cart T8 W4, Wheel T6 W1, Horse M8 S3 T3 W1 I3, Guardian WS3 S3 T3 I3 A1) and its three rules — the app still stores one stat line per unit, so its statLine stays empty; Sabretusks are confirmed animals (source: "Animals … do not gain experience").
+- **Lists:** Esaul and Youths (Kislevites) use `kislevWarriorWeaponsOnlyList` — the warrior list minus armour, shields and helmets ("Weapons Only"); Wolfcloak on the Middenheim mercenary list; Gromril Weapon on the Dwarf warrior list (the source prices it at 3× the base weapon for this warband; the shared rare entry still says 4×); Axe ("Cleaver") on both Maneater lists.
+- **Developer notes out of player-facing text:** unit notes no longer carry "TODO", "isAnimal" or "statMaximums null" remarks, and the "To do" badge on *Notes from the source* is gone.
+- **Provenance:** a citation's own "(Grade 1b)" is stripped, since the grade shows from its own field; the new-warband screen no longer repeats the provenance line under the picker.
+- **Labels (§5.4):** `Field` now links its label to the control inside it (a generated id through context) — 23 Fields had a label pointing at nothing. Search boxes, comment boxes and the campaign log fields that have no visible label carry an `aria-label`; the warband sharing card uses the kit `Field`/`Select`.
+
 ## 30. Warband-wide rules for 22 warbands ✅
 
 The audit found 22 warbands (counted as 21 plus the Tileans at the time) whose `specialRules` was empty although the mordheimer.net data prints warband-wide rules for them. They now carry those rules in the standard `Name: text. | Name: text.` format, 77 in all: Arabian Tomb Raiders, Black Dwarfs, Bretonnian Chapel Guard, Court of the Profane Pleasures, the Cursed Cavalcade, Dark Elves, Dwarf Rangers, Forest Goblins, Hochland Bandits, Horned Hunters, Imperial Outriders, Lustrian Reavers, Marauders of Chaos, Merchant Caravans, Night Goblins, Norse Explorers, Outlaws of Stirwood Forest, Pirates, Pit Fighters, Shadow Warriors, Tomb Guardians and the Sons of Hashut. The Tileans are §28.
@@ -2797,10 +2805,3 @@ Applied across the existing data (counts at the time):
 - **Equipment:** notes for the catalogue items are the source's rules, prefixed with its range, Strength, save and profile; warband-exclusive items' `rulesText` likewise (131), including mutations, blessings and Sacred Markings from the warband files.
 - **Hired Swords:** the seven rulebook entries now take their hire permission, equipment and rules from the source like the other 63 (`import-hired-swords.mjs` keeps only their ids, numbers and skill lists).
 - **Not covered:** `rules.json` (the core rules, sourced from the rulebook PDF rather than the Mordheimer data).
-## 29. Data and form fixes from the 2026-10-09 audit ✅
-
-- **Units (mordheimer.net data, rule text 1:1 from the source):** Nurglings carry their seven rules (were only Swarm); the Plague Cart's notes give its four profiles (Cart T8 W4, Wheel T6 W1, Horse M8 S3 T3 W1 I3, Guardian WS3 S3 T3 I3 A1) and its three rules — the app still stores one stat line per unit, so its statLine stays empty; Sabretusks are confirmed animals (source: "Animals … do not gain experience").
-- **Lists:** Esaul and Youths (Kislevites) use `kislevWarriorWeaponsOnlyList` — the warrior list minus armour, shields and helmets ("Weapons Only"); Wolfcloak on the Middenheim mercenary list; Gromril Weapon on the Dwarf warrior list (the source prices it at 3× the base weapon for this warband; the shared rare entry still says 4×); Axe ("Cleaver") on both Maneater lists.
-- **Developer notes out of player-facing text:** unit notes no longer carry "TODO", "isAnimal" or "statMaximums null" remarks, and the "To do" badge on *Notes from the source* is gone.
-- **Provenance:** a citation's own "(Grade 1b)" is stripped, since the grade shows from its own field; the new-warband screen no longer repeats the provenance line under the picker.
-- **Labels (§5.4):** `Field` now links its label to the control inside it (a generated id through context) — 23 Fields had a label pointing at nothing. Search boxes, comment boxes and the campaign log fields that have no visible label carry an `aria-label`; the warband sharing card uses the kit `Field`/`Select`.
