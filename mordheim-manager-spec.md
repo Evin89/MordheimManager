@@ -2799,7 +2799,7 @@ Applied across the existing data (counts at the time):
 - **Not covered:** `rules.json` (the core rules, sourced from the rulebook PDF rather than the Mordheimer data).
 ## 29. Data and form fixes from the 2026-10-09 audit ✅
 
-- **Units (mordheimer.net data):** Nurglings carry their seven rules (were only Swarm); the Plague Cart's notes give its four profiles (Cart T8 W4, Wheel T6 W1, Horse M8 S3 T3 W1 I3, Guardian WS3 S3 T3 I3 A1) and its three rules — the app still stores one stat line per unit, so its statLine stays empty; Sabretusks are confirmed animals (source: "Animals … do not gain experience").
+- **Units (mordheimer.net data, rule text 1:1 from the source):** Nurglings carry their seven rules (were only Swarm); the Plague Cart's notes give its four profiles (Cart T8 W4, Wheel T6 W1, Horse M8 S3 T3 W1 I3, Guardian WS3 S3 T3 I3 A1) and its three rules — the app still stores one stat line per unit, so its statLine stays empty; Sabretusks are confirmed animals (source: "Animals … do not gain experience").
 - **Lists:** Esaul and Youths (Kislevites) use `kislevWarriorWeaponsOnlyList` — the warrior list minus armour, shields and helmets ("Weapons Only"); Wolfcloak on the Middenheim mercenary list; Gromril Weapon on the Dwarf warrior list (the source prices it at 3× the base weapon for this warband; the shared rare entry still says 4×); Axe ("Cleaver") on both Maneater lists.
 - **Developer notes out of player-facing text:** unit notes no longer carry "TODO", "isAnimal" or "statMaximums null" remarks, and the "To do" badge on *Notes from the source* is gone.
 - **Provenance:** a citation's own "(Grade 1b)" is stripped, since the grade shows from its own field; the new-warband screen no longer repeats the provenance line under the picker.

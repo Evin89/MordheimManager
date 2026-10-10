@@ -102,7 +102,7 @@
       "specialRules": [
         {
           "name": "Weapons Only",
-          "description": "An Esaul may be equipped with weapons chosen from the Kislevite Warrior Equipment list, but no armour."
+          "description": "An Esaul may be equipped with weapons chosen from the Kislevite Warrior Equipment list."
         }
       ]
     },
@@ -196,7 +196,7 @@
       "specialRules": [
         {
           "name": "Weapons Only",
-          "description": "Youths may be equipped with weapons chosen from the Kislevite Warrior Equipment list, but no armour."
+          "description": "Youths may be equipped with weapons chosen from the Kislevite Warrior Equipment list."
         }
       ]
     }

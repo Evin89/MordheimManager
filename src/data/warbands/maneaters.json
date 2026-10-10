@@ -267,25 +267,28 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Only allowed if the warband includes a Mountain Guide. No weapons or armour: tusks and primal ferocity.",
+      "notes": "Only allowed if the warband includes a Mountain Guide. Equipment: Tusks and primal ferocity!",
       "specialRules": [
         {
           "name": "Trained",
-          "description": "uses the Mountain Guide's Leadership within 6\"; if the warband has no Guide, Sabretusks are caged and unusable until one is hired."
+          "description": "Sabretusks may use the Leadership of the Mountain Guide if within 6” of him. In the event that no Mountain Guide is included in the warband due to a death or an injury, the Sabretusks cannot be used until the Mountain Guide is replaced. They must be caged and left at the camp until a new one is hired."
         },
         {
           "name": "Feral Instinct",
-          "description": "must pass a Ld test at the start of the Ogre turn or the opponent controls it that turn (it may even charge its own warband)."
+          "description": "Even a Guide has difficulty controlling such feral beasts. At the beginning of the Ogres turn the Sabretusk must pass a Leadership test. If the test is failed, the opponent may move the Sabretusk this turn. An uncontrolled Sabretusk may charge models from his own warband!"
         },
         {
           "name": "Ignored",
-          "description": "does not count toward out-of-action totals for Rout tests."
+          "description": "Sabretusks that are out of action do not count to the number of out of action models for the purpose of Rout tests."
         },
         {
-          "ref": "fear"
+          "name": "Fear",
+          "description": "Sabretusks are huge feline predators and thus cause fear."
         },
         {
-          "ref": "animal"
+          "name": "Animals",
+          "description": "Sabretusks are animals and thus do not gain experience.",
+          "effects": { "noExperience": true }
         }
       ]
     }

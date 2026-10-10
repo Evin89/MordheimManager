@@ -246,35 +246,36 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "No weapons or armour.",
+      "notes": "None. Nurglings do not use weapons or wear armour.",
       "specialRules": [
         {
           "name": "Cloud of Flies",
-          "description": "A Nurgling's close combat opponent suffers -1 to hit on all attacks."
+          "description": "Nurglings are surrounded by a cloud of flies, which buzz around them and their combat opponent. They do not affect the Nurglings but distract foes by buzzing into eyes, nostrils and mouths. A Nurgling’s close combat opponent suffers a -1 to hit modifier on all attacks."
         },
         {
           "name": "Swarm",
-          "description": "You may have more than five Nurglings in a Henchman group."
+          "description": "You may summon as many Nurglings as you wish (ie. you may have more than five Nurglings in a Henchman group)."
         },
         {
           "name": "Daemonic",
-          "description": "Nurglings are Daemons, not living flesh, and never gain Experience.",
+          "description": "Nurglings are Daemons of the diseased Lord Nurgle and are not made of living flesh but the eternal and unchanging forces of Chaos. Therefore they never gain Experience.",
           "effects": { "noExperience": true }
         },
         {
           "name": "Immune to Poison",
-          "description": "Totally immune to all poisons and diseases."
+          "description": "Nurglings are the Daemonic embodiment of disease and pestilence. They are totally immune to all poisons and diseases."
         },
         {
-          "ref": "immuneToPsychology"
+          "name": "Immune to Psychology",
+          "description": "Nurglings are Daemons and do not know the concept of fear. They automatically pass any Leadership-based test they are required to take."
         },
         {
           "name": "Daemonic Aura",
-          "description": "A special 5+ armour save, modified by the Strength of the attack as normal and negated entirely by magic weapons and spells. Nurglings’ attacks count as magical."
+          "description": "Due to the magical, intangible nature of Daemons they have a special Armour save of 5+. This is modified by the Strength of the attack as normal and is completely negated by magic weapons and spells. Nurglings’ attacks are also considered as magical."
         },
         {
           "name": "Daemonic Instability",
-          "description": "A Nurgling taken out of action is banished on a D6 roll of 1–3 (do not roll for injury). If the warband routs, every Nurgling takes a Leadership test and is destroyed if it fails."
+          "description": "Nurglings are bound to the world by Dark Sorcery that is highly volatile and unstable. If taken out of action a Nurgling is banished and effectively destroyed on a D6 roll of 1-3 (do not roll for injury). In addition, if the warband routs then every Nurgling in the warband must take an immediate Leadership test. If this test is failed, then Nurgling counts as destroyed."
         }
       ]
     },
@@ -344,20 +345,20 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "The Plague Cart has four profiles rather than one: Cart T8 W4; Wheel T6 W1; Horse M8 S3 T3 W1 I3; Guardian WS3 S3 T3 I3 A1 (the part that fights). It moves and takes damage under the wagon rules. The Guardian uses no weapons and suffers no penalty for fighting unarmed.",
+      "notes": "Profiles: Cart T8 W4; Wheel T6 W1; Horse M8 S3 T3 W1 I3; Guardian WS3 S3 T3 I3 A1. None. The Plague Cart’s Guardian does not use or need weapons but suffers no penalties for fighting unarmed. Therefore it cannot use weapons and cannot wear armour. It moves and takes damage under the wagon rules.",
       "specialRules": [
         {
           "name": "Plague Cart",
-          "description": "The warband’s maximum number of warriors is increased by +2. Plague Bearers and Nurglings may re-roll Leadership tests for Instability, and add +1 to their Injury rolls if taken out of action."
+          "description": "The Daemonic nature of the Plague Cart fills both the Daemons and mortals of the Carnival of Chaos with vigour. The maximum number of warriors allowed in the warband is increased by +2. In addition, the Daemonic Instability of the Daemons within the warband is slightly offset. Plague Bearers and Nurglings may re-roll Leadership tests for Instability and may +1 to their Injury tests if taken out of action."
         },
         {
           "name": "Guardian",
-          "description": "The Guardian is bonded to the cart: he can never dismount or leave, and cannot be injured unless the Cart is destroyed, in which case so is he. He is Daemonic and never gains Experience. His attacks cause Nurgle’s Rot.",
+          "description": "The Guardian comes as part of the Plague Cart. In fact, more often than not he is physically bonded to the cart in some twisted nightmare of flesh and wood. He may therefore never dismount from the cart or leave under any circumstances. In addition, as he is part of the Cart he cannot be injured unless the Cart is destroyed in which case so is he. The Guardian is considered a Daemonic creature and so never gains any Experience. Attacks from the Guardian cause Nurgle’s Rot (see below).",
           "effects": { "noExperience": true }
         },
         {
           "name": "Immune to Psychology",
-          "description": "The Plague Cart and Guardian are Daemonic and automatically pass any Leadership-based test."
+          "description": "The Plague Cart and Guardian are considered Daemonic and don’t know the concept of fear. The Plague Cart automatically passes any Leadership-based test it is required to take."
         }
       ]
     }
