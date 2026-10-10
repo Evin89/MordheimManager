@@ -52,6 +52,7 @@ export default function AdminCampaignsScreen() {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search by name…"
+        aria-label="Search campaigns by name"
       />
 
       {!rows ? (

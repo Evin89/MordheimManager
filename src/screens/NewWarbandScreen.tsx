@@ -296,12 +296,6 @@ export default function NewWarbandScreen() {
                 Starting gold: {definition.startingGold ?? '?'} {strings.common.gold} · Max size:{' '}
                 {definition.maxWarbandSize ?? '?'}
               </p>
-              <p className="text-bone-400 text-xs">
-                {(() => {
-                  const { source, grade } = getWarbandProvenance(definition);
-                  return grade ? `${source} · ${grade}` : source;
-                })()}
-              </p>
             </>
           )}
         </div>

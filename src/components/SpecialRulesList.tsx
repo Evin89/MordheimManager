@@ -3,6 +3,9 @@ import DisclosureChevron from './DisclosureChevron';
 import { ResolvedSpecialRule } from '../data/types';
 import { strings } from '../strings';
 
+// `isTodo` marks the leftover source notes: set in a quieter colour so they
+// read as background to the named rules. It used to carry a "TO DO" badge,
+// which told players about our data work rather than about their warrior.
 function RuleRow({ rule, isTodo = false }: { rule: ResolvedSpecialRule; isTodo?: boolean }) {
   const [open, setOpen] = useState(false);
   return (
@@ -21,13 +24,6 @@ function RuleRow({ rule, isTodo = false }: { rule: ResolvedSpecialRule; isTodo?:
         >
           {rule.name}
         </span>
-        {isTodo && (
-          // Flagged rather than hidden: this text hasn't been split into named
-          // rules yet, and pretending otherwise would make a gap look finished.
-          <span className="ml-auto shrink-0 rounded border border-ink/40 px-1.5 py-0.5 font-ui text-xs uppercase tracking-wide text-ink-faded">
-            {strings.modelDetail.todoBadge}
-          </span>
-        )}
       </button>
       {open && (
         <div className="pb-3 pl-6 pr-1 space-y-2">
@@ -63,7 +59,7 @@ export default function SpecialRulesList({
 }: {
   rules: ResolvedSpecialRule[];
   /** Whatever survived the split into named rules — flavour, warband quirks,
-   * and data-quality remarks. Shown as an explicit TODO rather than dropped. */
+   * and the odd sourcing remark. Shown under its own heading rather than dropped. */
   notes?: string;
 }) {
   const leftover = notes.trim();

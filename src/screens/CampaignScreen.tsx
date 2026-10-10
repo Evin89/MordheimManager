@@ -902,8 +902,11 @@ function AnnouncementBanner({ campaign, isLeader }: { campaign: Campaign; isLead
   if (editing) {
     return (
       <section className="rounded-lg bg-ink-900 border border-ember-500/40 p-4 space-y-2">
-        <label className="text-bone-300 text-sm">{s.label}</label>
+        <label htmlFor="campaign-announcement" className="text-bone-300 text-sm">
+          {s.label}
+        </label>
         <Textarea
+          id="campaign-announcement"
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder={s.placeholder}
@@ -1163,15 +1166,21 @@ function NarrativeLog({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder={strings.campaign.narrative.titlePlaceholder}
+          aria-label={strings.campaign.narrative.titlePlaceholder}
         />
         <Textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
           placeholder={strings.campaign.narrative.bodyPlaceholder}
+          aria-label={strings.campaign.narrative.bodyPlaceholder}
           rows={3}
         />
         {recentBattles.length > 0 && (
-          <Select value={battleId} onChange={(e) => setBattleId(e.target.value)}>
+          <Select
+            value={battleId}
+            onChange={(e) => setBattleId(e.target.value)}
+            aria-label={strings.campaign.narrative.battleLabel}
+          >
             <option value="">{strings.campaign.narrative.noBattleOption}</option>
             {recentBattles.map((b) => (
               <option key={b.id} value={b.id}>

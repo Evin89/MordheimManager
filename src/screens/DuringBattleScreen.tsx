@@ -692,6 +692,7 @@ export default function DuringBattleScreen() {
                 if (e.key === 'Enter') addEvent();
               }}
               placeholder={strings.battle.duringBattle.addEventPlaceholder}
+              aria-label={strings.battle.duringBattle.addEvent}
               className="flex-1"
             />
             <Button size="dense" fullWidth={false} onClick={addEvent} className="shrink-0">

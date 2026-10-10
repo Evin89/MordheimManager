@@ -319,6 +319,7 @@ export default function RulesScreen() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={strings.rules.searchPlaceholder}
+            aria-label={strings.rules.searchPlaceholder}
             className="flex-1 min-w-0 bg-transparent border-none outline-none font-body text-lg text-bone-100 placeholder:text-ink-faded"
           />
           {query && (

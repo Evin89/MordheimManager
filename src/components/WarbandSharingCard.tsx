@@ -1,3 +1,4 @@
+import { Field, Select } from './ui';
 import { capture } from '../lib/posthog';
 import { strings } from '../strings';
 import { useMyCampaignsQuery } from '../hooks/useCampaign';
@@ -32,9 +33,8 @@ export default function WarbandSharingCard({ warbandId }: { warbandId: string })
       {!hasCampaigns ? (
         <p className="text-bone-300 text-sm">{strings.campaign.noCampaignsToJoin}</p>
       ) : (
-        <div className="space-y-1">
-          <label className="text-bone-300 text-sm">{strings.campaign.inCampaignLabel}</label>
-          <select
+        <Field label={strings.campaign.inCampaignLabel}>
+          <Select
             value={campaignId ?? ''}
             onChange={(e) => {
               const nextCampaignId = e.target.value || null;
@@ -44,7 +44,6 @@ export default function WarbandSharingCard({ warbandId }: { warbandId: string })
                 });
               });
             }}
-            className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
           >
             <option value="">{strings.campaign.notInCampaign}</option>
             {(campaigns ?? []).map((c) => (
@@ -52,16 +51,15 @@ export default function WarbandSharingCard({ warbandId }: { warbandId: string })
                 {c.name}
               </option>
             ))}
-          </select>
-        </div>
+          </Select>
+        </Field>
       )}
 
       {/* Visibility is its own switch, so it's offered with or without a
           campaign (§26.5) — it used to sit inside the campaign branch, which
           left a player outside any campaign no way to make a warband public. */}
-      <div className="space-y-1">
-        <label className="text-bone-300 text-sm">{strings.campaign.visibilityLabel}</label>
-        <select
+      <Field label={strings.campaign.visibilityLabel}>
+        <Select
           value={visibility}
           onChange={(e) => {
             const nextVisibility = e.target.value === 'public' ? 'public' : 'private';
@@ -69,12 +67,11 @@ export default function WarbandSharingCard({ warbandId }: { warbandId: string })
               void capture('warband_visibility_changed', { visibility: nextVisibility });
             });
           }}
-          className="w-full min-h-[44px] rounded-md bg-ink-800 border border-ink-700 px-3 text-bone-100"
         >
           <option value="private">{strings.campaign.visibilityPrivate}</option>
           <option value="public">{strings.campaign.visibilityPublic}</option>
-        </select>
-      </div>
+        </Select>
+      </Field>
 
       {campaignId && <p className="text-bone-400 text-xs">{strings.campaign.campaignMatesAlwaysSee}</p>}
     </section>

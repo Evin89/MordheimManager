@@ -267,7 +267,7 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "ONLY allowed if the warband includes a Mountain Guide. Weapons/Armour: none — fixed 'Tusks and primal ferocity'. TODO: verify vs Border Town Burning whether Sabretusks are treated as an 'animal' that cannot earn XP/advances — the source PDF gives them no starting XP value and no stat-maximum row, but does not explicitly state the animal-XP rule the way the core rulebook does for Warhounds/Dogs. isAnimal is currently set to true as the best guess; confirm before relying on it. statMaximums are not given in the source and are left null pending verification.",
+      "notes": "Only allowed if the warband includes a Mountain Guide. No weapons or armour: tusks and primal ferocity.",
       "specialRules": [
         {
           "name": "Trained",
@@ -283,12 +283,16 @@
         },
         {
           "ref": "fear"
+        },
+        {
+          "ref": "animal"
         }
       ]
     }
   ],
   "equipmentLists": {
     "ogreEquipmentList": [
+      "axe",
       "ogreClub",
       "sword",
       "spear",
@@ -306,6 +310,7 @@
       "swordGnoblar"
     ],
     "guideEquipmentList": [
+      "axe",
       "ogreClub",
       "sword",
       "spear",

@@ -201,7 +201,9 @@ export function getWarbandProvenance(definition: WarbandDefinition): WarbandProv
   else if (/border town burning/i.test(raw)) source = 'Border Town Burning';
   else if (/mordheim rulebook/i.test(raw)) source = 'Core rulebook';
   else if (/new mordheimer/i.test(raw)) source = 'The New Mordheimer';
-  else source = raw.split(/[,—]/)[0]?.trim() || 'Unknown source';
+  // Some citations carry their own "(Grade 1b)"; the grade is shown from its
+  // own field, so it's dropped here rather than appearing twice.
+  else source = raw.split(/[,—]/)[0]?.replace(/\s*\(grade [^)]*\)/i, '').trim() || 'Unknown source';
 
   return { source, grade };
 }

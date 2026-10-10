@@ -302,7 +302,7 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Does not gain experience. No weapons/armour. (isAnimal=true used as the 'no experience' flag.)",
+      "notes": "Does not gain experience. No weapons or armour.",
       "specialRules": [
         {
           "ref": "fear"
