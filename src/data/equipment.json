@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03. Owner should cross-check against their own physical rulebook printing/errata. (Price chart, rulebook p.104). This is the universal trading-post list available (subject to per-warband equipment-list and availability restrictions) across warbands; individual warband entries restrict which of these a given Hero/Henchman type may actually buy. Miscellaneous equipment rules text for lantern, net, rope & hook, Bugman's Ale, Cathayan silk clothes, Crimson Shade, Elven cloak, Halfling cookbook, healing herbs, hunting arrows, lucky charm, Mad Cap Mushrooms, Mandrake Root, Mordheim map and superior blackpowder supplied directly by the owner on 2026-07-31; cross-check against your own printing. Expanded on 2026-07-31 with the full Miscellaneous Equipment list supplied by the owner, covering the core rulebook, Town Cryer, Mordheim Annual 2002, Empire in Flames, Border Town Burning, the Nemesis Crown supplement and the Khemri/Lustria settings. Items locked to warbands this app does not yet carry are present but carry warbandIds so they never appear in the wrong shop. Only Heroes may buy or carry Miscellaneous Equipment unless henchmenAllowed is set.",
+  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules, fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03. Owner should cross-check against their own physical rulebook printing/errata. (Price chart, rulebook p.104). This is the universal trading-post list available (subject to per-warband equipment-list and availability restrictions) across warbands; individual warband entries restrict which of these a given Hero/Henchman type may actually buy. Miscellaneous equipment rules text for lantern, net, rope & hook, Bugman's Ale, Cathayan silk clothes, Crimson Shade, Elven cloak, Halfling cookbook, healing herbs, hunting arrows, lucky charm, Mad Cap Mushrooms, Mandrake Root, Mordheim map and superior blackpowder supplied directly by the owner on 2026-07-31; cross-check against your own printing. Expanded on 2026-07-31 with the full Miscellaneous Equipment list supplied by the owner, covering the core rulebook, Town Cryer, Mordheim Annual 2002, Empire in Flames, Border Town Burning, the Nemesis Crown supplement and the Khemri/Lustria settings. Items locked to warbands this app does not yet carry are present but carry warbandIds so they never appear in the wrong shop. Only Heroes may buy or carry Miscellaneous Equipment unless henchmenAllowed is set. Nineteen further items (animals, armour and weapons from Blazing Saddles, Ye Old Curiosity Shoppe, Empire in Flames, Town Cryer and Border Town Burning) added from the mordheimer.net dataset on 2026-10-10.",
   "categories": [
     "melee",
     "missile",
@@ -1265,6 +1265,226 @@
       "priceRange": "100 gc",
       "notes": "For all the rules on how to use Rowboats, Riverboats, and Barges in your campaign, see the Vehicles of the Empire section.",
       "restriction": "Without draft animals"
+    },
+    {
+      "id": "chaosSteed",
+      "name": "Chaos Steed",
+      "category": "misc",
+      "rarity": 11,
+      "priceRange": "90 gc",
+      "notes": "Chaos Steed: M8 WS3 BS0 S4 T3 W1 I3 A1 Ld5. May not be ridden by The Possessed: Even Chaos Steeds are skittish around the abhorrent Possessed and will not allow themselves to be ridden by such a being. Battle Schooled: The mount has been specially trained to fight on a battlefield. The rider may re-roll any failed loss of control tests. Only one re-roll is allowed per test. (Blazing Saddles, grade 1b.)",
+      "restriction": "Cult of the Possessed only",
+      "warbandIds": [
+        "cult-of-the-possessed"
+      ]
+    },
+    {
+      "id": "coldOne",
+      "name": "Cold One",
+      "category": "misc",
+      "rarity": 11,
+      "priceRange": "100 gc",
+      "notes": "Cold One: M7 WS3 BS0 S4 T4 W1 I3 A1 Ld3. Fear: Cold Ones cause fear. Stupid: Roll against the rider's Leadership each turn; if the rider fails the test then usual stupidity applies, otherwise move as normal. Scaly: Cold ones give an additional +1 armour save bonus (making +2 total). (Blazing Saddles, grade 1b.)",
+      "restriction": "Dark Elves, Lizardmen, Norse and Marauders only",
+      "warbandIds": [
+        "dark-elves",
+        "lizardmen",
+        "marauders-of-chaos",
+        "norse-explorers"
+      ]
+    },
+    {
+      "id": "elvenSteed",
+      "name": "Elven Steed",
+      "category": "misc",
+      "rarity": 10,
+      "priceRange": "90 gc",
+      "notes": "Elven Steed: M9 WS3 BS0 S3 T3 W1 I4 A1 Ld5. Battle Schooled: The mount has been specially trained to fight on a battlefield. The rider may re-roll any failed loss of control tests. Only one reroll is allowed per test. (Blazing Saddles, grade 1b.)",
+      "restriction": "Elves only",
+      "warbandIds": [
+        "dark-elves",
+        "shadow-warriors"
+      ]
+    },
+    {
+      "id": "giantSpider",
+      "name": "Giant Spider",
+      "category": "misc",
+      "rarity": 11,
+      "priceRange": "100 gc",
+      "notes": "Giant Spider: M7 WS3 BS0 S3(4) T3 W1 I4 A1 Ld4. Poisoned Attack: Giant Spider attacks are poisoned - attacks are considered as Strength 4, but this will not modify any armour saves. Wall Walk: Giant Spiders (and their riders) may walk up and down walls without making Initiative tests. They may only jump up to 2\" across or down, but this does count as a diving charge. When a spider jumps, its rider must make an Initiative test; if this test is failed, something has gone wrong - roll on the Whoa Boy! Table. Note even if the rider has the Running Dismount skill, the maximum diving charge is only 2\". (Blazing Saddles, grade 1b.)",
+      "restriction": "Orc Mob, Night Goblins, Forest Goblins only",
+      "warbandIds": [
+        "forest-goblins",
+        "night-goblins",
+        "orc-mob"
+      ]
+    },
+    {
+      "id": "giantWolf",
+      "name": "Giant Wolf",
+      "category": "misc",
+      "rarity": 10,
+      "priceRange": "85 gc",
+      "notes": "Giant Wolf: M9 WS3 BS0 S3 T3 W1 I4 A1 Ld4. (Blazing Saddles, grade 1b.)",
+      "restriction": "Orc Mob, Night Goblins only",
+      "warbandIds": [
+        "night-goblins",
+        "orc-mob"
+      ]
+    },
+    {
+      "id": "mule",
+      "name": "Mule",
+      "category": "misc",
+      "rarity": 7,
+      "priceRange": "30 gc",
+      "notes": "Mule: M6 WS2 BS0 S3 T3 W1 I2 A0 Ld4. Slow: Mules are not the fastest of mounts and only bolt 2D6\". Stubborn: If a warrior is riding a mule, or is in base contact with a mule, he must make a Leadership test each round or the mule will refuse to move. Ornery: With no leader or rider, a mule will wander in a random direction. Should any close combat occur within 6\", it will automatically bolt directly away from the combat. Non-combatant: Mules will not fight in combat and may not be used to charge into combat - they will simply refuse to move. If an enemy warrior charges a ridden mule, immediately roll on the Whoa Boy! Table. If an unridden mule is charged, it will bolt directly away from the charger. (Blazing Saddles, grade 1b.)"
+    },
+    {
+      "id": "rhinox",
+      "name": "Rhinox",
+      "category": "misc",
+      "rarity": 15,
+      "priceRange": "200 + D6×10 gc",
+      "notes": "Rhinox: M7 WS3 BS0 S5 T5 W2 I2 A3 Ld5. Availability: A Hero searching for a Rhinox adds +1 to his rarity roll for each point of Strength he has. If a Rhinox was found the Hero must take a Strength test. If the test is failed he was wounded by the Rhinox while he tried to capture and tame it. Roll once on the Serious Injury table for him immediately. Fear: Rhinoxen are large and dangerous cave‑beasts with horns as long as a full‑grown man. They cause fear. Bad Tempered: Even Rhinoxen that have been broken by their riders have a temper shorter than a pygmy's thumb. If there is an enemy model that is an eligible target for the Rhinox rider to charge during the Declare Charges part of the Movement phase, it must immediately pass a Leadership test or declare a charge – if there is a choice of models to charge, then the controlling player may choose freely between them. Thunderous Charge: Even a single Rhinox rider in full charge is a terrifying sight, the ground itself trembling as the cave‑beast thunders into the ranks of their foe. On any turn when a Rhinox rider charges more than 7\", he causes D3 impact hits at the basic strength of the Rhinox. Skull of Iron: This creature’s head is much too thick for normal blows to penetrate. Therefore it treats a stunned result as knocked down instead. Staggered, but not down: Mighty blows will rock the monster, but most creatures lack the ability to truly knock it into the dirt. Therefore, any knocked down result the monster receives will instead cause it to lose 1 Attack until it recovers (during the Recovery phase of its next turn). Multiple knocked down results will cause it to lose multiple attacks in this way. Warband Rating: A Rhinox adds +20 to the warband rating. (Border Town Burning, grade 1c.)",
+      "restriction": "Ogres, Marauders, Norse and Merchant Caravans only",
+      "warbandIds": [
+        "maneaters",
+        "marauders-of-chaos",
+        "merchant-caravans",
+        "norse-explorers"
+      ]
+    },
+    {
+      "id": "templeDog",
+      "name": "Temple Dog",
+      "category": "misc",
+      "rarity": 13,
+      "priceRange": "250 + D6×10 gc",
+      "notes": "Temple Dog: M6 WS5 BS0 S5 T5 W3 I3 A3 Ld8. Fear: Temple Dogs are supernaturally animated celestial monuments that cause fear in other warriors. Save: Because of their stone-like skin, Temple Dogs have an Armour save of 5+ that is not modified by the strength of attacks against it (or by other save modifiers). Ferocious Charge: Temple Dogs attack with +1 Strength when charging, due to their bulk. Magical attacks: All attacks from a Temple Dog are considered to be magical in the same way as the attacks of Daemons. Immune to poison: Temple Dogs are not affected by poison. Skull of Iron: This creature’s head is much too thick for normal blows to penetrate. Therefore it treats a stunned result as knocked down instead. Staggered, but not down: Mighty blows will rock the monster, but most creatures lack the ability to truly knock it into the dirt. Therefore, any knocked down result the monster receives will instead cause it to lose 1 Attack until it recovers (during the Recovery phase of its next turn). Multiple knocked down results will cause it to lose multiple attacks in this way. Warband Rating: A Temple Dog adds +20 to the warband rating. (Border Town Burning, grade 1c.)",
+      "restriction": "Dragon Monks, Sisters of Sigmar and Priests only",
+      "warbandIds": [
+        "battle-monks-of-cathay",
+        "horned-hunters",
+        "sisters-of-sigmar",
+        "witch-hunters"
+      ]
+    },
+    {
+      "id": "warBoar",
+      "name": "War Boar",
+      "category": "misc",
+      "rarity": 11,
+      "priceRange": "90 gc",
+      "notes": "War Boar: M7 WS3 BS0 S3 T4 W1 I3 A1 Ld3. Ferocious Charge: Orc war boars attack with +2S when charging, due to their bulk. Note that this applies only to the boar, not the rider. Thick Skinned: The thick skin and matted fur of the boar makes him very hard to wound. Boars confer an additional + 1 bonus to the rider's armour save (making +2 total). (Blazing Saddles, grade 1b.)",
+      "restriction": "Orc Mob, Black Orcs only",
+      "warbandIds": [
+        "black-orcs",
+        "orc-mob"
+      ]
+    },
+    {
+      "id": "chaosArmour",
+      "name": "Chaos Armour",
+      "category": "armour",
+      "rarity": 13,
+      "priceRange": "185 gc",
+      "notes": "Save 4+. Rarity: When searching for Chaos armour a warrior gains +1 on his Rarity roll for each model he took out of action in the previous battle. Cost: The cost for found Chaos armour is decreased by 1 gold crown for each Experience point the Hero has. Gift of Chaos: Chaos armour is a gift from the Dark Gods to the worthy warrior. A Hero who has successfully purchased a suit of Chaos armour will never give it away to another warband member but put it on himself immediately. Chaos armour becomes fused to the body of its wearer. It can never be removed. Spellcasters: Chaos armour does not hinder its wearer from casting spells or rituals. It can be worn by spellcasters but they cannot combine it with a shield or buckler without appropriate skills. Movement Penalty: There is no Movement penalty for combining Chaos Armour with a Shield. (Border Town Burning supplement, grade 1c.)",
+      "restriction": "Marauders of Chaos, Norse, Beastmen, Chaos Dwarfs, Possessed and Carnival of Chaos only",
+      "warbandIds": [
+        "beastmen-raiders",
+        "black-dwarfs",
+        "carnival-of-chaos",
+        "cult-of-the-possessed",
+        "marauders-of-chaos",
+        "norse-explorers",
+        "the-sons-of-hashut"
+      ]
+    },
+    {
+      "id": "lamellarArmour",
+      "name": "Lamellar Armour",
+      "category": "armour",
+      "rarity": 9,
+      "priceRange": "120 gc",
+      "notes": "Save 4+. Movement Penalty: A warrior that is armed with both a lamellar armour and a shield suffers a –1 Movement penalty. (Border Town Burning supplement, grade 1c.)"
+    },
+    {
+      "id": "pavise",
+      "name": "Pavise",
+      "category": "armour",
+      "rarity": 8,
+      "priceRange": "25 gc",
+      "notes": "Save 6+. Cover: A warrior using a pavise counts as if he is in cover against missile attacks (-1 to hit). In close combat, The pavise counts as a shield (+1 armour save) but only if the warrior was charged to his front. Combined Save: As explained in the Armour section, shields combine with armour to give +1 to the save. Movement Penalty: Because the Pavise is so heavy and cumbersome, the bearer moves at half pace. (Ye Old Curiosity Shoppe, Mordheim Annual 2002, grade 1a.)"
+    },
+    {
+      "id": "brassKnuckles",
+      "name": "Brass Knuckles",
+      "category": "melee",
+      "rarity": 6,
+      "priceRange": "20 gc per pair",
+      "notes": "Strength As user +1. Pair: Brass knuckles are used in pairs and the warrior fighting with them gains an extra Attack. He may not use any other weapons or items in his hands while doing this however. He is free to swap his brass knuckles for other weapons and items during the battle but may not do this if in combat. Cumbersome: Brass knuckles are difficult to use due to the fact that they offer little in the way of range and a warrior must get close up to his opponent before he can strike. For this reason a warrior using brass knuckles suffers a -2 to Initiative in close combat. (Ye Old Curiosity Shoppe, Town Cryer 7, this was removed in the Mordheim Annual 2002, grade 1b.)"
+    },
+    {
+      "id": "brazierIron",
+      "name": "Brazier Iron",
+      "category": "melee",
+      "rarity": 7,
+      "priceRange": "35 gc",
+      "notes": "Strength As user +1. Two handed: A warrior armed with a brazier staff requires two hands to wield it effectively and so may not use a shield with it or another hand weapon or buckler in close combat. The warrior may still use a shield for the purposes of missile fire though. Fire: The burning brazier of coals atop the staff is deadly, capable of setting an opponent ablaze with even the slightest glancing blow. Whenever you score a successful hit with the brazier staff roll a D6. If you roll a 5+ the victim is set on fire. If the warrior survives the attack they must score a 4+ in the recovery phase or they will suffer a strength 4 hit each turn they are on fire and will be unable to do anything other than move. Other warriors from the same warband may help to put the warrior out if they wish. They must move into base-to-base contact and score a 4+ in the recovery phase. (Ye Old Curiosity Shoppe, Mordheim Annual 2002, grade 1a.)",
+      "restriction": "Witch Hunters only",
+      "warbandIds": [
+        "witch-hunters"
+      ]
+    },
+    {
+      "id": "horsemansHammer",
+      "name": "Horseman's Hammer",
+      "category": "melee",
+      "rarity": 10,
+      "priceRange": "12 gc",
+      "notes": "Strength As user +1. Two-handed: A model armed with a Horseman's Hammer may not use a shield, buckler, or additional weapon in close combat. If the model is equipped with a shield he will still get a +1 bonus to his armour save against shooting. Cavalry Charge: A model armed with a Horseman's Hammer may use the speed of his charge to increase the might of his attacks. A model on a steed with a Horseman's Hammer gains a further +1 Strength bonus when he charges. This bonus only applies for that turn. (Empire in Flames Supplement, Town Crier 24, grade 1a.)"
+    },
+    {
+      "id": "sonsOfHashutObsidianWeapon",
+      "name": "Sons of Hashut Obsidian Weapon",
+      "category": "melee",
+      "rarity": 10,
+      "priceRange": "60 gc",
+      "notes": "Strength As user +1. Personal: The weapon keeps the bonuses for weapons of this type; only swords, axes, and hammers can be made of obsidian (all three weapons cost the same: 60 crowns). Heavy: A warrior equipped with an obsidian weapon subtracts 1 from his Initiative attribute in melee combat. (GW Troll Magazine, grade 1c.)",
+      "restriction": "The Sons of Hashut only",
+      "warbandIds": [
+        "the-sons-of-hashut"
+      ]
+    },
+    {
+      "id": "swordBreaker",
+      "name": "Sword Breaker",
+      "category": "melee",
+      "rarity": 8,
+      "priceRange": "30 gc",
+      "notes": "Strength As user. Parry: The sword breaker allows the wielder to parry the attacks of his opponents in close combat. When your opponent scores a hit roll a D6. If you can roll greater than the highest 'to hit' roll of your opponent you have parried the attack and the blow is wasted. Trap Blade: The two prongs used to trap an opponent's weapon are snapped out when the warrior parries. Whenever you make a successful parry attempt roll a D6. If you score a 4+ you break the weapon your opponent was using. The weapon is now useless and they must use another one, or if they have no other weapon, resort to unarmed combat. (Ye Old Curiosity Shoppe, Mordheim Annual 2002, grade 1a.)"
+    },
+    {
+      "id": "trident",
+      "name": "Trident",
+      "category": "melee",
+      "rarity": 7,
+      "priceRange": "15 gc",
+      "notes": "Strength As user. Parry: Can parry enemy blows. Strike first: Strikes first when charged. (Town Cryer #21, grade 1b.)",
+      "restriction": "Pit Fighters only",
+      "warbandIds": [
+        "pit-fighters"
+      ]
+    },
+    {
+      "id": "cathayanCandles",
+      "name": "Cathayan Candles",
+      "category": "missile",
+      "rarity": 9,
+      "priceRange": "25 + 1D6 gc",
+      "notes": "Range 6\". Strength 6. Thrown Weapon: A model using Cathayan candles does not suffer penalties for range or moving. Volatile: On a roll of 1 to hit, Cathayan candles explode in the throwers hand. Roll to wound treating the throwing model as the target. Set on Fire: If you hit with the Cathayan candles roll a D6. If you score a 5+ your opponent has been set on fire. They must roll a D6 in the Recovery phase and score a 4+ to put themselves out or they will suffer a Strength 4 hit and will be unable to do anything other than move for each turn they are on fire. Allies may also attempt to put the warrior out. They must be in base contact and need a 4+ to be successful. (Border Town Burning Supplement, grade 1c.)"
     }
   ]
 }

@@ -400,9 +400,21 @@ export type DramatisPersonaDefinition = {
   ratingBonus: string;
   statLine: NullableStatLine;
   equipment: string;
+  /** Skill ids for the rulebook four; display names for the rest, as their
+   * source prints them. */
   skills: string[];
   specialRules: string;
   source: string;
+  /** The price as printed where it isn't plain gold ("1 wyrdstone"), as for Hired Swords. */
+  hireFeeText?: string;
+  upkeepText?: string;
+  /** The skills paragraph where the source describes them rather than listing them. */
+  skillsText?: string;
+  /** Extra profiles, guises or spells. */
+  notes?: string;
+  grade?: 'core' | WarbandGrade;
+  /** The entry on mordheimer.net. */
+  url?: string;
 };
 
 export type DramatisPersonaeData = {

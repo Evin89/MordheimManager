@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules (Hired Swords / Dramatis Personae sections), fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03. Owner should cross-check against their own physical rulebook printing/errata. These are CORE RULEBOOK Dramatis Personae (distinct from the Border Town Burning-specific ones in /btb/dramatisPersonae.json). List is NOT exhaustive — the rulebook explicitly mentions further named characters (e.g. Dwarf gold hunters, Merchants' Guild Burgomeisters, Theodor the marksman of Hochland) whose full entries were not present on the fetched pages. TODO: verify vs rulebook p.111-115+ for the remaining characters.",
+  "source": "Mordheim core rulebook, Part 3 - Campaigns & Optional Rules (Hired Swords / Dramatis Personae sections), fetched from https://www.broheim.net/downloads/rules/Mordheim%20-%20Part%203%20-%20Campaigns%20%26%20Optional%20Rules.pdf on 2026-07-03. Owner should cross-check against their own physical rulebook printing/errata. These are CORE RULEBOOK Dramatis Personae (distinct from the Border Town Burning-specific ones in /btb/dramatisPersonae.json). List is NOT exhaustive — the rulebook explicitly mentions further named characters (e.g. Dwarf gold hunters, Merchants' Guild Burgomeisters, Theodor the marksman of Hochland) whose full entries were not present on the fetched pages. TODO: verify vs rulebook p.111-115+ for the remaining characters. Further characters (Town Cryer, Fanatic, Mordheim Annual, Albion, Lustria, Border Town Burning and grade 2a fan supplements) converted from the mordheimer.net dataset on 2026-10-10; each entry carries its own source, grade and link.",
   "characters": [
     {
       "id": "aenur",
       "name": "Aenur, the Sword of Twilight",
       "hireFee": 150,
       "upkeep": null,
-      "mayBeHiredBy": "Any warband except Skaven, Undead and the Possessed.",
+      "mayBeHiredBy": "Any warband except Skaven, Undead and the Possessed may hire Aenur.",
       "ratingBonus": "+100 points.",
       "statLine": {
         "M": 5,
@@ -20,7 +20,7 @@
         "A": 3,
         "Ld": 8
       },
-      "equipment": "Ithilmar armour, an Elven cloak, and an enormous sword known as Ienh-Khain (the Hand of Khaine).",
+      "equipment": "Aenur wears Ithilmar Armour, an Elven Cloak and carries an enormous sword known as Ienh-Khain.",
       "skills": [
         "strikeToInjure",
         "expertSwordsman",
@@ -30,15 +30,16 @@
         "dodge",
         "mightyBlow"
       ],
-      "specialRules": "Invincible Swordsman: always hits opponents on a 2+ in hand-to-hand combat. Wanderer: only stays with a warband for the duration of one battle; a warband that used him last battle cannot seek him out again until they have fought at least one battle without him. Ienh-Khain: allows Aenur to parry, adds +1 to his Strength, and causes a critical hit on a to-wound roll of 5-6.",
-      "source": "rulebook p.112"
+      "specialRules": "Invincible Swordsman: Aenur always hits his opponents on a roll of 2+ in hand-to-hand combat. | Wanderer: Aenur only ever stays with a warband for the duration of the battle. A warband who used Aenur in their last battle may not seek him out until they have fought at least one battle without him. | Ienh-Khain (the Hand of Khaine): Ienh-Khain is an incredibly long single-edged sword, which Aenur uses with consummate skill. This sword allows Aenur to parry, adds +1 to his Strength and causes a critical hit on a roll of 5-6 when rolling to wound.",
+      "source": "rulebook p.112",
+      "skillsText": "Aenur has the following skills: Strike to Injure, Expert Swordsman, Step Aside, Sprint, Lightning Reflexes, Dodge and Mighty Blow."
     },
     {
       "id": "johannTheKnife",
       "name": "Johann the Knife",
       "hireFee": 70,
       "upkeep": 30,
-      "mayBeHiredBy": "Any warband except Skaven, Undead and the Possessed.",
+      "mayBeHiredBy": "Any warband except Skaven, Undead and the Possessed may hire Johann.",
       "ratingBonus": "+60 points.",
       "statLine": {
         "M": 4,
@@ -51,7 +52,7 @@
         "A": 1,
         "Ld": 7
       },
-      "equipment": "Countless throwing knives and several long daggers (always counts as having two swords in close combat). Weapons are always coated with Black Lotus; may take Crimson Shade before a battle.",
+      "equipment": "Johann is armed with countless Throwing Knives and several long daggers (he always counts as having two Swords in close combat). His weapons are always coated with Black Lotus and he may take Crimson Shade before a battle if you want him to.",
       "skills": [
         "dodge",
         "scaleSheerSurfaces",
@@ -59,15 +60,16 @@
         "eagleEyes",
         "knifeFighter"
       ],
-      "specialRules": "Hire fee may instead be paid with one portion of Crimson Shade (he is addicted to it). Knife Fighter Extraordinaire: unlike normal warriors, may combine Knife-Fighter and Quick Shot (throwing up to six knives in one turn if he does not move).",
-      "source": "rulebook p.113"
+      "specialRules": "Hiring Fee: 70, Johann is addicted to Crimson Shade, so you may hire him for one portion of Crimson Shade if you wish. | Knife Fighter Extraordinaire: Johann has a deserved reputation for being the greatest knifefighter in whole of the Empire. Unlike normal warriors, he can combine the Knife Fighter and Quick Shot skills (yes, he can throw six throwing knives in one turn if he does not move!).",
+      "source": "rulebook p.113",
+      "skillsText": "Johann has the following skills: Dodge, Scale Sheer Surfaces, Quick Shot, Eagle Eyes and Knife Fighter."
     },
     {
       "id": "berthaBestraufrung",
       "name": "Bertha Bestraufrung, High Matriarch of the Sisterhood",
       "hireFee": 0,
       "upkeep": null,
-      "mayBeHiredBy": "Sisters of Sigmar warbands only. No hire fee — instead, one or more Heroines must search for her after a battle (roll under Initiative), and she will only aid a warband whose enemy has a higher warband rating, per a lookup table (0-49 difference: will not aid; 50-99: 6+; 100-149: 5+; 150-199: 4+; 200+: 3+ on a D6 to agree). A request must be made fresh for each battle.",
+      "mayBeHiredBy": "Bertha Bestraufrung will only join Sisters of Sigmar warbands.",
       "ratingBonus": "+105 points.",
       "statLine": {
         "M": 4,
@@ -80,21 +82,22 @@
         "A": 3,
         "Ld": 10
       },
-      "equipment": "Two Sigmarite warhammers, gromril armour, a vial of blessed water, and a holy relic.",
+      "equipment": "Bertha is armed with two Sigmarite Warhammers, wears Gromril Armour, and carries a vial of Blessed Water and a Holy Relic.",
       "skills": [
         "mightyBlow",
         "unstoppableCharge",
         "righteousFury"
       ],
-      "specialRules": "Knows all six Prayers of Sigmar. High Matriarch: automatically becomes the leader of any warband she joins. Sigmar's Handmaiden: +2 to all rolls to see whether her Prayers of Sigmar are granted.",
-      "source": "rulebook p.114"
+      "specialRules": "Hiring Fee: None. Bertha will come to the aid of any Sisters of Sigmar warband if they send one or more of their Heroines to look for her in the normal manner, rolling under their Initiative (representing their efforts to gain audience with the High Matriarch). If she does grant an audience, she might decide that her personal help is needed in the forthcoming battle. She will only come to the aid of a Sisters of Sigmar warband if their enemy has a higher warband rating. Consult the table below, and roll a D6 to see whether Bertha will aid the warband. A request for Bertha to aid the warband must be made for each battle you wish her to help the warband. Difference in Warband RatingDice roll required0-49Nil50-996+100-1495+150-1994+200+3+ | High Matriarch: As the High Matriarch of the Sisters of Sigmar’s Mercy, Bertha will automatically be the leader of any warband she joins. | Sigmar’s Handmaiden: Bertha is favoured above all other Sisters in the eyes of Sigmar. She gains +2 to all her rolls to see whether her Prayers of Sigmar are granted.",
+      "source": "rulebook p.114",
+      "skillsText": "Bertha has the following skills: Mighty Blow, Unstoppable Charge and Righteous Fury."
     },
     {
       "id": "veskit",
       "name": "Veskit, High Executioner of Clan Eshin",
       "hireFee": 80,
       "upkeep": 35,
-      "mayBeHiredBy": "Skaven warbands only.",
+      "mayBeHiredBy": "Veskit may only be hired by Skaven warbands.",
       "ratingBonus": "+70 points.",
       "statLine": {
         "M": 5,
@@ -107,10 +110,683 @@
         "A": 4,
         "Ld": 8
       },
-      "equipment": "Eshin Fighting Claws (extra attack already included in his profile); each claw has a built-in warplock pistol, so Veskit can shoot every turn and fights in close combat at Strength 5 with a -3 armour save modifier (and can still parry twice).",
+      "equipment": "Eshin Fighting Claws (the extra attack is included in his profile). Each Fighting Claw incorporates an in-built Warplock Pistol, so Veskit can shoot in every turn, and he fights in close combat with Strength 5 and a save modifier of -3 (note that he can still parry twice with his claws!).",
       "skills": [],
-      "specialRules": "Unfeeling: immune to all psychology. No Pain: ignores Knocked Down and Stunned results on the Injury chart — must lose his last wound and be taken out of action to be removed from battle. Unblinking Eye: spots hidden enemies within twice his Initiative value in inches. Metallic Body: grants his high Toughness and a 3+ armour save.",
+      "specialRules": "Unfeeling: Veskit is a cold, calculating killing machine, and feels few of the emotions that living things do. He is therefore immune to all psychology. | No Pain: Veskit ignores knocked down and stunned results on the Injury chart. He must lose his last wound and be taken out of action before he is removed from battle. | Unblinking Eye: Thanks to the sorcerous devices built by the Warlock Engineers of Clan Skryre, Veskit can spot hidden enemies within twice his Initiative value in inches. | Metallic Body: These give Veskit his high Toughness and a 3+ armour save.",
       "source": "rulebook p.115"
+    },
+    {
+      "id": "countessMariannaChevauxVampireAssassin",
+      "name": "Countess Marianna Chevaux, Vampire Assassin",
+      "hireFee": 150,
+      "upkeep": null,
+      "mayBeHiredBy": "Any Warband except Witch Hunters, Sisters of Sigmar, Undead, Elves and other Sigmar devoted warbands may hire Marianna (note, mercenaries are men of lax faith and do not count here).",
+      "ratingBonus": "+90 points.",
+      "statLine": {
+        "M": 6,
+        "WS": 6,
+        "BS": 6,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 9,
+        "A": 3,
+        "Ld": 9
+      },
+      "equipment": "Marianna carries a Rapier, Dagger and has a set of Throwing Knives and a Crossbow Pistol concealed about her person. Her crossbow bolts and rapier are coated in essence of garlic, which acts as Black Lotus when used against Vampires. She also has quite an extensive wardrobe of very expensive Bretonnian silk dresses!",
+      "skills": [
+        "Combat Master",
+        "Step Aside",
+        "Leap",
+        "Acrobat",
+        "Lightning Reflexes",
+        "Dodge",
+        "Jump Up",
+        "Scale Sheer Surfaces"
+      ],
+      "specialRules": "Immune to Psychology: As a Vampire, Marianna is completely immune to the effects of psychology and will never leave combat. | Immune to Poison: As a Vampire, Marianna is completely immune to the effects of poison. | No Pain: Marianna treats a stunned result on the Injury chart as knocked down instead (note that with her Jump Up ability Marianna cannot be knocked down either so the only way to stop her is to take her out of action!). | Cause <Tooltip>fear</Tooltip>: Marianna is a terrifying creature, although more through reputation than her being a Vampire as she is contriving to keep her identity a secret. | ‘You can never escape your past…’: On the last turn of the game in which Marianna is still standing or as soon as a warband routs, ending the game, roll a D6: D6Result1-3Marianna has discovered that Serutat is getting close and will leave the warband’s service after the game.4-5Marianna has discovered a useful lead that she must pursue in this area and will stay for another game if the warband can afford her upkeep.6A group of Serutat’s minions have caught up with her! Fight D3 more turns as if the losing warband hadn’t routed (in the confusion the balance is reset). A randomly determined group of minions ‘appear’ within 2D6\" of Marianna, the opposing player chooses where. Marianna takes the first turn and then the minions, after which the turn sequence returns to normal with the minions counted as a an extra player. The minions only attack Marianna and must move towards her as fast as possible but will attack anyone else in their way. If her warband fight to help her (by taking at least one minion out of action) and she survives, Marianna will fight the next battle for free, otherwise she will leave. D6Minions1-2D3+1 Zombies3-4D3+1 Ghouls5-6Vampire (Sword & light armour) +2 Ghouls. | Fighting Undead: Due to her vocation as a Vampire Assassin turned Vampire Hunter, all Vampires hate Marianna. | The Noctu: The gemstone stolen from Serutat’s lair has powerful cloaking properties. The veil of shadow it creates reduces all shooting to hit rolls against Marianna by -1.",
+      "source": "Town Cryer 22",
+      "grade": "1a",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1a#countess-marianna-chevaux-vampire-assassin",
+      "upkeepText": "75 gc*"
+    },
+    {
+      "id": "nicodemusTheCursedPilgrim",
+      "name": "Nicodemus, the Cursed Pilgrim",
+      "hireFee": null,
+      "upkeep": null,
+      "mayBeHiredBy": "Any warband except Skaven, Undead, the Possessed and Witch Hunters may hire Nicodemus.",
+      "ratingBonus": "+85 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 3,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipment": "Nicodemus carries an enormous Wizard's staff (see Special Rules).",
+      "skills": [
+        "Sorcery",
+        "Fearsome"
+      ],
+      "specialRules": "Cursed: Nicodemus is not interested in money, he desperately needs fragments of wyrdstone to delay his abnormal growth. When he joins the warband and after each battle he fights, including the first, you must pay him with a wyrdstone shard. If you don’t have a shard or if you don’t want to give it to Nicodemus and prefer to sell it. the cursed pilgrim will leave the warband, never to return. | Wizard's Staff: Nicodemus can use his staff in close combat in two different ways: he can use the staff with both hands, in which case the staff counts as a Club, but also allows Nicodemus to parry spells) in his right hand. Note: the Sword of Rezhebel is a spell and not a normal sword, therefore it cannot be used to parry.",
+      "source": "Mordheim Annual 2002",
+      "grade": "1a",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1a#nicodemus-the-cursed-pilgrim",
+      "hireFeeText": "1 wyrdstone",
+      "upkeepText": "1 wyrdstone",
+      "notes": "Spells: Nicodemus knows all six Lesser Magic spells."
+    },
+    {
+      "id": "ulliAndMarquand",
+      "name": "Ulli & Marquand",
+      "hireFee": 30,
+      "upkeep": null,
+      "mayBeHiredBy": "Any Warband except Sisters of Sigmar and Witch Hunters may hire these rogues.",
+      "ratingBonus": "+60 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 5,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 2,
+        "I": 5,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "",
+      "skills": [],
+      "specialRules": "Wanderers: Ulli and Marquand only ever stay with a warband for the duration of the battle. A warband who used Ulli and Marquand in their last battle may not seek him out until they have fought at least one battle without him. | A Fistful of Crowns: These guys will do literally anything for money / Wyrdstone and have been known to change sides and stab their former employers in the back for just a few crowns. To represent this, opposing player(s) may attempt to bribe the pair into betraying their employers and changing sides. At the start of the game, any player(s) wishing to do this must secretly write down how much he is willing to bribe them by (this must of course be more than the pair’s starting hire fee!). The controlling/employing player is advised to secretly write down a counter bid at the start of the game also. The bribing player may then choose at the start of any of his turns to attempt to bribe them (even if they are in close combat!). If he does so he must reveal the amount he has written down and if this is more than the hire fee plus the amount the controlling player has for his counter-bid, then he gains control of the pair until the end of the game. Only the player who has control of the pair is forced to pay the additional amount so that if the original controlling player loses control of them through a bribe he doesn’t have to pay the counter-bid. This bribing business can of course get quite interesting in multi-player games with different players attempting to bribe at different times. Whichever player succeeds in bribing, or if the controlling player maintains control, they must pay this extra amount. | Where’s the Money?: These guys are not likely to accept any poor excuses if a warband cannot afford their extra pay. In the event that a player cannot pay the extra either in crowns or Wyrdstone (The warband should sell any Wyrdstone necessary in order to pay the hire or bribe) the pair will deprive the warband of an equal amount in equipment (based on market price). Failing this, they will take out their anger on the warband leader – immediately play a close combat with the pair versus the warband leader on his own and to the death! | Inseparable: These guys are like brothers and are totally inseparable. They must be hired as a pair and must remain within 4\" of each other. In the event that one is taken Out of Action, the other will attempt to drag him off of the battlefield and to safety.",
+      "source": "Town Cryer 13",
+      "grade": "1a",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1a#ulli-and-marquand",
+      "notes": "Profiles: Marquand Volker: M4 WS5 BS4 S3 T3 W2 I5 A2 Ld8; Ulli Leitpold: M4 WS4 BS4 S4 T3 W2 I4 A2 Ld7"
+    },
+    {
+      "id": "abdulAlhazredTheMadSorcerer",
+      "name": "Abdul Alhazred, the Mad Sorcerer",
+      "hireFee": 70,
+      "upkeep": 30,
+      "mayBeHiredBy": "All warbands, except Witch Hunters and Sisters of Sigmar, may hire the Mad Sorcerer.",
+      "ratingBonus": "+30 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 2,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipment": "Black Nomad Robes, Dagger, The Eye Pendant.",
+      "skills": [
+        "Sorcery"
+      ],
+      "specialRules": "The Eye Pendant: The Eye Pendant is an ancient artefact stolen by Abdul from the Caliph of Sanai. Only after much painstaking research did Abdul discover its secrets and he has used its arcane powers to protect himself from the wrath of the Tomb Kings and their servants. Any Undead warrior wishing to attack Abdul must first pass a Ld test. In addition, the pendant gives Abdul a 4+ Ward save against all damage. | Psychology: Abdul Alhazred has witnessed some of the foulest monstrosities of the Land of the Dead and is quite mad! He is immune to all Psychology-tests. | Djinn Master: Abdul Afhazred has spoken to many of the mystical Djinn in his time and despite his unsteady state of mind knows how to see through their lies and bend them to his will. If the warband he is with acquires a Lamp of the Djinn he may assist a Hero using it with a +1/-1 modifier on the Light and Dark tables respectively. | Master Wizard: The Mad Arab is one of the most learned and powerful wizards in Araby. He knows all the spells in the Elemental lists. Because he is mad, however, he must roll at the beginning of each Shooting phase to see which spell he remembers. Roll a D6: 1-3 Elemental, 4-6 Necromancy Then roll a D6 to see which spell be remembers.",
+      "source": "Town Cryer 21, Khemri",
+      "grade": "1b",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1b#abdul-alhazred-the-mad-sorcerer"
+    },
+    {
+      "id": "theCrowMaster",
+      "name": "The Crow Master",
+      "hireFee": 65,
+      "upkeep": 15,
+      "mayBeHiredBy": "Any warband except Dwarfs, Elves, Sisters of Sigmar and Witch Hunters may hire Simius.",
+      "ratingBonus": "+85 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 3,
+        "I": 5,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "Simius wears the Mantle of Crows, carries a Staff and has a Needle and Thread.",
+      "skills": [
+        "Sorcery",
+        "Dodge"
+      ],
+      "specialRules": "Mantle of Crows: The mantle in appearance is a simple shabby cloak but has a hidden malign power. It attracts a murder of crows that circle around Simius distracting his adversaries. Any enemy model in base-to-base contact with Simius at the start of the Hand-to-hand Combat phase suffers a single automatic Strength 2 bit before any blows are struck. | Needle and Thread: A throwback to his surgeon's days, Simius carries a needle and thread. If Simius stuns an opponent in Hand-to-Hand combat and he has no other enemies standing in base-to-base contact, he sews up the mouth of his enemy. Leaders cannot then use their 'leader' ability and spell casters are unable to cast spells for the remainder of the battle. | Payment in blood: Simius is a zealous scientist and his propensity to experiment is seldom slaked. If the warband who hires him loses the battle he may decide to 'abduct' a hapless warrior co experiment on. Roll a D6. lf you roll a 1, Simius abducts the Hero or Henchman with the lowest experience (not hired swords) and that warrior must be struck off the warband roster and for all intents and purposes is slain. Simius disappears without trace after he has collected his fee of course... | Decay of Ages: Difficulty: 9 *Gesturing to his hapless victim with a bony outstretched finger Simius invokes the Decay of ages. Skin withers and cracks, muscles atrophy, bones become brittle as the victim ages horrifically in seconds.* This spell affects a single warrior within 6\" of Simius Gantt. The warrior must pass an immediate toughness test on a D6 or they will lose -1 from all of their characteristics with the exception of Attacks and Wounds. In each subsequent Recovery phase they must pass a Toughness test or will lose a further -1. As soon as they pass the test all characteristics are returned to normal. If any characteristic reaches O the model is taken out of action. Simius cannot cast this spell on more than one model at a time. If he decides to cast it again the effects on the previous victim are undone.",
+      "source": "Town Cryer 25",
+      "grade": "1b",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1b#the-crow-master",
+      "notes": "Spells: Simius knows all of the Necromancy spells and also knows an additional spell, specific to him, Decay of Ages."
+    },
+    {
+      "id": "darkEmissary",
+      "name": "Dark Emissary",
+      "hireFee": null,
+      "upkeep": null,
+      "mayBeHiredBy": "Dark Emissaries are evil wizards and as such will only fight alongside Possessed, Undead, Skaven and other evilly aligned warbands.",
+      "ratingBonus": "",
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 2,
+        "I": 3,
+        "A": 1,
+        "Ld": 8
+      },
+      "equipment": "",
+      "skills": [],
+      "specialRules": "Staff of Darkness: + 1 to his casting roll. | The Spiral: A symbol of the Dark Master. It is a potent icon that protects the wearer from harm. It grants the Dark Emissary a 5+ save that cannot be reduced by anything. | Wizard: The Dark Emissary is a powerful spell caster and knows four randomly determined spells of the Lore of Darkness. | Alignment: Dark Emissaries are evil wizards and as such will only fight alongside Possessed, Undead, Skaven and other evilly aligned warbands.",
+      "source": "Town Cryer 15, Albion",
+      "grade": "1b",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1b#dark-emissary"
+    },
+    {
+      "id": "dijinKatalTheRenegadeAssassin",
+      "name": "Dijin Katal, the Renegade Assassin",
+      "hireFee": 85,
+      "upkeep": null,
+      "mayBeHiredBy": "Any warband except for Amazons, Shadow Warriors, Dark Elves (obviously) and any warband that includes and type of Elven hired sword may hire Dijin Katal.",
+      "ratingBonus": "+70 points.",
+      "statLine": {
+        "M": 5,
+        "WS": 7,
+        "BS": 5,
+        "S": 4,
+        "T": 3,
+        "W": 2,
+        "I": 7,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "Dijin Katal wears a Druchii Assassin's Cloak and wields two Swords coated with Dark Venom and a Repeater Crossbow.",
+      "skills": [
+        "Strike to Injure",
+        "Quick Shot",
+        "Dodge",
+        "Lightning Reflexes",
+        "Trick Shooter"
+      ],
+      "specialRules": "Kindred Hatred: The Dark Elves have been fighting the High Elves for many centuries. The wars between the two races have been very long and bloody affairs. The Dark Elves are very bitter since they have been exiled from Ulthuan and thus they hate any High Elf warriors including High Elf Hired Swords. | Excellent Sight: There are numerous legends detailing the excellent eyesight of the Elves, both Druchii and Ulthuan kin. Elves can spot hidden enemies from twice as far away than normal warriors (i.e. twice their Initiative value in inches). | Shadows Embrace: The Dark Elf has mastered the art of making the best use of shadows to hide, this is the legendary ability of the Dark Elf Scouts and the Assassins. If the Dark Elf is in cover and a model attempts to charge him, he can only charge the Elf using a charge move equal to his initiative in inches. In addition, missile weapons suffer an additional -1 penalty to hit on top of the penalty for cover. | Perfect Killer: All attacks made by the Assassin, whether in shooting or close combat, have an extra -1 save modifier to represent his skill In striking at unarmoured spots. | Renegade: Dijin is a kinslayer and therefore a renegade in Druchii eyes. Any Dark Elves that Dijin is fighting against will suffer Hatred towards him. | Wanderer: Dijin Katal only ever stays with a warband for the duration of the battle. A warband who used Dijin Katal in their last battle may not seek him out until they have fought at least one battle without him.",
+      "source": "Town Cryer 15, Lustria",
+      "grade": "1b",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1b#dijin-katal-the-renegade-assassin"
+    },
+    {
+      "id": "drenokJohansenWielderOfTheGreatAxe",
+      "name": "Drenok Johansen, Wielder of the Great Axe",
+      "hireFee": 70,
+      "upkeep": 30,
+      "mayBeHiredBy": "Norse and human warbands may hire Drenok.",
+      "ratingBonus": "+70 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 6,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 4,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "Drenok wields the great Axe of the Icefang and he wears Sabertooth Tiger Hide.",
+      "skills": [
+        "Fearsome",
+        "Strongman",
+        "Combat master",
+        "Step aside"
+      ],
+      "specialRules": "Berserker: If Drenok is reduced to zero wounds roll 1D6. On a score of 4+ he stands fighting until the end of the tum. You must roll every turn or he will be Out of Action. | Icefang Axe: A massive double-handed axe, this weapon has been handed down through the ancestors of Ice fang throughout the generations. It is said that a revered ancestor used the axe and slew a great White Dragon many centuries ago. The axe is the same as a double-handed weapon but it can also Parry and has a +1 modifier to injury rolls. | Sabertooth Tiger Hide: Gives Drenok a 6 save in close combat and 5+ against missile fire.",
+      "source": "Town Cryer 15, Lustria",
+      "grade": "1b",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1b#drenok-johansen-wielder-of-the-great-axe"
+    },
+    {
+      "id": "heinrichAltdorfSchmidt",
+      "name": "Heinrich 'Altdorf' Schmidt",
+      "hireFee": 75,
+      "upkeep": null,
+      "mayBeHiredBy": "Any Human warband may hire Altdorf Schmidt.",
+      "ratingBonus": "+75 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 2,
+        "I": 6,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "Whip, Sword, Duelling Pistol, Light armour, Lantern, Rope & Hook.",
+      "skills": [
+        "Tomb Explorer",
+        "Lightning Reflexes",
+        "Step Aside",
+        "Streetwise",
+        "Dodge"
+      ],
+      "specialRules": "Oh no, not Snakes!: 'Altdorf' fears all snakes and serpents. | Whip Swing: 'Altdorf' Schmidt has developed a technique to use his whip as a rope to swing over gaps. To represent this, 'Altdorf' Schmidt can jump a gap (up to a maximum of 4'), without deducting the distance jumped from his normal Movement allowance. You must, however, still make an Initiative test not fall down. In addition, he may use his whip to jump to a lower level, even through windows. However, there must always be something on a higher level to attach the whip to in order of swing with it (just use common sense here - sewers, dungeons, tunnels, etc, always count as having something to attach the whip to). If 'Altdorf' Schmidt falls into a pit trap, he may try to use his whip to save himself from falling down by passing an Initiative test. | No time for you: 'Altorf' Schmidt is notorious for bejng a man in a hurry. If his charge path toward a hero, treasure or some other important target is obstructed by an enemy henchman who would prevent his charge, 'Altdorf' Schmidt may attempt a single shot with his Duelling Pistol before charging (assuming he didn't fire it last round of course). If this shot knocks down, stuns or takes the henchman out of action, 'Altdorf' Schmidt may charge as if the henchman wasn't there. If the enchman is unharmed, it counts as a failed charge as normal. | I'll Take That!: Rather than being paid in gold, 'Altorf' collects relics and artifacts from the places he visits. His upkeep cost is taken as a piece of treasure.",
+      "source": "Town Cryer 21",
+      "grade": "1b",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1b#heinrich-altdorf-schmidt",
+      "upkeepText": "1 treasure",
+      "skillsText": "Tomb Explorer, Lightning Reflexes, Step Aside, Streetwise, Dodge, Luck (re-roll any one dice during the game\">Whip Master. (Rules for Whip & Whip Master can be found in the Mule Skinner listing."
+    },
+    {
+      "id": "kharMelTheDjinn",
+      "name": "Khar-mel the Djinn",
+      "hireFee": 80,
+      "upkeep": 30,
+      "mayBeHiredBy": "Any warband may hire Khar-mel. However in order to summon her, a Wizard (or other spell caster, including a Priest) must pass a test on his own Leadership. This Wizard may be a Hired Sword, but must have been with the warband for at least one battle prior to attempting to summon Khar-mel. If the Wizard that summoned Khar-mel is killed or leaves the warband, Khar-mel will leave as well.",
+      "ratingBonus": "+45 points.",
+      "statLine": {
+        "M": 6,
+        "WS": 4,
+        "BS": 4,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 3,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "Khar-mel is armed with a Scimitar but wears no armour.",
+      "skills": [],
+      "specialRules": "Fear: The Djinn naturally radiate an aura of power and cause fear. | Ethereal: Khar-mel has only a semi-solid form and has a 5+ save that is never be modified due to high Strength or anything else. The save is not effective against magical weapons. | Elemental Magic: Khar-mel knows D3 spells chosen from the Elemental Magic list. Roll randomly on the Elemental magic list to determine the spells she may use. | Whirlwind: Khar-mel has the power to turn into a whirlwind. This can take many forms: a sandstorm, a pillar of fire or a hazy shimmer in the air. She can run at triple her movement but may not charge or be charged. She cannot make any attacks or cast spells while using this power, but is at -1 to hit with missile weapons. | Djinn's Curse: Djinn are incredibly ancient creatures, prophets of fate and doom to many. This interferes with all of the Djinn's enemies within 4\", incurring a -1 penalty to their to-hit rolls (both with missiles and with close combat weapons) and all saves. | Djinn's Luck: Djinn have been around for centuries and due to their prophetic powers are very good at avoiding trouble. This power confers a 4+ Ward save. If no save normally applies (eg, against magic weapons) then she gains a 6+ save.",
+      "source": "Town Cryer 21",
+      "grade": "1b",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1b#khar-mel-the-djinn",
+      "skillsText": "All Djinn have magical powers due to their spiritual and elemental nature. Khar-mel has mastered each of these in her time but she may only use one at a time. During her Recovery phase she may declare that she is using one of her powers. It will last until her next Recovery phase. She may not use the same power for two consecutive turns."
+    },
+    {
+      "id": "maximilianTheMad",
+      "name": "Maximilian the Mad",
+      "hireFee": 80,
+      "upkeep": 30,
+      "mayBeHiredBy": "Dwarfs and all human warbands except The Cult of the Possessed, Sisters of Sigmar, Carnival of Chaos, Horned Hunters and Middenheimers.",
+      "ratingBonus": "+25 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 4,
+        "W": 2,
+        "I": 3,
+        "A": 2,
+        "Ld": 10
+      },
+      "equipment": "Mad Max is armed with a double handed Holy Weapon. This grants +2 Strength as per the rulebook and being a holy weapon, it gives +1 to rolls to wound on Undead, Possessed, Carnival of Chaos, Beastmen.",
+      "skills": [],
+      "specialRules": "Fanatical: Max will automatically pass al Leadership-based tests he is required to take. Mad Max follows the rules for hatred when encountering the following warbands: Orcs and Goblins, Black Orcs, Forest Goblins, Horned Hunters, Sisters of Sigmar, Middenheimers, Skaven, Undead, Beastmen, Possessed, Carnival of Chaos. | Religious Fervour: Mad Max follows the rules for frenzy as per the rulebook. (Note, he must always charge, even if this requires a diving charge!) Also, he must always end his turn closer to the enemy than at the start as his desire to fight the enemies of Sigmar is so strong. | Fear: His reputation is such that he causes fear as per the rulebook. Any models from the warband hiring him that are within 3” of him are also immune to fear. Note: models wishing to charge a fear causing enemy outside 3” still need to pass a fear test as normal. | Strongman: As the skill of the same name.",
+      "source": "Nemesis Crown Supplement",
+      "grade": "1b",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1b#maximilian-the-mad"
+    },
+    {
+      "id": "penthesileaMarkOfTheSerpent",
+      "name": "Penthesilea, Mark of the Serpent",
+      "hireFee": null,
+      "upkeep": null,
+      "mayBeHiredBy": "Penthesilea will only join Amazon Warbands.",
+      "ratingBonus": "+70 points.",
+      "statLine": {
+        "M": null,
+        "WS": 5,
+        "BS": 4,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": null,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "Starsword, Starblade, Amulet of the Moon and wears Enchanted Skins (see Amazon equipment).",
+      "skills": [
+        "Mesmerising dance",
+        "Savage Fury",
+        "Elixir of life",
+        "Concealment"
+      ],
+      "specialRules": "Hiring Fee: None. Penthesilea will come to the aid of any Amazon warband if they send one or more of their Heroines to look for her in the normal manner, rolling under their Initiative. If she does grant an audience, she might decide that her personal help is needed in the forthcoming battle. She will only come to the aid of a Amazon warband if their enemy has a higher warband rating. Consult the table below, and roll a D6 to see whether Penthesilea will aid the warband. A request for Penthesilea to aid the warband must be made for each battle you wish her to help the warband. Difference in Warband RatingDice roll required0-49Nil50-996+100-1495+150-1994+200+3+. | Amazon: She is an Amazon and therefore all of the Amazon special rules apply. | Mark of the Serpent: The High Serpentine Priestesses have blessed the warrior prime with the greatest gift any warrior can bear in the name and glory of their race. The mark of the serpent. This magical tattoo is only given co the worthiest of Amazons warriors. Penthesilea gains +1 to her movement and Initiative (as marked by* on her profile). | Man-Hater: Having seen so many of her sisters captured or killed by raiders who are predominantly men she has developed a loathing for these uncouth, primitive creatures. Penthesilea is subject to Hatred of all human males (I'm sure we can work out which figures are male here!) and has many of their heads hanging from her belt.",
+      "source": "Town Cryer 15, Lustria",
+      "grade": "1b",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1b#penthesilea-mark-of-the-serpent"
+    },
+    {
+      "id": "truthsayer",
+      "name": "Truthsayer",
+      "hireFee": null,
+      "upkeep": null,
+      "mayBeHiredBy": "Truthsayers are benevolent wizards and as such they will only aid Sisters of Sigmar, Witch Hunters, Mercenaries and any other 'good' aligned warbands.",
+      "ratingBonus": "",
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 4,
+        "A": 2,
+        "Ld": 9
+      },
+      "equipment": "",
+      "skills": [],
+      "specialRules": "Staff of Light: The staff can dispel a single enemy spell spell per turn on a roll of 4+. The staff also counts as a Halberd. | The Triskele: The symbol of the Truthsayer's office, this icon protects them from harm with its benevolent energies granting the Truthsayer a 4+ save, which cannot be reduced by anything. | Wizard: Truthsayers are powerful wizards and know three randomly determined spells of the Lore of Light. | Alignment: Truthsayers are benevolent wizards and as such they will only aid Sisters of Sigmar, Witch Hunters, Mercenaries and any other 'good' aligned warbands.",
+      "source": "Town Cryer 15, Albion",
+      "grade": "1b",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1b#truthsayer"
+    },
+    {
+      "id": "innominatusTheTileanGladiator",
+      "name": "Innominatus, the Tilean Gladiator",
+      "hireFee": 120,
+      "upkeep": null,
+      "mayBeHiredBy": "Any warband except Skaven and Dark Elves may hire Innominatus.",
+      "ratingBonus": "+90 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 5,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 4,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "Dark Elf Blade, Javelins, Dwarf Axe, Helmet, Light Armour, Shield.",
+      "skills": [
+        "Pit Fighter"
+      ],
+      "specialRules": "Pit Master: To survive in the pit you need to think fast and act even faster! Innominatus to survive so many fights as gained an incredible ability and speed to avoid enemy strikes and shots: He can avoid any hit from close combat and missile weapons on a D6 roll of 4+. Note that this roll is taken as soon as a hit is scored (shooting and close combat) to see whether the Innominatus dodges it or not, before rolling to wound, and before any effects from other skills or equipment (such as lucky charms). | Who is the hero?: Once per battle Innominatus can challenge any opponent hero, hired sword or Dramatis Personae on the battlefield to engage in a mortal duel (yes, including the leader and even if not in sight or hidden! Innominatus starts roaming across the streets shouting out the hero’s name with all sorts of wares!). If the opponent player refuses the duel the challenged hero, hired sword or Dramatis Personae is removed immediately from the battlefield. The challenged character is so scared to fight against Innominatus he prefers to run away and to hide so far away he will also miss the next game. If he accepts the challenge resolve the fight immediately. Roll to see which side charges and fight the battle as normal. Innominatus will benefit from the Pit Fighter skill. If Innominatus wins, see Thumbs Up/Thumbs Down rule, and his upkeep is halved to 20gc for this game. If the opponent wins remove Innominatus immediately from the battlefield, roll for injuries as usual and place the winning hero in his previous position. The hero or hired sword gains also 3XP for winning against a such great opponent. | Thumbs Up/Thumbs Down: If Innominatus wins the fight, the looser is not immediately removed as out of action, the loosing player has the chance to decide if his hero will live or die! - Thumbs Up: The life of the looser is saved but Innominatus will take as a trophy all the hero’s equipment, leaving him naked and shaking in the middle of the arena. Place the looser in his previous position but he is so shocked he will be subject to stupidity for the rest of the game (unless it is immune to psychology). - Thumbs Down: Mercy is rare in the arena, Innominatus takes his blood tribute and the looser is slain. Remove the looser immediately from the battlefield and from the warband roster. All the heroes of the looser’s warband gain 1XP (having seen Innominatus in action has been a great lesson!) and the loosing player retains all the equipment of the dead model.",
+      "source": "Mordheim Facebook Group",
+      "grade": "1c",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1c#innominatus-the-tilean-gladiator",
+      "upkeepText": "40 gc*",
+      "skillsText": "Innominatus has the following skills: Pit Fighter (+1WS, +1A when fighting in ruins, buildings and the Pit), Grizzled Veteran (Immune to psychology), Death without a face (Causes fear)."
+    },
+    {
+      "id": "luthorWolfenbaum",
+      "name": "Luthor Wolfenbaum",
+      "hireFee": 60,
+      "upkeep": 25,
+      "mayBeHiredBy": "Luthor offers his services in different guises, each with its own hiring restrictions.",
+      "ratingBonus": "+35 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 4,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "",
+      "skills": [
+        "Step Aside",
+        "Dodge",
+        "Expert Swordsman",
+        "Sprint",
+        "Quick Shot"
+      ],
+      "specialRules": "Evil Eye: Luthor is immune to any and all Eye Injuries. Ignore the result 31 on the Permanent Injury roll table when rolling for Luthor. | I am Everywhere: Two Warbands fighting against each other may each use Luthor. How this is possible is one of the enduring mysteries of Mordheim. In addition to the above, depending on which role he assumes, Luthor will be affected by the following Special Rules. Choose ones set:",
+      "source": "Mordheim Facebook Group",
+      "grade": "1c",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1c#luthor-wolfenbaum",
+      "notes": "Guises: Luthor, the Crimson Blade of Reikland — Armed with a custom Sword (can be wielded two-handed with +1S bonus, or in one hand with normal Strength), a Dagger, a suit of Heavy Armour and a Helmet. The Crimson Blade: Luthor is an expert at backstabbing enemies already engaged in combat. When attacking enemies engaged in melee against another opponent, Luthor gains +1 to hit, +1 to wound and +1 to Injury rolls. Disengage: Luthor knows that discretion is the better part of valour, and thus he is an expert at disengaging from combat. During his own movement phase, he can move away from any melee without his enemy having a chance of making any attacks. He can even charge another enemy this way. May be Hired: All human Warbands except Middenheimers (who’d never seek help from a Reiklander!) May hire Luthor as a Crimson Blade of Reikland.; Luthor, the Dark Wizard Extraordinaire — Luthor is armed with a Staff, wears Heavy Armour concealed under his garments, and has a Lucky Charm, Garlic, and a flask that he claims is a magic potion but is in reality Bugman’s Beer which makes him immune to Fear. Luthor uses clay orbs containing the alchemical mixture known as Tilean Fire. Fireballs: Luthor can throw his clay orbs of Tilean Fire in the missile phase, even when engaged in melee combat (in melee choose any enemy in base contact). They have a range of 8”, and suffer no hit penalties for long range. If the orb hits, the target suffers 1 S2 hit from the bursting flames, and in addition the model needs to roll under the Initiative at the start of its next turn in order to see through the smoke. If the model fails, it cannot charge or shoot until the beginning of its next turn, though can otherwise move or act normally, and fight in hand-to-hand combat. Only one check is needed even if the target is hit by multiple Orbs due the Quick Shot skill. Fish-slapping Dance: The fish nailed to Luthor’s staff was actually cursed by the Witch living in the ruins of Sylvania. When used in close combat, on a roll to hit of 6, resolve the hit by the staff at double Strength (i.e. 8 instead of 4). Many a warrior has been felled by the fearsome slap of the fish! May be Hired: Luthor, the Dark Wizard Extraordinaire may be hired by any warband except Witch Hunters, Reiklanders or Sisters of Sigmar.; Luthor, the Master Archer of Drakwald — Armed with a Longbow, a Dagger, Hunting Arrows and a suit of Heavy Armour. Luthor uses Dark Venom in his arrows. Boast: Before taking one of his shots in the Shooting Phase, Luthor may boast how he knows he is going to hit the target. If he hits the target with his missile attack, roll a D6: the result is a bonus that can be used as a bonus for any single to hit roll with a melee or missile attack or Leadership test (including Rout rolls). You can use the bonus AFTER making the roll. The bonus must be used before the beginning of Luthor’s next Shooting phase or the bonus is lost. If he misses, the entire Warband on Luthor’s side suffers -1 Ld cumulative penalty until Luthor hits another target. So if Luthor Boasts twice and misses twice, the whole Warband operates at -2 Ld. Do you feel lucky, lad?: Luthor flamboyantly aims at one of his opponents and swears he will shoot him dead with a single arrow. The warrior is understandably unnerved and suffer -1 penalty to his WS and BS as he constantly has to check whether Luthor is going to shoot him. Pick a target for Luthor’s threats in the beginning of each of Luthor’s Missile phases - this can be any model in the opposing Warband, not just the nearest one. Luthor can only do this if he is not engaged in melee combat and not Stunned/Knocked down. Undead models, Daemons, animals and warriors immune to psychology such as Flagellants are immune to this ability. May be Hired: Luthor, the Master Archer of Drakwald may be hired by any human, Elf or Dwarf Warband except Reiklanders - Luthor is too well known there as the Crimson Blade."
+    },
+    {
+      "id": "luthorTheLooter",
+      "name": "Luthor the Looter",
+      "hireFee": 60,
+      "upkeep": 25,
+      "mayBeHiredBy": "Luthor can be hired by any warband with no exceptions.",
+      "ratingBonus": "+35 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 4,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "Sword, Heavy Armour, Pistol.",
+      "skills": [
+        "Step Aside",
+        "Dodge",
+        "Expert Swordsman",
+        "Sprint",
+        "Pistolier",
+        "Jump Up"
+      ],
+      "specialRules": "I Ain't Got Time For You!: Luthor is on a mission and has no time for frivolities such as melee combat. Luthor always succeeds when checking if he can escape from combat. | Looter: Whenever Luthor enters a new building (as long as he is not Down or engaged in combat), he finds D6 Gold Crowns worth of loot -this can be done only once per building. Add this to a running tally. If at the end of the battle, the leader of the Warband has to take a Leadership check. If successful, the warband gains half of the gold Luthor found. If the check fails, Luthor keeps all the looted gold! | Mordheim Guide: Luthor knows Mordheim better than almost any man alive. When rolling on Exploration chart, you may consult Luthor. If you do so, you may add +1 Dice to the total of Exploration dice rolled, and once you have rolled all the dice, you can change one dice to match any other result rolled. If you use this ability ( +1 Dice and the adjustment), the leader of your warband has to take a Leadership check. If you fail, then ignore the result on the Exploration Chart as Luthor finds the location alone and takes everything for himself! You still gain standard income and Wyrdstone as normal.",
+      "source": "Tuomas Pirinen, Mordheim Facebook Group, Mordheim 25th anniversary Celebrations",
+      "grade": "1c",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-1c#luthor-the-looter",
+      "skillsText": "Step Aside, Dodge, Expert Swordsman, Sprint, Pistolier. In addition, he has the Jump Up Skill - so eager he is to get to the treasure!"
+    },
+    {
+      "id": "akshoakhashTheVileDreadwingLordOfTheCarr",
+      "name": "Aksho'akhash the Vile Dreadwing, Lord of the Carrion Throne",
+      "hireFee": 30,
+      "upkeep": 30,
+      "mayBeHiredBy": "All warbands devoted to Chaos (such as the Cult of Possessed and Beastmen Raiders) may attempt to hire Aksho'akhash by having a spell-caster in the warband attempt a summoning ritual once after each game. The spell-caster must possess the Macabre Tome from the ‘Flurry of Furies’ scenario (see the previous page), pay the hiring fee*, and pass a Leadership test. If the ritual is successful, the Macabre Tome is destroyed and the Daemon is summoned.",
+      "ratingBonus": "+35 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 5,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 3,
+        "I": 5,
+        "A": 2,
+        "Ld": 10
+      },
+      "equipment": "Aksho'akhash has razor-sharp claws with which it tears at its prey and is made from raw magic itself. It has no need for weapons or armour.",
+      "skills": [],
+      "specialRules": "Fear: Lesser Daemons are horrifying supernatural creatures that cause fear in all who gaze upon them. | Daemonic Flesh: Due to their intangible nature, Daemons have a base armour save of 5+. This save is never modified but is completely negated by blessed or magic weapons and spells. The Daemon's attacks also count as magical. | Daemonic Instability: Daemons are bound to the world by dark sorcery that is highly volatile and unstable. If taken out of action, Aksho'akhash is banished and effectively destroyed on a D6 roll of 1-3 (do not roll for injury). If the spell-caster that summoned the Daemon is killed or leaves the warband, the Daemon is banished from whence it came. | Coward King: One does not grow to become ruler of a rubbish heap without a healthy respect for the integrity of one’s corporeal form. Unlike other Daemons of its ilk, Aksho'akhash is not immune to any psychology. Additionally, unlike other warriors that cause fear, Aksho'akhash itself is not immune to fear tests caused by other warriors. | Fly: Instead of moving normally (unless knocked down or stunned), Aksho'akhash may choose to: - Move anywhere within 12\" including into base contact with an enemy (in which case it counts as charging). - Move vertically without needing to climb. - Jump from any height without falling. | Aethereal Hoarder: Aksho'akhash has spent millennia picking through debris across the cosmos. While no mortal mind could comprehend exactly why such objects compel his attention, his skills for finding a diamond in the rough are valuable indeed. After each game, so long as Aksho'akhash was not taken out of action, it may perform one of the following tasks: - Reroll one exploration dice. - Search for a rare item as if it was a Hero; add 1 to the roll. - Find trinkets amongst the ruins worth 2D6 gold crowns.",
+      "source": "Mordheim Facebook Group",
+      "grade": "2a",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-2a#akshoakhash-the-vile-dreadwing-lord-of-the-carrion-throne"
+    },
+    {
+      "id": "bustyGwen",
+      "name": "“Busty” Gwen",
+      "hireFee": null,
+      "upkeep": null,
+      "mayBeHiredBy": "See below.",
+      "ratingBonus": "+40 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 1,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 3,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "Knives and rolling pin.",
+      "skills": [
+        "Step Aside",
+        "Mighty Blow",
+        "Strike to Injure"
+      ],
+      "specialRules": "Rolling Pin: Gwen uses her trusty rolling pin to keep surly customers in line. As such, treat the rolling pin as a cudgel in close combat. In addition, it was hand made by Gwen herself, with a reinforced iron center; add +1 S to any attacks she makes with this monstrosity. | Massively Built: As any visitor can tell you, Gwen is a massive woman. During the shooting phase, if she is not in close combat, and hasn't run, she may “show her stuff” to any visible male target within 12”. The target model must make a Ld check or lose his entire next turn as he stands dumbfounded by her impressive bulk. Naturally, females, skaven, orcs, and other non-human races are immune to this. While most undead are immune, Vampires, and Necromancers are not. Elves and Dwarves are affected, though not necessarily gaping in awe as much as disgust. (Optional) Any Slaaneshi cult members who fail their leadership check must take a further -1 Ld penalty for the remainder of the game. | Not Hired Muscle: Gwen knows all too well the corruption the City of the Damned spawns, and steers well clear. This does not however, stop her from turning a pretty profit. Gwendalyn runs a risky business operating outside of Mordheim and must be very careful to not become prey to the ravenous bands of treasure seekers. She also has an incredible number of connections with the scummier folk whom make their homes in and around the city ruins. A gang must send someone to look for Gwen as per normal rules. However once sent she is always found automatically. (No need to roll under initiative) This will set up the initial bargain. The warband will then need to fight the scenario listed below using Gwen as a Hired Sword. The game may be played with an Arbitrator, or a second gang may opt to fight in the Arbitrator’s place. In a campaign this game still counts against the maximum games playable. If the warband wins, they may choose any single, usable Personae Dramatis or Hired Sword and will gain their services free of charge for their next game only. If they lose, they must pay Gwen 2D6×5gc to pay for repairs to the Stoat. Either way, the warband may still look for treasure and wyrdstone following all the normal restrictions. In a one-off game, treat Gwen as a normal Dramatis Personae with a cost of 85gc whom adds +65 to the warband's overall rating.",
+      "source": "Fanatic Online 89",
+      "grade": "2a",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-2a#busty-gwen",
+      "hireFeeText": "See special rules."
+    },
+    {
+      "id": "theDarkJesterInMordheim",
+      "name": "The Dark Jester in Mordheim",
+      "hireFee": 75,
+      "upkeep": 30,
+      "mayBeHiredBy": "Only Carnival of Chaos and Possessed warbands may hire the Dark Jester — anybody else just doesn’t have the right sense of humour!",
+      "ratingBonus": "+55 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 2,
+        "I": 6,
+        "A": 2,
+        "Ld": 7
+      },
+      "equipment": "The Dark Jester has a skeleton ‘hobby horse’ (counts as a club) and a sack of spikes (counts as a morning star) which he wields in humorous fashion in combat.",
+      "skills": [
+        "Leap",
+        "Acrobat",
+        "Lightning Reflexes",
+        "Jump Up",
+        "Dodge"
+      ],
+      "specialRules": "Loner: The Dark Jester is used to walking the lone path, content with the schizophrenic comforts of the daemon he harbours. As such he never has to test for being All-alone. | Confound and Confuse: In combat the Dark Jester uses a series of distraction and confounding ‘tricks’ to gain the upper hand on his hapless adversaries. At the start of each combat turn (his and his opponents) he may select one of the ‘tricks’ below to use in that round. - Sidestepper: The Dark Jester weaves and bobs in combat as if he were a puppet hung from preternatural, prescient strings. In hand-to-hand combat the Dark Jester has a special dodge save of 4+ that cannot be modified by the strength of the attack. - Babbling Banter: The Dark Jester babbles inanely and taunts his opponents, distracting them and opening up their defences as they recklessly try to silence him. All enemy models in base-to-base contact with the Dark Jester are at -1 to hit in hand-to-hand combat and their opponents are at +1 to hit those affected. - Trip: The Dark Jester lures his opponent toward him with a few cutting taunts and then deftly steps aside their fatal swipe to upend them into the dirt. The Dark Jester may forgo rolling to ‘wound’ after a single attack and may instead elect to ‘trip’ his opponent. The Dark Jester rolls a D6. On a roll of 2+ his opponent is tripped and counts as ‘knocked down’.",
+      "source": "Fanatic Online 17",
+      "grade": "2a",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-2a#the-dark-jester-in-mordheim"
+    },
+    {
+      "id": "theHeadlessHorseman",
+      "name": "The Headless Horseman",
+      "hireFee": 100,
+      "upkeep": null,
+      "mayBeHiredBy": "Warbands who are not of good alignment may hire the Headless Horseman.",
+      "ratingBonus": "+80 points.",
+      "statLine": {
+        "M": null,
+        "WS": 4,
+        "BS": 5,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 6,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "Head or no head, this horseman still knows how to kill things! The Headless Horseman is armed with a brace of Dueling Pistols, a Double Handed Axe, a dagger, and wears Light Armour. He also has superior black powder and a lantern. Note that combined, the Light Armour and the Nightmare Steed give the Headless Horseman a save of 5+.",
+      "skills": [
+        "Horse Archer",
+        "Pistolier",
+        "Eagle Eyes",
+        "Trick Shooter",
+        "Strongman"
+      ],
+      "specialRules": "Causes Fear: The Headless Horseman is a harrowing sight to behold and therefore causes fear. | Immune to Psychology: The Headless Horseman and his steed are never affected by psychology and they never leave combat. However, if the Headless Horseman suffers a wound, he must roll on the Whoa Boy! table as normal. | Immune to Poison: The Headless Horseman and his steed are unaffected by all poisons. | Faithful Steed: The same dark magics that animate the Headless Horseman also keep his loyal steed at his side. As a result, he may never dismount. | Undead: Both the Headless Horseman and his steed count as undead for the purposes of Blessed Water, etc. | Expert Rider: The Headless Horseman is a superb rider and as such he counts as being stationary even if he has moved that turn (i.e., no -1 modifier to hit). | Rapid Reload: The Headless Horseman’s speed at reloading is legendary and he can reload both of his pistols in the blink of an eye! Because of this he can fire with both (the skill Pistolier) of his dueling pistols every Shooting Phase. | Head Hewer: Ever since the loss of his own head, the Headless Horseman has started his own morbid collection with the very same axe which caused his own grizzly demise. When the Headless Horseman charges, all attacks with his double handed axe cause +1 to all injury rolls and he causes a critical hit on a roll of 5-6. Note this only counts for the turn in which the Headless Horseman has charged, and not subsequent turns in which he is still engaged in hand-to-hand combat. | Wanderer: The Headless Horseman only stays with a warband for the duration of one battle. A warband who used the Headless Horseman in their last battle may not seek him out until they have fought at least one battle without him.",
+      "source": "Sylvania Supplement",
+      "grade": "2a",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-2a#the-headless-horseman",
+      "notes": "Profiles: Horseman: WS4 BS5 S4 T4 W2 I6 A2 Ld8; Steed: M8 WS2 BS0 S3 T4 W2 I2 A1 Ld5"
+    },
+    {
+      "id": "theFoole",
+      "name": "The Foole",
+      "hireFee": 40,
+      "upkeep": null,
+      "mayBeHiredBy": "The Foole may only be hired by non-good warbands or Mercenaries. Witch Hunters, Sisters of Sigmar, and Bretonnians automatically hate Schleige.",
+      "ratingBonus": "+30 points.",
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "equipment": "Sword, dagger, Poison Ring (See Special Rules).",
+      "skills": [
+        "Acrobat",
+        "Lightning Reflexes"
+      ],
+      "specialRules": "Unhinged: Schleige is totally and irrevocably insane. As such, he is totally immune to all Psychology and All Alone tests. | “Bored now…”: The mind of the Foole is like quicksilver, ever wandering and searching for new atrocities and stimulation. As such, he tires of routine and will never work for a single warband consecutively. A warband who used Schleige in their last battle may not seek him out until they have fought at least one battle without him. As unhinged and depraved as he is, most warbands would not seek him out again quickly as it is…. | Poison Ring: Schleige wears a ring of his own devising that hides within it a poison he calls Giggle Juice. The poison causes the victim's muscles to cramp and contract severely, often strongly enough to cause the chest muscles to splinter the victim's ribs and crush his lung. Facial muscles twist and distort the victim's expression into a ghastly, grinning rictus. Once per battle, Schleige may, instead of making a normal attack, choose to spray a single opponent in hand-to-hand combat with a high power spray of Giggle Juice. This is an automatic STR 2 hit, and the poison adds a +1 to Injury Rolls. If taken out of action by the poison, during the post battle sequence if the warrior rolls any result except for Dead or Full Recovery, he gains the serious injury Nervous Condition (in addition to the regularly rolled result). | Sadist: Schleige takes supreme pleasure in the slow and inventive suffering of others. If an opposing warband member is Captured, Schleige will step up and demand he be given the warrior for his 'tastes'. The warrior is considered dead, and his weaponry, etc, may be kept by the capturing warband. | Master Craftsman: A wondrous toymaker in his former life, Schleige retains his skills with devices and invention, though now his warped mind turns this talent to the darker arts. After the battle, a single warrior from the hiring warband may approach the Foole and ask him to improve a single weapon. Schleige, however, is not known for being a rational creature; roll on the chart below. D6 Result 1 — Schleige merely stares at the warrior, giggling and babbling inanities. 2-5 — Schleige takes the offered weapon and shuffles off, bent low over it and muttering. The next morning, the weapon will be found outside the warrior's tent, more often than not garishly painted or adorned with bits of children's toys (or less savory trophies). To determine how the weapon has been modified, roll an additional D6: - 1-2 — The weapon now has +1 STR. - 3-4 — The weapon now adds +1 to the wielder's Initiative. - 5-6 — Next to the weapon sits a vial of Giggle Juice, which may be used to coat the weapon. Giggle Juice adds a +1 STR to the weapon as well as a +1 to the Injury roll. There is enough poison in the vial for two battles. 6 — Schleige takes the offered weapon, laughs wickedly, then attacks! Treat the encounter as a single combat. The defending warrior must fight without the weapon he has just foolishly handed to a madman; Schleige may use either his own sword or the weapon he has just been given. After combat, Schleige will discard the new weapon and scamper off into the ruins, giggling madly.",
+      "source": "Fanatic Online 89",
+      "grade": "2a",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-2a#the-foole"
+    },
+    {
+      "id": "sigmundSpindleTheHarvesterOfFlesh",
+      "name": "Sigmund Spindle, the Harvester of Flesh",
+      "hireFee": 70,
+      "upkeep": 35,
+      "mayBeHiredBy": "Sigmund may be hired by any evil or chaotically aligned warband.",
+      "ratingBonus": "+65 points.",
+      "statLine": {
+        "M": 6,
+        "WS": 5,
+        "BS": 2,
+        "S": 5,
+        "T": 4,
+        "W": 2,
+        "I": 7,
+        "A": 3,
+        "Ld": 7
+      },
+      "equipment": "Sigmund carries a scythe and that is all!",
+      "skills": [
+        "Sprint",
+        "Scale Sheer Surfaces",
+        "Dodge",
+        "Lightning Reflexes",
+        "Step Aside",
+        "Unstoppable Charge"
+      ],
+      "specialRules": "Maddened: Although Sigmund is no longer living his terribly scarred mind survives in some areas. Sigmund is therefore subject to Frenzy. | Causes Fear: Sigmund is a terrifying foe in combat and therefore causes fear. | Immune To Poison: Sigmund is unaffected by all poisons. | No Pain: Sigmund ignores all knocked down and stunned results on the Injury chart. He must lose his last wound and be taken out of action before he is removed from battle.",
+      "source": "Sylvania Supplement",
+      "grade": "2a",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-2a#sigmund-spindle-the-harvester-of-flesh",
+      "hireFeeText": "70 gold crowns to hire, Sigmund Sprandle may also be hired in the payment of one body part. If you wish to do this then a chosen Hero suffers one Severe Arm Wound and may only use one single handed weapon from now on."
+    },
+    {
+      "id": "williamSchakestangeMasterBard",
+      "name": "William Schakestange, Master Bard",
+      "hireFee": 70,
+      "upkeep": 30,
+      "mayBeHiredBy": "Any Mercenaries, Sisters of Sigmar and Witch Hunters may hire William. Furthermore, any good-aligned warband may hire William on a roll of 4+.",
+      "ratingBonus": "60 (+6 with Pantomime Horse)",
+      "statLine": {
+        "M": 4,
+        "WS": 5,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 2,
+        "I": 5,
+        "A": 2,
+        "Ld": 8
+      },
+      "equipment": "Rapier, dagger and light armour. He also carries a Lucky Rabbit’s foot (superstitious actors…).",
+      "skills": [],
+      "specialRules": "Songster: A Bard's rousing war songs steel the hearts of all those around him. Any friendly model within 6\" of William may re-roll any failed Leadership test with a +1 to Leadership. This includes rout tests. | Pantomime Horse: A pair of brave, loyal actors in a very tattered costume. The Pantomime Horse is treated as a Warhorse with all the normal rules that apply. The exception is that the Pantomime Horse will never bolt. If you desire, William can play any game unmounted. | Pages of Couragio: During any match in which you are NOT the highest ranking warband, you may use William’s ‘Pages of Couragio’ ability: Keep track of any Hero or Henchmen group member in your warband who performs one of the following acts. That warrior is rewarded a Couragio Point (with Henchmen, the group gets the point): * Intercepts a charge. * Takes an enemy warrior Out of Action who was NOT Knocked Down or Stunned. * Successfully passes a Fear test to charge an opponent. * Successfully makes a Diving Charge. * Survives a Combat Phase, during which he is outnumbered at least two to one. At the end of the game, randomly choose a Hero or Henchmen group that earned at least one Couragio point. If the chosen person was a Hero, that Hero gains an extra D3 experience this game. If instead you choose a Henchmen group, the entire group earns 1 extra experience for the game. Couragio Points do not carry over from one game to the next. Non-experience-gaining warriors cannot gain Couragio points.",
+      "source": "Letters of the Damned 4",
+      "grade": "2a",
+      "url": "https://mordheimer.net/docs/campaigns/dramatis-personae/grade-2a#william-schakestange-master-bard",
+      "skillsText": "William has the following skills: Jump Up, Dodge, and Lightning Reflexes. He also has the mounted skill Ride Pantomime Horse and the skill Swashbuckler from the Pirate Warband list (and yes, he may use the skill even on horseback!).",
+      "notes": "Profiles: William: M4 WS5 BS3 S4 T3 W2 I5 A2 Ld8; Pant. Horse: M8 WS3 BS0 S3 T3 W1 I3 A1 Ld5"
     }
   ]
 }
