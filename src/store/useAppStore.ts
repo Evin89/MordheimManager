@@ -60,6 +60,12 @@ export type BattleSession = {
   /** An optional generated board for this game (§map): laid out at pre-battle from
    * the terrain library + table size, and shown again during the battle. */
   battlefield?: Battlefield;
+  /** §34 — a friendly game: nothing will reach the roster or a campaign. Absent
+   * (old sessions) reads as false. */
+  friendly?: boolean;
+  /** §34 — house rules the players picked for a personal battle. Absent reads
+   * as the rulebook defaults. */
+  houseRules?: Record<string, boolean>;
 };
 
 /** The starting state for a table-side session. Lives here because both battle

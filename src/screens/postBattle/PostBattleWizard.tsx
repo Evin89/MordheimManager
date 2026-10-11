@@ -6,9 +6,10 @@ import { Button } from '../../components/ui';
 import { strings } from '../../strings';
 import { useAppStore } from '../../store/useAppStore';
 import { useCommitBattleWarbandMutation, useWarbandList } from '../../hooks/useWarbands';
-import { useLogBattleMutation } from '../../hooks/useCampaign';
-import { applyDraftToWarband, createInitialDraft, seedCasualties } from './draftHelpers';
-import { PostBattleDraft, WIZARD_STEPS } from './types';
+import { useLogBattleMutation, useWarbandCampaign } from '../../hooks/useCampaign';
+import { defaultHouseRules, isFriendlyGame } from '../../data/houseRules';
+import { applyDraftToWarband, buildFriendlyRecord, createInitialDraft, seedCasualties } from './draftHelpers';
+import { FRIENDLY_STEP_INDICES, PostBattleDraft, WIZARD_STEPS } from './types';
 import StepBattleInfo from './StepBattleInfo';
 import StepInjuries from './StepInjuries';
 import StepExperience from './StepExperience';
@@ -36,6 +37,9 @@ export default function PostBattleWizard() {
   const warband = warbands.find((w) => w.id === warbandId);
   const commitBattleWarband = useCommitBattleWarbandMutation();
   const logBattle = useLogBattleMutation();
+  // §34.4 — the campaign this battle would be filed under, which also decides
+  // whether a friendly is allowed.
+  const campaign = useWarbandCampaign(warbandId) ?? null;
   const session = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
   const clearBattleSession = useAppStore((state) => state.clearBattleSession);
 
@@ -87,10 +91,22 @@ export default function PostBattleWizard() {
       heroes,
       hiredSwords,
       wyrdstoneFound,
+      // §34 — carried from pre-battle.
+      friendly: !!session.friendly,
+      houseRules: session.houseRules,
     };
   });
 
   if (!warband || !draft) return <Navigate to="/warbands" replace />;
+
+  // §34.2.2 — a friendly runs Battle Info → Confirm only. `stepIndex` is a
+  // position in the active list, so when the path changes under the player (a
+  // leader turning friendlies off mid-game) the short path's Confirm lands on
+  // Injuries — the first step they now have to review — rather than committing.
+  const friendly = isFriendlyGame(campaign, draft.friendly);
+  const steps: readonly number[] = friendly ? FRIENDLY_STEP_INDICES : WIZARD_STEPS.map((_, i) => i);
+  const position = Math.min(stepIndex, steps.length - 1);
+  const friendliesNowOff = draft.friendly && !friendly && !!campaign;
 
   function updateDraft(patch: Partial<PostBattleDraft> | ((current: PostBattleDraft) => Partial<PostBattleDraft>)) {
     setDraft((current) => {
@@ -101,31 +117,49 @@ export default function PostBattleWizard() {
   }
 
   function goBack() {
-    if (stepIndex === 0) {
+    if (position === 0) {
       navigate(`/warbands/${warband!.id}`);
     } else {
-      setStepIndex((i) => i - 1);
+      setStepIndex(position - 1);
     }
   }
 
   function goNext() {
-    setStepIndex((i) => Math.min(i + 1, WIZARD_STEPS.length - 1));
+    setStepIndex(Math.min(position + 1, steps.length - 1));
   }
 
   async function handleCommit() {
     if (!warband || !draft || committing) return;
-    const { warband: updatedWarband, battleRecord } = applyDraftToWarband(warband, draft);
     setCommitting(true);
     try {
-      // Save the warband first: it stores the pre-battle snapshot that "undo last
-      // battle" relies on. Logging the battle second means a failure there leaves
-      // an undoable warband rather than a battle with no matching roster change.
-      await commitBattleWarband({ previous: warband, next: updatedWarband });
-      await logBattle(battleRecord);
-      void capture('battle_committed', {
-        result: battleRecord.result,
-        scenario_selected: Boolean(battleRecord.scenario),
-      });
+      if (friendly) {
+        // §34 — nothing reaches the roster: no warband save, so no snapshot,
+        // and *undo last battle* still undoes the last real battle.
+        const record = buildFriendlyRecord(warband, draft);
+        await logBattle(record, { personal: true });
+        void capture('battle_committed', {
+          result: record.result,
+          scenario_selected: Boolean(record.scenario),
+          filed: 'friendly',
+        });
+      } else {
+        const { warband: updatedWarband, battleRecord } = applyDraftToWarband(warband, draft);
+        // A personal battle keeps the house rules the players picked; a campaign
+        // battle plays to its campaign's.
+        const record = campaign
+          ? battleRecord
+          : { ...battleRecord, houseRules: draft.houseRules ?? defaultHouseRules() };
+        // Save the warband first: it stores the pre-battle snapshot that "undo last
+        // battle" relies on. Logging the battle second means a failure there leaves
+        // an undoable warband rather than a battle with no matching roster change.
+        await commitBattleWarband({ previous: warband, next: updatedWarband });
+        await logBattle(record);
+        void capture('battle_committed', {
+          result: record.result,
+          scenario_selected: Boolean(record.scenario),
+          filed: campaign ? 'campaign' : 'personal',
+        });
+      }
       clearBattleSession(warband.id);
       navigate(`/warbands/${warband.id}`, { replace: true });
     } finally {
@@ -133,14 +167,15 @@ export default function PostBattleWizard() {
     }
   }
 
-  const StepComponent = STEP_COMPONENTS[stepIndex];
-  const isLastStep = stepIndex === WIZARD_STEPS.length - 1;
+  const stepNumber = steps[position];
+  const StepComponent = STEP_COMPONENTS[stepNumber];
+  const isLastStep = position === steps.length - 1;
 
   return (
     <div className="min-h-full flex flex-col">
       <BackHeader
-        title={WIZARD_STEPS[stepIndex]}
-        subtitle={strings.postBattle.stepOf(stepIndex + 1, WIZARD_STEPS.length)}
+        title={WIZARD_STEPS[stepNumber]}
+        subtitle={strings.postBattle.stepOf(position + 1, steps.length)}
         onBack={goBack}
       />
 
@@ -148,18 +183,23 @@ export default function PostBattleWizard() {
         <div className="h-1.5 rounded-full bg-ink-800 overflow-hidden">
           <div
             className="h-full bg-ember-500 transition-all"
-            style={{ width: `${((stepIndex + 1) / WIZARD_STEPS.length) * 100}%` }}
+            style={{ width: `${((position + 1) / steps.length) * 100}%` }}
           />
         </div>
       </div>
 
       <main className="flex-1 px-4 py-6">
+        {friendliesNowOff && campaign && (
+          <p className="mb-4 rounded-lg border border-ember-500 bg-ink-900 p-3 text-bone-200 text-sm">
+            {strings.postBattle.friendliesOff(campaign.name)}
+          </p>
+        )}
         <StepComponent warband={warband} draft={draft} updateDraft={updateDraft} />
 
         <div className="pt-6">
           {isLastStep ? (
             <Button onClick={handleCommit} disabled={committing}>
-              {strings.postBattle.commitBattle}
+              {friendly ? strings.postBattle.saveFriendly : strings.postBattle.commitBattle}
             </Button>
           ) : (
             <Button onClick={goNext}>{strings.postBattle.next}</Button>

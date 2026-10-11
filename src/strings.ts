@@ -919,7 +919,22 @@ export const strings = {
     pickWarbandPrompt: 'Which warband is about to fight?',
     noWarbands: 'Create a warband first.',
     startBattleButton: 'Start Battle',
+    // §34 — friendly games and Your Battles on the Battle tab.
+    friendlyChip: 'Friendly',
+    houseRulesUsedLabel: 'House rules',
+    houseRulesNone: 'None',
+    historySection: 'Your Battles',
+    historyHint: "Battles fought outside a campaign, and friendly games. Campaign battles are in their campaign's log.",
+    deletePersonalBattleConfirm: (scenario: string) =>
+      `Delete ${scenario ? `"${scenario}"` : 'this battle'} from Your Battles? Your roster isn't changed.`,
     preBattle: {
+      friendly: 'Friendly game',
+      friendlyHint: (name: string) =>
+        `Doesn't count for ${name}: no Experience, injuries or gold, and it isn't filed in the campaign.`,
+      countsForRoster: 'Counts for your roster',
+      countsForRosterHint: 'Off: a friendly. Nothing from the game reaches your roster.',
+      houseRulesTitle: 'House rules for this game',
+      houseRulesHint: 'Tick the ones you and your opponent agreed on. Kept with the battle record.',
       title: 'Pre-Battle Setup',
       scenarioLabel: 'Scenario',
       scenarioPlaceholder: '—',
@@ -1043,6 +1058,11 @@ export const strings = {
     stepOf: (step: number, total: number) => `Step ${step} of ${total}`,
     next: 'Next',
     commitBattle: 'Commit Battle',
+    // §34 — the friendly short path.
+    saveFriendly: 'Save friendly game',
+    friendlyNoChanges: 'Friendly game — nothing on your roster changes.',
+    friendliesOff: (name: string) =>
+      `Friendly games are off in ${name}, so this battle counts. Check the steps before committing.`,
     undoLastBattle: 'Undo Last Battle',
     undoConfirm: 'Revert the warband and campaign log to how they were before the last post-battle sequence was committed?',
     battleInfo: {
@@ -1300,6 +1320,12 @@ export const strings = {
       on: 'On',
       off: 'Off',
     },
+    // §34.2.1 — the leader's setting, shown under the house rules.
+    friendlies: {
+      allow: 'Allow friendly games',
+      allowHint:
+        "Players can play this campaign's warbands in games that don't count. Nothing from a friendly reaches their roster or this campaign.",
+    },
     recap: {
       concludeSection: 'End of campaign',
       concludeHint: 'Wrap the campaign up: its standings become a final recap. You can reopen it later.',
@@ -1388,10 +1414,8 @@ export const strings = {
     // campaign only saw "start or join one".
     oneOffTitle: 'Just want to play a game?',
     oneOffBody:
-      "No campaign needed. Pick a warband and play a one-off battle: set up the scenario, track it at the table, then run the post-battle sequence — injuries, experience and income — on your roster. It's kept below under Your Battles.",
+      "No campaign needed. Pick a warband and play a one-off battle: set up the scenario, track it at the table, then run the post-battle sequence — injuries, experience and income — on your roster. It's kept on the Battle tab under Your Battles.",
     oneOffButton: 'Start a battle',
-    personalBattlesSection: 'Your Battles',
-    personalBattlesHint: "Battles you've fought outside a campaign.",
     joinHint: 'Got a code from your campaign leader? Enter it here.',
     joinCodeLabel: 'Join code',
     joinCodePlaceholder: 'MRDH-7F2K',

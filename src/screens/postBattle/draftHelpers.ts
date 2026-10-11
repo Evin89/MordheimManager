@@ -1,4 +1,5 @@
 import { generateId } from '../../lib/id';
+import { defaultHouseRules } from '../../data/houseRules';
 import { getUnitRacialMaximums } from '../../lib/racialMaximums';
 import { getSpell } from '../../lib/spellLookup';
 import { getWyrdstoneSellPrice } from '../../lib/wyrdstonePricing';
@@ -150,6 +151,7 @@ export function createInitialDraft(warband: Warband): PostBattleDraft {
     wyrdstoneFound: 0,
     wyrdstoneSold: 0,
     exploration: { dice: [], keptIndices: [], resolved: null },
+    friendly: false,
   };
 }
 
@@ -467,6 +469,37 @@ export function applyDraftToWarband(
   };
 
   return { warband: updatedWarband, battleRecord };
+}
+
+/**
+ * §34 — the record for a friendly. Built from Battle Info alone: nothing from
+ * the game reached the roster, so gold, wyrdstone and casualties are empty and
+ * the warband is left untouched (no `applyDraftToWarband`).
+ */
+export function buildFriendlyRecord(warband: Warband, draft: PostBattleDraft): BattleRecord {
+  const opponentList = draft.opponents
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  return {
+    id: generateId(),
+    warbandId: warband.id,
+    date: draft.date,
+    scenario: draft.scenario,
+    opponents: opponentList,
+    opponentWarbandIds:
+      draft.opponentWarbandId && opponentList.includes(draft.opponentWarbandName.trim())
+        ? { [draft.opponentWarbandName.trim()]: draft.opponentWarbandId }
+        : undefined,
+    result: draft.result,
+    wyrdstoneFound: 0,
+    goldChange: 0,
+    casualtiesSummary: '',
+    enemiesTakenOut: draft.enemiesTakenOut || undefined,
+    friendly: true,
+    houseRules: draft.houseRules ?? defaultHouseRules(),
+    notes: draft.notes,
+  };
 }
 
 /**

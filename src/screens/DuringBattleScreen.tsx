@@ -27,6 +27,8 @@ import { useEnsureWarbandType } from '../hooks/useCustomWarbands';
 import { generateId } from '../lib/id';
 import { EquipmentItem, StatLine, Warband } from '../types';
 import ConfirmAction from '../components/ConfirmAction';
+import { useWarbandCampaign } from '../hooks/useCampaign';
+import { isFriendlyGame } from '../data/houseRules';
 
 /** Marks a single model down, or counts how many of a group went down. */
 type OutOfActionControl =
@@ -507,6 +509,7 @@ export default function DuringBattleScreen() {
   const navigate = useNavigate();
   const warbands = useWarbandList();
   const { warband, loading } = useWarbandLookup(warbandId);
+  const ownCampaign = useWarbandCampaign(warbandId) ?? null;
   const storedSession = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
   const setStoredSession = useAppStore((state) => state.setBattleSession);
 
@@ -622,7 +625,15 @@ export default function DuringBattleScreen() {
         )}
 
         <Card as="section">
-          <p className="text-bone-200 text-sm font-semibold text-center">{strings.battle.duringBattle.turnLabel}</p>
+          <p className="text-bone-200 text-sm font-semibold text-center">
+            {strings.battle.duringBattle.turnLabel}
+            {/* §34.2.2 — so it's clear at the table that nothing will be committed. */}
+            {isFriendlyGame(ownCampaign, session.friendly) && (
+              <span className="ml-2 align-middle text-xs font-normal px-2 py-0.5 rounded bg-ink-800 border border-ink-700 text-bone-300">
+                {strings.battle.friendlyChip}
+              </span>
+            )}
+          </p>
           <div className="flex items-center justify-center gap-4">
             <button
               type="button"

@@ -9,6 +9,7 @@ import HouseRulesPanel from '../components/HouseRulesPanel';
 import CampaignHonours from '../components/CampaignHonours';
 import CampaignRecap from '../components/CampaignRecap';
 import CampaignRatingChart from '../components/CampaignRatingChart';
+import BattleRow from '../components/BattleRow';
 import SaveBar from '../components/SaveBar';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import ConfirmAction from '../components/ConfirmAction';
@@ -32,7 +33,6 @@ import {
   useRevokeLeadershipMutation,
   useSaveCampaignMutation,
   useSetAnnouncementMutation,
-  usePersonalBattlesQuery,
   useStandingsQuery,
 } from '../hooks/useCampaign';
 import {
@@ -65,18 +65,6 @@ type ObjectiveFields = Omit<BtbObjective, 'id' | 'warbandId'>;
 
 const objectives = (objectivesData as BtbObjectivesData).objectives;
 
-const RESULT_LABEL: Record<BattleRecord['result'], string> = {
-  win: strings.campaign.win,
-  loss: strings.campaign.loss,
-  draw: strings.campaign.draw,
-};
-
-const RESULT_CLASSES: Record<BattleRecord['result'], string> = {
-  win: 'border-ember-500 text-ember-400',
-  loss: 'border-blood-600 text-danger',
-  draw: 'border-ink-700 text-bone-300',
-};
-
 // No Rules tab: the campaign rules are in the Rules Reference, and duplicating
 // an entry point here pushed the tabs that do something into a cramped row.
 // Activity is the living record (feed, battles, story); Settings holds the
@@ -89,82 +77,6 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'territory', label: strings.campaign.territory.section },
   { id: 'settings', label: strings.campaign.settingsTab },
 ];
-
-function BattleRow({
-  battle,
-  warbandName,
-  onDelete,
-}: {
-  battle: BattleRecord;
-  warbandName: string;
-  /** Leaders (and the reporter, per the 0005 policy) may remove an entry. */
-  onDelete?: () => void;
-}) {
-  const [expanded, setExpanded] = useState(false);
-
-  return (
-    <div className="rounded-lg bg-ink-900 border border-ink-800 p-4">
-      <button
-        type="button"
-        onClick={() => setExpanded((v) => !v)}
-        className="w-full flex items-center justify-between gap-3 text-left"
-      >
-        <div className="min-w-0">
-          <p className="text-bone-100 font-semibold truncate">{battle.scenario || 'Scenario not recorded'}</p>
-          <p className="text-bone-300 text-sm truncate">
-            {battle.date} · {warbandName}
-          </p>
-        </div>
-        <span className={`shrink-0 text-xs font-semibold px-2 py-0.5 rounded border ${RESULT_CLASSES[battle.result]}`}>
-          {RESULT_LABEL[battle.result]}
-        </span>
-      </button>
-
-      {expanded && (
-        <div className="mt-3 pt-3 border-t border-ink-800 space-y-1 text-sm">
-          {battle.opponents.length > 0 && (
-            <p className="text-bone-300">
-              <span className="text-bone-200 font-semibold">{strings.campaign.opponentsLabel}: </span>
-              {battle.opponents.join(', ')}
-            </p>
-          )}
-          {!!battle.underdogBonus && (
-            <p className="text-bone-300">{strings.campaign.underdogBonusLabel(battle.underdogBonus)}</p>
-          )}
-          {battle.wyrdstoneFound > 0 && (
-            <p className="text-bone-300">{strings.campaign.wyrdstoneFoundLabel(battle.wyrdstoneFound)}</p>
-          )}
-          <p className="text-bone-300">
-            <span className="text-bone-200 font-semibold">{strings.common.gold}: </span>
-            {strings.campaign.goldChangeLabel(battle.goldChange)}
-          </p>
-          <p className="text-bone-300">
-            <span className="text-bone-200 font-semibold">{strings.campaign.casualtiesLabel}: </span>
-            {battle.casualtiesSummary}
-          </p>
-          {battle.notes && (
-            <p className="text-bone-300">
-              <span className="text-bone-200 font-semibold">{strings.campaign.notesForBattleLabel}: </span>
-              {battle.notes}
-            </p>
-          )}
-
-          {/* Behind the disclosure, so it takes a deliberate open-then-tap
-              rather than sitting next to the row you were only scanning. */}
-          {onDelete && (
-            <button
-              type="button"
-              onClick={onDelete}
-              className="min-h-[44px] text-danger text-sm font-semibold"
-            >
-              {strings.campaign.deleteBattle}
-            </button>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
 
 /** BTB objectives are secret by the rules, so they live in their own owner-only
  * table rather than inside the (shareable) warband blob — each card owns its
@@ -295,13 +207,6 @@ function DeleteCampaign({ campaign, memberCount }: { campaign: Campaign; memberC
 
 /** First-run state: no campaign yet, so offer both ways in. */
 function CampaignEntry() {
-  const warbands = useWarbandList();
-  const { data: personalBattles } = usePersonalBattlesQuery();
-
-  function warbandName(id: string): string {
-    return warbands.find((w) => w.id === id)?.name ?? strings.campaign.unknownWarband;
-  }
-
   return (
     <>
       <CreateCampaignForm title={strings.campaign.startTitle} hint={strings.campaign.startHint} />
@@ -315,7 +220,7 @@ function CampaignEntry() {
       <JoinCampaignForm title={strings.campaign.joinTitle} />
 
       {/* §26.6 — the third way in, stated rather than discovered: battles work
-          without any campaign and land in Your Battles below. */}
+          without any campaign and land in Your Battles on the Battle tab (§34.3). */}
       <Card as="section" gap="sm">
         <SectionHeading>{strings.campaign.oneOffTitle}</SectionHeading>
         <p className="text-bone-300 text-sm">{strings.campaign.oneOffBody}</p>
@@ -324,24 +229,6 @@ function CampaignEntry() {
         </Link>
       </Card>
 
-      {/* Battles fought without a campaign still happened. They used to force a
-          campaign into existence just to have somewhere to go; now they're
-          listed here so the history is still reachable. */}
-      {(personalBattles?.length ?? 0) > 0 && (
-        <section className="space-y-3">
-          <SectionHeading>{strings.campaign.personalBattlesSection}</SectionHeading>
-          <p className="text-bone-300 text-xs">{strings.campaign.personalBattlesHint}</p>
-          <div className="space-y-2">
-            {[...(personalBattles ?? [])].reverse().map((battle) => (
-              <BattleRow
-                key={battle.id}
-                battle={battle}
-                warbandName={warbandName(battle.warbandId)}
-              />
-            ))}
-          </div>
-        </section>
-      )}
     </>
   );
 }

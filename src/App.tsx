@@ -94,6 +94,7 @@ const CustomWarbandGalleryScreen = lazy(() => import('./screens/CustomWarbandGal
 const CustomWarbandEditScreen = lazy(() => import('./screens/CustomWarbandEditScreen'));
 
 const WarbandPickerScreen = lazy(() => import('./screens/WarbandPickerScreen'));
+const PersonalBattles = lazy(() => import('./components/PersonalBattles'));
 
 // Solo mode (beta) — client-only, its own store, no server writes.
 const SoloSetupScreen = lazy(() => import('./screens/solo/SoloSetupScreen'));
@@ -265,7 +266,9 @@ function AppShell() {
                   prompt={strings.battle.pickWarbandPrompt}
                   emptyMessage={strings.battle.noWarbands}
                   destination={(id) => `/warbands/${id}/pre-battle`}
-                />,
+                >
+                  <PersonalBattles />
+                </WarbandPickerScreen>,
               )}
             />
             <Route

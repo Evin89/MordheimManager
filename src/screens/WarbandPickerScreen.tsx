@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { useWarbandList } from '../hooks/useWarbands';
 import { getWarbandTypeLabel } from '../data/warbandRegistry';
@@ -7,9 +8,17 @@ type WarbandPickerScreenProps = {
   prompt: string;
   emptyMessage: string;
   destination: (warbandId: string) => string;
+  /** Shown below the list, e.g. the Battle tab's Your Battles (§34.3). */
+  children?: ReactNode;
 };
 
-export default function WarbandPickerScreen({ title, prompt, emptyMessage, destination }: WarbandPickerScreenProps) {
+export default function WarbandPickerScreen({
+  title,
+  prompt,
+  emptyMessage,
+  destination,
+  children,
+}: WarbandPickerScreenProps) {
   const warbands = useWarbandList();
 
   return (
@@ -36,6 +45,7 @@ export default function WarbandPickerScreen({ title, prompt, emptyMessage, desti
             ))}
           </>
         )}
+        {children}
       </main>
     </div>
   );

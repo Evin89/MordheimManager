@@ -5,7 +5,7 @@ import { Button, TextField, Textarea, Select, Field } from '../components/ui';
 import { strings } from '../strings';
 import { BattleSession, defaultBattleSession, useAppStore } from '../store/useAppStore';
 import { useWarbandList, useWarbandLookup } from '../hooks/useWarbands';
-import { useBattlesQuery, useCampaignWarbandsQuery, useMyCampaignQuery } from '../hooks/useCampaign';
+import { useBattlesQuery, useCampaignWarbandsQuery, useWarbandCampaign } from '../hooks/useCampaign';
 import { useTerrainPiecesQuery } from '../hooks/useCollection';
 import { suggestScenario } from '../lib/scenarioSuggest';
 import { GameFit, filterScenarios, getCatalogScenario, getCatalogScenarioByName } from '../lib/scenarioCatalog';
@@ -15,6 +15,8 @@ import { computeWarbandRating } from '../lib/rating';
 import { generateBattlefield } from '../lib/solo/battlefield';
 import BattlefieldBoard from '../components/solo/BattlefieldBoard';
 import ScenarioSetupPanel from '../components/ScenarioSetupPanel';
+import FriendlyGameControls from '../components/FriendlyGameControls';
+import { isFriendlyGame } from '../data/houseRules';
 
 export default function PreBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
@@ -22,7 +24,10 @@ export default function PreBattleScreen() {
   const warbands = useWarbandList();
   const { warband, loading } = useWarbandLookup(warbandId);
   const otherWarbands = warbands.filter((w) => w.id !== warbandId);
-  const { data: campaign } = useMyCampaignQuery();
+  // §34.4 — the warband's own campaign, not the app's active one: that is where
+  // this battle will be filed, so its opponents and progress gate are the ones
+  // that apply.
+  const campaign = useWarbandCampaign(warbandId) ?? null;
   const { data: campaignWarbands } = useCampaignWarbandsQuery(campaign?.id);
   // Gates scenarios with a minimum campaign-progress requirement; for a one-off
   // game (no campaign) everything is eligible.
@@ -121,7 +126,10 @@ export default function PreBattleScreen() {
     const picked = suggestScenario({
       candidates: filterScenarios(scenarioFilter, gameFit),
       fit: gameFit,
-      battleCount: campaign ? (campaignBattles?.length ?? 0) : undefined,
+      // §34.4 — a friendly, like a game outside any campaign, isn't gated by
+      // campaign progress.
+      battleCount:
+        campaign && !isFriendlyGame(campaign, session.friendly) ? (campaignBattles?.length ?? 0) : undefined,
     });
     setNothingFits(!picked);
     if (!picked) return;
@@ -357,6 +365,14 @@ export default function PreBattleScreen() {
             </div>
           )}
         </section>
+
+        {/* §34.2.2 — does this game count, and which house rules for a personal one. */}
+        <FriendlyGameControls
+          campaign={campaign}
+          friendly={!!session.friendly}
+          houseRules={session.houseRules}
+          onChange={(patch) => updateSession(patch)}
+        />
 
         <section className="space-y-2">
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="pre-battle-notes">

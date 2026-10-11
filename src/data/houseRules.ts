@@ -54,6 +54,39 @@ export const HOUSE_RULES: HouseRule[] = [
   },
 ];
 
+/** Every rule at its rulebook default — the starting point for a personal
+ * battle's per-game picks (§34.2.2). */
+export function defaultHouseRules(): Record<string, boolean> {
+  return Object.fromEntries(HOUSE_RULES.map((rule) => [rule.id, rule.defaultOn]));
+}
+
+/**
+ * §34.2.1 — the leader's "Allow friendly games" setting. A campaign setting, not
+ * a house rule (house rules describe how a game is played; this decides whether
+ * a game counts), stored under a reserved key in the same `house_rules` jsonb so
+ * it needs no migration. The underscore keeps it out of HOUSE_RULES, so it never
+ * shows in the house-rules list. Absent = allowed.
+ *
+ * Unlike the house rules above, this one the app enforces: it decides whether
+ * the friendly switch appears in pre-battle and the post-battle wizard.
+ */
+export const FRIENDLY_GAMES_KEY = '_friendlyGames';
+
+export function friendliesAllowed(campaign: { houseRules: Record<string, boolean> } | null | undefined): boolean {
+  if (!campaign) return true;
+  return campaign.houseRules[FRIENDLY_GAMES_KEY] ?? true;
+}
+
+/** Whether a battle is a friendly once the campaign's setting is applied: a
+ * friendly asked for in a campaign that forbids them (a stale session, a leader
+ * who changed it mid-game) is an ordinary battle. */
+export function isFriendlyGame(
+  campaign: { houseRules: Record<string, boolean> } | null | undefined,
+  friendly: boolean | undefined,
+): boolean {
+  return !!friendly && friendliesAllowed(campaign);
+}
+
 /** Whether a rule is on for a campaign: its explicit setting, else the default. */
 export function isHouseRuleOn(rule: HouseRule, map: Record<string, boolean>): boolean {
   return map[rule.id] ?? rule.defaultOn;
