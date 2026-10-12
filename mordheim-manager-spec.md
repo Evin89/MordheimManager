@@ -2821,12 +2821,12 @@ Decided 2026-10-10 by the owner: add all 18 grade 2a warbands the mordheimer.net
 - **Rule text** ✅ _(redone 2026-10-12 to §33's rule)_ is the pages' own, 1:1: every warband's `specialRules` and new `background` (its Lore), every unit's special rules and `notes` (the page's "Weapons/Armour" lines), the 15 skill lists, the 13 spell lists (including each list's `notes`, now the section's own intro) and the exclusive items' `rulesText` (profile first, then the rules, as §33). Only markup is removed; tables are written as rows, characteristic tables as "M 5 WS 2 …". Typos stay as printed ("Estalian Tecnique"). The first pass had been written in our own words; it was replaced, not edited. Unknown values remain `null` (Scythe price, Wheelo's Move).
 - **Not modelled, shown as text (§1):** warband-specific prices that differ from the shared catalogue (cheaper Elven gear for the Wood Elves, Lance 20 gc for Mazzalupo and the Order of the Mare, Barding 30 gc, Druchii founding prices); "X only" item restrictions on shared lists; the Sorcerous Society's one-lore-per-wizard rule (Magus and Mages are offered Lesser Magic and all four elemental lores).
 - **Judgement calls worth a check against the source:**
-  - Dreamwalkers: the Dreamer is the Leader; the Priest of Morr leads until he is hired.
-  - Grave Robbers: the Graver is taken as the Leader; the page doesn't say so.
-  - Necrarchs: the Necrarch uses the printed *Dreaded Scrolls of Nagash*, not Necromancy as the Wizard rule says.
-  - Halflings: the Village Ogre keeps the Long Bow despite "Too Big".
-  - Snotlings: the page header says grade 2b.
-  - Mazzalupo: the Wandering Knight's Commands are a `magic` list, so the app labels them "Spells".
+  - ✅ Dreamwalkers: the Dreamer is the Leader; the Priest of Morr leads until he is hired. *Checked 2026-10-12: the page's Choosen of Morr rule says exactly this.*
+  - ❓ Grave Robbers: the Graver is taken as the Leader; the page doesn't say so. *Checked 2026-10-12: the page only says "must have one Graver: no more, no less!" and gives him no Leader rule, so after §32.1 his entry shows none. Default: keep `isLeader`.*
+  - ❓ Necrarchs: the Necrarch uses the printed *Dreaded Scrolls of Nagash*, not Necromancy as the Wizard rule says. *Checked 2026-10-12: the contradiction is in the source itself (Wizard rule: "randomly generated from the Necromancy spell list"; the page then prints the Dreaded Scrolls). Default: the printed list.*
+  - ✅ Halflings: the Village Ogre keeps the Long Bow despite "Too Big". *Checked 2026-10-12: Too Big reads "Halflings may never use Long bows…"; the Ogre is no Halfling and his own list prints the Long Bow. No conflict.*
+  - ❓ Snotlings: the page header says grade 2b. *Checked 2026-10-12: the page says "Grade: 2b" while the site files it under Grade 2A Warbands. The data says `2a`. Default: follow the page's own header (2b).*
+  - ✅ Mazzalupo: the Wandering Knight's Commands are a `magic` list, so the app labels them "Spells". *Checked 2026-10-12: the page has Commands learned "the same way new spells are learned". The label is presentation only.*
 
 #### 32.1 The 1:1 pass — how and what it left ✅
 
