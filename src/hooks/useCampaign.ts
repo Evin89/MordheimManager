@@ -23,7 +23,8 @@ import {
 } from '../api/campaign';
 import { deleteBattle, fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
 import { fetchCampaignWarbands, fetchWarbands, type WarbandRecord } from '../api/warbands';
-import { pickActiveCampaign, writeActiveCampaignId } from '../lib/activeCampaign';
+import { pickActiveCampaign, resolveWarbandCampaign, writeActiveCampaignId } from '../lib/activeCampaign';
+import { useWarbandsQuery } from './useWarbands';
 import { useDebouncedValue } from './useDebouncedValue';
 import { describeError } from '../lib/errorMessage';
 import { Campaign, BattleRecord } from '../types';
@@ -290,11 +291,15 @@ export function useDeleteCampaignMutation() {
 /** Removes one entry from the shared battle log. Reporter or leader, decided by
  * the policy; the standings key includes the battle count, so both move. */
 export function useDeleteBattleMutation(campaignId: string | undefined) {
+  const { user } = useAuth();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (id: string) => deleteBattle(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: battlesKey(campaignId) });
+      // No campaign → a personal battle (§34.3), listed from its own query.
+      queryClient.invalidateQueries({
+        queryKey: campaignId ? battlesKey(campaignId) : personalBattlesKey(user?.id),
+      });
       queryClient.invalidateQueries({ queryKey: ['standings'] });
       queryClient.invalidateQueries({ queryKey: ['campaignSummaries'] });
     },
@@ -454,36 +459,25 @@ export function useStandingsQuery(campaignId: string | undefined, battles: Battl
 /**
  * Post-battle wizard commit.
  *
- * Files the battle against the active campaign when there is one, and against
- * no campaign at all when there isn't. It used to silently create a campaign
- * called "My Campaign" on first commit, because `battles` had nowhere to put a
- * row otherwise — which meant every player ended up with a campaign they never
- * started, and starting a real one felt like it had already happened. Playing a
- * one-off game outside a campaign is a legitimate thing to do, so that's now
- * what it records.
+ * Files the battle under the campaign its warband is entered in (§26.12), or
+ * as a personal battle (campaign_id null) when there's none. `personal: true`
+ * skips the lookup: a friendly (§34) never reaches a campaign, whichever one
+ * the warband is in.
  */
 export function useLogBattleMutation() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async (battle: BattleRecord) => {
-      // §26.6 — a battle belongs to the campaign its *warband* is entered in,
-      // not to whichever campaign the app currently has active: filing by the
-      // active campaign put a campaign-less warband's games into someone's
-      // campaign log and standings. No campaign on the warband → a personal
-      // battle (campaign_id null).
-      // Same key as useWarbandsQuery (useWarbands.ts).
-      let records = queryClient.getQueryData<WarbandRecord[]>(['warbands', user?.id]);
-      if (records === undefined) records = await fetchWarbands(user!.id);
-      const warbandCampaignId = records.find((r) => r.warband.id === battle.warbandId)?.campaignId ?? null;
-
-      // Only file into a campaign the player still belongs to — the insert
-      // policy requires membership, and a stale link must not lose the battle.
-      let campaigns = queryClient.getQueryData<Campaign[]>(campaignsKey(user?.id));
-      if (campaigns === undefined) campaigns = await fetchMyCampaigns(user!.id);
-      const campaignId =
-        warbandCampaignId && campaigns.some((c) => c.id === warbandCampaignId) ? warbandCampaignId : null;
-
+    mutationFn: async ({ battle, personal }: { battle: BattleRecord; personal: boolean }) => {
+      let campaignId: string | null = null;
+      if (!personal) {
+        // Same key as useWarbandsQuery (useWarbands.ts).
+        let records = queryClient.getQueryData<WarbandRecord[]>(['warbands', user?.id]);
+        if (records === undefined) records = await fetchWarbands(user!.id);
+        let campaigns = queryClient.getQueryData<Campaign[]>(campaignsKey(user?.id));
+        if (campaigns === undefined) campaigns = await fetchMyCampaigns(user!.id);
+        campaignId = resolveWarbandCampaign(records, campaigns, battle.warbandId)?.id ?? null;
+      }
       const inserted = await insertBattle(campaignId, user!.id, battle);
       return { battle: inserted, campaignId };
     },
@@ -494,7 +488,20 @@ export function useLogBattleMutation() {
       });
     },
   });
-  return async (battle: BattleRecord) => (await mutation.mutateAsync(battle)).battle;
+  return async (battle: BattleRecord, options: { personal?: boolean } = {}) =>
+    (await mutation.mutateAsync({ battle, personal: options.personal ?? false })).battle;
+}
+
+/**
+ * The campaign a warband's battles would be filed under (§34.4) — not the
+ * app's active campaign. `undefined` while either query is still loading,
+ * `null` for a warband in no campaign (or one the player has left).
+ */
+export function useWarbandCampaign(warbandId: string | undefined): Campaign | null | undefined {
+  const { data: records } = useWarbandsQuery();
+  const { data: campaigns } = useMyCampaignsQuery();
+  if (!warbandId || records === undefined || campaigns === undefined) return undefined;
+  return resolveWarbandCampaign(records, campaigns, warbandId);
 }
 
 /** Battles fought outside any campaign, so the post-battle history isn't lost

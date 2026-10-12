@@ -2603,6 +2603,8 @@ Success means the §23.2 stage 1→2 ratio rises for cohorts that sign up after 
 
 ### 26.6 Battles outside campaigns ✅ _(reported: they exist; discoverability is the open question, §26.8)_
 
+> _Friendly games for any warband (no roster changes; leaders can forbid them for their campaign), per-game house rules for personal battles, and a permanent Your Battles home on the Battle tab: §34._
+
 **Observed.** All 45 battles appear to come from one campaign group of about 8 players. Everyone else uses the app as a roster builder.
 
 **Claude Code — report:**
@@ -2828,3 +2830,162 @@ Applied across the existing data (counts at the time):
 - **Equipment:** notes for the catalogue items are the source's rules, prefixed with its range, Strength, save and profile; warband-exclusive items' `rulesText` likewise (131), including mutations, blessings and Sacred Markings from the warband files.
 - **Hired Swords:** the seven rulebook entries now take their hire permission, equipment and rules from the source like the other 63 (`import-hired-swords.mjs` keeps only their ids, numbers and skill lists).
 - **Not covered:** `rules.json` (the core rules, sourced from the rulebook PDF rather than the Mordheimer data).
+
+## 34. Battles outside the campaign — friendly games and one home for your history ✅
+
+_Amends §4.3, §26.6 and the campaign settings. Raised by the owner 2026-10-11: "battles only seem to be playable in a campaign." Decisions taken the same day are folded in (34.2)._
+
+### 34.1 Why it feels campaign-only
+
+Standalone battles exist (§26.6, §26.12), but two gaps make the battle flow read as campaign-only:
+
+1. **No game can stay off the roster.** `useLogBattleMutation` files every battle under the warband's own campaign whenever the player is still a member (§26.12), and the post-battle wizard always commits Experience, injuries and gold. A game at the club against a non-member, or a test of a new tactic, counts in full — for a campaign warband and for a lone one alike.
+2. **Personal battles are only visible to players with no campaign.** "Your Battles" and the *Just want to play a game?* card live in `CampaignEntry`, the Campaign tab's empty state. Once a player joins or starts any campaign, that screen is gone and so is every battle they logged without one. The rows still exist (`campaign_id` null); nothing shows them.
+
+Found on the way, fixed in this section as well:
+
+3. **Pre-battle reads the *active* campaign, not the warband's.** `PreBattleScreen` uses `useMyCampaignQuery()` for campaign opponents and for the scenario progress gate (`battleCount`). §26.12 moved filing to the warband's own campaign; pre-battle still uses the old rule. A player in two campaigns sees the wrong opponents and the wrong gate, and a campaign-less warband gets campaign opponents and gating from whichever campaign is active.
+
+### 34.2 Friendly games — decided
+
+✅ **Decided 2026-10-11 by the owner:**
+- **A friendly doesn't count — including Experience.** Nothing from the game reaches the roster: no Experience, injuries, deaths, advances, income, upkeep or exploration. The warband leaves the table exactly as it arrived.
+- **Any warband can play a friendly.** For a warband in no campaign, the player chooses per game whether it progresses the roster or not.
+- **A campaign leader can forbid friendlies** for their campaign's warbands.
+- **House rules for a friendly are the players' own choice.** A friendly doesn't inherit the campaign's house rules; the players tick the ones they're using for that game.
+- **Moving a battle between campaign and personal after it's committed** is deferred (34.8).
+
+So a friendly is a **personal battle record and nothing else**:
+
+| | Campaign battle | Personal battle (no campaign) | Friendly (any warband) |
+| --- | --- | --- | --- |
+| Roster changes (XP, injuries, gold, advances…) | ✅ | ✅ | — |
+| Filed under a campaign | ✅ | — | — |
+| Campaign log, feed, standings, rivalries, awards, scenario gate | ✅ | — | — |
+| Listed under Your Battles (34.3) | — | ✅ | ✅, *Friendly* chip |
+| House rules | the campaign's | picked per game | picked per game |
+| `previous_data` snapshot / *undo last battle* | written | written | untouched |
+
+Because a friendly writes nothing to the warband, *undo last battle* still undoes the last real battle.
+
+❓ **"No XP" or "no progress at all"?** The owner's words were "no XP". Default: **the whole post-battle sequence is skipped** (injuries, deaths, gold too). Skipping only Experience while still rolling injuries and income would let a friendly kill a Hero or earn gold for a campaign warband through a game the campaign never sees. If a campaign-less player wants injuries but no XP, that's a later option.
+
+#### 34.2.1 Leader setting — "Allow friendly games"
+
+A campaign **setting**, not a house rule: house rules describe how a game is played, this decides whether a game counts.
+
+- **Storage:** a reserved key in the existing `campaigns.house_rules` jsonb, `_friendlyGames: boolean`, absent = **allowed**. No migration; writing rides `campaigns_update_leader` (0023). The leading underscore keeps it out of `HOUSE_RULES` and out of the House Rules panel; `isHouseRuleOn` never sees it. ❓ A separate `campaigns.allow_friendlies boolean default true` column (one-line migration) is cleaner if the owner prefers not to overload the house-rules map.
+- **UI:** a switch in the leader's campaign settings (next to concluding the campaign / announcement), *Allow friendly games*, with the hint *Players can play this campaign's warbands in games that don't count. Nothing from a friendly reaches their roster.*
+- **Enforcement** is client-side, like the rest of the battle flow (every result is self-reported). Forbidding it later doesn't touch friendlies already logged.
+
+#### 34.2.2 Where the choice appears
+
+**Pre-battle**, directly under the opponent picker. The switch is shown for every warband, except a campaign warband whose campaign forbids friendlies.
+
+- Campaign warband:
+  > **Friendly game** — off
+  > _Doesn't count for {campaign name}: no Experience, injuries or gold, and it isn't filed in the campaign._
+- Warband in no campaign:
+  > **Counts for your roster** — on
+  > _Off: a friendly. Nothing from the game reaches your roster._
+
+Same field underneath (`friendly`), phrased from each side so the default reads as "on = normal game". Default: a normal game.
+
+**House rules for this game** — shown when the battle is personal (a friendly, or any warband in no campaign): a compact checklist of `HOUSE_RULES`, pre-ticked with each rule's `defaultOn` (the rulebook state). The players tick what they've agreed. For a campaign battle (not a friendly) the list isn't shown; the campaign's house rules apply as today. ❓ Pre-tick from the warband's last personal battle instead of the rulebook defaults, if repeated games with one group turn out to be the norm.
+
+**During-battle:** unchanged and fully usable. A small *Friendly* chip next to the turn counter so the player knows nothing will be committed.
+
+**Post-battle wizard:** with `friendly` on, the wizard runs a **short path** — *Battle Info* → *Confirm* — and skips Injuries, Experience, Advances, Dead Models, Income and Upkeep. The switch (and, for a personal battle, the house-rules checklist) also sits on *Battle Info*, seeded from the session, so the "log it afterwards" path (`/warbands/:id/post-battle` with no session) and a change of mind both work; flipping it switches between the short and full path.
+
+**Confirm (friendly):** result, opponent, scenario, house rules used and notes, plus one line: *Friendly game — nothing on your roster changes.* The commit button reads *Save friendly game*.
+
+### 34.3 One home for "Your Battles"
+
+- **The Battle tab** (`/post-battle`) becomes the home. Today the route renders the generic warband picker; it becomes a small `BattleHubScreen`: the existing picker on top (*Which warband is about to fight?*), then **Your Battles** below it, listing every personal battle (`usePersonalBattlesQuery`, newest first, the existing `BattleRow`). Friendlies carry a *Friendly* chip. Shown for every player, in a campaign or not. Hidden when the list is empty.
+- **The Campaign tab's empty state** keeps the *Just want to play a game?* card but drops its own Your Battles list. Its body copy changes from "It's kept below under Your Battles" to "It's kept on the Battle tab under Your Battles."
+
+❓ **Per-warband history.** Default: **not in this pass.** A *Battles* section on the roster screen (campaign and personal games for that warband) is the natural next step, but it reads from two queries and is its own small feature. Flag only.
+
+### 34.4 Pre-battle reads the warband's campaign (fixes 34.1 #3)
+
+- Resolve the warband's campaign the same way `useLogBattleMutation` does: the warband record's `campaignId`, kept only if the player is still a member. Extract that resolution into one shared helper (e.g. `resolveWarbandCampaign(records, campaigns, warbandId)` in `src/lib/activeCampaign.ts`) and use it in both places, so the two can't drift again.
+- Campaign opponents and their optgroup come from **that** campaign. A campaign-less warband gets no campaign optgroup and no *noCampaignOpponents* hint. With the friendly switch on, campaign opponents stay pickable.
+- The scenario progress gate (`battleCount`) uses **that** campaign's battle count. With `friendly` on, or without a campaign, every scenario is eligible, as for any one-off game today.
+- The leader setting (34.2.1) is read from that same campaign.
+
+### 34.5 Data and code
+
+No migration (unless the ❓ in 34.2.1 picks the column). Friendlies and campaign-less battles are inserted as personal battles (`campaign_id` null, reporter only — the existing insert and select policies already cover it); the new fields live in the `data` blob.
+
+- **`BattleRecord`** (`src/types.ts`) gains:
+  - `friendly?: boolean` — absent = a normal battle. For a friendly, `goldChange`, `wyrdstoneFound` and `modelsLost` are `0` and `casualtiesSummary` is empty; `enemiesTakenOut` may still be recorded (informational).
+  - `houseRules?: Record<string, boolean>` — the house rules picked for a personal battle, full map (every `HOUSE_RULES` id), so the record still reads correctly if a rule's default changes later. Absent on campaign battles.
+- **`BattleSession`** (`src/store/useAppStore.ts`) gains `friendly?: boolean` and `houseRules?: Record<string, boolean>`, persisted with the rest of the session by §4.3.2. Old sessions read as `false` / rulebook defaults.
+- **`PostBattleDraft`** gains the same two fields, seeded from the session (or `false` / rulebook defaults with no session).
+- **Wizard steps:** `WIZARD_STEPS` stays the full list; add `FRIENDLY_STEPS = ['Battle Info', 'Confirm']` and pick by `draft.friendly`. When the switch flips on a later step, clamp `stepIndex` to the new list. The progress bar and `stepOf` read the active list.
+- **Commit (`PostBattleWizard`):**
+  - friendly → **skip `commitBattleWarband`** entirely; build the record with the friendly fields; `logBattle(record, { personal: true })`.
+  - otherwise → unchanged (a campaign-less warband's normal battle already files as personal through the existing resolution).
+  - Re-check at commit time: if the warband is now in a campaign that forbids friendlies (the leader changed it mid-game, or the warband joined one), **stop on Confirm** with a one-line notice — *Friendly games are off in {campaign name}* — and switch the draft to the full path. Never silently commit a full battle the player meant as a friendly.
+- **`useLogBattleMutation`** takes `{ personal?: boolean }`; `personal: true` skips the campaign lookup and inserts with `campaignId = null`. Invalidation is already keyed on the resulting `campaignId`.
+- **`HouseRulesChecklist`:** extract the toggle list from `HouseRulesPanel` into a presentational component (`value`, `onChange`), used by the panel (leader, campaign) and by pre-battle/Battle Info (players, one game).
+- **Analytics:** `battle_committed` gains `filed: 'campaign' | 'personal' | 'friendly'`. This also answers §26.8's question — do non-campaign players play — without a new event.
+- **Demo mode:** seed one friendly for a campaign warband and one personal battle with house rules in `demoData.ts`.
+
+**Strings** (`src/strings.ts`):
+- `battle.preBattle.friendly: 'Friendly game'`
+- `battle.preBattle.friendlyHint: (name: string) => \`Doesn't count for ${name}: no Experience, injuries or gold, and it isn't filed in the campaign.\``
+- `battle.preBattle.countsForRoster: 'Counts for your roster'`
+- `battle.preBattle.countsForRosterHint: 'Off: a friendly. Nothing from the game reaches your roster.'`
+- `battle.preBattle.houseRulesTitle: 'House rules for this game'`
+- `battle.friendlyChip: 'Friendly'`
+- `postBattle.confirm.friendlyNoChanges: 'Friendly game — nothing on your roster changes.'`
+- `postBattle.confirm.saveFriendly: 'Save friendly game'`
+- `postBattle.confirm.friendliesOff: (name: string) => \`Friendly games are off in ${name}.\``
+- `campaign.settings.allowFriendlies: 'Allow friendly games'`
+- `campaign.settings.allowFriendliesHint: "Players can play this campaign's warbands in games that don't count. Nothing from a friendly reaches their roster."`
+- Battle tab: reuse `campaign.personalBattlesSection` / `personalBattlesHint`; move them to a `battle.history` group if the Campaign tab no longer uses them.
+
+### 34.6 Acceptance
+
+1. A friendly is saved (campaign warband or not): the warband's data, rating and `previous_data` are byte-for-byte unchanged; the battle appears under Your Battles with a *Friendly* chip; it appears nowhere in any campaign.
+2. *Undo last battle* after a friendly undoes the last real battle.
+3. A warband in no campaign: *Counts for your roster* on → full wizard, roster updates; off → friendly. Both show the house-rules checklist, and the record keeps the picked rules.
+4. A campaign warband, normal battle: no house-rules checklist; behaviour identical to today.
+5. A leader turns *Allow friendly games* off: the switch disappears for that campaign's warbands. A friendly already in progress is stopped on Confirm with the notice and switched to the full path.
+6. The wizard with `friendly` on shows two steps; flipping it off on *Battle Info* restores all eight.
+7. A player in two campaigns, warband entered in the non-active one: pre-battle shows that campaign's opponents, gate and setting, and a normal battle files there.
+8. Reloading mid-battle keeps the switch and the picked house rules (§4.3.2).
+9. A player in a campaign with a second, campaign-less warband: that warband's battles are listed under Your Battles on the Battle tab.
+10. A player with no campaign still sees the *Just want to play a game?* card on the Campaign tab.
+
+### 34.7 Build order
+
+| # | Item | Size |
+| --- | --- | --- |
+| 1 | Shared `resolveWarbandCampaign` helper; pre-battle uses it (34.4) | S |
+| 2 | `BattleHubScreen` with Your Battles; trim the Campaign tab's list and copy (34.3) | S |
+| 3 | *Allow friendly games* leader setting (34.2.1) | XS |
+| 4 | `friendly` on session, draft and record; switch on pre-battle and Battle Info; chip during battle (34.2.2) | S |
+| 5 | Short wizard path, commit without roster write, commit-time re-check; `logBattle({ personal })` (34.5) | M |
+| 6 | `HouseRulesChecklist` extraction; per-game house rules on personal battles | S |
+| 7 | `battle_committed.filed`, demo seed | XS |
+
+Items 1–2 fix what the owner reported and stand on their own; 3–7 are the friendly feature.
+
+### 34.8 Later — moving a battle after it's committed ◻️
+
+_Deferred by the owner 2026-10-11. Not for Claude Code in this pass._
+
+Questions to settle when it's picked up: whether a player may turn a committed campaign battle into a friendly (and back) or only the leader may; whether a personal battle can be moved into a campaign the warband has since joined; and what happens to the roster — a campaign battle changed the warband and a friendly didn't, so moving one means applying or reversing those changes, which today is only possible as *undo last battle*. Today's path stays: delete the record and log it again.
+
+### 34.9 Status — built ✅
+
+Built 2026-10-11 to the defaults above (every ❓ except 34.8 taken at its default). No migration.
+
+- **34.4** — `resolveWarbandCampaign()` in `lib/activeCampaign.ts`, used by `useLogBattleMutation` and a new `useWarbandCampaign(warbandId)` hook. Pre-battle, during-battle, Battle Info and Confirm all read the warband's own campaign.
+- **34.3** — the Battle tab renders `WarbandPickerScreen` with `PersonalBattles` below it; `BattleRow` moved to `components/BattleRow.tsx` (shared with the campaign log). Your Battles rows can be deleted (type-to-confirm), which they couldn't before — the "delete and log again" path in 34.8 needs it. The Campaign tab's empty state lost its list and points to the Battle tab.
+- **34.2.1** — `FRIENDLY_GAMES_KEY` (`_friendlyGames`) and `friendliesAllowed()` / `isFriendlyGame()` in `data/houseRules.ts`; the switch sits in the House Rules panel's card on Campaign → Settings, read-only for members. `HouseRulesChecklist` extracted from the panel.
+- **34.2.2** — `FriendlyGameControls` (switch + per-game house rules) on pre-battle and Battle Info; *Friendly* chip by the turn counter. A friendly hides the underdog bonus on Battle Info (it's Experience).
+- **34.5** — `FRIENDLY_STEP_INDICES` short path; the wizard's step state is a position in the active list, so a friendly turned off mid-wizard lands on Injuries with the notice. `buildFriendlyRecord()` builds the record; the commit skips `commitBattleWarband`. `battle_committed` carries `filed`.
+- **Demo:** one friendly for the viewer's campaign warband and house rules on a standalone battle; fixed values, no extra rng draws.

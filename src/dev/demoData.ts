@@ -6,6 +6,9 @@ import {
 } from '../lib/warbandFactory';
 import { computeWarbandRating } from '../lib/rating';
 import { BattleRecord, Campaign, CampaignRole, Warband, WarbandVisibility } from '../types';
+import { defaultHouseRules } from '../data/houseRules';
+
+const DEMO_DEFAULT_HOUSE_RULES = defaultHouseRules();
 
 /**
  * Fabricated data for looking at the screens under realistic volume: fifty
@@ -342,10 +345,36 @@ export function generateDemoDatabase(seed = 20260802, scale: DemoScale = DEMO_SC
           wyrdstoneFound: 2,
           goldChange: 45,
           casualtiesSummary: pick(rng, CASUALTIES),
+          // §34 — per-game house rules on a personal battle.
+          houseRules: b === 0 ? { ...DEMO_DEFAULT_HOUSE_RULES, henchmenInjuries: true } : undefined,
           notes: '',
         },
       });
     }
+  }
+
+  // §34 — one friendly with a campaign warband: personal, nothing on the roster.
+  // Fixed values, no rng draws, so the rest of the generated set is unchanged.
+  const campaignWarband = warbands.find((w) => w.ownerId === viewer.id && w.campaignId !== null);
+  if (campaignWarband) {
+    battles.push({
+      campaignId: null,
+      ownerId: viewer.id,
+      battle: {
+        id: 'demo-battle-friendly-0',
+        warbandId: campaignWarband.id,
+        date: new Date(2026, 8, 20).toISOString().slice(0, 10),
+        scenario: 'Skirmish',
+        opponents: ['A club regular'],
+        result: 'loss',
+        wyrdstoneFound: 0,
+        goldChange: 0,
+        casualtiesSummary: '',
+        friendly: true,
+        houseRules: { ...DEMO_DEFAULT_HOUSE_RULES },
+        notes: 'Trying out a new deployment.',
+      },
+    });
   }
 
   return { users, campaigns, memberships, warbands, battles, viewerId: viewer.id };

@@ -119,6 +119,12 @@ export type PostBattleDraft = {
   wyrdstoneFound: number;
   wyrdstoneSold: number;
   exploration: ExplorationState;
+  /** §34 — a friendly: the wizard takes the short path and nothing is committed
+   * to the roster. Only honoured while the warband's campaign allows friendlies
+   * (`isFriendlyGame`). */
+  friendly: boolean;
+  /** §34 — house rules picked for a personal battle; undefined = rulebook defaults. */
+  houseRules?: Record<string, boolean>;
 };
 
 export type DraftPatch = Partial<PostBattleDraft> | ((current: PostBattleDraft) => Partial<PostBattleDraft>);
@@ -139,3 +145,7 @@ export const WIZARD_STEPS = [
   'Upkeep',
   'Confirm',
 ] as const;
+
+/** §34.2.2 — a friendly's short path: positions in WIZARD_STEPS. Everything
+ * between (injuries to upkeep) writes to the roster, which a friendly doesn't. */
+export const FRIENDLY_STEP_INDICES = [0, WIZARD_STEPS.length - 1] as const;

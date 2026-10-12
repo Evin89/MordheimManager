@@ -7,6 +7,9 @@ import { ScenarioFilterFields } from '../../components/ScenarioPicker';
 import { useScenarioFilter } from '../../hooks/useScenarioFilter';
 import { BattleResult } from '../../types';
 import { StepProps } from './types';
+import FriendlyGameControls from '../../components/FriendlyGameControls';
+import { useWarbandCampaign } from '../../hooks/useCampaign';
+import { isFriendlyGame } from '../../data/houseRules';
 
 const RESULTS: BattleResult[] = ['win', 'loss', 'draw'];
 const RESULT_LABEL: Record<BattleResult, string> = {
@@ -15,7 +18,11 @@ const RESULT_LABEL: Record<BattleResult, string> = {
   draw: strings.postBattle.battleInfo.draw,
 };
 
-export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
+export default function StepBattleInfo({ warband, draft, updateDraft }: StepProps) {
+  // §34.2.2 — the friendly switch also lives here, for the "log it afterwards"
+  // path that never went through pre-battle, and for a change of mind.
+  const campaign = useWarbandCampaign(warband.id) ?? null;
+  const friendly = isFriendlyGame(campaign, draft.friendly);
   const [useCustomScenario, setUseCustomScenario] = useState(
     draft.scenario !== '' && !getCatalogScenarioByName(draft.scenario),
   );
@@ -29,6 +36,13 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
 
   return (
     <div className="space-y-6">
+      <FriendlyGameControls
+        campaign={campaign}
+        friendly={draft.friendly}
+        houseRules={draft.houseRules}
+        onChange={(patch) => updateDraft(patch)}
+      />
+
       <div className="space-y-2">
         <label className="block text-bone-200 text-sm font-semibold" htmlFor="scenario-select">
           {strings.postBattle.battleInfo.scenarioLabel}
@@ -116,19 +130,22 @@ export default function StepBattleInfo({ draft, updateDraft }: StepProps) {
         />
       </div>
 
-      <div className="space-y-2">
-        <label className="block text-bone-200 text-sm font-semibold" htmlFor="underdog-bonus">
-          {strings.postBattle.battleInfo.underdogLabel}
-        </label>
-        <NumberInput
-          id="underdog-bonus"
-          min={0}
-          value={draft.underdogBonus}
-          onChange={(underdogBonus) => updateDraft({ underdogBonus })}
-          className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
-        />
-        <p className="text-bone-300 text-xs">{strings.postBattle.battleInfo.underdogHint}</p>
-      </div>
+      {/* Underdog bonus is Experience, which a friendly never awards. */}
+      {!friendly && (
+        <div className="space-y-2">
+          <label className="block text-bone-200 text-sm font-semibold" htmlFor="underdog-bonus">
+            {strings.postBattle.battleInfo.underdogLabel}
+          </label>
+          <NumberInput
+            id="underdog-bonus"
+            min={0}
+            value={draft.underdogBonus}
+            onChange={(underdogBonus) => updateDraft({ underdogBonus })}
+            className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
+          />
+          <p className="text-bone-300 text-xs">{strings.postBattle.battleInfo.underdogHint}</p>
+        </div>
+      )}
 
       <div className="space-y-2">
         <label className="block text-bone-200 text-sm font-semibold" htmlFor="enemies-taken-out">

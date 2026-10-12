@@ -196,6 +196,13 @@ export type BattleRecord = {
   /** Enemy models this warband took out of action — self-reported in the
    * post-battle wizard, behind the "most kills" award. Optional, as above. */
   enemiesTakenOut?: number;
+  /** §34 — a friendly game: nothing reached the roster and it's never filed in a
+   * campaign. Absent on every ordinary battle. */
+  friendly?: boolean;
+  /** §34 — the house rules the players ticked for a personal battle (friendly,
+   * or a warband in no campaign), every HOUSE_RULES id. Absent on campaign
+   * battles, which play to their campaign's house rules. */
+  houseRules?: Record<string, boolean>;
   notes: string;
 };
 
