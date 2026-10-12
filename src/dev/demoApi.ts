@@ -690,6 +690,13 @@ export async function fetchSelfReportBreakdown(_days = 30) {
 
 // --- admin deleted warbands (demo) ------------------------------------------
 
+// Restored rows drop out of the synthetic list until the next reload.
+const demoRestoredWarbands = new Set<string>();
+
+export async function restoreDeletedWarband(id: string) {
+  demoRestoredWarbands.add(id);
+}
+
 export async function fetchAdminDeletedWarbands() {
   const d = db();
   const day = 86_400_000;
@@ -709,7 +716,7 @@ export async function fetchAdminDeletedWarbands() {
       deleted_at: new Date(deleted).toISOString(),
       purge_at: new Date(deleted + 30 * day).toISOString(),
     };
-  });
+  }).filter((w) => !demoRestoredWarbands.has(w.id));
 }
 
 // --- §4.9.5 admin campaign view (demo) -------------------------------------
