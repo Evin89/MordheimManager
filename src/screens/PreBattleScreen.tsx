@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { battleState } from '../lib/battleNavigation';
 import BackHeader from '../components/BackHeader';
 import { Button, TextField, Textarea, Select, Field } from '../components/ui';
 import { strings } from '../strings';
@@ -21,6 +22,8 @@ import { isFriendlyGame } from '../data/houseRules';
 export default function PreBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
+  // §4.3.3 — the battle flow is one history entry: hop with replace, carry state.
+  const navState = battleState(useLocation().state);
   const warbands = useWarbandList();
   const { warband, loading } = useWarbandLookup(warbandId);
   const otherWarbands = warbands.filter((w) => w.id !== warbandId);
@@ -166,7 +169,7 @@ export default function PreBattleScreen() {
               <Button
                 size="dense"
                 fullWidth={false}
-                onClick={() => navigate(`/warbands/${warband.id}/during-battle`)}
+                onClick={() => navigate(`/warbands/${warband.id}/during-battle`, { replace: true, state: navState })}
                 className="flex-1"
               >
                 {strings.battle.preBattle.restore.resume}
@@ -385,12 +388,14 @@ export default function PreBattleScreen() {
           />
         </section>
 
-        <Button onClick={() => navigate(`/warbands/${warband.id}/during-battle`)}>
+        <Button onClick={() => navigate(`/warbands/${warband.id}/during-battle`, { replace: true, state: navState })}>
           {strings.battle.preBattle.continueButton}
         </Button>
 
         <Link
           to={`/warbands/${warband.id}/post-battle`}
+          replace
+          state={navState}
           className="block text-center w-full min-h-[44px] leading-[44px] text-bone-300 text-sm"
         >
           {strings.battle.preBattle.skipToPostBattle}

@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { strings } from '../strings';
+import { isFirstEntry, parentPath } from '../lib/backNavigation';
 
 type BackHeaderProps = {
   title: string;
@@ -9,12 +10,21 @@ type BackHeaderProps = {
 
 export default function BackHeader({ title, subtitle, onBack }: BackHeaderProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  function goBack() {
+    if (onBack) return onBack();
+    // Opened cold (shared link, bookmark, restored tab): history.back() would
+    // leave the app, so go to this screen's parent instead (lib/backNavigation).
+    if (isFirstEntry(location.key)) return navigate(parentPath(location.pathname), { replace: true });
+    navigate(-1);
+  }
 
   return (
     <header className="px-4 pt-6 pb-4 border-b border-ink-800 flex items-start gap-3">
       <button
         type="button"
-        onClick={() => (onBack ? onBack() : navigate(-1))}
+        onClick={goBack}
         className="min-h-[44px] min-w-[44px] flex items-center justify-center text-bone-300 hover:text-bone-100 text-xl shrink-0"
         aria-label={strings.common.back}
       >

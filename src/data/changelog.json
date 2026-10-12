@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-10-12",
+    "title": "Smoother Battle Navigation",
+    "description": "After committing a battle, Back no longer drops you into an empty During Battle screen, and no phantom “Resume the battle in progress?” prompt appears next time. The last post-battle step now has a second button, Commit & visit Trading Post, so recruiting and buying follow straight on. And the ← button on a page you opened from a shared link now takes you to the page above it instead of out of the app."
+  },
+  {
     "date": "2026-10-10",
     "title": "Dramatis Personae, New Gear and Skills",
     "description": "The Rules reference has a new Dramatis Personae chapter with 27 characters, from Johann the Knife and Aenur to the Crow Master, Khar-mel the Djinn and the Headless Horseman. Each shows its hire fee, who may hire it, its profile, gear, skills and rules. The rare-item list gains 19 items, among them mounts like the Cold One, Elven Steed and War Boar, Chaos and Lamellar Armour, the Pavise, the Horseman's Hammer, the Sword Breaker and the Trident. Heroes can also learn eight more skills: Animal Handling, Tomb Raider, Trap Expert, Driver, Strategist and Scholar (Academic), and Handyman and Beastmaster (Strength)."

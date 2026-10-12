@@ -20,7 +20,12 @@ export default function StepUpkeep({ warband, draft, updateDraft }: StepProps) {
   }, 0);
 
   if (survivingSwords.length === 0) {
-    return <p className="text-bone-300 text-sm">{strings.postBattle.upkeep.none}</p>;
+    return (
+      <div className="space-y-4">
+        <p className="text-bone-300 text-sm">{strings.postBattle.upkeep.none}</p>
+        <p className="text-bone-300 text-sm">{strings.postBattle.upkeep.tradingHint}</p>
+      </div>
+    );
   }
 
   return (
@@ -63,6 +68,7 @@ export default function StepUpkeep({ warband, draft, updateDraft }: StepProps) {
           </div>
         );
       })}
+      <p className="text-bone-300 text-sm">{strings.postBattle.upkeep.tradingHint}</p>
     </div>
   );
 }

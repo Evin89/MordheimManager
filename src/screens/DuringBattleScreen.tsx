@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { battleState } from '../lib/battleNavigation';
 import BackHeader from '../components/BackHeader';
 import DiceRoller from '../components/DiceRoller';
 import ProfileBlock from '../components/ProfileBlock';
@@ -507,6 +508,8 @@ function InjuryRoller({ onLog }: { onLog: (text: string) => void }) {
 export default function DuringBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
+  // §4.3.3 — one history entry for the whole battle flow (see lib/battleNavigation).
+  const navState = battleState(useLocation().state);
   const warbands = useWarbandList();
   const { warband, loading } = useWarbandLookup(warbandId);
   const ownCampaign = useWarbandCampaign(warbandId) ?? null;
@@ -614,7 +617,12 @@ export default function DuringBattleScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={strings.battle.duringBattle.title} subtitle={warband.name} />
+      <BackHeader
+        title={strings.battle.duringBattle.title}
+        subtitle={warband.name}
+        // Back steps to pre-battle inside the same history entry, not out of the flow.
+        onBack={() => navigate(`/warbands/${warband.id}/pre-battle`, { replace: true, state: navState })}
+      />
 
       <main className="flex-1 px-4 py-6 space-y-6">
         {session.battlefield && (
@@ -821,7 +829,7 @@ export default function DuringBattleScreen() {
           )}
         </section>
 
-        <Button onClick={() => navigate(`/warbands/${warband.id}/post-battle`)}>
+        <Button onClick={() => navigate(`/warbands/${warband.id}/post-battle`, { replace: true, state: navState })}>
           {strings.battle.duringBattle.goToPostBattle}
         </Button>
       </main>
