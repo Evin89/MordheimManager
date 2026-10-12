@@ -3021,3 +3021,14 @@ The Battle and Trading tabs open on a warband picker (§4.3, §4.4).
 - **Last used first.** Picking a warband stores its id in `localStorage` (`mordheim.lastWarbandId`, `lib/lastWarband.ts`, guarded); both pickers list it first with a small *last used* tag (only when there is more than one).
 - **Skip on Trading.** With exactly one warband, `/trading` replaces itself with that warband's Trading Post — there is nothing to pick, and Back skips the picker. Not on the Battle tab: its page is also the home of Your Battles (§34.3).
 - **No false empty state.** While the warband list loads, the picker shows *Loading…* instead of flashing "Create a warband first."
+
+### 35.2 The post-battle wizard survives a refresh ✅
+
+_Amends §4.3.2's as-built note ("wizard step-progress is not persisted")._ A refresh mid-wizard used to restart it from the during-battle session, so the Injuries and Experience a player had already entered were lost.
+
+- The battle draft (`BattleSession`, persisted per §4.3.2) gains `wizard: { step, draft, warbandUpdatedAt }`, written on every change of step or draft. The wizard restores both on entry.
+- **Stale guard:** `warbandUpdatedAt` is the warband's `updated_at` when the draft was built. If the warband has been saved since (an edit on another device, a roster save), the staged draft may name models that no longer exist, so it is dropped and the wizard starts from the session as before.
+- **Resume lands in the wizard.** A session with a wizard in progress counts as a battle in progress on pre-battle, and *Resume* goes straight to the wizard on its step.
+- **Never written back after a commit.** A ref set at commit stops the write, so a committed battle can't leave a draft behind (the phantom-*Resume* class of bug fixed in §4.3.3).
+
+Verified in demo mode: step 4 survives a reload; *Resume* reopens step 4; commit leaves `mordheim.battleDraft` empty; the §4.3.3 navigation and §34 friendly checks still pass.

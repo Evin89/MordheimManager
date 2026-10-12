@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { battleState } from '../../lib/battleNavigation';
 import { capture } from '../../lib/posthog';
 import BackHeader from '../../components/BackHeader';
 import { Button } from '../../components/ui';
 import { strings } from '../../strings';
-import { useAppStore } from '../../store/useAppStore';
-import { useCommitBattleWarbandMutation, useWarbandList } from '../../hooks/useWarbands';
+import { defaultBattleSession, useAppStore } from '../../store/useAppStore';
+import { useCommitBattleWarbandMutation, useWarbandList, useWarbandsQuery } from '../../hooks/useWarbands';
 import { useLogBattleMutation, useWarbandCampaign } from '../../hooks/useCampaign';
 import { defaultHouseRules, isFriendlyGame } from '../../data/houseRules';
 import { applyDraftToWarband, buildFriendlyRecord, createInitialDraft, seedCasualties } from './draftHelpers';
@@ -48,11 +48,23 @@ export default function PostBattleWizard() {
   const campaignLoading = resolvedCampaign === undefined;
   const session = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
   const clearBattleSession = useAppStore((state) => state.clearBattleSession);
+  const setBattleSession = useAppStore((state) => state.setBattleSession);
+  const { data: records } = useWarbandsQuery();
+  const warbandUpdatedAt = records?.find((r) => r.warband.id === warbandId)?.updatedAt ?? null;
 
-  const [stepIndex, setStepIndex] = useState(0);
+  // §35.2 — a wizard left mid-way (refresh, OS-reloaded tab) resumes on its
+  // step with its staged draft, unless the warband was saved since.
+  const saved =
+    session?.wizard && session.wizard.warbandUpdatedAt === warbandUpdatedAt ? session.wizard : undefined;
+
+  const [stepIndex, setStepIndex] = useState(() => saved?.step ?? 0);
   const [committing, setCommitting] = useState(false);
+  // Set once the battle is committed: from then on the draft must never be
+  // written back, or the next battle opens on a stale "Resume?" banner.
+  const committed = useRef(false);
   const [draft, setDraft] = useState<PostBattleDraft | null>(() => {
     if (!warband) return null;
+    if (saved) return saved.draft as PostBattleDraft;
     const base = createInitialDraft(warband);
     if (!session) return base;
 
@@ -102,6 +114,15 @@ export default function PostBattleWizard() {
       houseRules: session.houseRules,
     };
   });
+
+  // Write the wizard's progress into the battle draft on every change. Read
+  // the latest session from the store (not the render's copy) so this never
+  // overwrites during-battle state with an older snapshot.
+  useEffect(() => {
+    if (!warbandId || !draft || committing || committed.current) return;
+    const current = useAppStore.getState().battleSessions[warbandId] ?? defaultBattleSession(warbandId);
+    setBattleSession({ ...current, wizard: { step: stepIndex, draft, warbandUpdatedAt } });
+  }, [warbandId, draft, stepIndex, warbandUpdatedAt, committing, setBattleSession]);
 
   if (!warband || !draft) return <Navigate to="/warbands" replace />;
 
@@ -178,6 +199,7 @@ export default function PostBattleWizard() {
           filed: campaign ? 'campaign' : 'personal',
         });
       }
+      committed.current = true;
       clearBattleSession(warband.id);
       leaveFlow(then);
     } finally {

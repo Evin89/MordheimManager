@@ -98,7 +98,8 @@ export default function PreBattleScreen() {
   // On that, offer restore rather than silently resuming (§4.3.2).
   const hasProgress =
     !!storedSession &&
-    (storedSession.turn > 1 ||
+    (!!storedSession.wizard ||
+      storedSession.turn > 1 ||
       storedSession.events.length > 0 ||
       storedSession.outOfAction.heroIds.length > 0 ||
       storedSession.outOfAction.hiredSwordIds.length > 0 ||
@@ -169,7 +170,13 @@ export default function PreBattleScreen() {
               <Button
                 size="dense"
                 fullWidth={false}
-                onClick={() => navigate(`/warbands/${warband.id}/during-battle`, { replace: true, state: navState })}
+                // §35.2 — a battle left mid-wizard resumes in the wizard.
+                onClick={() =>
+                  navigate(`/warbands/${warband.id}/${storedSession?.wizard ? 'post-battle' : 'during-battle'}`, {
+                    replace: true,
+                    state: navState,
+                  })
+                }
                 className="flex-1"
               >
                 {strings.battle.preBattle.restore.resume}
