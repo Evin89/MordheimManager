@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { battleState } from '../../lib/battleNavigation';
+import { clearRemovedFor } from '../../lib/removedModels';
 import { capture } from '../../lib/posthog';
 import BackHeader from '../../components/BackHeader';
 import { Button } from '../../components/ui';
@@ -201,6 +202,8 @@ export default function PostBattleWizard() {
       }
       committed.current = true;
       clearBattleSession(warband.id);
+      // §35.3 — a model removed before this battle must not come back after it.
+      clearRemovedFor(warband.id);
       leaveFlow(then);
     } finally {
       setCommitting(false);

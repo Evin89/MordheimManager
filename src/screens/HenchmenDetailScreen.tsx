@@ -22,6 +22,7 @@ import { getAdvanceProgress } from '../lib/xpThresholds';
 import { EquipmentItem, HenchmenGroup, StatLine, Warband } from '../types';
 import { goldWarning, usePurchase } from '../hooks/usePurchase';
 import { EquipmentSection, RemoveModelControl } from '../components/EquipmentSection';
+import { rememberRemoved } from '../lib/removedModels';
 
 export default function HenchmenDetailScreen() {
   const { warbandId, groupId } = useParams<{ warbandId: string; groupId: string }>();
@@ -157,6 +158,14 @@ export default function HenchmenDetailScreen() {
 
   function handleDelete() {
     if (!draft || !group) return;
+    // §35.3 — keep it on this device so the roster can offer Undo.
+    rememberRemoved({
+      warbandId: draft.id,
+      listKey: 'henchmenGroups',
+      index: draft.henchmenGroups.findIndex((g) => g.id === groupId),
+      model: group,
+      name: group.groupName,
+    });
     saveNow((current: Warband) => ({
       henchmenGroups: current.henchmenGroups.filter((g) => g.id !== groupId),
     }));

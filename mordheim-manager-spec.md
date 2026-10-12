@@ -3032,3 +3032,15 @@ _Amends §4.3.2's as-built note ("wizard step-progress is not persisted")._ A re
 - **Never written back after a commit.** A ref set at commit stops the write, so a committed battle can't leave a draft behind (the phantom-*Resume* class of bug fixed in §4.3.3).
 
 Verified in demo mode: step 4 survives a reload; *Resume* reopens step 4; commit leaves `mordheim.battleDraft` empty; the §4.3.3 navigation and §34 friendly checks still pass.
+
+### 35.3 Removing a model can be undone ✅
+
+*Remove from warband* (hero, hired sword, henchmen group) saves at once, and the model lives inside the warband's jsonb, so there is no server-side soft delete to fall back on (unlike warbands, §10.5). It was the one destructive action that was both easy to hit by mistake and permanent.
+
+- **Kept on the removing device for 24 hours** (`lib/removedModels.ts`, `localStorage`, guarded): the model as it was, its list and its position. Up to five per warband.
+- **Undo on the roster.** The roster shows "*X* was removed from the warband." with **Undo** and **Dismiss**. Undo puts the model back at its old position, equipment, Experience and advances included, and saves at once.
+- **Cleared by the next battle.** Committing a post-battle sequence for the warband drops its undo list: a model that missed a battle must not come back as if it had fought it.
+- The type-to-confirm stays (§10.1); its text no longer says "cannot be undone" and names the 24-hour, this-device window instead.
+- Per device by design: the removal is one device's action and so is its undo. A cross-device version would need a server-side trash and is not specced.
+
+Verified in demo mode: remove a hero, the banner appears, Undo restores it in place and the banner goes.
