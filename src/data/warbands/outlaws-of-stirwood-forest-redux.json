@@ -1,0 +1,302 @@
+{
+  "id": "outlaws-of-stirwood-forest-redux",
+  "name": "Outlaws of Stirwood Forest (Redux)",
+  "source": "Mordheim Facebook Group, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/outlaws-of-stirwood-forest-redux) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "banditLeader",
+      "unitType": "Bandit Leader",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "outlawsHeroEquipmentList"
+      ],
+      "notes": "The leader of the outlaw band. Each warband must have exactly one Bandit Leader.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        }
+      ]
+    },
+    {
+      "id": "champions",
+      "unitType": "Champions",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 35,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "outlawsHeroEquipmentList"
+      ],
+      "notes": "The leader's most trusted fighters. 0-2.",
+      "specialRules": []
+    },
+    {
+      "id": "cleric",
+      "unitType": "Cleric",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 35,
+      "startingXp": 8,
+      "skillLists": [
+        "academic",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "outlawsHeroEquipmentList"
+      ],
+      "spellLists": [
+        "prayersOfSigmar"
+      ],
+      "notes": "A wandering priest of Sigmar who has thrown in his lot with the outlaws. 0-1, and only taken instead of a Champion or a Petty Thief. Unlike other members, he does not have to carry a bow.",
+      "specialRules": [
+        {
+          "ref": "prayers",
+          "note": "Starts the campaign knowing one Prayer of Sigmar."
+        },
+        {
+          "name": "Disciple of Sigmar",
+          "description": "The Cleric starts with one Prayer of Sigmar and follows the same restrictions as a Witch Hunter Warrior Priest: he may learn neither Sorcery nor Arcane Lore. As Prayers are not Spells, he may wear armour."
+        }
+      ]
+    },
+    {
+      "id": "pettyThieves",
+      "unitType": "Petty Thieves",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 20,
+      "startingXp": 0,
+      "skillLists": [
+        "combat",
+        "shooting"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "outlawsHeroEquipmentList"
+      ],
+      "notes": "Young cutpurses learning the outlaw trade. 0-2.",
+      "specialRules": []
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "outlaws",
+      "unitType": "Outlaws",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "outlawsHenchmenEquipmentList"
+      ],
+      "notes": "The rank and file of the band: poachers, runaways and men with a price on their heads.",
+      "specialRules": []
+    },
+    {
+      "id": "marksmen",
+      "unitType": "Marksmen",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 7,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "outlawsHenchmenEquipmentList"
+      ],
+      "notes": "The band's best shots. 0-7.",
+      "specialRules": []
+    }
+  ],
+  "equipmentLists": {
+    "outlawsHeroEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "bow",
+      "shortBow",
+      "lightArmour",
+      "helmet",
+      "shield",
+      "longBow",
+      "forestCloak",
+      "huntingArrows"
+    ],
+    "outlawsHenchmenEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "bow",
+      "shortBow",
+      "lightArmour",
+      "helmet",
+      "shield"
+    ]
+  },
+  "exclusiveEquipment": [],
+  "specialRules": "One Missile Weapon: Every warrior in an Outlaws warband may carry only one missile weapon at any time, even if a skill would normally allow more. | Bows for All: Every warrior must carry some type of bow (not a crossbow) as part of their equipment. The only exception is the Cleric, who may carry a bow but does not have to. | Heroes Only Equipment: The Long Bow and all miscellaneous equipment (Forest Cloak 45 gc, Hunting Arrows 30 gc) may only be bought by Heroes. | Forest Cloak: Rare 10, Outlaws only. While the wearer is beside a tree, bush or hedge, enemies shooting at him suffer an additional -1 to hit, and a spellcaster may only target him with a spell after rolling 4+ on a D6. This does not apply if the shooter or caster is within the wearer's Initiative value in inches. | Cleric: The warband may include one Cleric, but only in place of a Champion or a Petty Thief."
+}

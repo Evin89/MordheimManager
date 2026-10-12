@@ -52,6 +52,25 @@ import theRestlessDead from './warbands/the-restless-dead.json';
 import theSonsOfHashut from './warbands/the-sons-of-hashut.json';
 import tileans from './warbands/tileans.json';
 import tombGuardians from './warbands/tomb-guardians.json';
+// Grade 2a fan warbands, converted from mordheimer.net (spec §32).
+import dreamwalkersCultOfMorr from './warbands/dreamwalkers-cult-of-morr.json';
+import druchii from './warbands/druchii.json';
+import graveRobbers from './warbands/grave-robbers.json';
+import halflings from './warbands/halflings.json';
+import mastersOfHorror from './warbands/masters-of-horror.json';
+import mazzalupo from './warbands/mazzalupo.json';
+import necrarchsTheSoulStealers from './warbands/necrarchs-the-soul-stealers.json';
+import nipponeseExpedition from './warbands/nipponese-expedition.json';
+import ogreHuntingParty from './warbands/ogre-hunting-party.json';
+import orderOfTheMare from './warbands/order-of-the-mare.json';
+import outlawsOfStirwoodForestRedux from './warbands/outlaws-of-stirwood-forest-redux.json';
+import protectorateOfSigmar from './warbands/protectorate-of-sigmar.json';
+import skavenOfClanMoulder from './warbands/skaven-of-clan-moulder.json';
+import snotlings from './warbands/snotlings.json';
+import sorcerousSociety from './warbands/sorcerous-society.json';
+import survivorsOfStrigos from './warbands/survivors-of-strigos.json';
+import vampireHuntersOfSylvania from './warbands/vampire-hunters-of-sylvania.json';
+import woodElvesOfAthelLoren from './warbands/wood-elves-of-athel-loren.json';
 
 // Every playable warband definition, keyed by id. Add new warbands here as
 // their data files are populated.
@@ -106,6 +125,24 @@ export const warbandDefinitions: WarbandDefinition[] = [
   theSonsOfHashut,
   tileans,
   tombGuardians,
+  dreamwalkersCultOfMorr,
+  druchii,
+  graveRobbers,
+  halflings,
+  mastersOfHorror,
+  mazzalupo,
+  necrarchsTheSoulStealers,
+  nipponeseExpedition,
+  ogreHuntingParty,
+  orderOfTheMare,
+  outlawsOfStirwoodForestRedux,
+  protectorateOfSigmar,
+  skavenOfClanMoulder,
+  snotlings,
+  sorcerousSociety,
+  survivorsOfStrigos,
+  vampireHuntersOfSylvania,
+  woodElvesOfAthelLoren,
 ] as WarbandDefinition[];
 
 // Custom types live in their own small module (so the app shell can register

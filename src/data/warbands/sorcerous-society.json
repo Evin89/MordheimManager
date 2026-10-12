@@ -1,0 +1,311 @@
+{
+  "id": "sorcerous-society",
+  "name": "Sorcerous Society",
+  "source": "Letters of the Damned #4, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/sorcerous-society) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "magus",
+      "racialProfile": "human",
+      "unitType": "Magus",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 75,
+      "startingXp": 20,
+      "skillLists": [
+        "academic",
+        "speed",
+        "sorcerousSociety"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "sorcerousSocietyList",
+        "sorcerousSocietyHeroList"
+      ],
+      "spellLists": [
+        "lesserMagic",
+        "elementalWater",
+        "elementalFire",
+        "elementalEarth",
+        "elementalAir"
+      ],
+      "notes": "The master wizard leading the society. Each warband must have exactly one Magus.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "ref": "wizard",
+          "note": "Randomly generates two spells from one Elemental lore (Water, Fire, Earth or Air; not yet in the app, see spells.txt) or from Lesser Magic."
+        }
+      ],
+      "startingSpells": 2
+    },
+    {
+      "id": "companions",
+      "racialProfile": "human",
+      "unitType": "Companions",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 45,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "sorcerousSocietyList",
+        "sorcerousSocietyHeroList"
+      ],
+      "notes": "Sword-arms hired to protect the society's wizards. 0-2. Cannot become the Leader.",
+      "specialRules": [
+        {
+          "name": "Not a Leader",
+          "description": "Can never become the warband's Leader. His Leadership is used only for his own tests, including Rout tests after the Leader is out of action."
+        },
+        {
+          "name": "Body Guard",
+          "description": "If within 2\" of a Wizard and not in close combat, he takes missile fire aimed at the Wizard and intercepts charges aimed at the Wizard, moving immediately if needed. He needs a logical path, so he cannot protect a Wizard on a different floor."
+        }
+      ]
+    },
+    {
+      "id": "mages",
+      "racialProfile": "human",
+      "unitType": "Mages",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 35,
+      "startingXp": 8,
+      "skillLists": [
+        "academic",
+        "speed",
+        "sorcerousSociety"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "sorcerousSocietyList",
+        "sorcerousSocietyHeroList"
+      ],
+      "spellLists": [
+        "lesserMagic",
+        "elementalWater",
+        "elementalFire",
+        "elementalEarth",
+        "elementalAir"
+      ],
+      "notes": "Junior wizards of the society. 0-2.",
+      "specialRules": [
+        {
+          "ref": "wizard",
+          "note": "Randomly generates one spell from one Elemental lore (Water, Fire, Earth or Air; not yet in the app, see spells.txt) or from Lesser Magic."
+        },
+        {
+          "name": "Respect Your Betters",
+          "description": "A Mage may never know more spells than the Leader. If he does, he must duel the Leader (the Leader controlled by another player); the loser leaves the warband."
+        }
+      ],
+      "startingSpells": 1
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "untrained",
+      "racialProfile": "human",
+      "unitType": "Untrained",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "sorcerousSocietyList"
+      ],
+      "notes": "Apprentices with raw magical potential but no training yet. 0-5. Unlike most henchmen they may carry special items such as relics or lucky charms.",
+      "specialRules": [
+        {
+          "name": "Harnessed",
+          "description": "On a That Lad's Got Talent result the model gains the Wizard skill. Alternatively it may keep its henchman advancement and randomly generate a spell, or use the Hero advancement roll."
+        }
+      ]
+    },
+    {
+      "id": "grunts",
+      "racialProfile": "human",
+      "unitType": "Grunts",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "sorcerousSocietyList"
+      ],
+      "notes": "Hired muscle and servants of the society. Any number.",
+      "specialRules": [
+        {
+          "name": "Prove that Talent",
+          "description": "On a That Lad's Got Talent result a Grunt may become either a mundane Hero or an Untrained. A second such result lets him become a Wizard."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "sorcerousSocietyList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "wizardsStaff",
+      "spear",
+      "halberd",
+      "doubleHandedWeapon",
+      "bow",
+      "crossbow",
+      "pistol",
+      "handgun",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet"
+    ],
+    "sorcerousSocietyHeroList": [
+      "sorcerousFamiliar"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "wizardsStaff",
+      "name": "Wizard's Staff",
+      "category": "melee",
+      "cost": 10,
+      "rarity": null,
+      "restriction": null,
+      "rulesText": "Close combat, Strength as user. Parry: may parry like a sword. Two-handed: no shield, buckler or second weapon in close combat (a shield still gives +1 armour save against shooting). Concussion: on the injury table, results of 2-4 count as Stunned."
+    },
+    {
+      "id": "sorcerousFamiliar",
+      "name": "Familiar (Sorcerous Society)",
+      "category": "misc",
+      "cost": 20,
+      "rarity": 9,
+      "restriction": "Heroes only; one per Wizard. Cost 20 + 2D6 gc (listed as 20 gc on the warband list).",
+      "rulesText": "Choose Dog, Cat, Raven or Viper. Counts as equipment, but if taken out of action roll for injury as a Henchman. Does not count towards warband size or Rout tests. If it dies or leaves, search for a replacement using the rarity rules. Shooters targeting it are at -1 BS. Dog: M6 WS4 S3 T3 W1 I4 A1 Ld5; Loyal, immune to Fear within 6\" of its Wizard; Sniff, the warband gets one extra exploration die, usable in place of a surviving Hero's roll. Cat: M6 WS4 S2 T2 W1 I6 A1 Ld5; Go for the Eyes, if both its attacks wound in a round the enemy is blinded and cannot fight back until its next turn, if only one wounds the enemy is at -1 WS and BS until its next turn. Raven: M2 WS2 S1 T1 W1 I4 A1 Ld5; Fly, flies 12\" anywhere; I See You, spells may target models within range of either the Wizard or the Raven. Viper: M3 WS4 S2/4 T1 W1 I5 A1 Ld5; Poison, a natural 6 to hit wounds automatically with no armour save, other hits are S4 against poison-susceptible targets (S2 if immune); Coiled and Ready, Lightning Reflexes. None of the familiars has a BS."
+    }
+  ],
+  "specialRules": "Keep it Secret Keep it Safe: The warband cannot hire any Hired Sword or Dramatis Personae with the Wizard ability, except the High Elf Mage. For other Hired Swords the warband counts as a Human Mercenary warband. | The Vagaries of Magic: If a Wizard rolls a natural double 1 when casting, roll 2D6 on the Magical Failure table. 2: mutates into a Chaos Spawn and is removed from the roster; 3: becomes subject to Stupidity, rolling a D6 after each battle with the effect ending on a 2+; 4: cannot cast any spells this battle; 5–6: the spell hits the wizard himself, with details decided by the player to his left; 7: no further effect; 8–9: thrown D6\" in a random direction and knocked down; 10–11: cannot cast in his next shooting phase, though missile weapons still work; 12: gains a free mutation of his choice from the Possessed mutation list (rulebook p.76)."
+}

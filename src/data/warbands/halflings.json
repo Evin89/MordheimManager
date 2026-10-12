@@ -1,0 +1,416 @@
+{
+  "id": "halflings",
+  "name": "Halflings",
+  "source": "Mordheimer's Information Centre, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/halflings) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 20,
+  "heroSlots": [
+    {
+      "id": "halflingElder",
+      "racialProfile": "halfling",
+      "unitType": "Halfling Elder",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "speed",
+        "halflingWarband"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 5,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "halflingAdventurerList"
+      ],
+      "notes": "The wise old head of the Halfling band. Each warband must have exactly one Halfling Elder. May buy Hunting Arrows from the Adventurer list.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        }
+      ]
+    },
+    {
+      "id": "halflingCook",
+      "racialProfile": "halfling",
+      "unitType": "Halfling Cook",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 35,
+      "startingXp": 8,
+      "skillLists": [
+        "strength",
+        "speed",
+        "halflingWarband"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "halflingAdventurerList"
+      ],
+      "notes": "A kitchen veteran handy with knife and cleaver. 0-1. Only the Cook may buy the Pairing Knife (dagger), Tenderiser (hammer), Meat Cleaver (axe), Machete (sword) and Cooking Pot (helmet).",
+      "specialRules": [
+        {
+          "name": "Master Chef",
+          "description": "After selling treasure or Wyrdstone, roll a D6. On a 5+ the warband counts as one size category smaller for that sale."
+        }
+      ]
+    },
+    {
+      "id": "halflingThief",
+      "racialProfile": "halfling",
+      "unitType": "Halfling Thief",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 30,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed",
+        "halflingWarband"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 4,
+        "S": 2,
+        "T": 2,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "halflingThiefList"
+      ],
+      "notes": "A light-fingered sneak who goes where others cannot. 0-1.",
+      "specialRules": [
+        {
+          "name": "Infiltrator",
+          "description": "Deploys after all enemy warbands, anywhere out of enemy sight and at least 12\" from any enemy model. If several warbands have Infiltrators, roll off to see who places first."
+        },
+        {
+          "name": "Pick Locks",
+          "description": "Opens locked doors with just a successful Initiative test."
+        },
+        {
+          "name": "Cutpurse",
+          "description": "If the Thief fought in the battle and was not taken out of action, the warband gains +1 Treasure."
+        }
+      ]
+    },
+    {
+      "id": "halflingYouths",
+      "racialProfile": "halfling",
+      "unitType": "Halfling Youths",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 10,
+      "startingXp": 0,
+      "skillLists": [
+        "shooting",
+        "speed",
+        "halflingWarband"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 2,
+        "T": 2,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "halflingAdventurerList"
+      ],
+      "notes": "Young Halflings eager for adventure. 0-2.",
+      "specialRules": []
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "halflingScouts",
+      "racialProfile": "halfling",
+      "unitType": "Halfling Scouts",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 7,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 4,
+        "S": 2,
+        "T": 2,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "halflingAdventurerList"
+      ],
+      "notes": "Sharp-eyed Halfling archers. 0-7. Scouts may buy Hunting Arrows.",
+      "specialRules": []
+    },
+    {
+      "id": "halflingWarriors",
+      "racialProfile": "halfling",
+      "unitType": "Halfling Warriors",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "halflingAdventurerList"
+      ],
+      "notes": "The sturdiest fighters of the Moot. 0-5. Warriors may not buy Bows (Short Bows are allowed).",
+      "specialRules": []
+    },
+    {
+      "id": "piggies",
+      "unitType": "Piggies",
+      "cost": 20,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 4,
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 0,
+        "S": 3,
+        "T": 4,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "Belligerent pigs from the Moot farms. 0-4. May not use weapons or armour.",
+      "specialRules": [
+        {
+          "ref": "animal"
+        },
+        {
+          "name": "Animals",
+          "description": "Piggies are animals and never gain experience.",
+          "effects": { "noExperience": true }
+        }
+      ]
+    },
+    {
+      "id": "villageOgre",
+      "racialProfile": "ogre",
+      "unitType": "Village Ogre",
+      "cost": 140,
+      "isAnimal": false,
+      "isLargeCreature": true,
+      "maxCount": 1,
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 2,
+        "S": 4,
+        "T": 4,
+        "W": 3,
+        "I": 3,
+        "A": 2,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "villageOgreList"
+      ],
+      "notes": "A big but friendly Ogre adopted by the village. 0-1.",
+      "specialRules": [
+        {
+          "ref": "fear"
+        },
+        {
+          "ref": "largeTarget"
+        },
+        {
+          "name": "Skills",
+          "description": "If promoted to a Hero, he may only choose Combat and Strength skills."
+        },
+        {
+          "name": "Slow Witted",
+          "description": "Gains experience at half the normal rate."
+        },
+        {
+          "name": "Protective",
+          "description": "The warband may not hire an Ogre Bodyguard; one hired earlier leaves the warband."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "halflingAdventurerList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "spear",
+      "shortBow",
+      "bow",
+      "lightArmour",
+      "buckler",
+      "helmet",
+      "huntingArrows"
+    ],
+    "halflingThiefList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "crossbowPistol",
+      "pistol",
+      "throwingKnivesStars",
+      "lightArmour",
+      "buckler",
+      "ropeAndHook",
+      "lockPicks"
+    ],
+    "villageOgreList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "longBow",
+      "lightArmour",
+      "helmet"
+    ]
+  },
+  "exclusiveEquipment": [],
+  "specialRules": "Pretty Much Human: The warband may hire any Hired Sword that is available to human warbands. | Too Big: Halflings cannot use Long Bows, Elf Bows, Handguns, Long Rifles or Blunderbusses, even after an advance that would normally allow them. | Halfling Items: Owning Halfling items, such as the Halfling Cookbook, gives this warband no bonus. | Adventurer List Restrictions: The dagger (first one free), hammer, axe, sword and helmet in the Adventurer list are sold as Pairing Knife, Tenderiser, Meat Cleaver, Machete and Cooking Pot and may only be bought by the Cook. Double-handed weapons and spears are for Heroes and Warriors only. Bows may not be bought by Warriors. Hunting Arrows (35 gc) are for the Elder and Scouts only."
+}

@@ -1,0 +1,307 @@
+{
+  "id": "wood-elves-of-athel-loren",
+  "name": "Wood Elves of Athel Loren",
+  "source": "WEB, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/wood-elves-of-athel-loren) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "huntMaster",
+      "racialProfile": "elf",
+      "unitType": "Hunt Master",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "speed",
+        "woodElvesAthelLoren"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 5,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 6,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "woodElfHeroList"
+      ],
+      "notes": "A veteran Wood Elf hunter who leads the warband out of Athel Loren. Each warband must have exactly one.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Dark Elves"
+          }
+        }
+      ]
+    },
+    {
+      "id": "waywatchers",
+      "racialProfile": "elf",
+      "unitType": "Waywatchers",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 40,
+      "startingXp": 12,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed",
+        "woodElvesAthelLoren"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 6,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "woodElfHeroList"
+      ],
+      "notes": "Silent sentinels of the forest borders, masters of hiding and archery. 0-2 per warband.",
+      "specialRules": [
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Dark Elves"
+          }
+        },
+        {
+          "name": "Sniper",
+          "description": "May shoot while hiding. After the shot roll a D6; on a 5+ no one noticed where the arrow came from (he stays hidden)."
+        },
+        {
+          "name": "Camouflage",
+          "description": "While the Waywatcher is hidden, each enemy model must pass an additional Initiative test to spot him."
+        }
+      ]
+    },
+    {
+      "id": "forestMage",
+      "racialProfile": "elf",
+      "unitType": "Forest Mage",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 55,
+      "startingXp": 12,
+      "skillLists": [
+        "shooting",
+        "academic",
+        "speed",
+        "woodElvesAthelLoren"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 6,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "woodElfHeroList"
+      ],
+      "notes": "A spellweaver attuned to the magic of the forest. 0-1 per warband.",
+      "specialRules": [
+        {
+          "ref": "wizard",
+          "note": "Uses the Woodland Incantations list (see spells.txt)."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Dark Elves"
+          }
+        }
+      ],
+      "spellLists": [
+        "woodlandIncantations"
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "deepwoodScouts",
+      "racialProfile": "elf",
+      "unitType": "Deepwood Scouts",
+      "cost": 35,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 6,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "woodElfScoutList"
+      ],
+      "notes": "Skilled Wood Elf scouts and archers. Bought in groups of 1-5.",
+      "specialRules": [
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Dark Elves"
+          }
+        },
+        {
+          "name": "Crossfire",
+          "description": "If more than one Deepwood Scout shoots at the same target, they get +1 on the injury roll."
+        }
+      ]
+    },
+    {
+      "id": "gladeGuard",
+      "racialProfile": "elf",
+      "unitType": "Glade Guard",
+      "cost": 30,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "woodElfScoutList"
+      ],
+      "notes": "The kindreds' warrior-archers who guard the glades of Athel Loren. Bought in groups of 1-5.",
+      "specialRules": [
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Dark Elves"
+          }
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "woodElfHeroList": [
+      "dagger",
+      "sword",
+      "doubleHandedWeapon",
+      "spear",
+      "ithilmarWeapon",
+      "bow",
+      "longBow",
+      "elfBow",
+      "lightArmour",
+      "shield",
+      "ithilmarArmour",
+      "elvenCloak",
+      "elvenWine",
+      "huntingArrows"
+    ],
+    "woodElfScoutList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "ithilmarWeapon",
+      "bow",
+      "longBow",
+      "elfBow",
+      "lightArmour",
+      "ithilmarArmour",
+      "elvenCloak",
+      "elvenWine",
+      "huntingArrows"
+    ]
+  },
+  "exclusiveEquipment": [],
+  "specialRules": "Hate Dark Elves: All warriors in the warband, excluding Hired Swords, Hate Dark Elves. | Excellent Sight: Elves in the warband spot Hidden enemies from twice as far away as other warriors, at a distance in inches equal to twice their Initiative. | Unforgiving: In multiplayer games the warband may never ally with a chaotic warband such as Possessed, Skaven, Beastmen or Dark Elves. | Tolerant: The warband may hire any Hired Sword that is not of a Chaotic or evil bent, so no Skaven, Possessed, Beastmen, Dark Elves, Undead and so on. | Elven Wargear Prices: In the warband lists the Elf Bow costs 35 gc, the Elven Cloak 75 gc, Elven Wine 50 gc, Hunting Arrows 35 gc and Ithilmar armour 60 gc. An Ithilmar weapon costs twice the base weapon's price. | Ithilmar Availability: Ithilmar weapons and armour are for Heroes only. No roll is needed when founding the warband; afterwards they must be found with a rarity roll as normal (Wood Elves pay normal prices, not the Ulthuan price)."
+}

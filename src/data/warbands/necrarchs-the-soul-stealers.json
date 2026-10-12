@@ -1,0 +1,458 @@
+{
+  "id": "necrarchs-the-soul-stealers",
+  "name": "Necrarchs, the Soul Stealers",
+  "source": "Letters of the Damned #1, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/necrarchs-the-soul-stealers) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "necrarchVampire",
+      "unitType": "Necrarch Vampire",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 110,
+      "startingXp": 20,
+      "skillLists": [
+        "academic",
+        "strength",
+        "speed",
+        "necrarchs"
+      ],
+      "statLine": {
+        "M": 6,
+        "WS": 3,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 2,
+        "I": 6,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": 6,
+        "WS": 4,
+        "BS": 4,
+        "S": 6,
+        "T": 6,
+        "W": 4,
+        "I": 9,
+        "A": 3,
+        "Ld": 10
+      },
+      "equipmentOptions": [
+        "necrarchHeroList"
+      ],
+      "notes": "A Necrarch vampire sorcerer leading his undead servants in search of forbidden knowledge. Each warband must have exactly one.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "ref": "fear",
+          "note": "Terrifying Undead creature."
+        },
+        {
+          "ref": "wizard",
+          "note": "Starts with one random spell. The source names the Necromancy list, but the page prints its own list, the Dreaded Scrolls of Nagash (see warband notes)."
+        },
+        {
+          "ref": "immuneToPsychology"
+        },
+        {
+          "name": "Immune to Poison",
+          "description": "Not affected by any poison."
+        },
+        {
+          "name": "No Pain",
+          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+        }
+      ],
+      "spellLists": [
+        "dreadedScrollsOfNagash"
+      ],
+      "startingSpells": 1
+    },
+    {
+      "id": "thrall",
+      "unitType": "Thrall",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 60,
+      "startingXp": 8,
+      "skillLists": [
+        "academic",
+        "strength",
+        "speed",
+        "necrarchs"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 3,
+        "BS": 3,
+        "S": 4,
+        "T": 4,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": 6,
+        "WS": 4,
+        "BS": 4,
+        "S": 6,
+        "T": 6,
+        "W": 4,
+        "I": 9,
+        "A": 3,
+        "Ld": 10
+      },
+      "equipmentOptions": [
+        "necrarchHeroList"
+      ],
+      "notes": "The Necrarch's lesser vampire servant and second in command. 0-1. Becomes leader if the Necrarch dies (see Death of the Leader).",
+      "specialRules": [
+        {
+          "ref": "fear",
+          "note": "Terrifying Undead creature."
+        },
+        {
+          "ref": "immuneToPsychology"
+        },
+        {
+          "name": "Immune to Poison",
+          "description": "Not affected by any poison."
+        },
+        {
+          "name": "No Pain",
+          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+        }
+      ],
+      "spellLists": [
+        "dreadedScrollsOfNagash"
+      ],
+      "startingSpells": 0
+    },
+    {
+      "id": "acolyte",
+      "racialProfile": "human",
+      "unitType": "Acolytes",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "cost": 35,
+      "startingXp": 0,
+      "skillLists": [
+        "academic",
+        "speed"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "necrarchHenchmenList"
+      ],
+      "notes": "Living human servants through whom the Necrarch sees and speaks. 0-3.",
+      "specialRules": [
+        {
+          "name": "Vassal",
+          "description": "The Necrarch can see, hear and speak through the Acolyte. If the Necrarch has line of sight to an Acolyte that is not in hand-to-hand combat, he may cast spells as if standing at the Acolyte's position. If such a casting roll is a double 1, the Acolyte must roll on the Injury table at +1."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "skeletalWarriors",
+      "unitType": "Skeletal Warriors",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "necrarchHenchmenList"
+      ],
+      "notes": "Animated skeletons raised by the Necrarch. 0-5.",
+      "specialRules": [
+        {
+          "ref": "fear",
+          "note": "Terrifying Undead creature."
+        },
+        {
+          "name": "May Not Run",
+          "description": "Slow Undead: may not run, but may charge normally."
+        },
+        {
+          "ref": "immuneToPsychology"
+        },
+        {
+          "name": "Immune to Poison",
+          "description": "Not affected by any poison."
+        },
+        {
+          "name": "No Pain",
+          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+        },
+        {
+          "name": "No Brain",
+          "description": "Never gains Experience.",
+          "effects": { "noExperience": true }
+        }
+      ]
+    },
+    {
+      "id": "zombies",
+      "unitType": "Zombies",
+      "cost": 15,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 0,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 1,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "Shambling dead raised by the Necrarch. They carry no equipment and suffer no penalty for fighting unarmed.",
+      "specialRules": [
+        {
+          "ref": "fear",
+          "note": "Terrifying Undead creature."
+        },
+        {
+          "name": "May Not Run",
+          "description": "Slow Undead: may not run, but may charge normally."
+        },
+        {
+          "ref": "immuneToPsychology"
+        },
+        {
+          "name": "Immune to Poison",
+          "description": "Not affected by any poison."
+        },
+        {
+          "name": "No Pain",
+          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+        },
+        {
+          "name": "No Brain",
+          "description": "Never gains Experience.",
+          "effects": { "noExperience": true }
+        }
+      ]
+    },
+    {
+      "id": "abomination",
+      "unitType": "Abomination",
+      "cost": 190,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 0,
+        "S": 4,
+        "T": 5,
+        "W": 3,
+        "I": 2,
+        "A": 3,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "A huge stitched-together construct of corpses, animated by a wyrdstone shard. 0-1. Uses no weapons and suffers no penalty for it.",
+      "specialRules": [
+        {
+          "ref": "fear",
+          "note": "Terrifying Undead creature."
+        },
+        {
+          "ref": "immuneToPsychology"
+        },
+        {
+          "name": "Immune to Poison",
+          "description": "Not affected by any poison."
+        },
+        {
+          "name": "No Pain",
+          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+        },
+        {
+          "name": "No Brain",
+          "description": "Never gains Experience.",
+          "effects": { "noExperience": true }
+        },
+        {
+          "ref": "largeTarget"
+        },
+        {
+          "name": "Powered",
+          "description": "Needs a wyrdstone shard to animate. When it is taken out of action, the model that took it out gains the shard; a new wyrdstone shard must be spent to reanimate it."
+        },
+        {
+          "name": "Spare Parts",
+          "description": "Ignores results of 1 and 2 on the post-battle Injury table and can never be destroyed."
+        }
+      ]
+    },
+    {
+      "id": "waifs",
+      "racialProfile": "human",
+      "unitType": "Waifs",
+      "cost": 20,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "necrarchHenchmenList"
+      ],
+      "notes": "Living human wretches who serve the Necrarch. 0-5.",
+      "specialRules": []
+    }
+  ],
+  "equipmentLists": {
+    "necrarchHeroList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "halberd",
+      "doubleHandedWeapon",
+      "bow",
+      "shortBow",
+      "lightArmour",
+      "shield",
+      "helmet",
+      "staffOfDamnation",
+      "holyUnholyRelic",
+      "damnedBook"
+    ],
+    "necrarchHenchmenList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "bow",
+      "shield"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "staffOfDamnation",
+      "name": "Staff of Damnation",
+      "category": "melee",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "Necrarch Vampire only.",
+      "rulesText": "Close combat, Strength as user. Two-handed: may not be used with a shield, buckler or second weapon in close combat (a shield still gives +1 armour save against shooting). Magic-well: in the Magic phase the Necrarch may cast a spell into the staff instead of casting it normally; if the casting succeeds the spell is stored and may be released in a later Shooting phase instead of casting another spell."
+    },
+    {
+      "id": "damnedBook",
+      "name": "Damned Book",
+      "category": "misc",
+      "cost": "45 + 3D6",
+      "rarity": 11,
+      "restriction": "Heroes only (Necrarch Vampire and Thrall).",
+      "rulesText": "Cursed Aura: enemy models within 2\" of the bearer suffer -1 to hit in close combat."
+    }
+  ],
+  "specialRules": "Death of the Leader: If the Necrarch dies, the Thrall becomes the leader and gains all bonuses the Necrarch conferred, and immediately rolls once on the spell list for one spell. Another Necrarch may not be hired, but a new Thrall may be made from one of your Acolytes; it keeps its own profile and gains Cause Fear, Immune to Poison, Immune to Psychology and No Pain. If the Necrarch and the Thrall are destroyed at the same time, the binding magic fades and the whole warband crumbles to dust. | Undead Servants: Skeletal Warriors, Zombies and the Abomination cause Fear, are immune to psychology and poison, treat Stunned as Knocked Down and never gain Experience. Skeletal Warriors and Zombies may not run but may charge normally. | Dreaded Scrolls of Nagash: The Necrarch's spells come from this warband's own list (D6). 1 Soulcage (Difficulty 9); 2 Black Breath (8); 3 Servants Eternal (Auto); 4 Fear of the Ages (9); 5 Wall of Despair (6); 6 Claws of Nagash (10). The Wizard rule on the source page names the Necromancy list instead."
+}

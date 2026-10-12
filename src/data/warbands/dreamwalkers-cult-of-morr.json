@@ -1,0 +1,421 @@
+{
+  "id": "dreamwalkers-cult-of-morr",
+  "name": "Dreamwalkers, Cult of Morr",
+  "source": "Mordheim Facebook Group, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/dreamwalkers-cult-of-morr) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 12,
+  "heroSlots": [
+    {
+      "id": "dreamer",
+      "racialProfile": "human",
+      "unitType": "Dreamer",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 70,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "academic",
+        "strength",
+        "speed",
+        "dreamwalkers"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dreamwalkersHeroList"
+      ],
+      "notes": "A visionary sent dreams by Morr, who leads the warband once certified genuine by the Priest. 0-1; may only be hired after passing the Chosen of Morr roll, and never again once a genuine Dreamer has died.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "name": "Chosen of Morr",
+          "description": "Must be certified by the Priest of Morr before he can be hired (D6, 4+). Once a genuine Dreamer joins, he takes over leadership from the Priest; if he dies, leadership returns to the Priest and no new Dreamer can ever be hired. See the warband's special rules."
+        },
+        {
+          "name": "Guiding Dream",
+          "description": "At the start of each battle roll a D6. 1 (Disturbing Vision): -1\" Movement this battle. 2-3 (Vision of Truth): pick an enemy Hero; the Dreamer gets +1 to hit it. 4-5 (Empowering Vision): pick an enemy Hero; the Dreamer gets +1 Strength when fighting it. 6 (Infuriating Vision): pick an enemy Hero; the Dreamer is subject to Frenzy against it."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Vampires, Necromancers and Undead"
+          }
+        }
+      ]
+    },
+    {
+      "id": "priestOfMorr",
+      "racialProfile": "human",
+      "unitType": "Priest of Morr",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 35,
+      "startingXp": 8,
+      "skillLists": [
+        "academic",
+        "speed",
+        "dreamwalkers"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 9
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "priestOfMorrList"
+      ],
+      "spellLists": [
+        "funeraryRites"
+      ],
+      "notes": "A priest of the god of death who certifies Dreamers and leads the warband until a genuine Dreamer is found. Exactly one per warband. May only carry a Dagger and a Scythe and may never wear armour.",
+      "specialRules": [
+        {
+          "name": "Priest Leader",
+          "description": "Counts as the warband's Leader (with the Leader rule) while there is no genuine Dreamer in the warband, including after the Dreamer dies."
+        },
+        {
+          "name": "Loner",
+          "description": "Never takes All Alone tests."
+        },
+        {
+          "ref": "prayers",
+          "note": "Not a wizard, but performs Funerary Rites using the magic rules. Instead of taking a new skill when he gains an advance, he may randomly roll a Funerary Rite."
+        },
+        {
+          "name": "Weapons of Morr",
+          "description": "May only be armed with a Dagger and a Scythe, and may never wear armour."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Vampires, Necromancers and Undead"
+          }
+        }
+      ]
+    },
+    {
+      "id": "blackGuardOfMorr",
+      "racialProfile": "human",
+      "unitType": "Black Guard of Morr",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 55,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed",
+        "dreamwalkers"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 8
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dreamwalkersHeroList",
+        "blackGuardMountList"
+      ],
+      "notes": "Silent armoured guardians of Morr's temples. 0-2. May ride a Warhorse (Warhorse profile M8 WS3 BS0 S3 T3 W1 I3 A1 Ld5) under the optional mounted rules.",
+      "specialRules": [
+        {
+          "name": "Silent Guardian",
+          "description": "If the Black Guard has been declared Hidden, enemies must pass an Initiative test to spot him. He never suffers movement penalties for wearing armour."
+        },
+        {
+          "name": "Mounted Guardian",
+          "description": "May ride a Warhorse, bought at its cost, using the optional mounted (or Blazing Saddles) rules. While mounted his armour save improves by +4 in total (source wording: 'increasing their save to +4 while mounted')."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Vampires, Necromancers and Undead"
+          }
+        }
+      ]
+    },
+    {
+      "id": "andanti",
+      "racialProfile": "human",
+      "unitType": "The Andanti",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 40,
+      "startingXp": 6,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "strength",
+        "dreamwalkers"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "dreamwalkersHeroList"
+      ],
+      "notes": "An Estalian vampire hunter fighting with rapier and main gauche. 0-1. Only he may buy the Rapier and Main Gauche.",
+      "specialRules": [
+        {
+          "name": "Estalian Technique",
+          "description": "When parrying with his Rapier or Main Gauche, the Andanti succeeds by rolling under his Weapon Skill on a D6, instead of having to beat the opponent's highest to-hit roll."
+        },
+        {
+          "name": "Andanti Knowledge",
+          "description": "+1 to hit in close combat when fighting a Vampire."
+        },
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "Vampires, Necromancers and Undead"
+          }
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "deathsHeadsOfOstermark",
+      "racialProfile": "human",
+      "unitType": "Death's Heads of Ostermark",
+      "cost": 40,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "deathsHeadsList"
+      ],
+      "notes": "Veteran halberdiers from Ostermark sworn to fight the undead. 0-5.",
+      "specialRules": [
+        {
+          "name": "Expert Halberdier",
+          "description": "May fight with a Halberd in one hand and a Shield in the other."
+        }
+      ]
+    },
+    {
+      "id": "morrWorshwishpers",
+      "racialProfile": "human",
+      "unitType": "Morr Worshwishpers",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "morrWorshwishpersList"
+      ],
+      "notes": "Common worshippers of Morr who follow the Dreamer. Any number.",
+      "specialRules": []
+    }
+  ],
+  "equipmentLists": {
+    "dreamwalkersHeroList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "spear",
+      "rapier",
+      "mainGauche",
+      "crossbow",
+      "bow",
+      "shortBow",
+      "pistol",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet"
+    ],
+    "blackGuardMountList": [
+      "warhorse"
+    ],
+    "priestOfMorrList": [
+      "dagger",
+      "scythe"
+    ],
+    "morrWorshwishpersList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "bow",
+      "shortBow",
+      "lightArmour",
+      "shield",
+      "helmet",
+      "buckler"
+    ],
+    "deathsHeadsList": [
+      "dagger",
+      "sword",
+      "halberd",
+      "crossbow",
+      "bow",
+      "shortBow",
+      "lightArmour",
+      "shield",
+      "helmet",
+      "buckler"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "scythe",
+      "name": "Scythe",
+      "category": "melee",
+      "cost": null,
+      "rarity": null,
+      "restriction": "Priest of Morr only. The warband page gives no price.",
+      "rulesText": "Close combat, Strength as user +1. Two-handed: because it is unwieldy it must be used with both hands and cannot be combined with another weapon, a shield or a buckler."
+    },
+    {
+      "id": "rapier",
+      "name": "Rapier",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "The Andanti only.",
+      "rulesText": "Close combat weapon. The warband page gives no profile for it; use the standard Rapier rules. The Andanti parries with it by rolling under his Weapon Skill (Estalian Technique)."
+    },
+    {
+      "id": "mainGauche",
+      "name": "Main Gauche",
+      "category": "melee",
+      "cost": 7,
+      "rarity": null,
+      "restriction": "The Andanti only.",
+      "rulesText": "Off-hand parrying dagger. The warband page gives no profile for it; use the standard Main Gauche rules. The Andanti parries with it by rolling under his Weapon Skill (Estalian Technique)."
+    }
+  ],
+  "specialRules": "Chosen of Morr: A Priest of Morr must always certify that a Dreamer is genuine. When founding the warband, roll a D6; on a 4+ the Dreamer may be hired, otherwise he is rejected and the Priest leads the warband as its Leader. The warband may try again after each battle, paying the normal cost. Once a genuine Dreamer is found the Priest hands him the leadership. If the Dreamer dies, leadership returns to the Priest and no other Dreamer can ever be hired. | Hired Swords: May hire any Hired Sword available to Human Mercenaries, Witch Hunters or Sisters of Sigmar, except Necromantic or Chaotic ones. | Alliances: In multiplayer games the warband may never ally with Necromantic or Chaotic warbands, such as Undead, Possessed, Skaven, Beastmen and Dark Elves. | Hate Undead: All Heroes Hate Vampires, Necromancers and Undead. | New Skills: When choosing new skills, Dreamwalkers follow the same restrictions as Witch Hunters and Sisters of Sigmar."
+}

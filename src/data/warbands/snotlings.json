@@ -1,0 +1,542 @@
+{
+  "id": "snotlings",
+  "name": "Snotlings",
+  "source": "WEB, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/snotlings) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 30,
+  "heroSlots": [
+    {
+      "id": "bulliedGoblin",
+      "racialProfile": "goblin",
+      "unitType": "Bullied Goblin",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 35,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "speed",
+        "snotlingWarband"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "snotlingList"
+      ],
+      "notes": "A Goblin pushed around by bigger greenskins who has found a horde of Snotlings to boss around. Each warband must have exactly one Bullied Goblin. May use the Snotling Special skills in place of any standard skill list.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "name": "Not a Snotling",
+          "description": "Ignores Dodgy, Small Target, Small Hands and Not-So-Tough Gits, but still counts as halved for Weakness in Numbers and may use Pebbles."
+        },
+        {
+          "name": "Mob Rule",
+          "description": "For every 2 Snotlings within 6\" the Hero gains +1 Leadership, to a maximum of 10. This bonus also applies to the Leadership used for the Leader rule."
+        },
+        {
+          "name": "The Rigors of Leadership",
+          "description": "The Hero gains +2 Experience for surviving a battle."
+        }
+      ]
+    },
+    {
+      "id": "bigSnotz",
+      "unitType": "Snotling BigSnotz",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 15,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "speed",
+        "snotlingWarband"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 2,
+        "T": 2,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 2,
+        "I": 9,
+        "A": 4,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "snotlingList"
+      ],
+      "notes": "The biggest and toughest of the Snotlings. 0-2. May buy Short Bows and Light Armour from the Snotling list.",
+      "specialRules": [
+        {
+          "name": "Snotling",
+          "description": "Has the Dodgy, Small Target, Small Hands and Not-So-Tough Gits rules (see the warband's special rules)."
+        },
+        {
+          "name": "Mob Rule",
+          "description": "For every 2 Snotlings within 6\" the Hero gains +1 Leadership, to a maximum of 10. This bonus also applies to the Leadership used for the Leader rule."
+        },
+        {
+          "name": "The Rigors of Leadership",
+          "description": "The Hero gains +2 Experience for surviving a battle."
+        }
+      ]
+    },
+    {
+      "id": "snotlingScouts",
+      "unitType": "Snotling Scouts",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 20,
+      "startingXp": 4,
+      "skillLists": [
+        "shooting",
+        "speed",
+        "snotlingWarband"
+      ],
+      "statLine": {
+        "M": 5,
+        "WS": 1,
+        "BS": 2,
+        "S": 1,
+        "T": 1,
+        "W": 1,
+        "I": 5,
+        "A": 1,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 2,
+        "I": 9,
+        "A": 4,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "snotlingList"
+      ],
+      "notes": "Sneaky Snotlings sent ahead of the horde. 0-2. Cannot use the Goblin/BigSnotz-only items (Short Bow, Light Armour).",
+      "specialRules": [
+        {
+          "name": "Snotling",
+          "description": "Has the Dodgy, Small Target, Small Hands and Not-So-Tough Gits rules (see the warband's special rules)."
+        },
+        {
+          "name": "Mob Rule",
+          "description": "For every 2 Snotlings within 6\" the Hero gains +1 Leadership, to a maximum of 10. This bonus also applies to the Leadership used for the Leader rule."
+        },
+        {
+          "name": "The Rigors of Leadership",
+          "description": "The Hero gains +2 Experience for surviving a battle."
+        },
+        {
+          "name": "Scout",
+          "description": "Set up after the opposing warband, anywhere out of sight and more than 8\" from any enemy. If both warbands have infiltrating models, each player rolls a D6 and the lowest sets up first."
+        },
+        {
+          "name": "He's No Threat",
+          "description": "Scouts may always run, even with enemies within 8\"."
+        }
+      ]
+    },
+    {
+      "id": "snotlingShaman",
+      "unitType": "Snotling Shaman",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 30,
+      "startingXp": 4,
+      "skillLists": [
+        "speed",
+        "snotlingWarband"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 1,
+        "BS": 1,
+        "S": 1,
+        "T": 1,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 2,
+        "I": 9,
+        "A": 4,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "snotlingList",
+        "shamanList"
+      ],
+      "notes": "A Snotling touched by the power of the Waaagh!. 0-1. Cannot use the Goblin/BigSnotz-only items (Short Bow, Light Armour).",
+      "specialRules": [
+        {
+          "ref": "wizard",
+          "note": "Starts with one spell from the Snotling Waaagh! Magic list (not yet in the app; see spells.txt)."
+        },
+        {
+          "name": "'Eadache!",
+          "description": "After each casting attempt roll a D6. On a 1-2 the Shaman and every model in base contact suffer a Strength 5 hit. A familiar (Power Squig) not yet used this turn allows a re-roll of this D6, keeping the second result. Maintaining a spell does not trigger this test."
+        },
+        {
+          "name": "Mob Rule",
+          "description": "For every 2 Snotlings within 6\" the Hero gains +1 Leadership, to a maximum of 10. This bonus also applies to the Leadership used for the Leader rule."
+        },
+        {
+          "name": "The Rigors of Leadership",
+          "description": "The Hero gains +2 Experience for surviving a battle."
+        },
+        {
+          "name": "Snotling",
+          "description": "Has the Dodgy, Small Target, Small Hands and Not-So-Tough Gits rules (see the warband's special rules)."
+        }
+      ],
+      "spellLists": [
+        "snotlingWaaaghMagic"
+      ],
+      "startingSpells": 1
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "shootaTeam",
+      "unitType": "Snotling Shoota Teams",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 3,
+        "S": 1,
+        "T": 1,
+        "W": 2,
+        "I": 3,
+        "A": 2,
+        "Ld": 4
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "shootaList"
+      ],
+      "notes": "A team of Snotlings lugging a weapon far too big for one of them. 0-5. May buy only one missile weapon other than Pebbles and Slingshots; Blunderbusses 0-2 in the warband; Pistols may not be bought as a brace.",
+      "specialRules": [
+        {
+          "name": "Snotling",
+          "description": "Has the Dodgy, Small Target, Small Hands and Not-So-Tough Gits rules (see the warband's special rules)."
+        },
+        {
+          "name": "Teamwork",
+          "description": "The team counts as one model."
+        },
+        {
+          "name": "Cumbersome",
+          "description": "If carrying a missile weapon other than a Pebble or Slingshot, it cannot run (it may still charge)."
+        },
+        {
+          "name": "Recoil",
+          "description": "After firing such a weapon, the team moves D6\" directly backwards. Hitting terrain causes a Strength 2 hit on the team; hitting a model causes a Strength 2 hit on both. A pistol fired in close combat moves the team D6\" away, ending the combat with no free attack. Falls are tested normally."
+        },
+        {
+          "name": "Exempt from Small Hands",
+          "description": "Shoota Teams may use weapons forbidden by Small Hands (subject to their own list)."
+        }
+      ]
+    },
+    {
+      "id": "snotlingMobs",
+      "unitType": "Snotling Mobs",
+      "cost": 40,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 3,
+      "statLine": {
+        "M": 4,
+        "WS": 2,
+        "BS": 2,
+        "S": 2,
+        "T": 2,
+        "W": 3,
+        "I": 3,
+        "A": 3,
+        "Ld": 5
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "mobList"
+      ],
+      "notes": "A heaving mass of Snotlings fighting as one. 0-3.",
+      "specialRules": [
+        {
+          "name": "Teamwork",
+          "description": "The Mob counts as one model."
+        },
+        {
+          "name": "Not So Small, Surprisingly Tough",
+          "description": "Enemies get no -1 to hit when shooting at a Mob. It does not use Not-So-Tough Gits: it uses the normal injury table and dies only on a 1-2. It keeps the Dodgy save."
+        },
+        {
+          "name": "Mass Stupidity",
+          "description": "Can never gain That Lad's Got Talent; re-roll that result until a different advance is gained."
+        },
+        {
+          "name": "Mob Mentality",
+          "description": "If a Mob starts its turn within 2\" of another Mob, both are Immune to Psychology for the rest of that turn, including the opponent's turn."
+        }
+      ]
+    },
+    {
+      "id": "snotlingWheelo",
+      "unitType": "Snotling Wheelo",
+      "cost": 100,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "statLine": {
+        "M": null,
+        "WS": 2,
+        "BS": 2,
+        "S": 4,
+        "T": 3,
+        "W": 2,
+        "I": 5,
+        "A": 2,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "wheeloList"
+      ],
+      "notes": "Snotlings crewing a rolling wheel contraption (40mm base). 0-1. Equipped with a Dagger and 1 Pebble. Movement is not a fixed value (see Walking and Running rules); M is printed as * on the source and stored as null.",
+      "specialRules": [
+        {
+          "name": "Wheelo Movement",
+          "description": "Walking: D6\" per turn straight forwards or backwards, with one pivot of up to 90 degrees at the start of the turn; stops on contact with non-open terrain or a building wall. Running or charging: 2D6\" (3D6\" with Sprint); failed charges are not halved. Each non-open terrain piece passed (rubble, barricades, buildings) causes an automatic Strength 5 hit, resolved immediately. Moving into a model causes Impact Hits; moving into an enemy counts as a charge."
+        },
+        {
+          "name": "Impact Hits",
+          "description": "When the Wheelo charges, the model struck takes D3 Strength 4 hits in the first round only, resolved before blows; friendly models hit also take them, models charging the Wheelo take none. If two models are charged, roll D3-1 (minimum 1) and apply the same number to both; three or more each take 1 hit. Impact Hits stay Strength 4 even if the crew gains Strength."
+        },
+        {
+          "name": "Crew",
+          "description": "The crew fights normally in close combat (without Impact Hits when charged). Against a Fear-causing enemy the crew must pass a Leadership test or hit only on 6s."
+        },
+        {
+          "name": "Tough Machine",
+          "description": "Not-So-Tough Gits, Small Target and Dodgy do not apply. When out of action roll a D6 instead of the injury table: 1 destroyed and removed; 2 misses the next D3 games; 3-6 fine."
+        },
+        {
+          "name": "Wheelo Advancement",
+          "description": "Counts as a henchman but rolls on the Hero Advancement table. Cannot gain That Lad's Got Talent; each characteristic may be increased only once, ignoring the Snotling maximums. Skill results may be taken from Combat, Strength or Speed, plus the Wheelo skills Weapons Training, Sprint and Mighty Blow."
+        },
+        {
+          "name": "Weapons Training",
+          "description": "Wheelo skill: Axe gives Impact Hits -1 armour save; Club gives Impact Hits Concussion; Spear means that, if charged, one Impact Hit lands on the charger before attacks; Morning Star makes the first round of Impact Hits each game Strength 5."
+        },
+        {
+          "name": "Sprint",
+          "description": "Wheelo skill: moves 3D6\" instead of 2D6\" when running or charging."
+        },
+        {
+          "name": "Mighty Blow",
+          "description": "Wheelo skill: +1 to wound in close combat; no effect on Impact Hits."
+        }
+      ]
+    },
+    {
+      "id": "runts",
+      "unitType": "Runts",
+      "cost": 5,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": null,
+      "statLine": {
+        "M": 4,
+        "WS": 1,
+        "BS": 1,
+        "S": 1,
+        "T": 1,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 3
+      },
+      "statMaximums": {
+        "M": 4,
+        "WS": 4,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 2,
+        "I": 9,
+        "A": 4,
+        "Ld": 6
+      },
+      "equipmentOptions": [
+        "snotlingList"
+      ],
+      "notes": "The smallest, scrawniest Snotlings. Any number; a group may have any number of Runts. Cannot use the Goblin/BigSnotz-only items (Short Bow, Light Armour).",
+      "specialRules": [
+        {
+          "name": "Snotling",
+          "description": "Has the Dodgy, Small Target, Small Hands and Not-So-Tough Gits rules (see the warband's special rules)."
+        },
+        {
+          "name": "Teeny Hands",
+          "description": "May use missile weapons, but only one one-handed close combat weapon at a time and no armour. Losing this rule via That Lad's Got Talent allows normal equipment."
+        },
+        {
+          "name": "Smallest of the Small",
+          "description": "-2 to be hit by shooting in total (one more than Small Target); hit normally in close combat. After a game, a Runt taken out of action dies on a 1-4 instead of 1-3."
+        },
+        {
+          "name": "Worthless Kill",
+          "description": "When an enemy Hero or Henchman group takes a Runt out of action, the attacker rolls a D6 after the battle and gains 1 Experience on a 5+."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "snotlingList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "doubleHandedWeapon",
+      "shortBow",
+      "smallPebble",
+      "slingshot",
+      "lightArmour",
+      "shield",
+      "helmet"
+    ],
+    "shootaList": [
+      "dagger",
+      "clubMaceHammer",
+      "smallPebble",
+      "slingshot",
+      "crossbow",
+      "blunderbuss",
+      "pistol"
+    ],
+    "mobList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "doubleHandedWeapon",
+      "smallPebble",
+      "slingshot"
+    ],
+    "wheeloList": [
+      "dagger",
+      "smallPebble"
+    ],
+    "shamanList": [
+      "familiar"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "smallPebble",
+      "name": "Small Pebble",
+      "category": "missile",
+      "cost": 0,
+      "rarity": null,
+      "restriction": "Snotling warband only. Free; does not count towards the missile weapon limit and is free to replace.",
+      "rulesText": "Range 6\", Strength as user. Thrown weapon: no penalty for long range or for moving and shooting. Cannot be used in close combat. The target gets +1 to its armour save."
+    },
+    {
+      "id": "slingshot",
+      "name": "Slingshot",
+      "category": "missile",
+      "cost": 2,
+      "rarity": null,
+      "restriction": "Snotling warband only.",
+      "rulesText": "Range 18\", Strength 2. If the model did not move, it may fire twice in the shooting phase, but only up to half range (9\") and each shot is at -1 to hit."
+    }
+  ],
+  "specialRules": "Dodgy: All Snotlings have a 6+ dodge save, like the Dark Elf Fey Quickness skill. A Hero's dodge or step-aside skill combines with it for a 4+ save. | Small Target: Snotlings are at -1 to be hit by shooting. | Small Hands: Snotlings and the Bullied Goblin can never use Long Bows, Elf Bows, Handguns, Long Rifles or Blunderbusses, even if an advance would allow it. Shoota Teams are the exception. | Not-So-Tough Gits: Snotlings are injured on 1 knocked down, 2-3 stunned, 4-6 out of action. Henchmen taken out of action die on a 1-3 instead of 1-2. Snotling Heroes (not the Bullied Goblin) roll twice on the Heroes Serious Injury table. | Weakness in Numbers: The warband rating is halved (117 becomes 59). For income and trading, warband size is halved rounding up, giving a value from 3 to 15. | Scavengers!: Snotlings roll one extra exploration dice, even if all Heroes were taken out of action. | That Git's Got Talent!: A Snotling henchman who gains That Lad's Got Talent automatically learns Mob Rule and The Rigors of Leadership. | Too Unruly: Snotlings can never hire Hired Swords or Dramatis Personae, except Snotling ones or those that name this warband. | Snotling Maximums: Goblin maximums are M4 WS5 BS6 S4 T4 W3 I6 A4 Ld7; Snotling maximums are M4 WS4 BS4 S3 T3 W2 I9 A4 Ld6. If a characteristic is already at maximum, pick the other option, or re-roll if only one was possible; if both are maxed, any other characteristic gains +1. Henchmen may only gain +1 to any characteristic. | Special Skill Access: The Bullied Goblin and Snotling Heroes may use the Snotling Special skill table in place of any standard skill table."
+}

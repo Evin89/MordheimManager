@@ -1,0 +1,408 @@
+{
+  "id": "protectorate-of-sigmar",
+  "name": "Protectorate of Sigmar",
+  "source": "Letters of the Damned #3, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/protectorate-of-sigmar) on 2026-10-10.",
+  "grade": "2a",
+  "startingGold": 500,
+  "minWarbandSize": 3,
+  "maxWarbandSize": 15,
+  "heroSlots": [
+    {
+      "id": "warriorPriest",
+      "unitType": "Warrior Priest",
+      "isLeader": true,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 80,
+      "startingXp": 20,
+      "skillLists": [
+        "combat",
+        "academic",
+        "strength",
+        "speed",
+        "protectorateOfSigmar"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 8
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "protectorateHeroEquipmentList"
+      ],
+      "spellLists": [
+        "prayersOfSigmar"
+      ],
+      "notes": "A battle-hardened priest of Sigmar who leads the Protectorate. Each warband must have exactly one.",
+      "specialRules": [
+        {
+          "ref": "leader"
+        },
+        {
+          "ref": "prayers",
+          "note": "Starts with one randomly generated Prayer of Sigmar."
+        },
+        {
+          "name": "Death of a Leader",
+          "description": "If the Warrior Priest is lost, the most experienced Acolyte becomes the new Warrior Priest with all his benefits and title, but gains no Prayer immediately; at his next advance he may choose a prayer or roll for an advance. The warband may then hire another Acolyte."
+        }
+      ]
+    },
+    {
+      "id": "templars",
+      "unitType": "Templars",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 45,
+      "startingXp": 12,
+      "skillLists": [
+        "combat",
+        "strength",
+        "speed",
+        "protectorateOfSigmar"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 4,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "protectorateHeroEquipmentList"
+      ],
+      "notes": "Holy warriors sworn to the Church of Sigmar. 0-2; one may be replaced by a Huntsman.",
+      "specialRules": [
+        {
+          "ref": "hatred",
+          "params": {
+            "target": "all models in a chaotic warband (including Skaven, Possessed, Carnival of Chaos, Beastmen and any warband with a Daemon)"
+          },
+          "note": "Zealous."
+        }
+      ]
+    },
+    {
+      "id": "acolytes",
+      "unitType": "Acolytes",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 2,
+      "cost": 25,
+      "startingXp": 2,
+      "skillLists": [
+        "combat",
+        "academic",
+        "strength",
+        "speed",
+        "protectorateOfSigmar"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 2,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "protectorateHeroEquipmentList"
+      ],
+      "notes": "Young initiates of the priesthood. 0-2. The most experienced Acolyte takes over if the Warrior Priest is lost.",
+      "specialRules": []
+    },
+    {
+      "id": "huntsman",
+      "unitType": "Huntsman",
+      "isLeader": false,
+      "isLargeCreature": false,
+      "maxCount": 1,
+      "cost": 45,
+      "startingXp": 8,
+      "skillLists": [
+        "combat",
+        "shooting",
+        "protectorateOfSigmar"
+      ],
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "huntsmanEquipmentList"
+      ],
+      "notes": "A woodsman who tends the warband's hounds. 0-1, and only by replacing one Templar.",
+      "specialRules": [
+        {
+          "name": "Beastmaster",
+          "description": "Any animal in the warband within 6\" may use the Huntsman's Leadership. Hostile beasts must pass a Leadership test to charge him."
+        }
+      ]
+    }
+  ],
+  "henchmenTypes": [
+    {
+      "id": "archers",
+      "unitType": "Archers",
+      "cost": 35,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 4,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "protectorateHenchmenEquipmentList"
+      ],
+      "notes": "Skilled shots in the service of the Church. 0-5.",
+      "specialRules": []
+    },
+    {
+      "id": "crusaders",
+      "unitType": "Crusaders",
+      "cost": 25,
+      "isAnimal": false,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 4,
+        "WS": 3,
+        "BS": 3,
+        "S": 3,
+        "T": 3,
+        "W": 1,
+        "I": 3,
+        "A": 1,
+        "Ld": 7
+      },
+      "racialProfile": "human",
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [
+        "protectorateHenchmenEquipmentList"
+      ],
+      "notes": "Faithful men-at-arms. 0-5.",
+      "specialRules": []
+    },
+    {
+      "id": "hounds",
+      "unitType": "Hounds",
+      "cost": 15,
+      "isAnimal": true,
+      "isLargeCreature": false,
+      "maxCount": 5,
+      "statLine": {
+        "M": 6,
+        "WS": 4,
+        "BS": 0,
+        "S": 4,
+        "T": 3,
+        "W": 1,
+        "I": 4,
+        "A": 1,
+        "Ld": 6
+      },
+      "statMaximums": {
+        "M": null,
+        "WS": null,
+        "BS": null,
+        "S": null,
+        "T": null,
+        "W": null,
+        "I": null,
+        "A": null,
+        "Ld": null
+      },
+      "equipmentOptions": [],
+      "notes": "Temple war hounds. 0-5. Never use weapons or armour.",
+      "specialRules": [
+        {
+          "name": "Animals",
+          "description": "Hounds are animals and gain no experience.",
+          "effects": { "noExperience": true }
+        },
+        {
+          "name": "Devoted",
+          "description": "A Hound may re-roll a failed Leadership test while within 12\" of the Warrior Priest."
+        },
+        {
+          "name": "Jaws and Brutality",
+          "description": "A Hound never uses or needs weapons or armour and suffers no penalty for this."
+        }
+      ]
+    }
+  ],
+  "equipmentLists": {
+    "protectorateHeroEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "crossbow",
+      "pistol",
+      "longBow",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet",
+      "sigmariteWarhammerProtectorate",
+      "shieldOfSigmar",
+      "blessedWater",
+      "blessedBolts",
+      "holyUnholyRelic"
+    ],
+    "protectorateHenchmenEquipmentList": [
+      "dagger",
+      "clubMaceHammer",
+      "axe",
+      "sword",
+      "spear",
+      "doubleHandedWeapon",
+      "crossbow",
+      "pistol",
+      "longBow",
+      "lightArmour",
+      "heavyArmour",
+      "shield",
+      "buckler",
+      "helmet"
+    ],
+    "huntsmanEquipmentList": [
+      "dagger",
+      "sword",
+      "longBow",
+      "blessedBolts"
+    ]
+  },
+  "exclusiveEquipment": [
+    {
+      "id": "sigmariteWarhammerProtectorate",
+      "name": "Sigmarite Warhammer",
+      "category": "melee",
+      "cost": 15,
+      "rarity": null,
+      "restriction": "Protectorate of Sigmar Heroes only.",
+      "rulesText": "No rules text on the source page. Presumably as the standard Sigmarite warhammer: close combat, Strength as user +1; Concussion (2-4 on the Injury table counts as Stunned); Holy Weapon (+1 to wound against Possessed or Undead)."
+    },
+    {
+      "id": "shieldOfSigmar",
+      "name": "Shield of Sigmar",
+      "category": "armour",
+      "cost": 20,
+      "rarity": 9,
+      "restriction": "Protectorate of Sigmar Heroes only.",
+      "rulesText": "Armour save 6+ (as a shield). Shield of Faith: the bearer has a special 6+ save against all ranged attacks. The usual -1 penalty for bearing a shield with heavy armour does not apply."
+    },
+    {
+      "id": "blessedBolts",
+      "name": "Blessed Bolts",
+      "category": "missile",
+      "cost": 25,
+      "rarity": null,
+      "restriction": "Protectorate of Sigmar Heroes (incl. Huntsman) only.",
+      "rulesText": "Ammunition blessed by the Warrior Priest and his Acolytes. Range and Strength as the weapon. Holy: +1 Strength when fired at Chaotic targets — Undead, Chaos-infused models (Mutants or Possessed) and Twisters of Magic."
+    }
+  ],
+  "specialRules": "Death of a Leader: If the Warrior Priest falls, the Acolyte with the most experience becomes the new leader and takes over all of the Warrior Priest's benefits and title. He gains no Prayer immediately; at his next advance he may either choose a prayer from the list or roll for an advance. Afterwards the warband may hire another Acolyte. | Hired Swords: The Protectorate may recruit Hired Swords as if it were a Witch Hunter warband. | Huntsman: You may replace one Templar with a Huntsman. | Heroes Only Equipment: The Sigmarite Warhammer (15 gc), Shield of Sigmar (20 gc), Holy Water (5 gc), Blessed Bolts (25 gc) and Holy Relic (15 gc) may only be bought by Heroes. | Zealous: Templars hate any model in a chaotic warband, including Skaven, Possessed, Carnival of Chaos, Beastmen and any warband with a Daemon."
+}
