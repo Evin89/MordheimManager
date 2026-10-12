@@ -12,6 +12,7 @@ import { isDemoMode, setDemoMode } from '../dev/demoMode';
 import { MAX_DISPLAY_NAME } from '../api/profile';
 import { useMyProfileQuery, useUpdateDisplayNameMutation } from '../hooks/useProfile';
 import { usePush } from '../hooks/usePush';
+import { deleteMyAccount } from '../api/account';
 import {
   analyticsConfigurable,
   consentChoice,
@@ -225,6 +226,73 @@ function YourActivitySection() {
   );
 }
 
+/**
+ * §35.5 — delete your own account (migration 0057). Behind a button so the
+ * danger zone isn't open by default, then the unrecoverable tier (§10.1):
+ * the impact in full, and a typed phrase.
+ */
+function DeleteAccountSection({ onDeleted }: { onDeleted: () => void }) {
+  const s = strings.settings;
+  const { signOut } = useAuth();
+  const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function confirm() {
+    setBusy(true);
+    setError(null);
+    try {
+      const demo = isDemoMode();
+      await deleteMyAccount();
+      queryClient.clear();
+      onDeleted();
+      // Demo mode has no server session; leaving it is its sign-out.
+      if (demo) await signOut();
+    } catch (err) {
+      setError(s.deleteAccountError(err instanceof Error ? err.message : String(err)));
+      setBusy(false);
+    }
+  }
+
+  return (
+    <Card as="section">
+      <SectionHeading>{s.deleteAccountSection}</SectionHeading>
+      <p className="text-bone-300 text-sm">{s.deleteAccountIntro}</p>
+      {!open ? (
+        <Button variant="danger" onClick={() => setOpen(true)}>
+          {s.deleteAccountButton}
+        </Button>
+      ) : (
+        <>
+          <ConfirmByTyping
+            phrase={s.deleteAccountPhrase}
+            label={s.deleteAccountLabel}
+            action={s.deleteAccountAction}
+            impact={
+              <>
+                <p>{s.deleteAccountGoes}</p>
+                <p>{s.deleteAccountStays}</p>
+                <p>{s.deleteAccountLeaders}</p>
+              </>
+            }
+            busy={busy}
+            onConfirm={confirm}
+          />
+          <Button variant="secondary" onClick={() => setOpen(false)} disabled={busy}>
+            {s.deleteAccountCancel}
+          </Button>
+        </>
+      )}
+      {error && (
+        <p role="alert" className="text-danger text-sm">
+          {error}
+        </p>
+      )}
+    </Card>
+  );
+}
+
 export default function SettingsScreen() {
   const [theme, setTheme] = useTheme();
   const { user, signOut } = useAuth();
@@ -236,6 +304,7 @@ export default function SettingsScreen() {
   // overwrites everything on the account and can't be undone.
   const [pendingImport, setPendingImport] = useState<ReturnType<typeof parseImportFile> | null>(null);
   const [importing, setImporting] = useState(false);
+  const [accountDeleted, setAccountDeleted] = useState(false);
 
   function handleImportClick() {
     fileInputRef.current?.click();
@@ -367,6 +436,13 @@ export default function SettingsScreen() {
         </Card>
 
         {user && <YourActivitySection />}
+
+        {user && <DeleteAccountSection onDeleted={() => setAccountDeleted(true)} />}
+        {accountDeleted && !user && (
+          <p role="status" className="text-bone-200 text-sm">
+            {strings.settings.deleteAccountDone}
+          </p>
+        )}
 
         {/* Only rendered for an admin, but that's presentation, not protection:
             `issue_reports` and `admin_stats()` are admin-gated in the database,

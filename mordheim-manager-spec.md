@@ -3054,6 +3054,36 @@ Verified in demo mode: step 4 survives a reload; *Resume* reopens step 4; commit
 
 Verified in demo mode: remove a hero, the banner appears, Undo restores it in place and the banner goes.
 
+### 35.5 Delete your own account (AVG/GDPR) ⚠️
+
+_⚠️ until migration 0057 is applied._ The privacy policy promised account deletion "at any time", but there was no way to do it in the app, and the dashboard route failed too: five author columns referenced the user with no `ON DELETE` action, so deleting the auth user was refused for anyone who had ever created a campaign or reported a battle.
+
+- **Where:** Account › *Delete account*, below Your activity. A danger button opens the unrecoverable confirm tier (§10.1 `ConfirmByTyping`). The impact is stated in full: what is gone, what is kept, and what happens to leadership. The phrase to type is "delete my account". *Keep my account* closes it.
+- **`delete_my_account()`** (migration 0057), SECURITY DEFINER, for the caller only. Everything runs in one transaction, so a failure leaves the account untouched.
+- **Gone:**
+  - the auth user and profile;
+  - warbands, with their objectives, photos, rating history and edits;
+  - custom warband types, the collection, push subscriptions and visits;
+  - comments and RSVPs;
+  - friendly battles (no campaign, §34);
+  - campaign log entries they wrote;
+  - campaigns in which they are the only member.
+- **Kept, anonymised:**
+  - battles they reported in a campaign;
+  - events they organised;
+  - awards they granted;
+  - campaigns they created that others are still in.
+
+  The author column becomes null. Other players' standings and records don't change because someone left. Issue reports were already `on delete set null`.
+- **Leadership:** a campaign they lead alone, with other members, passes to the member who joined first. This is the move a leadership transfer (0010) makes, and the 0010 trigger would otherwise refuse the cascade.
+- **Photos:** file paths are queued in `storage_purge_queue` for Admin › Maintenance, like the 30-day warband purge.
+- **This device:** signs out locally (the server session died with the user). It clears the battle draft and the per-account conveniences: undo list, last-used warband, active campaign, dismissed nudges. Theme, analytics consent and the tour flag stay.
+- The privacy policy (§7, §8) now describes this, dated 12 October 2026, with a changelog entry.
+
+❓ **Owner to confirm:** the keep/remove split above, and the first-joined member as new leader. The alternative is to refuse until the player transfers leadership, the way leaving a campaign does.
+
+Verified with `npm run db:test -- delete-account` (`supabase/db-tests/delete-account.sql`, 17 checks, anonymous callers refused). In demo mode the confirm flow works and the local keys are cleared.
+
 ### 35.7 The RLS matrix as an automated test ✅
 
 §14.4's matrix is now a SQL test in the database harness (`npm run db:test`, PR #24): `supabase/db-tests/rls-matrix.sql`. Run it after any schema change. It needs no Supabase project and no second account. See §14.4 for what it covers.
