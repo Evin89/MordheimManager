@@ -39,7 +39,11 @@ export default function PostBattleWizard() {
   const logBattle = useLogBattleMutation();
   // §34.4 — the campaign this battle would be filed under, which also decides
   // whether a friendly is allowed.
-  const campaign = useWarbandCampaign(warbandId) ?? null;
+  const resolvedCampaign = useWarbandCampaign(warbandId);
+  const campaign = resolvedCampaign ?? null;
+  // `undefined` = warbands or campaigns still loading. Until then we can't know
+  // whether this campaign forbids friendlies, so the commit waits for it.
+  const campaignLoading = resolvedCampaign === undefined;
   const session = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
   const clearBattleSession = useAppStore((state) => state.clearBattleSession);
 
@@ -129,7 +133,7 @@ export default function PostBattleWizard() {
   }
 
   async function handleCommit() {
-    if (!warband || !draft || committing) return;
+    if (!warband || !draft || committing || campaignLoading) return;
     setCommitting(true);
     try {
       if (friendly) {
@@ -198,7 +202,7 @@ export default function PostBattleWizard() {
 
         <div className="pt-6">
           {isLastStep ? (
-            <Button onClick={handleCommit} disabled={committing}>
+            <Button onClick={handleCommit} disabled={committing || campaignLoading}>
               {friendly ? strings.postBattle.saveFriendly : strings.postBattle.commitBattle}
             </Button>
           ) : (
