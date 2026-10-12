@@ -95,6 +95,7 @@ export const strings = {
     gold: 'gc',
     dismiss: 'Dismiss',
     loading: 'Loading…',
+    lastUsed: 'last used',
     unsavedChanges: 'Unsaved changes',
     discard: 'Discard',
     updateAvailableError: "Something didn't load — probably a new version of the app. Reload to get the current one.",
