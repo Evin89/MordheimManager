@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-10-12",
+    "title": "Fan-Made Warbands in Their Own Words",
+    "description": "The 18 fan-made warbands added last week now use the rules exactly as their source pages print them: warband rules, each warrior's rules, the skills, the spells and prayers, and the special equipment. Each warband also shows its background. A few rules that the source never mentions have been removed."
+  },
+  {
+    "date": "2026-10-12",
     "title": "Smoother Battle Navigation",
     "description": "After committing a battle, Back no longer drops you into an empty During Battle screen, and no phantom “Resume the battle in progress?” prompt appears next time. The last post-battle step now has a second button, Commit & visit Trading Post, so recruiting and buying follow straight on. And the ← button on a page you opened from a shared link now takes you to the page above it instead of out of the app."
   },

@@ -54,14 +54,15 @@
         "elementalEarth",
         "elementalAir"
       ],
-      "notes": "The master wizard leading the society. Each warband must have exactly one Magus.",
+      "notes": "Weapons/Armour: The Magus may be armed with weapons and armour from the Sorcerous Society Equipment List.",
       "specialRules": [
         {
-          "ref": "leader"
+          "name": "Leader",
+          "description": "Any models in the warband within 6” of the Magus may use his Leadership instead of their own."
         },
         {
-          "ref": "wizard",
-          "note": "Randomly generates two spells from one Elemental lore (Water, Fire, Earth or Air; not yet in the app, see spells.txt) or from Lesser Magic."
+          "name": "Wizard",
+          "description": "The Magus is a powerful wizard and may randomly generate two spells from any one Elemental list, or from the Lesser Magic list found in the Core Rulebook."
         }
       ],
       "startingSpells": 2
@@ -106,15 +107,15 @@
         "sorcerousSocietyList",
         "sorcerousSocietyHeroList"
       ],
-      "notes": "Sword-arms hired to protect the society's wizards. 0-2. Cannot become the Leader.",
+      "notes": "Weapons/Armour: The Companion may be armed with weapons and armour from the Sorcerous Society Equipment List.",
       "specialRules": [
         {
-          "name": "Not a Leader",
-          "description": "Can never become the warband's Leader. His Leadership is used only for his own tests, including Rout tests after the Leader is out of action."
+          "name": "Don’t look at me!",
+          "description": "A Companion does not command the respect that a wizard does. As a result the Companion may never become the Leader of a warband and his Leadership may never be used for any Leadership tests except his own. This includes Rout Tests after the Leader has been taken Out of Action."
         },
         {
           "name": "Body Guard",
-          "description": "If within 2\" of a Wizard and not in close combat, he takes missile fire aimed at the Wizard and intercepts charges aimed at the Wizard, moving immediately if needed. He needs a logical path, so he cannot protect a Wizard on a different floor."
+          "description": "If the Companion is within 2 inches of a Wizard and not involved in Hand to Hand combat, he will take all missile fire and intercept any charges directed at the Wizard. If this requires that the model be moved, it is done so immediately, even if out of sequence or if it forces the model to move further than usually allowed in one turn. Note that the Companion must have a logical path to accomplish this goal; if he is within 2” of a Wizard but on a lower floor in a building, he will be unable to protect him in this manner."
         }
       ]
     },
@@ -165,15 +166,15 @@
         "elementalEarth",
         "elementalAir"
       ],
-      "notes": "Junior wizards of the society. 0-2.",
+      "notes": "Weapons/Armour: The Hedge Wizards may be armed with weapons and armour from the Sorcerous Society Equipment List.",
       "specialRules": [
         {
-          "ref": "wizard",
-          "note": "Randomly generates one spell from one Elemental lore (Water, Fire, Earth or Air; not yet in the app, see spells.txt) or from Lesser Magic."
+          "name": "Wizard",
+          "description": "The Mage is a wizard, and may randomly generate a spell from any one Elemental list, or from the Lesser Magic list found in the Core Rulebook."
         },
         {
-          "name": "Respect Your Betters",
-          "description": "A Mage may never know more spells than the Leader. If he does, he must duel the Leader (the Leader controlled by another player); the loser leaves the warband."
+          "name": "Respect your betters",
+          "description": "A Mage may never have more spells than the Leader. If a Mage has more spells than the leader he will immediately be challenged to a Wizard’s Duel. Have another player take control of the Leader for this match. The loser of the duel must leave the warband."
         }
       ],
       "startingSpells": 1
@@ -213,11 +214,15 @@
       "equipmentOptions": [
         "sorcerousSocietyList"
       ],
-      "notes": "Apprentices with raw magical potential but no training yet. 0-5. Unlike most henchmen they may carry special items such as relics or lucky charms.",
+      "notes": "Weapons/Armour: Untrained may be armed with weapons and armour from the Sorcerous Society Equipment List.",
       "specialRules": [
         {
+          "name": "Here, hold this",
+          "description": "Untrained may be equipped with special items (like holy relics or lucky charms)."
+        },
+        {
           "name": "Harnessed",
-          "description": "On a That Lad's Got Talent result the model gains the Wizard skill. Alternatively it may keep its henchman advancement and randomly generate a spell, or use the Hero advancement roll."
+          "description": "Should an Untrained roll a “Lads Got Talent” roll, they immediately gain the “Wizard” skill. They may choose to either forgo their additional advancement and randomly generate a spell, or may roll as the Hero advancement dictates."
         }
       ]
     },
@@ -254,11 +259,11 @@
       "equipmentOptions": [
         "sorcerousSocietyList"
       ],
-      "notes": "Hired muscle and servants of the society. Any number.",
+      "notes": "Weapons/Armour: A Grunt may be armed with weapons and armour from the Sorcerous Society Equipment List.",
       "specialRules": [
         {
-          "name": "Prove that Talent",
-          "description": "On a That Lad's Got Talent result a Grunt may become either a mundane Hero or an Untrained. A second such result lets him become a Wizard."
+          "name": "Prove that Talent!",
+          "description": "If “Lads Got Talent” is rolled the individual Grunt can either become a mundane Hero or may choose to become a “Grunt Untrained” instead. Therefore, a Grunt who rolls two “Lads got Talent” may become a wizard."
         }
       ]
     }
@@ -294,8 +299,8 @@
       "category": "melee",
       "cost": 10,
       "rarity": null,
-      "restriction": null,
-      "rulesText": "Close combat, Strength as user. Parry: may parry like a sword. Two-handed: no shield, buckler or second weapon in close combat (a shield still gives +1 armour save against shooting). Concussion: on the injury table, results of 2-4 count as Stunned."
+      "restriction": "Common",
+      "rulesText": "Strength As User. Parry: A warrior armed with a Wizard’s Staff may attempt to Parry a blow, just as a sword. 2 Handed: A model using a Wizard’s Staff may not use a shield, buckler or additional weapon in close combat. If the model has a shield, it receives a +1 bonus to his armour save versus shooting attacks. Concussion: When using a Wizard’s Staff, a roll of 2–4 is treated as stunned when rolling on the injury table."
     },
     {
       "id": "sorcerousFamiliar",
@@ -303,9 +308,10 @@
       "category": "misc",
       "cost": 20,
       "rarity": 9,
-      "restriction": "Heroes only; one per Wizard. Cost 20 + 2D6 gc (listed as 20 gc on the warband list).",
-      "rulesText": "Choose Dog, Cat, Raven or Viper. Counts as equipment, but if taken out of action roll for injury as a Henchman. Does not count towards warband size or Rout tests. If it dies or leaves, search for a replacement using the rarity rules. Shooters targeting it are at -1 BS. Dog: M6 WS4 S3 T3 W1 I4 A1 Ld5; Loyal, immune to Fear within 6\" of its Wizard; Sniff, the warband gets one extra exploration die, usable in place of a surviving Hero's roll. Cat: M6 WS4 S2 T2 W1 I6 A1 Ld5; Go for the Eyes, if both its attacks wound in a round the enemy is blinded and cannot fight back until its next turn, if only one wounds the enemy is at -1 WS and BS until its next turn. Raven: M2 WS2 S1 T1 W1 I4 A1 Ld5; Fly, flies 12\" anywhere; I See You, spells may target models within range of either the Wizard or the Raven. Viper: M3 WS4 S2/4 T1 W1 I5 A1 Ld5; Poison, a natural 6 to hit wounds automatically with no armour save, other hits are S4 against poison-susceptible targets (S2 if immune); Coiled and Ready, Lightning Reflexes. None of the familiars has a BS."
+      "restriction": "Rare 9",
+      "rulesText": "Dog: M 6 WS 4 BS – S 3 T 3 W 1 I 4 A 1 Ld 5 Cat: M 6 WS 4 BS – S 2 T 2 W 1 I 6 A 1 Ld 5 Raven: M 2 WS 2 BS – S 1 T 1 W 1 I 4 A 1 Ld 5 Viper: M 3 WS 4 BS – S 2/4* T 1 W 1 I 5 A 1 Ld 5 Small Target: Models shooting at a Familiar suffer a -1 to their BS due to the small size of the target. Loyal: A Dog Familiar that remains within 6” of its wizard is immune to fear. Sniff: A Dog has a keen sense of smell and can be used to aid during exploration. The warband may roll one additional dice and may use the result of this dice rather than that of one of the surviving heroes. Go for the Eyes!: If both attacks successfully wound in one round then the enemy model is blinded and may not fight back until their next turn. If only one attack wounds then the affected model suffers a -1 to both WS & BS until the beginning of their next turn. Fly: May fly up to 12” anywhere on the table. I see you!: Spells may be cast on models if they are within range of either the Wizard or the Raven. Therefore, a spell with a 12” range may be cast on models within 12” of either model. Poison: Should a Viper roll a 6 to hit, the attack automatically wounds with no armour save. Any other successful hit result on a target susceptible to poison will suffer a S4 hit. If the creature is immune to poison then treat the attack as S2. Coiled and Ready: A Viper is not easily caught unaware. A Viper has Lightning Reflexes."
     }
   ],
-  "specialRules": "Keep it Secret Keep it Safe: The warband cannot hire any Hired Sword or Dramatis Personae with the Wizard ability, except the High Elf Mage. For other Hired Swords the warband counts as a Human Mercenary warband. | The Vagaries of Magic: If a Wizard rolls a natural double 1 when casting, roll 2D6 on the Magical Failure table. 2: mutates into a Chaos Spawn and is removed from the roster; 3: becomes subject to Stupidity, rolling a D6 after each battle with the effect ending on a 2+; 4: cannot cast any spells this battle; 5–6: the spell hits the wizard himself, with details decided by the player to his left; 7: no further effect; 8–9: thrown D6\" in a random direction and knocked down; 10–11: cannot cast in his next shooting phase, though missile weapons still work; 12: gains a free mutation of his choice from the Possessed mutation list (rulebook p.76)."
+  "specialRules": "Keep it secret, keep it safe!: A Sorcerous Society warband may never have a Hired Sword or Dramatis Personae with the Wizard ability save for the High Elf Mage. Otherwise they may use any other Hired Sword as a Human Mercenary Warband. | The Vagaries of Magic: Members of the Sorcerous Society are using powerful and sometimes little known spells. As a result they are susceptible to the chaotic lure of magic. If a Wizard in the Sorcerous Society Warband rolls a natural 2 (two 1’s) when rolling for a spell than they must roll on the Magical Failure Table. Table used with permission from the Border Town Burning Suppliment. 2: Aaarrgh! The powers of Chaos take over the helpless wizard as he horribly mutates to a Spawn of Chaos. Remove the wizard from your roster.; 3: Gglbddlh: The wizard is now stupid. Roll a D6 after the battle: on a score of 2+ the effect ends.; 4: Magical Shutdown: The wizard cannot cast any spells for the duration of this battle.; 5–6: Uh-oh! The spell has been cast successfully – upon the wizard himself! Any additional decisions are made by the wizard’s left player.; 7: Pooh, nothing at all! Except for the spell’s failure there are no further consequences.; 8–9: Magical Explosion: The wizard is thrown D6\" in a random direction and then lands knocked down.; 10 – 11: Magical jam: The wizard cannot cast a spell in his next shooting phase. Missile weapons may be used as normal, of course.; 12: Wait, what's that? The uncontrollable powers of Chaos cause the wizard to mutate. After a moment of horror the transmutation ends. You may choose a free Mutation for the wizard chosen from the Possessed's Mutations chart (Mordheim Rulebook page 76).",
+  "background": "Even prior to the twin-tailed comet crashing into the city of Mordheim, practitioners of the magical arts were held with suspicion, fear and even hatred. This came to a head in the years between 1982 and 1991 of the Imperial Calendar when the state sanctioned cults of Sigmar and Ulric took to persecuting wizards in what became known as the “Wizard Wars”. As a result many law-abiding wizards were forced to flee or go into hiding. The study of magic continues to be circumspect. To this day Witch Hunters, so called Templars of Sigmar, search the cities, towns and villages of the Empire trying to uproot those that practice “arts most vile”. Secret societies of Sorcerers were formed to protect the teachings and practices brought down through the ages. Some among the societies are sent out to seek out abandoned artifacts, collect materials needed for the continued study of magic, root out evil spell casters and practitioners of vile Necromantic or Chaos Rites and Rituals as well as engage in other perilous task that must be accomplished to ensure the preservation of their art."
 }

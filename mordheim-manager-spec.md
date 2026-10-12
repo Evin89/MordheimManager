@@ -2818,7 +2818,7 @@ The audit's "23 + 21 + 9" import, as built:
 Decided 2026-10-10 by the owner: add all 18 grade 2a warbands the mordheimer.net index lists and the app lacked (Dwarf Slayer Cult was already in). The local dataset only indexes them, so each was converted from its mordheimer.net page: Dreamwalkers (Cult of Morr), Druchii, Grave Robbers, Halflings, Masters of Horror, Mazzalupo, Necrarchs the Soul Stealers, Nipponese Expedition, Ogre Hunting Party, Order of the Mare, Outlaws of Stirwood Forest (Redux), Protectorate of Sigmar, Skaven of Clan Moulder, Snotlings, Sorcerous Society, Survivors of Strigos, Vampire Hunters of Sylvania, Wood Elves of Athel Loren.
 
 - **Data:** one file per warband in `src/data/warbands/`, registered in `warbandRegistry.ts`; 15 warband skill lists in `skills.json` (`warbandSpecific`); 13 spell and prayer lists in `spells.json`, including source variants kept separate from the app list they resemble (`druchiiDarkMagic` vs `darkElfMagic`, `striganyCharmsAndHexes` vs `charmsAndHexes`, `funeraryRitesSylvania` vs `funeraryRites`).
-- **Rule text** is written in our own words from the pages, precise about numbers and dice; nothing is invented — unknown values are `null` (Scythe price, Wheelo's Move).
+- **Rule text** ✅ _(redone 2026-10-12 to §33's rule)_ is the pages' own, 1:1: every warband's `specialRules` and new `background` (its Lore), every unit's special rules and `notes` (the page's "Weapons/Armour" lines), the 15 skill lists, the 13 spell lists (including each list's `notes`, now the section's own intro) and the exclusive items' `rulesText` (profile first, then the rules, as §33). Only markup is removed; tables are written as rows, characteristic tables as "M 5 WS 2 …". Typos stay as printed ("Estalian Tecnique"). The first pass had been written in our own words; it was replaced, not edited. Unknown values remain `null` (Scythe price, Wheelo's Move).
 - **Not modelled, shown as text (§1):** warband-specific prices that differ from the shared catalogue (cheaper Elven gear for the Wood Elves, Lance 20 gc for Mazzalupo and the Order of the Mare, Barding 30 gc, Druchii founding prices); "X only" item restrictions on shared lists; the Sorcerous Society's one-lore-per-wizard rule (Magus and Mages are offered Lesser Magic and all four elemental lores).
 - **Judgement calls worth a check against the source:**
   - Dreamwalkers: the Dreamer is the Leader; the Priest of Morr leads until he is hired.
@@ -2827,6 +2827,16 @@ Decided 2026-10-10 by the owner: add all 18 grade 2a warbands the mordheimer.net
   - Halflings: the Village Ogre keeps the Long Bow despite "Too Big".
   - Snotlings: the page header says grade 2b.
   - Mazzalupo: the Wandering Knight's Commands are a `magic` list, so the app labels them "Spells".
+
+#### 32.1 The 1:1 pass — how and what it left ✅
+
+The 18 pages were saved from mordheimer.net on 2026-10-12 (article HTML, one file) and converted by a throwaway extractor, then checked by an independent pass: every written piece of text is found verbatim on its own page, apart from tables rewritten as rows (862 pieces checked).
+
+- **Unit rules are exactly the page's.** Rules the first pass had added from elsewhere on the page (e.g. Greenskin, Goaded Beast, the Snotling bundle, Wheelo movement) are dropped from the units: their text is in the warband's own rules, verbatim. Rules that appear nowhere on the page (Priest Leader, Weapons of Morr, Houndmaster, Curse of the Wolf, Worthless Kill, Servant of Morr) are gone. Shared rulebook refs (`leader`, `fear`, `hatred`, …) and their app-written `note`s are replaced by the page's own wording of the rule.
+- **Behaviour kept.** `noExperience` is the only rule effect the app reads; every unit that gained no Experience before still doesn't, the effect now sitting on the page's own rule ("Animals", "Experience", "Horse"). Rating reads `isLargeCreature`, unchanged.
+- **Items the page only prices.** Rapier and Main Gauche (Dreamwalkers), Fighting Claws and Blow Pipe (Nipponese), Ogre Club and Harpoon Crossbow (Ogre Hunting Party), Sigmarite Warhammer (Protectorate), Warplock Pistol (Clan Moulder) and Blessed Bolts (Vampire Hunters) take the 1:1 text of the same item from the warband that describes it (Hochland Bandits, Skaven, Maneaters, Sisters of Sigmar, Protectorate). ◻️ **Katana and Nagamaki** are described nowhere in the source: their rules text is empty rather than invented.
+- **Not changed:** skill `prerequisite`s (eligibility metadata, as for every other list since §33); names of units, skills and spells; all numbers.
+- ◻️ **Snotlings** have no Lore on the page, so no Background.
 
 ## 33. Rule text 1:1 from the Mordheimer data ✅
 

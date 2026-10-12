@@ -46,29 +46,31 @@
       "equipmentOptions": [
         "necrarchHeroList"
       ],
-      "notes": "A Necrarch vampire sorcerer leading his undead servants in search of forbidden knowledge. Each warband must have exactly one.",
+      "notes": "Weapons/Armour: A Necrarch Vampire may be armed from the Necrarch Hero Equipment list.",
       "specialRules": [
         {
-          "ref": "leader"
+          "name": "Leader",
+          "description": "Any models in the warband within 6 inches of the Necrarch Vampire may use his Leadership instead of their own."
         },
         {
-          "ref": "fear",
-          "note": "Terrifying Undead creature."
+          "name": "Cause Fear",
+          "description": "Vampires are terrifying Undead creatures and thus cause Fear."
         },
         {
-          "ref": "wizard",
-          "note": "Starts with one random spell. The source names the Necromancy list, but the page prints its own list, the Dreaded Scrolls of Nagash (see warband notes)."
+          "name": "Wizard",
+          "description": "Necrarch Vampires have one spell randomly generated from the Necromancy spell list."
         },
         {
-          "ref": "immuneToPsychology"
+          "name": "Immune to Psychology",
+          "description": "Vampires are not affected by psychology (such as fear) and never leave combat."
         },
         {
           "name": "Immune to Poison",
-          "description": "Not affected by any poison."
+          "description": "Vampires are not affected by any poison."
         },
         {
           "name": "No Pain",
-          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+          "description": "Vampires treat a Stunned result on the Injury chart as Knocked Down."
         }
       ],
       "spellLists": [
@@ -115,22 +117,23 @@
       "equipmentOptions": [
         "necrarchHeroList"
       ],
-      "notes": "The Necrarch's lesser vampire servant and second in command. 0-1. Becomes leader if the Necrarch dies (see Death of the Leader).",
+      "notes": "Weapons/Armour: A Thrall may be equipped from the Necrarch Hero Equipment List.",
       "specialRules": [
         {
-          "ref": "fear",
-          "note": "Terrifying Undead creature."
+          "name": "Cause Fear",
+          "description": "Vampires are terrifying Undead creatures and therefore cause Fear."
         },
         {
-          "ref": "immuneToPsychology"
+          "name": "Immune to Psychology",
+          "description": "Vampires are not affected by psychology (such as fear) and never leave combat."
         },
         {
           "name": "Immune to Poison",
-          "description": "Not affected by any poison."
+          "description": "Vampires are not affected by any poison."
         },
         {
           "name": "No Pain",
-          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+          "description": "Vampires treat a Stunned result on the Injury chart as Knocked Down."
         }
       ],
       "spellLists": [
@@ -176,11 +179,11 @@
       "equipmentOptions": [
         "necrarchHenchmenList"
       ],
-      "notes": "Living human servants through whom the Necrarch sees and speaks. 0-3.",
+      "notes": "Weapons/Armour: Acolytes may equip themselves with weapons and armour from the Henchmen equipment list.",
       "specialRules": [
         {
           "name": "Vassal",
-          "description": "The Necrarch can see, hear and speak through the Acolyte. If the Necrarch has line of sight to an Acolyte that is not in hand-to-hand combat, he may cast spells as if standing at the Acolyte's position. If such a casting roll is a double 1, the Acolyte must roll on the Injury table at +1."
+          "description": "The Acolyte has given himself over to his dark lord. At a whim, the Necrarch can see what the Acolyte sees, hear what he hears, and even speak through his slave. As long as the Necrarch has line of sight to an Acolyte, and the Acolyte is not engaged in hand-to-hand combat, he may use it as a casting point for a spell. Upon a critical failure of a casting (rolling double 1's) regardless of skills such as Mind Focus or the like, the Acolyte must roll on the Injury table and add +1."
         }
       ]
     }
@@ -218,30 +221,31 @@
       "equipmentOptions": [
         "necrarchHenchmenList"
       ],
-      "notes": "Animated skeletons raised by the Necrarch. 0-5.",
+      "notes": "Weapons/Armour: Skeletal warriors may be equipped with weapons and armour chosen from the Henchmen Equipment list.",
       "specialRules": [
         {
-          "ref": "fear",
-          "note": "Terrifying Undead creature."
+          "name": "Cause Fear",
+          "description": "Skeletal Warriors are terrifying Undead creatures and therefore cause Fear."
         },
         {
-          "name": "May Not Run",
-          "description": "Slow Undead: may not run, but may charge normally."
+          "name": "May not Run",
+          "description": "Skeletal Warriors are slow Undead creatures and may not run (but may charge normally)."
         },
         {
-          "ref": "immuneToPsychology"
+          "name": "Immune to Psychology",
+          "description": "Skeletal Warriors are not affected by psychology."
         },
         {
           "name": "Immune to Poison",
-          "description": "Not affected by any poison."
+          "description": "Skeletal Warriors are immune to poisons."
         },
         {
           "name": "No Pain",
-          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+          "description": "Skeletal Warriors treat Stunned results as Knocked Down."
         },
         {
           "name": "No Brain",
-          "description": "Never gains Experience.",
+          "description": "Skeletal Warriors do not gain experience.",
           "effects": { "noExperience": true }
         }
       ]
@@ -276,30 +280,31 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Shambling dead raised by the Necrarch. They carry no equipment and suffer no penalty for fighting unarmed.",
+      "notes": "Weapons/Armour: Zombies never carry any equipment, and do not suffer any penalties for this.",
       "specialRules": [
         {
-          "ref": "fear",
-          "note": "Terrifying Undead creature."
+          "name": "Cause Fear",
+          "description": "Zombies are terrifying Undead creatures and therefore cause Fear."
         },
         {
-          "name": "May Not Run",
-          "description": "Slow Undead: may not run, but may charge normally."
+          "name": "May not Run",
+          "description": "Zombies are slow Undead creatures and may not run (but may charge normally)."
         },
         {
-          "ref": "immuneToPsychology"
+          "name": "Immune to Psychology",
+          "description": "Zombies are not affected by psychology."
         },
         {
           "name": "Immune to Poison",
-          "description": "Not affected by any poison."
+          "description": "Zombies are immune to poisons."
         },
         {
           "name": "No Pain",
-          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+          "description": "Zombies treat Stunned results on the Injury table as Knocked Down."
         },
         {
           "name": "No Brain",
-          "description": "Never gains Experience.",
+          "description": "Zombies do not gain experience.",
           "effects": { "noExperience": true }
         }
       ]
@@ -334,38 +339,40 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "A huge stitched-together construct of corpses, animated by a wyrdstone shard. 0-1. Uses no weapons and suffers no penalty for it.",
+      "notes": "Weapons/Armour: Abominations do not employ weapons, and suffer no penalties for doing so.",
       "specialRules": [
         {
-          "ref": "fear",
-          "note": "Terrifying Undead creature."
+          "name": "Cause Fear",
+          "description": "Abominations are terrifying Undead creatures and thus cause Fear."
         },
         {
-          "ref": "immuneToPsychology"
+          "name": "Immune to Psychology",
+          "description": "Abominations are not affected by psychology."
         },
         {
           "name": "Immune to Poison",
-          "description": "Not affected by any poison."
+          "description": "Abominations are immune to poisons."
         },
         {
           "name": "No Pain",
-          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+          "description": "Abominations treat Stunned results as Knocked Down."
         },
         {
           "name": "No Brain",
-          "description": "Never gains Experience.",
+          "description": "Abominations do not gain experience.",
           "effects": { "noExperience": true }
         },
         {
-          "ref": "largeTarget"
+          "name": "Large Target",
+          "description": "Abominations are Large Targets as defined in the shooting rules."
         },
         {
           "name": "Powered",
-          "description": "Needs a wyrdstone shard to animate. When it is taken out of action, the model that took it out gains the shard; a new wyrdstone shard must be spent to reanimate it."
+          "description": "A Necrarch has placed a shard of wyrdstone in the Abomination to bring it life. Should the Abomination be removed from combat, the model who took it down receives a shard of wyrdstone. A new shard is then needed to re-animate the Abomination."
         },
         {
           "name": "Spare Parts",
-          "description": "Ignores results of 1 and 2 on the post-battle Injury table and can never be destroyed."
+          "description": "Thanks to the dark magics of their lords and the manner of their construction, Abominations ignore rolls of 1&2 on the post battle Injury Table; they cannot be destroyed."
         }
       ]
     },
@@ -402,7 +409,7 @@
       "equipmentOptions": [
         "necrarchHenchmenList"
       ],
-      "notes": "Living human wretches who serve the Necrarch. 0-5.",
+      "notes": "Weapons/Armour: A Waif may be armed with weapons and armour chosen from the Henchmen Equipment list.",
       "specialRules": []
     }
   ],
@@ -441,8 +448,8 @@
       "category": "melee",
       "cost": 25,
       "rarity": null,
-      "restriction": "Necrarch Vampire only.",
-      "rulesText": "Close combat, Strength as user. Two-handed: may not be used with a shield, buckler or second weapon in close combat (a shield still gives +1 armour save against shooting). Magic-well: in the Magic phase the Necrarch may cast a spell into the staff instead of casting it normally; if the casting succeeds the spell is stored and may be released in a later Shooting phase instead of casting another spell."
+      "restriction": "Necrarch only",
+      "rulesText": "Strength As user. Two-Handed: As the Staff of Damnation requires two hands to wield, a model equipped with it may not use a shield, buckler or secondary weapon in close combat. If the model has a shield it will still get a +1 bonus to its armour save against shooting. Magic-well: A Necrarch Vampire may cast a spell into the Staff of Damnation during his Magic phase instead of casting as normal. Upon a successful casting, the spell is stored within the staff. The spell may be released during a later shooting phase in lieu of casting another spell."
     },
     {
       "id": "damnedBook",
@@ -450,9 +457,10 @@
       "category": "misc",
       "cost": "45 + 3D6",
       "rarity": 11,
-      "restriction": "Heroes only (Necrarch Vampire and Thrall).",
-      "rulesText": "Cursed Aura: enemy models within 2\" of the bearer suffer -1 to hit in close combat."
+      "restriction": "Rare 11",
+      "rulesText": "Cursed Aura: A model bearing the Damned Book causes all enemy models within 2 inches to suffer a -1 penalty to hit in close combat."
     }
   ],
-  "specialRules": "Death of the Leader: If the Necrarch dies, the Thrall becomes the leader and gains all bonuses the Necrarch conferred, and immediately rolls once on the spell list for one spell. Another Necrarch may not be hired, but a new Thrall may be made from one of your Acolytes; it keeps its own profile and gains Cause Fear, Immune to Poison, Immune to Psychology and No Pain. If the Necrarch and the Thrall are destroyed at the same time, the binding magic fades and the whole warband crumbles to dust. | Undead Servants: Skeletal Warriors, Zombies and the Abomination cause Fear, are immune to psychology and poison, treat Stunned as Knocked Down and never gain Experience. Skeletal Warriors and Zombies may not run but may charge normally. | Dreaded Scrolls of Nagash: The Necrarch's spells come from this warband's own list (D6). 1 Soulcage (Difficulty 9); 2 Black Breath (8); 3 Servants Eternal (Auto); 4 Fear of the Ages (9); 5 Wall of Despair (6); 6 Claws of Nagash (10). The Wizard rule on the source page names the Necromancy list instead."
+  "specialRules": "Death of the Leader: Should the Necrarch perish, the Thrall shall pick up the mantle of Leader and all conferred bonuses shall be transferred to him. He may immediately roll on the spell list for one spell. You cannot hire another Necrarch, but you may create another Thrall from your current list of Acolyte Heroes. They will retain their current stat-line, but shall gain the benefits of being undead: Immune to Poison & Psychology, causes Fear & suffers No Pain. Should both Necrarch and Thrall be destroyed at once, the evil magics that bind the warband together fade, and all turns to dust.",
+  "background": "With the destruction of Lahmia the kingdom of Vampires came to an end and the Great Library was burned to the ground. The accumulated knowledge of the ancient Nehekhara was destroyed and many of the disciples of W'soran died in the flames, reluctant to abandon their work. Unfortunately for the world, a handful of Necrarchs fled and survived the pursuit of the armies of the kings of Numas and Zandri, taking with them books, scrolls and other fragments of the dark lore that Nagash had created. They scattered all over the world and hid themselves to patiently wait for the death of their enemies and continue their studies. They built tall towers from where they could study the stars and defend themselves if attacked. News has since spread to these remote strongholds and hidden alcoves of the events occurring in Mordheim, a city ripe for the taking. With the dead calling them forth, the archmages of the Vampire line descend with their minions upon the cursed city to claim its riches, from both those who are dead and those that soon shall be.."
 }

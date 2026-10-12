@@ -47,17 +47,18 @@
       "equipmentOptions": [
         "knightList"
       ],
-      "notes": "The knightly leader of the warband. Each warband must have exactly one Paragon. May buy one horse or warhorse at half price when recruited (Horse and Rider).",
+      "notes": "Weapons/Armour: The Paragon may be equipped from the Footman equipment list.",
       "specialRules": [
         {
-          "ref": "leader"
+          "name": "Leader",
+          "description": "Any warrior within 6” of the Questing knight may use his Leadership value when taking Leadership tests."
         },
         {
-          "name": "Knight's Virtue",
-          "description": "Never panics and breaks from combat, so does not have to pass a Leadership test for being all alone."
+          "name": "Knight’s virtue",
+          "description": "The Paragon follows the rules of Knight’s virtue."
         },
         {
-          "name": "Vow of Poverty",
+          "name": "Vow of poverty",
           "description": "The Paragon may not use a Lance."
         }
       ]
@@ -102,15 +103,11 @@
       "equipmentOptions": [
         "dameList"
       ],
-      "notes": "The holy lady the warband follows. Exactly one; if she is removed, a new Dame must be recruited without delay and no other warriors may be recruited before her.",
+      "notes": "Weapons/Armour: The Dame of the Mare comes equipped with an ancient armour that may never be removed, traded or stolen. It does not prevent spell casting, and provides a 5+ save that cannot be modified, but doesn’t work against magical attacks. She may otherwise be equipped from the Dame equipment list.",
       "specialRules": [
         {
-          "name": "Ancient Armour",
-          "description": "Comes with ancient armour that may never be removed, traded or stolen. It gives a 5+ armour save that cannot be modified, does not prevent spellcasting, and does not work against magical attacks."
-        },
-        {
-          "ref": "prayers",
-          "note": "Uses the Blessings of the Mare list and starts with one randomly determined prayer."
+          "name": "Prayers",
+          "description": "The Dame of the Mare may use prayers from the Blessings of the Mare list. She starts with one randomly determined prayer."
         }
       ],
       "spellLists": [
@@ -157,11 +154,11 @@
       "equipmentOptions": [
         "knightList"
       ],
-      "notes": "A young knight seeking glory. 0-1. May buy one horse or warhorse at half price when recruited (Horse and Rider).",
+      "notes": "Weapons/Armour: The Gallant may be equipped from the Footman equipment list.",
       "specialRules": [
         {
-          "name": "Knight's Virtue",
-          "description": "Never panics and breaks from combat, so does not have to pass a Leadership test for being all alone."
+          "name": "Knight’s virtue",
+          "description": "The Gallant follows the rules of Knight’s virtue."
         }
       ]
     },
@@ -204,7 +201,7 @@
       "equipmentOptions": [
         "esquiressList"
       ],
-      "notes": "Young squires in the Dame's service. 0-2.",
+      "notes": "Weapons/Armour: Squires may be equipped from the Archer equipment list.",
       "specialRules": []
     }
   ],
@@ -242,18 +239,15 @@
       "equipmentOptions": [
         "pilgrimList"
       ],
-      "notes": "Devout peasants following the Dame of the Mare.",
+      "notes": "Weapons/Armour: Pilgrims may be equipped from the Footman equipment list.",
       "specialRules": [
         {
-          "ref": "hatred",
-          "params": {
-            "target": "all enemies who defy the Dame of the Mare"
-          },
-          "note": "In practice, all enemy models."
+          "name": "Hatred",
+          "description": "Pilgrims are so devout to the Dame of the Mare that they hate all and any enemies that defy her."
         },
         {
           "name": "Peasants",
-          "description": "Pilgrims may never become Heroes. Re-roll any 'The Lad's Got Talent' result."
+          "description": "While devout and loyal, pilgrims are simple peasants with no ambition other than following their chosen saint, as such may never become heroes. Reroll any The Lad’s Got Talent results."
         }
       ]
     },
@@ -290,7 +284,7 @@
       "equipmentOptions": [
         "archerList"
       ],
-      "notes": "Common archers. 0-7.",
+      "notes": "Weapons/Armour: Bowmen may be equipped from the Archer equipment list.",
       "specialRules": []
     },
     {
@@ -326,11 +320,11 @@
       "equipmentOptions": [
         "knightList"
       ],
-      "notes": "Knights seeking redemption in the Dame's service. 0-5.",
+      "notes": "Weapons/Armour: Redeemed knights may be equipped from the Footman equipment list.",
       "specialRules": [
         {
-          "name": "Knight's Virtue",
-          "description": "Never panics and breaks from combat, so does not have to pass a Leadership test for being all alone."
+          "name": "Knight’s virtue",
+          "description": "Redeemed knights follow the rules of Knight’s virtue."
         }
       ]
     },
@@ -364,24 +358,12 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "A spectral steed that accompanies the Dame. 0-1. May never take any equipment.",
+      "notes": "Weapons/Armour: The Filly fights with its hooves, and suffers no penalty for fighting unarmed. It is clad in odd-looking covering like were they from bygone times, yet it shimmers with a spectral gleam. The covering provides the beast with a 5+ save that cannot be modified, but doesn’t work against magical attacks. The filly may never take any equipment, except for the covering it already carries.",
       "specialRules": [
         {
-          "name": "Hooves",
-          "description": "Fights with its hooves and suffers no penalty for fighting unarmed."
-        },
-        {
-          "name": "Spectral Covering",
-          "description": "Its covering gives a 5+ armour save that cannot be modified and does not work against magical attacks. It may never take any equipment other than this covering."
-        },
-        {
-          "name": "Animal",
-          "description": "The Filly is an animal and gains no experience.",
-          "effects": { "noExperience": true }
-        },
-        {
           "name": "Horse",
-          "description": "Follows the movement rules for mounted warriors."
+          "description": "The filly is an animal and thus does not gain any experience. Additionally it follows the movement rules for mounted warriors.",
+          "effects": { "noExperience": true }
         }
       ]
     }
@@ -451,5 +433,6 @@
     ]
   },
   "exclusiveEquipment": [],
-  "specialRules": "Knight's Virtue: The Paragon, Gallant and Redeemed Knights never panic and break from combat, so they do not have to pass a Leadership test for being all alone. | Hired Swords: The warband may recruit the same Hired Swords as a Mercenary warband. | Horse and Rider: Because Bretonnian knights are typically mounted, the Paragon and the Gallant may each buy a single horse or warhorse at half the normal price upon recruitment. | Footman List Prices: In the Footman list a Lance costs 20 gc and Barding 30 gc; a Warhorse costs 80 gc. Lance, heavy armour, barding and warhorse are for Knights only (the Paragon may not use a Lance). Spear, halberd and bow are for Pilgrims only. | Archer List: Spear and horse (40 gc) are for Esquiresses only. | Dame of the Mare: If the Dame is removed, a new one must be recruited without delay; no other warriors may be recruited before her. | Blazing Saddles Option: Optional rule from Town Cryer 14. The Paragon, Gallant, Esquiresses and Redeemed Knights automatically gain the Ride skill, and the warband may ignore the normal limit of two mounts in dense terrain."
+  "specialRules": "Knight’s virtue: A knight is a chivalrous warrior who is superior to ordinary warriors. He will never panic and break from combat and so does not have to pass a Leadership test for being all alone. | Hired swords: Order of the Mare warbands have access to the same hired swords as a mercenary warband would. | Horse and rider: Because the knights of Bretonnia are typically mounted on horseback, the Paragon and the Gallant may buy a single horse or warhorse each at half the normal price upon recruitment.",
+  "background": "From the woodlands of eastern Bretonnia, and from every village and town within a day’s ride from the Forest of Loren, echoes the rumours of the Mare witch. A crone of the dark arts according to some, but revered as the Prophetess of the Mare to her increasing number of followers. Claiming to be the heir of ancient heroes from the days of Gilles Le Breton, she sees it her right to restore honour to once-shunned knights. Eager to restore their honour the knights swear allegiance to her, as they once did to their former lords or even the Lady of the Lake. The latter, known now as Paragons, are given a new purpose by the Prophetess of the Mare, leading them on a quest for wyrdstones in Mordheim. Journeying alongside the Paragons on their hunt for the curious artefacts are a unique gathering of warriors known as the Dames of the Mare. | The Prophetess appoints these Dames to her retinues, each possessing peculiar powers that some might label as witchcraft. Despite their unconventional abilities, the Paragons, beguiled by the Mare Witch, overlook the mystical nature of their allies. Despite the Bretonnian tradition, typically distrustful of such magic, the knights are so entranced by the noble and inspiring Dames of the Mare that they willingly dismiss such reservations. | A distinctive practice among the Dames involves the premature elevation of promising squires. These young warriors, granted extraordinary strength and courage, become knights errant and form a crucial bond with the Paragons whom they join on their long journey to the City of the Damned. In an unexpected turn, the Dames replace the elevated squires with young girls, initiating them into the mysterious order of the Dames of the Mare."
 }

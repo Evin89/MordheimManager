@@ -50,18 +50,19 @@
         "moulderHeroesList",
         "moulderMountList"
       ],
-      "notes": "The master beast-breeder leading the warband. Each warband must have exactly one Packmaster. Starts with the Ride Wolf Rat skill plus one Beast Handling skill (Giant Rats or Wolf Rats).",
+      "notes": "Weapons/Armour: the Packmaster may be armed with weapons and armour from the Moulder Heroes Equipment list.",
       "specialRules": [
         {
-          "ref": "leader"
+          "name": "Leader",
+          "description": "any warrior within 6\" of the Packmaster may use his Leadership when taking Ld tests."
         },
         {
           "name": "Master Handler",
-          "description": "May Goad (see the warband's special rules). Begins any one-off game or campaign with the Ride Wolf Rat skill and one additional Beast Handling skill of your choice (Giant Rats or Wolf Rats)."
+          "description": "Packmasters are experts at handling all manner of twisted creatures. They have access to the Goading system detailed below, plus begin any one-off game or campaign with the Ride Wolf Rat skill and one additional Beast Handling skill (choose either Giant Rats or Wolf Rats)."
         },
         {
-          "name": "Poke 'em in the Squidgy Bits",
-          "description": "If equipped with both, he gains the benefits of a Beastwhip and a Thingcatcher during the same Goading attempt."
+          "name": "Poke 'em in the squidgy bits",
+          "description": "Packmasters are trained to take full advantage of the tools of Clan Moulder's trade. If so equipped, they can gain the beneficial effects of both the Beastwhip and the Thingcatcher during a Goading attempt."
         }
       ]
     },
@@ -106,7 +107,7 @@
         "moulderHeroesList",
         "moulderMountList"
       ],
-      "notes": "Elite Skaven warriors guarding the Packmaster. 0-2. Only Stormvermin may take the Twistkin skill.",
+      "notes": "Weapons/Armour: a Stormvermin may be armed with weapons and armour from the Moulder Heroes Equipment list.",
       "specialRules": []
     },
     {
@@ -150,15 +151,15 @@
         "moulderHeroesList",
         "moulderMountList"
       ],
-      "notes": "Young beast-handlers learning the trade from the Packmaster. 0-2.",
+      "notes": "Weapons/Armour: an Apprentice may be armed with weapons and armour from the Moulder Heroes Equipment list.",
       "specialRules": [
         {
           "name": "Novice Handler",
-          "description": "May Goad (see the warband's special rules), but can only use the benefit of either a Beastwhip or a Thingcatcher in a single Goading attempt, not both."
+          "description": "an Apprentice has access to the Goading system detailed below, but can only use the beneficial effect of either a Beastwhip or a Thingcatcher during a Goad, not both."
         },
         {
           "name": "Heir to Power",
-          "description": "If the Packmaster dies, one Apprentice becomes the new Packmaster and is treated as one from then on; a new Apprentice may then be hired. If the Packmaster and all Apprentices die together, or there are no Apprentices when the Packmaster dies, the warband disbands."
+          "description": "if the Packmaster is slain, one of the Apprentices must be chosen to succeed him as Leader. They are treated as a Packmaster in all respects from that moment on, and a new Apprentice may be hired to take their place. If the Packmaster and all Apprentices die at once, or if there are no Apprentices in the warband when the Packmaster dies, the warband disbands as none of the remaining Heroes has the skill to keep the beasts in line."
         }
       ]
     }
@@ -197,7 +198,7 @@
       "equipmentOptions": [
         "moulderHenchmenList"
       ],
-      "notes": "Ordinary Skaven warriors of the clan. 0-5.",
+      "notes": "Weapons/Armour: Clanrats may be armed with weapons and armour from the Moulder Henchmen Equipment list.",
       "specialRules": []
     },
     {
@@ -230,23 +231,16 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Giant rats bred in the Moulder fleshpits. Any number (within the warband maximum). Never use weapons or armour.",
+      "notes": "Weapons/Armour: None, Giant Rats never use any armour or weapons.",
       "specialRules": [
         {
-          "ref": "animal"
+          "name": "Pack Size",
+          "description": "you may recruit as many Giant Rats as you wish subject to the warband's maximum number of models."
         },
         {
-          "name": "No Experience",
-          "description": "Never gains Experience.",
+          "name": "Experience",
+          "description": "Giant Rats are animals and so do not gain Experience.",
           "effects": { "noExperience": true }
-        },
-        {
-          "name": "No Weapons or Armour",
-          "description": "Giant Rats may never use weapons or armour."
-        },
-        {
-          "name": "Goaded Beast",
-          "description": "May be Goaded by the Packmaster or an Apprentice (Difficulty 6)."
         }
       ]
     },
@@ -280,27 +274,16 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Huge rats the size of wolves. 0-3. Never use weapons or armour.",
+      "notes": "Weapons/Armour: None, Wolf Rats never use any armour or weapons.",
       "specialRules": [
         {
-          "ref": "animal"
-        },
-        {
-          "name": "No Experience",
-          "description": "Never gains Experience.",
-          "effects": { "noExperience": true }
-        },
-        {
-          "name": "No Weapons or Armour",
-          "description": "Wolf Rats may never use weapons or armour."
-        },
-        {
           "name": "Poisoned Attack",
-          "description": "Their attacks count as Strength 4 and do not modify the target's armour save."
+          "description": "the mouths of Wolf Rats fester with any number of poxes and corrosive agents, their attacks are considered to be Strength 4 but do not modify armour saves."
         },
         {
-          "name": "Goaded Beast",
-          "description": "May be Goaded by the Packmaster or an Apprentice (Difficulty 8)."
+          "name": "Experience",
+          "description": "Wolf Rats are animals and so do not gain Experience.",
+          "effects": { "noExperience": true }
         }
       ]
     },
@@ -334,38 +317,32 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "A hulking monstrosity of jaws, claws and brute force. 0-2. Must buy one Possessed mutation when hired.",
+      "notes": "Weapons/Armour: Jaws, claws, and brute force! Rat Ogres can never use weapons or armour.",
       "specialRules": [
         {
-          "ref": "fear"
+          "name": "Fear",
+          "description": "Rat Ogres are so terrifying they cause Fear."
         },
         {
-          "ref": "stupidity",
-          "note": "Only applies when no Clan Moulder Hero is within 6\"."
+          "name": "Stupidity",
+          "description": "A Rat Ogre is subject to Stupidity unless a Clan Moulder Hero is within 6\" of it."
         },
         {
-          "ref": "largeTarget"
-        },
-        {
-          "name": "No Experience",
-          "description": "Never gains Experience.",
+          "name": "Experience",
+          "description": "Rat Ogres do not gain experience.",
           "effects": { "noExperience": true }
         },
         {
-          "name": "No Weapons or Armour",
-          "description": "Rat Ogres never use weapons or armour."
+          "name": "Large Target",
+          "description": "Rat Ogres are Large Targets as defined in the Shooting rules."
         },
         {
           "name": "It's Alive!",
-          "description": "When hired, the Rat Ogre must buy one Mutation from the Possessed warband list (Mordheim rulebook) at its listed price."
+          "description": "Moulder Rat Ogres are twisted creatures ever subject to the cruel curiosity of their masters. When hired each Rat Ogre must purchase a single Mutation from the list in the Mordheim Rulebook at the listed price (see Possessed Warband section)."
         },
         {
-          "name": "Hard to Handle",
-          "description": "Bought individually; Rat Ogres never form a Henchmen group."
-        },
-        {
-          "name": "Goaded Beast",
-          "description": "May be Goaded by the Packmaster or an Apprentice (Difficulty 10)."
+          "name": "Hard to handle",
+          "description": "Rat Ogres can only be bought individually, they never form a Henchmen Group even if you hire more than one."
         }
       ]
     }
@@ -409,8 +386,8 @@
       "category": "melee",
       "cost": 25,
       "rarity": 8,
-      "restriction": "Clan Moulder only; Packmaster or Apprentices only.",
-      "rulesText": "Close combat, Strength as user. Cannot be parried: weapons and bucklers cannot parry its attacks. Whipcrack: +1 Attack in a turn the wielder charges (added after other modifiers); when charged, +1 Attack against the charger only, which strikes first (only +1 however many charge). If two whips are used, only one gets the bonus. Cruel Barbs: +1 to the Goading roll; applies once per attempt even with two Beastwhips."
+      "restriction": "Rare 8, Clan Moulder only",
+      "rulesText": "Strength As user. Cannot be parried: the Beastwhip coils and twists like a serpent, attempts to parry its attacks are futile. A model attacked with a Beastwhip may not make parries with weapons or bucklers. Whipcrack: when the wielder charges they gain +1A that turn. This bonus is added after any other modifications. When charged they gain +1A only against the charger, striking first. If simultaneously charged by 2+ opponents, they still only gain +1A. If dual-wielding, only one whip gains the bonus from Whipcrack. Cruel Barbs: Models equipped with a Beastwhip gain a +1 bonus to their roll when making Difficulty checks during Goading attempts. Note this bonus applies only once in each attempt even if the model is armed with two Beastwhips."
     },
     {
       "id": "thingcatcher",
@@ -418,8 +395,8 @@
       "category": "melee",
       "cost": 20,
       "rarity": 9,
-      "restriction": "Clan Moulder only; Packmaster or Apprentices only.",
-      "rulesText": "Close combat, Strength as user +1. Two-handed: no shield, buckler or second weapon in close combat (a shield still gives +1 armour save against shooting). Iron Grip: may force a beast to re-roll a failed Stupidity test caused by a failed Goading attempt."
+      "restriction": "Rare 9, Clan Moulder only",
+      "rulesText": "Strength As user +1. Two-handed: a model armed with a Thingcatcher may not use a shield, buckler, or additional weapon in close combat. If the model has a shield it still gains a +1 bonus to armour save against shooting. Iron Grip: models equipped with a Thingcatcher can force beasts to reroll a failed Stupidity test resulting from a failed Goading attempt."
     },
     {
       "id": "warplockPistol",
@@ -427,8 +404,8 @@
       "category": "missile",
       "cost": 35,
       "rarity": null,
-      "restriction": "Heroes only. 35 wt, or 70 wt for a brace.",
-      "rulesText": "The source page gives only the price. Use the standard Skaven warplock pistol profile from the Mordheim rulebook."
+      "restriction": "",
+      "rulesText": "Range 8\". Strength 5. Prepare shot: A pistol takes a whole turn to reload, so you may only fire every other turn. If you have a brace of pistols (ie, two) you may fire every turn. Save modifier: Warplock Pistols are even better at penetrating armour than their Strength 5 suggests. A warrior wounded by a pistol must make his armour save with a -3 modifier. Hand-to-hand: Pistols can be used in hand-to-hand combat as well as for shooting. A model armed with a pistol and another close combat weapon gains +1 Attack, which is resolved at Strength 5 with a -3 save modifier. This bonus attack can be used only once per combat. If you are firing a brace of pistols, your model can fight with 2 Attacks in the first turn of close combat. These attacks are resolved with a model’s Weapon Skill like any normal close combat attack and likewise may be parried. Successful hits are resolved at Strength 5 and with a -3 save modifier, regardless of the firer’s Strength."
     },
     {
       "id": "wolfRatMount",
@@ -436,9 +413,10 @@
       "category": "misc",
       "cost": 90,
       "rarity": 11,
-      "restriction": "Clan Moulder only. A Hero needs the Ride Wolf Rat skill to ride it.",
-      "rulesText": "A Wolf Rat broken to be ridden: M9 WS3 BS0 S4 T3 W1 I4 A1 Ld4. Poisoned Attack: its attacks count as Strength 4 and do not modify armour saves."
+      "restriction": "Rare 11, Clan Moulder only",
+      "rulesText": "M 9 WS 3 BS 0 S 4 T 3 W 1 I 4 A 1 Ld 4 Poisoned Attack: the mouths of Wolf Rats fester with any number of poxes and corrosive agents. Any attacks made by a Wolf Rat Mount are considered to be Strength 4, but do not modify armour saves."
     }
   ],
-  "specialRules": "Warp Tokens: The warband starts with 500 Warp Tokens, which work exactly like gold crowns. | Blazing Saddles: The warband is designed for the updated Blazing Saddles mounted rules from the 2002 Mordheim Annual; without them it is likely overcosted. | Mutations: Certain models may buy Mutations from the Possessed warband list in the Mordheim rulebook. Rat Ogres must buy one when hired, and Stormvermin with the Twistkin skill buy one at half price. | Animals: Giant Rats, Wolf Rats and Rat Ogres never gain Experience unless stated otherwise. | Clan Moulder Only: Equipment and skills marked Clan Moulder only cannot be used by any other warband. | Goading: At the very start of the Moulder turn, before any movement, the Packmaster and each Apprentice may each try to Goad one Giant Rat, Wolf Rat or Rat Ogre model or henchman group that is within 6\" (for a group, at least half its members must be within 6\"). Roll 2D6 and score the Difficulty or higher, which is 6 for Giant Rats, 8 for Wolf Rats and 10 for Rat Ogres. If successful, roll a D6 on the Goading table; on a double 6 for the Goad you may choose the result instead. If failed, the target takes an immediate Stupidity test, and if that test is failed with a double 1 the beasts turn on the Goader, moving into base contact and making one attack against him per beast in the group, returning to the Moulder player's control at the start of their next turn. | Goading Table: 1–2 Yelp, the target must run in the Movement phase at up to triple its Move instead of double, even with enemies within 8\"; 3–4 Growl, if an enemy is in line of sight the target must charge it (player picks if several) at triple its Move, using the normal charge rules except that the charge cannot be intercepted; 5–6 Roar, the target is subject to Frenzy and Hates the entire opposing warband until the start of the next Moulder turn."
+  "specialRules": "Packmasters and Goading: Clan Moulder Packmasters and Apprentices have access to a unique system known as \"Goading,\" allowing them to whip their beasts into a frenzy with special effects based on success. See the Goading section for details. | Mutations: Certain models may purchase Mutations from the Possessed Warband list in the Mordheim Rulebook. | Animal Limitations: Giant Rats, Wolf Rats, and Rat Ogres do not gain Experience unless otherwise stated. | Clan Moulder Only: Equipment and certain skills marked as \"Clan Moulder only\" may not be used by any other warbands.",
+  "background": "From the North they come, creeping forth from that place of twisted madness known to their kind as Hell Pit. Deformed beasts driven before the lashes of cruel masters, ever searching for new sources of raw materials for their bizarre experiments and new enemies against whom to test their latest creations. | Second only in wealth and prestige to Clan Skryre, Clan Moulder is a powerful force in Skaven society. Like Clan Skryre before them the roots of Moulder's power lies in the production of weapons which are highly sought-after by the other clans. But there the resemblance ends. For, unlike the Warlock Engineers, the adepts of Clan Moulder are not concerned with the crafting of metals and other non-living substances, but with the crafting of living weapons from muscle, sinew, and bone. | They are beast masters, capable by means of cruelty of breaking the most recalcitrant of animals to their wills or, equally, turning even the most timid of beasts into violent killers. For their leaders, the Master Moulders of Clan Moulder, are far more than simple animal trainers. They are vile architects of the flesh, skilled in using warpstone to create all manner of mutant monstrosities. | It is said that to the Master Moulders all living things, even the strangest and most horrifying of monsters, are viewed as nothing more than subjects for future experiments. Refusing to bow to the limits of nature, and forever seeking to outdo their own previous accomplishments, they send their Packmasters out far and wide to search for and capture creatures which may be of use to them. Trolls, manticores, wyverns, chimeras, all manner of giant insects - monsters that would elicit nothing but fear and horror in any sane creature - are regarded by the Master Moulders in much the same way as a child sees a new toy. For with each new captured creature, each new monster, comes the hope that the Master Moulders will create some new and ferocious beast of war. | By dint of their use of warpstone and their own unholy skills, they can mould flesh as easily as others might mould clay, mutating some creatures into new and terrifying shapes, crossbreeding others, implanting new organs and limbs to still others. In their gruesome work, the only boundaries the Master Moulders need face are the limits of their own fevered imaginations. And the imagination of a Master Moulder is a thing that respects little in the way of bounds. | To Mordheim, they come for warpstone. To the great wastelands of Chaos, they come to seek terrible new creatures. To the warrens beneath the cities of men, they come to further their intrigues against mankind and their rivals in Skavendom. But, always and everywhere, their ghastly work continues. | Please note that this warband has been designed to work in concert with the updated Blazing Saddles rules from the 2002 Mordheim Annual. While it can be used without them, it would likely be overcosted."
 }

@@ -48,10 +48,11 @@
       "equipmentOptions": [
         "outlawsHeroEquipmentList"
       ],
-      "notes": "The leader of the outlaw band. Each warband must have exactly one Bandit Leader.",
+      "notes": "Weapons/Armour: A Bandit Leader may be equipped with weapons chosen from the Outlaws equipment list.",
       "specialRules": [
         {
-          "ref": "leader"
+          "name": "Leader",
+          "description": "Any models in the warband within 6\" of the Bandit Leader may use her Leadership instead of their own."
         }
       ]
     },
@@ -94,7 +95,7 @@
       "equipmentOptions": [
         "outlawsHeroEquipmentList"
       ],
-      "notes": "The leader's most trusted fighters. 0-2.",
+      "notes": "Weapons/Armour: Champions may be equipped with weapons chosen from the Outlaws equipment list.",
       "specialRules": []
     },
     {
@@ -138,15 +139,11 @@
       "spellLists": [
         "prayersOfSigmar"
       ],
-      "notes": "A wandering priest of Sigmar who has thrown in his lot with the outlaws. 0-1, and only taken instead of a Champion or a Petty Thief. Unlike other members, he does not have to carry a bow.",
+      "notes": "Weapons/Armour: A Warrior Priest may be equipped with weapons chosen from the Outlaws equipment list. As Prayers are not considered to be Spells, a Cleric may wear armour, if he wishes.",
       "specialRules": [
         {
-          "ref": "prayers",
-          "note": "Starts the campaign knowing one Prayer of Sigmar."
-        },
-        {
           "name": "Disciple of Sigmar",
-          "description": "The Cleric starts with one Prayer of Sigmar and follows the same restrictions as a Witch Hunter Warrior Priest: he may learn neither Sorcery nor Arcane Lore. As Prayers are not Spells, he may wear armour."
+          "description": "The Cleric has devoted his life in the constant service to Sigmar and as such he would start a campaign knowing one of the Prayers of Sigmar (see Mordheim rulebook page 57). As with a Witch-Hunter's Warrior Priest, he is also subject to some of the restrictions of being a follower of the Lord Sigmar and may learn neither Sorcery nor Arcane Lore."
         }
       ]
     },
@@ -188,7 +185,7 @@
       "equipmentOptions": [
         "outlawsHeroEquipmentList"
       ],
-      "notes": "Young cutpurses learning the outlaw trade. 0-2.",
+      "notes": "Weapons/Armour: Petty Thieves may be equipped with weapons chosen from the Outlaws equipment list.",
       "specialRules": []
     }
   ],
@@ -226,7 +223,7 @@
       "equipmentOptions": [
         "outlawsHenchmenEquipmentList"
       ],
-      "notes": "The rank and file of the band: poachers, runaways and men with a price on their heads.",
+      "notes": "Weapons/Armour: Outlaws can be armed with weapons and armour chosen from the Outlaws Equipment list.",
       "specialRules": []
     },
     {
@@ -262,7 +259,7 @@
       "equipmentOptions": [
         "outlawsHenchmenEquipmentList"
       ],
-      "notes": "The band's best shots. 0-7.",
+      "notes": "Weapons/Armour: Marksmen can be armed with weapons and armour chosen from the Outlaws Equipment list.",
       "specialRules": []
     }
   ],
@@ -298,5 +295,6 @@
     ]
   },
   "exclusiveEquipment": [],
-  "specialRules": "One Missile Weapon: Every warrior in an Outlaws warband may carry only one missile weapon at any time, even if a skill would normally allow more. | Bows for All: Every warrior must carry some type of bow (not a crossbow) as part of their equipment. The only exception is the Cleric, who may carry a bow but does not have to. | Heroes Only Equipment: The Long Bow and all miscellaneous equipment (Forest Cloak 45 gc, Hunting Arrows 30 gc) may only be bought by Heroes. | Forest Cloak: Rare 10, Outlaws only. While the wearer is beside a tree, bush or hedge, enemies shooting at him suffer an additional -1 to hit, and a spellcaster may only target him with a spell after rolling 4+ on a D6. This does not apply if the shooter or caster is within the wearer's Initiative value in inches. | Cleric: The warband may include one Cleric, but only in place of a Champion or a Petty Thief."
+  "specialRules": "All warriors in an Outlaws warband may be equipped with only one missile weapon at any time. All warriors must carry a type of bow, but not crossbows, as part of their equipment. So, even if an Outlaw acquires skills that allow him to use additional ballistic weaponry, he cannot do so. The only exception to this is the Cleric who may choose to carry a bow, but is not compelled to do so.",
+  "background": "To the north of the River Stir lies the Great Forest, a vast expanse of woodland that fills the very heart of the Empire. Bounded along its southern edge by the river, this, the largest forest of the known world, extends league upon league as far as any man can see. Just at its southernmost, the River Stir separates a small part of the forest from the main bulk of the woodland and this smaller area of forest is known locally as Stirwood. Small though Stirwood may be – indeed, this part of the forest is not even on the same scale as the sacred Forest of Loren, but, as many say, size isn’t everything – Stirwood Forest is nevertheless still large enough to get lost in, and many have done so, some by accident and some by design. | Stirwood lies just north of the noble city of Nuln and to the west of Wurtbad, where law and order are strictly enforced, at least they are strictly enforced once the City Guards have finally managed to catch up with those who break the Count’s law. The Elector Count of Stirland was well known as a man that one should not cross. Those that did so were inevitably declared as ‘outlaws’ and were pursued from the cities. Even the most petty of criminals, some still quite young, could be declared ‘outlaw’ and had little option but to flee to the countryside. | Many perished, both young and old, but some made it to Stirwood where they could lay low. | During their time in Stirwood, some would band together and become groups of outlaws, rather than just attempting to survive on their own. The forest was a perfect training ground to develop their skills, particularly in archery, where even the hunting of the wild deer, the Count’s deer, was a crime in itself. Illicit deerhunting was not their only past-time as many an unwary traveller, passing unsuspectingly through the forest, would find themselves ambushed and relieved of their goods. | Clerics also lived in these parts, holy men who spent their time in devotion to the blessed Sigmar. Usually they dwelt alone in contemplation, but were often trusted by the local groups of outlaws that they came into contact with and attended to their spiritual needs, and, when the occasion arose, also attended to their wounds. | In the years that followed the sighting of the twin-tailed star in the sky, it was inevitable that tales of Mordheim would have travelled down the waters of the River Stir. Tales of strange sights and great riches would easily have reached the inhabitants of Stirwood Forest. Temptations of this enormous wealth that was rumoured to be in the shattered city would have been hard for any group of outlaws to resist."
 }

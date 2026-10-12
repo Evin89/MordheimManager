@@ -48,17 +48,11 @@
       "equipmentOptions": [
         "druchiiHeroList"
       ],
-      "notes": "A Dark Elf noble come to Mordheim in search of wyrdstone and slaves. Each warband must have one Noble.",
+      "notes": "Weapons/Armour: A Noble may be armed with weapons and armour chosen from the Druchii Heroes Equipment list.",
       "specialRules": [
         {
-          "ref": "leader"
-        },
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "High Elves"
-          },
-          "note": "Kindred Hatred: includes High Elf Hired Swords."
+          "name": "Leader",
+          "description": "Any models in the warband within 6\" of the Noble may use his Leadership instead of their own."
         }
       ]
     },
@@ -102,16 +96,8 @@
       "equipmentOptions": [
         "druchiiHeroList"
       ],
-      "notes": "Young Druchii nobles eager to prove themselves. 0-2.",
-      "specialRules": [
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "High Elves"
-          },
-          "note": "Kindred Hatred: includes High Elf Hired Swords."
-        }
-      ]
+      "notes": "Weapons/Armour: Lordlings may be armed with weapons and armour chosen from the Druchii Heroes Equipment list.",
+      "specialRules": []
     },
     {
       "id": "sorceress",
@@ -152,18 +138,11 @@
       "equipmentOptions": [
         "druchiiHeroList"
       ],
-      "notes": "A Dark Elf witch who casts Dark Magic. 0-1. Cannot cast spells while wearing armour.",
+      "notes": "Weapons/Armour: A Sorceress may be armed with weapons and armour chosen from the Druchii Heroes Equipment list, but may not cast spells if wearing armour.",
       "specialRules": [
         {
-          "ref": "wizard",
-          "note": "Uses Dark Magic (see spells.txt; differs from the app's Dark Elf Magic in spell 4). May not cast spells while wearing armour."
-        },
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "High Elves"
-          },
-          "note": "Kindred Hatred: includes High Elf Hired Swords."
+          "name": "Wizard",
+          "description": "The Dark Elf Sorceress is a wizard and uses Dark Magic, detailed below."
         }
       ],
       "spellLists": [
@@ -209,18 +188,11 @@
       "equipmentOptions": [
         "druchiiHeroList"
       ],
-      "notes": "Handler of the warband's Slavehounds. 0-1. Only he may buy the Beastlash.",
+      "notes": "Weapons/Armour: A Beastmaster may be armed with weapons and armour chosen from the Druchii Heroes Equipment list.",
       "specialRules": [
         {
-          "name": "Houndmaster",
-          "description": "The warband may include up to three Slavehounds, bought as Henchmen, only while it has a Beastmaster."
-        },
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "High Elves"
-          },
-          "note": "Kindred Hatred: includes High Elf Hired Swords."
+          "name": "Slavehounds",
+          "description": "The Beastmaster may be accompanied by up to three Slavehounds. These are bought as henchmen and follow all rules listed for them."
         }
       ]
     }
@@ -259,20 +231,8 @@
       "equipmentOptions": [
         "corsairList"
       ],
-      "notes": "Dark Elf sea raiders who form the bulk of the warband. Any number.",
-      "specialRules": [
-        {
-          "name": "Sea Dragon Cloaks",
-          "description": "Corsairs may wear Sea Dragon Cloaks even though they are not Heroes."
-        },
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "High Elves"
-          },
-          "note": "Kindred Hatred: includes High Elf Hired Swords."
-        }
-      ]
+      "notes": "Weapons/Armour: Corsairs may be armed with weapons and armour chosen from the Corsairs Equipment list. In addition, they may wear Sea Dragon Cloaks even though they are not Heroes.",
+      "specialRules": []
     },
     {
       "id": "shades",
@@ -307,18 +267,11 @@
       "equipmentOptions": [
         "shadesList"
       ],
-      "notes": "Stealthy Druchii scouts and skirmishers. 0-5.",
+      "notes": "Weapons/Armour: Shades may be armed with weapons and armour chosen from the Shades Equipment list.",
       "specialRules": [
         {
           "name": "Natural Stealth",
-          "description": "While a Shade is Hidden, enemy models halve their Initiative when trying to detect it."
-        },
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "High Elves"
-          },
-          "note": "Kindred Hatred: includes High Elf Hired Swords."
+          "description": "If a Shade is Hidden, enemy models halve their Initiative value for determining if they can detect it or not."
         }
       ]
     },
@@ -355,22 +308,15 @@
       "equipmentOptions": [
         "witchElfList"
       ],
-      "notes": "Frenzied devotees of Khaine. 0-3. Only Witch Elves may use the warband's 5 gc Black Lotus.",
+      "notes": "Weapons/Armour: Witch Elves may be armed with weapons and armour chosen from the Witch Elves Equipment list.",
       "specialRules": [
         {
           "name": "Frenzy",
-          "description": "Witch Elves are subject to the standard Frenzy rules."
+          "description": "Witch Elves, being intent on proving their battle prowess in Khaela Mensha Khaine's all-seeing gaze, follow the Frenzy special rule."
         },
         {
           "name": "Maibd Poison",
-          "description": "A warband with Witch Elves may buy Black Lotus at 5 gc per dose. Only Witch Elves may use it; it must be used in the next battle and may not be sold or traded."
-        },
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "High Elves"
-          },
-          "note": "Kindred Hatred: includes High Elf Hired Swords."
+          "description": "Witch Elves often anoint their weapons in various poisons, for both martial and religious purposes. They are able to prepare their poisons and they know where to get needed ingredients. As a result, a warband, containing Witch Elves, may purchase Black Lotus as Common item for reduced price of 5 gc per dose. However, Black Lotus, purchased in such a way, may only be used by Witch Elves. The poison must be used in the next battle and cannot be sold or traded to other warbands."
         }
       ]
     },
@@ -404,23 +350,20 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Vicious hunting hounds that need no weapons. 0-3, and only while the warband has a Beastmaster; without one they must stay in camp.",
+      "notes": "Weapons/Armour: Slavehounds are animals and do not need any weapons, save their claws and massive jaws.",
       "specialRules": [
         {
-          "ref": "animal"
-        },
-        {
           "name": "Animals",
-          "description": "Slavehounds are animals and never gain experience.",
+          "description": "Slavehounds are animals, and all animal rules apply to them. They never gain experience.",
           "effects": { "noExperience": true }
         },
         {
           "name": "Beastmaster",
-          "description": "May use the Beastmaster's Leadership while within 6\" of him, as long as he is not Knocked Down, Stunned or Out of Action. They may never use the warband Leader's Leadership. If the warband has no Beastmaster they cannot take part in battles."
+          "description": "Slavehounds are vicious creatures that are barely kept under control by their Beastmaster. As long as Beastmaster is not knocked down, stunned or out of action, Slavehounds may use his Leadership instead of their own for any Leadership test, provided that the Beastmaster is within 6\" of the Slavehound in question. But, since Beastmaster is the only authority they respect, they cannot use Leadership of warband Leader. Consequently, if the Beastmaster is unable to participate in a battle, then neither will the beasts. If the warband does not contain a Beastmaster, there is no one able to control Slavehounds, so they have to stay in warband's camp (and when feeding time comes, it has to be done from a safe distance)."
         },
         {
           "name": "Pack Work",
-          "description": "If one Slavehound knows of an enemy model, the Beastmaster and the other Slavehounds may declare a charge against it without seeing it and without rolling Initiative."
+          "description": "Slavehounds are trained to detect hiding slaves and show them to their masters. If a Slavehound knows about enemy model (has a line of sight, has unhidden it etc.), the Beastmaster and all other slavehounds of the same warband can declare charge on this model even if they do not see it. No Initiative roll is necessary."
         }
       ]
     }
@@ -486,8 +429,8 @@
       "category": "melee",
       "cost": 25,
       "rarity": 8,
-      "restriction": "Druchii Heroes (Hero list, 25 gc at founding). Later purchases cost 25 + D6 gc, Rare 8.",
-      "rulesText": "Close combat, Strength as user +2. Two-handed: the wielder may not use a shield, buckler or additional weapon in close combat, though a shield still gives +1 to armour saves against shooting. Swift: unlike other double-handed weapons it does not strike last."
+      "restriction": "Rare 8",
+      "rulesText": "Strength As user +2. Two-handed: A model armed with a double-handed weapon may not use a shield, buckler or additional weapon in close combat. If the model is equipped with a shield, he will still get a +1 bonus to his armour save against shooting. Swift: A Draich, unlike other double-handed weapons, does not Strike last."
     },
     {
       "id": "darksteelBlade",
@@ -495,8 +438,8 @@
       "category": "melee",
       "cost": null,
       "rarity": 9,
-      "restriction": "Any Druchii Hero. Costs 3x the base weapon's price, Rare 9.",
-      "rulesText": "A Darksteel version of a normal weapon, Strength as user. Critical Damage: +1 to rolls on the Critical Hit table. Wicked Edge: an Injury roll of 2-4 counts as Stunned."
+      "restriction": "Rare 9",
+      "rulesText": "Strength As user. Critical Damage: Darksteel weapons inflict serious damage on their opponents. When rolling on the critical hit chart, a Darksteel weapon will add +1 to the result. Wicked Edge: Darksteel weapons are set with sharp protrusions and serrated edges which inflict serious damage on an opponent. A roll of 2–4 on the injury table is a stunned result."
     },
     {
       "id": "beastlash",
@@ -504,9 +447,10 @@
       "category": "melee",
       "cost": 10,
       "rarity": 8,
-      "restriction": "Beastmaster only. 10 gc on the Hero list; the item entry gives 10 + D6 gc, Rare 8.",
-      "rulesText": "Close combat, Strength as user. Beastbane: animals must take a Fear test before charging or being charged by the wielder. Whipcrack: +1 Attack when the wielder charges, or +1 Attack that strikes first against a charger; the two do not stack. Cannot be parried. Enemies wounded by it get +1 to their armour save, or a 6+ save if they have none."
+      "restriction": "Rare 8 (Beastmaster only)",
+      "rulesText": "Strength As user. Beastbane: The Beastmaster wielding a Beastlash causes Fear in animals. Any animal charged by or wishing to charge a Beastmaster with one of these weapons must first take a Fear test as mentioned in the psychology section of the Mordheim rules. Whipcrack: When the wielder charges they gain +1A for that turn. This bonus attack is added after any other modifications. When the wielder is charged they gain +1A that they may only use against the charger. This additional attack will ‘strike first’. If the wielder is simultaneously charged by two or more opponents he will still only receive a total of +1A. If the wielder is using two whips at the same time then he gets +1A for the additional hand weapon, but only the first whip gets the Whipcrack +1A. Cannot be parried: A Beastlash, being a very flexible weapon and used with great expertise by the Beastmaster wielding it, cannot be parried. +1 Enemy armour save: Whips are not made for penetrating an enemy model's armour. An enemy wounded by a Beastlash gains a +1 bonus to his armour save, and a 6+ armour save if he has none normally."
     }
   ],
-  "specialRules": "Kindred Hatred: Dark Elves Hate all High Elf warriors, including High Elf Hired Swords. | Fey Acuity: When checking for artifacts or wyrdstone in the Exploration phase, a Dark Elf warband finds one extra piece if at least one Hero was searching. | Disdain: Dark Elves may never use black powder weapons. | Slavers: When prisoners are found in the Exploration phase (a roll of 333), the Druchii may use the Skaven rules for prisoners. | Naggaroth Prices: The reduced prices for the Repeater Crossbow (20 gc), Sea Dragon Cloak (30 gc), Dark Venom (15 gc) and Black Lotus (5 gc) only apply when founding the warband, when no rarity roll is needed. Afterwards Dark Elves pay normal prices and must roll to find these items. | Promoted Henchmen: A Henchman promoted to Hero keeps choosing equipment from his Henchman list, not the Hero list. | Sea Dragon Cloak: 30 + 2D6 gc, Rare 10. Gives +2 to armour saves against shooting (5+ if the wearer has no save) and +1 in close combat (6+ if none). Can be combined with a shield or light armour without penalty."
+  "specialRules": "Kindred Hatred: Dark Elves Hate any High Elf warriors including High Elf Hired Swords. | Fey Acuity: During the Exploration phase when checking for artifacts or wyrdstone at the end of the game, add +1 to the number of pieces found by a Dark Elf warband, as long as at least one hero was searching. | Disdain: Dark Elves may never use black powder weapons, as they find them too crude, noisy and unreliable. | Slavers: In case of finding prisoners (roll of \"333\" during Exploration phase) Druchii may follow the rules for Skaven. | Maximum Characteristics: M 5 WS 7 BS 7 S 4 T 3 W 3 I 9 A 4 Ld 10",
+  "background": "There are none living who know the ways of the elves, save perhaps the mighty lizard-priests of the South whose knowledge and power is rumoured to grow far beyond that even of the High Mages of the College of Magic of Altdorf. Those few elves who roam the lands of the Empire are mysterious, their ways impenetrable to us. | There are those who, like Finubar the Proud, openly declare themselves Manfriend and help defend our glorious Empire from the encroaching forces of Chaos - too few of them, unfortunately. Of those, we know what they would have us know - their history and that of their families, and a little of the history of their land - the fabled island of Ulthuan. | There are those who stalk the night, warriors who come cloaked in darkness and wielding bows, the death in their eyes revealed in their prey as their life is snuffed out like a candle atop Brass Keep by one, well-placed arrow shot - of those we know little, save that they name themselves \"Shadow warriors of Nagarythe\" and, as their kindred of Ulthuan reassure us, they seek to do us no harm. | There are those who protect the forests, defending them from touch of Chaos and Man alike. There are also rumours of a fourth breed of elves - a grim race, ruthless and sadistic. They come at night in their low ships with sails of midnight-black, craving the poison that lurks within the now-ruins of Mordheim, the Wyrdstone of which all those who go to the Cursed City and return speak. They leave no witnesses, taking prisoner those who are able-bodied enough to toil under them in slavery, murdering the others. | Of course, such nonsense is only that - rumours, and nonsense, the delusional affabulations of crazed minds that have seen the taint of Chaos from too close. It may be that some elves are more ruthless than others, but they are just that - elves, and their ways are closed to us."
 }

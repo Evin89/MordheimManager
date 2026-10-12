@@ -49,14 +49,15 @@
       "equipmentOptions": [
         "vampireHunterHeroList"
       ],
-      "notes": "A grim, driven hunter of the undead who leads the warband into Sylvania. Each warband must have exactly one.",
+      "notes": "Weapons/Armour: A Vampire Hunter may be armed with weapons and armour from the Vampire Hunters Equipment List.",
       "specialRules": [
         {
-          "ref": "leader"
+          "name": "Leader",
+          "description": "Any models in the warband within 6” of the Vampire Hunter may use his Leadership instead of their own."
         },
         {
           "name": "Stake the Vampire!",
-          "description": "Hates Vampires. Must always move towards a Vampire on the battlefield that he can see, unless he can shoot at it instead (in which case he may choose)."
+          "description": "A Vampire Hunter Hates Vampires. They must always move towards a Vampire on the field (if he can see them) unless he can shoot (in which case he may choose)."
         }
       ]
     },
@@ -102,19 +103,15 @@
       "spellLists": [
         "funeraryRitesSylvania"
       ],
-      "notes": "A priest of the god of death, sworn to lay the restless dead to rest. 0-1 per warband. May only be armed with a Dagger and a Scythe and may never wear armour. From the special skill list he may only take Blessing of Morr and Thirst for Vengeance.",
+      "notes": "Weapons/Armour: As priests of Morr seldom engage in martial activities, they may only be armed with a Dagger and a Scythe as weapons. Priests of Morr may never wear Armour.",
       "specialRules": [
         {
-          "ref": "prayers",
-          "note": "Randomly generates one rite from the Funerary Rites list (this source's version has different difficulties, see spells.txt)."
-        },
-        {
           "name": "Loner",
-          "description": "Does not suffer from the All Alone rules."
+          "description": "Few people care to spend any length of time in the company of a priest of Morr – even when it is their duty to do so. As such, a priest of Morr is used to being alone and probably prefers it that way. Priests of Morr do not suffer from the All Alone rules."
         },
         {
-          "name": "Servant of Morr",
-          "description": "May only be armed with a Dagger and a Scythe, and may never wear armour."
+          "name": "Funerary Rites",
+          "description": "Priests of Morr are not wizards, however they do have numerous Funerary Rites which they may perform. As such, priests of Morr may randomly choose a Funerary Rite listed on the following page."
         }
       ],
       "startingSpells": 1
@@ -160,11 +157,11 @@
       "equipmentOptions": [
         "vampireHunterHeroList"
       ],
-      "notes": "Hardened followers of the Vampire Hunter. 0-3 per warband.",
+      "notes": "Weapons/Armour: A Slayer may be armed with weapons and armour from the Vampire Hunters Equipment List.",
       "specialRules": [
         {
           "name": "Stake the Vampire!",
-          "description": "Hates Vampires. Must always move towards a Vampire on the battlefield that he can see, unless he can shoot at it instead (in which case he may choose)."
+          "description": "A Slayer Hates Vampires. They must always move towards a Vampire on the field (if he can see them) unless he can shoot (in which case he may choose)."
         }
       ]
     }
@@ -203,7 +200,7 @@
       "equipmentOptions": [
         "villagerList"
       ],
-      "notes": "Desperate Sylvanian peasants armed with whatever they could find. Any number may be taken.",
+      "notes": "Weapons/Armour: A Villager may be equipped with weapons and armour chosen from the Villager Equipment list.",
       "specialRules": []
     },
     {
@@ -239,15 +236,15 @@
       "equipmentOptions": [
         "pilgrimList"
       ],
-      "notes": "Pilgrims of Pain who believe the world will end unless the undead are stopped. 0-4 per warband.",
+      "notes": "Weapons/Armour: A Pilgrim may be equipped with weapons and armour chosen from the Pilgrim Equipment list.",
       "specialRules": [
         {
           "name": "Fanatical",
-          "description": "Automatically passes any Leadership-based tests. A Pilgrim may never become the warband leader."
+          "description": "A Pilgrim of Pain believes that the end of the world is nigh should the undead threat not be stopped. As such, nothing holds any terror for them in the mortal world. Pilgrims automatically pass any leadership-based tests they are required to take. A Pilgrim may never become a Warband leader."
         },
         {
           "name": "Blunt",
-          "description": "Ignores all bladed and ranged weapons in favour of maces, hammers and staffs; the only exception is the Silver-tip Stake."
+          "description": "Due to bludgeoning weapons having a much more profound effect upon the undead, Pilgrims ignore all bladed and ranged weapons in favor of maces, hammers and staffs. The only exception to this is the silver-tip stake, for it's incredible destructive powers against Vampires."
         }
       ]
     },
@@ -281,14 +278,11 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Hunting hounds that fight with jaws and brutality and never use or need weapons or armour. 0-4 per warband.",
+      "notes": "Weapons/Armour: Jaws and brutality. A Wolfhound never use nor need weapons or armour.",
       "specialRules": [
         {
-          "ref": "animal"
-        },
-        {
-          "name": "No Experience",
-          "description": "Animals never gain experience.",
+          "name": "Animal",
+          "description": "Wolfhounds are animals and thus do not gain experience.",
           "effects": { "noExperience": true }
         }
       ]
@@ -337,8 +331,8 @@
       "category": "melee",
       "cost": 10,
       "rarity": null,
-      "restriction": null,
-      "rulesText": "Close combat, Strength as user +1. Two-handed: the user may not also use a shield, buckler or additional close combat weapon."
+      "restriction": "Common",
+      "rulesText": "Strength As User +1. Two-Handed: As a scythe requires two hands to use, a model using one may not use a shield, buckler, or additional weapon in close combat."
     },
     {
       "id": "silverTipStake",
@@ -346,8 +340,8 @@
       "category": "melee",
       "cost": 10,
       "rarity": null,
-      "restriction": "Costs 10 gc in the warband's lists; its own entry says 15 gc (source conflict).",
-      "rulesText": "Close combat, Strength as user. Heart-seeker: adds +1 to the injury roll when it causes a wound."
+      "restriction": "Common",
+      "rulesText": "Strength As User. Heart-seeker: Such is the destructive power of silver over a Vampire's form that the silver-tip stake adds +1 to the injury roll when it causes a wound."
     },
     {
       "id": "throatGuard",
@@ -355,8 +349,8 @@
       "category": "armour",
       "cost": 10,
       "rarity": 7,
-      "restriction": "Heroes only.",
-      "rulesText": "Life Saver: all injury rolls caused by a Vampire get a special 6+ save while this is worn. The save is not modified by Strength, can be bypassed by criticals that ignore armour, adds no armour save modifiers, and may be worn alone or with light or heavy armour."
+      "restriction": "Rare 7",
+      "rulesText": "Life Saver: As the vampires of Sylvania rely upon hapless human victims to sate their thirst for blood, it is only prudent to protect vulnerable areas. As such, the Throat Guard allows a Slayer the peace of mind knowing that their blood shall remain in their veins. All injury rolls caused by a Vampire have a special 6+ save while this equipment is worn. This save is not modified by strength, but can be bypassed by criticals that ignore armour. It does not add any armour-save modifiers, and can be worn on its own, or combined with light or heavy armour."
     },
     {
       "id": "blessedBolts",
@@ -364,9 +358,10 @@
       "category": "missile",
       "cost": 25,
       "rarity": null,
-      "restriction": "Heroes only. The source gives no rarity.",
-      "rulesText": "Rules not printed on the warband page, which refers to the Protectorate of Sigmar warband's Blessed Bolts entry."
+      "restriction": "",
+      "rulesText": "Range As Weapon. Strength As Weapon. Holy: Blessed by the Warrior Priest and his Acolytes, the Blessed Bolts may be fired against the enemies of Sigmar. Any Chaotic being, be they Undead, Chaos-infused (mutants or Possessed) or Twister of Magic suffers greatly from these missiles. Add +1S to the weapon when fired against such a target."
     }
   ],
-  "specialRules": "Hired Swords: The warband may recruit Hired Swords as if it were a Human Mercenary warband. | Stake the Vampire!: The Vampire Hunter and Slayers Hate Vampires and must always move towards a Vampire they can see, unless they can shoot at it instead (in which case they may choose). | Heroes Only Items: Holy Water, Blessed Bolts, Holy Relics and Throat Guards may only be bought by Heroes. | Priest of Morr: He may only be armed with a Dagger and a Scythe and may never wear armour."
+  "specialRules": "Hired Swords: Vampire Hunters accept nearly all aid that is available. As such, they may recruit Hired Swords as if they were Human Mercenaries.",
+  "background": "Death comes for each man. Nowheres is this more evident than the lands of Sylvania. The tyrannical reign of the Von Carsteins has held sway for generations, keeping man and beast cowering indoors once darkness falls. It is a dismal life that is lead in Sylvania, however it is often not over when death comes calling. Too often are loved ones laid to rest, only to have nothing but open graves remaining come morning. The dead do not sleep easily in the cursed soil, and oft are the times when ones weary bones are called into dark service. The dead stalk the living as horrors wander the streets at night. Even the short and bleak days do not provide solace as the more desperate of Sylvanian stock raid for what they can take with strength of arms. Several have tried to escape, and very few have succeeded. Fewer still are those that return with hopes of liberating their countrymen from the iron-grasp of the von Carsteins and their court of nightmares. These determined men of iron bring with them those trained in the arts of dealing with the undead. Even priests of the god Morr come to Sylvania, hoping to cleanse the tainted hand that rules her. Here is what sends ghouls scampering back into their filthy holes. They are the ones who leave nothing but smoldering piles of ash in their wake. Here is what causes vampires to pause. These are the Slayers, the Vampire Hunters of Sylvania."
 }

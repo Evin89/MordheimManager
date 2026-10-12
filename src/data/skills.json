@@ -1668,7 +1668,7 @@
         {
           "id": "inspiringPresenceDreamwalkers",
           "name": "Inspiring Presence",
-          "effect": "Morr Worshwishpers may use the Dreamer's Leadership when within 12\" of him, instead of the usual 6\".",
+          "effect": "When a Dreamer proves to be a brave leader and truly chosen of Morr, his followers will follow their dreamer to death with unwavering courage. To represent this, Morr Worshwishpers can use the dreamer's lead if they are 12\" away instead of the usual 6\". (Only for Dreamer).",
           "prerequisite": {
             "text": "Dreamer only."
           }
@@ -1676,7 +1676,7 @@
         {
           "id": "fanaticalDreamwalkers",
           "name": "Fanatical",
-          "effect": "Once per game, if the Dreamer is not Out of Action, Stunned or Knocked Down, the warband may re-roll one failed Rout test.",
+          "effect": "The dreamwalkers are convinced that they are the chosen ones to carry out Morr's will and eradicate the necromantic plague of the old world. Once per game, if the Dreamer is not out of action, stunned or knocked down, you may re-roll a failed rout test. (Only for Dreamer).",
           "prerequisite": {
             "text": "Dreamer only."
           }
@@ -1684,12 +1684,12 @@
         {
           "id": "inuredToHorror",
           "name": "Inured to Horror",
-          "effect": "The Hero is immune to Fear and never needs to take All Alone tests."
+          "effect": "Only the true faithful followers of Morr know and accept death and become inured to horror. The model is immune to Fear, and need never take All Alone tests."
         },
         {
           "id": "blessedByMorr",
           "name": "Blessed by Morr",
-          "effect": "If a spell cast by an Undead caster would affect this Hero, roll a D6; on a 4+ the spell has no effect on him. Other models affected by the spell are affected as normal."
+          "effect": "The hero has been blessed by Morr and has his protection against the magic that his enemies cast against him. Any spell that could affect the model is nullified with a D6 roll of +4 when fighting the undead. Note that if the spell is nullified, it does not affect this model, but it does affect any other model as it normally would."
         }
       ]
     },
@@ -1699,37 +1699,37 @@
         {
           "id": "frenziedChargeDruchii",
           "name": "Frenzied Charge",
-          "effect": "After taking all of his opponents out of action, the Hero may make a 4\" follow-up move. If he contacts another enemy, a new combat starts in the following turn and he counts as charging."
+          "effect": "The Dark Elf is infused with an intense raging thirst for blood and is a whirlwind in hand-to-hand combat, moving from opponent to opponent. The Druchii may make a 4\" follow up move if they take all of their opponents out of action. If the elf comes into contact with another enemy, this starts a new combat. This new combat takes place in the following turn and the model counts as charging."
         },
         {
           "id": "feyQuicknessDruchii",
           "name": "Fey Quickness",
-          "effect": "Avoids melee or missile attacks on a roll of 6. If the Hero also has Step Aside or Dodge, this improves to 4+ in the relevant area (e.g. with Step Aside: melee on 4+, missiles on 6)."
+          "effect": "Few can ever hope to match an Elf's inhuman quickness and agility. An Elf with Fey Quickness can avoid melee or missile attacks on a roll of 6. If the Elf also has Step Aside or Dodge, this will increase to a 4+ in the relevant area. For example, an Elf with Fey Quickness and Step Aside avoids melee attacks on a 4+ and missile attacks on a 6."
         },
         {
           "id": "infiltrationDruchii",
           "name": "Infiltration",
-          "effect": "As the Skaven skill. The Hero is set up after the opposing warband, anywhere out of sight of the enemy and more than 12\" from any enemy model. If both players have infiltrators, roll a D6 each; the lowest sets up first."
+          "effect": "The Dark Elf can Infiltrate. This skill is identical to the Skaven skill."
         },
         {
           "id": "poisonerDruchii",
           "name": "Poisoner",
-          "effect": "If the Hero does not search for rare items, he may make D2 doses of Dark Venom instead. They must be used in the next battle and cannot be sold or traded."
+          "effect": "The Dark Elf is proficient in concocting different poisons. If the Hero doesn't search for rare items, he may make D2 doses of Dark Venom instead. The poison must be used in the next battle and cannot be sold or traded to other warbands as the Dark Elves guard their secrets very carefully."
         },
         {
           "id": "marksmanOfNaggaroth",
           "name": "Marksman of Naggaroth",
-          "effect": "Ignores the long range penalty with crossbow-type weapons. If he did not move, he may fire a repeater crossbow twice without penalty, or three times at -1 to hit."
+          "effect": "Eyes of this hero are so keen and hands so steady that he can completely omit the penalty for long range if using a crossbow type weapon. Further, if he did not move this turn, he can shoot from repeater crossbow twice per turn without penalty or three times per turn with -1 penalty to hit."
         },
         {
           "id": "willToSurvive",
           "name": "Will to Survive",
-          "effect": "When the Hero rolls a Death result on the Serious Injury table, he may take a Leadership test against his unmodified Leadership; if passed he survives and misses the next D3 battles instead."
+          "effect": "Naggaroth is a harsh land with harsh inhabitants and weaklings are shown no mercy. This elf is able to survive by pure strength of will. If the model gets out of action and result of the Serious Injuries roll is death, make a Leadership test against unmodified Ld of the model (no holy relics etc.). If you succeed, the model will survive but will miss D3 battles instead."
         },
         {
           "id": "keenSightDruchii",
           "name": "Keen Sight",
-          "effect": "Spots Hidden enemies within twice his Initiative in inches."
+          "effect": "There are numerous legends detailing the excellent eyesight of the Elves, both Druchii and Asur kin. This elf can spot Hidden enemies from twice as far away than normal warriors (i.e. twice his Initiative value in inches)."
         }
       ]
     },
@@ -1739,27 +1739,27 @@
         {
           "id": "darkstalker",
           "name": "Darkstalker",
-          "effect": "Never takes All Alone tests, and doubles his Initiative when searching for Hidden models."
+          "effect": "The warrior is accustomed to darkness and has almost cat-like sight. Ignores All Alone tests and may double his Initiative when looking for Hidden models."
         },
         {
           "id": "instinctualViolence",
           "name": "Instinctual Violence",
-          "effect": "Does not need to take a Fear test when charged by Undead, and may nominate one of his attacks to strike first."
+          "effect": "Having experienced countless encounters with the Undead, this warrior is hardened to terror. When charged by any Undead models, he does not have to take a Fear test. Additionally, he may nominate one of his attacks to Strike First."
         },
         {
           "id": "deAnimator",
           "name": "De-animator",
-          "effect": "Ignores the No Pain rule of Undead models and may stun them as normal."
+          "effect": "The warrior is adept at fighting animated corpses. He ignores the No Pain rule for Undead and may stun them as normal."
         },
         {
           "id": "hardyConstitutionGraveRobbers",
           "name": "Hardy Constitution",
-          "effect": "Immune to all diseases and poisons."
+          "effect": "Veteran of many grave-robbing escapades, the warrior is completely immune to all diseases and poisons."
         },
         {
           "id": "bodyDealer",
           "name": "Body Dealer",
-          "effect": "When a friendly model dies in the Serious Injury phase, on a 4+ he recovers its body and equipment. He may also try this for a dead enemy model: make an Initiative roll-off against the enemy leader (or their most experienced model); if he wins he recovers it, a tie recovers nothing, and if the enemy wins the Body Dealer is captured."
+          "effect": "This warrior is skilled at salvaging the bodies of the dead for profit. On a 4+, you may recover the body (and gear) of a friendly model slain in the Serious Injury phase. You may also attempt to do the same for enemy models by comparing Initiative rolls between the Body Dealer and enemy leader (or their most experienced model). On a tie, nothing is recovered; if the enemy wins, your Body Dealer is captured."
         }
       ]
     },
@@ -1769,17 +1769,17 @@
         {
           "id": "quietAsAMouse",
           "name": "Quiet as a Mouse",
-          "effect": "Enemies trying to detect this hidden model use only half their Initiative (rounded down) in inches."
+          "effect": "The halfling as adept at staying as quiet as a mouse whilst hiding. Enemy warriors must use half their initiative value in inches (rounded down) when trying to detect this hidden halfling."
         },
         {
           "id": "crudeBelch",
           "name": "Crude Belch",
-          "effect": "In the first round of each hand-to-hand combat, enemies in base contact must take a Leadership test; any that fail must miss their first attack."
+          "effect": "Having eaten a meal or six, this halfling may release a withering belch to distract his enemies. During the first round of hand to hand combat the halfling can release his noxious fumes upon all enemies within base contact. All enemies effected must take a leadership test. If the leadership test is failed then the putrid odor has severely affected the warrior's fighting ability and he must miss his first attack (regardless of whether he has only one attack or not)."
         },
         {
           "id": "wizenedHalfling",
           "name": "Wizened Halfling",
-          "effect": "Halflings within 6\" of the leader may use his Leadership and may re-roll failed Leadership tests.",
+          "effect": "This old halfling is greatly respected by the other members of the warband and they never question his word. All halflings may also re-roll any failed leadership test when within 6\" of the leader as well as using his leadership for both tests.",
           "prerequisite": {
             "text": "Leader only."
           }
@@ -1787,7 +1787,7 @@
         {
           "id": "stealthyHalfling",
           "name": "Stealthy",
-          "effect": "May stay hidden after running, and may run within 8\" of enemies as long as he starts and ends the move hidden.",
+          "effect": "The Halfling Thief can hide even after running, and can run while within 8\" of enemy models if he starts and ends his move hidden.",
           "prerequisite": {
             "text": "Thieves only."
           }
@@ -1795,17 +1795,17 @@
         {
           "id": "skilledHuntsman",
           "name": "Skilled Huntsman",
-          "effect": "When shooting from hiding, roll a D6; on a 3+ the Halfling stays hidden. Cannot be used with black powder weapons."
+          "effect": "The halfling has been hunting things ever since he was young (the more food he has, the better!) and has become well adapted to firing as silently and discreetly as possible. To represent this a Halfling may try and fire a ranged weapon and remain hidden. When shooting from hiding roll D6. On a 3+ the Halfling has managed to keep his actions inconspicuous to the eye of the enemy and may remain hidden that turn. Note this skill may not be combined with black powder weapons, they are just too noisy!"
         },
         {
           "id": "layersOfFat",
           "name": "Layers of Fat",
-          "effect": "Always has a basic 6+ save that is not modified by Strength, and which stacks with armour."
+          "effect": "The Halfling has gained mountains of flab during his vast experience of eating fine foods and his thick bulk could swallow a sword whole! The Halfling always has a basic saving throw of 6 regardless of the enemy warrior's strength and on top of any armour he already wears."
         },
         {
           "id": "shifty",
           "name": "Shifty",
-          "effect": "When charged, gains a bonus attack that strikes first."
+          "effect": "The halfling has long-been skirting in the shadows, avoiding unwanted attention. So nimble is he that he may surprise even those who believe they've got them dead-to-rights. The halfling gains a bonus attack when charged that strikes first."
         }
       ]
     },
@@ -1815,7 +1815,7 @@
         {
           "id": "surgeon",
           "name": "Surgeon",
-          "effect": "May re-roll one die of a single Injury roll after a battle; the second result must be accepted.",
+          "effect": "The Mad Scientist can attempt to operate upon an injured minion. Reroll one dice of a single injury roll. You must accept the second roll.",
           "prerequisite": {
             "text": "Mad Scientist only."
           }
@@ -1823,7 +1823,7 @@
         {
           "id": "alchemist",
           "name": "Alchemist",
-          "effect": "Roll a D6 at the start of each game. 1: Potion of Resilience, +1 Toughness for the game; 2: Brew of Strength, +1 Strength for the game; 3-4: Quicksilver, +1 Movement for the game; 5: Backley's Brew, removes -1 from Strength and Initiative until a Toughness test is passed; 6: Aberrantius Vigortia, +1 Strength and +1 Toughness, but after the battle roll a D6 and on a 5+ the Scientist is addicted and keeps brewing potions until he rolls a 6, ignoring other activities during games.",
+          "effect": "The Mad Scientist fancies himself an alchemist and brews all sorts of concoctions and potions to guzzle down prior to battle. Roll a D6 at game-start and consult the following table 1: Potion of Resilience Add +1 to Toughness for duration of game.; 2: Brew of Strength Add +1 to Strength for duration of game.; 3–4: Quicksilver Add +1 to Movement for duration of game.; 5: Backley’s Brew Remove -1 from both Strength and Initiative until a Toughness test is passed.; 6: Aberrantius Vigortia Adds +1 to both Strength and Toughness. Highly addictive. Roll D6 after battle. On 5+, Scientist becomes addicted and will not engage in any other activity during a game until he has had his Aberrantius Vigortia potion. He will stand and brew potions until a 6 is rolled",
           "prerequisite": {
             "text": "Mad Scientist only."
           }
@@ -1831,7 +1831,7 @@
         {
           "id": "aptRevitalist",
           "name": "Apt Revitalist",
-          "effect": "Zombies in the warband gain experience as normal human Henchmen.",
+          "effect": "The Mad Scientist has gone above and beyond the understanding of most men, and has gained the ability to recreate life from death. Simply animating meat-puppets who parody life has bored him; he has moved on to reanimating dead cells. Any zombies within the warband now gain exp as normal human henchmen.",
           "prerequisite": {
             "text": "Mad Scientist only."
           }
@@ -1839,7 +1839,7 @@
         {
           "id": "lunatic",
           "name": "Lunatic",
-          "effect": "The Hero causes Fear and may re-roll any failed Leadership test.",
+          "effect": "Giving in to ones insanity is quite rewarding. The model causes Fear and may reroll any Leadership Test.",
           "prerequisite": {
             "text": "Available to all Heroes."
           }
@@ -1852,7 +1852,7 @@
         {
           "id": "pupilOfNagash",
           "name": "Pupil of Nagash",
-          "effect": "Immediately roll once on the Dreaded Scrolls of Nagash for an extra spell. May be taken again instead of a later skill.",
+          "effect": "Delving further into the evil teachings of Nagash, the Necrarch Vampire brings greater darkness to the realm of the living. He may roll immediately on the Scrolls of Nagash for a spell, and choose to do so again instead of a future Skill.",
           "prerequisite": {
             "text": "Necrarch Vampire and Thrall only."
           }
@@ -1860,7 +1860,7 @@
         {
           "id": "masterOfTheBlackArts",
           "name": "Master of the Black Arts",
-          "effect": "The range of all the Hero's spells is increased by half again (+50%).",
+          "effect": "Such is the power of the Necrarch that the range of all his magical workings is extended by half-again.",
           "prerequisite": {
             "text": "Necrarch Vampire and Thrall only."
           }
@@ -1868,7 +1868,7 @@
         {
           "id": "pullOfUndeath",
           "name": "Pull of Undeath",
-          "effect": "While the Hero is within 4\" of an undead Henchman, that Henchman can only be taken out of action on a natural 6.",
+          "effect": "So strong is the center of undeath within the Necrarch that he may save his constructs around him from their demise. As long as the Necrarch is within 4 inches of an undead henchman, they may only be taken Out of Action on a roll of a natural 6. Available only to the Leader.",
           "prerequisite": {
             "text": "Leader only."
           }
@@ -1881,12 +1881,12 @@
         {
           "id": "deathBeforeDishonor",
           "name": "Death before Dishonor",
-          "effect": "If the Hero would be taken out of action by a close combat attack, he first makes one close combat attack as normal before being removed."
+          "effect": "Defiance echoes through the ruins as a Nipponese warrior stares into the abyss of defeat. Once per grim engagement, when fate decrees their demise in the swirling melee, they unleash a final barrage of strikes before the void claims them. If these last, desperate blows fell an adversary, the warrior defies death's grasp, standing amidst the carnage with but a single thread of life remaining. If this model would be removed from the battlefield as the result of a close combat attack, before removing it make a single close combat attack with them as normal."
         },
         {
           "id": "nightFighter",
           "name": "Night Fighter",
-          "effect": "The Hero may run and still remain hidden, following the normal hiding rules.",
+          "effect": "Stealth is their ally, the cloak of darkness their refuge. Skulking amidst the rubble, this shadow-clad warrior remains unseen, a specter haunting the twilight. Beyond the reach of distant foes, concealed behind shattered remnants of once-majestic edifices, they evade the enemy's gaze, a predator in the gloom. This Skill may only be taken by the Shinobi. This model is able to run while remaining hidden, as per hiding rules",
           "prerequisite": {
             "text": "Shinobi only."
           }
@@ -1894,22 +1894,22 @@
         {
           "id": "iaijutsu",
           "name": "Iaijutsu",
-          "effect": "When charged, the Hero gains +1 Attack that may only be used against the charger and strikes first. Several chargers still give only +1 Attack in total. This attack uses the Hero's own Strength with no weapon modifiers."
+          "effect": "Swift as the striking serpent, the Nipponese warrior answers the call to arms with deadly precision. When the enemy's charge shatters the silence, they retaliate with a lightning-quick strike, their blade singing the song of vengeance. In that fleeting moment, the strike-first rule bends to their will, delivering swift retribution to those who dare to assail them. When this model is charged they gain +1A that they may only use against the charger. This additional attack will 'strike first'. If the wielder is simultaneously charged by two or more opponents they will still only receive a total of +1A. These attacks are resolved at the Strength value of the model, with no further modifiers."
         },
         {
           "id": "lastStand",
           "name": "Last Stand",
-          "effect": "The Hero may re-roll a failed All Alone test. At the start of his turn, if he is 6\" or more away from all friendly models, he may take +1 WS or +1 BS until the start of his next turn."
+          "effect": "Alone they stand, surrounded by the whispers of the fallen and the specters of despair. Yet, in the face of overwhelming odds, the spirit of the Nipponese warrior remains unbroken. When the tempest of fear threatens to engulf them, they steel themselves against its icy grip. The solitary warrior defies the darkness, their resolve unyielding, bolstered by the ghosts of fallen comrades. If this model would normally take an all-alone test, it may be re-rolled, in addition, at the start of this models turn, if it is 6\" away from friendly models, it can choose to have +1 to WS or BS until the start of its next turn."
         },
         {
           "id": "teaCeremony",
           "name": "Tea Ceremony",
-          "effect": "After a battle, a Hero who survived without being taken out of action may give up his rare item search and pay 10 gc. Choose another Hero and roll a D6; on a 3+ that Hero gains +1 Experience."
+          "effect": "Amidst the ruins, this warrior's serene rituals grant solace and insight. Forgoing treasure, they invest in reflection, seeking growth with a calming cup. After a battle, if this hero survives and did not go out of action, they can forgo searching for rare items and spends 10 gold crowns representing the cost of preparations for the tea ceremony. Then, Choose any other hero, and roll a D6. on a 3+, the chosen hero gains an Experience point from the introspective nature of the ceremony."
         },
         {
           "id": "blessedByTheKami",
           "name": "Blessed by the Kami",
-          "effect": "When rolling on the Heroes Serious Injury chart, the Hero may re-roll the result once; the second result must be accepted even if worse."
+          "effect": "In the crucible of war, the favor of the divine grants protection to the faithful. Blessed by unseen forces, the Nipponese warrior defies the jaws of death itself. With the whispered blessings of the Kami, they rise from the brink of oblivion, their wounds miraculously mended, their spirit unbroken by the ravages of fate. When rolling on the Heroes Serious Injury chart for this Hero after a game in which he has been taken out of action, the dice may be re-rolled once. The result of this second dice roll must be accepted, even if it is a worse result."
         }
       ]
     },
@@ -1919,22 +1919,22 @@
         {
           "id": "crudeBelch",
           "name": "Crude Belch",
-          "effect": "Enemies in close combat with the Hero must pass a Leadership test or suffer -1 to hit that turn. Can only be used again once a new enemy engages him."
+          "effect": "Ogres and Gnoblars eat almost anything. Consequences are to be expected from those inconsiderate enough to consume a rich meal before battle. A Hero with this 'condition' may unleash his noxious fumes on all enemies engaged in close combat. Those that do not pass a Ld test suffer a –1 ‘to hit’ modifier for the turn. The Hero must wait until a new enemy engages him in combat before he relieves himself again."
         },
         {
           "id": "scentHound",
           "name": "Scent Hound",
-          "effect": "Spots Hidden enemies within twice his Initiative in inches."
+          "effect": "The Ogre or Gnoblar has the keen nose of an expert tracker. The hero spots Hidden enemies from two times as far away as other warriors (ie, twice his Initiative value in inches)."
         },
         {
           "id": "sabreTrainer",
           "name": "Sabre Trainer",
-          "effect": "When a Sabretusk Cub that started the turn within 6\" of this Hero rolls a 1 for Untamed, it instead moves 3D6\" towards any model within 12\" that it can see (your choice)."
+          "effect": "Whenever a Sabretusk cub rolls a 1 for Untamed, if it started the turn within 6” of this hero, you may move the cub 3D6” towards any model within 12” of it that it can see (instead of towards the nearest model)."
         },
         {
           "id": "maneater",
           "name": "Maneater",
-          "effect": "Immediately learn one skill from the Shooting or Academic list. May be taken only once.",
+          "effect": "Ogre Hunters shun the companies of others, but they do travel far and wide, observing other the customs and skills of other cultures from afar . This Ogre may immediately learn one skill from the Shooting or Academic skill lists. This skill may be taken only once. Ogres only.",
           "prerequisite": {
             "text": "Ogres only."
           }
@@ -1942,7 +1942,7 @@
         {
           "id": "bullCharge",
           "name": "Bull Charge",
-          "effect": "When the Ogre charges he may make a single attack at +1 to hit instead of his normal attacks; if it hits, the enemy is knocked down.",
+          "effect": "Ogres learn to use their vast bulk in a charge, trampling the enemy to the ground. When charging, an Ogre with this skill may attempt a single attack with a +1 ‘to hit’ modifier rather than making his normal attacks. If successful the enemy model is automatically knocked down. Ogres only.",
           "prerequisite": {
             "text": "Ogres only."
           }
@@ -1950,7 +1950,7 @@
         {
           "id": "bellowingRoar",
           "name": "Bellowing Roar",
-          "effect": "The warband may re-roll its first failed Rout test.",
+          "effect": "An Ogre leader expects challenges to his authority. One of the best ways to suppress a mutineer in the ranks is to give his ear drums a good pounding. This skill may only be taken by the warband leader, allowing him to reroll the first failed Rout test. Ogres only.",
           "prerequisite": {
             "text": "Ogre leader only."
           }
@@ -1958,7 +1958,7 @@
         {
           "id": "setTraps",
           "name": "Set Traps",
-          "effect": "After a turn in which he does nothing else (and was not knocked down), place a trap marker touching the Hero. A model that moves within 2\" of it rolls a D6 and triggers it on a 3+, taking a Strength 4 hit; knocked down or stunned victims are placed 2\" from the marker. The marker is then removed. The Hero never triggers his own traps.",
+          "effect": "Trappers are experts at dropping snares. A Trapper may set a trap if he spends a turn doing nothing else (he may not set traps if he's just recovered from being Knocked Down). Place a marker in base contact with the Trapper. When another model, friend or foe, moves within 2\" of the marker he risks setting off the trap: roll a D6. On a score of 3+ he has triggered the trap and suffers a S4 hit (note that the Trapper won't trigger his own traps). If the trap did not wound the model, the injured model has multiple wounds, or it didn't trigger, the 'victim' may finish his move- However, if the model was knocked Down or Stunned, place him 2\" from the marker. Regardless whether the trap was triggered or not, the marker is removed. Gnoblar only.",
           "prerequisite": {
             "text": "Gnoblars only."
           }
@@ -1966,7 +1966,7 @@
         {
           "id": "infiltrationOgreHunting",
           "name": "Infiltration",
-          "effect": "Sets up after the opposing warband, out of enemy sight and more than 12\" from any enemy. If both sides infiltrate, each rolls a D6 and the lower roll sets up first.",
+          "effect": "A Gnoblar with this skill is always placed on the battlefield after the opposing warband and can be placed anywhere on the table as long as it is out of sight of the opposing warband and more than 12\" away from any enemy model. If both players have models which infiltrate, roll a D6 for each, and the lowest roll sets up first. Gnoblar only.",
           "prerequisite": {
             "text": "Gnoblars only."
           }
@@ -1974,7 +1974,7 @@
         {
           "id": "netter",
           "name": "Netter",
-          "effect": "Starts every game with 3 Nets for free. They cannot be sold, traded or given away; unused nets are lost after the game and he starts the next game with 3 again.",
+          "effect": "Each game, the hero starts with 3 Nets. These may not be sold, traded, or given to another warrior- if not used during the game, they assumed to be stashed away or fallen apart. The next game, the hero will start with 3 nets, without penalty or cost. Gnoblar only.",
           "prerequisite": {
             "text": "Gnoblars only."
           }
@@ -1987,17 +1987,17 @@
         {
           "id": "protectionOfSigmar",
           "name": "Protection of Sigmar",
-          "effect": "Any spell targeting the model is nullified on a D6 roll of 4+. A nullified spell affects no other models either."
+          "effect": "The pious has been blessed by the Church. Any spell which would affect him is nullified on a D6 roll of 4+. Note that if the spell is nullified it will not affect any other models either."
         },
         {
           "id": "unshakeableFaith",
           "name": "Unshakeable Faith",
-          "effect": "The model is immune to Fear."
+          "effect": "Such is the faith of the warrior that there is little room for doubt or hesitation in his actions. When the opportunity arises to smite evil, one must be able to strike! As such, the warrior is hardened and immune to Fear."
         },
         {
           "id": "utterDetermination",
           "name": "Utter Determination",
-          "effect": "The warband may re-roll failed Rout tests.",
+          "effect": "Only the Warrior Priest may have this skill, which allows him to re-roll any failed Rout tests.",
           "prerequisite": {
             "text": "Warrior Priest only."
           }
@@ -2005,7 +2005,7 @@
         {
           "id": "rousingSermon",
           "name": "Rousing Sermon",
-          "effect": "Declare at the start of your turn. The Warrior Priest and all friendly models within 6\" gain +1 Attack in that turn's hand-to-hand combat phase. Once per game; only one Rousing Sermon may be used per game.",
+          "effect": "Only the Warrior Priest may have this skill. The Warrior Priest bellows his prayers to Sigmar, beseeching his protector to lend he and his men the strength to forge onwards. A Rousing Sermon must be declared at the beginning of a player’s turn. The Warrior Priest and all friendly models within 6\" gain +1 attack during that Hand to Hand combat phase. There may only be one Rousing Sermon per game.",
           "prerequisite": {
             "text": "Warrior Priest only."
           }
@@ -2013,7 +2013,7 @@
         {
           "id": "sigmarsGuidance",
           "name": "Sigmar's Guidance",
-          "effect": "When shooting, the model may choose any target, not only the closest enemy."
+          "effect": "With the blessed hand of Sigmar guiding his aim, the warrior lets loose his arrow. He may freely choose his target, and not only the closest enemy when declaring ranged attacks."
         }
       ]
     },
@@ -2023,22 +2023,22 @@
         {
           "id": "blackHunger",
           "name": "Black Hunger",
-          "effect": "Declare at the start of the Hero's turn. For that turn he gains +1 Attack and +D3\" Movement. At the end of the turn he suffers D3 Strength 3 hits with no armour save allowed."
+          "effect": "The Skaven can draw upon the dreaded Black Hunger, the fighting frenzy which gives him unnatural strength and speed but can ravage him from the inside. The Clan Moulder Hero may declare at the beginning of his turn that he is using this skill. The Hero may add +1 attack and +D3\" to the total move on his profile for the duration of his own turn, but will suffer D3 S3 hits with no armour save possible at the end of the turn."
         },
         {
           "id": "beastkin",
           "name": "Beastkin",
-          "effect": "The range of all the Hero's current and future Beast/Animal Handling skills is doubled to 12\"."
+          "effect": "*A Clan Moulder hero with this skill has developed such an affinity for the horrific creatures under their dominion that the range at which any Beast/Animal Handling skills operate is doubled to 12\". This applies to any and all such skills the character has and any they take in future."
         },
         {
           "id": "hypnoticMusk",
           "name": "Hypnotic Musk",
-          "effect": "Enemy animals and beasts must pass a Leadership test to charge this Hero, unless the charge is the result of Goading. Mounts are immune."
+          "effect": "The Hero has a scent that is particularly compelling to animals of all kinds, inspiring within them a desire to obey him. Any animal or beast from an opposing warband wishing to charge him must pass a Leadership test to do so unless said charge is the result of Goading. Mounts are assumed to be sufficiently under the control of their riders as to make them immune to the effect."
         },
         {
           "id": "subjugatorOfMankind",
           "name": "Subjugator of Mankind",
-          "effect": "If the Hero, equipped with a Thingcatcher, takes an enemy model out of action, that model does not roll for injury after the battle; instead it counts as Captured on the Serious Injuries chart. Large creatures such as Ogres cannot be caught, but animals can.",
+          "effect": "The Hero has become so adept with the Thingcatcher that even intelligent and nimble creatures such as Humans cannot escape him. If a Hero with this skill and equipped with a Thingcatcher takes an opposing model out of action, do not roll for injuries post-battle, instead treat the enemy as if they'd rolled Captured on the Serious Injuries chart. Large creatures such as Ogres cannot be caught in this way, but animals can.",
           "prerequisite": {
             "text": "Must be equipped with a Thingcatcher for the effect."
           }
@@ -2046,7 +2046,7 @@
         {
           "id": "twistkin",
           "name": "Twistkin",
-          "effect": "On taking this skill the Hero must buy one Mutation from the Possessed warband list at half its listed cost.",
+          "effect": "*Stormvermin only Accidental exposure to raw warpstone or the experimental attentions - welcome or otherwise - of a Clan Moulder superior has resulted in this Hero developing some monstrous but useful mutation. Upon taking this skill the Hero must buy a Mutation from the list in the Mordheim Rulebook (see Possessed Warband) at half the listed cost.",
           "prerequisite": {
             "text": "Stormvermin only."
           }
@@ -2059,17 +2059,17 @@
         {
           "id": "stampede",
           "name": "Stampede",
-          "effect": "When this Hero charges, Snotlings also charging the same target may forfeit all their attacks. Each forfeited base attack gives the Hero +1 Strength for the turn. A Snotling may forfeit only once per turn. The Hero's Strength cannot exceed 10."
+          "effect": "When the hero with Stampede charges an opposing warrior, keep track of any other Snotlings that charged that same warrior this turn. You may have one of those charging Snotlings forfeit his attack in order to give the Stampeding Hero +1 Strength for each Base Attack forfeited (Example: a Snotling BigSnot with S2 and Stampede charges an opponent—he has a Snotling Mob charge with him. The Mob forfeits it’s attack, granting the BigSnot +3 Strength; +1 S for each of the Mob’s Base attacks (do not count additional hand attacks)). This bonus lasts until the end of the turn, and may be used multiple times (i.e. you may have multiple snotlings each forfeit their attack, each adding +1 S for each attack). However, each snotling may only forfeit his attack once per turn (thus, if you have two Stampeding heroes, you cannot have 1 snotling runt forfeit his attack TWICE, giving the bonus to two different warriors). A Snotling that forfeits his attacks forfeits them ALL—he may not choose to give up “half” his attacks or any other fraction. A Hero’s Strength may not be increased beyond Strength 10."
         },
         {
           "id": "achillesHeel",
           "name": "Achilles' Heel",
-          "effect": "Wound rolls of 6 are Critical Hits regardless of the target's Toughness. Combined with Stampede, wound rolls of 5+ also deny the target an armour save."
+          "effect": "Your Snotling always causes Critical Hits on rolls of 6 (when wounding) regardless of opponent's toughness. In addition, when combined with the Stampede charge attack, on any successful rolls to wound of 5+, the opponent gains no armour save."
         },
         {
           "id": "worm",
           "name": "Worm",
-          "effect": "During movement the Snotling may move through a wall, including when charging a detected target. Roll a D6: on a 1 it gets stuck, cannot move again this turn and counts as knocked down if attacked in close combat. Cannot be combined with Stampede.",
+          "effect": "(Scout and Promoted Runts Only) The Snotling is a master of fitting through small spaces and cracks in solid walls as well as burrowing under doors and floors. During the movement phase, you can declare that the Snotling is moving through a wall (even charging, if you can see/detect the target.) Roll a D6... on anything but a 1, your Snotling squeezes through and can attack as normal. On a 1, he has charged the wall blindly and not found a crevice, concussing himself in a cartoony manner. He cannot move again this turn and counts as knocked down if attacked in close combat. This Skill cannot be combined with the “Stampede” skill above.",
           "prerequisite": {
             "text": "Scouts and promoted Runts only."
           }
@@ -2077,7 +2077,7 @@
         {
           "id": "bigBully",
           "name": "Big Bully",
-          "effect": "The Hero may learn Strength skills (each once). Cannot be combined with Frustratingly Tiny.",
+          "effect": "(BigSnotz only) The BigSnot is immensely Big and strong, especially by Snotling standards. The BigSnot immediately learn ONE Strength Skill. A BigSnot may only take this skill once each. Cannot be combined with the skill “Frustratingly Tiny”.",
           "prerequisite": {
             "text": "BigSnotz only."
           }
@@ -2085,7 +2085,7 @@
         {
           "id": "frustratinglyTiny",
           "name": "Frustratingly Tiny",
-          "effect": "Enemies attacking this Hero in close combat are at -1 to hit. Opponents halve their Initiative when trying to detect this Hero while hidden. Cannot be combined with Big Bully.",
+          "effect": "(Snotlings Only) Your Snotling is a master of using his tiny size to his advantage. In Hand-to-hand combat, enemies attacking your hero are at -1 to hit. Also, all opponents halve their Initiative when trying to detect a Hidden “Tiny” hero. This skill cannot be combined with the “Big Bully” skill above.",
           "prerequisite": {
             "text": "Snotlings only (not the Bullied Goblin)."
           }
@@ -2093,7 +2093,7 @@
         {
           "id": "mobMaster",
           "name": "Mob Master",
-          "effect": "While within 2\" of a Snotling Mob, the Hero and the Mob are Immune to Psychology, as if the Hero were a second Mob. Combined with Stampede, the Hero also gains +1 to hit per forfeited attack in addition to +1 Strength; a natural 1 always misses."
+          "effect": "The Hero is a Master at controlling and leading the Snotlings around him as a Mob. So long as your Hero is within 2” of a Snotling Mob, both he and the Snotling Mob become Immune to Pscychology exactly as if the Hero counted as a second Snotling Mob. When this skill is combined with the “Stampede” skill above, the Hero automatically gains +1 to hit for each forfeited attack, in addition to +1 Strength. A natural roll of 1 will always fail to hit."
         }
       ]
     },
@@ -2103,17 +2103,17 @@
         {
           "id": "scribeSorcerous",
           "name": "Scribe",
-          "effect": "Before a battle, write one spell or prayer the Hero knows onto a scroll. When that scroll is used, add +2 to the difficulty roll."
+          "effect": "The warrior is a natural adept at writing and making scrolls. Any warrior with the ability to cast spells or use prayers may take this skill. It allows them to make a scroll before the battle and inscribe a single spell/prayer upon it that they are versed in. The scroll may be used just before they are about to cast the spell/prayer and allows the caster +2 to his difficulty roll."
         },
         {
           "id": "mindFocusSorcerous",
           "name": "Mind Focus",
-          "effect": "May re-roll one die in a spell or prayer difficulty roll. Cannot be used to cancel a miscast."
+          "effect": "The warrior possesses a great strength of mind which allows him to concentrate beyond the levels of most normal men. When using a spell or prayer the warrior with this skill may re-roll one dice roll used in the difficulty roll. Note that this cannot cancel a Miscast."
         },
         {
           "id": "magicalAptitudeSorcerous",
           "name": "Magical Aptitude",
-          "effect": "May cast two spells per turn if not in close combat. After the first, the Hero must pass a Toughness test to cast again (even the same spell); if failed, roll on the injury table with no saves, treating out of action as stunned.",
+          "effect": "This skill may only be taken by a warrior capable of casting spells. It may not be used by Sisters of Sigmar or Warrior Priests. The warrior has a keen aptitude for magic and can push himself beyond normal limits to produce a storm of spells. The warrior may attempt to cast two spells each turn as long as he is not in hand-to-hand combat. After attempting the first spell he must take a Toughness test. If he passes he may attempt a second spell that turn or even cast the same spell twice. If he fails, you must roll on the injury table immediately with no saves, treating Out of Action results as Stunned instead.",
           "prerequisite": {
             "text": "Wizards only; not Sisters of Sigmar or Warrior Priests."
           }
@@ -2126,7 +2126,7 @@
         {
           "id": "ironSinews",
           "name": "Iron Sinews",
-          "effect": "Add +1 Strength to the Vampire's profile.",
+          "effect": "After death the Vampire's muscles grow far greater than they ever could have in his mortal life. The Strigoi becomes a beast of pure muscular power. Add +1S to the Vampire’s profile.",
           "prerequisite": {
             "text": "Strigoi Vampire only."
           }
@@ -2134,7 +2134,7 @@
         {
           "id": "greatThirster",
           "name": "Great Thirster",
-          "effect": "Once the Vampire takes a model Out of Action he becomes Frenzied. This lasts until he is Knocked Down, Stunned or taken Out of Action.",
+          "effect": "Such is the appetite of this beast that he must feed almost constantly. Once the taste of blood has touched his lips, there is little that can stop the Vampire from drinking again. Once the Vampire takes a model Out of Action, treat him as Frenzied. This effect remains until he is Knocked Down, Stunned, or taken Out of Action.",
           "prerequisite": {
             "text": "Strigoi Vampire only."
           }
@@ -2142,7 +2142,7 @@
         {
           "id": "curseOfTheRevenant",
           "name": "Curse of the Revenant",
-          "effect": "The Vampire regenerates lost wounds on a D6 roll of 5+. Only one wound may be recovered this way per turn.",
+          "effect": "So strong is the desire for some to continue living that they defy death. Once a Vampire has taken the Great Thirster special skill, he may choose the Curse of the Revenant. This skill allows the Vampire to regenerate lost wounds on a D6 roll of 5+. Only one wound may be recovered in this fashion per turn.",
           "prerequisite": {
             "text": "Strigoi Vampire only; must already have Great Thirster."
           }
@@ -2150,7 +2150,7 @@
         {
           "id": "darkArtsStrigoi",
           "name": "Dark Arts",
-          "effect": "The Vampire learns Arcane Lore and immediately rolls one spell on the Dark Arts table. Later advances may be used to gain further Dark Arts spells instead of skills.",
+          "effect": "The Strigoi has retained some of its former magical aptitude. He may choose Arcane Lore as an advance, and immediately roll for a spell on the Dark Arts table below. Subsequent spells may be chosen instead of skills.",
           "prerequisite": {
             "text": "Strigoi Vampire only."
           }
@@ -2163,7 +2163,7 @@
         {
           "id": "lightFingers",
           "name": "Light Fingers",
-          "effect": "When this Hero takes an enemy Out of Action he finds an extra piece of Wyrdstone. Only one piece of treasure may be found this way per game.",
+          "effect": "Gypsies are apt to find things that others have lost. Should a Hero with this skill take an enemy model Out of Action, they will find an extra piece of Wyrdstone. Only one piece of treasure may be found in this manner per game.",
           "prerequisite": {
             "text": "Strigany Heroes only (not the Strigoi Vampire)."
           }
@@ -2171,7 +2171,7 @@
         {
           "id": "practicedArm",
           "name": "Practiced Arm",
-          "effect": "May throw two throwing knives per turn. Both must target the same enemy, and each gets +1 to injury rolls.",
+          "effect": "Such is the skill with which the Gypsy can launch throwing knives that he can throw two of them per turn. These missiles must be at the same target and gain +1 to their injury rolls to represent the skill with which they were aimed.",
           "prerequisite": {
             "text": "Strigany Heroes only (not the Strigoi Vampire)."
           }
@@ -2184,7 +2184,7 @@
         {
           "id": "ironWillVampireHunters",
           "name": "Iron Will",
-          "effect": "The Hero is immune to Fear.",
+          "effect": "Such is the work of Slayers that there is little room for hesitation. When the opportunity arises, one must be able to strike! As such, the warrior is hardened and immune to Fear.",
           "prerequisite": {
             "text": "Vampire Hunter and Slayers only."
           }
@@ -2192,7 +2192,7 @@
         {
           "id": "righteousAura",
           "name": "Righteous Aura",
-          "effect": "Possessed or Undead opponents lose their first attack against this warrior in the first round of hand-to-hand combat (to a minimum of 1 attack).",
+          "effect": "Carrying many talismans from various gods, the warrior heads into battle assured of victory. Possessed or Undead opponents lose their first attack against the warrior in the first round of hand-to-hand combat (down to a minimum of 1).",
           "prerequisite": {
             "text": "Vampire Hunter and Slayers only."
           }
@@ -2200,7 +2200,7 @@
         {
           "id": "thirstForVengeance",
           "name": "Thirst for Vengeance",
-          "effect": "The Hero Hates all Undead and gains +1 Attack in a turn in which he charged.",
+          "effect": "The warrior Hates all undead. In his quest for revenge, he gains +1 attack in a turn where he has charged.",
           "prerequisite": {
             "text": "Vampire Hunter, Slayers and the Priest of Morr."
           }
@@ -2208,7 +2208,7 @@
         {
           "id": "blessingOfMorr",
           "name": "Blessing of Morr",
-          "effect": "+1 to injury rolls against Undead.",
+          "effect": "The warrior has the Death god's blessing in his work. Add +1 to all injury rolls against the undead.",
           "prerequisite": {
             "text": "Vampire Hunter, Slayers and the Priest of Morr."
           }
@@ -2216,7 +2216,7 @@
         {
           "id": "touchOfDarkness",
           "name": "Touch of Darkness",
-          "effect": "The Hero ignores penalties for darkness.",
+          "effect": "Long has the Slayer been dealing in death. Perhaps too long. Due to his heightened intuition, he ignores darkness penalties.",
           "prerequisite": {
             "text": "Vampire Hunter and Slayers only."
           }
@@ -2229,22 +2229,22 @@
         {
           "id": "feyWoodElves",
           "name": "Fey",
-          "effect": "The Hero has a 4+ saving throw against hostile magic."
+          "effect": "The Wood Elf has a certain understanding of magic and therefore gets a saving throw of 4+ against hostile magic."
         },
         {
           "id": "elvenLuck",
           "name": "Elven Luck",
-          "effect": "Once per game the Hero may re-roll any one failed roll."
+          "effect": "The Elven Gods favour the Wood Elf. Once per game, he may reroll any failed roll."
         },
         {
           "id": "excellentSightWoodElves",
           "name": "Excellent Sight",
-          "effect": "The Hero spots hidden enemies up to twice his Initiative in inches away. (Duplicates the warband rule; probably an oversight in the source.)"
+          "effect": "By training his eyesight for years the Wood Elf can spot hidden enemy models up to 2 x I inch away. note: this is likely an oversight as it is already embedded in their special rules"
         },
         {
           "id": "seekerWoodElves",
           "name": "Seeker",
-          "effect": "The Hero may modify one exploration die by +1 or -1.",
+          "effect": "Being an expert Tracker, the Wood Elf is able to spot even hidden treasures. He may modify the result of one exploration die by +/- 1. Only one Elven Hero may possess this skill!",
           "prerequisite": {
             "text": "Only one Elven Hero in the warband may have this skill."
           }
@@ -2252,7 +2252,7 @@
         {
           "id": "infiltrationWoodElves",
           "name": "Infiltration",
-          "effect": "The Hero is always deployed last, anywhere on the table out of sight of the enemy. If both players have models with Infiltration, each rolls a D6 and the lowest roller deploys first."
+          "effect": "The Wood Elf is an expert in infiltrating behind enemy lines. Therefore he is always deployed last, anywhere out of sight of the enemy. If both players have infiltrate, roll 1d6. Lowest roll deploys first."
         }
       ]
     }

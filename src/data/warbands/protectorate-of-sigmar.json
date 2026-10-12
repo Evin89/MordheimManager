@@ -51,18 +51,15 @@
       "spellLists": [
         "prayersOfSigmar"
       ],
-      "notes": "A battle-hardened priest of Sigmar who leads the Protectorate. Each warband must have exactly one.",
+      "notes": "Weapons/Armour: The Sigmarite Warrior Priest may be armed with weapons and armour from the Protectorate of Sigmar Equipment List.",
       "specialRules": [
         {
-          "ref": "leader"
+          "name": "Leader",
+          "description": "Any models in the warband within 6” of the Warrior Priest may use his Leadership instead of their own."
         },
         {
-          "ref": "prayers",
-          "note": "Starts with one randomly generated Prayer of Sigmar."
-        },
-        {
-          "name": "Death of a Leader",
-          "description": "If the Warrior Priest is lost, the most experienced Acolyte becomes the new Warrior Priest with all his benefits and title, but gains no Prayer immediately; at his next advance he may choose a prayer or roll for an advance. The warband may then hire another Acolyte."
+          "name": "Prayers of Sigmar",
+          "description": "The Warrior Priest has studied the Prayers of Sigmar, and as such begins with one randomly generated prayer. See the Magic section."
         }
       ]
     },
@@ -106,14 +103,11 @@
       "equipmentOptions": [
         "protectorateHeroEquipmentList"
       ],
-      "notes": "Holy warriors sworn to the Church of Sigmar. 0-2; one may be replaced by a Huntsman.",
+      "notes": "Weapons/Armour: The Templars may be armed with weapons and armour from the Protectorate of Sigmar Equipment List.",
       "specialRules": [
         {
-          "ref": "hatred",
-          "params": {
-            "target": "all models in a chaotic warband (including Skaven, Possessed, Carnival of Chaos, Beastmen and any warband with a Daemon)"
-          },
-          "note": "Zealous."
+          "name": "Zealous",
+          "description": "Strong is the devotion of the Templar. The model hates any model belonging to a chaotic warband. This includes Skaven, Possessed, Carnival of Chaos, Beastmen and any warband that has a Daemon in it."
         }
       ]
     },
@@ -158,7 +152,7 @@
       "equipmentOptions": [
         "protectorateHeroEquipmentList"
       ],
-      "notes": "Young initiates of the priesthood. 0-2. The most experienced Acolyte takes over if the Warrior Priest is lost.",
+      "notes": "Weapons/Armour: The Acolytes may be armed with weapons and armour from the Protectorate of Sigmar Equipment List.",
       "specialRules": []
     },
     {
@@ -200,11 +194,11 @@
       "equipmentOptions": [
         "huntsmanEquipmentList"
       ],
-      "notes": "A woodsman who tends the warband's hounds. 0-1, and only by replacing one Templar.",
+      "notes": "Weapons/Armour: The Huntsman may be armed with weapons from the Huntsman Equipment List.",
       "specialRules": [
         {
           "name": "Beastmaster",
-          "description": "Any animal in the warband within 6\" may use the Huntsman's Leadership. Hostile beasts must pass a Leadership test to charge him."
+          "description": "A Huntsman is naturally attuned to the earth and beasts around him. Any animal in the warband may use the Huntsman Leadership characteristic if it is within 6\" of him. Any hostile beast must make a successful Ld Test to charge the Huntsman."
         }
       ]
     }
@@ -243,7 +237,7 @@
       "equipmentOptions": [
         "protectorateHenchmenEquipmentList"
       ],
-      "notes": "Skilled shots in the service of the Church. 0-5.",
+      "notes": "Weapons/Armour: Archers may be armed with weapons and armour from the Protectorate of Sigmar Equipment List.",
       "specialRules": []
     },
     {
@@ -279,7 +273,7 @@
       "equipmentOptions": [
         "protectorateHenchmenEquipmentList"
       ],
-      "notes": "Faithful men-at-arms. 0-5.",
+      "notes": "Weapons/Armour: Crusaders may be armed with weapons and armour from the Protectorate of Sigmar Equipment List.",
       "specialRules": []
     },
     {
@@ -312,20 +306,16 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Temple war hounds. 0-5. Never use weapons or armour.",
+      "notes": "Weapons/Armour: Jaws and Brutality. A Hound never uses nor needs weapons or armour, and suffers no penalty for doing so.",
       "specialRules": [
         {
           "name": "Animals",
-          "description": "Hounds are animals and gain no experience.",
+          "description": "Hounds are animals, and thus gain no experience.",
           "effects": { "noExperience": true }
         },
         {
           "name": "Devoted",
-          "description": "A Hound may re-roll a failed Leadership test while within 12\" of the Warrior Priest."
-        },
-        {
-          "name": "Jaws and Brutality",
-          "description": "A Hound never uses or needs weapons or armour and suffers no penalty for this."
+          "description": "Trained since pups, these Hounds are devoted beyond what a typical master could expect. A Hound may re-roll a failed Leadership check if within 12” of the Warrior Priest."
         }
       ]
     }
@@ -382,8 +372,8 @@
       "category": "melee",
       "cost": 15,
       "rarity": null,
-      "restriction": "Protectorate of Sigmar Heroes only.",
-      "rulesText": "No rules text on the source page. Presumably as the standard Sigmarite warhammer: close combat, Strength as user +1; Concussion (2-4 on the Injury table counts as Stunned); Holy Weapon (+1 to wound against Possessed or Undead)."
+      "restriction": "",
+      "rulesText": "Strength As user +1. Concussion: Warhammers are excellent at striking people senseless. When using a warhammer in close combat a roll of 2-4 is treated as stunned when rolling on the Injury chart. Holy Weapon: Each warhammer is blessed by the High Matriarch herself before it is handed to the Sisters. The warhammer has a +1 bonus on all to wound rolls against any Possessed or Undead models. Note that you will still need to score a 6 before any modifiers in order to cause a critical hit. Only Matriarchs and Sister Superiors may carry two Sigmarite warhammers."
     },
     {
       "id": "shieldOfSigmar",
@@ -391,8 +381,8 @@
       "category": "armour",
       "cost": 20,
       "rarity": 9,
-      "restriction": "Protectorate of Sigmar Heroes only.",
-      "rulesText": "Armour save 6+ (as a shield). Shield of Faith: the bearer has a special 6+ save against all ranged attacks. The usual -1 penalty for bearing a shield with heavy armour does not apply."
+      "restriction": "Rare 9",
+      "rulesText": "Armour Save 6. Shield of Faith: Passed down through the church, these shields were borne by men led by the Heldenhammer himself. An aura surrounds these shields, granting their bearer uncanny protection. Anyone protected by a Shield of Sigmar has a special 6+ save versus all ranged attacks. Furthermore, the weight of the shield seems diminished. The -1 penalty for bearing a shield with Heavy Armour does not apply."
     },
     {
       "id": "blessedBolts",
@@ -400,9 +390,10 @@
       "category": "missile",
       "cost": 25,
       "rarity": null,
-      "restriction": "Protectorate of Sigmar Heroes (incl. Huntsman) only.",
-      "rulesText": "Ammunition blessed by the Warrior Priest and his Acolytes. Range and Strength as the weapon. Holy: +1 Strength when fired at Chaotic targets — Undead, Chaos-infused models (Mutants or Possessed) and Twisters of Magic."
+      "restriction": "Common",
+      "rulesText": "Range As Weapon. Strength As Weapon. Holy: Blessed by the Warrior Priest and his Acolytes, the Blessed Bolts may be fired against the enemies of Sigmar. Any Chaotic being, be they Undead, Chaos-infused (mutants or Possessed) or Twister of Magic suffers greatly from these missiles. Add +1S to the weapon when fired against such a target."
     }
   ],
-  "specialRules": "Death of a Leader: If the Warrior Priest falls, the Acolyte with the most experience becomes the new leader and takes over all of the Warrior Priest's benefits and title. He gains no Prayer immediately; at his next advance he may either choose a prayer from the list or roll for an advance. Afterwards the warband may hire another Acolyte. | Hired Swords: The Protectorate may recruit Hired Swords as if it were a Witch Hunter warband. | Huntsman: You may replace one Templar with a Huntsman. | Heroes Only Equipment: The Sigmarite Warhammer (15 gc), Shield of Sigmar (20 gc), Holy Water (5 gc), Blessed Bolts (25 gc) and Holy Relic (15 gc) may only be bought by Heroes. | Zealous: Templars hate any model in a chaotic warband, including Skaven, Possessed, Carnival of Chaos, Beastmen and any warband with a Daemon."
+  "specialRules": "Death of a Leader: Should the Warrior Priest fall, the Acolyte with the most experience takes up the Mantle of Leader. Transfer all benefits of the Warrior Priest class to the Acolyte, and change his title accordingly. He does not immediately gain a Prayer, as that requires study and experience. With his next advance, he may choose to either take a prayer from the list, or roll for an advancement. All subsequent advancements are done as per the regular rules. Once promoted, the Acolyte becomes a Warrior Priest, thus freeing the Warband to hire another Acolyte.",
+  "background": "The Church of Sigmar has long played an active role in the protection of the Empire. Warrior Priests have marched with Generals to purge the lands of Greenskin invasions, and they have stood as stalwart defenders when the storms of chaos blew in from the north. Each high ranking Warrior Priest has an entourage of warriors that form his personal guard, and these groups are known as the Protectorate of Sigmar. In times of relative peace, these bands of men look inwards to the Empire to resolve issues that have too long been ignored. Such a time is now, and such a place is Mordheim. With evil seething out from every pour, Mordheim lies in ruin and awaits for the Holy to bring her back into the light. While the Grand Theogonist has endorsed the Witch Hunters to gather the rabble to smoke out any who follow chaos, it is the Protectorate who have his full blessing. As such, he sends these bands of highly trained men into the clutches of insanity to bring forth Sigmars justice."
 }

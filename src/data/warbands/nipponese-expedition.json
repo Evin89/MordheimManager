@@ -49,14 +49,15 @@
       "equipmentOptions": [
         "nipponNobleList"
       ],
-      "notes": "A Nipponese noble commanding the expedition. Each warband must have exactly one.",
+      "notes": "Weapons/Armour: A Hatamoto may be equipped with weapons and armor chosen from the Nippon Noble equipment list.",
       "specialRules": [
         {
-          "ref": "leader"
+          "name": "Leader",
+          "description": "Any warrior within 6\" of the Hatamoto may use his Leadership when taking a Leadership test."
         },
         {
           "name": "Ride",
-          "description": "Has the Ride skill as detailed in the Blazing Saddles article (may ride horses and warhorses)."
+          "description": "The Hatamoto has the Ride skill as detailed in the Blazing Saddles article."
         }
       ]
     },
@@ -102,15 +103,15 @@
       "spellLists": [
         "arabianElementalMagic"
       ],
-      "notes": "The warband's spiritual and magical leader. 0-1. May never carry any equipment except a walking staff (club) and a dagger.",
+      "notes": "Weapons/Armour: See Tenants of the Order",
       "specialRules": [
         {
-          "ref": "wizard",
-          "note": "Arcane Vim-Toist: casts Vim-Toist Magic (Arabian Elemental Magic) and starts with one spell from it."
+          "name": "Tenants of the Order",
+          "description": "The Order of the Vim-To strictly enforces a vow of Poverty, meaning with the exception of a walking staff (club) and a dagger the Vim-To Mage may never have any equipment."
         },
         {
-          "name": "Tenants of the Order",
-          "description": "Apart from a walking staff (club) and a dagger, the Vim-To Mage may never have any equipment."
+          "name": "Arcane Vim-Toist",
+          "description": "This model is the spiritual and magical leader of the Nippon Warband, they can cast Vim-Toist Magic (Arabian Elemental Magic) and start the game with one spell from this discipline learned."
         }
       ]
     },
@@ -154,15 +155,15 @@
       "equipmentOptions": [
         "shinobiList"
       ],
-      "notes": "A hired shadow warrior. 0-1.",
+      "notes": "Weapons/Armour: A Shinobi may be equipped with weapons chosen from the Shinobi equipment list.",
       "specialRules": [
         {
           "name": "Infiltration",
-          "description": "Always set up after the opposing warband, out of enemy sight and more than 12\" from any enemy model. If both warbands have infiltrators, each player rolls a D6 and the lower roll sets up first."
+          "description": "A Shinobi with this skill is always placed on the battlefield after the opposing warband and can be placed anywhere on the table as long as it is out of sight of the opposing warband and more than 12\" away from any enemy model. If both players have models that infiltrate, roll a D6 for each, and the lowest roll sets up first."
         },
         {
           "name": "Loner",
-          "description": "May never become the leader of the warband."
+          "description": "Shinobi may never become the leader of the warband."
         }
       ]
     },
@@ -206,11 +207,11 @@
       "equipmentOptions": [
         "nipponNobleList"
       ],
-      "notes": "Sworn samurai retainers of the Hatamoto. 0-2.",
+      "notes": "Weapons/Armour: HA Retainer may be equipped with weapons and armor chosen from the Nippon Noble equipment list.",
       "specialRules": [
         {
           "name": "Ride",
-          "description": "Has the Ride skill as detailed in the Blazing Saddles article (may ride horses and warhorses)."
+          "description": "A Retainer has the Ride skill as detailed in the Blazing Saddles article."
         }
       ]
     }
@@ -249,11 +250,11 @@
       "equipmentOptions": [
         "nipponWarriorList"
       ],
-      "notes": "Common foot soldiers. Any number, hired in groups of 1-5.",
+      "notes": "Weapons/Armour: An Ashigaru may be equipped with weapons and armor chosen from the Nippon equipment list.",
       "specialRules": [
         {
           "name": "Wall of Steel",
-          "description": "May wield a spear (Yari) two-handed; it then gains the Parry rule."
+          "description": "Even the most lowly of Ashigaru is a veteran of hours of drill, and because of this If wielding a spear you may choose to wield it two-handed, in which case the spear gains the parry special rule."
         }
       ]
     },
@@ -290,11 +291,11 @@
       "equipmentOptions": [
         "nipponWarriorList"
       ],
-      "notes": "Female warriors who guard the castle. 0-2.",
+      "notes": "Weapons/Armour: An Onnabushi may be equipped with weapons and armor chosen from the Nippon equipment list.",
       "specialRules": [
         {
           "name": "Wardens of the Castle",
-          "description": "Causes Fear while inside buildings or ruins. Agree before the battle which terrain counts."
+          "description": "Traditionally responsible for the defense of the homeland while the men are at war, the onnabushi have gained a gruesome reputation for urban warfare, while inside buildings or ruins., then gain the fear ability. It's a good idea to define which bits of your terrain collection count as 'buildings or ruins' at the start of a battle to avoid confusion later."
         }
       ]
     },
@@ -331,7 +332,7 @@
       "equipmentOptions": [
         "warriorMonkList"
       ],
-      "notes": "Fighting monks travelling with the expedition. 0-3.",
+      "notes": "Weapons/Armour: A Warrior Monk may be equipped with weapons and armor chosen from the Monk equipment list.",
       "specialRules": []
     }
   ],
@@ -419,8 +420,8 @@
       "category": "melee",
       "cost": 20,
       "rarity": null,
-      "restriction": "Nippon lists only.",
-      "rulesText": "Close combat. No profile is printed on the source page (cost 20 gc only)."
+      "restriction": "",
+      "rulesText": ""
     },
     {
       "id": "kanabo",
@@ -428,8 +429,8 @@
       "category": "melee",
       "cost": 15,
       "rarity": null,
-      "restriction": "Nippon lists only.",
-      "rulesText": "Close combat, Strength as user +1. Two-handed: may not be used with a shield, buckler or second weapon in close combat (a shield still gives +1 armour save against shooting). Concussion: injury rolls of 2-4 are treated as Stunned."
+      "restriction": "Common",
+      "rulesText": "Strength As user +1. Two-handed: A model armed with a double-handed weapon may not use a shield, buckler or additional weapon in close combat. If the model is equipped with a shield he will still get a +1 bonus to his armour save against shooting. Concussion: Hammers and other bludgeoning weapons are excellent to use for striking your enemy senseless. When using a hammer, club or mace, a roll of 2-4 is treated as stunned when rolling to see the extent of a model's injuries."
     },
     {
       "id": "sashimono",
@@ -437,8 +438,8 @@
       "category": "armour",
       "cost": 15,
       "rarity": null,
-      "restriction": "Nippon lists only.",
-      "rulesText": "The wearer may re-roll any failed Leadership test that is not a Rout test, but must keep the second result."
+      "restriction": "Common",
+      "rulesText": "A model wearing a Sashimono can re-roll all non-rout related leadership checks but must keep the second roll."
     },
     {
       "id": "nagamaki",
@@ -446,8 +447,8 @@
       "category": "melee",
       "cost": 75,
       "rarity": null,
-      "restriction": "Hatamoto and Retainers only (Noble list).",
-      "rulesText": "Close combat. Listed as a Cathayan Longsword; no profile is printed on the source page."
+      "restriction": "",
+      "rulesText": ""
     },
     {
       "id": "horo",
@@ -455,8 +456,8 @@
       "category": "armour",
       "cost": 10,
       "rarity": 6,
-      "restriction": "Hatamoto and Retainers only (Noble list); only works while mounted.",
-      "rulesText": "While mounted on a horse or warhorse, the wearer gets +1 to all armour saves against ranged attacks (a 6+ save if no other armour is worn)."
+      "restriction": "Rare 6",
+      "rulesText": "A model wearing a horo receives a +1 to all armor saves, (6+ if no armor is worn) against ranged weapons, as long as they are mounted on a horse or warhorse"
     },
     {
       "id": "kusarigama",
@@ -464,8 +465,8 @@
       "category": "melee",
       "cost": 20,
       "rarity": 8,
-      "restriction": "Shinobi only.",
-      "rulesText": "Close combat, Strength as user. Two-handed: may not be used with a shield, buckler or second weapon in close combat. Cannot be parried by swords or bucklers. Chain Strike: a model armed with a Kusarigama that is not engaged in combat may knock down enemies that fail a charge against it, or that charge friendly models within 3\"."
+      "restriction": "Rare 8",
+      "rulesText": "Strength As user. Two-handed: A model armed with a double-handed weapon may not use a shield, buckler or additional weapon in close combat. If the model is equipped with a shield he will still get a +1 bonus to his armour save against shooting. Cannot be parried: A model attacked by a Kusarigama may not make parries with a sword or buckler. Chain Strike: Due to the length of the chain attached to the weapon, a model not engaged in combat that has a Kusarigama can force enemies who fail a charge against them or friendlies within 3” to become knocked down"
     },
     {
       "id": "fightingClaws",
@@ -473,8 +474,8 @@
       "category": "melee",
       "cost": 35,
       "rarity": null,
-      "restriction": "Shinobi only.",
-      "rulesText": "Close combat. No profile is printed on the source page (cost 35 gc only)."
+      "restriction": "",
+      "rulesText": "Strength As user. Pair: Fighting Claws are traditionally used in pairs, one in each hand. A warrior armed with Fighting Claws gets an additional attack. Climb: A Skaven equipped with Fighting Claws can add +1 to his Initiative when making Climbing tests. Parry: A Skaven armed with Fighting Claws may parry blows and can re-roll a failed attempt once, in the same way as a model armed with a sword and buckler. Cumbersome: A model armed with Fighting Claws may not use any other weapons in the entire battle."
     },
     {
       "id": "blowPipe",
@@ -482,9 +483,10 @@
       "category": "missile",
       "cost": 25,
       "rarity": null,
-      "restriction": "Shinobi only.",
-      "rulesText": "Missile weapon. No profile is printed on the source page (cost 25 gc only)."
+      "restriction": "",
+      "rulesText": "Range 8\". Strength 1. Poison: The needles fired by a blowpipe are coated in a venom very similar in its effects to the Black Lotus (if you roll a 6 on the To Hit roll, the victim is automatically wounded). A blowpipe cannot cause critical hits. This weapon has a positive armour save modifier, so a model that normally has a save of 5+ will get a save of 4+ against a blowpipe dart. Even models that normally do not have an armour save will get a 6+ save to take into account protection offered by clothes, fur or the like. Stealthy: A model armed with a blowpipe can fire while hidden without revealing his position to the enemy. The target model can take an Initiative test in order to try to spot the firing model. If the test is successful, the model no longer counts as hidden."
     }
   ],
-  "specialRules": "Hired Swords: The warband may hire the same Hired Swords as Human Mercenary warbands. | Strategic Minded: The warband may choose to make a voluntary Rout after suffering one fewer casualty than normal. | Nipponese Names: Tanto is a dagger, Wakizashi a sword, Yari a spear, Naginata a halberd, Hankyu a short bow, Yumi a bow, Teppo a handgun, Shuriken throwing stars and Sai a sword breaker. The first Tanto is free, further ones cost 2 gc. | Henchmen Groups: Henchmen are hired in groups of 1 to 5 and start with 0 Experience."
+  "specialRules": "May hire: A Nippon warband is allowed the same selection of Hired Swords as Human Mercenary warbands | Strategic Minded: A Nipponese warband must rely on its battlefield experience so far from home. They may choose to rout after suffering 1 fewer casualty than normal",
+  "background": "In the shadowed alleys of Mordheim, a Nipponese warband emerges, their presence a testament to the enduring spirit of a distant land amidst the crumbling ruins of a cursed city. Led by a Hatamoto, their leader, adorned in the colors and symbols of their clan, they march with purpose through the chaos, their warriors, from seasoned samurai to humble Ashigaru, united in their quest. Bound by duty and honor, they have ventured far from their homeland, drawn to Mordheim by whispers of ancient relics and forbidden knowledge hidden amidst the city's depths. Yet, beyond mere material gain, they seek to carve out a place of honor amidst the darkness, to prove their worth in the crucible of battle, and to honor the legacy of their ancestors in this treacherous land of opportunity and peril."
 }
