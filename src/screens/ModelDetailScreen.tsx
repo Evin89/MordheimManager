@@ -30,6 +30,7 @@ import { heroSkillLists } from '../lib/ruleEffects';
 import { Advance, EquipmentItem, Hero, HiredSword, MODEL_STATUSES, ModelStatus, StatLine, Warband } from '../types';
 import { goldWarning, usePurchase } from '../hooks/usePurchase';
 import { EquipmentSection, RemoveModelControl } from '../components/EquipmentSection';
+import { rememberRemoved } from '../lib/removedModels';
 
 type EditableModel = Hero | HiredSword;
 
@@ -364,6 +365,14 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
   function handleDelete() {
     if (!draft || !model) return;
+    // §35.3 — keep it on this device so the roster can offer Undo.
+    rememberRemoved({
+      warbandId: draft.id,
+      listKey,
+      index: (draft[listKey] as EditableModel[]).findIndex((m) => m.id === modelId),
+      model,
+      name: model.name,
+    });
     saveNow((current: Warband) => ({
       [listKey]: (current[listKey] as EditableModel[]).filter((m) => m.id !== modelId),
     }));

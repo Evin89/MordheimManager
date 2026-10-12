@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { FROM_ROSTER } from '../lib/battleNavigation';
+import { forgetRemoved, reinsert, removedFor, type RemovedModel } from '../lib/removedModels';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
@@ -246,6 +247,54 @@ function SubfactionPrompt({ warband, onSave }: { warband: Warband; onSave: (id: 
   );
 }
 
+/**
+ * §35.3 — models removed from this warband on this device in the last 24
+ * hours, each with Undo. Undo puts the model back where it was, equipment,
+ * Experience and advances included, and saves at once.
+ */
+function RemovedModelsBanner({
+  warbandId,
+  onRestore,
+}: {
+  warbandId: string;
+  onRestore: (patch: (current: Warband) => Partial<Warband>) => void;
+}) {
+  const [items, setItems] = useState<RemovedModel[]>(() => removedFor(warbandId));
+  if (items.length === 0) return null;
+  const drop = (id: string) => {
+    forgetRemoved(id);
+    setItems(removedFor(warbandId));
+  };
+  return (
+    <div className="space-y-2">
+      {items.map((r) => (
+        <div
+          key={r.model.id}
+          role="status"
+          className="flex flex-wrap items-center gap-3 rounded-lg border border-ink-700 bg-ink-900 p-3"
+        >
+          <p className="flex-1 min-w-0 text-bone-200 text-sm">{strings.modelDetail.removedBanner(r.name)}</p>
+          <Button
+            size="dense"
+            fullWidth={false}
+            onClick={() => {
+              onRestore((current) => ({
+                [r.listKey]: reinsert(current[r.listKey] as { id: string }[], r.model, r.index),
+              }) as Partial<Warband>);
+              drop(r.model.id);
+            }}
+          >
+            {strings.modelDetail.removedUndo}
+          </Button>
+          <Button size="dense" variant="secondary" fullWidth={false} onClick={() => drop(r.model.id)}>
+            {strings.modelDetail.removedDismiss}
+          </Button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function RosterScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
@@ -312,6 +361,8 @@ export default function RosterScreen() {
       <BackHeader title={warband.name} subtitle={getWarbandTypeLabel(warband.warbandType, warband.subfaction)} />
 
       <main className="flex-1 px-4 py-6 space-y-6">
+        <RemovedModelsBanner warbandId={warband.id} onRestore={(patch) => saveNow(patch)} />
+
         <Card as="section" gap="lg">
           <p className="text-ember-400 font-semibold">
             {strings.roster.ratingLabel}: {computeWarbandRating(draft)}
