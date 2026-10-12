@@ -1536,6 +1536,15 @@ The one test that has never been run, and the one that validates the central pri
 
 Also confirm: removing a player drops their warband out of the standings via the 0003 trigger. Repeat the whole matrix after any schema change.
 
+✅ **Automated (2026-10-12, §35.7).** `supabase/db-tests/rls-matrix.sql` runs the matrix above on every `npm run db:test`, against all migrations on an in-process Postgres. It has 26 checks:
+- reads and writes for owner, mate, unrelated and anon;
+- the objective denial for every non-owner, including anon on a public warband;
+- that a mate cannot add an objective to the owner's warband;
+- that a non-admin is refused by the `/admin` RPCs;
+- the 0003 unlink when a player is removed, after which the removed player loses access.
+
+A deliberately leaking objectives policy makes it fail. This complements, and does not replace, the owner's live two-account test of 2026-09-25: it proves the policies, not the deployed project.
+
 ### 14.5 General regression checks
 
 - Every numeric field accepts typed input (§5.4).
@@ -3044,3 +3053,7 @@ Verified in demo mode: step 4 survives a reload; *Resume* reopens step 4; commit
 - Per device by design: the removal is one device's action and so is its undo. A cross-device version would need a server-side trash and is not specced.
 
 Verified in demo mode: remove a hero, the banner appears, Undo restores it in place and the banner goes.
+
+### 35.7 The RLS matrix as an automated test ✅
+
+§14.4's matrix is now a SQL test in the database harness (`npm run db:test`, PR #24): `supabase/db-tests/rls-matrix.sql`. Run it after any schema change. It needs no Supabase project and no second account. See §14.4 for what it covers.
