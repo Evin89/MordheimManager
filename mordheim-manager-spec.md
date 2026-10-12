@@ -3064,7 +3064,7 @@ _⚠️ until migration 0056 is applied._ The warband delete copy promised that 
 - The delete copy now names the window: "kept, hidden, for 30 days, so within that time this can be reversed on request."
 - No admin audit row is written; there is no admin audit table yet (the only audit tables are per-warband, §10.4).
 
-Verified in demo mode: Restore → confirm → the row leaves the list and a status line confirms it.
+Verified in demo mode (Restore → confirm → the row leaves the list, a status line confirms) and with `npm run db:test -- restore` (non-admins refused, a live warband is an error, owner unchanged).
 
 ### 35.7 The RLS matrix as an automated test ✅
 
