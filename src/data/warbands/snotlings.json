@@ -1,8 +1,8 @@
 {
   "id": "snotlings",
   "name": "Snotlings",
-  "source": "WEB, Grade 2a warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/snotlings) on 2026-10-10.",
-  "grade": "2a",
+  "source": "WEB, Grade 2b warband, converted from mordheimer.net (/docs/warbands/grade-2a-warbands/snotlings) on 2026-10-10.",
+  "grade": "2b",
   "startingGold": 500,
   "minWarbandSize": 3,
   "maxWarbandSize": 30,

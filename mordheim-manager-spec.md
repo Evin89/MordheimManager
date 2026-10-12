@@ -2825,7 +2825,7 @@ Decided 2026-10-10 by the owner: add all 18 grade 2a warbands the mordheimer.net
   - ❓ Grave Robbers: the Graver is taken as the Leader; the page doesn't say so. *Checked 2026-10-12: the page only says "must have one Graver: no more, no less!" and gives him no Leader rule, so after §32.1 his entry shows none. Default: keep `isLeader`.*
   - ❓ Necrarchs: the Necrarch uses the printed *Dreaded Scrolls of Nagash*, not Necromancy as the Wizard rule says. *Checked 2026-10-12: the contradiction is in the source itself (Wizard rule: "randomly generated from the Necromancy spell list"; the page then prints the Dreaded Scrolls). Default: the printed list.*
   - ✅ Halflings: the Village Ogre keeps the Long Bow despite "Too Big". *Checked 2026-10-12: Too Big reads "Halflings may never use Long bows…"; the Ogre is no Halfling and his own list prints the Long Bow. No conflict.*
-  - ❓ Snotlings: the page header says grade 2b. *Checked 2026-10-12: the page says "Grade: 2b" while the site files it under Grade 2A Warbands. The data says `2a`. Default: follow the page's own header (2b).*
+  - ✅ Snotlings: the page header says grade 2b. *Decided 2026-10-12 by the owner: grade 2b, as the page itself states (the site files it under Grade 2A). The other 17 stay 2a.*
   - ✅ Mazzalupo: the Wandering Knight's Commands are a `magic` list, so the app labels them "Spells". *Checked 2026-10-12: the page has Commands learned "the same way new spells are learned". The label is presentation only.*
 
 #### 32.1 The 1:1 pass — how and what it left ✅
