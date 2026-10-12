@@ -14,7 +14,8 @@
     "seed:scale": "node scripts/seed-scale-test.mjs",
     "seed:teardown": "node scripts/seed-teardown.mjs",
     "import:scenarios": "node scripts/import-scenario-catalog.mjs",
-    "import:hired-swords": "node scripts/import-hired-swords.mjs"
+    "import:hired-swords": "node scripts/import-hired-swords.mjs",
+    "db:test": "node scripts/db-test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.8",
@@ -27,6 +28,7 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.3.15",
     "@types/node": "^26.1.2",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
