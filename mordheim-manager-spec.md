@@ -467,7 +467,7 @@ New reusable component `<ConfirmAction>` alongside `<ConfirmByTyping>`. Skills b
 4. **Advances** — everyone who crossed a threshold, resolved as in §4.2.
 5. **Dead models cleanup** — equipment to treasury or lost, models removed, emptied groups deletable.
 6. **Income** — wyrdstone found, then the selling price for the current warband size. Plus **Exploration**: the D66 chart, with gold and shards banked automatically (§16 for what isn't).
-7. **Upkeep & recruiting** — pay hired swords, warn on insufficient gold, jump to Trading.
+7. **Upkeep & recruiting** — pay hired swords, warn on insufficient gold; Trading follows the commit (§4.3.3).
 8. **Confirm** — full diff summary. The commit writes the BattleRecord and updated warband, and stages the pre-battle warband in `previous_data` for a **single-level undo**.
 
 _Superseded by §4.3.2 below: in-progress state is no longer simply lost on close. It persists to a per-warband battle draft and is offered for restore on return — the honesty moved from a warning about loss to a restore prompt._
@@ -597,6 +597,16 @@ Every pre-fill is a default the player confirms at its step (§1) — the during
 3. **Cross-device resume** (§4.3.2) — ✅ `localStorage` only.
 
 Still open, pending rulebook verification (not set from memory, per §3.3): the exact per-enemy XP wording (§4.3.1 A), and which scenarios carry wyrdstone counters (§4.3.1 B / §3.3 `usesWyrdstoneCounters`).
+
+#### 4.3.3 Battle-flow navigation ✅ (built 2026-10-12)
+
+Three navigation defects found while mapping the app's flows. None changes what is stored; all three change where Back and the end of the wizard take the player.
+
+1. **The battle flow is one history entry.** Pre-battle → during-battle → post-battle hops are `replace`, never pushes (`src/lib/battleNavigation.ts`). Before, committing replaced only the wizard with the roster, so Back from the roster reopened During Battle on an empty session; the first tap there wrote a new draft, and the next battle opened on a §4.3.2 restore banner for a game already committed. During Battle's own ← now steps back to pre-battle inside the same entry. Leaving the flow (commit, or ← on wizard step 1) returns to the roster: `navigate(-1)` when the flow was entered from the roster (`state.fromRoster`, set by the roster's *Start Battle* and *Start Post-Battle Sequence* links), otherwise a `replace` onto the roster, so a second copy of the roster is never stacked.
+2. **Back without history stays in the app.** `BackHeader` used `navigate(-1)` unconditionally; on a cold open (shared `/rosters/:id` link, bookmark, OS-restored tab) that left the app. When `location.key === 'default'` it now replaces to the screen's parent (`src/lib/backNavigation.ts`: last segment dropped, with explicit parents where that path has no route — model detail → roster, `/rosters/:id` → `/gallery`, `/rules/warbands/:slug` → `/rules`, `/campaign/warbands/:id` → `/campaign`, `/solo/:id` → `/solo`, `/compare` → `/warbands`).
+3. **Trading follows the wizard.** _Amends §4.3 step 7 ("jump to Trading")._ A link out of step 7 would discard the unsaved wizard (step progress is not persisted, §4.3.2), so the jump moved to the commit: step 8 offers **Commit Battle** and **Commit & visit Trading Post**; the latter commits, clears the draft and replaces the flow with `/warbands/:id/trading`. A friendly (§34) shows only *Save friendly game*: it changes nothing on the roster, so there is nothing new to spend. Step 7 carries a one-line pointer to it. The unused `upkeep.goToTrading` string is replaced by `postBattle.commitAndTrade` and `upkeep.tradingHint`.
+
+Verified in demo mode: roster → battle → commit → Back lands on `/warbands` with an empty `mordheim.battleDraft`; Battle tab → commit & trade → Back lands on the picker; a cold-opened hero's ← lands on its roster; during-battle ← returns to pre-battle.
 
 ### 4.4 Trading post ✅
 

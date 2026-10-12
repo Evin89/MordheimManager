@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { FROM_ROSTER } from '../lib/battleNavigation';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
@@ -339,7 +340,7 @@ export default function RosterScreen() {
 
         <WarbandPhotoEditor warbandId={warband.id} warbandName={warband.name} />
 
-        <Link to={`/warbands/${warband.id}/pre-battle`} className={buttonClasses('primary')}>
+        <Link to={`/warbands/${warband.id}/pre-battle`} state={FROM_ROSTER} className={buttonClasses('primary')}>
           {strings.battle.startBattleButton}
         </Link>
 
@@ -353,6 +354,7 @@ export default function RosterScreen() {
 
         <Link
           to={`/warbands/${warband.id}/post-battle`}
+          state={FROM_ROSTER}
           className="block text-center w-full min-h-[40px] leading-[40px] text-bone-300 text-sm"
         >
           {strings.postBattle.startButton}

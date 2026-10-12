@@ -1063,6 +1063,7 @@ export const strings = {
     friendlyNoChanges: 'Friendly game — nothing on your roster changes.',
     friendliesOff: (name: string) =>
       `Friendly games are off in ${name}, so this battle counts. Check the steps before committing.`,
+    commitAndTrade: 'Commit & visit Trading Post',
     undoLastBattle: 'Undo Last Battle',
     undoConfirm: 'Revert the warband and campaign log to how they were before the last post-battle sequence was committed?',
     battleInfo: {
@@ -1221,7 +1222,7 @@ export const strings = {
       payToggle: (fee: number) => `Pay upkeep (${fee} gc)`,
       insufficientGoldWarning: (needed: number, have: number) =>
         `Total upkeep due is ${needed} gc but the warband only has ${have} gc. You can still proceed — anyone left unpaid will leave the warband.`,
-      goToTrading: 'Visit Trading Post',
+      tradingHint: 'Recruiting and buying come after the battle is committed — use “Commit & visit Trading Post” on the last step.',
     },
     confirm: {
       title: 'Confirm & Commit',

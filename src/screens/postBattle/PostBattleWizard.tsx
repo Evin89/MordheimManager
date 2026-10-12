@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { battleState } from '../../lib/battleNavigation';
 import { capture } from '../../lib/posthog';
 import BackHeader from '../../components/BackHeader';
 import { Button } from '../../components/ui';
@@ -33,6 +34,7 @@ const STEP_COMPONENTS = [
 export default function PostBattleWizard() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const navigate = useNavigate();
+  const navState = battleState(useLocation().state);
   const warbands = useWarbandList();
   const warband = warbands.find((w) => w.id === warbandId);
   const commitBattleWarband = useCommitBattleWarbandMutation();
@@ -120,9 +122,21 @@ export default function PostBattleWizard() {
     });
   }
 
+  /**
+   * §4.3.3 — leave the battle flow, which is one history entry. Came from the
+   * roster: step back onto that entry rather than stacking a second roster on
+   * top of it. Came from anywhere else (Battle tab picker, Campaign, a cold
+   * link): replace the flow's entry with the destination.
+   */
+  function leaveFlow(to: 'roster' | 'trading') {
+    const id = warband!.id;
+    if (to === 'roster' && navState?.fromRoster) return navigate(-1);
+    navigate(to === 'roster' ? `/warbands/${id}` : `/warbands/${id}/trading`, { replace: true });
+  }
+
   function goBack() {
     if (position === 0) {
-      navigate(`/warbands/${warband!.id}`);
+      leaveFlow('roster');
     } else {
       setStepIndex(position - 1);
     }
@@ -132,7 +146,7 @@ export default function PostBattleWizard() {
     setStepIndex(Math.min(position + 1, steps.length - 1));
   }
 
-  async function handleCommit() {
+  async function handleCommit(then: 'roster' | 'trading' = 'roster') {
     if (!warband || !draft || committing || campaignLoading) return;
     setCommitting(true);
     try {
@@ -165,7 +179,7 @@ export default function PostBattleWizard() {
         });
       }
       clearBattleSession(warband.id);
-      navigate(`/warbands/${warband.id}`, { replace: true });
+      leaveFlow(then);
     } finally {
       setCommitting(false);
     }
@@ -202,9 +216,27 @@ export default function PostBattleWizard() {
 
         <div className="pt-6">
           {isLastStep ? (
-            <Button onClick={handleCommit} disabled={committing || campaignLoading}>
-              {friendly ? strings.postBattle.saveFriendly : strings.postBattle.commitBattle}
-            </Button>
+            friendly ? (
+              <Button onClick={() => handleCommit('roster')} disabled={committing || campaignLoading}>
+                {strings.postBattle.saveFriendly}
+              </Button>
+            ) : (
+              <div className="space-y-3">
+                <Button onClick={() => handleCommit('roster')} disabled={committing || campaignLoading}>
+                  {strings.postBattle.commitBattle}
+                </Button>
+                {/* The rulebook's post-battle sequence carries on into recruiting
+                    and rare items; this saves the tap back through the roster.
+                    Not offered for a friendly, which changes nothing to spend. */}
+                <Button
+                  variant="secondary"
+                  onClick={() => handleCommit('trading')}
+                  disabled={committing || campaignLoading}
+                >
+                  {strings.postBattle.commitAndTrade}
+                </Button>
+              </div>
+            )
           ) : (
             <Button onClick={goNext}>{strings.postBattle.next}</Button>
           )}
