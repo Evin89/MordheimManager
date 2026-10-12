@@ -46,13 +46,15 @@
       "equipmentOptions": [
         "horrorHeroList"
       ],
-      "notes": "A deranged genius who stitches the dead back together. Each warband must have exactly one Mad Scientist.",
+      "notes": "Weapons/Armour: A Mad Scientist may be equipped from the Horror Hero Equipment list.",
       "specialRules": [
         {
-          "ref": "leader"
+          "name": "Leader",
+          "description": "Any models in the warband within 6\" of the Mad Scientist may use his Leadership value."
         },
         {
-          "ref": "immuneToPsychology"
+          "name": "Immune to Psychology",
+          "description": "Mad Scientists are not affected by psychology (such as fear) due to the shattered state of their minds."
         }
       ]
     },
@@ -95,22 +97,23 @@
       "equipmentOptions": [
         "horrorHeroList"
       ],
-      "notes": "The Scientist's masterpiece, a tireless revived servant. 0-1.",
+      "notes": "Weapons/Armour: Thralls may be equipped from the Horror Hero Equipment List.",
       "specialRules": [
         {
-          "ref": "fear"
+          "name": "Cause Fear",
+          "description": "Vampires are terrifying Undead creatures and therefore cause Fear."
         },
         {
-          "ref": "immuneToPsychology",
-          "note": "Never leaves combat."
+          "name": "Immune to Psychology",
+          "description": "Vampires are not affected by psychology (such as fear) and never leave combat."
         },
         {
           "name": "Immune to Poison",
-          "description": "Not affected by any poison."
+          "description": "Vampires are not affected by any poison."
         },
         {
           "name": "No Pain",
-          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
+          "description": "Vampires treat a Stunned result on the Injury chart as Knocked Down."
         }
       ]
     },
@@ -151,13 +154,8 @@
         "Ld": 8
       },
       "equipmentOptions": [],
-      "notes": "A man cursed to be a beast, kept chained by the Scientist. 0-1. Cannot use any equipment.",
-      "specialRules": [
-        {
-          "name": "Beast",
-          "description": "Cannot carry or use any equipment. Fights with teeth and claws without the usual penalty for fighting unarmed."
-        }
-      ]
+      "notes": "Weapons/Armour: A werewolf cannot bear equipment. They attack with tooth and claw,and suffer no penalties for doing so.",
+      "specialRules": []
     },
     {
       "id": "hunchback",
@@ -199,7 +197,7 @@
       "equipmentOptions": [
         "horrorHeroList"
       ],
-      "notes": "Twisted lab assistants. 0-2.",
+      "notes": "Weapons/Armour: Hunchbacks may be equipped from the Horror Hero Equipment List.",
       "specialRules": []
     }
   ],
@@ -234,29 +232,31 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Reanimated corpses. Any number. May not use equipment. Cannot be promoted by That Lad's Got Talent.",
+      "notes": "Weapons/Armour: Zombies never carry any equipment, and do not suffer any penalties for this.",
       "specialRules": [
         {
-          "ref": "fear"
+          "name": "Cause Fear",
+          "description": "Zombies are terrifying Undead creatures and therefore cause Fear."
         },
         {
-          "ref": "immuneToPsychology"
+          "name": "May not Run",
+          "description": "Zombies are slow Undead creatures and may not run (but may charge normally)."
+        },
+        {
+          "name": "Immune to Psychology",
+          "description": "Zombies are not affected by psychology."
         },
         {
           "name": "Immune to Poison",
-          "description": "Not affected by any poison."
+          "description": "Zombies are immune to poisons."
         },
         {
           "name": "No Pain",
-          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
-        },
-        {
-          "name": "Slow",
-          "description": "May not run, but may charge."
+          "description": "Zombies treat Stunned results on the Injury table as Knocked Down."
         },
         {
           "name": "No Brain",
-          "description": "Zombies never gain experience (unless the Mad Scientist has Apt Revitalist).",
+          "description": "Zombies do not gain experience.",
           "effects": { "noExperience": true }
         }
       ]
@@ -291,33 +291,35 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "A huge creature stitched together from many bodies. 0-1. May not use weapons or armour. Cannot be promoted by That Lad's Got Talent.",
+      "notes": "Weapons/Armour: Flesh Constructs do not use weapons, and suffer no penalties.",
       "specialRules": [
         {
-          "ref": "fear"
+          "name": "Cause Fear",
+          "description": "Flesh Constructs are terrifying Undead creatures and therefore cause Fear."
         },
         {
-          "ref": "immuneToPsychology"
+          "name": "Immune to Psychology",
+          "description": "Flesh Constructs are not affected by psychology."
         },
         {
           "name": "Immune to Poison",
-          "description": "Not affected by any poison."
+          "description": "Flesh Constructs are immune to poisons."
         },
         {
           "name": "No Pain",
-          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
-        },
-        {
-          "name": "Slow",
-          "description": "May not run, but may charge."
+          "description": "Flesh Constructs treat Stunned results as Knocked Down."
         },
         {
           "name": "A Bit Unhinged",
-          "description": "Must pass a Leadership test after a game to gain experience."
+          "description": "Flesh Constructs do not gain experience normally. They must make a successful Leadership test in order to gain the experience for surviving the game; dead brains can only be expected to learn so much, after all."
         },
         {
-          "name": "It's Only a Flesh Wound",
-          "description": "On a Henchman Injury roll of 1-2 it can be repaired for D6x5 gc. If not paid it misses the next battle and stays on the roster until repaired or abandoned."
+          "name": "Its only a flesh wound",
+          "description": "When a Flesh Construct is taken OOA, roll on the Henchmen Injury table as normal. On a roll of 1-2, the player is able to repair the damage to the golem for D6x5gc (to represent the time and effort it takes to obtain new parts). If the warband is unable to pay for the extra part immediately, the Construct is not able to participate in the next battle. It will remain on the roster until abandoned or repaired."
+        },
+        {
+          "name": "Cannot Run",
+          "description": "After being pieced together from various stiffs, ones legs are often, well, stiff. Constructs may still charge normally."
         }
       ]
     },
@@ -354,11 +356,11 @@
       "equipmentOptions": [
         "bittenList"
       ],
-      "notes": "Humans infected by the Wolfman's bite. 0-3.",
+      "notes": "Weapons/Armour: The Bitten may be armed from the Bitten Equipment List.",
       "specialRules": [
         {
-          "name": "Curse of the Wolf",
-          "description": "Roll a D6 for each Bitten every turn. 1: subject to Stupidity this turn, and a transformed Bitten reverts to human form; 2-5: acts normally; 6: transforms, gaining Frenzy and Sprint until a 1 is rolled. Transformed Bitten do not roll while in combat. Once transformed, a Bitten drops all equipment except a dagger and fights unarmed without penalty."
+          "name": "Transform",
+          "description": "Roll a D6 each turn and consult the following. Once transformed, the Bitten cast off all equipment (save for a dagger) and suffer no penalties for fighting unarmed. 1: Madness: your Bitten suffers from Stupidity this turn. If Transformed, they revert to human form. 2 to 5: Act as normal 6: Transformed: your Bitten gains Frenzy and Sprint. This lasts until a 1 is rolled. Transformed do not roll when in combat."
         }
       ]
     }
@@ -397,8 +399,8 @@
       "category": "melee",
       "cost": 15,
       "rarity": null,
-      "restriction": "Masters of Horror Heroes only. Costs 15 + D6 gc.",
-      "rulesText": "Close combat, Strength as user. Causes Fear. Shredder: all hits have a -2 armour save modifier."
+      "restriction": "Masters of Horror only",
+      "rulesText": "Strength As user. Fear: Incredibly loud and belching forth a sickly green smoke, this weapon causes even seasoned soldiers to quiver. A model bearing a Chainsaw Sword causes Fear. Shredder: The Chainsaw sword rips and chews through armour as if it were cloth. All blows from a Chainsaw Sword are at -2 Armour Save."
     },
     {
       "id": "electricTrident",
@@ -406,8 +408,8 @@
       "category": "melee",
       "cost": 15,
       "rarity": null,
-      "restriction": "Masters of Horror Heroes only. Costs 15 + D6 gc.",
-      "rulesText": "Close combat, Strength as user. Zzap!: a model wounded by it is Stunned on an Injury roll of 2-4. Shocking: a natural 6 to hit followed by a natural 6 to wound releases a 2\" field that hits every other model (not the bearer) at S3. Nail in Boot: a to-hit roll of 1 hits the bearer at S3."
+      "restriction": "Masters of Horror only",
+      "rulesText": "Strength As user. Zzap!: So stunning is the Electric Trident that a model wounded by it is considered Stunned on a roll of 2-4. Shocking: On a natural 6 To-Hit followed by a natural 6 To-Wound, the Electric Trident discharges a field 2\" around the target. All models (save for the bearer of the weapon) are struck with a S3 hit. Nail in Boot: If a D6 roll of 1 occurs on the To-Hit roll with the Trident, the bearer is struck with a S3 hit."
     },
     {
       "id": "repeaterPistol",
@@ -415,9 +417,10 @@
       "category": "missile",
       "cost": 25,
       "rarity": null,
-      "restriction": "Masters of Horror Heroes only. Costs 25 + 3D6 gc.",
-      "rulesText": "Range 8\", Strength 4, -2 armour save modifier. Too Much Tinkering: roll a D6 each time the trigger is pulled; 4+ it fires, 2-3 nothing happens, 1 roll on the Misfire chart. Repeater: after a shot it may try another, rolling on the same table at -1 per extra shot; at most 3 shots per Shooting phase."
+      "restriction": "Masters of Horror only",
+      "rulesText": "Range 8\". Strength 4. Save Modifier: Pistols are even better at penetrating armour than their Strength of 4 suggests. A model taking a wound from a Repeater Pistol must take its armour save at -2. Too Much Tinkering: The Repeater Pistol is a heavily modified weapon. To represent its unstable mechanics, each time the trigger is pulled, you must roll a D6. On a roll of 4+, the pistol works fine. On a roll of 2-3, the pistol does nothing. One a roll of 1, roll on the \"Misfire\" Chart. Repeater: The Repeater Pistol has the possibility of firing more than once during the Shooting phase. For each additional shot, you must roll a D6 at -1 on the above table. For example, for one shot, you must roll a 4+, with a roll of a 1 forcing a roll on the Misfire Table. For a second shot, you need a 5+, with a roll of 1-2 forcing a roll on the misfire table. Of course, it is impossible to attempt more than 3 shots per round."
     }
   ],
-  "specialRules": "Hired Swords: The warband may hire the same Hired Swords as an Undead warband. | No Promotion: Zombies and Flesh Constructs can never become Heroes through That Lad's Got Talent. | Special Skills: All Heroes may take Lunatic from the Masters of Horror skill list. The Mad Scientist may choose from the special list instead of a standard skill list."
+  "specialRules": "Hired Swords: Masters of Horror warbands may hire the same Hired Swords as an Undead warband. | No Promotion: Neither Zombies nor Flesh Constructs may become Heroes through Lads Got Talent. | Wolfman max stats: M 6 WS 4 BS 3 S 5 T 4 W 3 I 7 A 4 Ld 8",
+  "background": "Lightning flashes across the dark sky as cackling arises from a ruined tower. \"It's Alive!\" echoes across the dead woods that surround the crumbling edifice before the thunder pounces and swallows it whole. The heavy door is drawn aside by a dwarf-like man, as he quickly makes way for his Master and his latest creation. Stumbling on ever-still legs, the monstrous being sets foot upon the soft mossy earth, leaving large impressions in its wake. | Insane giggling follows it, as the once-acclaimed Scientist follows his golem, armed with his deranged intellect and arsenal of mutated fiends. He seeks to bring pain and suffering to those who cast him out of Altdorf, but to do so he'll need wyrdstone to power his inventions. Off to Mordheim they move..."
 }

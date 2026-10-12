@@ -48,19 +48,8 @@
       "equipmentOptions": [
         "graveRobberHeroList"
       ],
-      "notes": "The head of the gang of body-snatchers. Each warband must have one Graver.",
-      "specialRules": [
-        {
-          "ref": "leader",
-          "note": "The page does not state the Leader rule explicitly; the Graver is the warband's only compulsory Hero."
-        },
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "Undead"
-          }
-        }
-      ]
+      "notes": "Weapons/Armour: The Graver may be equipped from the Grave Robber Hero equipment list.",
+      "specialRules": []
     },
     {
       "id": "graveRobber",
@@ -103,15 +92,8 @@
       "equipmentOptions": [
         "graveRobberHeroList"
       ],
-      "notes": "Seasoned diggers who loot the tombs of Sylvania. 0-2.",
-      "specialRules": [
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "Undead"
-          }
-        }
-      ]
+      "notes": "Weapons/Armour: The Grave Robber may be equipped from the Grave Robber Hero equipment list.",
+      "specialRules": []
     },
     {
       "id": "juniorMedic",
@@ -152,17 +134,11 @@
       "equipmentOptions": [
         "graveRobberHeroList"
       ],
-      "notes": "A student surgeon who buys bodies from the gang and patches up its members. 0-1. Only he can use the Surgeon's Journal.",
+      "notes": "Weapons/Armour: The Junior Medic may be equipped from the Grave Robber Hero equipment list.",
       "specialRules": [
         {
           "name": "Sawbones",
-          "description": "After a battle, may re-roll one friendly Hero's Serious Injury result; the second result stands. Cannot be used if the Junior Medic was taken out of action during the battle."
-        },
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "Undead"
-          }
+          "description": "You can re-roll the Serious Injury result for one friendly Hero. The second result stands. You may not use this ability if the Junior Medic was taken Out of Action during the battle."
         }
       ]
     },
@@ -205,15 +181,8 @@
       "equipmentOptions": [
         "graveRobberHeroList"
       ],
-      "notes": "Youngsters who keep watch while the others dig. 0-2.",
-      "specialRules": [
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "Undead"
-          }
-        }
-      ]
+      "notes": "Weapons/Armour: Lookouts may be equipped from the Grave Robber Hero equipment list.",
+      "specialRules": []
     }
   ],
   "henchmenTypes": [
@@ -250,15 +219,8 @@
       "equipmentOptions": [
         "graveRobberHenchmenList"
       ],
-      "notes": "Hired muscle for the dig. Bought in groups of 1-5; any number, within the 15-model warband limit.",
-      "specialRules": [
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "Undead"
-          }
-        }
-      ]
+      "notes": "Weapons/Armour: Thugs may be equipped from the Grave Robber Henchmen equipment list.",
+      "specialRules": []
     }
   ],
   "equipmentLists": {
@@ -302,8 +264,8 @@
       "category": "melee",
       "cost": 10,
       "rarity": null,
-      "restriction": "Grave Robbers warband only; Heroes only.",
-      "rulesText": "Close combat, Strength as user. Counts as a club. Parry: the wielder may parry blows as with a sword."
+      "restriction": "Grave Robbers only",
+      "rulesText": "Strength As User. Parry: Whilst acting as a club in every sense, the pry bar allows the Graver to parry attacks."
     },
     {
       "id": "hoodedLanternAndRig",
@@ -311,8 +273,8 @@
       "category": "misc",
       "cost": 15,
       "rarity": 9,
-      "restriction": "Heroes only. 15 gc at founding (Hero list); later 15 + D6 gc, Rare 9.",
-      "rulesText": "Concealed Light: works as a normal Lantern, but enemy models cannot see the bearer because of it. Free-hand: the rig leaves the bearer's hands free."
+      "restriction": "Rare 9",
+      "rulesText": "Concealed Light: Provides light like a regular Lantern, but removes the visibility for enemy models. Free-hand: The Rig that the Hooded Lantern attaches to allows the Graver free hands with which to ply his trade."
     },
     {
       "id": "surgeonsJournal",
@@ -320,8 +282,8 @@
       "category": "misc",
       "cost": 80,
       "rarity": 11,
-      "restriction": "Heroes only; its effect is used by the Junior Medic. 80 gc at founding (Hero list); later 80 + 4D6 gc, Rare 11.",
-      "rulesText": "Skilled Hand: instead of using Sawbones, the Medic may modify one friendly model's Serious Injury die by +1 or -1."
+      "restriction": "Rare 11",
+      "rulesText": "Skilled Hand: A Medic equipped with the Journal may modify a single dice rolled for Serious Injury for one friendly model by +/- 1 instead of using his Sawbones skill."
     },
     {
       "id": "fingerPendant",
@@ -329,9 +291,10 @@
       "category": "misc",
       "cost": 15,
       "rarity": null,
-      "restriction": "Grave Robbers warband only; Heroes only.",
-      "rulesText": "Death-Ward: a one-use 5+ save against a Necromantic or Dark Arts spell."
+      "restriction": "Grave Robbers only",
+      "rulesText": "Death-Ward: Gives a one-time 5+ save vs. Necromantic or Dark Arts magic."
     }
   ],
-  "specialRules": "Grave Goods: In the Exploration phase, gain +1 gc for each enemy model taken out of action during the battle. | Shady Reputation: May not hire Bounty Hunters, Roadwardens, Law-Enforcers, Holy Men or any Follower of Morr. | Undead Foes: All members of the warband Hate Undead models. | Shovels: The Shovel on the equipment lists is a Halberd (10 gc)."
+  "specialRules": "Grave Goods: Grave Robbers gain +1 Gold Crown for each enemy model taken Out of Action in the Exploration Phase (once per battle). | Shady Reputation: Grave Robber warbands may not hire the following Hired Swords: Bounty Hunter, Roadwarden, Law-Enforcer, Holy Man, or any Follower of Morr. | Undead Foes: Grave Robbers hate Undead models.",
+  "background": "Some men are callous enough to steal the treasures buried with the dead. Such a sacrilegious thing is punished heavily, thus grave robbers are constantly on the run from the law. Such evil men are sought wherever they may try to hide, but few lawmen dare chase these villains into Sylvania. | Once in the dark and cursed lands, few criminals return. Some because they perish within its terrible claws, but others because they find their trade much more pliable. With graves literally emptying themselves, who is to stop one from liberating the riches within? | Not only riches, but the corpses that do remain dead are sought at a good price. While practitioners of dark arts have need for human remains, they are also valuable for students of medicine. Experienced groups of grave robbers are often so accustomed to death and hardened that they venture to Sylvania to loot the crypts of those who live after death. | Should the living dead not need it, then those unscrupulous men will definitely put it to better use."
 }

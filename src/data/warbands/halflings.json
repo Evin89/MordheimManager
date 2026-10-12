@@ -48,10 +48,11 @@
       "equipmentOptions": [
         "halflingAdventurerList"
       ],
-      "notes": "The wise old head of the Halfling band. Each warband must have exactly one Halfling Elder. May buy Hunting Arrows from the Adventurer list.",
+      "notes": "Weapons/Armour: An Elder may be equipped with weapons and armour chosen from the Adventurer Equipment List.",
       "specialRules": [
         {
-          "ref": "leader"
+          "name": "Leader",
+          "description": "Any warrior within 6\" of the Elder may use his Leadership when taking a Leadership test."
         }
       ]
     },
@@ -94,11 +95,11 @@
       "equipmentOptions": [
         "halflingAdventurerList"
       ],
-      "notes": "A kitchen veteran handy with knife and cleaver. 0-1. Only the Cook may buy the Pairing Knife (dagger), Tenderiser (hammer), Meat Cleaver (axe), Machete (sword) and Cooking Pot (helmet).",
+      "notes": "Weapons/Armour: A Halfling Cook may be equipped with weapons and armour chosen from the Adventurer Equipment List.",
       "specialRules": [
         {
           "name": "Master Chef",
-          "description": "After selling treasure or Wyrdstone, roll a D6. On a 5+ the warband counts as one size category smaller for that sale."
+          "description": "Halfling Cooks have a vast range of knowledge when and it comes to culinary matters, and their food is often more filling and favorable then that of hapless no-talent human chef! To represent his masterful cooking talent role one D6. On a 5+ the cook has managed to make a little food go a long way and when selling Treasure or Wyrdstone the warband is considered to be one size lower. Any role below a 5+ does not represent the chef's inability to conjure up some delicious food, it just means he ate all the excess food before his other companions got there!"
         }
       ]
     },
@@ -142,19 +143,19 @@
       "equipmentOptions": [
         "halflingThiefList"
       ],
-      "notes": "A light-fingered sneak who goes where others cannot. 0-1.",
+      "notes": "Weapons/Armour: A Halfling Thief may be equipped with weapons and armour chosen from the Halfling Thief Equipment List.",
       "specialRules": [
         {
           "name": "Infiltrator",
-          "description": "Deploys after all enemy warbands, anywhere out of enemy sight and at least 12\" from any enemy model. If several warbands have Infiltrators, roll off to see who places first."
+          "description": "He may always be placed on the battlefield after enemy warband(s), and can be placed anywheres on the table as long as it is out of sight of the opposing warband and at least 12\" away from any enemy model. If more than one model has infiltrate, roll-off to see who places first."
         },
         {
           "name": "Pick Locks",
-          "description": "Opens locked doors with just a successful Initiative test."
+          "description": "When testing to open a locked door, a Halfling Thief needs only make a successful Initiative test."
         },
         {
           "name": "Cutpurse",
-          "description": "If the Thief fought in the battle and was not taken out of action, the warband gains +1 Treasure."
+          "description": "A Halfling Thief makes a living of \"finding\" things others have \"lost\". If the Halfling Thief took part in a battle, and was not taken OOA, then the warband gains +1 Treasure on top of what they would normally find."
         }
       ]
     },
@@ -197,7 +198,7 @@
       "equipmentOptions": [
         "halflingAdventurerList"
       ],
-      "notes": "Young Halflings eager for adventure. 0-2.",
+      "notes": "Weapons/Armour: Halfling Youths may be equipped with weapons and armour chosen from the Adventurer Equipment List.",
       "specialRules": []
     }
   ],
@@ -235,7 +236,7 @@
       "equipmentOptions": [
         "halflingAdventurerList"
       ],
-      "notes": "Sharp-eyed Halfling archers. 0-7. Scouts may buy Hunting Arrows.",
+      "notes": "Weapons/Armour: Halfling Scouts may be equipped with weapons and armour chosen from the Adventurer Equipment List.",
       "specialRules": []
     },
     {
@@ -271,7 +272,7 @@
       "equipmentOptions": [
         "halflingAdventurerList"
       ],
-      "notes": "The sturdiest fighters of the Moot. 0-5. Warriors may not buy Bows (Short Bows are allowed).",
+      "notes": "Stocky brutes (by halfling standards, anyways) halfling warriors live for the excitement garnered by adventure. | Weapons/Armour: Halfling Warriors may be equipped with weapons and armour chosen from the Adventurer Equipment List.",
       "specialRules": []
     },
     {
@@ -304,11 +305,8 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Belligerent pigs from the Moot farms. 0-4. May not use weapons or armour.",
+      "notes": "Weapons/Armour: None! Apart from their vicious tempers Piggies don't use weapons and can fight without penalties.",
       "specialRules": [
-        {
-          "ref": "animal"
-        },
         {
           "name": "Animals",
           "description": "Piggies are animals and never gain experience.",
@@ -349,25 +347,27 @@
       "equipmentOptions": [
         "villageOgreList"
       ],
-      "notes": "A big but friendly Ogre adopted by the village. 0-1.",
+      "notes": "Weapons/Armour: An Ogre may be equipped from the Village Ogre Equipment List.",
       "specialRules": [
         {
-          "ref": "fear"
+          "name": "Fear",
+          "description": "Ogre-kin are large and brutish creatures that cause Fear."
         },
         {
-          "ref": "largeTarget"
+          "name": "Large",
+          "description": "Ogre-kin are huge, lumbering creatures and therefor make tempting targets for archers. Any target may shoot at an Ogre, even if he is not the closest model."
         },
         {
           "name": "Skills",
-          "description": "If promoted to a Hero, he may only choose Combat and Strength skills."
+          "description": "An Ogre-kin who becomes a Hero may only choose from Combat and Strength skill-lists."
         },
         {
           "name": "Slow Witted",
-          "description": "Gains experience at half the normal rate."
+          "description": "Ogre-kin are not the brightest creatures about. They earn experience at half-rate."
         },
         {
           "name": "Protective",
-          "description": "The warband may not hire an Ogre Bodyguard; one hired earlier leaves the warband."
+          "description": "The Ogre is content with his pay and more importantly, his meals. He will therefor scare off any other Ogre that may attempt to join the warband. Once a Village Ogre is purchased, Ogre Bodyguards will not join the warband, and should one have been hired prior to the Village Ogres arrival, he will move on."
         }
       ]
     }
@@ -412,5 +412,6 @@
     ]
   },
   "exclusiveEquipment": [],
-  "specialRules": "Pretty Much Human: The warband may hire any Hired Sword that is available to human warbands. | Too Big: Halflings cannot use Long Bows, Elf Bows, Handguns, Long Rifles or Blunderbusses, even after an advance that would normally allow them. | Halfling Items: Owning Halfling items, such as the Halfling Cookbook, gives this warband no bonus. | Adventurer List Restrictions: The dagger (first one free), hammer, axe, sword and helmet in the Adventurer list are sold as Pairing Knife, Tenderiser, Meat Cleaver, Machete and Cooking Pot and may only be bought by the Cook. Double-handed weapons and spears are for Heroes and Warriors only. Bows may not be bought by Warriors. Hunting Arrows (35 gc) are for the Elder and Scouts only."
+  "specialRules": "Pretty much human: Halflings are pretty much human and therefore may hire any hired sword available to human mercenaries. | Too Big: Halflings may never use Long bows, Elf Bows, Handguns, Long Rifles or Blunderbusses even if they gain an advance roll that would allow them to do so. Such big weapons aren't built for such tiny hands! | Halfling Items: Halflings do not gain any bonuses from having Halfling items (such as the Halfling Cookbook) because they already know all the knowledge that can be obtained from such things.",
+  "background": "Halflings are mostly a peaceful race, wishing nothing more than to eat (especially eat!), drink and be merry. They live in closely-knit communities and they are rarely troubled by other races. Sitting comfortably under an evening sun, one would most often see a halfling sitting reclined under a tree, munching, smoking and laughing. As they generally keep to themselves and avoid trouble, most halflings live long, peaceful lives. Some halflings however cannot find peace in such a familiar atmosphere and they seek adventures like those in the stories they were told when they were young. Every so often a village Elder succumbs to this wanderlust, and when his unrest becomes unbearable he rounds up a group of other like-minded halflings to head out and change the world."
 }

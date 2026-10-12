@@ -45,40 +45,31 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "A feral vampire of the fallen Strigoi bloodline and the warband's only Undead model. Each warband must have exactly one; if he dies the warband does not disband, but a new one may never be hired.",
+      "notes": "Weapons/Armour: A Strigoi Vampire may not wield any weapons, as it relies upon brute strength, tooth and claw. They do not suffer from any penalties for fighting unarmed.",
       "specialRules": [
         {
-          "ref": "leader"
+          "name": "Leader",
+          "description": "Any models in the warband within 6\" of the Strigoi Vampire may use his Leadership instead of their own."
         },
         {
-          "ref": "hatred",
-          "params": {
-            "target": "Vampires of other bloodlines"
-          },
-          "note": "Kindred Hatred."
+          "name": "Kindred Hatred",
+          "description": "A Strigoi Vampire Hates vampires of other blood-lines."
         },
         {
-          "ref": "fear"
+          "name": "Cause Fear",
+          "description": "Vampires are terrifying Undead creatures and therefore cause Fear."
         },
         {
-          "ref": "immuneToPsychology",
-          "note": "Never leaves combat."
+          "name": "Immune to Psychology",
+          "description": "Vampires are not affected by psychology (such as fear) and never leave combat."
         },
         {
           "name": "Immune to Poison",
-          "description": "Not affected by any poison."
+          "description": "Vampires are not affected by any poison."
         },
         {
           "name": "No Pain",
-          "description": "Treats a Stunned result on the Injury chart as Knocked Down."
-        },
-        {
-          "name": "Tooth and Claw",
-          "description": "May not wield any weapons or use equipment from the lists; suffers no penalties for fighting unarmed."
-        },
-        {
-          "name": "Dark Arts",
-          "description": "If he learns the Dark Arts special skill he becomes a caster and rolls spells from the Dark Arts list (see spells.txt)."
+          "description": "Vampires treat a Stunned result on the Injury chart as Knocked Down."
         }
       ],
       "spellLists": [
@@ -125,15 +116,15 @@
       "equipmentOptions": [
         "striganyHeroList"
       ],
-      "notes": "A Strigany fortune-teller and hedge-witch. 0-1 per warband.",
+      "notes": "Weapons/Armour: Seers may be equipped from the Strigany Equipment List.",
       "specialRules": [
         {
-          "ref": "wizard",
-          "note": "Starts with one random spell from the Strigany Charms & Hexes list (a variant of the standard list, see spells.txt)."
+          "name": "Seeker",
+          "description": "Due to their premonitions, Seers who partake in a battle, and are not taken Out of Action may modify a single exploration dice by +/- 1."
         },
         {
-          "name": "Seeker",
-          "description": "If she took part in the battle and was not taken Out of Action, she may modify one exploration die by +1 or -1."
+          "name": "Wizard",
+          "description": "Seers have one spell randomly generated from the Charms & Hexes spell list."
         }
       ],
       "spellLists": [
@@ -180,15 +171,15 @@
       "equipmentOptions": [
         "striganyHeroList"
       ],
-      "notes": "Strigany men of the clans who still serve the last of the Strigoi. 0-3 per warband.",
+      "notes": "Weapons/Armour: A Domnu may be armed with weapons and armour chosen from the Strigany Equipment list.",
       "specialRules": [
         {
           "name": "Child of Darkness",
-          "description": "Immune to the Spooky special rule for Sylvania."
+          "description": "Borne of the night, Domnu are steadfast and loyal servants of the Strigoi. They are immune to the Spooky special rule for Sylvania."
         },
         {
           "name": "Gypsy Ward",
-          "description": "A special save of 5+ against magical attacks."
+          "description": "Possessing an innate resistance to magic, the Domnu has a special save of 5+ versus magical attacks."
         }
       ]
     }
@@ -227,7 +218,7 @@
       "equipmentOptions": [
         "striganyHenchmanList"
       ],
-      "notes": "Strigany clansfolk who follow the Strigoi. 0-5 per warband.",
+      "notes": "Weapons/Armour: A Strigany may be equipped with weapons and armour chosen from the Strigany Equipment list.",
       "specialRules": []
     },
     {
@@ -261,10 +252,11 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Twisted, repulsive cannibals. They never carry any equipment apart from a few bones used as primitive weapons (no equipment list).",
+      "notes": "Weapons/Armour: Ghouls never carry any equipment, apart from a few bones which they use as primitive weapons.",
       "specialRules": [
         {
-          "ref": "fear"
+          "name": "Cause Fear",
+          "description": "Ghouls are twisted and repulsive creatures and therefore cause Fear."
         }
       ]
     },
@@ -298,26 +290,24 @@
         "Ld": null
       },
       "equipmentOptions": [],
-      "notes": "Huge bats that fight with jaws and brutality and use no equipment. 0-2 per warband.",
+      "notes": "Weapons/Armour: Jaws and brutality.",
       "specialRules": [
         {
-          "ref": "animal"
-        },
-        {
-          "name": "No Experience",
-          "description": "Animals never gain experience.",
+          "name": "Animals",
+          "description": "Giant Bats are animals and thus do not gain experience.",
           "effects": { "noExperience": true }
         },
         {
-          "ref": "largeTarget"
+          "name": "Flying",
+          "description": "Giant Bats fly through the night air, and thus do not need to climb or leap over gaps, even if their movement phase ends with them over open air."
         },
         {
-          "name": "Flying",
-          "description": "Does not need to climb or leap over gaps, even if its movement ends over open air."
+          "name": "Large",
+          "description": "Giant Bats are Large creatures."
         },
         {
           "name": "Sonic",
-          "description": "Navigates by sonic vibrations; no Line of Sight is needed to declare a charge."
+          "description": "Giant Bats use sonic vibrations to navigate the dark of night. No Line of Sight is needed for a charge."
         }
       ]
     }
@@ -362,8 +352,8 @@
       "category": "melee",
       "cost": 15,
       "rarity": null,
-      "restriction": "Strigany only.",
-      "rulesText": "Close combat, Strength as user +1. Two-handed: may not use a shield, buckler or additional weapon in close combat (a shield still gives +1 armour save against shooting). Heart-pierce: +1 to wound against a blood-thirster (vampire)."
+      "restriction": "Strigany only",
+      "rulesText": "Strength As User +1. Two-Handed: As the Chest Talon requires two hands to wield, a model equipped with it may not use a shield, buckler or secondary weapon in close combat. If the model has a shield he still gets a +1 bonus to his armour save against shooting. Heart-Pierce: Such is the destructive design of the weapon that it adds +1 to wound against a blood-thirster."
     },
     {
       "id": "blackGoldWristbands",
@@ -371,8 +361,8 @@
       "category": "misc",
       "cost": 35,
       "rarity": 10,
-      "restriction": "Heroes only. 35 gc in the warband list; 35 + 2D6 gc when bought later (Rare 10).",
-      "rulesText": "Quickened: the wearer gets a 6+ save against all missile fire, including magical missiles. Stacks with Dodge."
+      "restriction": "Rare 10",
+      "rulesText": "Quickened: A model wearing Black Gold Wristbands gains a 6+ save against all missile-fire, including magical. This ability will stack with the Dodge skill."
     },
     {
       "id": "ringOfStrigos",
@@ -380,8 +370,8 @@
       "category": "misc",
       "cost": 20,
       "rarity": 9,
-      "restriction": "Heroes only. 20 gc in the warband list; 20 + D6 gc when bought later (Rare 9).",
-      "rulesText": "Arcane Barrier: the wearer gets a 6+ save against spells that target or affect him."
+      "restriction": "Rare 9",
+      "rulesText": "Arcane Barrier: A model wearing a Ring of Strigos gains a 6+ save versus all spells that they are a target of, or find themselves affect by."
     },
     {
       "id": "cursedBook",
@@ -389,9 +379,10 @@
       "category": "misc",
       "cost": 50,
       "rarity": 11,
-      "restriction": "Heroes only. 50 gc in the warband list; 50 + 3D6 gc when bought later (Rare 11).",
-      "rulesText": "Cursed Aura: enemy models within 2\" of the bearer suffer -1 to hit in close combat."
+      "restriction": "Rare 11",
+      "rulesText": "Cursed Aura: A model bearing the Cursed Book causes all enemy models within 2\" to suffer a -1 penalty to hit in close combat."
     }
   ],
-  "specialRules": "Undead Leader: The Strigoi Vampire is the only Undead model in the warband. The warband does not disband if the Strigoi is killed, but it may never hire a new one. | Hired Swords: The warband may hire any Hired Sword available to Undead warbands. | Heroes Only Items: Black Gold Wristbands, the Ring of Strigos, Unholy Relics and Cursed Books may only be bought by Heroes. | Chest Talon: Only Strigany (not the Strigoi Vampire, Ghouls or Giant Bats) may use the Chest Talon. | Strigoi Weapons: The Strigoi Vampire may never wield weapons and fights with tooth and claw, without penalties for fighting unarmed."
+  "specialRules": "Undead Leader: The Strigoi Vampire is the only Undead model in the warband. The warband does not disband if the Strigoi is killed, though it may not hire a new one. | Hired Swords: The warband may hire Hired Swords available to Undead warbands.",
+  "background": "The long-ago destruction of Mourkain scattered a people to the wind. These now nomadic people, known as Strigany, travel through the human kingdoms in small caravans and live off the land. Their legends still remember the golden-age when the 'undying king' was reigning over a rich and powerful Strigos, and they prophecise that one day he will return and guide his people to reclaim their ancient land. That undying king was Ushoran, the patriarch of the Strigoi Vampire line. Now a degenerated mass of muscle and fang, Strigoi Vampires feed off the recently dead, often hiding in graveyards to dig out the corpses of the just buried to drink their cold blood. Their physical appearance reflects their miserable condition, as they have turned into hunched and disgusting monstrosities. Ghouls flock to these lonely creatures, forming grotesque courts around them. Grave robbers, those vile men who gather on battlefields to steal from the bodies of the fallen have learned all too well that they must do their deeds before nightfall. With darkness, different kinds of scavengers always fall on these places of death. Swarms of ghouls led by massive, fast and deadly night hunters: Strigoi Vampires. | It is little wonder that the peoples of the Old World refer to the Strigoi as the 'Ghoul Kings'. The same superstitious people accuse the wandering Strigany of being in contact with these dangerous creatures, of worshiping and serving them. Others are sure that the Strigany help the Strigoi vampires to move from town to town in their caravans. These rumors, usually false, have cost the the Strigany dearly, since they are often persecuted and killed for no other reason that this reputation. A few fortunate bands do have a protector, and when the mob approaches to deal their justice to the Strigany, the bloody feast begins..."
 }

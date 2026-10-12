@@ -48,16 +48,11 @@
       "equipmentOptions": [
         "woodElfHeroList"
       ],
-      "notes": "A veteran Wood Elf hunter who leads the warband out of Athel Loren. Each warband must have exactly one.",
+      "notes": "Weapons/Armour: The Hunt Master may be equipped from the Wood Elf equipment list.",
       "specialRules": [
         {
-          "ref": "leader"
-        },
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "Dark Elves"
-          }
+          "name": "Leader",
+          "description": "Any warrior within 6\" of the Protector of the Hunt may use his Leadership value when taking Leadership tests."
         }
       ]
     },
@@ -101,21 +96,15 @@
       "equipmentOptions": [
         "woodElfHeroList"
       ],
-      "notes": "Silent sentinels of the forest borders, masters of hiding and archery. 0-2 per warband.",
+      "notes": "Weapons/Armour: Waywatchers may be equipped from the Wood Elf equipment list.",
       "specialRules": [
         {
-          "ref": "hatred",
-          "params": {
-            "target": "Dark Elves"
-          }
-        },
-        {
           "name": "Sniper",
-          "description": "May shoot while hiding. After the shot roll a D6; on a 5+ no one noticed where the arrow came from (he stays hidden)."
+          "description": "Due to their years of training Waywatchers can shoot while keeping almost invisible. This allows the character to shoot while hiding. After the shot roll a D6, on a 5+ no one noticed where the arrow came from."
         },
         {
           "name": "Camouflage",
-          "description": "While the Waywatcher is hidden, each enemy model must pass an additional Initiative test to spot him."
+          "description": "Waywatchers are experts at camouflage. They wear cloaks of green, brown or grey which are made from leaves sewn together. By painting their faces and bodies with green and brown paint they are almost invisible when hiding. When a Waywatcher is hidden, each enemy model has to make an additional I test to spot them."
         }
       ]
     },
@@ -159,17 +148,11 @@
       "equipmentOptions": [
         "woodElfHeroList"
       ],
-      "notes": "A spellweaver attuned to the magic of the forest. 0-1 per warband.",
+      "notes": "Weapons/Armour: Your Forest Mage may be equipped from the Wood Elf equipment list.",
       "specialRules": [
         {
-          "ref": "wizard",
-          "note": "Uses the Woodland Incantations list (see spells.txt)."
-        },
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "Dark Elves"
-          }
+          "name": "Wizard",
+          "description": "The Forest Mage is a Wizard and may use the Woodland Incantations spell list."
         }
       ],
       "spellLists": [
@@ -211,17 +194,11 @@
       "equipmentOptions": [
         "woodElfScoutList"
       ],
-      "notes": "Skilled Wood Elf scouts and archers. Bought in groups of 1-5.",
+      "notes": "Weapons/Armour: Deepwood Scouts may be equipped from the Wood Elf Scout equipment list.",
       "specialRules": [
         {
-          "ref": "hatred",
-          "params": {
-            "target": "Dark Elves"
-          }
-        },
-        {
           "name": "Crossfire",
-          "description": "If more than one Deepwood Scout shoots at the same target, they get +1 on the injury roll."
+          "description": "If more than one scout henchman shoots at the same target, they get +1 on the injury roll."
         }
       ]
     },
@@ -258,15 +235,8 @@
       "equipmentOptions": [
         "woodElfScoutList"
       ],
-      "notes": "The kindreds' warrior-archers who guard the glades of Athel Loren. Bought in groups of 1-5.",
-      "specialRules": [
-        {
-          "ref": "hatred",
-          "params": {
-            "target": "Dark Elves"
-          }
-        }
-      ]
+      "notes": "Weapons/Armour: Glade Guard may be equipped from the Wood Elf Scout equipment list.",
+      "specialRules": []
     }
   ],
   "equipmentLists": {
@@ -303,5 +273,6 @@
     ]
   },
   "exclusiveEquipment": [],
-  "specialRules": "Hate Dark Elves: All warriors in the warband, excluding Hired Swords, Hate Dark Elves. | Excellent Sight: Elves in the warband spot Hidden enemies from twice as far away as other warriors, at a distance in inches equal to twice their Initiative. | Unforgiving: In multiplayer games the warband may never ally with a chaotic warband such as Possessed, Skaven, Beastmen or Dark Elves. | Tolerant: The warband may hire any Hired Sword that is not of a Chaotic or evil bent, so no Skaven, Possessed, Beastmen, Dark Elves, Undead and so on. | Elven Wargear Prices: In the warband lists the Elf Bow costs 35 gc, the Elven Cloak 75 gc, Elven Wine 50 gc, Hunting Arrows 35 gc and Ithilmar armour 60 gc. An Ithilmar weapon costs twice the base weapon's price. | Ithilmar Availability: Ithilmar weapons and armour are for Heroes only. No roll is needed when founding the warband; afterwards they must be found with a rarity roll as normal (Wood Elves pay normal prices, not the Ulthuan price)."
+  "specialRules": "Hate Dark Elves: All warriors in a Wood Elves Warband (excluding any Hired Swords) have an unyielding Hatred for Dark Elves. | Excellent Sight: Elves have eyesight unmatched by mere humans. All the Elves in a Wood Elf Warband can spot Hidden enemies from twice as far away as other warriors (i.e. twice their Initiative in inches). | Unforgiving: In addition to their hatred of their corrupt kin, the folk of Athal Loren will not fight alongside the forces of Chaos. In multiplayer games, a Wood Elf warband may never forge an alliance with any Warband of a chaotic nature (Possessed, Skaven, Beastmen, Dark Elves, etc.). | Tolerant: Due to their outsider status in the world, the Elves of Athel Loren have learned to stifle their distaste for ‘lesser races’, and have even been known to work alongside them from time to time. A Wood Elf Warband may hire any Hired Sword that is not of a Chaotic or evil bent (so no Skaven, Possessed, Beastmen, Dark Elves, Undead, etc.).",
+  "background": "The Wood Elves, known as the Asrai in some tales, or as the Fay Folk of Athel Loren, are a reclusive, secretive and highly isolationist race of Elves that have long ago voluntarily split off from the rest of their kin, preferring instead to live out their lives in Nature's embrace beneath the enchanted forested canopy of Athel Loren. From here, they have learnt to dwell in concord with the seasons and the weave of life and death that binds all living things together. They are the defenders of the forest, guardians of all things natural and pure. For millennia, the Wood Elves have lived in this state of harmony, lying in wait and hidden from the prying eyes of the wider World. | Yet times have changed since that ancient age, and the Wood Elves realize that the fate of Athel Loren is now tied to that of other lands. Though they do not seek to act as the world’s protectors as do the High Elves, nor enthrone themselves as its rulers as do the Dark Elves, there are those times when the will of Orion and Ariel, the King and Queen in the Woods, must shape the fortunes of those that live beyond the boundary of their homelands..."
 }
