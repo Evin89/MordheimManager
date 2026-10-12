@@ -25,3 +25,13 @@ export async function fetchAdminDeletedWarbands(): Promise<AdminDeletedWarband[]
   if (error) throw error;
   return (data ?? []) as AdminDeletedWarband[];
 }
+
+/**
+ * §35.4 — put a soft-deleted warband back (migration 0056). Admin-only on the
+ * server; fails if the nightly purge already removed the row.
+ */
+export async function restoreDeletedWarband(id: string): Promise<void> {
+  if (isDemoMode()) return demo.restoreDeletedWarband(id);
+  const { error } = await supabase.rpc('admin_restore_warband', { p_warband_id: id });
+  if (error) throw error;
+}

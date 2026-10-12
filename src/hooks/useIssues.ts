@@ -18,7 +18,7 @@ import {
   fetchSelfReportBreakdown,
   fetchTimeToActivation,
 } from '../api/adminAnalytics';
-import { fetchAdminDeletedWarbands } from '../api/adminDeletedWarbands';
+import { fetchAdminDeletedWarbands, restoreDeletedWarband } from '../api/adminDeletedWarbands';
 import {
   fetchAdminCampaigns,
   fetchAdminCampaignDetail,
@@ -105,6 +105,20 @@ export function useAdminDeletedWarbandsQuery() {
     queryKey: ['adminDeletedWarbands'],
     queryFn: fetchAdminDeletedWarbands,
     enabled: isAdmin === true,
+  });
+}
+
+/** §35.4 restore a soft-deleted warband (migration 0056). */
+export function useRestoreDeletedWarbandMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => restoreDeletedWarband(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['adminDeletedWarbands'] });
+      // The owner's lists and the admin counts include it again.
+      queryClient.invalidateQueries({ queryKey: ['warbands'] });
+      queryClient.invalidateQueries({ queryKey: ['adminStats'] });
+    },
   });
 }
 

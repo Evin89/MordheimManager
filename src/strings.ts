@@ -760,7 +760,7 @@ export const strings = {
       `This warband is entered in ${campaign}.`,
     deleteWarbandCampaignAck: (campaign: string) =>
       `I understand this removes it from ${campaign}'s standings.`,
-    deleteWarbandRecoverable: 'Deleted warbands are kept, hidden, so this can be reversed on request.',
+    deleteWarbandRecoverable: 'Deleted warbands are kept, hidden, for 30 days, so within that time this can be reversed on request.',
     addHiredSword: 'Hire a Hired Sword',
     slotFull: 'full',
     slotsUnlimited: 'No limit on this unit',

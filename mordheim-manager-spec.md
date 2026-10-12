@@ -3054,6 +3054,18 @@ Verified in demo mode: step 4 survives a reload; *Resume* reopens step 4; commit
 
 Verified in demo mode: remove a hero, the banner appears, Undo restores it in place and the banner goes.
 
+### 35.4 Restore a deleted warband from Admin ⚠️
+
+_⚠️ until migration 0056 is applied._ The warband delete copy promised that a deletion "can be reversed on request", and Admin › Deleted warbands (migration 0054) listed what was deleted — but reversing one still meant a hand-written `update warbands set deleted_at = null`.
+
+- **`admin_restore_warband(p_warband_id)`** (migration 0056), SECURITY DEFINER. Asserts `is_admin()` first, then clears `deleted_at` on a row that is still soft-deleted. A row the nightly purge (0014) already removed raises an error instead of silently doing nothing.
+- **Restore** on each row of Admin › Deleted warbands, behind the lighter confirm tier (§4.2.1 `ConfirmAction`): restoring is not destructive. The confirm says what comes back: same owner and roster, and the campaign it was in.
+- The warband returns exactly as it was deleted. The delete changed nothing but `deleted_at`, so standings and history pick it up again.
+- The delete copy now names the window: "kept, hidden, for 30 days, so within that time this can be reversed on request."
+- No admin audit row is written; there is no admin audit table yet (the only audit tables are per-warband, §10.4).
+
+Verified in demo mode: Restore → confirm → the row leaves the list and a status line confirms it.
+
 ### 35.7 The RLS matrix as an automated test ✅
 
 §14.4's matrix is now a SQL test in the database harness (`npm run db:test`, PR #24): `supabase/db-tests/rls-matrix.sql`. Run it after any schema change. It needs no Supabase project and no second account. See §14.4 for what it covers.

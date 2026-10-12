@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAdminDeletedWarbandsQuery } from '../../hooks/useIssues';
+import ConfirmAction from '../../components/ConfirmAction';
+import { useAdminDeletedWarbandsQuery, useRestoreDeletedWarbandMutation } from '../../hooks/useIssues';
 import { strings } from '../../strings';
 import { ago } from './shared';
 
@@ -15,6 +17,9 @@ function daysLeft(purgeAt: string): number {
  */
 export default function AdminDeletedWarbandsScreen() {
   const { data: rows, isError, error } = useAdminDeletedWarbandsQuery();
+  const restore = useRestoreDeletedWarbandMutation();
+  const [confirming, setConfirming] = useState<string | null>(null);
+  const [restored, setRestored] = useState<string | null>(null);
 
   if (isError) {
     return (
@@ -34,6 +39,11 @@ export default function AdminDeletedWarbandsScreen() {
       <p className="font-ui text-xs text-bone-400">
         Hidden from players, kept for 30 days, then purged by the nightly job. Metadata only.
       </p>
+      {restored && (
+        <p role="status" className="font-ui text-xs text-bone-200">
+          Restored {restored}. It is back on its owner's list.
+        </p>
+      )}
 
       {!rows ? (
         <p className="text-bone-400 text-sm">{strings.common.loading}</p>
@@ -64,6 +74,50 @@ export default function AdminDeletedWarbandsScreen() {
                   Deleted {ago(w.deleted_at)} ({new Date(w.deleted_at).toLocaleDateString()}) · created{' '}
                   {new Date(w.created_at).toLocaleDateString()}
                 </p>
+                {confirming === w.id ? (
+                  <ConfirmAction
+                    prompt={`Restore ${w.name}?`}
+                    impact={
+                      <>
+                        <p>
+                          It comes back exactly as it was deleted: same owner and roster
+                          {w.campaign_name ? `, back in ${w.campaign_name}` : ''}.
+                        </p>
+                        {restore.isError && (
+                          <p className="text-danger">
+                            {(restore.error as Error).message} — if this mentions <code>admin_restore_warband</code>,
+                            migration 0056 has not been applied yet.
+                          </p>
+                        )}
+                      </>
+                    }
+                    action="Restore warband"
+                    busy={restore.isPending}
+                    onConfirm={() =>
+                      restore.mutate(w.id, {
+                        onSuccess: () => {
+                          setConfirming(null);
+                          setRestored(w.name);
+                        },
+                      })
+                    }
+                    onCancel={() => {
+                      setConfirming(null);
+                      restore.reset();
+                    }}
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      restore.reset();
+                      setConfirming(w.id);
+                    }}
+                    className="min-h-[44px] font-ui text-xs font-semibold text-bone-200 underline"
+                  >
+                    Restore
+                  </button>
+                )}
               </div>
             );
           })}
