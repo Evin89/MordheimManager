@@ -279,6 +279,7 @@ function AppShell() {
                   prompt={strings.trading.pickWarbandPrompt}
                   emptyMessage={strings.trading.noWarbands}
                   destination={(id) => `/warbands/${id}/trading`}
+                  skipWhenSingle
                 />,
               )}
             />

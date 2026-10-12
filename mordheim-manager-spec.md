@@ -3009,3 +3009,15 @@ Built 2026-10-11 to the defaults above (every ❓ except 34.8 taken at its defau
 - **34.2.2** — `FriendlyGameControls` (switch + per-game house rules) on pre-battle and Battle Info; *Friendly* chip by the turn counter. A friendly hides the underdog bonus on Battle Info (it's Experience).
 - **34.5** — `FRIENDLY_STEP_INDICES` short path; the wizard's step state is a position in the active list, so a friendly turned off mid-wizard lands on Injuries with the notice. `buildFriendlyRecord()` builds the record; the commit skips `commitBattleWarband`. `battle_committed` carries `filed`.
 - **Demo:** one friendly for the viewer's campaign warband and house rules on a standalone battle; fixed values, no extra rng draws.
+
+## 35. Flow follow-ups (2026-10-12 night) 
+
+_From the flow review of 2026-10-12 (the sitemap/flowchart pass). Each item is a separate PR; client-only items merged when build and checks passed, items needing a migration left as PRs for the owner to apply (`npx supabase db push`) and merge._
+
+### 35.1 Warband pickers — last used first, skip when there's one ✅
+
+The Battle and Trading tabs open on a warband picker (§4.3, §4.4).
+
+- **Last used first.** Picking a warband stores its id in `localStorage` (`mordheim.lastWarbandId`, `lib/lastWarband.ts`, guarded); both pickers list it first with a small *last used* tag (only when there is more than one).
+- **Skip on Trading.** With exactly one warband, `/trading` replaces itself with that warband's Trading Post — there is nothing to pick, and Back skips the picker. Not on the Battle tab: its page is also the home of Your Battles (§34.3).
+- **No false empty state.** While the warband list loads, the picker shows *Loading…* instead of flashing "Create a warband first."
