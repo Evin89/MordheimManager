@@ -5,6 +5,13 @@ import { IssueReport, IssueStatus } from '../../api/issues';
 import { useIssueReportsQuery, useUpdateIssueStatusMutation } from '../../hooks/useIssues';
 import { strings } from '../../strings';
 
+/** The warband a report was filed from, when its route had one (`:warbandId`). */
+function warbandIdFrom(context: Record<string, unknown>): string | null {
+  const params = context.params as Record<string, unknown> | undefined;
+  const id = params?.warbandId;
+  return typeof id === 'string' && /^[0-9a-f-]{36}$/i.test(id) ? id : null;
+}
+
 const FILTERS: { id: IssueStatus | 'all'; label: string }[] = [
   { id: 'open', label: 'Open' },
   { id: 'triaged', label: 'Triaged' },
@@ -69,6 +76,16 @@ function ReportRow({
               <dd className="inline break-all">{report.userAgent || '—'}</dd>
             </div>
           </dl>
+
+          {/* §4.9.4.3 — a report filed from a roster screen carries its id. */}
+          {warbandIdFrom(report.context) && (
+            <Link
+              to={`/admin/warbands/${warbandIdFrom(report.context)}`}
+              className="inline-flex items-center min-h-[40px] text-ember-400 text-sm font-semibold"
+            >
+              Open roster →
+            </Link>
+          )}
 
           {Object.keys(report.context).length > 0 && (
             <pre className="overflow-x-auto rounded-md border border-ink-800 bg-ink-950 p-2 font-ui text-xs text-bone-100">

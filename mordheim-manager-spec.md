@@ -779,6 +779,27 @@ The per-player detail answered "who is this user" with counts and one last-seen 
 
 **Client.** `src/api/activity.ts`, `src/hooks/useActivity.ts` (keys `['adminUserActivity', userId, from, to]` / `['myActivity', userId, from, to]`, 5-min `staleTime`, one fetch per window — the Month view reads the same cached rows), `src/components/activity/ActivityPanel.tsx`, `src/lib/activityKinds.ts`, copy in `strings.activity`. Demo mode fabricates a stable per-player pattern (`fetchDemoActivity`). The Account card fetches only once opened (§12.2).
 
+#### 4.9.4.2 Player detail — Warbands panel ✅ _(migration 0056)_
+
+The player detail listed live warbands from `admin_user_detail()` but nothing opened from a row, and soft-deleted warbands didn't appear. The panel now reads `admin_user_warbands(p_user_id)` — metadata only, never `data` — which includes soft-deleted rows. Each row shows name, type, visibility pill, rating, campaign, last edit (or "deleted {date}") and edits in the last 30 days. Live warbands come first by `updated_at` desc, then deleted ones, dimmed. **Every row** — public, private or deleted — opens the admin read-only roster (§4.9.4.3). The activity day detail (§4.9.4.1) now links its warband items there too, and so do the names on the Deleted warbands screen.
+
+Verified before writing SQL: `rating`, `campaign_id` and `visibility` are real columns on `warbands` (0001), so nothing here parses `data`.
+
+Client: `src/api/adminWarbands.ts` (`fetchAdminUserWarbands`), `useAdminUserWarbandsQuery` (key `['adminUserWarbands', userId]`, 5-min `staleTime`). Demo mode fabricates the player's rows plus one soft-deleted one.
+
+#### 4.9.4.3 Admin read-only roster ✅ _(migration 0056; amends §4.9.7)_
+
+**Decided (Evin, 2026-10-15): the admin can read any warband's roster, private ones included.** Purpose: product insight. It shows how players actually use the warband features (advances, injuries, equipment, hired swords, custom content) and whether those features work on real data, not only on reported bugs. Evin is and stays the sole admin. As project owner he can already read every row from the Supabase dashboard, so this moves an existing capability into a safer, read-only, in-app surface.
+
+- **Function:** `admin_warband_roster(p_warband_id)` returns `{ id, name, warband_type, owner_id, owner_name, visibility, campaign_name, updated_at, deleted_at, data }`. Soft-deleted warbands are included. It reads `warbands`, `profiles` and `campaigns` only. The BTB objectives table is never joined.
+- **Logged:** `admin_roster_views (id, admin_id, warband_id, owner_id, viewed_at)`. RLS is on with no policies (deny-all), and the row is inserted by the function in the same transaction as the read. There is no FK to `warbands`, so the log outlives the 0014 hard purge. It joins the 3-year `purge_old_audit_logs()` retention.
+- **No reason field and no owner notification** (decided).
+- **Read-only:** no write RPC. The screen renders through `ReadOnlyRoster`, which was extracted from `SharedWarbandScreen` so the public roster and the admin view can't drift. It is never the owner's editable roster. Comments and awards are not shown.
+- **Banner:** "Admin view · read-only", sticky at the top.
+- **Routes:** `/admin/players/:userId/warbands/:warbandId`, plus `/admin/warbands/:warbandId` for entry from an issue report (whose `context.params.warbandId` gets an "Open roster →" link). The back link falls back to the roster's real owner.
+- **Cache:** `useAdminWarbandRosterQuery`, key `['adminWarbandRoster', warbandId]`, `staleTime: 0`. Each open is a fresh, logged read.
+- **Privacy text** updated in the same release: the share nudge (`strings.shareNudge.body` / `bodyInCampaign`), the visibility helper (`visibilityPrivate`), and `public/privacy.html` (new "Admin access to warbands" paragraph, the security paragraph, "Last updated"). Changelog entry 2026-10-15.
+
 #### 4.9.5 Campaigns ✅ — the missing symmetric view
 
 There is a per-player drill-down but no per-campaign one, even though a campaign is the other first-class object an operator needs to inspect. New, shaped exactly like Players: a paginated, searchable list and a metadata detail screen.
@@ -834,7 +855,7 @@ The operator chores with no "where the thing lives" home (§4.6) because they ar
 
 #### 4.9.7 What every admin function must never return
 
-Restated because it now governs five screens and two new functions, not one: **no email addresses, no roster `data` jsonb, no campaign-event or battle content, and no BTB objectives** — ever, for any admin, regardless of the campaign's visibility. Owner-only objectives are the entire reason that table is separate (§8.3); an admin function that returned them would undo it. Admin functions return aggregates, counts, and metadata — never content, never row access to the secret table. `admin_campaign_overview` and `admin_campaign_detail` are held to this exactly like `admin_stats` and `admin_user_overview` before them.
+Restated because it now governs five screens and two new functions, not one: **no email addresses, no campaign-event or battle content, and no BTB objectives** — ever, for any admin, regardless of the campaign's visibility. **Roster `data` jsonb** is returned by exactly one function, `admin_warband_roster` (§4.9.4.3, amended 2026-10-15), which writes an audit row on every call. No other admin function may return it, and no admin function may return it unlogged. Owner-only objectives are the entire reason that table is separate (§8.3); an admin function that returned them would undo it. Admin functions return aggregates, counts, and metadata — never content, never row access to the secret table. `admin_campaign_overview` and `admin_campaign_detail` are held to this exactly like `admin_stats` and `admin_user_overview` before them.
 
 _(Folded into §23.5: the analytics panels now live on `/admin/overview`, behind the same shared gate (§4.9.1), reading the same RPCs.)_
 

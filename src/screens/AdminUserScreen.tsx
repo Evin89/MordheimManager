@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useAdminUserDetailQuery } from '../hooks/useIssues';
+import { useAdminUserDetailQuery, useAdminUserWarbandsQuery } from '../hooks/useIssues';
 import { getWarbandTypeName } from '../data/warbandRegistry';
 import { strings } from '../strings';
 import { ago } from './admin/shared';
@@ -39,10 +39,15 @@ function Stat({ label, value, to }: { label: string; value: number | string; to?
   );
 }
 
-/** A tapped day's campaigns open that campaign's admin screen. Warbands stay
- * plain text: there is no admin roster view, by design (migration 0008). */
-function adminHref(item: ActivityItem): string | null {
-  return ACTIVITY_REF[item.kind] === 'campaign' ? `/admin/campaigns/${item.refId}` : null;
+/** A tapped day's campaigns open that campaign's admin screen; its warbands
+ * open the admin's read-only roster (§4.9.4.3). */
+function adminHrefFor(userId: string) {
+  return (item: ActivityItem): string | null => {
+    const ref = ACTIVITY_REF[item.kind];
+    if (ref === 'campaign') return `/admin/campaigns/${item.refId}`;
+    if (ref === 'warband') return `/admin/players/${userId}/warbands/${item.refId}`;
+    return null;
+  };
 }
 
 /** §4.9.4.1 — when this player actually plays, day by day. The heatmap is counts
@@ -65,8 +70,66 @@ function PlayerActivity({ userId }: { userId: string }) {
         selected={day}
         onSelect={setDay}
         dayItems={dayItems}
-        hrefFor={adminHref}
+        hrefFor={adminHrefFor(userId)}
       />
+    </section>
+  );
+}
+
+/**
+ * §4.9.4.2 — every warband this player owns, soft-deleted ones included (dimmed,
+ * at the bottom). Metadata only; each row opens the read-only roster.
+ */
+function PlayerWarbands({ userId }: { userId: string }) {
+  const { data: rows, isError, error } = useAdminUserWarbandsQuery(userId);
+  const live = rows?.filter((w) => !w.deleted_at) ?? [];
+  return (
+    <section className="space-y-3">
+      <h2 className="text-bone-100 font-semibold">
+        Warbands{live.length > 0 && ` (${live.length})`}
+      </h2>
+      {isError ? (
+        <p className="font-ui text-xs text-danger">
+          {(error as Error).message} — if this mentions <code>admin_user_warbands</code>, migration 0056 has
+          not been applied yet.
+        </p>
+      ) : !rows ? (
+        <p className="text-bone-400 text-sm">{strings.common.loading}</p>
+      ) : rows.length === 0 ? (
+        <p className="text-bone-400 text-sm">None yet.</p>
+      ) : (
+        <div className="rounded-lg border border-ink-800 bg-ink-900 divide-y divide-ink/15">
+          {rows.map((w) => (
+            <Link
+              key={w.id}
+              to={`/admin/players/${userId}/warbands/${w.id}`}
+              className={`block px-3 py-2 min-h-[44px] hover:bg-ink-800 ${w.deleted_at ? 'opacity-60' : ''}`}
+            >
+              <div className="flex items-baseline gap-2">
+                <span className="min-w-0 flex-1 truncate text-bone-100">{w.name}</span>
+                <span
+                  className={`shrink-0 rounded border px-1.5 py-0.5 font-ui text-xs uppercase tracking-wide ${
+                    w.visibility === 'public' ? 'border-ember-500/60 text-ember-400' : 'border-ink-700 text-bone-400'
+                  }`}
+                >
+                  {w.visibility === 'public' ? 'public' : 'private'}
+                </span>
+                <span className="shrink-0 font-ui text-sm tabular-nums lining-nums text-bone-400">
+                  {strings.warbandList.ratingLabel} {w.rating}
+                </span>
+              </div>
+              <p className="font-ui text-xs text-bone-400">
+                {getWarbandTypeName(w.warband_type)}
+                {w.campaign_name ? ` · ${w.campaign_name}` : ' · no campaign'}
+                {' · '}
+                {w.deleted_at ? `deleted ${when(w.deleted_at)}` : `last edit ${ago(w.updated_at)}`}
+                {' · '}
+                {w.edits_30d} edit{w.edits_30d === 1 ? '' : 's'} (30d)
+              </p>
+            </Link>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
@@ -74,9 +137,9 @@ function PlayerActivity({ userId }: { userId: string }) {
 /**
  * One player, from the admin panel.
  *
- * Summary rows only — names, types, ratings, visibility, campaigns. Not the
- * rosters: see migration 0008 for why an admin can count someone's warbands and
- * see what they are without being able to read what is in them.
+ * Summary rows — names, types, ratings, visibility, campaigns — with each
+ * warband opening the admin's read-only roster (§4.9.4.3, migration 0056).
+ * BTB objectives are never reachable from here.
  */
 export default function AdminUserScreen() {
   const { userId } = useParams<{ userId: string }>();
@@ -154,37 +217,7 @@ export default function AdminUserScreen() {
 
             {userId && <PlayerActivity userId={userId} />}
 
-            <section className="space-y-3">
-              <h2 className="text-bone-100 font-semibold">
-                Warbands{user.warbands.length > 0 && ` (${user.warbands.length})`}
-              </h2>
-              {user.warbands.length === 0 ? (
-                <p className="text-bone-400 text-sm">None yet.</p>
-              ) : (
-                <div className="rounded-lg border border-ink-800 bg-ink-900 divide-y divide-ink/15">
-                  {user.warbands.map((w) => (
-                    <div key={w.id} className="px-3 py-2">
-                      <div className="flex items-baseline gap-2">
-                        <span className="min-w-0 flex-1 truncate text-bone-100">{w.name}</span>
-                        <span className="shrink-0 font-ui text-sm tabular-nums lining-nums text-bone-400">
-                          {strings.warbandList.ratingLabel} {w.rating}
-                        </span>
-                      </div>
-                      <p className="font-ui text-xs text-bone-400">
-                        {getWarbandTypeName(w.warbandType)}
-                        {' · '}
-                        {w.visibility === 'public' ? 'public' : 'private'}
-                        {w.campaignName ? ` · ${w.campaignName}` : ' · no campaign'}
-                        {' · '}
-                        updated {when(w.updatedAt)}
-                        {' · '}
-                        {w.edits} edit{w.edits === 1 ? '' : 's'}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </section>
+            {userId && <PlayerWarbands userId={userId} />}
 
             <section className="space-y-3">
               <h2 className="text-bone-100 font-semibold">
@@ -216,11 +249,11 @@ export default function AdminUserScreen() {
               )}
             </section>
 
-            {/* Says what is missing, so its absence reads as a decision rather
-                than an oversight to someone extending this screen later. */}
+          {/* Says what is missing, so its absence reads as a decision rather
+              than an oversight to someone extending this screen later. */}
           <p className="font-ui text-xs text-bone-400">
-            Rosters and BTB objectives are not shown here — a warband's contents stay between its
-            owner and their campaign-mates.
+            Rosters open read-only, and every open is logged (§4.9.4.3). BTB objectives are never shown
+            to an admin.
           </p>
         </>
       )}

@@ -19,6 +19,7 @@ import {
   fetchTimeToActivation,
 } from '../api/adminAnalytics';
 import { fetchAdminDeletedWarbands } from '../api/adminDeletedWarbands';
+import { fetchAdminUserWarbands, fetchAdminWarbandRoster } from '../api/adminWarbands';
 import {
   fetchAdminCampaigns,
   fetchAdminCampaignDetail,
@@ -105,6 +106,32 @@ export function useAdminDeletedWarbandsQuery() {
     queryKey: ['adminDeletedWarbands'],
     queryFn: fetchAdminDeletedWarbands,
     enabled: isAdmin === true,
+  });
+}
+
+/** §4.9.4.2 — one player's warbands, soft-deleted included (migration 0056). */
+export function useAdminUserWarbandsQuery(userId: string | undefined) {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['adminUserWarbands', userId],
+    queryFn: () => fetchAdminUserWarbands(userId!),
+    enabled: isAdmin === true && !!userId,
+    staleTime: 5 * 60_000,
+  });
+}
+
+/**
+ * §4.9.4.3 — read-only roster for the admin. `staleTime: 0`: every open is a
+ * fresh, logged read on the server, so the view log reflects real views.
+ */
+export function useAdminWarbandRosterQuery(warbandId: string | undefined) {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['adminWarbandRoster', warbandId],
+    queryFn: () => fetchAdminWarbandRoster(warbandId!),
+    enabled: isAdmin === true && !!warbandId,
+    staleTime: 0,
+    retry: false,
   });
 }
 

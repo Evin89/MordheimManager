@@ -111,9 +111,9 @@ export const strings = {
   // either way; public only changes things for people outside the campaign.
   shareNudge: {
     title: 'Show this warband off?',
-    body: 'It’s private, so only you can see it. Making it public lists it in the gallery and gives it a link anyone can open — no account needed.',
+    body: 'It’s private, so only you (and the app admin) can see it. Making it public lists it in the gallery and gives it a link anyone can open — no account needed.',
     bodyInCampaign:
-      'It’s private: your campaign can already see it, and nobody else can. Making it public lists it in the gallery and gives it a link anyone can open.',
+      'It’s private: your campaign (and the app admin) can already see it, and nobody else can. Making it public lists it in the gallery and gives it a link anyone can open.',
     makePublic: 'Make public',
     notNow: 'Not now',
     publicTitle: 'Your warband is public',
@@ -337,6 +337,17 @@ export const strings = {
     adminLink: 'Issue inbox & statistics',
     adminHint: 'Reported issues and aggregate numbers. Only you can see this.',
     signInButton: 'Sign in',
+  },
+  // §4.9.4.3 — the admin's read-only view of any warband's roster.
+  adminRoster: {
+    back: '← Back to player',
+    banner: 'Admin view · read-only',
+    loadError: 'Could not load this roster.',
+    public: 'public',
+    private: 'private',
+    noCampaign: 'no campaign',
+    updated: (when: string) => `updated ${when}`,
+    deleted: (date: string) => `Deleted by its owner on ${date} — hidden from players until the purge.`,
   },
   // §4.9.4.1 — the activity calendar, on the admin player screen and on the
   // player's own Account screen. Same component, two titles.
@@ -1582,7 +1593,7 @@ export const strings = {
     notInCampaign: 'Not entered',
     visibilityLabel: 'Visible outside the campaign',
     visibilityPublic: 'Anyone can view this roster, and it’s listed in the gallery',
-    visibilityPrivate: 'Only you (and your campaign) can view this roster',
+    visibilityPrivate: 'Only you, your campaign and the app admin can view this roster',
     campaignMatesAlwaysSee: 'Players in your campaign can always see a warband you enter, whatever this is set to.',
     noCampaignsToJoin: 'Start or join a campaign first to enter a warband in one.',
 
