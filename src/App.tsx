@@ -42,6 +42,7 @@ const AdminCustomWarbandsScreen = lazy(() => import('./screens/admin/AdminCustom
 const AdminMaintenanceScreen = lazy(() => import('./screens/admin/AdminMaintenanceScreen'));
 const AdminUserScreen = lazy(() => import('./screens/AdminUserScreen'));
 const AdminUserBattlesScreen = lazy(() => import('./screens/admin/AdminUserBattlesScreen'));
+const AdminWarbandRosterScreen = lazy(() => import('./screens/admin/AdminWarbandRosterScreen'));
 
 const DesignSandboxScreen = lazy(() => import('./screens/DesignSandboxScreen'));
 
@@ -215,6 +216,9 @@ function AppShell() {
               <Route path="players" element={<AdminPlayersScreen />} />
               <Route path="players/:userId" element={<AdminUserScreen />} />
               <Route path="players/:userId/battles" element={<AdminUserBattlesScreen />} />
+              <Route path="players/:userId/warbands/:warbandId" element={<AdminWarbandRosterScreen />} />
+              {/* Same screen, reached from an issue report, where the owner isn't known up front. */}
+              <Route path="warbands/:warbandId" element={<AdminWarbandRosterScreen />} />
               <Route path="campaigns" element={<AdminCampaignsScreen />} />
               <Route path="campaigns/:id" element={<AdminCampaignDetailScreen />} />
               <Route path="custom-warbands" element={<AdminCustomWarbandsScreen />} />

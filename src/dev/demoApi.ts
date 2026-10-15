@@ -1589,3 +1589,61 @@ export async function fetchDemoActivityDay(userId: string, day: string): Promise
   }
   return items;
 }
+
+// --- §4.9.4.2 / §4.9.4.3 admin warband list + read-only roster (demo) -------
+
+export async function fetchAdminUserWarbands(userId: string) {
+  const d = db();
+  const day = 86_400_000;
+  const owned = d.warbands.filter((w) => w.ownerId === userId);
+  const live = owned.map((w) => ({
+    id: w.id,
+    name: w.warband.name,
+    warband_type: w.warband.warbandType,
+    visibility: w.visibility,
+    rating: ratingOf(w),
+    campaign_id: w.campaignId ?? null,
+    campaign_name: d.campaigns.find((c) => c.id === w.campaignId)?.name ?? null,
+    created_at: w.updatedAt,
+    updated_at: w.updatedAt,
+    deleted_at: null as string | null,
+    edits_total: Math.max(1, Math.round(ratingOf(w) / 60)),
+    edits_30d: Math.max(0, Math.round(ratingOf(w) / 120)),
+  }));
+  // One fabricated soft-deleted row, so the dimmed "deleted" styling shows.
+  const first = live[0];
+  const deleted = first
+    ? [{
+        ...first,
+        id: `${first.id}-deleted`,
+        name: `${first.name} (old)`,
+        visibility: 'private' as const,
+        campaign_id: null,
+        campaign_name: null,
+        updated_at: new Date(Date.now() - 20 * day).toISOString(),
+        deleted_at: new Date(Date.now() - 6 * day).toISOString(),
+        edits_30d: 0,
+      }]
+    : [];
+  return [...live.sort((a, b) => b.updated_at.localeCompare(a.updated_at)), ...deleted];
+}
+
+export async function fetchAdminWarbandRoster(warbandId: string) {
+  const d = db();
+  const liveId = warbandId.replace(/-deleted$/, '');
+  const row = d.warbands.find((w) => w.id === liveId);
+  if (!row) throw new Error('No such warband');
+  const isDeleted = liveId !== warbandId;
+  return {
+    id: warbandId,
+    name: isDeleted ? `${row.warband.name} (old)` : row.warband.name,
+    warband_type: row.warband.warbandType,
+    owner_id: row.ownerId,
+    owner_name: displayName(row.ownerId),
+    visibility: isDeleted ? ('private' as const) : row.visibility,
+    campaign_name: d.campaigns.find((c) => c.id === row.campaignId)?.name ?? null,
+    updated_at: row.updatedAt,
+    deleted_at: isDeleted ? new Date(Date.now() - 6 * 86_400_000).toISOString() : null,
+    data: row.warband,
+  };
+}
