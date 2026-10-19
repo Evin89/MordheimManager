@@ -32,7 +32,7 @@ export default function AdminDeletedWarbandsScreen() {
     <section className="space-y-3">
       <h2 className="text-bone-100 font-semibold">Deleted warbands{rows ? ` (${rows.length})` : ''}</h2>
       <p className="font-ui text-xs text-bone-400">
-        Hidden from players, kept for 30 days, then purged by the nightly job. Metadata only.
+        Hidden from players, kept for 30 days, then purged by the nightly job. Tap a name for the read-only roster.
       </p>
 
       {!rows ? (
@@ -46,7 +46,12 @@ export default function AdminDeletedWarbandsScreen() {
             return (
               <div key={w.id} className="rounded-lg bg-ink-900 border border-ink-800 p-3 space-y-1">
                 <div className="flex items-start justify-between gap-3">
-                  <p className="text-bone-100 font-semibold break-words min-w-0">{w.name}</p>
+                  <Link
+                    to={`/admin/players/${w.owner_id}/warbands/${w.id}`}
+                    className="text-bone-100 font-semibold break-words min-w-0 hover:text-ember-400"
+                  >
+                    {w.name}
+                  </Link>
                   <span
                     className={`font-ui text-xs whitespace-nowrap ${left <= 3 ? 'text-danger' : 'text-bone-400'}`}
                   >
