@@ -101,11 +101,76 @@ function stripDemoMode(): Plugin {
   };
 }
 
+/** wrangler.toml [vars] key that backs each required build variable. */
+const WRANGLER_FALLBACK: Record<string, string> = {
+  VITE_SUPABASE_URL: 'SUPABASE_URL',
+  VITE_SUPABASE_ANON_KEY: 'SUPABASE_ANON_KEY',
+};
+
+/**
+ * Reads the public Supabase values from wrangler.toml's [vars] table.
+ *
+ * Both values are public by design (the anon key already ships in every client
+ * bundle; RLS gates the data) and wrangler.toml is already their committed
+ * source of truth for the Worker. Reusing them means a build that has no
+ * host-set variables — Cloudflare's and Netlify's PR preview builds, which only
+ * get the production build variables on `main` — still produces a working app
+ * instead of failing. Host-set variables always win.
+ *
+ * Deliberately a tiny line parser, not a TOML dependency: it only needs plain
+ * `KEY = "value"` lines inside [vars].
+ */
+function wranglerVars(): Record<string, string> {
+  let text: string;
+  try {
+    text = readFileSync(new URL('./wrangler.toml', import.meta.url), 'utf8');
+  } catch {
+    return {};
+  }
+  const vars: Record<string, string> = {};
+  let inVars = false;
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (line.startsWith('[')) {
+      inVars = line === '[vars]';
+      continue;
+    }
+    const m = inVars && line.match(/^([A-Z0-9_]+)\s*=\s*"([^"]*)"/);
+    if (m) vars[m[1]] = m[2];
+  }
+  return vars;
+}
+
+/**
+ * Fills any missing required build variable from wrangler.toml, writing it to
+ * process.env so Vite's own env loading substitutes it into the bundle. Logs
+ * which ones it filled, so a build log never hides where a value came from.
+ */
+function applyWranglerFallback(env: Record<string, string>) {
+  const missing = REQUIRED_ENV.filter((key) => !env[key]);
+  if (missing.length === 0) return;
+  const vars = wranglerVars();
+  const filled: string[] = [];
+  for (const key of missing) {
+    const value = vars[WRANGLER_FALLBACK[key]];
+    if (!value) continue;
+    process.env[key] = value;
+    env[key] = value;
+    filled.push(key);
+  }
+  if (filled.length) {
+    console.log(`[config] ${filled.join(', ')} not set by the host; using wrangler.toml [vars].`);
+  }
+}
+
 export default defineConfig(({ command, mode }) => {
   // Third argument '' loads every variable, not just the VITE_-prefixed ones, so
   // the escape hatch above is visible here too.
   const env = loadEnv(mode, process.cwd(), '');
-  if (command === 'build') assertConfigured(env);
+  if (command === 'build') {
+    applyWranglerFallback(env);
+    assertConfigured(env);
+  }
 
   return {
   define: {
