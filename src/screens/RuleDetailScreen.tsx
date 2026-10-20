@@ -1,6 +1,7 @@
 import { Link, Navigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import WeaponProfileView from '../components/WeaponProfileView';
+import RuleBody from '../components/RuleBody';
 import { SectionHeading } from '../components/ui';
 import { strings } from '../strings';
 import { getRuleEntry, getRulesCategories } from '../lib/rulesIndex';
@@ -33,13 +34,7 @@ export default function RuleDetailScreen() {
         {entry.weapon ? (
           <WeaponProfileView profile={entry.weapon} {...getCostForRuleId(entry.id)} />
         ) : (
-          <div className="space-y-3">
-            {entry.body.split('\n\n').map((paragraph, i) => (
-              <p key={i} className="text-bone-200 text-sm whitespace-pre-line leading-relaxed">
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          <RuleBody body={entry.body} />
         )}
 
         {/* Sources carry long unbroken URLs; let them wrap instead of

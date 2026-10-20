@@ -456,7 +456,7 @@
       "category": "errata",
       "chapter": "Errata",
       "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
-      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, Characteristic Increase. — Replace the existing Ogre maximum characteristics with: Ogre (Ogre Bodyguard Hired Sword)\n\nProfileMWSBSSTWIALd665555659"
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, Characteristic Increase. — Replace the existing Ogre maximum characteristics with: Ogre (Ogre Bodyguard Hired Sword)\n\n| Profile | M | WS | BS | S | T | W | I | A | Ld |\n| Ogre | 6 | 6 | 5 | 5 | 5 | 5 | 6 | 5 | 9 |"
     },
     {
       "id": "errata-57",
@@ -464,7 +464,7 @@
       "category": "errata",
       "chapter": "Errata",
       "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 28",
-      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, Characteristic Increase. — Add the maximum characteristics for Halflings: Halflings (Halfling Scout Hired Sword, et al)\n\nProfileMWSBSSTWIALd4573339410"
+      "body": "Errata: Mordheim Rule book (English, 1st Printing), Page 121, Characteristic Increase. — Add the maximum characteristics for Halflings: Halflings (Halfling Scout Hired Sword, et al)\n\n| Profile | M | WS | BS | S | T | W | I | A | Ld |\n| Halfling | 4 | 5 | 7 | 3 | 3 | 3 | 9 | 4 | 10 |"
     },
     {
       "id": "errata-58",
@@ -704,7 +704,7 @@
       "category": "errata",
       "chapter": "Errata",
       "source": "The 2005 Mordheim Rules Review, Fanatic Magazine #10, Page 31",
-      "body": "Errata: Empire in Flames, Page 71, Maximum Characteristics. — Replace the entry with:\n\nProfileMWSBSSTWIALdUngor666443747Centigors976454649Minotaur665555659Other Beastmen**576454649*This includes all the non-Centigor Heroes and the Gor Henchmen.”"
+      "body": "Errata: Empire in Flames, Page 71, Maximum Characteristics. — Replace the entry with:\n\n| Profile | M | WS | BS | S | T | W | I | A | Ld |\n| Ungor | 6 | 6 | 6 | 4 | 4 | 3 | 7 | 4 | 7 |\n| Centigors | 9 | 7 | 6 | 4 | 5 | 4 | 6 | 4 | 9 |\n| Minotaur | 6 | 6 | 5 | 5 | 5 | 5 | 6 | 5 | 9 |\n| Other Beastmen* | 5 | 7 | 6 | 4 | 5 | 4 | 6 | 4 | 9 |\n\n*This includes all the non-Centigor Heroes and the Gor Henchmen.”"
     },
     {
       "id": "errata-88",
@@ -880,7 +880,7 @@
       "category": "errata",
       "chapter": "Errata",
       "source": "Border Town Burning Errata & FAQ, Page 2",
-      "body": "Errata: Border Town Burning, Page 163, Maximum profile. — Change the maximum profile to that given on page 6 of the Rules Review:\n\nProfileMWSBSSTWIALdOgre665555659"
+      "body": "Errata: Border Town Burning, Page 163, Maximum profile. — Change the maximum profile to that given on page 6 of the Rules Review:\n\n| Profile | M | WS | BS | S | T | W | I | A | Ld |\n| Ogre | 6 | 6 | 5 | 5 | 5 | 5 | 6 | 5 | 9 |"
     },
     {
       "id": "errata-110",

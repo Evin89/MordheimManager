@@ -333,7 +333,7 @@
       "chapter": "Glossary",
       "subChapter": "Rules",
       "source": "The Mordheimer glossary (MordheimerData/Sourcedata)",
-      "body": "The default human warrior profile is listed below:MWSBSSTWIALdHuman433331317Weapons/Armour: If the human warrior may be equipped with weapons and armour, this may be chosen from the Mercenary Equipment list."
+      "body": "The default human warrior profile is listed below:\n\n| Profile | M | WS | BS | S | T | W | I | A | Ld |\n| Human | 4 | 3 | 3 | 3 | 3 | 1 | 3 | 1 | 7 |\n\nWeapons/Armour: If the human warrior may be equipped with weapons and armour, this may be chosen from the Mercenary Equipment list."
     },
     {
       "id": "gloss-minderz",

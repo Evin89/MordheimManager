@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import DisclosureChevron from './DisclosureChevron';
 import WeaponProfileView from './WeaponProfileView';
+import RuleBody from './RuleBody';
 import { getCostForRuleId } from '../lib/weaponRules';
 import { RuleEntry } from '../data/types';
 
@@ -35,7 +36,7 @@ function ExpandableEntry({ entry }: { entry: RuleEntry }) {
           {entry.weapon ? (
             <WeaponProfileView profile={entry.weapon} {...getCostForRuleId(entry.id)} />
           ) : (
-            <p className="text-bone-200 text-sm whitespace-pre-line">{entry.body}</p>
+            <RuleBody body={entry.body} />
           )}
           <Link to={`/rules/${entry.id}`} className="inline-block text-ember-400 text-xs font-semibold">
             Open full entry →
