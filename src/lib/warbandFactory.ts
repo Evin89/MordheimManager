@@ -1,5 +1,6 @@
 import { HenchmenTypeDefinition, HeroSlotDefinition, HiredSwordDefinition, WarbandDefinition } from '../data/types';
 import { generateId } from './id';
+import { HIRED_SWORD_STARTING_EQUIPMENT } from '../data/hiredSwordStartingEquipment';
 import { resolveStatLine } from './statLine';
 import { resolveStatMaximums } from './racialMaximums';
 import { EquipmentItem, Hero, HenchmenGroup, HiredSword, Warband, WARBAND_SCHEMA_VERSION } from '../types';
@@ -110,10 +111,31 @@ export function createHenchmenGroupFromType(
  *
  * Their starting gear is free text in the data ("Morning star, spiked gauntlet
  * … and helmet"), because the rulebook writes it as prose rather than a list of
- * priced items. It's carried into `notes` verbatim instead of being split into
- * equipment entries, since splitting it would mean guessing at which catalogue
- * item each phrase refers to.
+ * priced items. The prose is carried into `notes` verbatim — it holds what each
+ * item counts as — and the items themselves come from the hand-transcribed
+ * `HIRED_SWORD_STARTING_EQUIPMENT`, free, so the card shows what he carries.
+ * A Hired Sword with no entry there (a choice the player makes, or no gear)
+ * gets only the free dagger, as before.
  */
+/**
+ * A Hired Sword's starting gear as equipment entries (issue a0f081ba: a hired
+ * Warlock showed a Dagger and no Staff). The free dagger is added only when his
+ * list doesn't already name one — a listed Dagger is that same dagger, not a
+ * second.
+ */
+function startingEquipment(definition: HiredSwordDefinition): EquipmentItem[] {
+  const listed = HIRED_SWORD_STARTING_EQUIPMENT[definition.id] ?? [];
+  const items: EquipmentItem[] = listed.map((item) => ({
+    id: generateId(),
+    name: item.name,
+    category: item.category,
+    cost: 0,
+    notes: `Starting equipment — came with the hire (${definition.name}).`,
+  }));
+  const hasDagger = listed.some((item) => item.name.trim().toLowerCase() === 'dagger');
+  return hasDagger ? items : [createFreeDagger(), ...items];
+}
+
 export function createHiredSwordFromDefinition(
   definition: HiredSwordDefinition,
   name: string,
@@ -150,7 +172,7 @@ export function createHiredSwordFromDefinition(
     spellLists: definition.spellLists ?? [],
     spells: [],
     injuries: [],
-    equipment: [createFreeDagger()],
+    equipment: startingEquipment(definition),
     status: 'active',
     notes,
   };
