@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-10-20",
+    "title": "Hired Swords Arrive Equipped",
+    "description": "A newly hired Hired Sword now comes with the gear his entry lists, free, on his card: a Warlock carries his Staff, an Elf Ranger his Elf Bow, Sword and Elven Cloak. Where the entry lets you choose (Troll Slayer, Ogre Bodyguard and a few others) or lists no carried gear, he still arrives with just the dagger and the entry's text in his notes. Hired Swords already on a roster are unchanged; add their gear from the model screen."
+  },
+  {
     "date": "2026-10-15",
     "title": "Admin Can View Warbands",
     "description": "The app admin can now open any warband, including private ones, read-only, to see how features are used and whether they work. Every view is logged, nothing can be changed, and your Border Town Burning objectives stay visible to you alone. The visibility text and privacy policy now say so."
