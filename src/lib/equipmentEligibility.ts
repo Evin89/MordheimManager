@@ -94,7 +94,8 @@ export type EligibilityContext = {
  * 2. "Only Heroes may buy and carry the equipment described in this section.
  *    You may not give it to Henchmen unless the rules specifically say so."
  *    That governs the whole `misc` category; the few the rules do name carry
- *    `henchmenAllowed` in the data rather than being special-cased here.
+ *    `henchmenAllowed` in the data, and an item a henchman's own warband list
+ *    names counts as the rules saying so too.
  * 3. "Your warriors can only use the weapons and armour listed in their warband
  *    entry", widened by Weapons Training and Weapons Expert as above. Not
  *    applied to Miscellaneous items, which no list names.
@@ -117,7 +118,16 @@ export function checkEligibility(
 
   if (buyer === 'treasury') return { allowed: true };
 
-  if (item.category === 'misc' && buyer === 'henchmenGroup' && !item.henchmenAllowed) {
+  // A henchman's own equipment list naming a Miscellaneous item *is* the rules
+  // "specifically saying so" — the Fanatic's Ball & chain and Mad Cap
+  // Mushrooms, Halfling Scouts' hunting arrows, a Shadow Warrior's Elven
+  // cloak. Without this the list offered them and rule 2 took them away again.
+  if (
+    item.category === 'misc' &&
+    buyer === 'henchmenGroup' &&
+    !item.henchmenAllowed &&
+    !allowedIds?.has(item.id)
+  ) {
     return { allowed: false, reason: 'heroesOnly' };
   }
 
