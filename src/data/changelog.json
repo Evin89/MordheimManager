@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-10-24",
+    "title": "Henchmen Can Buy Their Own Special Gear",
+    "description": "Henchmen can now buy the special gear their own equipment list names, such as the Night Goblin Fanatic's Ball & chain and Mad Cap Mushrooms, Halfling Scouts' hunting arrows, a Shadow Warrior's Elven cloak or a Pirate crew's boat hook. The Trading Post listed these items but then held them back as Heroes-only."
+  },
+  {
     "date": "2026-10-15",
     "title": "Admin Can View Warbands",
     "description": "The app admin can now open any warband, including private ones, read-only, to see how features are used and whether they work. Every view is logged, nothing can be changed, and your Border Town Burning objectives stay visible to you alone. The visibility text and privacy policy now say so."
