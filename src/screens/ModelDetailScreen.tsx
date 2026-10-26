@@ -9,6 +9,7 @@ import ProfileBlock from '../components/ProfileBlock';
 import WarbandPhotoEditor from '../components/WarbandPhoto';
 import { STAT_KEYS } from '../lib/statLine';
 import EquipmentShop from '../components/EquipmentShop';
+import HiredSwordStartingGear from '../components/HiredSwordStartingGear';
 import EquipmentHistory from '../components/EquipmentHistory';
 import { appendEquipmentLog } from '../lib/equipmentLog';
 import SkillPicker from '../components/SkillPicker';
@@ -809,6 +810,14 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
             />
           }
           footer={<EquipmentHistory log={model.equipmentLog} />}
+          fixedGearNotice={
+            kind === 'hiredSword' ? (
+              <HiredSwordStartingGear
+                sword={model as HiredSword}
+                onApply={(equipment) => commitModel({ equipment })}
+              />
+            ) : undefined
+          }
         />
 
         <div className="space-y-2">
