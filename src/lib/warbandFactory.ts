@@ -1,5 +1,6 @@
 import { HenchmenTypeDefinition, HeroSlotDefinition, HiredSwordDefinition, WarbandDefinition } from '../data/types';
 import { generateId } from './id';
+import { buildStartingEquipment } from './hiredSwordEquipment';
 import { resolveStatLine } from './statLine';
 import { resolveStatMaximums } from './racialMaximums';
 import { EquipmentItem, Hero, HenchmenGroup, HiredSword, Warband, WARBAND_SCHEMA_VERSION } from '../types';
@@ -108,15 +109,16 @@ export function createHenchmenGroupFromType(
  * members of the warband, so they don't occupy one of its slots — see
  * `countTowardWarbandSize`, which honours the same distinction.
  *
- * Their starting gear is free text in the data ("Morning star, spiked gauntlet
- * … and helmet"), because the rulebook writes it as prose rather than a list of
- * priced items. It's carried into `notes` verbatim instead of being split into
- * equipment entries, since splitting it would mean guessing at which catalogue
- * item each phrase refers to.
+ * Their gear is exactly what the entry lists, or the option the hiring player
+ * picks where it offers a choice (`choiceIndex`) — see hiredSwordEquipment.ts.
+ * No free dagger unless the entry names one. The entry's own wording is still
+ * carried into `notes` verbatim, since it also holds the conditional parts
+ * (mounts under the optional rules) that aren't turned into items.
  */
 export function createHiredSwordFromDefinition(
   definition: HiredSwordDefinition,
   name: string,
+  choiceIndex = 0,
 ): HiredSword {
   const { stats, hadMissingStats } = resolveStatLine(definition.statLine);
   const notes = [
@@ -150,7 +152,7 @@ export function createHiredSwordFromDefinition(
     spellLists: definition.spellLists ?? [],
     spells: [],
     injuries: [],
-    equipment: [createFreeDagger()],
+    equipment: buildStartingEquipment(definition.id, choiceIndex),
     status: 'active',
     notes,
   };

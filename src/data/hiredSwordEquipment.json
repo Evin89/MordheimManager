@@ -1,0 +1,1366 @@
+{
+  "source": "Structured from each Hired Sword's own `equipment` text in hiredSwords.json (which stays the 1:1 source wording). Gear that the text makes conditional on the optional mounted-model rules is left out. Names match catalogue items where the text names one, so weapon rules resolve; 'counts as' wording is kept in notes.",
+  "hiredSwords": {
+    "dwarfTrollSlayer": {
+      "fixed": [],
+      "choice": [
+        {
+          "label": "Two Axes",
+          "items": [
+            {
+              "name": "Axe",
+              "category": "melee",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "label": "Double-Handed Axe",
+          "items": [
+            {
+              "name": "Double-Handed Axe",
+              "category": "melee",
+              "notes": "Double-Handed Weapon."
+            }
+          ]
+        }
+      ]
+    },
+    "elfRanger": {
+      "fixed": [
+        {
+          "name": "Elf Bow",
+          "category": "missile"
+        },
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Elven Cloak",
+          "category": "misc"
+        }
+      ]
+    },
+    "freelancer": {
+      "fixed": [
+        {
+          "name": "Heavy Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Shield",
+          "category": "armour"
+        },
+        {
+          "name": "Lance",
+          "category": "melee"
+        },
+        {
+          "name": "Sword",
+          "category": "melee"
+        }
+      ]
+    },
+    "halflingScout": {
+      "fixed": [
+        {
+          "name": "Bow",
+          "category": "missile"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Cooking pot",
+          "category": "armour",
+          "notes": "Counts as a Helmet."
+        }
+      ]
+    },
+    "ogreBodyguard": {
+      "fixed": [
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        }
+      ],
+      "choice": [
+        {
+          "label": "Two Swords",
+          "items": [
+            {
+              "name": "Sword",
+              "category": "melee",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "label": "Sword and Axe",
+          "items": [
+            {
+              "name": "Sword",
+              "category": "melee"
+            },
+            {
+              "name": "Axe",
+              "category": "melee"
+            }
+          ]
+        },
+        {
+          "label": "Sword and Club, Mace or Hammer",
+          "items": [
+            {
+              "name": "Sword",
+              "category": "melee"
+            },
+            {
+              "name": "Club, Mace or Hammer",
+              "category": "melee"
+            }
+          ]
+        },
+        {
+          "label": "Two Axes",
+          "items": [
+            {
+              "name": "Axe",
+              "category": "melee",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "label": "Axe and Club, Mace or Hammer",
+          "items": [
+            {
+              "name": "Axe",
+              "category": "melee"
+            },
+            {
+              "name": "Club, Mace or Hammer",
+              "category": "melee"
+            }
+          ]
+        },
+        {
+          "label": "Two Clubs",
+          "items": [
+            {
+              "name": "Club, Mace or Hammer",
+              "category": "melee",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "label": "Double-Handed Weapon",
+          "items": [
+            {
+              "name": "Double-Handed Weapon",
+              "category": "melee"
+            }
+          ]
+        }
+      ]
+    },
+    "pitFighter": {
+      "fixed": [
+        {
+          "name": "Morning Star",
+          "category": "melee"
+        },
+        {
+          "name": "Spiked gauntlet",
+          "category": "melee",
+          "notes": "Counts as an additional hand weapon and a buckler."
+        },
+        {
+          "name": "Helmet",
+          "category": "armour"
+        }
+      ]
+    },
+    "warlock": {
+      "fixed": [
+        {
+          "name": "Staff",
+          "category": "melee"
+        }
+      ]
+    },
+    "arabianMerchant": {
+      "fixed": [
+        {
+          "name": "Scimitar",
+          "category": "melee",
+          "notes": "Counts as a Sword."
+        }
+      ]
+    },
+    "beastHunter": {
+      "fixed": [
+        {
+          "name": "Axe",
+          "category": "melee",
+          "count": 2
+        },
+        {
+          "name": "Throwing Axe",
+          "category": "missile",
+          "notes": "Counts as a Throwing Knife with +1 Strength."
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        }
+      ]
+    },
+    "highwayman": {
+      "fixed": [
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Brace of pistols",
+          "category": "missile"
+        },
+        {
+          "name": "Rapier",
+          "category": "melee"
+        },
+        {
+          "name": "Cloak",
+          "category": "armour",
+          "notes": "Acts as a Buckler in close combat."
+        }
+      ]
+    },
+    "imperialAssassin": {
+      "fixed": [
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Throwing Knives/Stars",
+          "category": "missile"
+        },
+        {
+          "name": "Crossbow Pistol",
+          "category": "missile"
+        }
+      ]
+    },
+    "roadwarden": {
+      "fixed": [
+        {
+          "name": "Crossbow",
+          "category": "missile"
+        },
+        {
+          "name": "Horseman's Hammer",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Heavy Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Torch",
+          "category": "misc",
+          "count": 3
+        }
+      ]
+    },
+    "tileanMarksman": {
+      "fixed": [
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Crossbow",
+          "category": "missile"
+        }
+      ]
+    },
+    "bard": {
+      "fixed": [
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        }
+      ]
+    },
+    "bigGameHunter": {
+      "fixed": [
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Net",
+          "category": "misc"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Hunting Rifle",
+          "category": "missile",
+          "notes": "Same as a Hochland Long Rifle."
+        }
+      ]
+    },
+    "blackOrcOverseer": {
+      "fixed": [
+        {
+          "name": "Heavy Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Helmet",
+          "category": "armour"
+        }
+      ],
+      "choice": [
+        {
+          "label": "Two Axes",
+          "items": [
+            {
+              "name": "Axe",
+              "category": "melee",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "label": "Double-Handed Weapon",
+          "items": [
+            {
+              "name": "Double-Handed Weapon",
+              "category": "melee"
+            }
+          ]
+        }
+      ]
+    },
+    "bountyHunter": {
+      "fixed": [
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Pistol",
+          "category": "missile"
+        },
+        {
+          "name": "Crossbow",
+          "category": "missile"
+        },
+        {
+          "name": "Heavy Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Helmet",
+          "category": "armour"
+        },
+        {
+          "name": "Rope & Hook",
+          "category": "misc"
+        },
+        {
+          "name": "Lantern",
+          "category": "misc"
+        }
+      ]
+    },
+    "chameleonSkink": {
+      "fixed": [
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Blowpipe with poison darts",
+          "category": "missile"
+        },
+        {
+          "name": "Buckler",
+          "category": "armour"
+        }
+      ]
+    },
+    "clanSkryreRatOgre": {
+      "fixed": [
+        {
+          "name": "Warpfire Thrower",
+          "category": "missile",
+          "notes": "Small, on its mechanical left arm."
+        }
+      ]
+    },
+    "darkElfAssassin": {
+      "fixed": [
+        {
+          "name": "Dark Elf Blade",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Repeater Crossbow",
+          "category": "missile"
+        },
+        {
+          "name": "Dark Venom",
+          "category": "misc"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Dark Cloak",
+          "category": "misc",
+          "notes": "Counts as Elven Cloak."
+        }
+      ]
+    },
+    "duellist": {
+      "fixed": [
+        {
+          "name": "Duelling Pistol",
+          "category": "missile"
+        },
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Cloak",
+          "category": "armour",
+          "notes": "Counts as a Buckler."
+        }
+      ]
+    },
+    "dwarfPathfinder": {
+      "fixed": [
+        {
+          "name": "Axe",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Crossbow",
+          "category": "missile"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        }
+      ]
+    },
+    "dwarfTreasureHunter": {
+      "fixed": [
+        {
+          "name": "Gromril Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Helmet",
+          "category": "armour"
+        },
+        {
+          "name": "Mining Pick",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Club, Mace or Hammer",
+          "category": "melee"
+        },
+        {
+          "name": "Treasure maps",
+          "category": "misc"
+        },
+        {
+          "name": "Lantern rig",
+          "category": "misc"
+        }
+      ]
+    },
+    "elfMage": {
+      "fixed": [
+        {
+          "name": "Staff",
+          "category": "melee"
+        },
+        {
+          "name": "Elven Cloak",
+          "category": "misc"
+        }
+      ]
+    },
+    "gaoler": {
+      "fixed": [],
+      "choice": [
+        {
+          "label": "Heavy chain of keys and locks",
+          "items": [
+            {
+              "name": "Heavy chain of keys and locks",
+              "category": "melee",
+              "notes": "Counts as a flail."
+            }
+          ]
+        },
+        {
+          "label": "Two Hammers/Clubs",
+          "items": [
+            {
+              "name": "Club, Mace or Hammer",
+              "category": "melee",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    },
+    "halflingThief": {
+      "fixed": [
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Throwing Knives/Stars",
+          "category": "missile"
+        },
+        {
+          "name": "Rope and Grapple",
+          "category": "misc"
+        }
+      ]
+    },
+    "humanScout": {
+      "fixed": [
+        {
+          "name": "Bow",
+          "category": "missile"
+        },
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        }
+      ]
+    },
+    "kislevRanger": {
+      "fixed": [
+        {
+          "name": "Bow",
+          "category": "missile"
+        },
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Hunter's cloak",
+          "category": "misc"
+        }
+      ]
+    },
+    "muleSkinner": {
+      "fixed": [
+        {
+          "name": "Whip",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        }
+      ]
+    },
+    "nomadScout": {
+      "fixed": [
+        {
+          "name": "Scimitar",
+          "category": "melee"
+        },
+        {
+          "name": "Bow",
+          "category": "missile"
+        }
+      ]
+    },
+    "norseShaman": {
+      "fixed": [
+        {
+          "name": "Rune Staff",
+          "category": "melee"
+        }
+      ],
+      "choice": [
+        {
+          "label": "Sword",
+          "items": [
+            {
+              "name": "Sword",
+              "category": "melee"
+            }
+          ]
+        },
+        {
+          "label": "Axe",
+          "items": [
+            {
+              "name": "Axe",
+              "category": "melee"
+            }
+          ]
+        }
+      ]
+    },
+    "oldProspector": {
+      "fixed": [
+        {
+          "name": "Blunderbuss",
+          "category": "missile"
+        },
+        {
+          "name": "Pick",
+          "category": "melee",
+          "notes": "Two-handed weapon."
+        }
+      ]
+    },
+    "pathfinder": {
+      "fixed": [
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Long Bow",
+          "category": "missile"
+        },
+        {
+          "name": "Rope & Hook",
+          "category": "misc"
+        },
+        {
+          "name": "Healing Herbs",
+          "category": "misc"
+        }
+      ]
+    },
+    "runesmithJourneyman": {
+      "fixed": [
+        {
+          "name": "Gromril Hammer",
+          "category": "melee"
+        },
+        {
+          "name": "Heavy Armour",
+          "category": "armour"
+        }
+      ]
+    },
+    "shadowWarrior": {
+      "fixed": [
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Long Bow",
+          "category": "missile"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Shield",
+          "category": "armour"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        }
+      ]
+    },
+    "snakeCharmer": {
+      "fixed": [
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Scimitar",
+          "category": "melee"
+        }
+      ]
+    },
+    "thief": {
+      "fixed": [
+        {
+          "name": "Dagger",
+          "category": "melee",
+          "count": 2
+        },
+        {
+          "name": "Thief's cloak",
+          "category": "misc"
+        }
+      ]
+    },
+    "tombRobber": {
+      "fixed": [
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Crossbow Pistol",
+          "category": "missile"
+        },
+        {
+          "name": "Rope & Hook",
+          "category": "misc"
+        }
+      ]
+    },
+    "warriorPriestOfSigmar": {
+      "fixed": [
+        {
+          "name": "Hammer of Sigmar",
+          "category": "melee"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Shield",
+          "category": "armour"
+        }
+      ]
+    },
+    "witch": {
+      "fixed": [
+        {
+          "name": "Staff",
+          "category": "melee"
+        }
+      ]
+    },
+    "witchHunter": {
+      "fixed": [
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        }
+      ],
+      "choice": [
+        {
+          "label": "Duelling Pistol",
+          "items": [
+            {
+              "name": "Duelling Pistol",
+              "category": "missile"
+            }
+          ]
+        },
+        {
+          "label": "Crossbow Pistol",
+          "items": [
+            {
+              "name": "Crossbow Pistol",
+              "category": "missile"
+            }
+          ]
+        }
+      ]
+    },
+    "boneGoliath": {
+      "fixed": []
+    },
+    "cathayanMerchant": {
+      "fixed": [
+        {
+          "name": "Sword",
+          "category": "melee"
+        }
+      ]
+    },
+    "chaosCentaur": {
+      "fixed": [
+        {
+          "name": "Throwing Axes",
+          "category": "missile",
+          "notes": "Counts as throwing knives."
+        },
+        {
+          "name": "Shield",
+          "category": "armour"
+        }
+      ],
+      "choice": [
+        {
+          "label": "Sword",
+          "items": [
+            {
+              "name": "Sword",
+              "category": "melee"
+            }
+          ]
+        },
+        {
+          "label": "Spear",
+          "items": [
+            {
+              "name": "Spear",
+              "category": "melee",
+              "notes": "Treated as for the Cavalry bonus (+1 Strength when charging)."
+            }
+          ]
+        }
+      ]
+    },
+    "coachman": {
+      "fixed": [
+        {
+          "name": "Whip",
+          "category": "melee"
+        },
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        }
+      ]
+    },
+    "graveRobber": {
+      "fixed": [
+        {
+          "name": "Pickaxe",
+          "category": "melee",
+          "notes": "Uses the rules of an axe for combat."
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Lantern",
+          "category": "misc"
+        },
+        {
+          "name": "Toughened Leathers",
+          "category": "armour"
+        }
+      ]
+    },
+    "hobgoblinScout": {
+      "fixed": [
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Short Bow",
+          "category": "missile"
+        },
+        {
+          "name": "Shield",
+          "category": "armour"
+        },
+        {
+          "name": "Giant Wolf",
+          "category": "misc",
+          "notes": "Ridden."
+        }
+      ]
+    },
+    "ninja": {
+      "fixed": [
+        {
+          "name": "Sword",
+          "category": "melee",
+          "count": 2
+        },
+        {
+          "name": "Throwing Knives/Stars",
+          "category": "missile"
+        },
+        {
+          "name": "Rope & Hook",
+          "category": "misc"
+        },
+        {
+          "name": "Smoke Bomb",
+          "category": "misc"
+        }
+      ]
+    },
+    "pyromaniac": {
+      "fixed": [
+        {
+          "name": "Fireworks",
+          "category": "missile"
+        },
+        {
+          "name": "Firecrackers",
+          "category": "missile",
+          "notes": "Unlimited."
+        }
+      ]
+    },
+    "swordsmith": {
+      "fixed": [
+        {
+          "name": "Club, Mace or Hammer",
+          "category": "melee"
+        },
+        {
+          "name": "Toughened Leathers",
+          "category": "armour"
+        }
+      ]
+    },
+    "beggar": {
+      "fixed": [
+        {
+          "name": "Club, Mace or Hammer",
+          "category": "melee"
+        }
+      ]
+    },
+    "chaosFury": {
+      "fixed": []
+    },
+    "cursedHillman": {
+      "fixed": [
+        {
+          "name": "Axe",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Long Bow",
+          "category": "missile"
+        },
+        {
+          "name": "Heavy fur cloak",
+          "category": "armour",
+          "notes": "Armour save 5+ versus ranged attacks, 6+ in close combat. Man-form only."
+        }
+      ]
+    },
+    "darkMage": {
+      "fixed": [
+        {
+          "name": "Staff",
+          "category": "melee"
+        }
+      ]
+    },
+    "dwarfSlayerPirate": {
+      "fixed": [
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Superior Blackpowder",
+          "category": "misc"
+        },
+        {
+          "name": "Pistols",
+          "category": "missile",
+          "notes": "Many, many."
+        }
+      ]
+    },
+    "emissaryOfChaos": {
+      "fixed": [
+        {
+          "name": "Chaos Armour",
+          "category": "armour",
+          "notes": "4+ save."
+        },
+        {
+          "name": "Helmet",
+          "category": "armour"
+        },
+        {
+          "name": "Shield",
+          "category": "armour"
+        },
+        {
+          "name": "Sword",
+          "category": "melee"
+        }
+      ]
+    },
+    "estalianDiestro": {
+      "fixed": [
+        {
+          "name": "Rapier",
+          "category": "melee"
+        },
+        {
+          "name": "Main Gauche",
+          "category": "melee"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        }
+      ]
+    },
+    "fallenSister": {
+      "fixed": [
+        {
+          "name": "Steel Whip",
+          "category": "melee"
+        },
+        {
+          "name": "Sigmarite Warhammer",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Sling",
+          "category": "missile"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        }
+      ]
+    },
+    "goblinLanternBearer": {
+      "fixed": [
+        {
+          "name": "Lantern",
+          "category": "misc"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        }
+      ]
+    },
+    "gravesman": {
+      "fixed": [
+        {
+          "name": "Shovel",
+          "category": "melee",
+          "notes": "Halberd."
+        },
+        {
+          "name": "Pry bar",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        }
+      ]
+    },
+    "halflingKnight": {
+      "fixed": [
+        {
+          "name": "Cavalry Spear",
+          "category": "melee"
+        },
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Heavy Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Helmet",
+          "category": "armour"
+        },
+        {
+          "name": "Shield",
+          "category": "armour"
+        },
+        {
+          "name": "Hound",
+          "category": "misc"
+        },
+        {
+          "name": "Barding",
+          "category": "armour"
+        }
+      ]
+    },
+    "imperialTactician": {
+      "fixed": [
+        {
+          "name": "Two-handed sword",
+          "category": "melee"
+        },
+        {
+          "name": "Plate armour",
+          "category": "armour",
+          "notes": "4+ save, -1M."
+        },
+        {
+          "name": "Helmet",
+          "category": "armour"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        }
+      ]
+    },
+    "knightOfTheWhiteWolf": {
+      "fixed": [
+        {
+          "name": "Heavy Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Wolfcloak",
+          "category": "misc"
+        },
+        {
+          "name": "Great ornate two-handed hammer",
+          "category": "melee",
+          "notes": "Counts as a Horseman's Hammer."
+        }
+      ]
+    },
+    "ninjaGnoblar": {
+      "fixed": [
+        {
+          "name": "Ninja Robe",
+          "category": "armour",
+          "notes": "Counts as Hardened Leathers."
+        },
+        {
+          "name": "Shurikens",
+          "category": "missile",
+          "notes": "Throwing stars with Stealthy special rule."
+        },
+        {
+          "name": "Bo",
+          "category": "melee",
+          "notes": "Gives an additional attack, may parry and requires both hands."
+        }
+      ]
+    },
+    "ogreSlaveMaster": {
+      "fixed": [
+        {
+          "name": "Axe",
+          "category": "melee"
+        },
+        {
+          "name": "Club, Mace or Hammer",
+          "category": "melee"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        }
+      ]
+    },
+    "slaver": {
+      "fixed": [
+        {
+          "name": "Spear",
+          "category": "melee"
+        },
+        {
+          "name": "Net",
+          "category": "misc"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Helmet",
+          "category": "armour"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        }
+      ]
+    },
+    "swashbuckler": {
+      "fixed": [
+        {
+          "name": "Rapier",
+          "category": "melee"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Duelling Pistol",
+          "category": "missile"
+        }
+      ]
+    },
+    "ungorTrapper": {
+      "fixed": [
+        {
+          "name": "Bow",
+          "category": "missile"
+        },
+        {
+          "name": "Dagger",
+          "category": "melee"
+        },
+        {
+          "name": "Club, Mace or Hammer",
+          "category": "melee"
+        },
+        {
+          "name": "Rope & Hook",
+          "category": "misc"
+        }
+      ]
+    },
+    "weaponsmith": {
+      "fixed": [
+        {
+          "name": "Club, Mace or Hammer",
+          "category": "melee"
+        },
+        {
+          "name": "Crossbow",
+          "category": "missile"
+        },
+        {
+          "name": "Buckler",
+          "category": "armour"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Helmet",
+          "category": "armour"
+        }
+      ]
+    },
+    "woodElfHunter": {
+      "fixed": [
+        {
+          "name": "Elf Bow",
+          "category": "missile"
+        },
+        {
+          "name": "Sword",
+          "category": "melee"
+        },
+        {
+          "name": "Light Armour",
+          "category": "armour"
+        },
+        {
+          "name": "Hunting Arrows",
+          "category": "misc"
+        }
+      ]
+    }
+  }
+}

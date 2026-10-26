@@ -25,6 +25,7 @@ export function EquipmentSection({
   shop,
   purchasePanel,
   footer,
+  fixedGearNotice,
 }: {
   /** What this model (or every model in the group) carries. */
   equipment: EquipmentItem[];
@@ -38,7 +39,14 @@ export function EquipmentSection({
   purchasePanel: ReactNode;
   /** Anything after the treasury, e.g. the equipment history log. */
   footer?: ReactNode;
+  /**
+   * Set for a Hired Sword: he carries exactly what his entry lists, so there
+   * is no shop, no treasury to draw from and nothing to hand back. The text
+   * says why, in place of those controls.
+   */
+  fixedGearNotice?: ReactNode;
 }) {
+  const fixed = fixedGearNotice != null;
   const [shoppingOpen, setShoppingOpen] = useState(false);
   const usage = countWeaponSlots(equipment);
 
@@ -51,6 +59,7 @@ export function EquipmentSection({
         <p className="text-ink-faded text-sm">
           {strings.modelDetail.weaponSlots(usage.melee, MAX_MELEE, usage.missileTypes, MAX_MISSILE_TYPES)}
         </p>
+        {!fixed && (
         <button
           type="button"
           onClick={() => setShoppingOpen((v) => !v)}
@@ -58,14 +67,22 @@ export function EquipmentSection({
         >
           {shoppingOpen ? strings.modelDetail.hideShop : strings.modelDetail.buyEquipment}
         </button>
+        )}
       </div>
       {equipment.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noEquipment}</p>}
       <ItemList
         items={equipment}
         actionLabel={strings.modelDetail.moveToTreasury}
-        onAction={onMoveToTreasury}
+        onAction={fixed ? undefined : onMoveToTreasury}
       />
 
+      {fixed ? (
+        <>
+          {fixedGearNotice}
+          {footer}
+        </>
+      ) : (
+        <>
       {purchasePanel}
 
       {shoppingOpen && (
@@ -86,6 +103,8 @@ export function EquipmentSection({
       />
 
       {footer}
+        </>
+      )}
     </section>
   );
 }
@@ -97,7 +116,8 @@ function ItemList({
 }: {
   items: EquipmentItem[];
   actionLabel: string;
-  onAction: (itemId: string) => void;
+  /** Omitted for gear that can't be moved, e.g. a Hired Sword's own. */
+  onAction?: (itemId: string) => void;
 }) {
   return (
     <div className="space-y-2">
@@ -106,6 +126,7 @@ function ItemList({
           key={item.id}
           name={item.name}
           action={
+            onAction && (
             <button
               type="button"
               onClick={() => onAction(item.id)}
@@ -113,6 +134,7 @@ function ItemList({
             >
               {actionLabel}
             </button>
+            )
           }
         />
       ))}

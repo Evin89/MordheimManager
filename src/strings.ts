@@ -808,6 +808,8 @@ export const strings = {
     perBattle: 'per battle',
     hiredByLabel: 'May be hired by',
     equipmentLabel: 'Comes with',
+    gearChoiceLabel: 'Equipment choice',
+    gearChoiceHint: 'His entry lets the hiring player choose. Hired Swords carry only what their entry lists.',
     specialRulesLabel: 'Special rules',
     notCountedHint: "Hired Swords don't count toward your maximum warband size.",
     hireFeeLabel: 'Hire fee',
@@ -827,6 +829,10 @@ export const strings = {
     newGroup: 'Start a new group',
   },
   modelDetail: {
+    hiredSwordFixedGear: "Hired Swords carry exactly what their entry lists, so they can't buy or be given other equipment.",
+    hiredSwordMissingGear: (entry: string) =>
+      `Hired before starting equipment was added, so he only got a dagger. His entry: ${entry}`,
+    hiredSwordApplyGear: 'Give him his starting equipment',
     nameLabel: 'Name',
     nicknameLabel: 'Nickname',
     nicknamePlaceholder: 'e.g. One-Eye',
