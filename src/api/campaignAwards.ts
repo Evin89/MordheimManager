@@ -24,7 +24,7 @@ export type CampaignAwardRecord = {
   createdAt: string;
 };
 
-type CampaignAwardRow = {
+export type CampaignAwardRow = {
   id: string;
   campaign_id: string;
   warband_id: string;
@@ -37,7 +37,7 @@ type CampaignAwardRow = {
 
 const COLUMNS = 'id, campaign_id, warband_id, title, note, kind, award_key, created_at';
 
-function toAward(row: CampaignAwardRow): CampaignAwardRecord {
+export function toAward(row: CampaignAwardRow): CampaignAwardRecord {
   return {
     id: row.id,
     campaignId: row.campaign_id,
