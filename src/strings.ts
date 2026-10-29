@@ -122,6 +122,26 @@ export const strings = {
     copied: 'Copied',
     done: 'Done',
   },
+  // §36 — offering the PWA install: the Account card and the Home nudge.
+  install: {
+    section: 'Install the app',
+    intro:
+      'Put Mordheim on your home screen. It opens full-screen like any other app, without the browser bar, and game-night reminders work on iPhone only once it’s installed.',
+    button: 'Install app',
+    justInstalled: 'Installed. Open Mordheim from your home screen or app drawer.',
+    androidSteps: ['In Chrome, tap the menu (top right)', 'Tap Install app (or Add to Home screen).'],
+    androidInAppHint: 'Opened this from WhatsApp or Discord? Those can’t install apps. Use ⋮ → Open in Chrome first.',
+    androidFootnote: 'Already installed? Open it from your home screen instead of the browser.',
+    iosSteps: [
+      'Tap the Share button at the bottom of Safari',
+      'Scroll down and tap Add to Home Screen.',
+      'Tap Add.',
+    ],
+    iosInAppHint: 'Opened this from WhatsApp or Discord? Open the page in Safari first.',
+    nudgeTitle: 'Play from your home screen',
+    nudgeDismiss: 'Hide this tip',
+    pushLink: 'How to install it',
+  },
   // §10.3.1 — claiming leadership of a campaign whose leaders have gone quiet.
   leaderClaim: {
     title: (campaign: string) => (campaign ? `${campaign} needs a leader` : 'Campaign leadership'),
@@ -753,15 +773,38 @@ export const strings = {
     skillsLabel: 'Skills',
     rulesLabel: 'Rules',
     // Shareable warband card (canvas image for Discord/group chats).
+    // §37 — the share panel opened from the roster header.
     card: {
-      button: 'Share card',
-      hint: 'A clean card image of this warband — for pasting into Discord or a group chat.',
+      button: 'Share',
       generating: 'Building card…',
       download: 'Download',
       share: 'Share',
-      regenerate: 'Rebuild',
+      shareImage: 'Share image',
+      shareImageHint: 'Pick WhatsApp or Discord in the menu that opens.',
+      copyImage: 'Copy image',
+      copiedImage: 'Copied. Paste it into Discord or WhatsApp.',
+      linkHeading: 'Or send a link',
+      whatsapp: 'WhatsApp',
+      discord: 'Copy for Discord',
+      discordCopied: 'Copied — paste it',
+      privateHint: 'Want to send a link instead? Make the warband public in Sharing below.',
+      privateHintAction: 'Go to Sharing',
+      copyLink: 'Copy link',
+      linkCopied: 'Copied',
+      close: 'Close',
       failed: 'Could not build the card. Try again.',
       alt: (name: string) => `Shareable card for ${name}`,
+      // Text that rides along with the shared image (§37.3).
+      imageTextPublic: (name: string, rating: number, url: string) => `${name} · Rating ${rating}
+${url}`,
+      imageTextPrivate: (url: string) => `Made with Mordheim Manager
+${url}`,
+      shareMessage: (name: string, rating: number, url: string) =>
+        `My Mordheim warband ${name} (rating ${rating}) — see the roster: ${url}`,
+      // Name in bold; link on its own line so Discord unfurls it.
+      shareMessageDiscord: (name: string, rating: number, url: string) =>
+        `My Mordheim warband **${name}** (rating ${rating})
+${url}`,
     },
     // Warband health / legality check panel.
     health: {

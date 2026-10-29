@@ -1,3 +1,5 @@
+// First: Chromium can fire `beforeinstallprompt` before React mounts (§36.2).
+import './lib/install';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';

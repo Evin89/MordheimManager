@@ -27,7 +27,7 @@ export default function WarbandSharingCard({ warbandId }: { warbandId: string })
   const hasCampaigns = (campaigns?.length ?? 0) > 0;
 
   return (
-    <section className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-4">
+    <section id="warband-sharing" className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-4 scroll-mt-4">
       <h2 className="text-bone-100 font-semibold">{strings.campaign.sharingSection}</h2>
 
       {!hasCampaigns ? (
