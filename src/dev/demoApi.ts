@@ -776,6 +776,39 @@ export async function fetchStrandedCampaignCount() {
   ).length;
 }
 
+/** §4.9.8 — composed from the same demo fetchers the member screens use, so the
+ * admin view shows exactly what a member would. Join code withheld. */
+export async function fetchAdminCampaignContent(id: string) {
+  const d = db();
+  const found = d.campaigns.find((c) => c.id === id);
+  if (!found) throw new Error('No such campaign');
+  const [members, warbands, battles, events, log, territories, awards] = await Promise.all([
+    fetchCampaignMembers(id),
+    fetchCampaignWarbands(id),
+    fetchBattles(id),
+    fetchCampaignEvents(id),
+    fetchCampaignLog(id),
+    fetchTerritories(id),
+    fetchCampaignAwards(id),
+  ]);
+  const rsvpLists = await Promise.all(events.map((e) => fetchEventRsvps(e.id)));
+  return {
+    campaign: { ...found, joinCode: null },
+    hasJoinCode: found.joinCode !== null,
+    members,
+    warbands,
+    battles,
+    reporters: Object.fromEntries(
+      battles.map((b) => [b.id, warbands.find((w) => w.id === b.warbandId)?.ownerId ?? '']),
+    ),
+    events,
+    rsvps: rsvpLists.flat(),
+    log,
+    territories,
+    awards,
+  };
+}
+
 // --- profile ---------------------------------------------------------------
 
 export async function fetchMyProfile(userId: string): Promise<{ id: string; displayName: string } | null> {

@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-10-28",
+    "title": "Admin Can View Campaigns",
+    "description": "The app admin can now open any campaign, including private ones, read-only: its standings, battle log, events and RSVPs, narrative log, territories and honours. As with warbands, every view is logged and nothing can be changed. The admin never sees the join code, and your Border Town Burning objectives stay visible to you alone. The privacy policy now says so."
+  },
+  {
     "date": "2026-10-26",
     "title": "Hired Swords Come With Their Own Gear",
     "description": "A newly hired Hired Sword now carries exactly what his entry lists, such as the Warlock's Staff or the Elf Ranger's Elf Bow, Sword and Elven Cloak, instead of only a dagger. Where the entry offers a choice, like the Troll Slayer's two axes or double-handed axe, you pick it when hiring. Hired Swords can no longer buy or be given other equipment. One hired earlier, with only the dagger, gets a button on his page to put on his starting equipment."

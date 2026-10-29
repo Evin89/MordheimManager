@@ -809,7 +809,7 @@ There is a per-player drill-down but no per-campaign one, even though a campaign
 - **List** (`/admin/campaigns`): name, visibility, creator, created date, member/battle/event/warband counts, leader count, last activity. Searchable by name, paginated (§13.3 — any list past ~50 rows needs a search field, not just paging).
 - **Detail** (`/admin/campaigns/:id`): the metadata above, plus the member list with roles, display names, their entered warband's name/type/rating, and the leader badge — the same join the members panel (§4.5) already renders, reached as operator rather than member.
 
-The content-blind boundary (§4.9.7) applies in full. Shows counts; never battle-log narratives, campaign-event content, or objectives.
+_Amended 2026-10-28 by §4.9.8:_ the detail screen now also shows the campaign's full content, read-only, through one logged function. The list, header and member rows stay metadata; objectives and the join code are never shown.
 
 **Stranded-campaign diagnostic.** This view is where §10.3.1's stranded campaign — a single leader who stopped showing up, which the app has no petition or timeout for — becomes visible: `leader_count = 1` and stale `last_activity` flags them, surfaced as a filter on the list and a count badge on Overview. **Seeing them is all this does.** Whether an admin should get a lever to fix one — a `SECURITY DEFINER` escape hatch granting leadership to another member, bypassing §10.3.1's "caller must be a leader" check — is a separate ❓ deliberately not decided here. Surfacing is the safe, in-grain first step; an admin who can silently promote members inside campaigns they aren't in is a real power that wants its own justification, not a rider on a diagnostic screen.
 
@@ -853,9 +853,41 @@ $$;
 
 The operator chores with no "where the thing lives" home (§4.6) because they are operator-global rather than attached to a resource: the storage purge-queue drain (§10.5 — still outstanding, the "actions out of cloud" item, since it needs a session Postgres can't hold), the manual `admin_purge_deleted_warbands()` trigger, and the §11.5 photo/quota cleanup once it exists. Destructive actions here follow §10.1 — **type-to-confirm, not a bare button** — because "drain the queue" and "purge now" are irreversible.
 
+#### 4.9.8 Admin campaign drill-down — clickable, full read-only content ✅ _(migration 0057; amends §4.9.4, §4.9.5, §4.9.7)_
+
+**Why.** The 2026-10-15 roster decision (§4.9.4.3) let the sole admin read any warband to see how the features are used and whether they work. The campaign is the other first-class object, and counts alone can't answer "is the events panel used, does territory control work?" any more than roster counts could. Same decision shape: read-only, no member notification, no reason field, **every open logged**.
+
+**Player → campaign links.** On `/admin/players/:id`, each campaign row is a whole-row link to `/admin/campaigns/:id` — never `/campaign/:id`, which RLS (§8.3) renders empty for a private campaign the admin isn't in. The way back is symmetric: on the campaign screen the creator, each member row and each standings player link to `/admin/players/:id`, and each standings warband opens the logged read-only roster (§4.9.4.3).
+
+**Content.** `/admin/campaigns/:id` keeps its metadata header and member list (`admin_campaign_detail`) and adds, below a pinned "Admin view · read-only · you are not a member of this campaign" banner, collapsible sections: **Settings** (BTB, join code active/revoked, concluded, pinned announcement, notes, house rules that differ from the rulebook default), **Standings**, **Battle log** (with who reported each), **Events** (upcoming/past, RSVPs by status with names), **Narrative log**, **Territories**, **Honours & awards**.
+
+**One function, not one per section.** `admin_campaign_content(p_campaign_id)` returns all sections in one call, with rows in the same snake_case shape as the member-side selects, so the client maps them through the very same exported mappers (`toCampaign`, `toMember`, `toCampaignWarband`, `toEvent`, `toRsvp`, `toEntry`, `toTerritory`, `toAward`). One call means one audit row per open; per-section lazy RPCs would have logged several rows per visit and bought nothing at admin-only frequency. The query does not refetch on window focus, for the same reason.
+
+**Mirror, never exceed.**
+- Standings come from `buildStandingsRows` — the member Standings tab's own derivation — so the two can't drift.
+- The battle log renders the member `BattleRow` component with no `onDelete`; no write control exists anywhere on the screen.
+- Warband rows carry the columns `fetchCampaignWarbands` reads (name, type, rating, owner) — never `warbands.data`. Soft-deleted warbands are excluded.
+- `join_code` is returned as `null` with a separate `has_join_code` boolean.
+- No objectives table is touched.
+
+**Audit.** `admin_campaign_views (admin_id, campaign_id, viewed_at)` — RLS on, no policies, written only by the function, no FK to `campaigns` so the log outlives a deleted campaign; joins the 3-year `purge_old_audit_logs()` retention. The function is volatile (it writes), never `stable`.
+
+**Privacy copy.** `privacy.html` §2 now reads "Admin access to warbands and campaigns", listing what the admin can see, that every view is logged, and that the join code and BTB objectives are never visible. Changelog entry 2026-10-28.
+
+**Demo mode.** `demo.fetchAdminCampaignContent` composes the existing member-side demo fetchers, so the admin screen shows exactly what the demo campaign screen shows.
+
 #### 4.9.7 What every admin function must never return
 
-Restated because it now governs five screens and two new functions, not one: **no email addresses, no campaign-event or battle content, and no BTB objectives** — ever, for any admin, regardless of the campaign's visibility. **Roster `data` jsonb** is returned by exactly one function, `admin_warband_roster` (§4.9.4.3, amended 2026-10-15), which writes an audit row on every call. No other admin function may return it, and no admin function may return it unlogged. Owner-only objectives are the entire reason that table is separate (§8.3); an admin function that returned them would undo it. Admin functions return aggregates, counts, and metadata — never content, never row access to the secret table. `admin_campaign_overview` and `admin_campaign_detail` are held to this exactly like `admin_stats` and `admin_user_overview` before them.
+**Never, for any admin, regardless of visibility: no email addresses, no BTB objectives, no campaign join codes.** Owner-only objectives are the entire reason that table is separate (§8.3); an admin function that returned them would undo it. A join code is a credential, not content.
+
+Content is returned by exactly two functions, each writing an audit row on every call, and each mirroring what the owner/member already sees — never more:
+
+| Function | Returns | Log | Decided |
+| --- | --- | --- | --- |
+| `admin_warband_roster` | one roster's `data` jsonb (§4.9.4.3) | `admin_roster_views` | 2026-10-15 |
+| `admin_campaign_content` | one campaign's settings, standings inputs, battle log, events + RSVPs, narrative log, territories, honours (§4.9.8) | `admin_campaign_views` | 2026-10-28 |
+
+No other admin function may return roster or campaign content, and none may return it unlogged. Every other admin function — `admin_stats`, `admin_user_overview`, `admin_campaign_overview`, `admin_campaign_detail`, the activity RPCs — returns aggregates, counts and metadata only.
 
 _(Folded into §23.5: the analytics panels now live on `/admin/overview`, behind the same shared gate (§4.9.1), reading the same RPCs.)_
 

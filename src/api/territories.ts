@@ -18,7 +18,7 @@ export type Territory = {
   createdAt: string;
 };
 
-type TerritoryRow = {
+export type TerritoryRow = {
   id: string;
   campaign_id: string;
   name: string;
@@ -30,7 +30,7 @@ type TerritoryRow = {
 
 const COLUMNS = 'id, campaign_id, name, kind, notes, controlled_by_warband_id, created_at';
 
-function toTerritory(row: TerritoryRow): Territory {
+export function toTerritory(row: TerritoryRow): Territory {
   return {
     id: row.id,
     campaignId: row.campaign_id,

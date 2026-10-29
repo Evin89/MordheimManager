@@ -22,6 +22,7 @@ import { fetchAdminDeletedWarbands } from '../api/adminDeletedWarbands';
 import { fetchAdminUserWarbands, fetchAdminWarbandRoster } from '../api/adminWarbands';
 import {
   fetchAdminCampaigns,
+  fetchAdminCampaignContent,
   fetchAdminCampaignDetail,
   fetchStrandedCampaignCount,
 } from '../api/adminCampaigns';
@@ -151,6 +152,20 @@ export function useAdminCampaignDetailQuery(id: string | undefined) {
     queryKey: ['adminCampaignDetail', id],
     queryFn: () => fetchAdminCampaignDetail(id!),
     enabled: isAdmin === true && !!id,
+  });
+}
+
+/** §4.9.8 — the full read-only content. Every fetch writes an audit row, so it
+ * is not refetched on focus. */
+export function useAdminCampaignContentQuery(id: string | undefined) {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['adminCampaignContent', id],
+    queryFn: () => fetchAdminCampaignContent(id!),
+    enabled: isAdmin === true && !!id,
+    staleTime: 5 * 60_000,
+    refetchOnWindowFocus: false,
+    retry: false,
   });
 }
 

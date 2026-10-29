@@ -250,7 +250,7 @@ export type CampaignWarbandRow = {
   playerName: string;
 };
 
-type CampaignWarbandQueryRow = {
+export type CampaignWarbandQueryRow = {
   id: string;
   owner_id: string;
   name: string;
@@ -272,14 +272,18 @@ export async function fetchCampaignWarbands(campaignId: string): Promise<Campaig
     .order('rating', { ascending: false });
   if (error) throw error;
 
-  return (data as unknown as CampaignWarbandQueryRow[]).map((row) => ({
+  return (data as unknown as CampaignWarbandQueryRow[]).map(toCampaignWarband);
+}
+
+export function toCampaignWarband(row: CampaignWarbandQueryRow): CampaignWarbandRow {
+  return {
     id: row.id,
     ownerId: row.owner_id,
     name: row.name,
     warbandType: row.warband_type,
     rating: row.rating,
     playerName: row.profiles?.display_name || '',
-  }));
+  };
 }
 
 /** Rows per page in the gallery.

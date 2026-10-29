@@ -228,7 +228,11 @@ export default function AdminUserScreen() {
               ) : (
                 <div className="rounded-lg border border-ink-800 bg-ink-900 divide-y divide-ink/15">
                   {user.campaigns.map((c) => (
-                    <div key={c.id} className="px-3 py-2">
+                    <Link
+                      key={c.id}
+                      to={`/admin/campaigns/${c.id}`}
+                      className="block px-3 py-2 min-h-[44px] hover:bg-ink-800"
+                    >
                       <div className="flex items-baseline gap-2">
                         <span className="min-w-0 flex-1 truncate text-bone-100">{c.name}</span>
                         {c.role === 'campaign_leader' && (
@@ -236,6 +240,7 @@ export default function AdminUserScreen() {
                             leader
                           </span>
                         )}
+                        <span aria-hidden className="shrink-0 text-ember-400">→</span>
                       </div>
                       <p className="font-ui text-xs text-bone-400">
                         {c.members} player{c.members === 1 ? '' : 's'}
@@ -243,7 +248,7 @@ export default function AdminUserScreen() {
                         {' · '}
                         joined {when(c.joinedAt)}
                       </p>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               )}
@@ -252,8 +257,8 @@ export default function AdminUserScreen() {
           {/* Says what is missing, so its absence reads as a decision rather
               than an oversight to someone extending this screen later. */}
           <p className="font-ui text-xs text-bone-400">
-            Rosters open read-only, and every open is logged (§4.9.4.3). BTB objectives are never shown
-            to an admin.
+            Rosters and campaigns open read-only, and every open is logged (§4.9.4.3, §4.9.8). BTB
+            objectives are never shown to an admin.
           </p>
         </>
       )}
