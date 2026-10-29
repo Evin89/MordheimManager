@@ -250,7 +250,17 @@ export async function renderWarbandCard(
   const site = 'mordheimmanager.net';
   ctx.fillText(site, W - PAD - ctx.measureText(site).width, fy);
 
-  return await new Promise<Blob>((resolve, reject) => {
-    canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('Could not encode card.'))), 'image/png');
-  });
+  const encode = (type: string, quality?: number) =>
+    new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('Could not encode card.'))), type, quality);
+    });
+
+  // §37.4 — chat apps recompress big images hard. A long roster at 2× can make
+  // a PNG WhatsApp shrinks badly; the flat dark colours survive JPEG well.
+  const png = await encode('image/png');
+  if (png.size <= MAX_PNG_BYTES) return png;
+  return encode('image/jpeg', 0.9);
 }
+
+/** Above this, the card goes out as JPEG instead (§37.4). */
+const MAX_PNG_BYTES = 1.5 * 1024 * 1024;

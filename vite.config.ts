@@ -227,6 +227,10 @@ export default defineConfig(({ command, mode }) => {
         // (a link to the landing) opens in the browser instead.
         start_url: '/app',
         scope: '/app',
+        // §36.1 — pins the app's identity. Chrome already derived it from
+        // start_url (`/app`), so existing installs are unaffected; this stops a
+        // future start_url change from orphaning them.
+        id: '/app',
         display: 'standalone',
         background_color: '#0b0a09',
         theme_color: '#0b0a09',

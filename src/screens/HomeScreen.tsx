@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AppBanner from '../components/AppBanner';
 import DiscordLink from '../components/DiscordLink';
 import GetStartedCard from '../components/GetStartedCard';
+import { InstallNudgeCard } from '../components/InstallCard';
 import { Card, SectionHeading, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
@@ -301,6 +302,9 @@ export default function HomeScreen() {
             </Link>
           </div>
         </section>
+
+        {/* §36.4 — below the main content, and only on this (≥1 warband) view. */}
+        {warbands.length > 0 && <InstallNudgeCard />}
 
         <AboutSection />
       </main>
