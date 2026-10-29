@@ -66,7 +66,16 @@ export type AnalyticsEvent =
   | 'issue_report_submitted'
   // §26.4.3 — the zero-warband "Create your first warband" card on Home.
   | 'onboarding_first_warband_shown'
-  | 'onboarding_first_warband_clicked';
+  | 'onboarding_first_warband_clicked'
+  // §28.6 — the in-app install offer.
+  | 'install_cta_shown'
+  | 'install_clicked'
+  | 'install_prompt_result'
+  | 'app_installed'
+  | 'install_nudge_dismissed'
+  // §29.5 — the roster share panel.
+  | 'warband_share_opened'
+  | 'warband_card_shared';
 
 type EventProps = Record<string, string | number | boolean>;
 
@@ -174,7 +183,12 @@ export async function capturePageview(pathname: string): Promise<void> {
   if (!ph) return;
   // Override $current_url so PostHog can't refill it from window.location and
   // smuggle the query string back in.
-  ph.capture('$pageview', { $current_url: `${window.location.origin}/app${pathname}` });
+  ph.capture('$pageview', {
+    $current_url: `${window.location.origin}/app${pathname}`,
+    // §28.6 — whether installs actually get used. Read inline rather than from
+    // install.ts, which imports this module.
+    display_mode: window.matchMedia?.('(display-mode: standalone)').matches ? 'standalone' : 'browser',
+  });
 }
 
 /**

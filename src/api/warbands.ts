@@ -364,6 +364,19 @@ export async function fetchSharedWarband(id: string): Promise<Warband | null> {
 }
 
 /**
+ * A readable warband's visibility, or null when RLS hides it. The shared roster
+ * offers its link to others only when the warband is public (§29.1): a
+ * campaign-mate can see a private one, but the link wouldn't open for anyone
+ * they sent it to.
+ */
+export async function fetchWarbandVisibility(id: string): Promise<WarbandVisibility | null> {
+  if (isDemoMode()) return demo.fetchWarbandVisibility(id);
+  const { data, error } = await supabase.from('warbands').select('visibility').eq('id', id).maybeSingle();
+  if (error) throw error;
+  return (data as { visibility: WarbandVisibility } | null)?.visibility ?? null;
+}
+
+/**
  * The display name of whoever owns a warband, for the shared roster's byline.
  * The same `profiles` join the public gallery uses, so it's readable exactly
  * when the warband row is; '' when RLS returns nothing or the name is unset.

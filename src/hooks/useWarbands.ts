@@ -6,6 +6,7 @@ import {
   deleteWarband as deleteWarbandApi,
   fetchPublicWarbands,
   fetchSharedWarband,
+  fetchWarbandVisibility,
   fetchWarbandOwnerName,
   fetchWarbands,
   insertWarband,
@@ -311,6 +312,15 @@ export function useSharedWarbandQuery(id: string | undefined) {
   return useQuery({
     queryKey: ['sharedWarband', id],
     queryFn: () => fetchSharedWarband(id!),
+    enabled: !!id,
+  });
+}
+
+/** A readable warband's visibility, null when hidden (§29.1). */
+export function useWarbandVisibilityQuery(id: string | undefined) {
+  return useQuery({
+    queryKey: ['warbandVisibility', id],
+    queryFn: () => fetchWarbandVisibility(id!),
     enabled: !!id,
   });
 }

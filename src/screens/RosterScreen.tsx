@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Share2 } from 'lucide-react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
@@ -11,7 +12,7 @@ import RatingHistoryChart from '../components/RatingHistoryChart';
 import { modelDisplayName } from '../lib/modelNames';
 import WarbandSharingCard from '../components/WarbandSharingCard';
 import ShareNudgeCard from '../components/ShareNudgeCard';
-import ShareableWarbandCard from '../components/ShareableWarbandCard';
+import ShareWarbandPanel from '../components/ShareWarbandPanel';
 import WarbandHealthPanel from '../components/WarbandHealthPanel';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import SaveBar from '../components/SaveBar';
@@ -223,6 +224,7 @@ export default function RosterScreen() {
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [confirmUndo, setConfirmUndo] = useState(false);
+  const [sharingOpen, setSharing] = useState(false);
   // Named, not just flagged: "drops out of Grudge Season" is a consequence
   // someone can weigh; "is in a campaign" is not.
   const { data: campaigns } = useMyCampaignsQuery();
@@ -278,9 +280,35 @@ export default function RosterScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={warband.name} subtitle={getWarbandTypeName(warband.warbandType)} />
+      <BackHeader
+        title={warband.name}
+        subtitle={getWarbandTypeName(warband.warbandType)}
+        action={
+          // §29.1 — visible without scrolling; the panel opens at the top.
+          <button
+            type="button"
+            onClick={() => setSharing((open) => !open)}
+            aria-expanded={sharingOpen}
+            className="inline-flex items-center gap-1.5 min-h-[44px] px-2 text-ember-400 text-sm font-semibold"
+          >
+            <Share2 className="w-5 h-5" aria-hidden />
+            {strings.roster.card.button}
+          </button>
+        }
+      />
 
       <main className="flex-1 px-4 py-6 space-y-6">
+        {sharingOpen && (
+          <ShareWarbandPanel
+            warband={draft}
+            visibility={sharing.visibility}
+            onClose={() => setSharing(false)}
+            onGoToSharing={() =>
+              document.getElementById('warband-sharing')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          />
+        )}
+
         <Card as="section" gap="lg">
           <p className="text-ember-400 font-semibold">
             {strings.roster.ratingLabel}: {computeWarbandRating(draft)}
@@ -412,8 +440,6 @@ export default function RosterScreen() {
         <ShareNudgeCard warbandId={warband.id} />
 
         <WarbandSharingCard warbandId={warband.id} />
-
-        <ShareableWarbandCard warband={draft} />
 
         {/* Opens in place rather than as a dialog — see ConfirmByTyping. */}
         {!confirmingDelete ? (

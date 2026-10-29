@@ -19,6 +19,8 @@ import {
   subscribeConsent,
 } from '../lib/analyticsConsent';
 import GameDataSection from '../components/GameDataSection';
+import { InstallSection } from '../components/InstallCard';
+import { useInstall } from '../hooks/useInstall';
 import ActivityPanel, { activityWindow } from '../components/activity/ActivityPanel';
 import { useMyActivityDayQuery, useMyActivityQuery } from '../hooks/useActivity';
 import type { ActivityItem } from '../lib/activityKinds';
@@ -92,6 +94,8 @@ function NotificationsSection() {
   const { supported, subscribed, permission, busy, enable, disable } = usePush();
   const [message, setMessage] = useState<string | null>(null);
   const s = strings.settings.notifications;
+  const installState = useInstall();
+  const canInstall = installState !== 'installed' && installState !== 'unsupported';
 
   async function toggle() {
     setMessage(null);
@@ -109,7 +113,18 @@ function NotificationsSection() {
       <SectionHeading>{s.section}</SectionHeading>
       <p className="text-bone-300 text-sm">{s.hint}</p>
       {!supported ? (
-        <p className="text-bone-400 text-xs">{s.unsupportedHint}</p>
+        <p className="text-bone-400 text-xs">
+          {s.unsupportedHint}
+          {/* §28.4 — lead the explanation somewhere actionable. */}
+          {canInstall && (
+            <>
+              {' '}
+              <a href="#install" className="text-ember-400 font-semibold">
+                {strings.install.pushLink}
+              </a>
+            </>
+          )}
+        </p>
       ) : permission === 'denied' ? (
         <p className="text-bone-400 text-xs">{s.blocked}</p>
       ) : (
@@ -301,6 +316,9 @@ export default function SettingsScreen() {
               under each option — the slider already shows both. */}
           <p className="text-bone-300 text-sm">{strings.settings.themeHints[theme]}</p>
         </Card>
+
+        {/* §28.4 — device-level like the theme, so it sits right after it. */}
+        <InstallSection />
 
         {/* Export/import move real rows in and out of the account, so they only
             make sense (and only work) when signed in. */}

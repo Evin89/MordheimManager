@@ -625,6 +625,7 @@ Still open, pending rulebook verification (not set from memory, per §3.3): the 
 - ✅ Renamed twice: Settings → Profile → **Account**, which is what the screen actually holds. Every old path still resolves (`/settings`, `/profile`, and both `…/changelog` variants redirect), so bookmarks and links shared in the group chat keep working.
 - ✅ Admins get a link to `/admin` from here, shown only when the database says so. Before that the screen was reachable only by typing the URL.
 - ✅ **Data-file version display** and **"report a data error" link** — a *Game data* card on the Account screen lists all 15 bundled data files (`name · v{schemaVersion}`), each a disclosure expanding to its rulebook `source`, plus a report form that files into the same `issue_reports` inbox as the rest of the app with the data versions attached as context (so an admin sees exactly what the reporter was running). Built from a small `src/lib/dataFiles.ts` registry using tree-shaken named JSON imports, so the large data blobs don't ride into the Account route. ◻️ The **strict-validation toggle** is deferred — there is no data-file validator to gate yet, and its semantics (what "strict" checks, and what a failure does) need defining before it's more than a switch that does nothing.
+- ✅ **Install the app** — a device-level card directly under Appearance that offers the PWA install (native prompt where the browser supports it, step-by-step instructions on iOS and other Android browsers). §28.
 - ⚠️ **Danger zone** — built on each resource's own screen (the warband roster, the campaign screen) rather than gathered here. Deleting a thing belongs where the thing lives: §10.1 requires the user to be looking at what they are destroying, which a central list of everything deletable works against.
 
 ### 4.7 Public gallery ✅
@@ -2731,3 +2732,195 @@ The owner went through every open marker in this spec. What was decided, and wha
 ### 27.3 Deploy checklist
 
 Migrations **0050** and **0051** (`npx supabase db push`); the Edge Function and its `RESEND_API_KEY` secret and schedule (27.1). No new client environment variables.
+
+---
+
+## 28. "Install the app" — making the PWA findable ✅
+
+**Why.** Players ask for "an Android version". The app *is* installable already. Chrome's ⋮ menu → *Install app* gives it an icon, standalone window and app-drawer entry, but nobody finds that menu item. This section adds an in-app path to the same install, so the app offers itself instead of waiting to be found. No store build and no wrapper; the Play Store (TWA) route was considered and **deferred** (IP visibility of a store listing; see §28.8).
+
+**Scope.** Client-only. No migration, no Edge Function, no new env variable. Three surfaces (Account card, Home nudge, push-hint link) driven by one module.
+
+### 28.1 Installability baseline — verify, then two manifest tweaks
+
+The manifest (`vite.config.ts` → `VitePWA.manifest`) already meets Chrome's install criteria: `name`/`short_name`, 192 + 512 + maskable icons, `display: standalone`, `start_url`/`scope` `/app`, and a service worker with a fetch handler (runtime caching, §2). Claude Code: **confirm in Chrome DevTools → Application → Manifest** on the production build that there are no installability errors before building any UI. A button that can never fire is worse than no button.
+
+Two additions:
+- **`id: '/app'`.** Without one, Chrome derives the app identity from `start_url`, which is `/app` today, so setting it explicitly **changes nothing for already-installed users**. It pins the identity, so a future `start_url` change (e.g. `/app?source=pwa`) can't orphan existing installs.
+- **`screenshots` (optional, operator asset).** With at least one `form_factor: 'narrow'` screenshot plus the existing `description`, Chrome on Android shows the *richer install sheet* (app description + screenshots) instead of a one-line dialog. That noticeably improves the "is this a real app?" moment. Two or three 1080×1920 PNGs (roster, campaign, post-battle) under `public/screenshots/`. ❓ **Default: add when the owner supplies the images; the feature ships without them.**
+
+The landing page (`/`, outside `scope`) is **not** an install surface. It doesn't link the manifest and shouldn't. Install starts once you're inside `/app`.
+
+### 28.2 Capturing the prompt — `src/lib/install.ts`
+
+Chromium (Chrome, Edge, Samsung Internet; Android and desktop) fires `beforeinstallprompt` when the page is installable and not yet installed. **It can fire before React mounts**, so the listener cannot live in a component:
+
+- `src/lib/install.ts`, imported for its side effect at the **top of `main.tsx`**, before `root.render`. At module level it registers `beforeinstallprompt` (stash the event) and `appinstalled` (clear the event, set `installedThisSession = true`).
+- Exposes a tiny external store, `getInstallState()` + `subscribeInstall(cb)`, and `promptInstall(): Promise<'accepted' | 'dismissed' | 'unavailable'>`. React reads it via `useInstall()` (`useSyncExternalStore`), the same no-extra-dependency pattern as `analyticsConsent.ts`.
+- `promptInstall()` calls `event.prompt()`, awaits `event.userChoice`, and **drops the stashed event either way**, because a prompt event is single-use. If Chrome later re-fires `beforeinstallprompt`, the listener picks the new one up.
+- ❓ **`preventDefault()` on the event? Default: no.** Not calling it leaves Chrome's own mini-infobar / address-bar install icon in place as a second route. The stashed event's `prompt()` still works without it. Flip it only if the infobar and our Home card visibly double up in testing.
+
+### 28.3 Platform classification
+
+`getInstallState()` returns one of:
+
+| State | Detected by | Shown |
+| --- | --- | --- |
+| `installed` | `matchMedia('(display-mode: standalone)').matches` **or** `navigator.standalone === true` (iOS) | Nothing: the user is already in the app. |
+| `just-installed` | `appinstalled` fired this session | "Installed: open *Mordheim* from your home screen." No button. |
+| `promptable` | a stashed `beforeinstallprompt` event | Primary button **Install app** → `promptInstall()`. |
+| `ios` | iPhone/iPod UA, **or** `/Macintosh/` UA with `navigator.maxTouchPoints > 1` (iPadOS reports as a Mac; the same trap as the §19.4 push bug) | Manual steps for Share → *Add to Home Screen* (§28.5). |
+| `android-manual` | Android UA, not standalone, no prompt event | Manual steps for ⋮ → *Install app* / *Add to Home screen*, plus the in-app-browser hint (§28.5). |
+| `unsupported` | everything else (desktop Firefox/Safari) | Nothing. Desktop isn't the target, and there is no reliable install path to describe. |
+
+Notes:
+- **Why `android-manual` is common.** It's the state for Firefox Android, for Chrome after a dismissed prompt, for an Android user who already installed it but opened the link in the browser, and, importantly, for **in-app browsers**. Invites travel via WhatsApp and Discord (§8.5, §4.10), and links opened there land in a WebView that **cannot install anything**. The copy must say "open this page in Chrome first" rather than show steps that won't work there.
+- Do **not** try to detect specific WebViews by UA. The heuristics are brittle and the same hint covers all of them.
+- Desktop Chromium that fires the event lands in `promptable` and gets the button. It works and costs nothing, but it isn't a goal.
+
+### 28.4 Surfaces
+
+1. **Account → "Install the app" card** (`InstallSection` in `SettingsScreen.tsx`). The permanent home, and the one the owner asked for. Placed **directly after Appearance**: like the theme, it works signed in or out and is device-level, not account-level. Renders nothing in `installed` and `unsupported`.
+2. **Home nudge** (`InstallNudgeCard`). Discoverability is the point, and Account is the screen people open least. ❓ **Default: yes, with limits.** Shown only to **signed-in users with ≥ 1 warband** (§26.4's empty-state Home must stay a single card), only in `promptable` / `ios` / `android-manual`, below the main content, never above the warband list. **Dismissible with ×**, stored per device in `localStorage` (`mordheim.installNudgeDismissed`, try/catch, convenience state per §2). Dismissing hides the nudge only, never the Account card. Same copy and actions as the Account card, in compact form.
+3. **Push hint (§19.4).** `NotificationsSection`'s `unsupportedHint` on iOS currently says push needs a Home-Screen install. Add a link to the Account card's anchor (`#install`) so the explanation leads somewhere actionable.
+
+### 28.5 Copy (English, into `strings.install`)
+
+- Section heading: **Install the app**
+- Intro: *Put Mordheim on your home screen. It opens full-screen like any other app, without the browser bar, and game-night reminders work on iPhone only once it's installed.*
+- `promptable` button: **Install app** · after `dismissed`: fall back to `android-manual` copy (the event is spent).
+- `just-installed`: *Installed. Open **Mordheim** from your home screen or app drawer.*
+- `android-manual`:
+  1. *In Chrome, tap the **⋮** menu (top right).*
+  2. *Tap **Install app** (or **Add to Home screen**).*
+  - Hint below: *Opened this from WhatsApp or Discord? Those can't install apps. Use ⋮ → **Open in Chrome** first.*
+  - Footnote: *Already installed? Open it from your home screen instead of the browser.*
+- `ios`:
+  1. *Tap the **Share** button (the square with an arrow, at the bottom in Safari).*
+  2. *Scroll down and tap **Add to Home Screen**.*
+  3. *Tap **Add**.*
+  - Hint: *Opened this from WhatsApp or Discord? Open the page in Safari first.*
+- Home nudge title: **Play from your home screen** · dismiss `aria-label`: *Hide this tip*
+
+Icons: Lucide `share` (iOS step 1) and `more-vertical` (Android step 1) from the existing SVG sprite. Add them to the sprite if missing. Steps are a numbered list inside the shared `Card`; the button is the shared `Button` (primary, `md`, §5.6). No new tokens.
+
+### 28.6 Measurement
+
+Through the existing closed PostHog event union in `src/lib/posthog.ts` (consent-gated, names only, §23.7). Add:
+
+- `install_cta_shown` `{ surface: 'account' | 'home', state }`, once per surface per session
+- `install_clicked` `{ surface }`, `promptable` only
+- `install_prompt_result` `{ outcome: 'accepted' | 'dismissed' }`
+- `app_installed`, from the `appinstalled` listener
+- `install_nudge_dismissed`
+
+❓ **Also record whether a session runs installed?** Default: **yes**, as a `display_mode: 'standalone' | 'browser'` property on the existing manual pageview. It isn't personal data, and it's the only way to see if installs actually *get used*. Without it the feature's success can't be read.
+
+### 28.7 Acceptance tests
+
+- Android Chrome, not installed: Account card shows **Install app**. Tap → native sheet → accept → card switches to *Installed…*, and the app appears in the drawer and opens standalone at `/app`.
+- Same, dismiss the sheet → card falls back to the manual ⋮ steps without a dead button.
+- Open the installed app → Account shows no install card; Home shows no nudge.
+- Open the site link from WhatsApp on Android → manual steps + *Open in Chrome* hint (no button).
+- iPhone Safari and iPad Safari (iPadOS Mac UA) → iOS steps. The iOS push hint links to the card.
+- Home nudge: absent with 0 warbands; present with ≥1; × hides it for good on that device; the Account card is still there.
+- Existing installs: after the `id: '/app'` change, an already-installed app is **not** duplicated or orphaned (Chrome treats it as the same app).
+- No regression to the service worker (§2): no manifest or SW caching change beyond `id`/`screenshots`.
+
+### 28.8 Out of scope / later
+
+- **Play Store (Trusted Web Activity via Bubblewrap/PWABuilder).** Reconsider only if players specifically need the store. Prerequisites: `/.well-known/assetlinks.json` served by the Worker, a Play developer account, Google's closed-testing period for new personal accounts, and **a deliberate decision on the listing name and imagery**, because a store listing is far more visible to an IP takedown than an auth-gated web app (§3.3 discipline). Nothing in this section blocks it. The TWA would wrap the same `/app`.
+- **iOS App Store.** Not viable for a thin web wrapper; not planned.
+- `getInstalledRelatedApps()` to detect "installed but opened in browser". Chrome-only, needs `related_applications` self-reference. The manual footnote covers it for now.
+
+### 28.9 Status — built ✅
+
+Built as specified: `src/lib/install.ts` (side-effect import at the top of `main.tsx`), `useInstall`, `InstallSection` + `InstallNudgeCard` in `components/InstallCard.tsx`, manifest `id: '/app'`, the push-hint link, the five events and `display_mode` on the pageview. Decisions taken at their defaults: no `preventDefault()`; Home nudge on (≥1 warband, below Quick Actions); `display_mode` recorded.
+
+- Step 1 of each manual list carries the icon (Lucide `EllipsisVertical` / `Share` from `lucide-react`, which the app already uses — there is no SVG sprite), so the copy says "tap the menu (top right)" rather than repeating the ⋮ glyph next to it.
+- After a dismissed native sheet the card falls back to the manual steps on Android; on desktop Chromium it disappears (that state is `unsupported`), which is fine — desktop isn't the target.
+- ◻️ **Operator:** confirm DevTools → Application → Manifest shows no installability errors on the production build (dev runs without the service worker, so it can't be checked there). `screenshots` still waits on images.
+
+---
+
+## 29. Share a warband to WhatsApp / Discord — one button, one flow ✅ _(reworks the "Share card" of the roster screen)_
+
+**Why.** The share card already exists (`ShareableWarbandCard.tsx`, renderer `lib/warbandCard.ts`), but players don't use it. It is the last card at the bottom of the roster, below sharing settings, and it takes two taps before anything shareable appears ("Generate" → then "Share"). Players asked for a button that sends the card to WhatsApp or Discord. This section moves sharing up to a single, visible entry point and gives each platform the best path it actually supports.
+
+**What the platforms allow — the constraint the design follows.**
+- **Neither WhatsApp nor Discord accepts an image through a link.** `wa.me/?text=` carries text only. Discord has no prefill URL at all (same finding as §8.5 / `InviteShareButtons`).
+- The **only way to put an image into the WhatsApp or Discord app** is the OS share sheet (Web Share API with `files`). The app cannot pick the target app itself. The player taps WhatsApp or Discord in the sheet.
+- On **desktop** (Discord desktop, WhatsApp Web), file sharing via Web Share is patchy. The reliable path is **copy image to clipboard → paste**, via `navigator.clipboard.write([new ClipboardItem({'image/png': blob})])`.
+- A **link** to a public roster (`/app/rosters/:id`) does work in both: the Worker already injects OG tags for bots (§4.7, `worker/index.js`), so the chat shows a preview. Today that preview image is the generic `og-card.png`, not the warband (see §29.6).
+
+So the flow offers **image first, link second**, with the buttons each device can actually do.
+
+### 29.1 Entry point
+
+- A **Share** button with the Lucide `share-2` icon in the **roster screen header**, next to the warband name. It is visible without scrolling, on the owner's own warband.
+- ❓ **Also on each warband row in the warband list? Default: no.** The roster is where a player looks at the warband they're proud of. A share icon on every list row adds clutter for a rare action.
+- ❓ **Also on the public/shared roster view (`SharedWarbandScreen`) for non-owners? Default: no** for the image. A non-owner gets only the *copy link* action, since the warband is already public if they can see it. The owner decides when a card of their warband circulates.
+
+### 29.2 The share panel
+
+Tapping **Share** opens an inline panel at the top of the roster: expand-in-place, no modal, consistent with §10.1's no-pop-up rule. The panel **starts rendering the card immediately**, without a separate "Generate" step. The existing render takes well under a second, and a spinner in the preview box covers it.
+
+The panel contains, top to bottom:
+
+1. **Preview** of the PNG (existing renderer, unchanged; uses the unsaved `draft` as today).
+2. **Image actions**, chosen by capability, checked once the blob exists:
+   - `navigator.canShare({ files: [file] })` true (Android, iOS, some desktops) → primary button **Share image** with the WhatsApp + Discord logos side by side (reuse the SVGs from `InviteShareButtons`; extract them to `components/BrandIcons.tsx`). Small caption below: *Pick WhatsApp or Discord in the menu that opens.* Calls `navigator.share({ files: [file], text })`. `text` is described in §29.3.
+   - `ClipboardItem` available → **Copy image**, shown as secondary on mobile and **primary on desktop**. Confirmation text *Copied. Paste it into Discord or WhatsApp.* (1.5 s, as in the invite buttons).
+   - Always: **Download**, as a ghost button, the existing behaviour.
+3. **Link actions**, only when the warband is **public**:
+   - **WhatsApp**: `wa.me/?text=` link with `strings.roster.card.shareMessage(name, rating, link('share-whatsapp'))`.
+   - **Discord**: copies a Discord-formatted message (name in bold, link on its own line so Discord unfurls it). This mirrors `InviteShareButtons` exactly, and the shared button styles should come from one place.
+   - When the warband is **private**, this row is replaced by one line: *Want to send a link instead? Make the warband public in Sharing below.* It anchors to `WarbandSharingCard`. No inline visibility toggle here; §26.5's nudge already owns that choice.
+4. A **Close** link.
+
+The old `ShareableWarbandCard` section at the bottom of the roster is **removed**. One share surface, not two.
+
+### 29.3 What travels with the image
+
+- Public warband: `text` = *`{name}` · Rating `{rating}`* plus a newline and `…/app/rosters/{id}?ref=share-card`.
+- Private warband: `text` = *Made with Mordheim Manager* plus a newline and `…/app?ref=share-card`. The private roster link would only show a "not visible" page to recipients.
+- `?ref=share-card` is new, so add it to the §23.4 channel classification next to `share-whatsapp` / `share-discord`.
+- ⚠️ **Test item:** some targets drop `text` when `files` are present, or send it as a second message (WhatsApp on iOS is known to vary). That is acceptable either way; the image is the point. Do **not** bake the URL into the PNG to compensate. The footer already shows `mordheimmanager.net`.
+
+### 29.4 Card renderer — small fixes while we're here
+
+- The card uses hard-coded **Grimdark** colours (`lib/warbandCard.ts`). Keep it that way; a share image should look the same regardless of the sharer's theme. No change.
+- Chat apps recompress images. At 2× scale (2400 px wide) a long roster can produce a large PNG that WhatsApp downsizes heavily. ❓ **Default: keep 2×, but export as `image/jpeg` at quality 0.9 when the PNG exceeds 1.5 MB.** The dark flat colours compress well, and the file stays under WhatsApp's "send as photo" comfort zone. Measure on the largest warband in demo data before deciding.
+
+### 29.5 Measurement
+
+Extend the closed PostHog union (§23.7) with one event:
+`warband_card_shared` `{ method: 'share_sheet' | 'copy_image' | 'download' | 'whatsapp_link' | 'discord_link', visibility: 'public' | 'private' }`. Fire `share_sheet` only when `navigator.share` resolves (a dismissed sheet throws), not on tap.
+Plus `warband_share_opened`, so the funnel opened → shared can be read.
+
+### 29.6 Later — the card *as* the link preview ❓
+
+The nicest end state: a shared roster **link** unfurls in Discord/WhatsApp with **that warband's card** as the preview image, instead of the generic `og-card.png`. Two ways to do it:
+- **(a) Client upload.** When the owner shares a *public* warband, upload the rendered PNG to Storage (`warband-cards/{id}.png`, public-read, overwritten on each share). The Worker's OG injection points `og:image` at it when present, falling back to `og-card.png`. Cheap, no server rendering; the preview is as fresh as the last share.
+- **(b) Server rendering in the Worker** (e.g. satori + resvg-wasm). Always fresh, but it adds a heavy WASM bundle to the Worker, CPU time per crawler hit, and a second copy of the card layout to keep in sync.
+
+**Default: (a), as a follow-up after §29.1–29.5 ship**, and only if link sharing turns out to be used (`whatsapp_link` / `discord_link` counts). It touches Storage policy (§11.2) and egress (§12.3), so it gets its own small migration and review then.
+
+### 29.7 Acceptance tests
+
+- Android Chrome: header **Share** → panel opens and preview appears without another tap. **Share image** → system sheet lists WhatsApp and Discord. Sending to each delivers the image (and the text, or not; see §29.3).
+- iPhone Safari: same, via the iOS share sheet.
+- Desktop Chrome: **Copy image** is primary; pasting into Discord desktop and WhatsApp Web posts the image.
+- Public warband: WhatsApp link opens WhatsApp with message + link, and the recipient sees a preview. Discord copy → paste → link unfurls.
+- Private warband: no link buttons; the hint jumps to the Sharing card. The share-sheet text contains no roster link.
+- A dismissed share sheet logs nothing and shows no error.
+- The old bottom-of-roster share card is gone; download still works.
+- Unsaved edits (`draft`) appear on the card, as before.
+
+### 29.8 Status — built ✅
+
+`components/ShareWarbandPanel.tsx` replaces `ShareableWarbandCard.tsx` (removed); `BackHeader` gained an `action` slot for the header **Share** button, and reserves a right gutter when it has one so the floating help/dice buttons don't cover it. Brand marks moved to `components/BrandIcons.tsx`, shared with `InviteShareButtons`. Defaults taken: no share icon on list rows; the public/shared roster offers non-owners **Copy link** only, and only when the warband is actually `public` (a campaign-mate can see a private warband, but its link wouldn't open for anyone they sent it to — read via a small `fetchWarbandVisibility`). That copy fires `warband_card_shared` with `method: 'copy_link'`.
+
+- `?ref=share-card` needed no change to §23.4: `classify()` already files every `share*` ref under `share`.
+- **Copy image** is offered only for a PNG card (Chromium's clipboard takes PNG only). The JPEG fallback (§29.4, > 1.5 MB) is in place; the largest demo warband renders to ~220 kB, so it should rarely trigger.
+- Not verifiable in the browser pane: the OS share sheet and pasting into WhatsApp/Discord — these stay on the §29.7 device checklist.
