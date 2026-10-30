@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useWarband } from '../../hooks/useWarbands';
 import { useSoloStore, SoloSession } from '../../store/useSoloStore';
 import { generateId } from '../../lib/id';
+import { logFeatureUse } from '../../api/featureUsage';
 import { generateBattlefield } from '../../lib/solo/battlefield';
 import { difficultyForBudget, TEMPERAMENT_HINTS, TEMPERAMENT_LABELS } from '../../lib/solo/npc';
 import { getCatalogScenario } from '../../lib/scenarioCatalog';
@@ -67,6 +68,7 @@ export default function SoloBattleScreen() {
 
   function endGame() {
     if (!warbandId) return;
+    logFeatureUse('solo_battle_ended');
     clearSoloSession(warbandId);
     navigate('/solo');
   }
