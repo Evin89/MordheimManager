@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { generateBattlefield } from '../lib/solo/battlefield';
 import BattlefieldBoard from '../components/solo/BattlefieldBoard';
@@ -8,6 +8,7 @@ import { defaultScenarioId, getCatalogScenario, playerCountsFor } from '../lib/s
 import { useScenarioFilter } from '../hooks/useScenarioFilter';
 import ScenarioPicker from '../components/ScenarioPicker';
 import { Button, Card, Field, Select } from '../components/ui';
+import { logFeatureUse } from '../api/featureUsage';
 const randomSeed = () => (Math.random() * 0xffffffff) >>> 0;
 
 /**
@@ -36,6 +37,11 @@ export default function MapGeneratorScreen() {
   const [widthFt, setWidthFt] = useState(4);
   const [depthFt, setDepthFt] = useState(4);
   const [seed, setSeed] = useState(randomSeed);
+
+  // Count one open per mount (usage stats, migration 0058).
+  useEffect(() => {
+    logFeatureUse('map_generator_opened');
+  }, []);
 
   const field = useMemo(
     () =>
@@ -115,7 +121,14 @@ export default function MapGeneratorScreen() {
               </Select>
             </Field>
           </div>
-          <Button onClick={() => setSeed(randomSeed())}>Re-roll board</Button>
+          <Button
+            onClick={() => {
+              setSeed(randomSeed());
+              logFeatureUse('map_rerolled');
+            }}
+          >
+            Re-roll board
+          </Button>
         </Card>
 
         <Card as="section">
