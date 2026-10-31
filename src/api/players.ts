@@ -9,7 +9,7 @@ import type { CampaignRole } from '../types';
  * §38 player profiles.
  *
  * Every profile field beyond the name comes through a SECURITY DEFINER RPC
- * (migration 0058): the new columns aren't client-selectable, so the RPC's
+ * (migration 0059): the new columns aren't client-selectable, so the RPC's
  * return list is the whole of what a profile can expose. Warbands, shared
  * campaigns and honours are plain queries under the existing RLS, so a profile
  * shows exactly what the viewer could already read and nothing more.

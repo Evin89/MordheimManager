@@ -33,7 +33,7 @@ function AttentionBadge({ to, label, n, urgent }: { to: string; label: string; n
 export default function AdminOverviewScreen() {
   const { data: stats } = useAdminStatsQuery();
   // §38.12 — whether the directory and direct invites get used. Fails quietly
-  // (no tiles) until migration 0060 is applied.
+  // (no tiles) until migration 0061 is applied.
   const { data: dir } = useQuery({
     queryKey: ['adminDirectoryStats'],
     queryFn: fetchAdminDirectoryStats,

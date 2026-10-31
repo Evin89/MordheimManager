@@ -46,7 +46,7 @@ revoke all on function public.set_my_directory(boolean, boolean) from public, an
 grant execute on function public.set_my_directory(boolean, boolean) to authenticated;
 
 -- get_player_profile gains the two flags. Changing the return type means drop
--- and recreate; the body is 0058's with the two columns added.
+-- and recreate; the body is 0059's with the two columns added.
 drop function if exists public.get_player_profile(uuid);
 create function public.get_player_profile(p_uid uuid)
 returns table (

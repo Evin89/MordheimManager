@@ -128,7 +128,7 @@ select t.expect_error($$insert into public.campaign_invites (campaign_id, invite
   'no direct insert into campaign_invites');
 select t.logout();
 
--- ── Admin directory stats (0060) ─────────────────────────────────────────────
+-- ── Admin directory stats (0061) ─────────────────────────────────────────────
 insert into public.admins (user_id) values ('00000000-0000-0000-0000-0000000000e1');
 select t.login('00000000-0000-0000-0000-0000000000e1');
 select t.ok((select (s->>'discoverable')::int = 2 and (s->>'invites_sent_30d')::int = 2

@@ -3,7 +3,7 @@
 --
 -- Adds the fields a profile page shows (country, bio, favourite warband, an
 -- uploaded photo) and the RPCs that read and write them. The directory and
--- direct campaign invites are part B (0059).
+-- direct campaign invites are part B (0060).
 --
 -- Exposure is decided by the 0047 column grants, which stay as they are:
 -- clients can SELECT only id, display_name, created_at, avatar_seed and UPDATE
