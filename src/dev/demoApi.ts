@@ -1723,6 +1723,7 @@ export async function fetchPlayerProfile(userId: string) {
     avatarPath: null,
     ...demoExtras(userId),
     joinedAt: '2026-01-15T12:00:00.000Z',
+    ...demoDirectory(userId),
     stats: {
       battles: battles.length,
       wins: count('win'),
@@ -1780,4 +1781,56 @@ export async function fetchSharedCampaigns(userId: string) {
       name: db().campaigns.find((c) => c.id === m.campaignId)?.name ?? '',
       role: m.role,
     }));
+}
+
+/** Demo directory: every third generated player is discoverable, so the
+ * directory screen has rows to judge at volume. */
+const demoDirectoryOverrides = new Map<string, { discoverable: boolean; lookingForCampaign: boolean }>();
+
+function demoDirectory(userId: string) {
+  const override = demoDirectoryOverrides.get(userId);
+  if (override) return override;
+  const index = db().users.findIndex((u) => u.id === userId);
+  const discoverable = index % 3 === 1;
+  return { discoverable, lookingForCampaign: discoverable && index % 2 === 0 };
+}
+
+export async function setMyDirectory(discoverable: boolean, looking: boolean) {
+  demoDirectoryOverrides.set(db().viewerId, { discoverable, lookingForCampaign: discoverable && looking });
+}
+
+export async function searchPlayers(
+  filters: { country: string; warbandType: string; lookingOnly: boolean; query: string },
+  before: string | null,
+) {
+  const q = filters.query.trim().toLowerCase();
+  const rows = db()
+    .users.filter((u) => u.id !== db().viewerId && demoDirectory(u.id).discoverable)
+    .map((u, i) => {
+      const extras = demoExtras(u.id);
+      const dir = demoDirectory(u.id);
+      const owned = db().warbands.filter((w) => w.ownerId === u.id && w.visibility === 'public');
+      return {
+        id: u.id,
+        displayName: u.displayName,
+        avatarSeed: u.id,
+        avatarPath: null,
+        country: extras.country,
+        favouriteWarbandType: extras.favouriteWarbandType,
+        lookingForCampaign: dir.lookingForCampaign,
+        joinedAt: new Date(Date.UTC(2026, 9, 30) - i * 86400000).toISOString(),
+        publicWarbandCount: owned.length,
+        types: owned.map((w) => w.warband.warbandType),
+      };
+    })
+    .filter(
+      (r) =>
+        (!filters.country || r.country === filters.country) &&
+        (!filters.warbandType || r.favouriteWarbandType === filters.warbandType || r.types.includes(filters.warbandType)) &&
+        (!filters.lookingOnly || r.lookingForCampaign) &&
+        (!q || r.displayName.toLowerCase().includes(q)) &&
+        (!before || r.joinedAt < before),
+    )
+    .slice(0, 25);
+  return rows.map(({ types: _types, ...r }) => r);
 }

@@ -14,6 +14,7 @@ import SaveBar from '../components/SaveBar';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import ConfirmAction from '../components/ConfirmAction';
 import PlayerLink from '../components/players/PlayerLink';
+import PendingInvites from '../components/players/PendingInvites';
 import PlayerAvatar from '../components/players/PlayerAvatar';
 import { useAvatarUrls } from '../hooks/usePlayers';
 import { Button, Card, SectionHeading, Field, TextField, Textarea, Select, buttonClasses } from '../components/ui';
@@ -1379,6 +1380,8 @@ export default function CampaignScreen() {
               <>
                 <JoinCodeCard campaign={campaign} isLeader={isLeader} />
                 <MembersList campaign={campaign} isLeader={isLeader} />
+                {/* §38.5 — leaders invite from the directory and see who hasn't answered. */}
+                {isLeader && <PendingInvites campaignId={campaign.id} />}
               </>
             )}
 

@@ -7,6 +7,7 @@ import {
   useAvatarMutations,
   useAvatarUrls,
   usePlayerProfileQuery,
+  useSetMyDirectoryMutation,
   useUpdateMyProfileMutation,
 } from '../../hooks/usePlayers';
 import { countryOptions } from '../../lib/countries';
@@ -182,9 +183,79 @@ export default function ProfileCard() {
       {save.isSuccess && !dirty && <p className="text-bone-300 text-xs">{s.saved}</p>}
       {save.isError && <p className="text-danger text-xs">{(save.error as Error).message}</p>}
 
+      {profile && <DirectorySwitches discoverable={profile.discoverable} looking={profile.lookingForCampaign} />}
+
       <Link to={`/players/${user.id}`} className={buttonClasses('secondary')}>
         {s.view}
       </Link>
     </Card>
+  );
+}
+
+/**
+ * §38.4 — opting in to the directory. Off by default for everyone; saved the
+ * moment it's flipped, since it's a single decision rather than a form.
+ */
+function DirectorySwitches({ discoverable, looking }: { discoverable: boolean; looking: boolean }) {
+  const mutation = useSetMyDirectoryMutation();
+  const s = strings.profile;
+  const set = (next: { discoverable: boolean; looking: boolean }) => mutation.mutate(next);
+
+  return (
+    <div className="space-y-2 border-t border-ink-800 pt-3">
+      <p className="text-bone-100 font-semibold">{s.directoryHeading}</p>
+      <Switch
+        on={discoverable}
+        disabled={mutation.isPending}
+        label={s.directoryOn}
+        onToggle={() => set({ discoverable: !discoverable, looking: !discoverable && looking })}
+      />
+      <p className="text-bone-400 text-xs">{s.directoryOnHint}</p>
+      <Switch
+        on={looking}
+        disabled={!discoverable || mutation.isPending}
+        label={s.lookingOn}
+        onToggle={() => set({ discoverable, looking: !looking })}
+      />
+      <p className="text-bone-400 text-xs">{s.directoryVisible}</p>
+      {mutation.isError && <p className="text-danger text-xs">{(mutation.error as Error).message}</p>}
+    </div>
+  );
+}
+
+function Switch({
+  on,
+  disabled,
+  label,
+  onToggle,
+}: {
+  on: boolean;
+  disabled?: boolean;
+  label: string;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      disabled={disabled}
+      onClick={onToggle}
+      className="w-full min-h-[48px] flex items-center justify-between gap-3 text-left disabled:opacity-50"
+    >
+      <span className="text-bone-200">{label}</span>
+      <span
+        aria-hidden
+        className={`relative inline-flex h-7 w-12 shrink-0 rounded-full border transition-colors ${
+          on ? 'bg-ember-500 border-ember-500' : 'bg-ink-800 border-ink-700'
+        }`}
+      >
+        <span
+          className={`absolute top-0.5 h-5 w-5 rounded-full bg-bone-100 transition-transform ${
+            on ? 'translate-x-6' : 'translate-x-0.5'
+          }`}
+        />
+      </span>
+    </button>
   );
 }

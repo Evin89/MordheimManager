@@ -91,10 +91,10 @@ function PlayerActivity({ userId }: { userId: string }) {
 function ProfileModeration({ userId }: { userId: string }) {
   const { data: profile } = usePlayerProfileQuery(userId);
   const avatars = useAvatarUrls([userId]);
-  const { clearAvatar, clearBio } = useAdminProfileModeration(userId);
+  const { clearAvatar, clearBio, removeFromDirectory } = useAdminProfileModeration(userId);
   const s = strings.profile;
   if (!profile) return null;
-  const error = (clearAvatar.error ?? clearBio.error) as Error | null;
+  const error = (clearAvatar.error ?? clearBio.error ?? removeFromDirectory.error) as Error | null;
   return (
     <section className="space-y-3">
       <h2 className="text-bone-100 font-semibold">{s.adminSection}</h2>
@@ -119,11 +119,19 @@ function ProfileModeration({ userId }: { userId: string }) {
         >
           {s.adminClearBio}
         </button>
+        <button
+          type="button"
+          disabled={!profile.discoverable || removeFromDirectory.isPending}
+          onClick={() => removeFromDirectory.mutate()}
+          className="min-h-[44px] px-4 rounded-md border border-blood-600 text-danger font-semibold disabled:opacity-40"
+        >
+          {s.adminRemoveFromDirectory}
+        </button>
         <Link to={`/players/${userId}`} className="min-h-[44px] px-4 flex items-center text-ember-400 text-sm font-semibold">
           {s.adminViewProfile}
         </Link>
       </div>
-      {(clearAvatar.isSuccess || clearBio.isSuccess) && <p className="text-bone-300 text-xs">{s.adminDone}</p>}
+      {(clearAvatar.isSuccess || clearBio.isSuccess || removeFromDirectory.isSuccess) && <p className="text-bone-300 text-xs">{s.adminDone}</p>}
       {error && <p className="font-ui text-xs text-danger">{error.message}</p>}
     </section>
   );

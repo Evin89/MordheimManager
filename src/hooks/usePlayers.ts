@@ -1,10 +1,21 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../auth/AuthProvider';
 import {
   ProfileInput,
   ProfileWarbandRow,
+  DIRECTORY_PAGE,
+  DirectoryFilters,
   adminClearAvatar,
   adminClearBio,
+  adminRemoveFromDirectory,
+  fetchInviteOptions,
+  fetchMyInvites,
+  fetchPendingInvites,
+  inviteToCampaign,
+  respondToInvite,
+  revokeInvite,
+  searchPlayers,
+  setMyDirectory,
   clearMyAvatar,
   fetchAvatarPaths,
   fetchPlayerHonours,
@@ -155,5 +166,94 @@ export function useAdminProfileModeration(userId: string) {
   return {
     clearAvatar: useMutation({ mutationFn: () => adminClearAvatar(userId), onSuccess: done }),
     clearBio: useMutation({ mutationFn: () => adminClearBio(userId), onSuccess: done }),
+    removeFromDirectory: useMutation({ mutationFn: () => adminRemoveFromDirectory(userId), onSuccess: done }),
   };
+}
+
+// ── Directory & invites (§38.4, §38.5) ──────────────────────────────────────
+
+export function useSetMyDirectoryMutation() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ discoverable, looking }: { discoverable: boolean; looking: boolean }) =>
+      setMyDirectory(discoverable, looking),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['playerProfile', user?.id] });
+      queryClient.invalidateQueries({ queryKey: ['directory'] });
+    },
+  });
+}
+
+/** Keyset pages on join date, newest first — the cursor is the last row's
+ * `joinedAt`, so a player who signs up mid-scroll doesn't shift the pages. */
+export function useDirectoryQuery(filters: DirectoryFilters) {
+  const { user } = useAuth();
+  return useInfiniteQuery({
+    queryKey: ['directory', filters],
+    queryFn: ({ pageParam }) => searchPlayers(filters, pageParam),
+    initialPageParam: null as string | null,
+    getNextPageParam: (last) => (last.length < DIRECTORY_PAGE ? undefined : last[last.length - 1].joinedAt),
+    enabled: !!user,
+    staleTime: 60 * 1000,
+  });
+}
+
+export function useInviteOptionsQuery(userId: string | undefined, enabled: boolean) {
+  return useQuery({
+    queryKey: ['inviteOptions', userId],
+    queryFn: () => fetchInviteOptions(userId!),
+    enabled: !!userId && enabled,
+  });
+}
+
+export function useInviteMutation(userId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ campaignId, message }: { campaignId: string; message: string }) =>
+      inviteToCampaign(campaignId, userId, message),
+    onSuccess: (_d, { campaignId }) => {
+      queryClient.invalidateQueries({ queryKey: ['inviteOptions', userId] });
+      queryClient.invalidateQueries({ queryKey: ['pendingInvites', campaignId] });
+    },
+  });
+}
+
+export function useMyInvitesQuery() {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ['myInvites', user?.id],
+    queryFn: fetchMyInvites,
+    enabled: !!user,
+    staleTime: 60 * 1000,
+  });
+}
+
+export function useRespondToInviteMutation() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ inviteId, accept }: { inviteId: string; accept: boolean }) => respondToInvite(inviteId, accept),
+    onSuccess: (_campaignId, { accept }) => {
+      queryClient.invalidateQueries({ queryKey: ['myInvites', user?.id] });
+      // A new membership changes the campaign list and everything keyed off it.
+      if (accept) queryClient.invalidateQueries();
+    },
+  });
+}
+
+export function usePendingInvitesQuery(campaignId: string | undefined, enabled: boolean) {
+  return useQuery({
+    queryKey: ['pendingInvites', campaignId],
+    queryFn: () => fetchPendingInvites(campaignId!),
+    enabled: !!campaignId && enabled,
+  });
+}
+
+export function useRevokeInviteMutation(campaignId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (inviteId: string) => revokeInvite(inviteId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['pendingInvites', campaignId] }),
+  });
 }

@@ -3,17 +3,19 @@ import { capture } from '../lib/posthog';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import PlayerAvatar from '../components/players/PlayerAvatar';
-import { Button, Card, SectionHeading, Textarea, buttonClasses } from '../components/ui';
+import { Button, Card, Field, SectionHeading, Select, Textarea, buttonClasses } from '../components/ui';
 import { useAuth } from '../auth/AuthProvider';
 import {
   useAvatarUrls,
+  useInviteMutation,
+  useInviteOptionsQuery,
   usePlayerHonoursQuery,
   usePlayerProfileQuery,
   useProfileWarbandsQuery,
   useSharedCampaignsQuery,
 } from '../hooks/usePlayers';
 import { useSetActiveCampaign } from '../hooks/useCampaign';
-import { PlayerProfile, reportProfile } from '../api/players';
+import { MAX_INVITE_MESSAGE, PlayerProfile, reportProfile } from '../api/players';
 import { countryName } from '../lib/countries';
 import { getWarbandTypeName, isBuiltInWarbandType } from '../data/warbandNames';
 import { strings } from '../strings';
@@ -77,6 +79,84 @@ function ReportProfile({ profile }: { profile: PlayerProfile }) {
         {state === 'sending' ? strings.common.loading : s.reportSend}
       </Button>
       {state === 'failed' && <p className="text-danger text-sm">{s.reportFailed}</p>}
+    </Card>
+  );
+}
+
+/**
+ * §38.5 — inviting a discoverable player to one of your campaigns. Shown only
+ * when you lead at least one campaign. Campaigns they're already in, or already
+ * invited to, are listed but disabled with the reason, so the leader isn't left
+ * wondering why a campaign is missing.
+ */
+function InviteToCampaign({ profile }: { profile: PlayerProfile }) {
+  const [open, setOpen] = useState(false);
+  const { data: options } = useInviteOptionsQuery(profile.id, profile.discoverable);
+  const invite = useInviteMutation(profile.id);
+  const [campaignId, setCampaignId] = useState('');
+  const [message, setMessage] = useState('');
+  const s = strings.profile;
+
+  if (!profile.discoverable || !options || options.length === 0) return null;
+  const available = options.filter((o) => !o.isMember && !o.hasPending);
+  const chosen = campaignId || available[0]?.campaignId || '';
+
+  if (invite.isSuccess && !open) return <p className="text-bone-300 text-sm">{s.inviteSent}</p>;
+  if (!open) {
+    return (
+      <Button disabled={available.length === 0} onClick={() => setOpen(true)}>
+        {s.invite}
+      </Button>
+    );
+  }
+
+  return (
+    <Card gap="md">
+      <Field label={s.inviteCampaign} htmlFor="invite-campaign">
+        <Select id="invite-campaign" value={chosen} onChange={(e) => setCampaignId(e.target.value)}>
+          {options.map((o) => (
+            <option key={o.campaignId} value={o.campaignId} disabled={o.isMember || o.hasPending}>
+              {o.campaignName}
+              {o.isMember ? ` (${s.inviteAlreadyMember})` : o.hasPending ? ` (${s.invitePending})` : ''}
+            </option>
+          ))}
+        </Select>
+      </Field>
+      <Field label={s.inviteMessage} htmlFor="invite-message">
+        <Textarea
+          id="invite-message"
+          value={message}
+          maxLength={MAX_INVITE_MESSAGE}
+          placeholder={s.inviteMessagePlaceholder}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+      </Field>
+      <p className="text-bone-400 text-xs text-right [font-variant-numeric:tabular-nums_lining-nums]">
+        {s.bioCount(message.length, MAX_INVITE_MESSAGE)}
+      </p>
+      <div className="flex gap-2">
+        <Button
+          disabled={!chosen || invite.isPending}
+          onClick={() =>
+            invite.mutate(
+              { campaignId: chosen, message },
+              {
+                onSuccess: () => {
+                  void capture('invite_sent');
+                  setOpen(false);
+                  setMessage('');
+                },
+              },
+            )
+          }
+        >
+          {invite.isPending ? strings.common.loading : s.inviteSend}
+        </Button>
+        <Button variant="secondary" onClick={() => setOpen(false)}>
+          {s.inviteCancel}
+        </Button>
+      </div>
+      {invite.isError && <p className="text-danger text-sm">{(invite.error as Error).message}</p>}
     </Card>
   );
 }
@@ -154,12 +234,20 @@ export default function PlayerProfileScreen() {
             {profile.country && <p className="text-bone-200">{countryName(profile.country)}</p>}
             <p className="text-bone-400 text-sm">{s.joined(joinedLabel(profile.joinedAt))}</p>
             {favourite && <p className="text-bone-300 text-sm">{s.favours(favourite)}</p>}
+            {profile.lookingForCampaign && (
+              <span className="inline-block rounded border border-ember-500/40 bg-ember-500/10 px-2 py-0.5 text-xs font-semibold text-ember-400">
+                {s.lookingBadge}
+              </span>
+            )}
           </div>
         </section>
+
+        {!isMe && <InviteToCampaign profile={profile} />}
 
         {isMe && (
           <Card gap="sm">
             <p className="text-bone-300 text-sm">{s.ownNote}</p>
+            {!profile.discoverable && <p className="text-bone-400 text-sm">{s.notDiscoverableNote}</p>}
             <Link to="/account#profile" className={buttonClasses('secondary')}>
               {s.edit}
             </Link>

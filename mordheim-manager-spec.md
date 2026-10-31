@@ -3306,13 +3306,17 @@ The nicest end state: a shared roster **link** unfurls in Discord/WhatsApp with 
 
 ---
 
-## 38. Player profiles & player directory ⚠️ (part A built — profiles; part B — directory & invites — in progress)
+## 38. Player profiles & player directory ⚠️ (parts A and B built; invite push and the Campaigns-tab count dot still open)
 
 _Drafted 2026-10-31, revised the same day: profiles gained a **country** and an uploaded **profile photo**, and the section now includes a searchable **player directory** with **direct campaign invites**. New top-level section. Amends §4.5 (campaign screens), §4.6 (Account), §4.7 (Gallery), §8.1–§8.3 (profiles schema/RLS), §8.5 (invites — join codes stay, direct invites are added), §11 (photos) and §19.2 (comments) where noted; each amended section should carry a one-line pointer back here when this lands. If §38 is already taken in the repo, use the next free number and update the cross-references._
 
 **Decisions (Evin, 2026-10-31):** country only, never region or city · profile photos visible to every signed-in player · directory sorted newest first · Mord Hive is separate — this directory is Mordheim Manager's own · "request to join" stays open (§38.11).
 
 **As built (part A, migration 0058):** photos live in the existing private `images` bucket under an `avatars/{user_id}/` prefix rather than a new bucket, so 0013's private-bucket guard covers them too · `country` is `text` with a check, not `char(2)` (a `char(2)` truncation error fires before the check and gives the user a worse message) · display name stays 1–40 characters to match `MAX_DISPLAY_NAME` · list avatars come from `get_avatar_paths(uuid[])` because `avatar_path` can't be column-granted to `authenticated` without the gallery's anon read breaking · §38.0 audit: the 0038/0047 column grants already hide `last_seen_at` and every acquisition column and allow client UPDATE of `display_name` only — no defect · gallery rows are whole-row links, so the owner name there stays plain text (a nested link is invalid HTML); names link from Members, Standings and comments.
+
+**As built (part B, migration 0059):** directory switches are their own RPC (`set_my_directory`) so the profile save and the switches can't overwrite each other · `get_player_profile` gains `discoverable` / `looking_for_campaign` · the invitee's card reads `my_campaign_invites()` (name, visibility, member count, inviter) and the profile's invite sheet reads `invite_options(uuid)`, so neither needs a new campaign RLS path · leaders see pending invites on the Players tab, with "Invite a player" linking to `/players` · admin "Remove from directory" on the player screen · db test `player-directory.sql` (23 checks).
+
+◻️ **Still open from part B:** push notification on invite (§38.5 — needs the 0028 sending path), the pending-invite count dot on the Campaigns tab icon, and the two `admin_stats()` additions in §38.12 (discoverable players, invites sent/accepted 30d).
 
 **For Claude Code — read first.**
 - §38.0 is **report-only**: findings with file/line references, no edits in that pass. Several defaults below depend on its answers.

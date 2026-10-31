@@ -27,6 +27,9 @@ export type PlayerProfile = {
   bio: string | null;
   favouriteWarbandType: string | null;
   joinedAt: string;
+  /** In the directory, and so able to receive direct invites (§38.4). */
+  discoverable: boolean;
+  lookingForCampaign: boolean;
   stats: {
     battles: number;
     wins: number;
@@ -67,6 +70,8 @@ type ProfileRow = {
   draws: number;
   warbands: number;
   campaigns: number;
+  discoverable?: boolean;
+  looking_for_campaign?: boolean;
 };
 
 export async function fetchPlayerProfile(userId: string): Promise<PlayerProfile | null> {
@@ -84,6 +89,8 @@ export async function fetchPlayerProfile(userId: string): Promise<PlayerProfile 
     bio: row.bio,
     favouriteWarbandType: row.favourite_warband_type,
     joinedAt: row.joined_at,
+    discoverable: !!row.discoverable,
+    lookingForCampaign: !!row.looking_for_campaign,
     stats: {
       battles: row.battles,
       wins: row.wins,
@@ -276,5 +283,178 @@ export async function adminClearAvatar(userId: string): Promise<void> {
 
 export async function adminClearBio(userId: string): Promise<void> {
   const { error } = await supabase.rpc('admin_clear_bio', { p_uid: userId });
+  if (error) throw error;
+}
+
+// ── Directory & invites (§38.4, §38.5) ──────────────────────────────────────
+
+export async function setMyDirectory(discoverable: boolean, looking: boolean): Promise<void> {
+  if (isDemoMode()) return demo.setMyDirectory(discoverable, looking);
+  const { error } = await supabase.rpc('set_my_directory', {
+    p_discoverable: discoverable,
+    p_looking: looking,
+  });
+  if (error) throw error;
+}
+
+export type DirectoryRow = {
+  id: string;
+  displayName: string;
+  avatarSeed: string;
+  avatarPath: string | null;
+  country: string | null;
+  favouriteWarbandType: string | null;
+  lookingForCampaign: boolean;
+  joinedAt: string;
+  publicWarbandCount: number;
+};
+
+export type DirectoryFilters = {
+  country: string;
+  warbandType: string;
+  lookingOnly: boolean;
+  query: string;
+};
+
+export const DIRECTORY_PAGE = 25;
+
+export async function searchPlayers(filters: DirectoryFilters, before: string | null): Promise<DirectoryRow[]> {
+  if (isDemoMode()) return demo.searchPlayers(filters, before);
+  const { data, error } = await supabase.rpc('search_players', {
+    p_country: filters.country || null,
+    p_warband_type: filters.warbandType || null,
+    p_looking_only: filters.lookingOnly,
+    p_query: filters.query.trim() || null,
+    p_before: before,
+    p_limit: DIRECTORY_PAGE,
+  });
+  if (error) throw error;
+  return ((data ?? []) as {
+    id: string;
+    display_name: string;
+    avatar_seed: string;
+    avatar_path: string | null;
+    country: string | null;
+    favourite_warband_type: string | null;
+    looking_for_campaign: boolean;
+    joined_at: string;
+    public_warband_count: number;
+  }[]).map((r) => ({
+    id: r.id,
+    displayName: r.display_name,
+    avatarSeed: r.avatar_seed,
+    avatarPath: r.avatar_path,
+    country: r.country,
+    favouriteWarbandType: r.favourite_warband_type,
+    lookingForCampaign: r.looking_for_campaign,
+    joinedAt: r.joined_at,
+    publicWarbandCount: r.public_warband_count,
+  }));
+}
+
+export type InviteOption = { campaignId: string; campaignName: string; isMember: boolean; hasPending: boolean };
+
+export async function fetchInviteOptions(userId: string): Promise<InviteOption[]> {
+  if (isDemoMode()) return [];
+  const { data, error } = await supabase.rpc('invite_options', { p_user: userId });
+  if (error) throw error;
+  return ((data ?? []) as { campaign_id: string; campaign_name: string; is_member: boolean; has_pending: boolean }[]).map(
+    (r) => ({ campaignId: r.campaign_id, campaignName: r.campaign_name, isMember: r.is_member, hasPending: r.has_pending }),
+  );
+}
+
+export const MAX_INVITE_MESSAGE = 200;
+
+export async function inviteToCampaign(campaignId: string, userId: string, message: string): Promise<void> {
+  if (isDemoMode()) throw new Error('Invites are not available in demo mode.');
+  const { error } = await supabase.rpc('invite_to_campaign', {
+    p_campaign: campaignId,
+    p_user: userId,
+    p_message: message,
+  });
+  if (error) throw error;
+}
+
+export type MyInvite = {
+  id: string;
+  campaignId: string;
+  campaignName: string;
+  campaignVisibility: 'public' | 'private';
+  memberCount: number;
+  invitedByName: string;
+  message: string | null;
+  createdAt: string;
+};
+
+export async function fetchMyInvites(): Promise<MyInvite[]> {
+  if (isDemoMode()) return [];
+  const { data, error } = await supabase.rpc('my_campaign_invites');
+  if (error) throw error;
+  return ((data ?? []) as {
+    id: string;
+    campaign_id: string;
+    campaign_name: string;
+    campaign_visibility: 'public' | 'private';
+    member_count: number;
+    invited_by_name: string;
+    message: string | null;
+    created_at: string;
+  }[]).map((r) => ({
+    id: r.id,
+    campaignId: r.campaign_id,
+    campaignName: r.campaign_name,
+    campaignVisibility: r.campaign_visibility,
+    memberCount: r.member_count,
+    invitedByName: r.invited_by_name,
+    message: r.message,
+    createdAt: r.created_at,
+  }));
+}
+
+/** Returns the campaign id, so an accept can open the campaign straight away. */
+export async function respondToInvite(inviteId: string, accept: boolean): Promise<string> {
+  const { data, error } = await supabase.rpc('respond_to_campaign_invite', {
+    p_invite: inviteId,
+    p_accept: accept,
+  });
+  if (error) throw error;
+  return data as string;
+}
+
+export type PendingInvite = { id: string; userId: string; displayName: string; createdAt: string };
+
+/** A leader's view of a campaign's open invites. RLS: leaders of that campaign. */
+export async function fetchPendingInvites(campaignId: string): Promise<PendingInvite[]> {
+  if (isDemoMode()) return [];
+  const { data, error } = await supabase
+    .from('campaign_invites')
+    .select('id, invited_user_id, created_at')
+    .eq('campaign_id', campaignId)
+    .eq('status', 'pending')
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  const rows = (data ?? []) as { id: string; invited_user_id: string; created_at: string }[];
+  if (rows.length === 0) return [];
+  const { data: names, error: nErr } = await supabase
+    .from('profiles')
+    .select('id, display_name')
+    .in('id', rows.map((r) => r.invited_user_id));
+  if (nErr) throw nErr;
+  const byId = new Map((names ?? []).map((n) => [n.id as string, n.display_name as string]));
+  return rows.map((r) => ({
+    id: r.id,
+    userId: r.invited_user_id,
+    displayName: byId.get(r.invited_user_id) ?? '',
+    createdAt: r.created_at,
+  }));
+}
+
+export async function revokeInvite(inviteId: string): Promise<void> {
+  const { error } = await supabase.rpc('revoke_campaign_invite', { p_invite: inviteId });
+  if (error) throw error;
+}
+
+export async function adminRemoveFromDirectory(userId: string): Promise<void> {
+  const { error } = await supabase.rpc('admin_remove_from_directory', { p_uid: userId });
   if (error) throw error;
 }

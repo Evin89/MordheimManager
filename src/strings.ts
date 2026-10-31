@@ -808,6 +808,66 @@ export const strings = {
     adminClearBio: 'Clear bio',
     adminDone: 'Done.',
     adminViewProfile: 'View profile',
+    adminRemoveFromDirectory: 'Remove from directory',
+
+    // Directory switches (Account card)
+    directoryHeading: 'Player directory',
+    directoryOn: 'Show me in the player directory',
+    directoryOnHint: 'Other players can find you by country and warband, and campaign leaders can invite you directly.',
+    lookingOn: "I'm looking for a campaign",
+    directoryVisible:
+      'Shown in the directory: your photo, name, country, favourite warband, number of public warbands and whether you are looking for a campaign.',
+    lookingBadge: 'Looking for a campaign',
+    notDiscoverableNote: "You're not in the player directory, so others can't find you there.",
+
+    // Invite sheet on a profile
+    invite: 'Invite to campaign',
+    inviteCampaign: 'Campaign',
+    inviteAlreadyMember: 'already a member',
+    invitePending: 'already invited',
+    inviteMessage: 'Message (optional)',
+    inviteMessagePlaceholder: 'When and where you play.',
+    inviteSend: 'Send invite',
+    inviteSent: 'Invite sent.',
+    inviteCancel: 'Cancel',
+  },
+
+  // §38.4 the player directory.
+  directory: {
+    title: 'Find players',
+    hint: 'Players who have chosen to be listed. Leaders can invite them to a campaign from their profile.',
+    country: 'Country',
+    anyCountry: 'Any country',
+    countrySearch: 'Search countries…',
+    warband: 'Warband',
+    anyWarband: 'Any warband',
+    warbandSearch: 'Search warbands…',
+    noMatches: 'No matches.',
+    lookingOnly: 'Only players looking for a campaign',
+    search: 'Name',
+    searchPlaceholder: 'Search by name',
+    notListed: "You're not in the directory. Others can't find you.",
+    notListedLink: 'Change this on Account',
+    empty: (country: string | null) => (country ? `No players found in ${country} yet.` : 'No players found.'),
+    allCountries: 'Search all countries',
+    publicWarbands: (n: number) => (n === 1 ? '1 public warband' : `${n} public warbands`),
+    loadMore: 'Load more',
+    findPlayers: 'Find players',
+  },
+
+  // §38.5 direct campaign invites.
+  invites: {
+    title: 'Campaign invites',
+    from: (name: string) => `Invited by ${name || 'a player'}`,
+    members: (n: number) => (n === 1 ? '1 member' : `${n} members`),
+    publicLabel: 'Public',
+    privateLabel: 'Private',
+    accept: 'Accept',
+    decline: 'Decline',
+    pendingTitle: 'Pending invites',
+    sentOn: (when: string) => `Sent ${when}`,
+    revoke: 'Revoke',
+    invitePlayer: 'Invite a player',
   },
 
   photo: {
