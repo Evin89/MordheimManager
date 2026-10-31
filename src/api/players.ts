@@ -458,3 +458,20 @@ export async function adminRemoveFromDirectory(userId: string): Promise<void> {
   const { error } = await supabase.rpc('admin_remove_from_directory', { p_uid: userId });
   if (error) throw error;
 }
+
+export type AdminDirectoryStats = {
+  discoverable: number;
+  looking: number;
+  invites_sent_30d: number;
+  invites_accepted_30d: number;
+  invites_pending: number;
+};
+
+export async function fetchAdminDirectoryStats(): Promise<AdminDirectoryStats> {
+  if (isDemoMode()) {
+    return { discoverable: 17, looking: 6, invites_sent_30d: 9, invites_accepted_30d: 4, invites_pending: 3 };
+  }
+  const { data, error } = await supabase.rpc('admin_directory_stats');
+  if (error) throw error;
+  return data as AdminDirectoryStats;
+}

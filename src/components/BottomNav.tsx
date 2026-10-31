@@ -1,6 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import AuthNavButton from './AuthNavButton';
 import { NAV_ITEMS, isNavItemActive } from './navItems';
+import InviteDot from './players/InviteDot';
 
 export default function BottomNav() {
   const { pathname } = useLocation();
@@ -20,7 +21,10 @@ export default function BottomNav() {
               } ${isNavItemActive(tab, pathname, linkActive) ? 'text-ember-400' : 'text-bone-300 hover:text-bone-100'}`
             }
           >
-            <Icon className="h-5 w-5 sm:hidden" />
+            <span className="relative sm:hidden">
+              <Icon className="h-5 w-5" />
+              {tab.to === '/campaigns' && <InviteDot />}
+            </span>
             <span className="sr-only sm:not-sr-only">{tab.label}</span>
           </NavLink>
         );

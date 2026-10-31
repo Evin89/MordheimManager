@@ -3306,7 +3306,7 @@ The nicest end state: a shared roster **link** unfurls in Discord/WhatsApp with 
 
 ---
 
-## 38. Player profiles & player directory ⚠️ (parts A and B built; invite push and the Campaigns-tab count dot still open)
+## 38. Player profiles & player directory ✅ (built; invite push needs deploying — §38.5)
 
 _Drafted 2026-10-31, revised the same day: profiles gained a **country** and an uploaded **profile photo**, and the section now includes a searchable **player directory** with **direct campaign invites**. New top-level section. Amends §4.5 (campaign screens), §4.6 (Account), §4.7 (Gallery), §8.1–§8.3 (profiles schema/RLS), §8.5 (invites — join codes stay, direct invites are added), §11 (photos) and §19.2 (comments) where noted; each amended section should carry a one-line pointer back here when this lands. If §38 is already taken in the repo, use the next free number and update the cross-references._
 
@@ -3316,7 +3316,9 @@ _Drafted 2026-10-31, revised the same day: profiles gained a **country** and an 
 
 **As built (part B, migration 0059):** directory switches are their own RPC (`set_my_directory`) so the profile save and the switches can't overwrite each other · `get_player_profile` gains `discoverable` / `looking_for_campaign` · the invitee's card reads `my_campaign_invites()` (name, visibility, member count, inviter) and the profile's invite sheet reads `invite_options(uuid)`, so neither needs a new campaign RLS path · leaders see pending invites on the Players tab, with "Invite a player" linking to `/players` · admin "Remove from directory" on the player screen · db test `player-directory.sql` (23 checks).
 
-◻️ **Still open from part B:** push notification on invite (§38.5 — needs the 0028 sending path), the pending-invite count dot on the Campaigns tab icon, and the two `admin_stats()` additions in §38.12 (discoverable players, invites sent/accepted 30d).
+**As built (follow-ups):** invite push is `supabase/functions/notify-campaign-invite`, a Database Webhook on `campaign_invites` INSERT in the shape of notify-battle-logged — the invite message is left out of the push so another player's free text never lands on a lock screen first · the Campaigns nav icon carries a dot (not a count — unreadable at 56px) when invites are open, with the count for screen readers · §38.12's admin numbers are their own `admin_directory_stats()` (migration 0060) rather than two more keys on `admin_stats()`, whose whole body is copied by every migration that touches it; Overview shows "In directory" and "Invites accepted · 30d" · the JSON export carries your own profile fields (export-only; import ignores them) · privacy policy gains profile and directory paragraphs and two consent rows.
+
+◻️ **Operator step:** deploy `notify-campaign-invite` and add its webhook (instructions at the top of the function file).
 
 **For Claude Code — read first.**
 - §38.0 is **report-only**: findings with file/line references, no edits in that pass. Several defaults below depend on its answers.

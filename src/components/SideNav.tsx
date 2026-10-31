@@ -2,6 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import AuthNavButton from './AuthNavButton';
 import { strings } from '../strings';
 import { NAV_ITEMS, isNavItemActive } from './navItems';
+import InviteDot from './players/InviteDot';
 
 /**
  * Tablet/desktop navigation. Hidden on mobile (the bottom nav covers < md).
@@ -37,7 +38,10 @@ export default function SideNav() {
                 }`
               }
             >
-              <Icon className="h-5 w-5 shrink-0" />
+              <span className="relative shrink-0">
+                <Icon className="h-5 w-5" />
+                {tab.to === '/campaigns' && <InviteDot />}
+              </span>
               <span className="hidden lg:inline text-sm font-semibold">{tab.label}</span>
             </NavLink>
           );

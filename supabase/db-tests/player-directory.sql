@@ -127,3 +127,15 @@ select t.login('00000000-0000-0000-0000-0000000000f1');
 select t.expect_error($$insert into public.campaign_invites (campaign_id, invited_user_id, invited_by) values ('c0000000-0000-0000-0000-0000000000c1', '00000000-0000-0000-0000-0000000000e1', '00000000-0000-0000-0000-0000000000f1')$$,
   'no direct insert into campaign_invites');
 select t.logout();
+
+-- ── Admin directory stats (0060) ─────────────────────────────────────────────
+insert into public.admins (user_id) values ('00000000-0000-0000-0000-0000000000e1');
+select t.login('00000000-0000-0000-0000-0000000000e1');
+select t.ok((select (s->>'discoverable')::int = 2 and (s->>'invites_sent_30d')::int = 2
+                    and (s->>'invites_accepted_30d')::int = 1
+             from public.admin_directory_stats() s),
+  'admin_directory_stats counts directory and invites');
+select t.logout();
+select t.login('00000000-0000-0000-0000-0000000000d1');
+select t.expect_error($$select public.admin_directory_stats()$$, 'admin_directory_stats is admin-only');
+select t.logout();
