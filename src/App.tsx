@@ -67,6 +67,8 @@ const PreBattleScreen = lazy(() => import('./screens/PreBattleScreen'));
 const DuringBattleScreen = lazy(() => import('./screens/DuringBattleScreen'));
 
 const GalleryScreen = lazy(() => import('./screens/GalleryScreen'));
+// §38 — handles its own signed-out state, so it isn't wrapped in `guarded`.
+const PlayerProfileScreen = lazy(() => import('./screens/PlayerProfileScreen'));
 
 const SharedWarbandScreen = lazy(() => import('./screens/SharedWarbandScreen'));
 
@@ -233,6 +235,7 @@ function AppShell() {
                 show to someone without an account isn't really shared. The
                 database enforces this independently (migration 0004). */}
             <Route path="/gallery" element={<GalleryScreen />} />
+            <Route path="/players/:userId" element={<PlayerProfileScreen />} />
             <Route path="/rosters/:warbandId" element={<SharedWarbandScreen />} />
 
             {/* --- Requires an account: your warbands, battles and campaign --- */}

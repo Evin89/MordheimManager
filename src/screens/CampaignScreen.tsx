@@ -13,6 +13,9 @@ import BattleRow from '../components/BattleRow';
 import SaveBar from '../components/SaveBar';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import ConfirmAction from '../components/ConfirmAction';
+import PlayerLink from '../components/players/PlayerLink';
+import PlayerAvatar from '../components/players/PlayerAvatar';
+import { useAvatarUrls } from '../hooks/usePlayers';
 import { Button, Card, SectionHeading, Field, TextField, Textarea, Select, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
@@ -505,7 +508,7 @@ function StandingsTable({ rows, nemesisIds }: { rows: StandingsRow[]; nemesisIds
                 )}
               </td>
               <td className="py-3 pr-3 text-bone-200">
-                {row.playerName || strings.campaign.unnamedPlayer}
+                <PlayerLink userId={row.ownerId}>{row.playerName || strings.campaign.unnamedPlayer}</PlayerLink>
                 {row.role === 'campaign_leader' && (
                   <span className="ml-2 text-xs font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded bg-ink-800 border border-ink-700 text-bone-300 align-middle">
                     {strings.campaign.roleLeader}
@@ -529,6 +532,8 @@ type MemberConfirm = 'leave' | 'stepDown' | 'makeLeader' | 'handOver' | 'removeL
 function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boolean }) {
   const { user } = useAuth();
   const { data: members } = useCampaignMembersQuery(campaign.id);
+  // §38 — one batched fetch for every member's photo, not one per row.
+  const avatars = useAvatarUrls((members ?? []).map((m) => m.userId));
   const removeMember = useRemoveMemberMutation(campaign.id);
   const transferLeadership = useTransferLeadershipMutation(campaign.id);
   const grantLeadership = useGrantLeadershipMutation(campaign.id);
@@ -654,9 +659,16 @@ function MembersList({ campaign, isLeader }: { campaign: Campaign; isLeader: boo
           return (
             <div key={member.userId} className="space-y-2">
               <div className="rounded-lg bg-ink-900 border border-ink-800 p-4 flex items-center justify-between gap-3">
-                <div className="min-w-0">
+                <PlayerAvatar
+                  url={avatars[member.userId]}
+                  name={member.displayName || '?'}
+                  seed={member.userId}
+                />
+                <div className="min-w-0 flex-1">
                   <p className="text-bone-100 font-semibold truncate">
-                    {member.displayName || strings.campaign.unnamedPlayer}{' '}
+                    <PlayerLink userId={member.userId}>
+                      {member.displayName || strings.campaign.unnamedPlayer}
+                    </PlayerLink>{' '}
                     {isMe && <span className="text-bone-400 font-normal">{strings.campaign.youSuffix}</span>}
                   </p>
                   <p className="text-bone-400 text-xs">

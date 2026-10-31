@@ -9,8 +9,7 @@ import { useIsAdminQuery } from '../hooks/useIssues';
 import { useAuth } from '../auth/AuthProvider';
 import { ImportValidationError, downloadExport, importAllData, parseImportFile } from '../storage/persistence';
 import { isDemoMode, setDemoMode } from '../dev/demoMode';
-import { MAX_DISPLAY_NAME } from '../api/profile';
-import { useMyProfileQuery, useUpdateDisplayNameMutation } from '../hooks/useProfile';
+import ProfileCard from '../components/players/ProfileCard';
 import { usePush } from '../hooks/usePush';
 import {
   analyticsConfigurable,
@@ -24,65 +23,8 @@ import { useInstall } from '../hooks/useInstall';
 import ActivityPanel, { activityWindow } from '../components/activity/ActivityPanel';
 import { useMyActivityDayQuery, useMyActivityQuery } from '../hooks/useActivity';
 import type { ActivityItem } from '../lib/activityKinds';
-import { Button, Card, SectionHeading, Field, TextField, buttonClasses } from '../components/ui';
+import { Button, Card, SectionHeading, buttonClasses } from '../components/ui';
 
-
-/**
- * Renaming yourself.
- *
- * This is the only field on the screen other people see — it labels you in
- * campaign standings, the pre-battle opponent picker and the public gallery —
- * and until now it was set once at registration and never editable, so a typo
- * at signup was permanent.
- *
- * Saved explicitly rather than on each keystroke, matching how the roster and
- * campaign screens treat typed fields: a name is something you finish writing
- * before you mean it.
- */
-function DisplayNameField() {
-  const { data: profile } = useMyProfileQuery();
-  const mutation = useUpdateDisplayNameMutation();
-  const [draft, setDraft] = useState<string | null>(null);
-
-  // Null until the user types, so the loaded name shows without a second
-  // effect copying it into state — and a rename landing elsewhere is picked up
-  // rather than pinned to whatever this field first rendered.
-  const value = draft ?? profile?.displayName ?? '';
-  const trimmed = value.trim();
-  const dirty = profile !== undefined && profile !== null && trimmed !== profile.displayName;
-
-  return (
-    <div className="space-y-2">
-      <Field label={strings.settings.displayNameLabel} htmlFor="display-name">
-        <TextField
-          id="display-name"
-          type="text"
-          value={value}
-          maxLength={MAX_DISPLAY_NAME}
-          onChange={(e) => setDraft(e.target.value)}
-        />
-      </Field>
-      <p className="text-bone-400 text-xs">{strings.settings.displayNameHint}</p>
-
-      {dirty && (
-        <Button
-          disabled={!trimmed || mutation.isPending}
-          onClick={() => mutation.mutate(trimmed, { onSuccess: () => setDraft(null) })}
-        >
-          {mutation.isPending ? strings.common.loading : strings.settings.displayNameSave}
-        </Button>
-      )}
-
-      {!trimmed && <p className="text-danger text-xs">{strings.settings.displayNameEmpty}</p>}
-      {mutation.isSuccess && !dirty && (
-        <p className="text-bone-300 text-xs">{strings.settings.displayNameSaved}</p>
-      )}
-      {mutation.isError && (
-        <p className="text-danger text-xs">{(mutation.error as Error).message}</p>
-      )}
-    </div>
-  );
-}
 
 /**
  * §19.4 — the game-night reminder toggle. Per device (a push subscription is a
@@ -365,13 +307,14 @@ export default function SettingsScreen() {
             nothing when analytics can't run (no project / demo / Do-Not-Track). */}
         <AnalyticsSection />
 
+        {/* §38 — name, photo, country, favourite warband and bio. */}
+        {user && <ProfileCard />}
+
         <Card as="section">
           <SectionHeading>{strings.settings.accountSection}</SectionHeading>
           {user ? (
             <>
               {user.email && <p className="text-bone-300 text-sm">{strings.settings.signedInAs(user.email)}</p>}
-
-              <DisplayNameField />
 
               <Button variant="danger" onClick={() => signOut()}>
                 {strings.settings.signOutButton}

@@ -75,7 +75,10 @@ export type AnalyticsEvent =
   | 'install_nudge_dismissed'
   // §37.5 — the roster share panel.
   | 'warband_share_opened'
-  | 'warband_card_shared';
+  | 'warband_card_shared'
+  // §38 — player profiles. Never the viewed player's id, never field values.
+  | 'profile_viewed'
+  | 'profile_edited';
 
 type EventProps = Record<string, string | number | boolean>;
 
