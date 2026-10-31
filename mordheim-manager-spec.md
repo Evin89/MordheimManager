@@ -292,6 +292,8 @@ type StandingsRow = {
   - **A unit that cannot gain Experience gets no profile**, deliberately: it never advances, so a ceiling is meaningless and inventing one implies it could. The resolver returns null rather than a fabricated line.
   - Three units keep per-unit numbers, their race having no published profile: Carnival of Chaos's Plague Bearers, Nurglings and Plague Cart.
   - A promoted Henchman ("That Lad's Got Talent") takes his unit type's racial ceiling. He used to be handed *his own current stats* as maximums, freezing him at the numbers he was promoted with.
+  - He also keeps the equipment he carried in the group: a group's `equipment` is what *each* member carries, so the promoted Hero gets a copy (fresh item ids) and the group keeps its list for the remaining members. He used to arrive with no equipment at all (issue bd6ab585).
+  - Promoting the **last** member disbands the group: it is removed from the roster rather than left behind at count 0, and its equipment goes with him (nothing to the treasury — there is no keep/delete choice as there is for a wiped-out group). The post-battle summary (`buildDiffSummary`) now logs every promotion, and says so when the group is disbanded.
 - ✅ **Max warband size / hero slots** from the warband definition (`src/lib/warbandLimits.ts`). Hired Swords excluded via `countsTowardMax`.
 - ✅ **Total upkeep** = sum of hired sword upkeep fees.
 - ✅ **Advance eligibility** (`advanceEligibility.ts`, `xpThresholds.ts`).

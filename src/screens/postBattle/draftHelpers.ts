@@ -326,20 +326,29 @@ export function applyDraftToWarband(
         spellLists: [],
         spells: [],
         injuries: [],
-        equipment: [],
+        // He keeps the kit he carried as a Henchman. A group's equipment list is
+        // what every member carries, so he takes a copy (fresh ids — the items
+        // are now his own) and the group keeps its list for the rest.
+        equipment: group.equipment.map((item) => ({ ...item, id: generateId() })),
         status: 'active',
         notes:
           `Promoted from ${group.groupName} by "That Lad's Got Talent" after ${draft.scenario || 'a battle'}. ` +
           (promotedLists.length > 0
-            ? 'Check his starting equipment — the rulebook decides it per warband.'
-            : 'Set his skill lists and starting equipment — the rulebook decides these per warband.'),
+            ? 'He keeps the equipment he carried in the group.'
+            : 'Set his skill lists — the rulebook decides these per warband. He keeps the equipment he carried in the group.'),
       });
     }
 
+    // The promoted lad is no longer part of the group.
+    const remaining = state.ladsGotTalent ? Math.max(0, newCount - 1) : newCount;
+    // Promoting the last member leaves nobody behind: the group goes, and so does
+    // its equipment list — he took that kit with him, so nothing goes to the
+    // treasury. Unlike a wiped-out group there is no keep/delete choice to make.
+    if (state.ladsGotTalent && remaining === 0) continue;
+
     henchmenGroups.push({
       ...group,
-      // The promoted lad is no longer part of the group.
-      count: state.ladsGotTalent ? Math.max(0, newCount - 1) : newCount,
+      count: remaining,
       xp: groupXp,
       stats: groupStats,
       advances,
@@ -634,6 +643,14 @@ export function buildDiffSummary(warband: Warband, draft: PostBattleDraft): stri
     if (state.xpAwarded > 0) lines.push(`${group.groupName} gains +${state.xpAwarded} XP.`);
     const advanceTags = statIncreaseTags(state.statIncreases);
     if (advanceTags.length > 0) lines.push(`${group.groupName} advances: ${advanceTags.join(', ')}.`);
+    const survivors = Math.max(0, group.count - state.diedCount);
+    if (state.ladsGotTalent && survivors > 0) {
+      lines.push(
+        survivors === 1
+          ? `That Lad's Got Talent: the last of ${group.groupName} joins the Heroes, and the group is disbanded.`
+          : `That Lad's Got Talent: one of ${group.groupName} joins the Heroes.`,
+      );
+    }
   }
 
   for (const sword of warband.hiredSwords) {
