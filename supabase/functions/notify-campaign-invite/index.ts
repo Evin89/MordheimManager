@@ -1,35 +1,34 @@
 // §38.5 Push notifications — "a leader invited you to a campaign".
 //
-// Driven by a Database Webhook on `campaign_invites` INSERT, the same shape as
-// notify-battle-logged: the moment a leader sends a direct invite, the invitee's
-// devices get one push. Revokes, accepts and declines are UPDATEs and notify
-// nobody — a decline in particular is nobody else's business. Reuses the VAPID
-// secrets and push_subscriptions from §19.4 phase 1; no new opt-in, since a
-// player only has subscriptions if they switched notifications on.
+// Called by the `campaign_invites_notify` trigger (migration 0062) through
+// pg_net with nothing but the new invite's id. No dashboard webhook (that would
+// store the service-role key in the trigger definition) and no shared secret:
+// the function is deployed with verify_jwt off and is safe to call by anyone,
+// because it only ever acts on an invite that
+//   • exists and is still pending,
+//   • was created in the last 10 minutes, and
+//   • has not been notified yet —
+// and it claims that invite atomically (`notified_at`) before sending. The worst
+// an outside caller can do is trigger, early, the one push that was coming
+// anyway — and only if they know a random invite uuid, which RLS shows to the
+// invitee and the campaign's leaders alone.
 //
 // Deploy:
-//   supabase functions deploy notify-campaign-invite
-// Then add a Database Webhook (Database → Webhooks):
-//   table public.campaign_invites, event INSERT, type "Supabase Edge Functions",
-//   function notify-campaign-invite  (this adds the service-role auth header).
+//   supabase functions deploy notify-campaign-invite --no-verify-jwt
 
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import webpush from 'npm:web-push@3.6.7';
-
-type InviteRow = {
-  id: string;
-  campaign_id: string;
-  invited_user_id: string;
-  invited_by: string;
-  status: string;
-};
 
 type SubRow = { id: string; endpoint: string; p256dh: string; auth: string };
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 Deno.serve(async (req) => {
+  if (req.method !== 'POST') return json({ error: 'method_not_allowed' }, 405);
+
   const supabaseUrl = Deno.env.get('SUPABASE_URL');
   const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
   const vapidPublic = Deno.env.get('VAPID_PUBLIC_KEY');
@@ -41,13 +40,25 @@ Deno.serve(async (req) => {
   }
 
   const body = await req.json().catch(() => null);
-  const invite = body?.record as InviteRow | undefined;
-  if (!invite?.invited_user_id || invite.status !== 'pending') {
-    return json({ skipped: true });
-  }
+  const inviteId = typeof body?.invite_id === 'string' ? body.invite_id : '';
+  if (!UUID.test(inviteId)) return json({ skipped: true });
+
+  const supabase = createClient(supabaseUrl, serviceKey);
+
+  // Claim it: one UPDATE that only matches a fresh, pending, un-notified invite.
+  // Two concurrent calls can't both win, and anything else is a no-op.
+  const { data: invite } = await supabase
+    .from('campaign_invites')
+    .update({ notified_at: new Date().toISOString() })
+    .eq('id', inviteId)
+    .eq('status', 'pending')
+    .is('notified_at', null)
+    .gte('created_at', new Date(Date.now() - 10 * 60 * 1000).toISOString())
+    .select('id, campaign_id, invited_user_id, invited_by')
+    .maybeSingle();
+  if (!invite) return json({ skipped: true });
 
   webpush.setVapidDetails(vapidSubject, vapidPublic, vapidPrivate);
-  const supabase = createClient(supabaseUrl, serviceKey);
 
   const [{ data: campaign }, { data: leader }, { data: subs }] = await Promise.all([
     supabase.from('campaigns').select('name').eq('id', invite.campaign_id).maybeSingle(),
