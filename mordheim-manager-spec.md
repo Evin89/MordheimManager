@@ -3720,3 +3720,78 @@ Admin Overview (§4.9.2): add **discoverable players** and **invites sent / acce
 - [ ] Signed out: names are plain text, and `/players` and `/players/:id` show a sign-in prompt.
 - [ ] At 375px: directory rows, profile header and invite sheet fit without horizontal scroll, and numbers are ≥ 14px (§5.4).
 - [ ] Both themes: badges and buttons use tokens (`var(--on-accent)` for button text), with no hard-coded colours.
+
+## 39. Profiles: where they live, and how the page should look ❓ _(proposal, 2026-11-02 — nothing built)_
+
+**Why.** §38 built the profile and the directory, but placed them where there was room rather than where players will look. Nobody has used them yet (2026-11-02: 0 discoverable players, 0 photos, 0 countries, 0 invites), so this is the cheap moment to move them. This section records what was measured in the app (demo mode, 375×812), what comparable apps do, and a proposal with defaults.
+
+### 39.1 What the app does today (measured)
+
+- **Your own profile is three steps and a scroll away.** Account tab → the Profile card, the fifth card, starting at y≈1030 (below the first screen) → "View profile". The card is ~1,050px tall, so the edit form is now the bulk of the Account screen.
+- **The directory has two doors, both in Campaigns.** A button on My Campaigns and the leader's Pending invites. Nothing on Home, in the nav or on Account leads there, so a player who *wants* a campaign — the person the "Looking for a campaign" badge is for — has no obvious path to it.
+- **On `/players` and `/players/:id` no tab is lit.** All seven nav items are inactive, so the player loses their place.
+- **The header says "Player"** and the name is repeated below it in the hero.
+- **The page is a plain card stack.** Only the avatar uses the app's plate style (2px `ink` border). The record is a generic four-number strip with `2/3/0` packed into one cell. Your own view opens with an explanatory card ("Others see your public warbands…") above your bio, which pushes the content down.
+- **The directory's filter card** fills most of the first screen before the first result.
+
+### 39.2 What comparable apps do
+
+- **Tab count.** Material 3 puts 3–5 destinations in a navigation bar; Apple's HIG shows five tabs on iPhone and folds the rest into "More". This app already has seven (§5.6, conflict 7), so **a Players or Profile tab is out**. Profiles have to live inside existing tabs.
+- **"You" tab** (Strava, Discord, Duolingo): the account tab *opens on your own identity* — avatar, name, a "view profile" link — with settings below or behind a gear. Instagram and X go further and make the profile the tab, with settings behind a gear on it.
+- **Closest analogue: chess.com / lichess**, hobby games with player records. A profile is an identity header (avatar, name, country, member since), a record by mode, recent games and clubs. Your own profile and the public one are **the same page**; yours adds "Edit". Finding players sits under the *social* section (Community → Players, Social → Clubs), not under settings.
+- **Mapped onto this app:** the social unit is the campaign, so the directory belongs with Campaigns. Identity belongs at the top of Account.
+
+### 39.3 Placement — proposal
+
+1. **Account opens on you.** A compact identity header at the top of the Account screen: small avatar, name, country, a directory status chip ("Listed" / "Not listed"), and **View profile ›**. The edit form moves off the screen to its own route, `/account/profile` (Back returns to Account), so Account goes back to being short. Existing `/account#profile` links redirect there.
+   - ❓ **Rename the tab "You"? Default: no.** It has been renamed twice already (§4.6), and "Account" is accurate. The header does the work.
+2. **Players belong to Campaigns.** The Campaigns tab claims `/players` and other players' `/players/:id` (`activeFor`). Your own profile lights **Account**.
+3. **Directory doors, in addition to the existing two:**
+   - **My Campaigns, for everyone,** not only leaders: a "Find players" row under the campaign list.
+   - **The no-campaign empty state** (My Campaigns and Home's campaign card): "Looking for a group? Find players near you", plus a one-tap **I'm looking for a campaign** switch that turns on `discoverable` + `looking_for_campaign` together, with the §38 privacy line shown right there.
+   - **The Account identity header's status chip** links to the directory switches.
+   - ❓ **A Home card advertising the directory to everyone? Default: no.** §26.4 keeps Home to one card for new players, and existing campaign players don't need it.
+4. **Names keep linking** from Members, Standings, comments and RSVPs (§38). The gallery stays plain text (a nested link is invalid HTML).
+
+### 39.4 The profile page — proposal
+
+Order, top to bottom:
+
+1. **Header** — `BackHeader` title is the **player's name** (blackletter, truncating), so history and Back read correctly. On your own profile, **Edit** sits in the header's `action` slot instead of a card.
+2. **Hero plate** — the avatar plate (unchanged, `lg`), then the meta in one line, *Netherlands · since January 2026*, the favourite warband as a small chip, and the **Looking for a campaign** badge. The name isn't repeated here.
+3. **Actions** — directly under the hero: **Invite to campaign** (leaders, discoverable players). On your own profile, a one-line visibility strip replaces the explanatory card: *Visible to signed-in players · Not in the directory — Change*.
+4. **Bio.**
+5. **Record as a profile block.** Render the stats with the §5.3 `ProfileBlock` look: a small-caps header row `BATTLES W L D WARBANDS CAMPAIGNS`, values beneath, heavy 2px `ink` frame. W, L and D get their own columns instead of `2/3/0`. A player's record reads as *their statline*. That is the app's signature element, and it ties the page to the rulebook look instead of a generic dashboard. At 375px, six columns fit at the 14px floor by dropping cell padding (as §5.3 already does for nine).
+6. **Warbands** — unchanged rows, plus the warband photo thumbnail where one exists, since that is the most personal thing a player has made.
+7. **Honours** — moved **above** campaigns; they are the bragging rights.
+8. **Campaigns together.**
+9. **Report** — small link at the foot (unchanged).
+
+- **Empty own profile.** Most accounts will have nothing filled in. On your *own* profile only, show missing pieces as tappable chips under the hero: *Add a photo · Add your country · Write a bio*. No completeness percentage. Other people's empty profiles just render less, with no nagging.
+- **Tablet/desktop (md+).** Two columns: hero, actions, bio and record on the left; warbands, honours and campaigns on the right. Today it's a single 2xl column.
+
+### 39.5 Directory screen
+
+- Filters collapse to one row: the **country chip** (defaulting to your own country, as now) plus a **Filters** disclosure holding warband, name and "looking only". The first results then start above the fold at 375px.
+- ❓ **Remember the filters per device? Default: yes**, in `localStorage` (try/catch, convenience state per §2).
+
+### 39.6 Build order (each step shippable on its own)
+
+1. Nav active states (`activeFor` on Campaigns; own profile → Account). Tiny, and fixes the lost-place bug.
+2. Account identity header + `/account/profile` edit route + redirect.
+3. Profile page: header/title, action placement, record as a profile block, honours order, own-profile chips.
+4. Directory doors: My Campaigns row for everyone, the no-campaign empty state with the one-tap switch.
+5. Directory filter row.
+
+### 39.7 Measurement
+
+`profile_viewed { own }` and `directory_searched` already exist. Add one event, `directory_opened { surface }`, with the closed set `my_campaigns | empty_state | account | invites`, to see which door gets used. Names only, consent-gated, §23.7.
+
+### 39.8 Acceptance
+
+- [ ] On `/players` and on another player's profile, Campaigns is lit; on your own profile, Account is.
+- [ ] Account's first screen at 375×812 shows the identity header and Appearance; the edit form is on `/account/profile`, and old `#profile` links land there.
+- [ ] A player with no campaign reaches the directory from My Campaigns and from Home's empty state in one tap, and can turn on "looking" from there.
+- [ ] The profile header title is the player's name; the record renders as a framed table with W, L and D in separate columns, and numbers ≥ 14px at 375px.
+- [ ] Own empty profile shows the add-chips; someone else's empty profile shows none.
+- [ ] Both themes: no hard-coded colours (§5.5).
