@@ -8,6 +8,7 @@ import { fetchWarbands, insertWarband, updateWarband } from '../api/warbands';
 import { pickActiveCampaign } from '../lib/activeCampaign';
 import { migrateWarband } from './migrations';
 import { BattleRecord, Campaign, Warband } from '../types';
+import { fetchPlayerProfile } from '../api/players';
 
 /** A backup covers the campaign the app is currently in, not every campaign the
  * user belongs to — exporting someone else's shared campaign into your personal
@@ -23,10 +24,28 @@ export type ExportedData = {
   usesBTB: boolean;
   campaignNotes: string;
   battles: BattleRecord[];
+  /** §38.9 — your own profile, for the record. Export-only: import ignores it
+   * (a backup restores warbands and battles, not who you say you are), and the
+   * photo is listed by its storage path rather than embedded. */
+  profile?: {
+    displayName: string;
+    country: string | null;
+    bio: string | null;
+    favouriteWarbandType: string | null;
+    photoPath: string | null;
+    inPlayerDirectory: boolean;
+    lookingForCampaign: boolean;
+  };
 };
 
 export async function exportAllData(userId: string): Promise<ExportedData> {
-  const [records, campaign] = await Promise.all([fetchWarbands(userId), activeCampaign(userId)]);
+  const [records, campaign, profile] = await Promise.all([
+    fetchWarbands(userId),
+    activeCampaign(userId),
+    // Best-effort: a profile read failing (e.g. migration not yet applied)
+    // must not cost the user their warband backup.
+    fetchPlayerProfile(userId).catch(() => null),
+  ]);
   const battles = campaign ? await fetchBattles(campaign.id) : [];
 
   return {
@@ -36,6 +55,19 @@ export async function exportAllData(userId: string): Promise<ExportedData> {
     usesBTB: campaign?.usesBTB ?? false,
     campaignNotes: campaign?.notes ?? '',
     battles,
+    ...(profile
+      ? {
+          profile: {
+            displayName: profile.displayName,
+            country: profile.country,
+            bio: profile.bio,
+            favouriteWarbandType: profile.favouriteWarbandType,
+            photoPath: profile.avatarPath,
+            inPlayerDirectory: profile.discoverable,
+            lookingForCampaign: profile.lookingForCampaign,
+          },
+        }
+      : {}),
   };
 }
 
