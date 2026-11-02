@@ -28,7 +28,7 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 | 4 | `BattleRecord` without `warbandId` | **Built version wins** — without it a player with two warbands got one merged W/L record. §3.1 |
 | 5 | `Campaign.joinCode: string` | **Nullable in build** — the leader can revoke rather than only rotate. §3.1 |
 | 6 | `HiredSword` without `countsTowardMax` | **Built version wins.** §3.1 |
-| 7 | Six bottom tabs incl. "Browse" | ⚠️ **Seven tabs shipped**, gallery reached from Home rather than a tab. The crowding concern is real and recorded. §4 |
+| 7 | Six bottom tabs incl. "Browse" | ✅ **Resolved by §40: five tabs** (Home · Warbands · Play · Campaigns · Rules), Account as the header avatar, gallery under Warbands. §4, §40 |
 | 8 | Fonts self-hosted woff2 | ✅ **Done** — `scripts/fetch-fonts.mjs` pulls the Latin woff2 subsets to `public/fonts/`, `font-display: swap`, no CDN request; SW caches them CacheFirst so they survive offline. §5.2, §12.4 |
 | 9 | Dark theme "optional later, not v1" | ⚠️ **Shipped first, as the default.** §5.5 |
 | 10 | "Requires login throughout, no logged-out mode" | ⚠️ **The gallery is anon-readable** (migration 0004). This has consequences for photos — see conflict 11. §8.1, §4.7 |
@@ -346,11 +346,11 @@ These files never change at runtime, which is why §12.1 gives them `staleTime: 
 
 Mobile-first. Bottom tab bar on phones, left rail on wider screens.
 
-**Tabs:** Home · Warbands · Battle · Trading · Campaigns · Rules · Settings
+**Tabs:** Home · Warbands · Play · Campaigns · Rules — each with its label under the icon on phones. **Account** is the avatar in each tab screen's header (and at the foot of the desktop rail), not a tab. See §40.
 
-⚠️ Seven tabs, not the six proposed (conflict 7). The gallery is reached from Home rather than occupying a tab. The crowding concern is real: seven targets on a narrow phone is tight, and moving Rules and Settings behind an overflow or profile menu is the obvious relief if it starts costing mistaps. Recorded, not yet acted on.
+✅ Conflict 7 resolved by §40: seven tabs (eight signed out), icon-only on phones, became five labelled ones. Trading lives on each roster; the gallery, compare and custom warbands under Warbands; dice, map and solo under Play; the player directory under Campaigns.
 
-Nav highlighting is not plain path-prefix matching. `NavLink` matches on its own prefix, which lit the wrong tab twice: the battle screens live under `/warbands/:id/…` and lit Warbands, and `/campaigns` lit for `/campaign/:id`. `isNavItemActive` lets an item both claim paths (`activeFor`, `alsoActiveFor`) and disclaim them (`notActiveFor`).
+Nav highlighting is not plain path-prefix matching: one ordered table, `navTargetForPath` (`src/lib/navTabs.ts`), maps every path to a tab or the avatar, and `scripts/check-nav-coverage.mjs` fails the build if a route in `App.tsx` maps to nothing (§40.1).
 
 ### 4.1 Warband list & roster ✅
 
@@ -3805,3 +3805,45 @@ Deviations, each for a reason found while building:
 - **`directory_opened` surfaces are `my_campaigns | empty_state | invites | direct`.** The Account chip leads to the directory *switches*, not the directory, so `account` had nothing to count; `direct` covers a reload or a pasted link (router state doesn't survive those, so the first door isn't counted twice).
 - **On an empty My Campaigns, the lower "Find players" button is hidden**, since the Looking-for-a-group card directly above it offers the same link.
 - **The one-tap switch, turned off, clears "looking" but keeps the listing.** Leaving the directory is the bigger decision and stays in the profile form.
+
+---
+
+## 40. Navigation and structure — five tabs, Account behind the avatar ✅ _(built 2026-11-02)_
+
+**Why.** By §39 the app had 64 routes behind seven tabs, icon-only on phones (eight signed out). Eight destinations — dice, map, solo, gallery, shared rosters, compare, custom warbands, admin — lit no tab at all. Account was ten cards of equal weight (~2,700px at 375px) mixing identity, device settings, data, sign-out, activity, admin and game data. A campaign had no address of its own: `/campaign` meant "the active one on this device". The structure audit and recommendations that led here are in the project docs (`app-structuur-overzicht.md`, `app-structuur-aanbevelingen.md`).
+
+Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled **Play**; everything else at the recommendation's defaults — Account as the header avatar, campaign tabs as URL segments, "Chronicle" for the narrative log, theme in Settings rather than on Account.
+
+### 40.1 One table decides the lit tab
+`navTargetForPath(pathname, userId)` → `home | warbands | play | campaigns | rules | account | null`. First match wins; your own `/players/:id` lights the avatar, others' light Campaigns. Replaces `activeFor` / `alsoActiveFor` / `notActiveFor`. `npm run build` runs `check-nav-coverage.mjs` (bundles `navTabs.ts` with esbuild, reads routes from `App.tsx`, skips redirect-only routes and the sign-in flow). `npm run nav-coverage` lists the routes.
+
+### 40.2 Tabs, header and the avatar
+- **Five tabs** with labels (12px, §5.4 floor) on phones; the rail is unchanged in shape.
+- **`TabHeader`** (title · optional action · `AccountButton`) on tab roots; detail screens keep `BackHeader`. Signed out, the avatar slot is a **Sign in** link. The rail's foot shows your avatar and name (→ Account) or Sign in; `AuthNavButton` is gone — signing out is on Account.
+- **No floating controls.** The `?` tour button and the dice button no longer float over headers (and the `pr-14` header padding they forced is gone). Dice is a header action on Play and during a battle (Rules already has its dice row). The tour still runs once for a new player, now ends on the avatar (6 stops), and is replayed from Help & about (it opens Home first so the avatar is on screen).
+
+### 40.3 Sections
+- **Home:** resume card (games in progress) · last-opened campaign with its next game night and *Open campaign ›* · your three last-used warbands (*All N warbands ›*) · *Start a battle*. Quick Actions and About left the signed-in Home; the signed-out Home keeps About.
+- **Warbands:** sub-tabs *Mine · Gallery · Rules* (Public renamed). A *Tools* list: Compare (2+ warbands), Custom warband types. `/gallery`, `/rosters/:id`, `/compare`, `/custom-warbands`, `/trading` and the Trading Post light Warbands. The roster's battle button reads *Continue battle* when this warband has a game in progress.
+- **Play (`/play`):** resume card · *Start a battle* (warband list, last used first) · *At the table*: Dice roller, Battlefield generator (beta), Solo battle (beta) · Your Battles. `/post-battle` redirects here. The battle flow keeps its `/warbands/:id/…` URLs and lights Play.
+- **Campaigns:** header links *Campaigns · Players* (the directory, `/players`). Each card is a link to the campaign; *Switch to this campaign* and the join code on the card are gone (the code is on the campaign's Players tab). Create and join open the new campaign. The empty state also carries the §26.6 friendly-game card (moved from the deleted `/campaign` first-run screen).
+- **A campaign's own address:** `/campaigns/:id` and `/campaigns/:id/{standings|players|territories|settings}`, `/events`, `/events/:eventId`, `/calendar`. Tab switches replace history, so Back leaves the campaign. Opening one stores it as *last opened*, which only Home reads. `/campaign` and everything under it redirect to the last-opened campaign, keeping the query string (`?claim=`).
+- **Chronicle:** the narrative log (§17.3), so it no longer reads like the Battle log.
+- **Warband screens read their own campaign** (`useWarbandCampaign`, §34.4) for battle history — Trading Post, model and henchmen detail used the active campaign before.
+
+### 40.4 Account
+`/account`: identity (§39.3) · rows *Settings* (status: theme · notifications) · *Your data* · *Help & about* · *Admin* (admins only) · signed in as · **Sign out** — all within 812px. Sub-screens:
+- `/account/settings` — Appearance, Install (§36), Notifications (§19.4), Analytics (§23.7).
+- `/account/data` — Export / import (§4.6, §10.1), Your activity; demo-data toggle in dev builds.
+- `/account/about` — replay the tour, What's New, Discord (§4.10), Game data and data-error form (§4.6), Privacy Policy, version.
+`#profile` → `/account/profile`, `#install` → `/account/settings#install`. New kit components `ListRow` / `ListGroup` (§5.6).
+
+### 40.5 Operator actions
+- ◻️ **Redeploy two edge functions:** `send-event-reminders` (links to `/app/campaigns/:id/events/:eventId`) and `notify-leaderless-campaigns` (links to `/app/campaigns/:id?claim=…`). Until then the old links still work through the redirect, but an event reminder for a campaign other than the last-opened one opens that campaign's events list instead of the event.
+- ◻️ **Check after 3–4 weeks** (PostHog `$pageview`): visits to `/dice`, `/map`, `/solo`, `/players` should rise; `/warbands/:id/trading` should not fall now the tab is gone.
+
+### 40.6 Not done in this pass
+- `CampaignScreen.tsx` (≈1,450 lines) is not yet split per tab; the tab is read from the URL, so the split is now mechanical.
+- `strings.settings` / `SettingsScreen` naming: the screen moved to `screens/account/AccountScreen.tsx`, but the strings key is still `settings`.
+- On phones, Account screens light no tab (the avatar isn't on a `BackHeader`). Deliberate for now: Account is a place you visit and leave, like a sheet.
+
