@@ -2,7 +2,7 @@ import { Suspense, lazy, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TabHeader from '../components/TabHeader';
 import PublicWarbandBrowser from '../components/PublicWarbandBrowser';
-import { buttonClasses } from '../components/ui';
+import { ListGroup, ListRow, SectionHeading, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
 import { useWarbandList, useWarbandsQuery } from '../hooks/useWarbands';
 import { useWarbandThumbnails } from '../hooks/usePhotos';
@@ -76,16 +76,6 @@ export default function WarbandListScreen() {
                 </div>
               ))}
 
-            {/* Comparison needs two warbands, so the entry only appears once
-                there are two to compare. */}
-            {warbands.length >= 2 && (
-              <Link
-                to="/compare"
-                className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
-              >
-                {strings.compare.entry}
-              </Link>
-            )}
 
             {warbands.map((warband) => (
               <Link
@@ -113,6 +103,18 @@ export default function WarbandListScreen() {
                 </div>
               </Link>
             ))}
+            {/* §40.3 — the warband tools, which had no home: compare (it needs
+                two warbands) and your own custom warband types, which were only
+                reachable from New Warband. */}
+            {warbands.length > 0 && (
+              <section className="pt-4 space-y-2">
+                <SectionHeading>{strings.warbandList.toolsSection}</SectionHeading>
+                <ListGroup>
+                  {warbands.length >= 2 && <ListRow to="/compare" label={strings.compare.entry} />}
+                  <ListRow to="/custom-warbands" label={strings.customWarbands.title} />
+                </ListGroup>
+              </section>
+            )}
           </>
         ) : (
           <Suspense fallback={<p className="text-bone-300 text-sm">{strings.common.loading}</p>}>
