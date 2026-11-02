@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { campaignPath } from '../lib/activeCampaign';
 import { Link, useNavigate } from 'react-router-dom';
 import AppBanner from '../components/AppBanner';
 import DiscordLink from '../components/DiscordLink';
@@ -147,7 +148,7 @@ export default function HomeScreen() {
               <SectionHeading>{strings.home.campaignSection}</SectionHeading>
               <p className="text-ember-400 font-semibold">{campaign.name}</p>
               <Link
-                to="/campaign"
+                to={campaign ? campaignPath(campaign.id) : '/campaigns'}
                 className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
               >
                 {strings.home.goToCampaign}
@@ -222,13 +223,13 @@ export default function HomeScreen() {
               reachable before. */}
           <div className="flex flex-wrap items-center gap-x-4">
             <Link
-              to="/campaign"
+              to={campaign ? campaignPath(campaign.id) : '/campaigns'}
               className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
             >
               {strings.home.goToCampaign}
             </Link>
             <Link
-              to="/campaign/events"
+              to={campaign ? campaignPath(campaign.id, 'events') : '/campaigns'}
               className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
             >
               {strings.events.homeLink}
@@ -290,7 +291,7 @@ export default function HomeScreen() {
             <Link to="/trading" className={buttonClasses('secondary')}>
               {strings.roster.visitTrading}
             </Link>
-            <Link to="/campaign" className={buttonClasses('secondary')}>
+            <Link to={campaign ? campaignPath(campaign.id) : '/campaigns'} className={buttonClasses('secondary')}>
               {strings.home.viewCampaignLog}
             </Link>
             {/* Solo mode (beta) — app-original, client-only. Badged so it reads

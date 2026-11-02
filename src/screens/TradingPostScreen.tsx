@@ -9,7 +9,7 @@ import { strings } from '../strings';
 // Lazy: see TabRules — keeps the rules catalogues out of this chunk too.
 const TabRules = lazy(() => import('../components/TabRules'));
 import { useSaveWarbandMutation, useWarbandLookup } from '../hooks/useWarbands';
-import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
+import { useBattlesQuery, useWarbandCampaign } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { EQUIPMENT_CATEGORY_LABELS, groupByCategory } from '../lib/equipmentCategories';
@@ -82,7 +82,8 @@ export default function TradingPostScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const { warband, loading } = useWarbandLookup(warbandId);
   const saveWarband = useSaveWarbandMutation();
-  const { data: campaign } = useMyCampaignQuery();
+  // The warband's own campaign (§34.4), not whichever one was opened last.
+  const campaign = useWarbandCampaign(warbandId);
   const { data: battles } = useBattlesQuery(campaign?.id);
   const [tab, setTab] = useState<Tab>('shop');
   const purchase = usePurchase();

@@ -23,6 +23,10 @@ export const strings = {
     campaign: 'Campaign',
     rules: 'Rules',
     settings: 'Account',
+    account: 'Account',
+    // §40.3 — the Campaigns section's two screens.
+    campaignsList: 'Campaigns',
+    players: 'Players',
     signIn: 'Sign in',
     signOut: 'Sign out',
     // One line per tab, shown by the guided tour (§20.4). Kept beside the labels

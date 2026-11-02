@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
-import { CreateCampaignForm, JoinCampaignForm } from '../components/CampaignForms';
 import InviteShareButtons from '../components/InviteShareButtons';
 import { NextEventBanner } from '../components/CampaignEvents';
 import CampaignActivityFeed from '../components/CampaignActivityFeed';
@@ -17,16 +16,16 @@ import PlayerLink from '../components/players/PlayerLink';
 import PendingInvites from '../components/players/PendingInvites';
 import PlayerAvatar from '../components/players/PlayerAvatar';
 import { useAvatarUrls } from '../hooks/usePlayers';
-import { Button, Card, SectionHeading, Field, TextField, Textarea, Select, buttonClasses } from '../components/ui';
+import { Button, Card, SectionHeading, Field, TextField, Textarea, Select } from '../components/ui';
 import { strings } from '../strings';
 import { useAuth } from '../auth/AuthProvider';
+import { campaignPath } from '../lib/activeCampaign';
 import {
   useBattlesQuery,
   useCampaignMembersQuery,
   useCampaignNameAvailability,
   useCampaignWarbandsQuery,
-  useMyCampaignQuery,
-  useMyCampaignsQuery,
+  useRouteCampaign,
   useRegenerateJoinCodeMutation,
   useDeleteBattleMutation,
   useDeleteCampaignMutation,
@@ -206,34 +205,6 @@ function DeleteCampaign({ campaign, memberCount }: { campaign: Campaign; memberC
         </div>
       )}
     </section>
-  );
-}
-
-/** First-run state: no campaign yet, so offer both ways in. */
-function CampaignEntry() {
-  return (
-    <>
-      <CreateCampaignForm title={strings.campaign.startTitle} hint={strings.campaign.startHint} />
-
-      <div className="flex items-center gap-3">
-        <div className="flex-1 h-px bg-ink-800" />
-        <span className="text-bone-400 text-xs uppercase tracking-wide">{strings.campaign.orDivider}</span>
-        <div className="flex-1 h-px bg-ink-800" />
-      </div>
-
-      <JoinCampaignForm title={strings.campaign.joinTitle} />
-
-      {/* §26.6 — the third way in, stated rather than discovered: battles work
-          without any campaign and land in Your Battles on the Battle tab (§34.3). */}
-      <Card as="section" gap="sm">
-        <SectionHeading>{strings.campaign.oneOffTitle}</SectionHeading>
-        <p className="text-bone-300 text-sm">{strings.campaign.oneOffBody}</p>
-        <Link to="/post-battle" className={buttonClasses('secondary')}>
-          {strings.campaign.oneOffButton}
-        </Link>
-      </Card>
-
-    </>
   );
 }
 
@@ -1143,8 +1114,9 @@ function NarrativeLog({
 
 export default function CampaignScreen() {
   const { user } = useAuth();
-  const { data: campaigns } = useMyCampaignsQuery();
-  const { data: campaign } = useMyCampaignQuery();
+  // §40.3 — the campaign is the one in the address, not "the active one".
+  const { data: routeCampaign } = useRouteCampaign();
+  const campaign = routeCampaign ?? undefined;
   const { data: battles } = useBattlesQuery(campaign?.id);
   const deleteBattle = useDeleteBattleMutation(campaign?.id);
   const [confirmingBattle, setConfirmingBattle] = useState<string | null>(null);
@@ -1191,7 +1163,16 @@ export default function CampaignScreen() {
     setCampaignEdits(null);
     setCampaignSaveError(null);
   }
-  const [tab, setTab] = useState<Tab>('activity');
+  // §40.3 — the open tab is part of the address, so Back and a shared link
+  // land on the same tab. Switching replaces rather than pushes: Back leaves
+  // the campaign instead of stepping through every tab you looked at.
+  const { tab: tabParam } = useParams<{ tab: string }>();
+  const navigate = useNavigate();
+  const tab: Tab = TABS.some((t) => t.id === tabParam) ? (tabParam as Tab) : 'activity';
+  function setTab(next: Tab) {
+    if (!campaign) return;
+    navigate(campaignPath(campaign.id, next === 'activity' ? undefined : next), { replace: true });
+  }
 
   const isLeader = (members ?? []).some((m) => m.userId === user?.id && m.role === 'campaign_leader');
 
@@ -1203,19 +1184,15 @@ export default function CampaignScreen() {
     );
   }
 
+  // Not (or no longer) a member — a stale link, or you just left it.
+  if (routeCampaign === null) return <Navigate to="/campaigns" replace />;
+
   return (
     <div className="min-h-full flex flex-col">
       {/* Back goes wherever you came from, which for a screen reachable from
           the campaign list, Home and the post-battle commit is the honest
           answer — each of those is somewhere you might want to return to. */}
-      <BackHeader
-        title={campaign ? campaign.name : strings.campaign.title}
-        subtitle={
-          campaign && (campaigns?.length ?? 0) > 1
-            ? strings.campaign.inCampaignCount(campaigns?.length ?? 0)
-            : undefined
-        }
-      />
+      <BackHeader title={campaign ? campaign.name : strings.campaign.title} />
 
       <div className="px-4 pt-4 flex gap-2">
         {TABS.map((t) => (
@@ -1245,7 +1222,7 @@ export default function CampaignScreen() {
         {campaign && <AnnouncementBanner campaign={campaign} isLeader={isLeader} />}
         {campaign && <NextEventBanner campaignId={campaign.id} />}
         {!campaign ? (
-          <CampaignEntry />
+          <p className="text-bone-300">{strings.common.loading}</p>
         ) : (
           <>
             {/* Joining and starting another campaign live on /campaigns, not

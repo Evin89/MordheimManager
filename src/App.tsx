@@ -80,6 +80,7 @@ const CampaignCalendarScreen = lazy(() => import('./screens/CampaignCalendarScre
 const CampaignEventScreen = lazy(() => import('./screens/CampaignEventScreen'));
 
 const MyCampaignsScreen = lazy(() => import('./screens/MyCampaignsScreen'));
+const CampaignRedirect = lazy(() => import('./screens/CampaignRedirect'));
 
 const ModelDetailScreen = lazy(() => import('./screens/ModelDetailScreen'));
 
@@ -295,11 +296,17 @@ function AppShell() {
                 />,
               )}
             />
-            <Route path="/campaign" element={guarded(<CampaignScreen />)} />
-            <Route path="/campaign/events" element={guarded(<CampaignEventsScreen />)} />
-            <Route path="/campaign/calendar" element={guarded(<CampaignCalendarScreen />)} />
-            <Route path="/campaign/events/:eventId" element={guarded(<CampaignEventScreen />)} />
             <Route path="/campaigns" element={guarded(<MyCampaignsScreen />)} />
+            {/* §40.3 — a campaign has its own address; each tab is a path
+                segment so Back, bookmarks and shared links all hold. */}
+            <Route path="/campaigns/:campaignId" element={guarded(<CampaignScreen />)} />
+            <Route path="/campaigns/:campaignId/events" element={guarded(<CampaignEventsScreen />)} />
+            <Route path="/campaigns/:campaignId/calendar" element={guarded(<CampaignCalendarScreen />)} />
+            <Route path="/campaigns/:campaignId/events/:eventId" element={guarded(<CampaignEventScreen />)} />
+            <Route path="/campaigns/:campaignId/:tab" element={guarded(<CampaignScreen />)} />
+            {/* The old "active campaign" addresses, and anything beneath them. */}
+            <Route path="/campaign" element={guarded(<CampaignRedirect />)} />
+            <Route path="/campaign/*" element={guarded(<CampaignRedirect />)} />
             {/* Where standings used to link; kept so older in-app links still land. */}
             <Route path="/campaign/warbands/:warbandId" element={guarded(<SharedWarbandScreen />)} />
 
