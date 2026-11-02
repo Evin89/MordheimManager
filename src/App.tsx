@@ -27,9 +27,12 @@ import WarbandListScreen from './screens/WarbandListScreen';
 // first screen is idle (below), so in practice the chunk is already cached
 // when the user taps into a warband.
 const loadRosterScreen = () => import('./screens/RosterScreen');
-const loadSettingsScreen = () => import('./screens/SettingsScreen');
+const loadSettingsScreen = () => import('./screens/account/AccountScreen');
 const RosterScreen = lazy(loadRosterScreen);
-const SettingsScreen = lazy(loadSettingsScreen);
+const AccountScreen = lazy(loadSettingsScreen);
+const AccountSettingsScreen = lazy(() => import('./screens/account/AccountSettingsScreen'));
+const AccountDataScreen = lazy(() => import('./screens/account/AccountDataScreen'));
+const AccountAboutScreen = lazy(() => import('./screens/account/AccountAboutScreen'));
 
 const AdminLayout = lazy(() => import('./screens/admin/AdminLayout'));
 const AdminOverviewScreen = lazy(() => import('./screens/admin/AdminOverviewScreen'));
@@ -198,7 +201,12 @@ function AppShell() {
             {/* Battlefield generator — public like the dice roller; uses your
                 terrain library when signed in, generic terrain otherwise. */}
             <Route path="/map" element={<MapGeneratorScreen />} />
-            <Route path="/account" element={<SettingsScreen />} />
+            <Route path="/account" element={<AccountScreen />} />
+            {/* §40.4 — Account's sub-screens. Data needs an account; settings
+                and about work signed out (theme, install, the rules' sources). */}
+            <Route path="/account/settings" element={<AccountSettingsScreen />} />
+            <Route path="/account/data" element={guarded(<AccountDataScreen />)} />
+            <Route path="/account/about" element={<AccountAboutScreen />} />
             {/* The tab was renamed Settings -> Profile. Redirects rather
                 than a bare rename, so a bookmark or an old changelog link
                 still lands somewhere. */}

@@ -359,6 +359,22 @@ export const strings = {
     adminLink: 'Issue inbox & statistics',
     adminHint: 'Reported issues and aggregate numbers. Only you can see this.',
     signInButton: 'Sign in',
+    // §40.4 — Account is a short screen of rows leading to sub-screens.
+    rows: {
+      settings: 'Settings',
+      data: 'Your data',
+      about: 'Help & about',
+      admin: 'Admin',
+      notificationsOn: 'notifications on',
+    },
+    settingsTitle: 'Settings',
+    dataTitle: 'Your data',
+    aboutTitle: 'Help & about',
+    tourSection: 'Getting around',
+    tourHint: 'A short walk through the tabs at the bottom of the screen.',
+    tourButton: 'Show the tour again',
+    privacyLink: 'Privacy Policy',
+    version: (v: string) => `Version ${v}`,
   },
   // §4.9.4.3 — the admin's read-only view of any warband's roster.
   adminRoster: {

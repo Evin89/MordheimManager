@@ -3,6 +3,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { useWarbandsQuery } from '../hooks/useWarbands';
 import { NAV_ITEMS } from './navItems';
 import { strings } from '../strings';
+import { OPEN_TOUR_EVENT } from '../lib/tour';
 
 /**
  * A guided click-through of the navigation (spec §20.4).
@@ -108,6 +109,12 @@ export default function NavTour() {
     setStep(0);
     setOpen(true);
   }
+
+  // §40.2 — asked for from Help & about, now that there's no ? button.
+  useEffect(() => {
+    window.addEventListener(OPEN_TOUR_EVENT, start);
+    return () => window.removeEventListener(OPEN_TOUR_EVENT, start);
+  }, []);
 
   const isBottomBar = typeof window !== 'undefined' && window.innerWidth < MD;
 
