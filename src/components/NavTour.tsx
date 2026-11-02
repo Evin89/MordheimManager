@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { useAuth } from '../auth/AuthProvider';
 import { useWarbandsQuery } from '../hooks/useWarbands';
-import { NAV_ITEMS } from './navItems';
+import { TOUR_ITEMS as NAV_ITEMS } from './navItems';
 import { strings } from '../strings';
 import { OPEN_TOUR_EVENT } from '../lib/tour';
 
@@ -50,7 +50,7 @@ export default function NavTour() {
   const { data: warbandRows } = useWarbandsQuery();
   // §26.4.2 — no tour before the first warband: a brand-new player's one job is
   // the "Create your first warband" card (or the first-run redirect straight to
-  // it), and a six-step overlay on top of that is the tour the spec rules out.
+  // it), and a five-step overlay on top of that is the tour the spec rules out.
   const hasWarband = (warbandRows?.length ?? 0) > 0;
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
@@ -122,7 +122,10 @@ export default function NavTour() {
   const cardStyle: React.CSSProperties = !rect
     ? { left: '50%', top: '50%', transform: 'translate(-50%, -50%)', maxWidth: 340 }
     : isBottomBar
-      ? { left: 16, right: 16, bottom: window.innerHeight - rect.top + 12 }
+      ? rect.top < window.innerHeight / 2
+        ? // The avatar sits in the header (§40.2): the card goes below it.
+          { left: 16, right: 16, top: rect.top + rect.height + 12 }
+        : { left: 16, right: 16, bottom: window.innerHeight - rect.top + 12 }
       : {
           left: rect.right + 14,
           top: Math.min(Math.max(rect.top + rect.height / 2 - 90, 12), window.innerHeight - 210),
@@ -131,18 +134,6 @@ export default function NavTour() {
 
   return (
     <>
-      {/* The floating control. Top-right per the request, opposite the
-          bottom-anchored report button. Hidden while the tour is open. */}
-      {!open && (
-        <button
-          type="button"
-          onClick={start}
-          aria-label={strings.tour.open}
-          className="print:hidden fixed top-2 right-2 md:top-3 md:right-3 z-40 h-10 w-10 rounded-full bg-ink-900/90 border border-ink-700 text-ember-400 font-bold text-lg shadow-lg backdrop-blur-sm hover:bg-ink-800 transition-colors"
-        >
-          ?
-        </button>
-      )}
 
       {open && (
         <div className="fixed inset-0 z-[60]" role="dialog" aria-modal="true" aria-label={strings.tour.title}>

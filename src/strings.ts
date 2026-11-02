@@ -20,7 +20,7 @@ export const strings = {
     home: 'Home',
     warbands: 'Warbands',
     postBattle: 'Play',
-    campaign: 'Campaign',
+    campaign: 'Campaigns',
     rules: 'Rules',
     settings: 'Account',
     account: 'Account',
@@ -32,12 +32,12 @@ export const strings = {
     // One line per tab, shown by the guided tour (§20.4). Kept beside the labels
     // so the tour and the nav can't describe different things.
     help: {
-      home: 'Your dashboard — the active campaign, every warband at a glance, and quick links into the rest.',
+      home: 'Your dashboard — a game to pick up again, your campaign’s next game night, and your warbands.',
       warbands: 'Build and manage your warbands here: heroes, henchmen and hired swords, their gear, XP and injuries. Each warband’s Trading Post is on its roster.',
-      postBattle: 'Run a game end to end — set up the scenario, track the fight, then the guided post-battle sequence.',
-      campaign: 'Your campaigns — shared standings and battle log, game nights, awards, and the code to invite your group.',
+      postBattle: 'Play a game end to end — set up the scenario, track the fight, then the post-battle sequence. The dice roller, battlefield generator and solo mode are here too.',
+      campaign: 'Your campaigns — standings, battle log, game nights and awards — and Players, to find a group near you.',
       rules: 'The full rulebook, searchable and grouped by chapter, with a dice roller for the table.',
-      settings: 'Your account: theme, display name, a full data backup, and sign out.',
+      settings: 'Your account, behind your picture at the top of each tab: profile, settings, data backup and sign out.',
     },
   },
   tour: {
@@ -1178,6 +1178,22 @@ ${url}`,
     removedDismiss: 'Dismiss',
     deleteModelFallbackPhrase: 'remove',
     deleteModelTypeLabel: (name: string) => `Type ${name} to confirm`,
+  },
+  // §40.3 — the Play tab: start or resume a game, your battles, the table tools.
+  play: {
+    title: 'Play',
+    resumeSection: 'In progress',
+    resumeSetup: 'Setting up a battle',
+    resumeDuring: (turn: number) => `Battle in progress · turn ${turn}`,
+    resumeWizard: (step: number) => `Post-battle sequence · step ${step}`,
+    resumeAction: 'Continue',
+    startSection: 'Start a battle',
+    newWarband: 'Create a warband',
+    toolsSection: 'At the table',
+    dice: 'Dice roller',
+    map: 'Battlefield generator',
+    solo: 'Solo battle',
+    beta: 'beta',
   },
   battle: {
     pickWarbandTitle: 'Play',

@@ -1,5 +1,6 @@
 import { Suspense, lazy, useState } from 'react';
 import { Link } from 'react-router-dom';
+import TabHeader from '../components/TabHeader';
 import PublicWarbandBrowser from '../components/PublicWarbandBrowser';
 import { buttonClasses } from '../components/ui';
 import { strings } from '../strings';
@@ -29,14 +30,16 @@ export default function WarbandListScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800 flex items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{strings.warbandList.title}</h1>
-        {tab === 'warbands' && (
-          <Link to="/warbands/new" className={`${buttonClasses('primary', 'dense', false)} shrink-0`}>
-            {strings.warbandList.newWarband}
-          </Link>
-        )}
-      </header>
+      <TabHeader
+        title={strings.warbandList.title}
+        action={
+          tab === 'warbands' ? (
+            <Link to="/warbands/new" className={`${buttonClasses('primary', 'dense', false)} shrink-0`}>
+              {strings.warbandList.newWarband}
+            </Link>
+          ) : undefined
+        }
+      />
 
       <div className="px-4 pt-4 flex gap-2">
         {TABS.map((t) => (

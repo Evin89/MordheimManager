@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { campaignPath } from '../lib/activeCampaign';
+import { AccountButton } from '../components/TabHeader';
 import { Link, useNavigate } from 'react-router-dom';
 import AppBanner from '../components/AppBanner';
 import DiscordLink from '../components/DiscordLink';
@@ -47,8 +48,12 @@ function AboutSection() {
 function SignedOutHome() {
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800">
+      {/* The banner is Home's title; the avatar (§40.2) sits in its corner. */}
+      <header className="relative px-4 pt-6 pb-4 border-b border-ink-800">
         <AppBanner />
+        <div className="absolute top-4 right-4">
+          <AccountButton />
+        </div>
       </header>
 
       <main className="flex-1 px-4 py-6 space-y-6">
@@ -176,8 +181,12 @@ export default function HomeScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800">
+      {/* The banner is Home's title; the avatar (§40.2) sits in its corner. */}
+      <header className="relative px-4 pt-6 pb-4 border-b border-ink-800">
         <AppBanner />
+        <div className="absolute top-4 right-4">
+          <AccountButton />
+        </div>
       </header>
 
       <main className="flex-1 px-4 py-6 space-y-6">

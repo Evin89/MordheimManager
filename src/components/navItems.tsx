@@ -84,17 +84,6 @@ export function SignInIcon({ className }: IconProps) {
   );
 }
 
-/** Same door, arrow pointing out — "sign out". */
-export function SignOutIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      <path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4" />
-      <path d="M16 17l5-5-5-5" />
-      <path d="M21 12H9" />
-    </svg>
-  );
-}
-
 export type NavItem = {
   to: string;
   /** Which destination this item stands for in `navTargetForPath` (§40.1). */
@@ -123,9 +112,22 @@ export const NAV_ITEMS: NavItem[] = [
   // Trading left the nav (§40): buying and selling is always for one warband,
   // and the roster's action row leads to its Trading Post.
   { to: '/warbands', target: 'warbands', label: strings.nav.warbands, Icon: WarbandIcon, help: strings.nav.help.warbands },
-  { to: '/post-battle', target: 'play', label: strings.nav.postBattle, Icon: BattleIcon, help: strings.nav.help.postBattle },
+  { to: '/play', target: 'play', label: strings.nav.postBattle, Icon: BattleIcon, help: strings.nav.help.postBattle },
   // The overview, not a single campaign: a player can be in several.
   { to: '/campaigns', target: 'campaigns', label: strings.nav.campaign, Icon: CampaignIcon, help: strings.nav.help.campaign },
   { to: '/rules', target: 'rules', label: strings.nav.rules, Icon: RulesIcon, help: strings.nav.help.rules },
-  { to: '/account', target: 'account', label: strings.nav.settings, Icon: ProfileIcon, help: strings.nav.help.settings },
+  // Account is not a tab (§40.2): it's the avatar in each tab's header, and at
+  // the foot of the side rail.
 ];
+
+/** The account entry: not in the bar, but a stop on the guided tour (§20.4). */
+export const ACCOUNT_ITEM: NavItem = {
+  to: '/account',
+  target: 'account',
+  label: strings.nav.account,
+  Icon: ProfileIcon,
+  help: strings.nav.help.settings,
+};
+
+/** What the tour walks through: the five tabs, then the avatar. */
+export const TOUR_ITEMS: NavItem[] = [...NAV_ITEMS, ACCOUNT_ITEM];

@@ -37,6 +37,7 @@ export function AccountButton() {
   return (
     <Link
       to="/account"
+      data-nav-to="/account"
       aria-label={strings.nav.account}
       aria-current={current ? 'page' : undefined}
       title={strings.nav.account}
