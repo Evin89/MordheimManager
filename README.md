@@ -227,9 +227,12 @@ Live at **[mordheimmanager.net](https://mordheimmanager.net)**, deployed as a **
 | --- | --- |
 | Build command | `npm run build` |
 | Deploy command | `npx wrangler deploy` |
-| Build variables | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` |
+| Version command | `npm run build && npx wrangler versions upload` |
+| Build variables | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_VAPID_PUBLIC_KEY` |
 
-Those two must be set as **build** variables, not as the Worker's runtime Variables and Secrets. Vite substitutes `import.meta.env` at build time, so a value that only exists at runtime never reaches the bundle — the app builds cleanly and then fails to reach Supabase at all. This happened on the first Cloudflare deploy, and the app now says so on the page rather than rendering a black rectangle with the explanation in the console: missing configuration is reported by `StartupError`, which names the variables and where they go. Both are safe to expose publicly: the anon key grants nothing on its own, since row-level security is what actually gates access.
+The version command is what non-`main` branches run, and they run *only* that — the build command is skipped for them (their logs say "Build command: None"), so without the `npm run build` prefix every branch build failed on a missing `dist/`.
+
+Those must be set as **build** variables, not as the Worker's runtime Variables and Secrets. Vite substitutes `import.meta.env` at build time, so a value that only exists at runtime never reaches the bundle — the app builds cleanly and then fails to reach Supabase at all. This happened on the first Cloudflare deploy, and the app now says so on the page rather than rendering a black rectangle with the explanation in the console: missing configuration is reported by `StartupError`, which names the variables and where they go. Both are safe to expose publicly: the anon key grants nothing on its own, since row-level security is what actually gates access.
 
 Routing and caching are split between two files, deliberately:
 
