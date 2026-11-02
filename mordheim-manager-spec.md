@@ -3721,7 +3721,7 @@ Admin Overview (§4.9.2): add **discoverable players** and **invites sent / acce
 - [ ] At 375px: directory rows, profile header and invite sheet fit without horizontal scroll, and numbers are ≥ 14px (§5.4).
 - [ ] Both themes: badges and buttons use tokens (`var(--on-accent)` for button text), with no hard-coded colours.
 
-## 39. Profiles: where they live, and how the page should look ❓ _(proposal, 2026-11-02 — nothing built)_
+## 39. Profiles: where they live, and how the page should look ✅ _(built 2026-11-02; see 39.9)_
 
 **Why.** §38 built the profile and the directory, but placed them where there was room rather than where players will look. Nobody has used them yet (2026-11-02: 0 discoverable players, 0 photos, 0 countries, 0 invites), so this is the cheap moment to move them. This section records what was measured in the app (demo mode, 375×812), what comparable apps do, and a proposal with defaults.
 
@@ -3785,7 +3785,7 @@ Order, top to bottom:
 
 ### 39.7 Measurement
 
-`profile_viewed { own }` and `directory_searched` already exist. Add one event, `directory_opened { surface }`, with the closed set `my_campaigns | empty_state | account | invites`, to see which door gets used. Names only, consent-gated, §23.7.
+`profile_viewed { own }` and `directory_searched` already exist. Add one event, `directory_opened { surface }`, with the closed set `my_campaigns | empty_state | invites | direct` (see 39.9), to see which door gets used. Names only, consent-gated, §23.7.
 
 ### 39.8 Acceptance
 
@@ -3795,3 +3795,13 @@ Order, top to bottom:
 - [ ] The profile header title is the player's name; the record renders as a framed table with W, L and D in separate columns, and numbers ≥ 14px at 375px.
 - [ ] Own empty profile shows the add-chips; someone else's empty profile shows none.
 - [ ] Both themes: no hard-coded colours (§5.5).
+
+### 39.9 Status — built ✅
+
+Built as proposed, every ❓ at its default: the tab stays "Account", no Home card for everyone, filters remembered per device. Checked in demo mode at 375×812 and 1100×900: tabs light correctly, the old `/account#profile` link lands on `/account/profile`, `#directory` scrolls to the switches, a remembered "looking only" filter reopens as "Filters (1)", and the directory's first result moved from about y≈700 to y≈313.
+
+Deviations, each for a reason found while building:
+- **The record has four columns, `BATTLES W L D`**, not six. Six full small-caps heads need ~350px at the 14px floor and a phone card has 339px, and shortened heads ("Bands", "Camps") read worse than a caption. Warbands and campaigns totals sit in a caption line under the block (*2 warbands · 6 campaigns*), and four columns is how the book prints a short profile anyway.
+- **`directory_opened` surfaces are `my_campaigns | empty_state | invites | direct`.** The Account chip leads to the directory *switches*, not the directory, so `account` had nothing to count; `direct` covers a reload or a pasted link (router state doesn't survive those, so the first door isn't counted twice).
+- **On an empty My Campaigns, the lower "Find players" button is hidden**, since the Looking-for-a-group card directly above it offers the same link.
+- **The one-tap switch, turned off, clears "looking" but keeps the listing.** Leaving the directory is the bigger decision and stays in the profile form.

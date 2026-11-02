@@ -80,6 +80,8 @@ export type AnalyticsEvent =
   | 'profile_viewed'
   | 'profile_edited'
   | 'directory_searched'
+  // §39.7 — which door into the directory was used.
+  | 'directory_opened'
   | 'invite_sent'
   | 'invite_responded'
   | 'invite_revoked';

@@ -1,4 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
+import { useAuth } from '../auth/AuthProvider';
 import AuthNavButton from './AuthNavButton';
 import { strings } from '../strings';
 import { NAV_ITEMS, isNavItemActive } from './navItems';
@@ -11,6 +12,8 @@ import InviteDot from './players/InviteDot';
  */
 export default function SideNav() {
   const { pathname } = useLocation();
+  const { user } = useAuth();
+  const ctx = { userId: user?.id };
   return (
     <aside className="hidden md:flex print:hidden shrink-0 sticky top-0 h-screen flex-col border-r border-ink-800 bg-ink-900 md:w-16 lg:w-56">
       <div className="flex items-center gap-2 h-16 shrink-0 border-b border-ink-800 justify-center lg:justify-start lg:px-4">
@@ -32,7 +35,7 @@ export default function SideNav() {
               title={tab.label}
               className={({ isActive: linkActive }) =>
                 `flex items-center gap-3 h-11 mx-2 my-0.5 rounded-md justify-center lg:justify-start lg:px-3 transition-colors ${
-                  isNavItemActive(tab, pathname, linkActive)
+                  isNavItemActive(tab, pathname, linkActive, ctx)
                     ? 'bg-ink-800 text-ember-400'
                     : 'text-bone-300 hover:text-bone-100 hover:bg-ink-800/60'
                 }`

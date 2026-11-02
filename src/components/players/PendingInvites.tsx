@@ -4,6 +4,7 @@ import { usePendingInvitesQuery, useRevokeInviteMutation } from '../../hooks/use
 import { capture } from '../../lib/posthog';
 import { strings } from '../../strings';
 import PlayerLink from './PlayerLink';
+import type { DirectorySurface } from './LookingForGroup';
 
 /**
  * §38.5 — a leader's open invites for this campaign, on the Players tab, plus
@@ -17,7 +18,7 @@ export default function PendingInvites({ campaignId }: { campaignId: string }) {
 
   return (
     <section className="space-y-2">
-      <Link to="/players" className={buttonClasses('secondary')}>
+      <Link to="/players" state={{ from: 'invites' satisfies DirectorySurface }} className={buttonClasses('secondary')}>
         {s.invitePlayer}
       </Link>
       {(pending ?? []).length > 0 && (

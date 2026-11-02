@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import ConfirmByTyping from '../components/ConfirmByTyping';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import ThemeToggle from '../components/ThemeToggle';
 import { useTheme } from '../hooks/useTheme';
@@ -9,7 +9,7 @@ import { useIsAdminQuery } from '../hooks/useIssues';
 import { useAuth } from '../auth/AuthProvider';
 import { ImportValidationError, downloadExport, importAllData, parseImportFile } from '../storage/persistence';
 import { isDemoMode, setDemoMode } from '../dev/demoMode';
-import ProfileCard from '../components/players/ProfileCard';
+import AccountIdentity from '../components/players/AccountIdentity';
 import { usePush } from '../hooks/usePush';
 import {
   analyticsConfigurable,
@@ -187,6 +187,14 @@ export default function SettingsScreen() {
   const { user, signOut } = useAuth();
   const { data: isAdmin } = useIsAdminQuery();
   const queryClient = useQueryClient();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // §39.3 — the profile form moved to its own screen. Old `/account#profile`
+  // links (bookmarks, the §38 build's own buttons) still land on it.
+  useEffect(() => {
+    if (location.hash === '#profile') navigate('/account/profile', { replace: true });
+  }, [location.hash, navigate]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [importMessage, setImportMessage] = useState<string | null>(null);
   // A parsed file waiting for the type-to-confirm below (§10.1): importing
@@ -249,6 +257,9 @@ export default function SettingsScreen() {
       </header>
 
       <main className="flex-1 px-4 py-6 space-y-6">
+        {/* §39.3 — Account opens on you: name, directory status, your profile. */}
+        <AccountIdentity />
+
         {/* Above the account sections deliberately: it works signed out, and
             it's the one setting someone might want before anything else. */}
         <Card as="section">
@@ -306,9 +317,6 @@ export default function SettingsScreen() {
             where you change the choice the first-run banner asked for. Renders
             nothing when analytics can't run (no project / demo / Do-Not-Track). */}
         <AnalyticsSection />
-
-        {/* §38 — name, photo, country, favourite warband and bio. */}
-        {user && <ProfileCard />}
 
         <Card as="section">
           <SectionHeading>{strings.settings.accountSection}</SectionHeading>

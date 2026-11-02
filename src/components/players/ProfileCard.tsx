@@ -1,5 +1,5 @@
-import { useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthProvider';
 import { MAX_DISPLAY_NAME } from '../../api/profile';
 import { MAX_BIO } from '../../api/players';
@@ -14,14 +14,15 @@ import { countryOptions } from '../../lib/countries';
 import { builtInWarbandNames } from '../../data/warbandNames';
 import { strings } from '../../strings';
 import { capture } from '../../lib/posthog';
-import { Button, Card, Field, SectionHeading, TextField, Textarea, buttonClasses } from '../ui';
+import { Button, Card, Field, TextField, Textarea, buttonClasses } from '../ui';
 import PlayerAvatar from './PlayerAvatar';
 import SearchPicker from './SearchPicker';
 
 type Draft = { displayName: string; bio: string; favouriteWarbandType: string; country: string };
 
 /**
- * §38 — the Account screen's Profile card (amends §4.6).
+ * §38 — the profile form; since §39.3 the body of /account/profile rather
+ * than a card on Account.
  *
  * Replaces the lone display-name field: name, photo, country, favourite
  * warband and bio are edited together and saved with one `update_my_profile`
@@ -38,6 +39,15 @@ export default function ProfileCard() {
   const [photoError, setPhotoError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const s = strings.profile;
+  const { hash } = useLocation();
+
+  // `#directory` comes from Account's Listed chip and the profile's
+  // visibility strip. The switches only render once the profile has loaded,
+  // so the browser's own jump would find nothing to scroll to.
+  const loadedProfile = !!profile;
+  useEffect(() => {
+    if (hash === '#directory' && loadedProfile) document.getElementById('directory')?.scrollIntoView();
+  }, [hash, loadedProfile]);
 
   const warbandOptions = useMemo(() => builtInWarbandNames.map((w) => ({ id: w.id, label: w.name })), []);
   const countries = useMemo(() => countryOptions(), []);
@@ -67,7 +77,6 @@ export default function ProfileCard() {
 
   return (
     <Card as="section" id="profile">
-      <SectionHeading>{s.cardTitle}</SectionHeading>
       <p className="text-bone-300 text-sm">{s.cardHint}</p>
 
       {/* Photo */}
@@ -202,7 +211,7 @@ function DirectorySwitches({ discoverable, looking }: { discoverable: boolean; l
   const set = (next: { discoverable: boolean; looking: boolean }) => mutation.mutate(next);
 
   return (
-    <div className="space-y-2 border-t border-ink-800 pt-3">
+    <div id="directory" className="space-y-2 border-t border-ink-800 pt-3 scroll-mt-4">
       <p className="text-bone-100 font-semibold">{s.directoryHeading}</p>
       <Switch
         on={discoverable}
@@ -223,7 +232,7 @@ function DirectorySwitches({ discoverable, looking }: { discoverable: boolean; l
   );
 }
 
-function Switch({
+export function Switch({
   on,
   disabled,
   label,
