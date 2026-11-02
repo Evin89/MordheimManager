@@ -1,4 +1,5 @@
 import { strings } from '../strings';
+import { navTargetForPath, type NavTarget } from '../lib/navTabs';
 
 type IconProps = { className?: string };
 
@@ -96,79 +97,35 @@ export function SignOutIcon({ className }: IconProps) {
 
 export type NavItem = {
   to: string;
+  /** Which destination this item stands for in `navTargetForPath` (§40.1). */
+  target: NavTarget;
   label: string;
-  end?: boolean;
-  /**
-   * Extra path prefixes that still belong to this tab.
-   *
-   * NavLink matches on the link's own path, so a tab pointing at a list goes
-   * dark the moment you open something from it. Campaign is the case in point:
-   * `/campaign` is not a prefix of `/campaigns`, so viewing a campaign would
-   * un-highlight the tab you reached it from.
-   */
-  activeFor?: string[];
-  /**
-   * Paths this tab must *not* claim, even though its own path is a prefix.
-   *
-   * The battle screens live under `/warbands/:id/...` because they belong to a
-   * warband, so Warbands lit up all the way through a game while the Battle tab
-   * — the one you actually came from — stayed dark.
-   */
-  notActiveFor?: (pathname: string, ctx: NavContext) => boolean;
-  /** Claims a path its own `to` can't express, e.g. one with an id in the middle. */
-  alsoActiveFor?: (pathname: string, ctx: NavContext) => boolean;
   Icon: (props: IconProps) => JSX.Element;
   /** One-line description shown by the guided tour (§20.4). */
   help: string;
 };
 
-/** What a tab needs beyond the path: profiles split by whose they are. */
-export type NavContext = { userId?: string };
-
 /**
- * §39.3 — a profile belongs to the tab you'd reach it from. Other players and
- * the directory are the social side, so Campaigns; your own profile is you, so
- * Account. Without this no tab was lit and the player lost their place.
+ * Whether an item reads as current for the path being viewed.
+ *
+ * Decided by the one table in `lib/navTabs.ts`, not by NavLink's prefix match:
+ * the battle screens live under `/warbands/:id/…`, `/campaign` isn't a prefix
+ * of `/campaigns`, and your own profile lights the account item while other
+ * players' light Campaigns. `scripts/check-nav-coverage.mjs` holds every route
+ * in App.tsx to that table at build time.
  */
-function isOwnProfile(pathname: string, { userId }: NavContext): boolean {
-  return !!userId && pathname === `/players/${userId}`;
-}
-function isPlayersPath(pathname: string, ctx: NavContext): boolean {
-  return (pathname === '/players' || pathname.startsWith('/players/')) && !isOwnProfile(pathname, ctx);
-}
-
-/** The battle flow, wherever it happens to be nested. */
-const BATTLE_SUFFIXES = ['/pre-battle', '/during-battle', '/post-battle'];
-function isBattlePath(pathname: string): boolean {
-  return BATTLE_SUFFIXES.some((suffix) => pathname.endsWith(suffix));
-}
-
-/** Whether a tab should read as current for the path being viewed. */
-export function isNavItemActive(
-  item: NavItem,
-  pathname: string,
-  linkIsActive: boolean,
-  ctx: NavContext = {},
-): boolean {
-  // Exclusions win over everything, including NavLink's own prefix match.
-  if (item.notActiveFor?.(pathname, ctx)) return false;
-  if (linkIsActive) return true;
-  if (item.alsoActiveFor?.(pathname, ctx)) return true;
-  return (item.activeFor ?? []).some((p) => pathname === p || pathname.startsWith(`${p}/`));
+export function isNavItemActive(item: NavItem, pathname: string, userId?: string | null): boolean {
+  return navTargetForPath(pathname, userId) === item.target;
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { to: '/', label: strings.nav.home, end: true, Icon: HomeIcon, help: strings.nav.help.home },
-  // Trading left the nav (2026-11-02): buying and selling is always for one
-  // warband, and the roster's action row already leads there. The Trading
-  // Post sits under /warbands/:id, and the /trading picker is claimed here
-  // too, so the tab you're on stays lit wherever you reached it from.
-  { to: '/warbands', label: strings.nav.warbands, activeFor: ['/trading'], notActiveFor: isBattlePath, Icon: WarbandIcon, help: strings.nav.help.warbands },
-  { to: '/post-battle', label: strings.nav.postBattle, alsoActiveFor: isBattlePath, Icon: BattleIcon, help: strings.nav.help.postBattle },
-  // The overview, not a single campaign: a player can be in several, and the
-  // list is what tells them which they lead and which is still being played.
-  // Opening one from there sets it active, so /campaign stays the detail view.
-  { to: '/campaigns', label: strings.nav.campaign, activeFor: ['/campaign'], alsoActiveFor: isPlayersPath, Icon: CampaignIcon, help: strings.nav.help.campaign },
-  { to: '/rules', label: strings.nav.rules, Icon: RulesIcon, help: strings.nav.help.rules },
-  { to: '/account', label: strings.nav.settings, alsoActiveFor: isOwnProfile, Icon: ProfileIcon, help: strings.nav.help.settings },
+  { to: '/', target: 'home', label: strings.nav.home, Icon: HomeIcon, help: strings.nav.help.home },
+  // Trading left the nav (§40): buying and selling is always for one warband,
+  // and the roster's action row leads to its Trading Post.
+  { to: '/warbands', target: 'warbands', label: strings.nav.warbands, Icon: WarbandIcon, help: strings.nav.help.warbands },
+  { to: '/post-battle', target: 'play', label: strings.nav.postBattle, Icon: BattleIcon, help: strings.nav.help.postBattle },
+  // The overview, not a single campaign: a player can be in several.
+  { to: '/campaigns', target: 'campaigns', label: strings.nav.campaign, Icon: CampaignIcon, help: strings.nav.help.campaign },
+  { to: '/rules', target: 'rules', label: strings.nav.rules, Icon: RulesIcon, help: strings.nav.help.rules },
+  { to: '/account', target: 'account', label: strings.nav.settings, Icon: ProfileIcon, help: strings.nav.help.settings },
 ];
