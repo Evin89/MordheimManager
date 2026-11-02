@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import BackHeader from '../../components/BackHeader';
 import DiscordLink from '../../components/DiscordLink';
 import GameDataSection from '../../components/GameDataSection';
@@ -13,6 +14,7 @@ import { strings } from '../../strings';
  */
 export default function AccountAboutScreen() {
   const s = strings.settings;
+  const navigate = useNavigate();
   return (
     <div className="min-h-full flex flex-col">
       <BackHeader title={s.aboutTitle} />
@@ -20,7 +22,15 @@ export default function AccountAboutScreen() {
         <Card as="section">
           <SectionHeading>{s.tourSection}</SectionHeading>
           <p className="text-bone-300 text-sm">{s.tourHint}</p>
-          <Button variant="secondary" onClick={openNavTour}>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              // On Home, so the last stop (the avatar in the tab header) is on
+              // screen to spotlight — this screen has a back arrow instead.
+              navigate('/');
+              window.setTimeout(openNavTour, 300);
+            }}
+          >
             {s.tourButton}
           </Button>
         </Card>
