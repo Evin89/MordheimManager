@@ -131,7 +131,7 @@ export default function TradingPostScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={strings.nav.trading} subtitle={warband.name} />
+      <BackHeader title={strings.trading.pickWarbandTitle} subtitle={warband.name} />
 
       <div className="px-4 pt-4 flex gap-2">
         <button

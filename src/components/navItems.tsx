@@ -44,17 +44,6 @@ function BattleIcon({ className }: IconProps) {
   );
 }
 
-function TradingIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      <circle cx="7" cy="12" r="4.5" />
-      <path d="M7 10v4" />
-      <path d="M12 8h9M18 5l3 3-3 3" />
-      <path d="M12 16h9M18 13l3 3-3 3" />
-    </svg>
-  );
-}
-
 function CampaignIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
@@ -170,9 +159,12 @@ export function isNavItemActive(
 
 export const NAV_ITEMS: NavItem[] = [
   { to: '/', label: strings.nav.home, end: true, Icon: HomeIcon, help: strings.nav.help.home },
-  { to: '/warbands', label: strings.nav.warbands, notActiveFor: isBattlePath, Icon: WarbandIcon, help: strings.nav.help.warbands },
+  // Trading left the nav (2026-11-02): buying and selling is always for one
+  // warband, and the roster's action row already leads there. The Trading
+  // Post sits under /warbands/:id, and the /trading picker is claimed here
+  // too, so the tab you're on stays lit wherever you reached it from.
+  { to: '/warbands', label: strings.nav.warbands, activeFor: ['/trading'], notActiveFor: isBattlePath, Icon: WarbandIcon, help: strings.nav.help.warbands },
   { to: '/post-battle', label: strings.nav.postBattle, alsoActiveFor: isBattlePath, Icon: BattleIcon, help: strings.nav.help.postBattle },
-  { to: '/trading', label: strings.nav.trading, Icon: TradingIcon, help: strings.nav.help.trading },
   // The overview, not a single campaign: a player can be in several, and the
   // list is what tells them which they lead and which is still being played.
   // Opening one from there sets it active, so /campaign stays the detail view.

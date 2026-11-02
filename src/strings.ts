@@ -19,8 +19,7 @@ export const strings = {
     appShort: 'Mordheim',
     home: 'Home',
     warbands: 'Warbands',
-    postBattle: 'Battle',
-    trading: 'Trading',
+    postBattle: 'Play',
     campaign: 'Campaign',
     rules: 'Rules',
     settings: 'Account',
@@ -30,9 +29,8 @@ export const strings = {
     // so the tour and the nav can't describe different things.
     help: {
       home: 'Your dashboard — the active campaign, every warband at a glance, and quick links into the rest.',
-      warbands: 'Build and manage your warbands here: heroes, henchmen and hired swords, their gear, XP and injuries.',
+      warbands: 'Build and manage your warbands here: heroes, henchmen and hired swords, their gear, XP and injuries. Each warband’s Trading Post is on its roster.',
       postBattle: 'Run a game end to end — set up the scenario, track the fight, then the guided post-battle sequence.',
-      trading: 'The Trading Post: buy common and rare equipment against your gold, and sell from the treasury.',
       campaign: 'Your campaigns — shared standings and battle log, game nights, awards, and the code to invite your group.',
       rules: 'The full rulebook, searchable and grouped by chapter, with a dice roller for the table.',
       settings: 'Your account: theme, display name, a full data backup, and sign out.',
@@ -1162,11 +1160,11 @@ ${url}`,
     deleteModelTypeLabel: (name: string) => `Type ${name} to confirm`,
   },
   battle: {
-    pickWarbandTitle: 'Battle',
+    pickWarbandTitle: 'Play',
     pickWarbandPrompt: 'Which warband is about to fight?',
     noWarbands: 'Create a warband first.',
     startBattleButton: 'Start Battle',
-    // §34 — friendly games and Your Battles on the Battle tab.
+    // §34 — friendly games and Your Battles on the Play tab.
     friendlyChip: 'Friendly',
     houseRulesUsedLabel: 'House rules',
     houseRulesNone: 'None',
@@ -1543,7 +1541,7 @@ ${url}`,
     startButton: 'Start Campaign',
     notesLabel: 'Campaign notes',
     battleLogSection: 'Battle Log',
-    noBattles: 'No battles logged yet. Play one from the Post-Battle tab.',
+    noBattles: 'No battles logged yet. Play one from the Play tab.',
     narrative: {
       section: 'Campaign Log',
       hint: 'The story between games — a grudge sworn, a rumour heard, whatever the score sheet misses.',
@@ -1662,7 +1660,7 @@ ${url}`,
     // campaign only saw "start or join one".
     oneOffTitle: 'Just want to play a game?',
     oneOffBody:
-      "No campaign needed. Pick a warband and play a one-off battle: set up the scenario, track it at the table, then run the post-battle sequence — injuries, experience and income — on your roster. It's kept on the Battle tab under Your Battles.",
+      "No campaign needed. Pick a warband and play a one-off battle: set up the scenario, track it at the table, then run the post-battle sequence — injuries, experience and income — on your roster. It's kept on the Play tab under Your Battles.",
     oneOffButton: 'Start a battle',
     joinHint: 'Got a code from your campaign leader? Enter it here.',
     joinCodeLabel: 'Join code',

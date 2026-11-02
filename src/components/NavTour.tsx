@@ -49,7 +49,7 @@ export default function NavTour() {
   const { data: warbandRows } = useWarbandsQuery();
   // §26.4.2 — no tour before the first warband: a brand-new player's one job is
   // the "Create your first warband" card (or the first-run redirect straight to
-  // it), and a seven-step overlay on top of that is the tour the spec rules out.
+  // it), and a six-step overlay on top of that is the tour the spec rules out.
   const hasWarband = (warbandRows?.length ?? 0) > 0;
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
