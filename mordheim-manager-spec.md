@@ -2063,7 +2063,7 @@ pinnedAnnouncement?: { body: string; postedAt: string; postedBy: string };
 
 ### 19.4 Push notifications ✅
 
-**Built** — migration `0028_push_notifications` (the `push_subscriptions` table + a `reminder_sent_at` marker) and the project's first server-side sending, in the two phases the open question below called for. **Phase 1**, the reminder: a `pg_cron`-driven Edge Function (`send-event-reminders`) finds events ≤24h out and pushes to their Going/Maybe RSVPs, once per event. **Phase 2**, the battle: a second function (`notify-battle-logged`) on a `battles`-insert database webhook alerts the campaign's other members. Both sign Web Push with VAPID and prune dead subscriptions on 404/410. The push handler is a separate file imported into the tuned caching worker (`workbox.importScripts`) so §2's carefully-built SW is untouched; a Settings toggle subscribes per device, honest that iOS needs a Home-Screen install (16.4+). What follows is the plan it was built from.
+**Built** — migration `0028_push_notifications` (the `push_subscriptions` table + a `reminder_sent_at` marker) and the project's first server-side sending, in the two phases the open question below called for. **Phase 1**, the reminder: a `pg_cron`-driven Edge Function (`send-event-reminders`) finds events ≤24h out and pushes to their Going/Maybe RSVPs, once per event. **Phase 2**, the battle: a second function (`notify-battle-logged`) alerts the campaign's other members. ✅ The database webhook it was written for was never created, so until 2026-11-02 it never fired; it is now called by the `battles_notify` trigger (migration 0063) with only the battle id, and claims the battle through `notified_at` before sending, the same no-secret pattern as the invite push (§38). Both sign Web Push with VAPID and prune dead subscriptions on 404/410. The push handler is a separate file imported into the tuned caching worker (`workbox.importScripts`) so §2's carefully-built SW is untouched; a Settings toggle subscribes per device, honest that iOS needs a Home-Screen install (16.4+). What follows is the plan it was built from.
 
 The largest infrastructure lift here. The PWA groundwork (§2) supports it, but nothing in the stack sends anything today. Two triggers are worth having: an event within 24 hours, and a campaign-mate reporting a battle. Both read data that already exists.
 
@@ -3306,7 +3306,7 @@ The nicest end state: a shared roster **link** unfurls in Discord/WhatsApp with 
 
 ---
 
-## 38. Player profiles & player directory ✅ (built and live 2026-11-01; push needs the VAPID secrets — §38.5)
+## 38. Player profiles & player directory ✅ (database live 2026-11-01, app merged 2026-11-02)
 
 _Drafted 2026-10-31, revised the same day: profiles gained a **country** and an uploaded **profile photo**, and the section now includes a searchable **player directory** with **direct campaign invites**. New top-level section. Amends §4.5 (campaign screens), §4.6 (Account), §4.7 (Gallery), §8.1–§8.3 (profiles schema/RLS), §8.5 (invites — join codes stay, direct invites are added), §11 (photos) and §19.2 (comments) where noted; each amended section should carry a one-line pointer back here when this lands. If §38 is already taken in the repo, use the next free number and update the cross-references._
 
@@ -3320,7 +3320,7 @@ _Drafted 2026-10-31, revised the same day: profiles gained a **country** and an 
 
 **Live (2026-11-01):** migrations 0059–0062 applied and recorded under those numbers; function deployed. Verified live: none of the new columns is client-selectable, anon can execute none of the 17 new functions, RLS on `campaign_invites`.
 
-⚠️ **Found while deploying — affects all push, not only invites:** the Edge Functions have no `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` secrets (a test call returns `missing_env`), so no server push is sent today — game-night reminders included. And there is no webhook or trigger on `battles`, so `notify-battle-logged` is never called. ◻️ Evin: set the two VAPID secrets (Edge Functions → Secrets; the public key must match the client's `VITE_VAPID_PUBLIC_KEY`). The battles hook can then move to the same trigger pattern as 0062.
+⚠️ **Found while deploying — affects all push, not only invites:** the Edge Functions have no `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` secrets (a test call returns `missing_env`), so no server push is sent today — game-night reminders included. And there is no webhook or trigger on `battles`, so `notify-battle-logged` is never called. ✅ Resolved 2026-11-02: both VAPID secrets are set in Edge Functions → Secrets, `VITE_VAPID_PUBLIC_KEY` is a Cloudflare **build** variable on the Worker, and the battles hook moved to the trigger pattern (0063, applied).
 
 **For Claude Code — read first.**
 - §38.0 is **report-only**: findings with file/line references, no edits in that pass. Several defaults below depend on its answers.
