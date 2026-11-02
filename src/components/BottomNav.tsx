@@ -1,10 +1,13 @@
 import { NavLink, useLocation } from 'react-router-dom';
+import { useAuth } from '../auth/AuthProvider';
 import AuthNavButton from './AuthNavButton';
 import { NAV_ITEMS, isNavItemActive } from './navItems';
 import InviteDot from './players/InviteDot';
 
 export default function BottomNav() {
   const { pathname } = useLocation();
+  const { user } = useAuth();
+  const ctx = { userId: user?.id };
   return (
     <nav className="md:hidden print:hidden fixed bottom-0 left-0 right-0 border-t border-ink-800 bg-ink-900 flex z-10">
       {NAV_ITEMS.map((tab, i) => {
@@ -18,7 +21,7 @@ export default function BottomNav() {
             className={({ isActive: linkActive }) =>
               `flex-1 min-w-0 min-h-[56px] flex items-center justify-center text-center text-xs font-semibold leading-tight px-0.5 truncate transition-colors ${
                 i > 0 ? 'border-l border-ink-800' : ''
-              } ${isNavItemActive(tab, pathname, linkActive) ? 'text-ember-400' : 'text-bone-300 hover:text-bone-100'}`
+              } ${isNavItemActive(tab, pathname, linkActive, ctx) ? 'text-ember-400' : 'text-bone-300 hover:text-bone-100'}`
             }
           >
             <span className="relative sm:hidden">

@@ -14,6 +14,7 @@ import { getWarbandTypeLabel } from '../data/warbandNames';
 import { consumeFreshSignIn } from '../lib/firstRun';
 import GoogleSelfReportCard from '../components/GoogleSelfReportCard';
 import { arrivedWithAuthLinkError } from '../lib/supabaseClient';
+import LookingForGroup from '../components/players/LookingForGroup';
 
 /**
  * About and the changelog, at the foot of Home.
@@ -208,7 +209,13 @@ export default function HomeScreen() {
             // is worse than showing nothing for a moment.
             <p className="text-bone-300 text-sm">{strings.common.loading}</p>
           ) : (
-            <p className="text-bone-300 text-sm">{strings.home.startCampaignCta}</p>
+            <>
+              <p className="text-bone-300 text-sm">{strings.home.startCampaignCta}</p>
+              {/* §39.3 — or find a group that already plays. */}
+              <div className="border-t border-ink-800 pt-3">
+                <LookingForGroup />
+              </div>
+            </>
           )}
           {/* Two destinations, because they answer different questions: the
               campaign you're in, and the list of all of them. Only the log was

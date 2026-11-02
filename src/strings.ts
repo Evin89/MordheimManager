@@ -755,12 +755,21 @@ export const strings = {
     title: 'Player',
     notFound: 'This player could not be found.',
     signInNeeded: 'Sign in to see player profiles.',
-    joined: (when: string) => `Joined ${when}`,
-    favours: (type: string) => `Favours: ${type}`,
-    statBattles: 'Battles',
-    statRecord: 'W / L / D',
-    statWarbands: 'Warbands',
-    statCampaigns: 'Campaigns',
+    since: (when: string) => `since ${when}`,
+    favours: (type: string) => `Favours ${type}`,
+    // §39.4 — the record, laid out like a statline: four columns, the way the
+    // book prints a profile. Single letters get their word for screen readers.
+    recordLabel: 'Record',
+    statColumns: [
+      { short: 'Battles', long: 'Battles' },
+      { short: 'W', long: 'Wins' },
+      { short: 'L', long: 'Losses' },
+      { short: 'D', long: 'Draws' },
+    ],
+    recordCaption: (warbands: number, campaigns: number) =>
+      `${warbands === 1 ? '1 warband' : `${warbands} warbands`} · ${
+        campaigns === 1 ? '1 campaign' : `${campaigns} campaigns`
+      }`,
     warbandsSection: 'Warbands',
     warbandsEmpty: 'No warbands you can see.',
     campaignOnly: (campaign: string) => `Campaign only · ${campaign}`,
@@ -769,8 +778,19 @@ export const strings = {
     campaignsTogether: 'Campaigns together',
     yourCampaigns: 'Your campaigns',
     honoursSection: 'Honours',
-    ownNote: 'Others see your public warbands, plus any in campaigns you share with them.',
+    visibleTo: 'Visible to signed-in players',
+    inDirectory: 'In the player directory',
+    notInDirectory: 'Not in the player directory',
+    change: 'Change',
+    addPhoto: 'Add a photo',
+    addCountry: 'Add your country',
+    addBio: 'Write a bio',
     edit: 'Edit profile',
+    editShort: 'Edit',
+    // §39.3 — the identity header at the top of Account.
+    viewProfile: 'View profile',
+    listed: 'Listed',
+    notListed: 'Not listed',
     report: 'Report this profile',
     reportPrompt: 'What is wrong with this profile? An admin will look at it.',
     reportSend: 'Send report',
@@ -778,7 +798,6 @@ export const strings = {
     reportFailed: 'The report could not be sent. Try again.',
 
     // Account card
-    cardTitle: 'Profile',
     cardHint: 'Your name, photo and country show on your profile and next to your name in campaigns.',
     view: 'View my profile',
     photoUpload: 'Upload photo',
@@ -818,7 +837,6 @@ export const strings = {
     directoryVisible:
       'Shown in the directory: your photo, name, country, favourite warband, number of public warbands and whether you are looking for a campaign.',
     lookingBadge: 'Looking for a campaign',
-    notDiscoverableNote: "You're not in the player directory, so others can't find you there.",
 
     // Invite sheet on a profile
     invite: 'Invite to campaign',
@@ -847,12 +865,19 @@ export const strings = {
     search: 'Name',
     searchPlaceholder: 'Search by name',
     notListed: "You're not in the directory. Others can't find you.",
-    notListedLink: 'Change this on Account',
+    notListedLink: 'Change this in your profile',
     empty: (country: string | null) => (country ? `No players found in ${country} yet.` : 'No players found.'),
     allCountries: 'Search all countries',
     publicWarbands: (n: number) => (n === 1 ? '1 public warband' : `${n} public warbands`),
     loadMore: 'Load more',
     findPlayers: 'Find players',
+    filters: 'Filters',
+    filtersActive: (n: number) => `Filters (${n})`,
+    // §39.3 — the door for a player with no campaign yet.
+    lookingTitle: 'Looking for a group?',
+    lookingBody: 'Find players near you, or let campaign leaders find and invite you.',
+    lookingSwitch: "I'm looking for a campaign",
+    lookingOnNote: "You're listed as looking for a campaign. Leaders can invite you.",
   },
 
   // §38.5 direct campaign invites.

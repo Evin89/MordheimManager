@@ -2,11 +2,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import CampaignInvitesCard from '../components/players/CampaignInvitesCard';
 import { capture } from '../lib/posthog';
 import { CreateCampaignForm, JoinCampaignForm } from '../components/CampaignForms';
-import { Button, buttonClasses } from '../components/ui';
+import { Button, Card, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
 import { useCampaignSummariesQuery, useSetActiveCampaign } from '../hooks/useCampaign';
 import { readActiveCampaignId } from '../lib/activeCampaign';
 import { CampaignSummary } from '../types';
+import LookingForGroup, { type DirectorySurface } from '../components/players/LookingForGroup';
 
 function Stat({ label, value }: { label: string; value: string | number }) {
   return (
@@ -131,7 +132,13 @@ export default function MyCampaignsScreen() {
         {isLoading && <p className="text-bone-300">{strings.common.loading}</p>}
 
         {!isLoading && (summaries?.length ?? 0) === 0 && (
-          <p className="text-bone-300 text-sm">{strings.campaign.myCampaignsEmpty}</p>
+          <>
+            <p className="text-bone-300 text-sm">{strings.campaign.myCampaignsEmpty}</p>
+            {/* §39.3 — the one place a player without a group goes looking. */}
+            <Card>
+              <LookingForGroup />
+            </Card>
+          </>
         )}
 
         {(summaries ?? []).map((summary) => (
@@ -149,10 +156,17 @@ export default function MyCampaignsScreen() {
             list of campaigns shouldn't take you. */}
         <div className="pt-2 space-y-4">
           <JoinCampaignForm title={strings.campaign.joinAnotherTitle} compact />
-          {/* §38.4 — for finding people rather than codes. */}
-          <Link to="/players" className={buttonClasses('secondary')}>
-            {strings.directory.findPlayers}
-          </Link>
+          {/* §38.4 — for finding people rather than codes. With no campaigns
+              the Looking-for-a-group card above already offers it. */}
+          {(summaries?.length ?? 0) > 0 && (
+            <Link
+              to="/players"
+              state={{ from: 'my_campaigns' satisfies DirectorySurface }}
+              className={buttonClasses('secondary')}
+            >
+              {strings.directory.findPlayers}
+            </Link>
+          )}
           <CreateCampaignForm
             title={strings.campaign.startAnotherTitle}
             hint={strings.campaign.startAnotherHint}

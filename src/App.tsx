@@ -69,6 +69,7 @@ const DuringBattleScreen = lazy(() => import('./screens/DuringBattleScreen'));
 const GalleryScreen = lazy(() => import('./screens/GalleryScreen'));
 // §38 — handles its own signed-out state, so it isn't wrapped in `guarded`.
 const PlayerProfileScreen = lazy(() => import('./screens/PlayerProfileScreen'));
+const EditProfileScreen = lazy(() => import('./screens/EditProfileScreen'));
 const PlayerDirectoryScreen = lazy(() => import('./screens/PlayerDirectoryScreen'));
 
 const SharedWarbandScreen = lazy(() => import('./screens/SharedWarbandScreen'));
@@ -231,6 +232,8 @@ function AppShell() {
             {/* Old per-player URL, before the split. */}
             <Route path="/admin/users/:userId" element={<Navigate to="/admin/players" replace />} />
             <Route path="/account/changelog" element={<ChangelogScreen />} />
+            {/* §39.3 — the profile form, moved off the Account screen. */}
+            <Route path="/account/profile" element={guarded(<EditProfileScreen />)} />
             {/* Warbands their owners chose to publish, plus the read-only roster
                 behind each one. Public by design — an opted-in roster you can't
                 show to someone without an account isn't really shared. The

@@ -125,13 +125,28 @@ export type NavItem = {
    * warband, so Warbands lit up all the way through a game while the Battle tab
    * — the one you actually came from — stayed dark.
    */
-  notActiveFor?: (pathname: string) => boolean;
+  notActiveFor?: (pathname: string, ctx: NavContext) => boolean;
   /** Claims a path its own `to` can't express, e.g. one with an id in the middle. */
-  alsoActiveFor?: (pathname: string) => boolean;
+  alsoActiveFor?: (pathname: string, ctx: NavContext) => boolean;
   Icon: (props: IconProps) => JSX.Element;
   /** One-line description shown by the guided tour (§20.4). */
   help: string;
 };
+
+/** What a tab needs beyond the path: profiles split by whose they are. */
+export type NavContext = { userId?: string };
+
+/**
+ * §39.3 — a profile belongs to the tab you'd reach it from. Other players and
+ * the directory are the social side, so Campaigns; your own profile is you, so
+ * Account. Without this no tab was lit and the player lost their place.
+ */
+function isOwnProfile(pathname: string, { userId }: NavContext): boolean {
+  return !!userId && pathname === `/players/${userId}`;
+}
+function isPlayersPath(pathname: string, ctx: NavContext): boolean {
+  return (pathname === '/players' || pathname.startsWith('/players/')) && !isOwnProfile(pathname, ctx);
+}
 
 /** The battle flow, wherever it happens to be nested. */
 const BATTLE_SUFFIXES = ['/pre-battle', '/during-battle', '/post-battle'];
@@ -140,11 +155,16 @@ function isBattlePath(pathname: string): boolean {
 }
 
 /** Whether a tab should read as current for the path being viewed. */
-export function isNavItemActive(item: NavItem, pathname: string, linkIsActive: boolean): boolean {
+export function isNavItemActive(
+  item: NavItem,
+  pathname: string,
+  linkIsActive: boolean,
+  ctx: NavContext = {},
+): boolean {
   // Exclusions win over everything, including NavLink's own prefix match.
-  if (item.notActiveFor?.(pathname)) return false;
+  if (item.notActiveFor?.(pathname, ctx)) return false;
   if (linkIsActive) return true;
-  if (item.alsoActiveFor?.(pathname)) return true;
+  if (item.alsoActiveFor?.(pathname, ctx)) return true;
   return (item.activeFor ?? []).some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
@@ -156,7 +176,7 @@ export const NAV_ITEMS: NavItem[] = [
   // The overview, not a single campaign: a player can be in several, and the
   // list is what tells them which they lead and which is still being played.
   // Opening one from there sets it active, so /campaign stays the detail view.
-  { to: '/campaigns', label: strings.nav.campaign, activeFor: ['/campaign'], Icon: CampaignIcon, help: strings.nav.help.campaign },
+  { to: '/campaigns', label: strings.nav.campaign, activeFor: ['/campaign'], alsoActiveFor: isPlayersPath, Icon: CampaignIcon, help: strings.nav.help.campaign },
   { to: '/rules', label: strings.nav.rules, Icon: RulesIcon, help: strings.nav.help.rules },
-  { to: '/account', label: strings.nav.settings, Icon: ProfileIcon, help: strings.nav.help.settings },
+  { to: '/account', label: strings.nav.settings, alsoActiveFor: isOwnProfile, Icon: ProfileIcon, help: strings.nav.help.settings },
 ];
