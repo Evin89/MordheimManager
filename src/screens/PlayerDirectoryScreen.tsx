@@ -111,7 +111,7 @@ export default function PlayerDirectoryScreen() {
   if (!user) {
     return (
       <div className="min-h-full flex flex-col">
-        <TabHeader title={s.title}>
+        <TabHeader title={strings.nav.campaign}>
           <CampaignsSectionLinks current="players" />
         </TabHeader>
         <main className="px-4 py-6 space-y-4">
@@ -126,7 +126,7 @@ export default function PlayerDirectoryScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <TabHeader title={s.title}>
+      <TabHeader title={strings.nav.campaign}>
           <CampaignsSectionLinks current="players" />
         </TabHeader>
 

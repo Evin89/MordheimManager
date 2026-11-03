@@ -77,7 +77,7 @@ export default function MyCampaignsScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <TabHeader title={strings.campaign.myCampaignsTitle}>
+      <TabHeader title={strings.nav.campaign}>
         <CampaignsSectionLinks current="campaigns" />
       </TabHeader>
 

@@ -1,6 +1,7 @@
 import { Suspense, lazy, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import SubTabs from '../components/SubTabs';
 import EquipmentShop from '../components/EquipmentShop';
 import NumberInput from '../components/NumberInput';
 import { Button, Card, SectionHeading } from '../components/ui';
@@ -132,28 +133,14 @@ export default function TradingPostScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={strings.trading.pickWarbandTitle} subtitle={warband.name} />
-
-      <div className="px-4 pt-4 flex gap-2">
-        <button
-          type="button"
-          onClick={() => setTab('shop')}
-          className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-            tab === 'shop' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
-          }`}
-        >
-          {strings.trading.shopTab}
-        </button>
-        <button
-          type="button"
-          onClick={() => setTab('rules')}
-          className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-            tab === 'rules' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
-          }`}
-        >
-          {strings.trading.rulesTab}
-        </button>
-      </div>
+      <BackHeader title={strings.trading.pickWarbandTitle} subtitle={warband.name}>
+        <SubTabs
+          items={[
+            { label: strings.trading.shopTab, active: tab === 'shop', onSelect: () => setTab('shop') },
+            { label: strings.trading.rulesTab, active: tab === 'rules', onSelect: () => setTab('rules') },
+          ]}
+        />
+      </BackHeader>
 
       <main className="flex-1 px-4 py-4 space-y-6">
         {tab === 'shop' ? (

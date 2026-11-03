@@ -3831,6 +3831,8 @@ Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled
 - **Narrative log keeps its name** (*Campaign Log*, §17.3): a rename to *Chronicle* was built and reverted on 2026-11-03 at Evin's request.
 - **Warband screens read their own campaign** (`useWarbandCampaign`, §34.4) for battle history — Trading Post, model and henchmen detail used the active campaign before.
 
+- **One sub-tab look (2026-11-03):** `SubTabs` is the only sub-tab row — Warbands (*Mine · Gallery · Rules*), Campaigns (*Campaigns · Players*), a campaign's five tabs and the Trading Post (*Shop · Trading Rules*). Always inside the header under the title (`TabHeader` / `BackHeader` children), 40px, `text-xs sm:text-sm`. Route tabs replace history. The Campaigns section keeps one title (*Campaigns*) on both its screens, as Warbands does.
+
 ### 40.4 Account
 `/account`: identity (§39.3) · rows *Settings* (status: theme · notifications) · *Your data* · *Help & about* · *Admin* (admins only) · signed in as · **Sign out** — all within 812px. Sub-screens:
 - `/account/settings` — Appearance, Install (§36), Notifications (§19.4), Analytics (§23.7).
