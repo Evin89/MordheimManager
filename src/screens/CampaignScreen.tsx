@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import SubTabs from '../components/SubTabs';
 import InviteShareButtons from '../components/InviteShareButtons';
 import { NextEventBanner } from '../components/CampaignEvents';
 import CampaignActivityFeed from '../components/CampaignActivityFeed';
@@ -1167,12 +1168,7 @@ export default function CampaignScreen() {
   // land on the same tab. Switching replaces rather than pushes: Back leaves
   // the campaign instead of stepping through every tab you looked at.
   const { tab: tabParam } = useParams<{ tab: string }>();
-  const navigate = useNavigate();
   const tab: Tab = TABS.some((t) => t.id === tabParam) ? (tabParam as Tab) : 'activity';
-  function setTab(next: Tab) {
-    if (!campaign) return;
-    navigate(campaignPath(campaign.id, next === 'activity' ? undefined : next), { replace: true });
-  }
 
   const isLeader = (members ?? []).some((m) => m.userId === user?.id && m.role === 'campaign_leader');
 
@@ -1192,22 +1188,17 @@ export default function CampaignScreen() {
       {/* Back goes wherever you came from, which for a screen reachable from
           the campaign list, Home and the post-battle commit is the honest
           answer — each of those is somewhere you might want to return to. */}
-      <BackHeader title={campaign ? campaign.name : strings.campaign.title} />
-
-      <div className="px-4 pt-4 flex gap-2">
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            onClick={() => setTab(t.id)}
-            className={`flex-1 min-h-[40px] rounded-md border text-xs sm:text-sm font-semibold px-1 ${
-              tab === t.id ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
+      <BackHeader title={campaign ? campaign.name : strings.campaign.title}>
+        {campaign && (
+          <SubTabs
+            items={TABS.map((t) => ({
+              label: t.label,
+              active: tab === t.id,
+              to: campaignPath(campaign.id, t.id === 'activity' ? undefined : t.id),
+            }))}
+          />
+        )}
+      </BackHeader>
 
       <main className="flex-1 px-4 py-4 space-y-6">
         {/* Above the tabs: "are we playing, and when" is what people open

@@ -1,6 +1,7 @@
 import { Suspense, lazy, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TabHeader from '../components/TabHeader';
+import SubTabs from '../components/SubTabs';
 import PublicWarbandBrowser from '../components/PublicWarbandBrowser';
 import { ListGroup, ListRow, SectionHeading, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
@@ -39,22 +40,9 @@ export default function WarbandListScreen() {
             </Link>
           ) : undefined
         }
-      />
-
-      <div className="px-4 pt-4 flex gap-2">
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            onClick={() => setTab(t.id)}
-            className={`flex-1 min-h-[40px] rounded-md border text-xs sm:text-sm font-semibold px-1 ${
-              tab === t.id ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
+      >
+        <SubTabs items={TABS.map((t) => ({ label: t.label, active: tab === t.id, onSelect: () => setTab(t.id) }))} />
+      </TabHeader>
 
       <main className="flex-1 px-4 py-4 space-y-3">
         {tab === 'public' ? (

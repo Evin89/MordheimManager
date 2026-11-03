@@ -4,6 +4,7 @@ import { useAvatarUrls, usePlayerProfileQuery } from '../hooks/usePlayers';
 import { navTargetForPath } from '../lib/navTabs';
 import { strings } from '../strings';
 import PlayerAvatar from './players/PlayerAvatar';
+import SubTabs from './SubTabs';
 
 /**
  * §40.2 — the way to "you", in the corner of every tab screen.
@@ -52,7 +53,7 @@ type TabHeaderProps = {
   title: string;
   /** A control beside the avatar, e.g. "New warband" or the dice roller. */
   action?: React.ReactNode;
-  /** Sits under the title row — the sub-tabs of a section (§40.3). */
+  /** Sits under the title row — a section's `SubTabs` (§40.3). */
   children?: React.ReactNode;
 };
 
@@ -74,35 +75,10 @@ export default function TabHeader({ title, action, children }: TabHeaderProps) {
   );
 }
 
-/**
- * Two or three sibling screens of one section, as links (§40.3). Each is its
- * own route, so Back and shared links hold, unlike the in-page tab buttons
- * the campaign screen used before.
- */
-export function SectionLinks({ items }: { items: { to: string; label: string; active: boolean }[] }) {
-  return (
-    <nav className="flex gap-2">
-      {items.map((item) => (
-        <Link
-          key={item.to}
-          to={item.to}
-          replace
-          aria-current={item.active ? 'page' : undefined}
-          className={`flex-1 min-h-[40px] inline-flex items-center justify-center rounded-md border text-sm font-semibold px-1 ${
-            item.active ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
-          }`}
-        >
-          {item.label}
-        </Link>
-      ))}
-    </nav>
-  );
-}
-
 /** The Campaigns section's two screens (§40.3): your campaigns, and the players directory. */
 export function CampaignsSectionLinks({ current }: { current: 'campaigns' | 'players' }) {
   return (
-    <SectionLinks
+    <SubTabs
       items={[
         { to: '/campaigns', label: strings.nav.campaignsList, active: current === 'campaigns' },
         { to: '/players', label: strings.nav.players, active: current === 'players' },
