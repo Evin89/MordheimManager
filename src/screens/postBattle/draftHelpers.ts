@@ -1,7 +1,7 @@
 import { generateId } from '../../lib/id';
 import { defaultHouseRules } from '../../data/houseRules';
 import { getUnitRacialMaximums } from '../../lib/racialMaximums';
-import { getSpell } from '../../lib/spellLookup';
+import { applySpellGains, getSpell, loweredAdvanceDetail } from '../../lib/spellLookup';
 import { getWyrdstoneSellPrice } from '../../lib/wyrdstonePricing';
 import { countModels } from '../../lib/rating';
 import { resolveEquipmentItem } from '../../lib/equipmentLookup';
@@ -32,6 +32,17 @@ function emptyStatIncreases(): StatIncreases {
  * removed entry still leaves a legible advance rather than a blank one. */
 function spellName(spellId: string): string {
   return getSpell(spellId)?.name ?? spellId;
+}
+
+/** One advance detail per spell gained — "Wings of Doom" for a new entry,
+ * "Wings of Doom (difficulty −1)" for one already known (§15.3). */
+function spellAdvanceDetails(known: string[] | undefined, gained: string[]): string[] {
+  const seen = new Set(known ?? []);
+  return gained.map((id) => {
+    if (seen.has(id)) return loweredAdvanceDetail(spellName(id));
+    seen.add(id);
+    return spellName(id);
+  });
 }
 
 /**
@@ -229,13 +240,8 @@ export function applyDraftToWarband(
     // Typed 'skill' deliberately: the advance rolled *was* a new skill, and the
     // caster spent it on a spell instead. A third Advance type would mean a
     // stored-data migration to record something the detail already says.
-    for (const spellId of state.newSpells) {
-      advances.push({
-        id: generateId(),
-        type: 'skill',
-        detail: spellName(spellId),
-        battleRef: draft.scenario,
-      });
+    for (const detail of spellAdvanceDetails(hero.spells, state.newSpells)) {
+      advances.push({ id: generateId(), type: 'skill', detail, battleRef: draft.scenario });
     }
 
     heroes.push({
@@ -243,7 +249,7 @@ export function applyDraftToWarband(
       xp: hero.xp + state.xpAwarded,
       stats: applyStatIncreases(hero.stats, state.statIncreases),
       skills: [...hero.skills, ...state.newSkills],
-      spells: [...hero.spells, ...state.newSpells],
+      ...applySpellGains(hero.spells, hero.spellReductions, state.newSpells),
       advances,
       injuries: [
         ...hero.injuries,
@@ -385,13 +391,8 @@ export function applyDraftToWarband(
     // Typed 'skill' deliberately: the advance rolled *was* a new skill, and the
     // caster spent it on a spell instead. A third Advance type would mean a
     // stored-data migration to record something the detail already says.
-    for (const spellId of state.newSpells) {
-      advances.push({
-        id: generateId(),
-        type: 'skill',
-        detail: spellName(spellId),
-        battleRef: draft.scenario,
-      });
+    for (const detail of spellAdvanceDetails(sword.spells, state.newSpells)) {
+      advances.push({ id: generateId(), type: 'skill', detail, battleRef: draft.scenario });
     }
 
     hiredSwords.push({
@@ -399,7 +400,7 @@ export function applyDraftToWarband(
       xp: sword.xp + state.xpAwarded,
       stats: applyStatIncreases(sword.stats, state.statIncreases),
       skills: [...sword.skills, ...state.newSkills],
-      spells: [...sword.spells, ...state.newSpells],
+      ...applySpellGains(sword.spells, sword.spellReductions, state.newSpells),
       advances,
     });
   }
@@ -622,7 +623,7 @@ export function buildDiffSummary(warband: Warband, draft: PostBattleDraft): stri
     const advanceTags = [
       ...statIncreaseTags(state.statIncreases),
       ...state.newSkills,
-      ...state.newSpells.map(spellName),
+      ...spellAdvanceDetails(hero.spells, state.newSpells),
     ];
     if (advanceTags.length > 0) lines.push(`${hero.name} advances: ${advanceTags.join(', ')}.`);
     if (state.resultingStatus === 'missNextGame') lines.push(`${hero.name} will miss the next game.`);
@@ -667,7 +668,7 @@ export function buildDiffSummary(warband: Warband, draft: PostBattleDraft): stri
     const advanceTags = [
       ...statIncreaseTags(state.statIncreases),
       ...state.newSkills,
-      ...state.newSpells.map(spellName),
+      ...spellAdvanceDetails(sword.spells, state.newSpells),
     ];
     if (advanceTags.length > 0) lines.push(`${sword.name} advances: ${advanceTags.join(', ')}.`);
     if (state.payUpkeep) lines.push(`Pay ${sword.upkeep} gc upkeep to ${sword.name}.`);

@@ -57,15 +57,82 @@ export function spellBlockLabel(spellListIds: string[], plural = true): string {
 
 /** Difficulty as it should be read at the table. Null means the entry always
  * works and is never rolled for — which is not the same as "unknown", and must
- * never render as a 0 the player might try to beat. */
-export function formatDifficulty(spell: Spell, modifier = 0): string {
+ * never render as a 0 the player might try to beat.
+ *
+ * `lowered` is how many times the model has taken the entry's difficulty down
+ * by 1 for rolling it again (§15.3). Like `modifier`, the working is shown, not
+ * just the total, so a 6+ on a 7+ spell never reads as a data error. */
+export function formatDifficulty(spell: Spell, modifier = 0, lowered = 0): string {
   if (spell.difficulty === null) return 'Automatic';
-  const effective = spell.difficulty - modifier;
-  return modifier ? `${effective}+ (${spell.difficulty}+ modified by ${signed(modifier)})` : `${effective}+`;
+  const effective = spell.difficulty - modifier - lowered;
+  const parts: string[] = [];
+  if (lowered) parts.push(`lowered by ${lowered}`);
+  if (modifier) parts.push(`modified by ${signed(modifier)}`);
+  return parts.length ? `${effective}+ (${spell.difficulty}+ ${parts.join(', ')})` : `${effective}+`;
+}
+
+/**
+ * Whether rolling an entry again can lower its difficulty.
+ *
+ * Mordheim Magic: "If you get the same spell twice, roll again or lower the
+ * spell's difficulty by 1." An entry that succeeds automatically has no number
+ * to lower, so for it the only option left is the re-roll.
+ */
+export function canLowerDifficulty(spell: Spell): boolean {
+  return spell.difficulty !== null;
 }
 
 function signed(n: number): string {
   return n > 0 ? `+${n}` : `${n}`;
+}
+
+/** Suffix that marks an advance spent on lowering a known entry rather than
+ * learning a new one. Kept in one place because advance removal (§4.2.1) reads
+ * it back to find the grant it should undo. */
+const LOWERED_SUFFIX = ' (difficulty −1)';
+
+export function loweredAdvanceDetail(spellName: string): string {
+  return `${spellName}${LOWERED_SUFFIX}`;
+}
+
+/** The spell name a lowered-difficulty advance detail refers to, or null when
+ * the detail is an ordinary skill/spell advance. */
+export function parseLoweredAdvanceDetail(detail: string): string | null {
+  return detail.endsWith(LOWERED_SUFFIX) ? detail.slice(0, -LOWERED_SUFFIX.length) : null;
+}
+
+/**
+ * Folds entries gained into a model's spells.
+ *
+ * An id the model already knows (or one that appears twice in `gained`) is the
+ * "same spell twice" case and lowers that entry's difficulty instead of being
+ * stored again — `spells` stays duplicate-free (§15.5).
+ */
+export function applySpellGains(
+  spells: string[],
+  reductions: Record<string, number> | undefined,
+  gained: string[],
+): { spells: string[]; spellReductions: Record<string, number> } {
+  const nextSpells = [...(spells ?? [])];
+  const nextReductions = { ...(reductions ?? {}) };
+  for (const id of gained) {
+    if (nextSpells.includes(id)) nextReductions[id] = (nextReductions[id] ?? 0) + 1;
+    else nextSpells.push(id);
+  }
+  return { spells: nextSpells, spellReductions: nextReductions };
+}
+
+/** Rolls the list's die once, with no duplicate handling — the caller decides
+ * what a known result means. Null if the die lands on a number the list lacks. */
+export function rollSpellOnce(
+  listId: string,
+  rollDie: () => number,
+): { die: number; spell: Spell } | null {
+  const list = getSpellList(listId);
+  if (!list) return null;
+  const die = rollDie();
+  const spell = list.spells.find((s) => s.roll === die);
+  return spell ? { die, spell } : null;
 }
 
 export type SpellRoll = {
