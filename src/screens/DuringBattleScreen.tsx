@@ -3,6 +3,7 @@ import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-route
 import { battleState } from '../lib/battleNavigation';
 import BackHeader from '../components/BackHeader';
 import DiceButton from '../components/DiceButton';
+import ActionBar from '../components/ActionBar';
 import DiceRoller from '../components/DiceRoller';
 import ProfileBlock from '../components/ProfileBlock';
 import { WarbandThumb } from '../components/WarbandPhoto';
@@ -831,9 +832,11 @@ export default function DuringBattleScreen() {
           )}
         </section>
 
-        <Button onClick={() => navigate(`/warbands/${warband.id}/post-battle`, { replace: true, state: navState })}>
-          {strings.battle.duringBattle.goToPostBattle}
-        </Button>
+        <ActionBar>
+          <Button onClick={() => navigate(`/warbands/${warband.id}/post-battle`, { replace: true, state: navState })}>
+            {strings.battle.duringBattle.goToPostBattle}
+          </Button>
+        </ActionBar>
       </main>
     </div>
   );

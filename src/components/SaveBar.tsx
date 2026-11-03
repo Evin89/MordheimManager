@@ -1,3 +1,4 @@
+import ActionBar from './ActionBar';
 import { strings } from '../strings';
 
 /**
@@ -20,7 +21,7 @@ export default function SaveBar({
   if (!dirty) return null;
 
   return (
-    <div className="sticky bottom-[56px] md:bottom-0 z-20 -mx-4 px-4 py-3 bg-ink-950/95 backdrop-blur border-t border-ink-800">
+    <ActionBar>
       <div className="flex items-center gap-3">
         <p className="text-bone-300 text-sm flex-1">{strings.common.unsavedChanges}</p>
         <button
@@ -38,6 +39,6 @@ export default function SaveBar({
           {strings.common.save}
         </button>
       </div>
-    </div>
+    </ActionBar>
   );
 }

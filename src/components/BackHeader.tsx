@@ -8,11 +8,22 @@ type BackHeaderProps = {
   onBack?: () => void;
   /** A control on the right, e.g. the roster's Share button (§37.1). */
   action?: React.ReactNode;
+  /** A small tag beside the title, e.g. Beta. */
+  badge?: string;
   /** Under the title row: the screen's `SubTabs`, as in `TabHeader` (§40.3). */
   children?: React.ReactNode;
 };
 
-export default function BackHeader({ title, subtitle, onBack, action, children }: BackHeaderProps) {
+/** The Beta tag, one spelling for every header that needs it. */
+export function HeaderBadge({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="shrink-0 text-xs font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
+      {children}
+    </span>
+  );
+}
+
+export default function BackHeader({ title, subtitle, badge, onBack, action, children }: BackHeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,7 +47,10 @@ export default function BackHeader({ title, subtitle, onBack, action, children }
           ←
         </button>
         <div className="min-w-0 flex-1">
-          <h1 className="text-2xl font-bold text-bone-100 tracking-wide truncate">{title}</h1>
+          <div className="flex items-center gap-2 min-w-0">
+            <h1 className="min-w-0 text-2xl font-bold text-bone-100 tracking-wide truncate">{title}</h1>
+            {badge && <HeaderBadge>{badge}</HeaderBadge>}
+          </div>
           {subtitle && <p className="text-bone-300 text-sm mt-0.5 truncate">{subtitle}</p>}
         </div>
         {action && <div className="shrink-0">{action}</div>}

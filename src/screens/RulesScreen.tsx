@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { AccountButton } from '../components/TabHeader';
+import TabHeader from '../components/TabHeader';
 import { Link } from 'react-router-dom';
 import {
   Search,
@@ -308,14 +308,11 @@ export default function RulesScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      {/* §40.2 — the avatar sits in the title row; the dice roller is the row under search. */}
-      <header className="px-4 pt-6 pb-3 flex items-center gap-3">
-        <h1 className="min-w-0 flex-1 text-4xl leading-none text-bone-100">{strings.rules.title}</h1>
-        <AccountButton />
-      </header>
-
-      {/* Search is the hero: at a table you usually know the word. */}
-      <div className="px-4 pb-3">
+      {/* §40.2 — the standard tab header; search sits in it as the screen's
+          one control, the way sub-tabs do elsewhere. */}
+      <TabHeader title={strings.rules.title}>
+        {/* Search is the hero: at a table you usually know the word. */}
+        <div>
         <div className="flex items-center gap-2.5 h-[50px] px-3.5 rounded-xl bg-ink-900 border border-ink-800 focus-within:border-ember-500 transition-colors">
           <Search size={19} className="text-ink-faded shrink-0" aria-hidden="true" />
           <input
@@ -337,12 +334,13 @@ export default function RulesScreen() {
             </button>
           )}
         </div>
-      </div>
+        </div>
+      </TabHeader>
 
       {/* The dice roller lives here rather than a page of its own — this is the
           reference open at the table. Collapsed until wanted; the real DiceRoller
           component, the same one the battle screen embeds. */}
-      <div className="px-4 pb-3">
+      <div className="px-4 pt-4 pb-3">
         <button
           type="button"
           onClick={() => setDiceOpen((v) => !v)}

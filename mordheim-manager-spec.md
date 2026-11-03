@@ -3833,6 +3833,8 @@ Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled
 
 - **One sub-tab look (2026-11-03):** `SubTabs` is the only sub-tab row — Warbands (*Mine · Gallery · Rules*), Campaigns (*Campaigns · Players*), a campaign's five tabs and the Trading Post (*Shop · Trading Rules*). Always inside the header under the title (`TabHeader` / `BackHeader` children), 40px, `text-xs sm:text-sm`. Route tabs replace history. The Campaigns section keeps one title (*Campaigns*) on both its screens, as Warbands does.
 
+- **One header, one footer (2026-11-03).** Every in-shell screen uses `TabHeader` (tab roots — Home's banner variant has the same padding, rule and avatar slot) or `BackHeader` (everything else). Rules, Gallery, the Trading picker, Battlefield generator, the three Solo screens, a warband's rules page and Admin dropped their own headers; Beta is a `badge` on `BackHeader`, intro text sits at the top of the page body, and a screen's own controls (sub-tabs, Rules search, the wizard's progress bar, Admin's scrolling tabs) go in the header's children slot. Only the sign-in screens (outside the shell) keep their centred header. Footer: `ActionBar` is the one sticky bar above the tab bar — the save bar and the pre-battle / during-battle / post-battle "next stage" buttons use it — and every bottom offset includes `env(safe-area-inset-bottom)`, as the tab bar does.
+
 ### 40.4 Account
 `/account`: identity (§39.3) · rows *Settings* (status: theme · notifications) · *Your data* · *Help & about* · *Admin* (admins only) · signed in as · **Sign out** — all within 812px. Sub-screens:
 - `/account/settings` — Appearance, Install (§36), Notifications (§19.4), Analytics (§23.7).

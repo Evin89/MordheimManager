@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { battleState } from '../lib/battleNavigation';
 import BackHeader from '../components/BackHeader';
+import ActionBar from '../components/ActionBar';
 import { Button, TextField, Textarea, Select, Field } from '../components/ui';
 import { strings } from '../strings';
 import { BattleSession, defaultBattleSession, hasBattleProgress, useAppStore } from '../store/useAppStore';
@@ -386,18 +387,19 @@ export default function PreBattleScreen() {
           />
         </section>
 
-        <Button onClick={() => navigate(`/warbands/${warband.id}/during-battle`, { replace: true, state: navState })}>
-          {strings.battle.preBattle.continueButton}
-        </Button>
-
-        <Link
-          to={`/warbands/${warband.id}/post-battle`}
-          replace
-          state={navState}
-          className="block text-center w-full min-h-[44px] leading-[44px] text-bone-300 text-sm"
-        >
-          {strings.battle.preBattle.skipToPostBattle}
-        </Link>
+        <ActionBar>
+          <Button onClick={() => navigate(`/warbands/${warband.id}/during-battle`, { replace: true, state: navState })}>
+            {strings.battle.preBattle.continueButton}
+          </Button>
+          <Link
+            to={`/warbands/${warband.id}/post-battle`}
+            replace
+            state={navState}
+            className="block text-center w-full min-h-[36px] leading-[36px] text-bone-300 text-sm"
+          >
+            {strings.battle.preBattle.skipToPostBattle}
+          </Link>
+        </ActionBar>
       </main>
     </div>
   );

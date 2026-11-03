@@ -23,9 +23,12 @@ const OFF = 'border-ink-700 text-bone-200 hover:bg-ink-800';
  * Route tabs replace history, so Back leaves the section rather than stepping
  * through every tab looked at.
  */
-export default function SubTabs({ items }: { items: SubTab[] }) {
+export default function SubTabs({ items, scroll = false }: { items: SubTab[]; scroll?: boolean }) {
+  // Past five tabs (Admin's seven) they stop sharing the width and scroll
+  // sideways instead, at their natural size.
+  const base = scroll ? BASE.replace('flex-1 min-w-0', 'shrink-0 px-3 whitespace-nowrap') : BASE;
   return (
-    <nav className="flex gap-2">
+    <nav className={`flex gap-2 ${scroll ? 'overflow-x-auto -mx-4 px-4' : ''}`}>
       {items.map((item) =>
         item.to ? (
           <Link
@@ -33,7 +36,7 @@ export default function SubTabs({ items }: { items: SubTab[] }) {
             to={item.to}
             replace
             aria-current={item.active ? 'page' : undefined}
-            className={`${BASE} ${item.active ? ON : OFF}`}
+            className={`${base} ${item.active ? ON : OFF}`}
           >
             {item.label}
           </Link>
@@ -43,7 +46,7 @@ export default function SubTabs({ items }: { items: SubTab[] }) {
             type="button"
             onClick={item.onSelect}
             aria-pressed={item.active}
-            className={`${BASE} ${item.active ? ON : OFF}`}
+            className={`${base} ${item.active ? ON : OFF}`}
           >
             {item.label}
           </button>

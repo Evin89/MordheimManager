@@ -22,6 +22,22 @@ import { NextEventBanner } from '../components/CampaignEvents';
 import { lastUsedFirst, readLastWarbandId } from '../lib/lastWarband';
 
 /**
+ * Home's header (§40.2): the banner is the title, with the avatar beside it —
+ * the same padding, rule and avatar slot as every other tab's `TabHeader`.
+ * One component for the signed-out, first-run and regular Home.
+ */
+function HomeHeader() {
+  return (
+    <header className="px-4 pt-6 pb-4 border-b border-ink-800 flex items-start gap-3">
+      <div className="min-w-0 flex-1">
+        <AppBanner />
+      </div>
+      <AccountButton />
+    </header>
+  );
+}
+
+/**
  * About and the changelog, at the foot of Home.
  *
  * Moved off Profile: "what changed" is something you read occasionally rather
@@ -51,13 +67,7 @@ function AboutSection() {
 function SignedOutHome() {
   return (
     <div className="min-h-full flex flex-col">
-      {/* The banner is Home's title; the avatar (§40.2) sits in its corner. */}
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800 flex items-start gap-3">
-        <div className="min-w-0 flex-1">
-          <AppBanner />
-        </div>
-        <AccountButton />
-      </header>
+      <HomeHeader />
 
       <main className="flex-1 px-4 py-6 space-y-6">
         {arrivedWithAuthLinkError && (
@@ -144,9 +154,7 @@ export default function HomeScreen() {
   if (onboardingReady && warbands.length === 0) {
     return (
       <div className="min-h-full flex flex-col">
-        <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-          <AppBanner />
-        </header>
+        <HomeHeader />
 
         <main className="flex-1 px-4 py-6 space-y-6">
           <GoogleSelfReportCard />
@@ -185,13 +193,7 @@ export default function HomeScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      {/* The banner is Home's title; the avatar (§40.2) sits in its corner. */}
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800 flex items-start gap-3">
-        <div className="min-w-0 flex-1">
-          <AppBanner />
-        </div>
-        <AccountButton />
-      </header>
+      <HomeHeader />
 
       <main className="flex-1 px-4 py-6 space-y-6">
         <GoogleSelfReportCard />

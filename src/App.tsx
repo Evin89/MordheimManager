@@ -176,7 +176,7 @@ function AppShell() {
   return (
     <div className="min-h-full md:flex md:items-start">
       <SideNav />
-      <div className="flex-1 min-w-0 pb-[56px] md:pb-0 print:pb-0">
+      <div className="flex-1 min-w-0 pb-[calc(56px+env(safe-area-inset-bottom))] md:pb-0 print:pb-0">
         <ConnectionBanner />
 <div className="mx-auto w-full max-w-4xl">
           <Suspense fallback={<RouteFallback />}>
