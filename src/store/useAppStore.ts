@@ -94,6 +94,26 @@ export function defaultBattleSession(warbandId: string): BattleSession {
   };
 }
 
+/**
+ * Whether a stored session is a game actually under way (§4.3.2, §40.3) —
+ * not merely a scenario or opponent picked on pre-battle, which saves as you
+ * go. One definition for pre-battle's restore offer, the resume card on Home
+ * and Play, and the roster's Continue battle button.
+ */
+export function hasBattleProgress(session: BattleSession | undefined): boolean {
+  return (
+    !!session &&
+    (!!session.wizard ||
+      session.turn > 1 ||
+      session.events.length > 0 ||
+      session.outOfAction.heroIds.length > 0 ||
+      session.outOfAction.hiredSwordIds.length > 0 ||
+      Object.keys(session.outOfAction.henchmenCounts).length > 0 ||
+      Object.keys(session.enemyOutOfAction).length > 0 ||
+      Object.keys(session.wyrdstoneCarried).length > 0)
+  );
+}
+
 type AppState = {
   battleSessions: Record<string, BattleSession>;
   getBattleSession: (warbandId: string) => BattleSession | undefined;
