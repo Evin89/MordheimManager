@@ -13,7 +13,7 @@ import { SectionHeading, Textarea } from '../components/ui';
 import { strings } from '../strings';
 import { useWarbandLookup } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
-import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
+import { useBattlesQuery, useWarbandCampaign } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
@@ -30,7 +30,8 @@ export default function HenchmenDetailScreen() {
   const { warband, loading } = useWarbandLookup(warbandId);
   const { draft, update, dirty, save, saveNow, discard } = useWarbandDraft(warband);
   useUnsavedChangesWarning(dirty);
-  const { data: campaign } = useMyCampaignQuery();
+  // The warband's own campaign (§34.4), not whichever one was opened last.
+  const campaign = useWarbandCampaign(warbandId);
   const { data: battles } = useBattlesQuery(campaign?.id);
   const purchase = usePurchase();
 

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import BackHeader from '../components/BackHeader';
+import TabHeader, { CampaignsSectionLinks } from '../components/TabHeader';
 import PlayerAvatar from '../components/players/PlayerAvatar';
 import SearchPicker from '../components/players/SearchPicker';
 import { Card, Field, TextField, buttonClasses } from '../components/ui';
@@ -111,7 +111,9 @@ export default function PlayerDirectoryScreen() {
   if (!user) {
     return (
       <div className="min-h-full flex flex-col">
-        <BackHeader title={s.title} />
+        <TabHeader title={s.title}>
+          <CampaignsSectionLinks current="players" />
+        </TabHeader>
         <main className="px-4 py-6 space-y-4">
           <p className="text-bone-300">{strings.profile.signInNeeded}</p>
           <Link to="/login" className={buttonClasses('primary')}>
@@ -124,7 +126,9 @@ export default function PlayerDirectoryScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={s.title} />
+      <TabHeader title={s.title}>
+          <CampaignsSectionLinks current="players" />
+        </TabHeader>
 
       <main className="flex-1 px-4 py-6 space-y-4 max-w-2xl w-full">
         <p className="text-bone-300 text-sm">{s.hint}</p>

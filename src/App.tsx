@@ -5,7 +5,6 @@ import { ChunkErrorBoundary } from './components/ChunkErrorBoundary';
 import NavTour from './components/NavTour';
 import WhatsNewOverlay from './components/WhatsNewOverlay';
 import LeaderClaimPrompt from './components/LeaderClaimPrompt';
-import DiceButton from './components/DiceButton';
 import ReportIssueButton from './components/ReportIssueButton';
 import SideNav from './components/SideNav';
 import ConnectionBanner from './components/ConnectionBanner';
@@ -27,9 +26,12 @@ import WarbandListScreen from './screens/WarbandListScreen';
 // first screen is idle (below), so in practice the chunk is already cached
 // when the user taps into a warband.
 const loadRosterScreen = () => import('./screens/RosterScreen');
-const loadSettingsScreen = () => import('./screens/SettingsScreen');
+const loadSettingsScreen = () => import('./screens/account/AccountScreen');
 const RosterScreen = lazy(loadRosterScreen);
-const SettingsScreen = lazy(loadSettingsScreen);
+const AccountScreen = lazy(loadSettingsScreen);
+const AccountSettingsScreen = lazy(() => import('./screens/account/AccountSettingsScreen'));
+const AccountDataScreen = lazy(() => import('./screens/account/AccountDataScreen'));
+const AccountAboutScreen = lazy(() => import('./screens/account/AccountAboutScreen'));
 
 const AdminLayout = lazy(() => import('./screens/admin/AdminLayout'));
 const AdminOverviewScreen = lazy(() => import('./screens/admin/AdminOverviewScreen'));
@@ -80,6 +82,7 @@ const CampaignCalendarScreen = lazy(() => import('./screens/CampaignCalendarScre
 const CampaignEventScreen = lazy(() => import('./screens/CampaignEventScreen'));
 
 const MyCampaignsScreen = lazy(() => import('./screens/MyCampaignsScreen'));
+const CampaignRedirect = lazy(() => import('./screens/CampaignRedirect'));
 
 const ModelDetailScreen = lazy(() => import('./screens/ModelDetailScreen'));
 
@@ -99,7 +102,7 @@ const CustomWarbandGalleryScreen = lazy(() => import('./screens/CustomWarbandGal
 const CustomWarbandEditScreen = lazy(() => import('./screens/CustomWarbandEditScreen'));
 
 const WarbandPickerScreen = lazy(() => import('./screens/WarbandPickerScreen'));
-const PersonalBattles = lazy(() => import('./components/PersonalBattles'));
+const PlayScreen = lazy(() => import('./screens/PlayScreen'));
 
 // Solo mode (beta) — client-only, its own store, no server writes.
 const SoloSetupScreen = lazy(() => import('./screens/solo/SoloSetupScreen'));
@@ -175,11 +178,7 @@ function AppShell() {
       <SideNav />
       <div className="flex-1 min-w-0 pb-[56px] md:pb-0 print:pb-0">
         <ConnectionBanner />
-        {/* On phones the ? and dice buttons (fixed, top-right, 40px wide at
-            right-2) sit over the first ~100px of every screen; a screen's top
-            header reserves that strip so its actions aren't covered. md+ has
-            the side rail and room to spare. */}
-        <div className="mx-auto w-full max-w-4xl max-md:[&>div>header:first-child]:pr-14">
+<div className="mx-auto w-full max-w-4xl">
           <Suspense fallback={<RouteFallback />}>
       <Routes>
             {/* --- Public: static reference content --- */}
@@ -197,7 +196,12 @@ function AppShell() {
             {/* Battlefield generator — public like the dice roller; uses your
                 terrain library when signed in, generic terrain otherwise. */}
             <Route path="/map" element={<MapGeneratorScreen />} />
-            <Route path="/account" element={<SettingsScreen />} />
+            <Route path="/account" element={<AccountScreen />} />
+            {/* §40.4 — Account's sub-screens. Data needs an account; settings
+                and about work signed out (theme, install, the rules' sources). */}
+            <Route path="/account/settings" element={<AccountSettingsScreen />} />
+            <Route path="/account/data" element={guarded(<AccountDataScreen />)} />
+            <Route path="/account/about" element={<AccountAboutScreen />} />
             {/* The tab was renamed Settings -> Profile. Redirects rather
                 than a bare rename, so a bookmark or an old changelog link
                 still lands somewhere. */}
@@ -270,19 +274,9 @@ function AppShell() {
             <Route path="/warbands/:warbandId/post-battle" element={guarded(<PostBattleWizard />)} />
             <Route path="/warbands/:warbandId/trading" element={guarded(<TradingPostScreen />)} />
             <Route path="/warbands/:warbandId/print" element={guarded(<WarbandPrintScreen />)} />
-            <Route
-              path="/post-battle"
-              element={guarded(
-                <WarbandPickerScreen
-                  title={strings.battle.pickWarbandTitle}
-                  prompt={strings.battle.pickWarbandPrompt}
-                  emptyMessage={strings.battle.noWarbands}
-                  destination={(id) => `/warbands/${id}/pre-battle`}
-                >
-                  <PersonalBattles />
-                </WarbandPickerScreen>,
-              )}
-            />
+            {/* §40.3 — the Play tab. /post-battle was its old address. */}
+            <Route path="/play" element={guarded(<PlayScreen />)} />
+            <Route path="/post-battle" element={<Navigate to="/play" replace />} />
             <Route
               path="/trading"
               element={guarded(
@@ -295,11 +289,17 @@ function AppShell() {
                 />,
               )}
             />
-            <Route path="/campaign" element={guarded(<CampaignScreen />)} />
-            <Route path="/campaign/events" element={guarded(<CampaignEventsScreen />)} />
-            <Route path="/campaign/calendar" element={guarded(<CampaignCalendarScreen />)} />
-            <Route path="/campaign/events/:eventId" element={guarded(<CampaignEventScreen />)} />
             <Route path="/campaigns" element={guarded(<MyCampaignsScreen />)} />
+            {/* §40.3 — a campaign has its own address; each tab is a path
+                segment so Back, bookmarks and shared links all hold. */}
+            <Route path="/campaigns/:campaignId" element={guarded(<CampaignScreen />)} />
+            <Route path="/campaigns/:campaignId/events" element={guarded(<CampaignEventsScreen />)} />
+            <Route path="/campaigns/:campaignId/calendar" element={guarded(<CampaignCalendarScreen />)} />
+            <Route path="/campaigns/:campaignId/events/:eventId" element={guarded(<CampaignEventScreen />)} />
+            <Route path="/campaigns/:campaignId/:tab" element={guarded(<CampaignScreen />)} />
+            {/* The old "active campaign" addresses, and anything beneath them. */}
+            <Route path="/campaign" element={guarded(<CampaignRedirect />)} />
+            <Route path="/campaign/*" element={guarded(<CampaignRedirect />)} />
             {/* Where standings used to link; kept so older in-app links still land. */}
             <Route path="/campaign/warbands/:warbandId" element={guarded(<SharedWarbandScreen />)} />
 
@@ -313,15 +313,13 @@ function AppShell() {
             page you're actually looking at. */}
         <ReportIssueButton />
       </div>
-      {/* The guided nav tour's ? button and overlay (§20.4). Outside the
-          content column so its fixed positioning is relative to the viewport. */}
+      {/* The guided nav tour's overlay (§20.4): runs once for a new player,
+          and again from Help & about (§40.2). */}
       <NavTour />
       {/* Catches a returning player up on changelog entries since their last
           visit; suppressed while the tour above would show. */}
       <WhatsNewOverlay />
       <LeaderClaimPrompt />
-      {/* A dice roller in reach from any screen, stacked just under the ? . */}
-      <DiceButton />
       <BottomNav />
     </div>
   );

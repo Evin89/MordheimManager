@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Share2 } from 'lucide-react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { FROM_ROSTER } from '../lib/battleNavigation';
+import { useAppStore } from '../store/useAppStore';
 import { forgetRemoved, reinsert, removedFor, type RemovedModel } from '../lib/removedModels';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
@@ -298,6 +299,7 @@ function RemovedModelsBanner({
 
 export default function RosterScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
+  const inProgress = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
   const navigate = useNavigate();
   const { warband, loading } = useWarbandLookup(warbandId);
   const deleteWarband = useDeleteWarbandMutation();
@@ -419,8 +421,16 @@ export default function RosterScreen() {
 
         <WarbandPhotoEditor warbandId={warband.id} warbandName={warband.name} />
 
-        <Link to={`/warbands/${warband.id}/pre-battle`} state={FROM_ROSTER} className={buttonClasses('primary')}>
-          {strings.battle.startBattleButton}
+        {/* §40.3 — one way into a game: start one, or pick up the one this
+            warband left half-way (same stage logic as the resume card). */}
+        <Link
+          to={`/warbands/${warband.id}/${
+            !inProgress ? 'pre-battle' : inProgress.wizard ? 'post-battle' : inProgress.turn <= 1 && inProgress.events.length === 0 ? 'pre-battle' : 'during-battle'
+          }`}
+          state={FROM_ROSTER}
+          className={buttonClasses('primary')}
+        >
+          {inProgress ? strings.play.continueBattle : strings.battle.startBattleButton}
         </Link>
 
         <Link to={`/warbands/${warband.id}/trading`} className={buttonClasses('secondary')}>

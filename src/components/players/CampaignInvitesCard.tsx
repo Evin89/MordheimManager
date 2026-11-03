@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
+import { campaignPath } from '../../lib/activeCampaign';
 import { Button, Card, SectionHeading } from '../ui';
 import { useMyInvitesQuery, useRespondToInviteMutation } from '../../hooks/usePlayers';
-import { useSetActiveCampaign } from '../../hooks/useCampaign';
 import { capture } from '../../lib/posthog';
 import { strings } from '../../strings';
 
@@ -15,7 +15,6 @@ import { strings } from '../../strings';
 export default function CampaignInvitesCard() {
   const { data: invites } = useMyInvitesQuery();
   const respond = useRespondToInviteMutation();
-  const setActiveCampaign = useSetActiveCampaign();
   const navigate = useNavigate();
   const s = strings.invites;
 
@@ -41,8 +40,7 @@ export default function CampaignInvitesCard() {
                   {
                     onSuccess: (campaignId) => {
                       void capture('invite_responded', { accepted: true });
-                      setActiveCampaign(campaignId);
-                      navigate('/campaign');
+                      navigate(campaignPath(campaignId));
                     },
                   },
                 )

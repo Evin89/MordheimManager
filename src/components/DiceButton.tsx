@@ -30,13 +30,14 @@ export default function DiceButton() {
 
   return (
     <>
-      {/* One row below the `?` (top-2/top-3 + its 40px height + an 8px gap),
-          so the two float as a stack rather than overlapping. */}
+      {/* §40.2 — a header action on the screens you roll from (Rules, Play,
+          during a battle), no longer a button floating over every title. */}
       <button
         type="button"
         onClick={() => setOpen(true)}
         aria-label={strings.dice.title}
-        className="print:hidden fixed top-14 right-2 md:top-[3.75rem] md:right-3 z-40 h-10 w-10 rounded-full bg-ink-900/90 border border-ink-700 text-ember-400 shadow-lg backdrop-blur-sm hover:bg-ink-800 transition-colors flex items-center justify-center"
+        title={strings.dice.title}
+        className="print:hidden h-10 w-10 shrink-0 rounded-md border border-ink-700 text-ember-400 hover:bg-ink-800 transition-colors flex items-center justify-center"
       >
         <Dices className="h-5 w-5" aria-hidden="true" />
       </button>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { campaignPath } from '../lib/activeCampaign';
 import { capture } from '../lib/posthog';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
@@ -14,7 +15,6 @@ import {
   useProfileWarbandsQuery,
   useSharedCampaignsQuery,
 } from '../hooks/usePlayers';
-import { useSetActiveCampaign } from '../hooks/useCampaign';
 import { MAX_INVITE_MESSAGE, PlayerProfile, reportProfile } from '../api/players';
 import { countryName } from '../lib/countries';
 import { getWarbandTypeName, isBuiltInWarbandType } from '../data/warbandNames';
@@ -208,7 +208,6 @@ export default function PlayerProfileScreen() {
   const { userId } = useParams<{ userId: string }>();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const setActiveCampaign = useSetActiveCampaign();
   const s = strings.profile;
 
   const { data: profile, isLoading, error } = usePlayerProfileQuery(userId);
@@ -401,8 +400,7 @@ export default function PlayerProfileScreen() {
                   key={c.id}
                   type="button"
                   onClick={() => {
-                    setActiveCampaign(c.id);
-                    navigate('/campaign');
+                    navigate(campaignPath(c.id));
                   }}
                   className="w-full text-left"
                 >

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { campaignPath } from '../lib/activeCampaign';
 import { Link } from 'react-router-dom';
 import { CampaignEvent } from '../api/events';
 import {
@@ -68,7 +69,7 @@ export function NextEventBanner({ campaignId }: { campaignId: string | undefined
   if (!next) {
     return (
       <Link
-        to="/campaign/events"
+        to={campaignPath(campaignId ?? '', 'events')}
         className="block rounded-lg border border-ink-800 bg-ink-900 px-4 py-3 hover:border-ink-700 transition-colors"
       >
         <p className="text-bone-300 text-sm">{strings.events.noneScheduled}</p>
@@ -78,7 +79,7 @@ export function NextEventBanner({ campaignId }: { campaignId: string | undefined
 
   return (
     <Link
-      to="/campaign/events"
+      to={campaignPath(campaignId ?? '', 'events')}
       className="block rounded-lg border border-ember-500 bg-ink-900 px-4 py-3 hover:bg-ink-800 transition-colors"
     >
       <p className="font-ui text-xs uppercase tracking-wide text-ember-400">
@@ -96,10 +97,10 @@ export function NextEventBanner({ campaignId }: { campaignId: string | undefined
 
 /** A row in the list. The whole row is the link — unlike the gallery, there is
  * nothing here worth selecting, so the larger target is the better trade. */
-function EventRow({ event }: { event: CampaignEvent }) {
+function EventRow({ event, campaignId }: { event: CampaignEvent; campaignId: string }) {
   return (
     <Link
-      to={`/campaign/events/${event.id}`}
+      to={campaignPath(campaignId, `events/${event.id}`)}
       className="block rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-1 hover:border-ink-700 transition-colors"
     >
       <p className="text-bone-100 font-semibold">{event.title}</p>
@@ -244,7 +245,7 @@ export default function CampaignEvents({ campaignId }: { campaignId: string }) {
             {strings.events.upcoming}
           </p>
           {upcoming.map((e) => (
-            <EventRow key={e.id} event={e} />
+            <EventRow key={e.id} event={e} campaignId={campaignId} />
           ))}
         </div>
       )}
@@ -255,7 +256,7 @@ export default function CampaignEvents({ campaignId }: { campaignId: string }) {
             {strings.events.past}
           </p>
           {past.map((e) => (
-            <EventRow key={e.id} event={e} />
+            <EventRow key={e.id} event={e} campaignId={campaignId} />
           ))}
         </div>
       )}

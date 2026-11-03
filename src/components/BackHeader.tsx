@@ -26,7 +26,7 @@ export default function BackHeader({ title, subtitle, onBack, action }: BackHead
     // With an action, the right gutter clears the floating help and dice
     // buttons (fixed top-right), which would otherwise sit on top of it.
     <header
-      className={`px-4 pt-6 pb-4 border-b border-ink-800 flex items-start gap-3 ${action ? 'pr-14 md:pr-16' : ''}`}
+      className="px-4 pt-6 pb-4 border-b border-ink-800 flex items-start gap-3"
     >
       <button
         type="button"
