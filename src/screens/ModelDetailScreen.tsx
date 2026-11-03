@@ -843,7 +843,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
       {toast && (
         <div
           role="status"
-          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 rounded-md bg-ink-800 border border-ink-700 px-4 py-2 text-bone-100 text-sm shadow-lg"
+          className="fixed bottom-[calc(72px+env(safe-area-inset-bottom))] md:bottom-4 left-1/2 -translate-x-1/2 z-50 rounded-md bg-ink-800 border border-ink-700 px-4 py-2 text-bone-100 text-sm shadow-lg"
         >
           {toast}
         </div>

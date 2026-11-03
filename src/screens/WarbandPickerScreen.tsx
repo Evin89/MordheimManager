@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import BackHeader from '../components/BackHeader';
 import { Link, Navigate } from 'react-router-dom';
 import { useWarbandsQuery } from '../hooks/useWarbands';
 import { getWarbandTypeLabel } from '../data/warbandRegistry';
@@ -37,9 +38,7 @@ export default function WarbandPickerScreen({
 
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-        <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{title}</h1>
-      </header>
+      <BackHeader title={title} />
 
       <main className="flex-1 px-4 py-6 space-y-3">
         {isPending ? (
