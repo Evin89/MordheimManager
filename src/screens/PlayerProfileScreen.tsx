@@ -234,7 +234,7 @@ export default function PlayerProfileScreen() {
         <main className="px-4 py-6 space-y-4">
           <p className="text-bone-300">{s.signInNeeded}</p>
           <Link to="/login" className={buttonClasses('primary')}>
-            {strings.settings.signInButton}
+            {strings.account.signInButton}
           </Link>
         </main>
       </div>

@@ -13,7 +13,7 @@ import { strings } from '../../strings';
  * Account.
  */
 export default function AccountAboutScreen() {
-  const s = strings.settings;
+  const s = strings.account;
   const navigate = useNavigate();
   return (
     <div className="min-h-full flex flex-col">

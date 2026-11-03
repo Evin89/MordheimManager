@@ -14,12 +14,12 @@ export default function AccountSettingsScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={strings.settings.settingsTitle} />
+      <BackHeader title={strings.account.settingsTitle} />
       <main className="flex-1 px-4 py-6 space-y-6">
         <Card as="section">
-          <SectionHeading>{strings.settings.appearanceSection}</SectionHeading>
+          <SectionHeading>{strings.account.appearanceSection}</SectionHeading>
           <ThemeToggle theme={theme} onChange={setTheme} />
-          <p className="text-bone-300 text-sm">{strings.settings.themeHints[theme]}</p>
+          <p className="text-bone-300 text-sm">{strings.account.themeHints[theme]}</p>
         </Card>
         {/* §36.4 — `#install` links (the push hint, old Account anchors) land here. */}
         <InstallSection />

@@ -42,7 +42,7 @@ const AdminCampaignDetailScreen = lazy(() => import('./screens/admin/AdminCampai
 const AdminDeletedWarbandsScreen = lazy(() => import('./screens/admin/AdminDeletedWarbandsScreen'));
 const AdminCustomWarbandsScreen = lazy(() => import('./screens/admin/AdminCustomWarbandsScreen'));
 const AdminMaintenanceScreen = lazy(() => import('./screens/admin/AdminMaintenanceScreen'));
-const AdminUserScreen = lazy(() => import('./screens/AdminUserScreen'));
+const AdminUserScreen = lazy(() => import('./screens/admin/AdminUserScreen'));
 const AdminUserBattlesScreen = lazy(() => import('./screens/admin/AdminUserBattlesScreen'));
 const AdminWarbandRosterScreen = lazy(() => import('./screens/admin/AdminWarbandRosterScreen'));
 

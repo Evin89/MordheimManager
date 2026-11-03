@@ -38,7 +38,7 @@ export default function PlayScreen() {
             <Card gap="sm">
               <p className="text-bone-300 text-sm">{s.signInToPlay}</p>
               <Link to="/login" state={{ from: '/play' }} className={buttonClasses('primary')}>
-                {strings.settings.signInButton}
+                {strings.account.signInButton}
               </Link>
             </Card>
           ) : isPending ? (

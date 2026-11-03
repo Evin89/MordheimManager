@@ -48,7 +48,7 @@ function HomeHeader() {
 function AboutSection() {
   return (
     <section className="space-y-3">
-      <SectionHeading>{strings.settings.aboutSection}</SectionHeading>
+      <SectionHeading>{strings.account.aboutSection}</SectionHeading>
       {/* Community entry point (§4.10) — reaches signed-out visitors too, since
           AboutSection is on both Home views. */}
       <DiscordLink />
@@ -56,7 +56,7 @@ function AboutSection() {
         to="/account/changelog"
         className="block min-h-[44px] leading-[44px] text-ember-400 font-semibold"
       >
-        {strings.settings.changelogLink}
+        {strings.account.changelogLink}
       </Link>
     </section>
   );

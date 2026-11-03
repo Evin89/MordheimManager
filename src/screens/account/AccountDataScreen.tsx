@@ -11,7 +11,7 @@ export default function AccountDataScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={strings.settings.dataTitle} />
+      <BackHeader title={strings.account.dataTitle} />
       <main className="flex-1 px-4 py-6 space-y-6">
         <DataSection />
         <YourActivitySection />
