@@ -3812,7 +3812,7 @@ Deviations, each for a reason found while building:
 
 **Why.** By §39 the app had 64 routes behind seven tabs, icon-only on phones (eight signed out). Eight destinations — dice, map, solo, gallery, shared rosters, compare, custom warbands, admin — lit no tab at all. Account was ten cards of equal weight (~2,700px at 375px) mixing identity, device settings, data, sign-out, activity, admin and game data. A campaign had no address of its own: `/campaign` meant "the active one on this device". The structure audit and recommendations that led here are in the project docs (`app-structuur-overzicht.md`, `app-structuur-aanbevelingen.md`).
 
-Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled **Play**; everything else at the recommendation's defaults — Account as the header avatar, campaign tabs as URL segments, "Chronicle" for the narrative log, theme in Settings rather than on Account.
+Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled **Play**; everything else at the recommendation's defaults — Account as the header avatar, campaign tabs as URL segments, theme in Settings rather than on Account.
 
 ### 40.1 One table decides the lit tab
 `navTargetForPath(pathname, userId)` → `home | warbands | play | campaigns | rules | account | null`. First match wins; your own `/players/:id` lights the avatar, others' light Campaigns. Replaces `activeFor` / `alsoActiveFor` / `notActiveFor`. `npm run build` runs `check-nav-coverage.mjs` (bundles `navTabs.ts` with esbuild, reads routes from `App.tsx`, skips redirect-only routes and the sign-in flow). `npm run nav-coverage` lists the routes.
@@ -3828,7 +3828,7 @@ Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled
 - **Play (`/play`):** resume card · *Start a battle* (warband list, last used first) · *At the table*: Dice roller, Battlefield generator (beta), Solo battle (beta) · Your Battles. `/post-battle` redirects here. The battle flow keeps its `/warbands/:id/…` URLs and lights Play.
 - **Campaigns:** header links *Campaigns · Players* (the directory, `/players`). Each card is a link to the campaign; *Switch to this campaign* and the join code on the card are gone (the code is on the campaign's Players tab). Create and join open the new campaign. The empty state also carries the §26.6 friendly-game card (moved from the deleted `/campaign` first-run screen).
 - **A campaign's own address:** `/campaigns/:id` and `/campaigns/:id/{standings|players|territories|settings}`, `/events`, `/events/:eventId`, `/calendar`. Tab switches replace history, so Back leaves the campaign. Opening one stores it as *last opened*, which only Home reads. `/campaign` and everything under it redirect to the last-opened campaign, keeping the query string (`?claim=`).
-- **Chronicle:** the narrative log (§17.3), so it no longer reads like the Battle log.
+- **Narrative log keeps its name** (*Campaign Log*, §17.3): a rename to *Chronicle* was built and reverted on 2026-11-03 at Evin's request.
 - **Warband screens read their own campaign** (`useWarbandCampaign`, §34.4) for battle history — Trading Post, model and henchmen detail used the active campaign before.
 
 ### 40.4 Account
