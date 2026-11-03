@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import { useAvatarUrls, usePlayerProfileQuery } from '../hooks/usePlayers';
 import { navTargetForPath } from '../lib/navTabs';
+import { capture } from '../lib/posthog';
 import { strings } from '../strings';
 import PlayerAvatar from './players/PlayerAvatar';
 import SubTabs from './SubTabs';
@@ -38,6 +39,7 @@ export function AccountButton() {
   return (
     <Link
       to="/account"
+      onClick={() => void capture('nav_tab_tapped', { tab: 'account', surface: 'header' })}
       data-nav-to="/account"
       aria-label={strings.nav.account}
       aria-current={current ? 'page' : undefined}

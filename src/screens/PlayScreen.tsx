@@ -3,7 +3,8 @@ import TabHeader from '../components/TabHeader';
 import DiceButton from '../components/DiceButton';
 import PersonalBattles from '../components/PersonalBattles';
 import ResumeBattles from '../components/ResumeBattles';
-import { ListGroup, ListRow, SectionHeading, buttonClasses } from '../components/ui';
+import { Card, ListGroup, ListRow, SectionHeading, buttonClasses } from '../components/ui';
+import { useAuth } from '../auth/AuthProvider';
 import { useWarbandsQuery } from '../hooks/useWarbands';
 import { getWarbandTypeLabel } from '../data/warbandRegistry';
 import { lastUsedFirst, readLastWarbandId, writeLastWarbandId } from '../lib/lastWarband';
@@ -16,6 +17,7 @@ import { strings } from '../strings';
  * generator and solo mode, which before were only on Home's Quick Actions.
  */
 export default function PlayScreen() {
+  const { user } = useAuth();
   const { data, isPending } = useWarbandsQuery();
   const lastId = readLastWarbandId();
   const warbands = lastUsedFirst(data?.map((r) => r.warband) ?? [], lastId);
@@ -26,11 +28,20 @@ export default function PlayScreen() {
       <TabHeader title={s.title} action={<DiceButton />} />
 
       <main className="flex-1 px-4 py-6 space-y-6">
-        <ResumeBattles />
+        {user && <ResumeBattles />}
 
         <section className="space-y-3">
           <SectionHeading>{s.startSection}</SectionHeading>
-          {isPending ? (
+          {!user ? (
+            // Signed out: the tools below work as they are; a battle is
+            // tracked against your warband, so that part needs an account.
+            <Card gap="sm">
+              <p className="text-bone-300 text-sm">{s.signInToPlay}</p>
+              <Link to="/login" state={{ from: '/play' }} className={buttonClasses('primary')}>
+                {strings.settings.signInButton}
+              </Link>
+            </Card>
+          ) : isPending ? (
             <p className="text-bone-400">{strings.common.loading}</p>
           ) : warbands.length === 0 ? (
             <>
@@ -71,7 +82,7 @@ export default function PlayScreen() {
           </ListGroup>
         </section>
 
-        <PersonalBattles />
+        {user && <PersonalBattles />}
       </main>
     </div>
   );

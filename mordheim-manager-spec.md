@@ -3835,6 +3835,9 @@ Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled
 
 - **One header, one footer (2026-11-03).** Every in-shell screen uses `TabHeader` (tab roots — Home's banner variant has the same padding, rule and avatar slot) or `BackHeader` (everything else). Rules, Gallery, the Trading picker, Battlefield generator, the three Solo screens, a warband's rules page and Admin dropped their own headers; Beta is a `badge` on `BackHeader`, intro text sits at the top of the page body, and a screen's own controls (sub-tabs, Rules search, the wizard's progress bar, Admin's scrolling tabs) go in the header's children slot. Only the sign-in screens (outside the shell) keep their centred header. Footer: `ActionBar` is the one sticky bar above the tab bar — the save bar and the pre-battle / during-battle / post-battle "next stage" buttons use it — and every bottom offset includes `env(safe-area-inset-bottom)`, as the tab bar does.
 
+- **Play is public (2026-11-03)**, like the dice roller and map it lists: signed out, *Start a battle* is a sign-in card and the resume card and Your Battles are hidden; Solo still asks you to sign in. Account screens still light no tab on phones (§40.6), by decision.
+- **`nav_tab_tapped { tab, surface }`** (`tab`: `home|warbands|play|campaigns|rules|account`; `surface`: `bar|rail|header`) — the §40.5 measurement, consent-gated like every §23.7 event.
+
 ### 40.4 Account
 `/account`: identity (§39.3) · rows *Settings* (status: theme · notifications) · *Your data* · *Help & about* · *Admin* (admins only) · signed in as · **Sign out** — all within 812px. Sub-screens:
 - `/account/settings` — Appearance, Install (§36), Notifications (§19.4), Analytics (§23.7).
@@ -3849,5 +3852,5 @@ Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled
 ### 40.6 Not done in this pass
 - `CampaignScreen.tsx` (≈1,450 lines) is not yet split per tab; the tab is read from the URL, so the split is now mechanical.
 - `strings.settings` / `SettingsScreen` naming: the screen moved to `screens/account/AccountScreen.tsx`, but the strings key is still `settings`.
-- On phones, Account screens light no tab (the avatar isn't on a `BackHeader`). Deliberate for now: Account is a place you visit and leave, like a sheet.
+- On phones, Account screens light no tab (the avatar isn't on a `BackHeader`). Decided 2026-11-03: keep it so — Account is a place you visit and leave, like a sheet.
 

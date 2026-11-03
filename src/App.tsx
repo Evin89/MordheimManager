@@ -275,7 +275,8 @@ function AppShell() {
             <Route path="/warbands/:warbandId/trading" element={guarded(<TradingPostScreen />)} />
             <Route path="/warbands/:warbandId/print" element={guarded(<WarbandPrintScreen />)} />
             {/* §40.3 — the Play tab. /post-battle was its old address. */}
-            <Route path="/play" element={guarded(<PlayScreen />)} />
+            {/* Public, like the dice roller and map it holds; starting a battle asks you to sign in. */}
+            <Route path="/play" element={<PlayScreen />} />
             <Route path="/post-battle" element={<Navigate to="/play" replace />} />
             <Route
               path="/trading"

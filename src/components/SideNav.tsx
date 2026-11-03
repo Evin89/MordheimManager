@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
+import { capture } from '../lib/posthog';
 import { useAvatarUrls, usePlayerProfileQuery } from '../hooks/usePlayers';
 import { strings } from '../strings';
 import { NAV_ITEMS, isNavItemActive } from './navItems';
@@ -42,6 +43,7 @@ export default function SideNav() {
               to={tab.to}
               data-nav-to={tab.to}
               aria-current={active ? 'page' : undefined}
+            onClick={() => void capture('nav_tab_tapped', { tab: tab.target, surface: 'rail' })}
               title={tab.label}
               className={`flex items-center gap-3 h-11 mx-2 my-0.5 rounded-md justify-center lg:justify-start lg:px-3 transition-colors ${
                 active ? 'bg-ink-800 text-ember-400' : 'text-bone-300 hover:text-bone-100 hover:bg-ink-800/60'
@@ -61,6 +63,7 @@ export default function SideNav() {
         {loading ? null : user ? (
           <Link
             to="/account"
+            onClick={() => void capture('nav_tab_tapped', { tab: 'account', surface: 'rail' })}
             data-nav-to="/account"
             aria-current={accountActive ? 'page' : undefined}
             title={strings.nav.account}
