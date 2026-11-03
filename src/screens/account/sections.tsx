@@ -31,7 +31,7 @@ import { Button, Card, SectionHeading } from '../../components/ui';
 export function NotificationsSection() {
   const { supported, subscribed, permission, busy, enable, disable } = usePush();
   const [message, setMessage] = useState<string | null>(null);
-  const s = strings.settings.notifications;
+  const s = strings.account.notifications;
   const installState = useInstall();
   const canInstall = installState !== 'installed' && installState !== 'unsupported';
 
@@ -98,7 +98,7 @@ export function AnalyticsSection() {
   if (!analyticsConfigurable()) return null;
 
   const on = choice === 'granted';
-  const s = strings.settings.analytics;
+  const s = strings.account.analytics;
 
   return (
     <Card as="section">
@@ -211,7 +211,7 @@ export function DataSection() {
       setPendingImport(parseImportFile(text));
     } catch (err) {
       const message = err instanceof ImportValidationError ? err.message : 'Unexpected error reading file.';
-      setImportMessage(strings.settings.importError(message));
+      setImportMessage(strings.account.importError(message));
     }
   }
 
@@ -223,10 +223,10 @@ export function DataSection() {
       // Import replaces server-side rows wholesale, so drop every cached query
       // rather than trying to patch individual entries.
       await queryClient.invalidateQueries();
-      setImportMessage(strings.settings.importSuccess);
+      setImportMessage(strings.account.importSuccess);
     } catch (err) {
       const message = err instanceof ImportValidationError ? err.message : 'Unexpected error reading file.';
-      setImportMessage(strings.settings.importError(message));
+      setImportMessage(strings.account.importError(message));
     } finally {
       setImporting(false);
       setPendingImport(null);
@@ -235,22 +235,22 @@ export function DataSection() {
 
   return (
     <Card as="section">
-      <SectionHeading>{strings.settings.dataSection}</SectionHeading>
+      <SectionHeading>{strings.account.dataSection}</SectionHeading>
       {user ? (
         <>
           <div className="flex flex-col gap-3">
-            <Button onClick={handleExport}>{strings.settings.exportButton}</Button>
+            <Button onClick={handleExport}>{strings.account.exportButton}</Button>
             <Button variant="secondary" onClick={() => fileInputRef.current?.click()}>
-              {strings.settings.importButton}
+              {strings.account.importButton}
             </Button>
             <input ref={fileInputRef} type="file" accept="application/json" className="hidden" onChange={handleFileChange} />
           </div>
           {pendingImport && (
             <ConfirmByTyping
-              phrase={strings.settings.importConfirmPhrase}
-              label={strings.settings.importConfirmLabel}
-              action={strings.settings.importConfirmAction}
-              impact={<p>{strings.settings.importOverwriteWarning}</p>}
+              phrase={strings.account.importConfirmPhrase}
+              label={strings.account.importConfirmLabel}
+              action={strings.account.importConfirmAction}
+              impact={<p>{strings.account.importOverwriteWarning}</p>}
               busy={importing}
               onConfirm={confirmImport}
             />
@@ -258,7 +258,7 @@ export function DataSection() {
           {importMessage && <p className="text-sm text-bone-300">{importMessage}</p>}
         </>
       ) : (
-        <p className="text-bone-300 text-sm">{strings.settings.signedOutHint}</p>
+        <p className="text-bone-300 text-sm">{strings.account.signedOutHint}</p>
       )}
     </Card>
   );

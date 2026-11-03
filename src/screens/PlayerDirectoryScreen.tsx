@@ -117,7 +117,7 @@ export default function PlayerDirectoryScreen() {
         <main className="px-4 py-6 space-y-4">
           <p className="text-bone-300">{strings.profile.signInNeeded}</p>
           <Link to="/login" className={buttonClasses('primary')}>
-            {strings.settings.signInButton}
+            {strings.account.signInButton}
           </Link>
         </main>
       </div>

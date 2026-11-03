@@ -84,7 +84,9 @@ export type AnalyticsEvent =
   | 'directory_opened'
   | 'invite_sent'
   | 'invite_responded'
-  | 'invite_revoked';
+  | 'invite_revoked'
+  // §40 — which tab (or the avatar) gets tapped; closed set, see navItems.
+  | 'nav_tab_tapped';
 
 type EventProps = Record<string, string | number | boolean>;
 

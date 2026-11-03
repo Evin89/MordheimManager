@@ -3827,13 +3827,16 @@ Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled
 - **Warbands:** sub-tabs *Mine · Gallery · Rules* (Public renamed). A *Tools* list: Compare (2+ warbands), Custom warband types. `/gallery`, `/rosters/:id`, `/compare`, `/custom-warbands`, `/trading` and the Trading Post light Warbands. The roster's battle button reads *Continue battle* when this warband has a game in progress.
 - **Play (`/play`):** resume card · *Start a battle* (warband list, last used first) · *At the table*: Dice roller, Battlefield generator (beta), Solo battle (beta) · Your Battles. `/post-battle` redirects here. The battle flow keeps its `/warbands/:id/…` URLs and lights Play.
 - **Campaigns:** header links *Campaigns · Players* (the directory, `/players`). Each card is a link to the campaign; *Switch to this campaign* and the join code on the card are gone (the code is on the campaign's Players tab). Create and join open the new campaign. The empty state also carries the §26.6 friendly-game card (moved from the deleted `/campaign` first-run screen).
-- **A campaign's own address:** `/campaigns/:id` and `/campaigns/:id/{standings|players|territories|settings}`, `/events`, `/events/:eventId`, `/calendar`. Tab switches replace history, so Back leaves the campaign. Opening one stores it as *last opened*, which only Home reads. `/campaign` and everything under it redirect to the last-opened campaign, keeping the query string (`?claim=`).
+- **A campaign's own address:** `/campaigns/:id` and `/campaigns/:id/{standings|players|territory|settings}`, `/events`, `/events/:eventId`, `/calendar`. Tab switches replace history, so Back leaves the campaign. Opening one stores it as *last opened*, which only Home reads. `/campaign` and everything under it redirect to the last-opened campaign, keeping the query string (`?claim=`).
 - **Narrative log keeps its name** (*Campaign Log*, §17.3): a rename to *Chronicle* was built and reverted on 2026-11-03 at Evin's request.
 - **Warband screens read their own campaign** (`useWarbandCampaign`, §34.4) for battle history — Trading Post, model and henchmen detail used the active campaign before.
 
 - **One sub-tab look (2026-11-03):** `SubTabs` is the only sub-tab row — Warbands (*Mine · Gallery · Rules*), Campaigns (*Campaigns · Players*), a campaign's five tabs and the Trading Post (*Shop · Trading Rules*). Always inside the header under the title (`TabHeader` / `BackHeader` children), 40px, `text-xs sm:text-sm`. Route tabs replace history. The Campaigns section keeps one title (*Campaigns*) on both its screens, as Warbands does.
 
 - **One header, one footer (2026-11-03).** Every in-shell screen uses `TabHeader` (tab roots — Home's banner variant has the same padding, rule and avatar slot) or `BackHeader` (everything else). Rules, Gallery, the Trading picker, Battlefield generator, the three Solo screens, a warband's rules page and Admin dropped their own headers; Beta is a `badge` on `BackHeader`, intro text sits at the top of the page body, and a screen's own controls (sub-tabs, Rules search, the wizard's progress bar, Admin's scrolling tabs) go in the header's children slot. Only the sign-in screens (outside the shell) keep their centred header. Footer: `ActionBar` is the one sticky bar above the tab bar — the save bar and the pre-battle / during-battle / post-battle "next stage" buttons use it — and every bottom offset includes `env(safe-area-inset-bottom)`, as the tab bar does.
+
+- **Play is public (2026-11-03)**, like the dice roller and map it lists: signed out, *Start a battle* is a sign-in card and the resume card and Your Battles are hidden; Solo still asks you to sign in. Account screens still light no tab on phones (§40.6), by decision.
+- **`nav_tab_tapped { tab, surface }`** (`tab`: `home|warbands|play|campaigns|rules|account`; `surface`: `bar|rail|header`) — the §40.5 measurement, consent-gated like every §23.7 event.
 
 ### 40.4 Account
 `/account`: identity (§39.3) · rows *Settings* (status: theme · notifications) · *Your data* · *Help & about* · *Admin* (admins only) · signed in as · **Sign out** — all within 812px. Sub-screens:
@@ -3847,7 +3850,7 @@ Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled
 - ◻️ **Check after 3–4 weeks** (PostHog `$pageview`): visits to `/dice`, `/map`, `/solo`, `/players` should rise; `/warbands/:id/trading` should not fall now the tab is gone.
 
 ### 40.6 Not done in this pass
-- `CampaignScreen.tsx` (≈1,450 lines) is not yet split per tab; the tab is read from the URL, so the split is now mechanical.
-- `strings.settings` / `SettingsScreen` naming: the screen moved to `screens/account/AccountScreen.tsx`, but the strings key is still `settings`.
-- On phones, Account screens light no tab (the avatar isn't on a `BackHeader`). Deliberate for now: Account is a place you visit and leave, like a sheet.
+- ✅ `CampaignScreen.tsx` split (2026-11-03): the screen keeps loading, shared queries and the tab switch (~360 lines); its parts live in `screens/campaign/` (members, standings/awards/rivalries, territory, campaign log, announcement, join code, objectives, delete).
+- ✅ Naming (2026-11-03): `strings.settings` → `strings.account`, `nav.postBattle` → `nav.play`; strings orphaned by §40 removed; `AdminUserScreen` moved into `screens/admin/`.
+- On phones, Account screens light no tab (the avatar isn't on a `BackHeader`). Decided 2026-11-03: keep it so — Account is a place you visit and leave, like a sheet.
 

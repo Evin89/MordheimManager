@@ -18,7 +18,7 @@ const SPECIAL_PARENTS: Array<[RegExp, string]> = [
   [/^\/rosters\/[^/]+$/, '/gallery'],
   [/^\/campaign\/warbands\/[^/]+$/, '/campaigns'],
   // §40.3 — a campaign's tabs are siblings, not children: up is the list.
-  [/^\/campaigns\/[^/]+\/(?:activity|standings|players|territories|settings)$/, '/campaigns'],
+  [/^\/campaigns\/[^/]+\/(?:activity|standings|players|territory|settings)$/, '/campaigns'],
   [/^\/rules\/warbands\/[^/]+$/, '/rules'],
   [/^\/solo\/[^/]+$/, '/solo'],
   [/^\/compare$/, '/warbands'],

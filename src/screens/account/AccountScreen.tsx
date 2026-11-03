@@ -25,7 +25,7 @@ export default function AccountScreen() {
   const { subscribed } = usePush();
   const location = useLocation();
   const navigate = useNavigate();
-  const s = strings.settings;
+  const s = strings.account;
 
   // Old in-page anchors land on the screen the section moved to.
   useEffect(() => {

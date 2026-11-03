@@ -32,7 +32,7 @@ export default function ThemeToggle({
   return (
     <div
       role="radiogroup"
-      aria-label={strings.settings.appearanceSection}
+      aria-label={strings.account.appearanceSection}
       className="relative flex rounded-full border border-ink-700 bg-ink-800 p-1"
       onKeyDown={(e) => {
         // Arrow keys are the expected way through a radiogroup.
@@ -75,7 +75,7 @@ export default function ThemeToggle({
               className="h-4 w-4 rounded-full border-2 shrink-0"
               style={{ background: swatch.paper, borderColor: swatch.accent }}
             />
-            {strings.settings.themeNames[option]}
+            {strings.account.themeNames[option]}
           </button>
         );
       })}

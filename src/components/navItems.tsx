@@ -112,7 +112,7 @@ export const NAV_ITEMS: NavItem[] = [
   // Trading left the nav (§40): buying and selling is always for one warband,
   // and the roster's action row leads to its Trading Post.
   { to: '/warbands', target: 'warbands', label: strings.nav.warbands, Icon: WarbandIcon, help: strings.nav.help.warbands },
-  { to: '/play', target: 'play', label: strings.nav.postBattle, Icon: BattleIcon, help: strings.nav.help.postBattle },
+  { to: '/play', target: 'play', label: strings.nav.play, Icon: BattleIcon, help: strings.nav.help.play },
   // The overview, not a single campaign: a player can be in several.
   { to: '/campaigns', target: 'campaigns', label: strings.nav.campaign, Icon: CampaignIcon, help: strings.nav.help.campaign },
   { to: '/rules', target: 'rules', label: strings.nav.rules, Icon: RulesIcon, help: strings.nav.help.rules },
@@ -126,7 +126,7 @@ export const ACCOUNT_ITEM: NavItem = {
   target: 'account',
   label: strings.nav.account,
   Icon: ProfileIcon,
-  help: strings.nav.help.settings,
+  help: strings.nav.help.account,
 };
 
 /** What the tour walks through: the five tabs, then the avatar. */

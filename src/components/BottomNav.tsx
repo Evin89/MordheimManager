@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
+import { capture } from '../lib/posthog';
 import { NAV_ITEMS, isNavItemActive } from './navItems';
 import InviteDot from './players/InviteDot';
 
@@ -25,6 +26,7 @@ export default function BottomNav() {
             to={tab.to}
             data-nav-to={tab.to}
             aria-current={active ? 'page' : undefined}
+            onClick={() => void capture('nav_tab_tapped', { tab: tab.target, surface: 'bar' })}
             className={`flex-1 min-w-0 min-h-[56px] flex flex-col items-center justify-center gap-0.5 px-0.5 transition-colors ${
               active ? 'text-ember-400' : 'text-bone-300 hover:text-bone-100'
             }`}

@@ -119,7 +119,7 @@ export default function ProfileCard() {
       <p className="text-bone-400 text-xs">{s.photoHint}</p>
       {photoError && <p className="text-danger text-sm">{photoError}</p>}
 
-      <Field label={strings.settings.displayNameLabel} htmlFor="display-name">
+      <Field label={strings.account.displayNameLabel} htmlFor="display-name">
         <TextField
           id="display-name"
           type="text"
@@ -128,7 +128,7 @@ export default function ProfileCard() {
           onChange={(e) => set({ displayName: e.target.value })}
         />
       </Field>
-      {!nameOk && <p className="text-danger text-xs">{strings.settings.displayNameEmpty}</p>}
+      {!nameOk && <p className="text-danger text-xs">{strings.account.displayNameEmpty}</p>}
 
       <Field label={s.countryLabel} htmlFor="profile-country">
         <SearchPicker

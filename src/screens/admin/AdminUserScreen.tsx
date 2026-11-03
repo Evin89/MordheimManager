@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useAdminUserDetailQuery, useAdminUserWarbandsQuery } from '../hooks/useIssues';
-import { getWarbandTypeName } from '../data/warbandRegistry';
-import { strings } from '../strings';
-import { ago } from './admin/shared';
-import ActivityPanel, { activityWindow } from '../components/activity/ActivityPanel';
-import { useAdminUserActivityDayQuery, useAdminUserActivityQuery } from '../hooks/useActivity';
-import { ACTIVITY_REF, type ActivityItem } from '../lib/activityKinds';
-import { useAdminProfileModeration, useAvatarUrls, usePlayerProfileQuery } from '../hooks/usePlayers';
-import PlayerAvatar from '../components/players/PlayerAvatar';
+import { useAdminUserDetailQuery, useAdminUserWarbandsQuery } from '../../hooks/useIssues';
+import { getWarbandTypeName } from '../../data/warbandRegistry';
+import { strings } from '../../strings';
+import { ago } from './shared';
+import ActivityPanel, { activityWindow } from '../../components/activity/ActivityPanel';
+import { useAdminUserActivityDayQuery, useAdminUserActivityQuery } from '../../hooks/useActivity';
+import { ACTIVITY_REF, type ActivityItem } from '../../lib/activityKinds';
+import { useAdminProfileModeration, useAvatarUrls, usePlayerProfileQuery } from '../../hooks/usePlayers';
+import PlayerAvatar from '../../components/players/PlayerAvatar';
 
 function when(iso: string | null): string {
   if (!iso) return '—';
