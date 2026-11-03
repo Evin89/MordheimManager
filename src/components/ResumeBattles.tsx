@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useAppStore } from '../store/useAppStore';
+import { hasBattleProgress, useAppStore } from '../store/useAppStore';
 import { useWarbandList } from '../hooks/useWarbands';
 import { strings } from '../strings';
 import { Card, SectionHeading } from './ui';
@@ -13,7 +13,10 @@ import { Card, SectionHeading } from './ui';
 export default function ResumeBattles() {
   const sessions = useAppStore((s) => s.battleSessions);
   const warbands = useWarbandList();
+  // Only games under way: opening pre-battle and picking a scenario saves a
+  // session too, and that isn't something to "continue".
   const rows = Object.values(sessions)
+    .filter(hasBattleProgress)
     .map((session) => ({ session, warband: warbands.find((w) => w.id === session.warbandId) }))
     .filter((r): r is { session: (typeof r)['session']; warband: NonNullable<(typeof r)['warband']> } => !!r.warband);
 
@@ -26,10 +29,7 @@ export default function ResumeBattles() {
       <div className="space-y-2">
         {rows.map(({ session, warband }) => {
           const wizard = session.wizard;
-          // Pre-battle saves as you choose a scenario, so an untouched turn 1
-          // is still setup, not a game under way.
-          const setup = !wizard && session.turn <= 1 && session.events.length === 0;
-          const stage = wizard ? 'post-battle' : setup ? 'pre-battle' : 'during-battle';
+          const stage = wizard ? 'post-battle' : 'during-battle';
           const to = `/warbands/${warband.id}/${stage}`;
           return (
             <Link
@@ -40,7 +40,7 @@ export default function ResumeBattles() {
               <span className="min-w-0 flex-1">
                 <span className="block text-bone-100 font-semibold truncate">{warband.name}</span>
                 <span className="block text-bone-300 text-sm truncate">
-                  {wizard ? s.resumeWizard(wizard.step + 1) : setup ? s.resumeSetup : s.resumeDuring(session.turn)}
+                  {wizard ? s.resumeWizard(wizard.step + 1) : s.resumeDuring(session.turn)}
                 </span>
               </span>
               <span className="shrink-0 text-ember-400 text-sm font-semibold">{s.resumeAction} ›</span>

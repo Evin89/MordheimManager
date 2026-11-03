@@ -4,7 +4,7 @@ import { battleState } from '../lib/battleNavigation';
 import BackHeader from '../components/BackHeader';
 import { Button, TextField, Textarea, Select, Field } from '../components/ui';
 import { strings } from '../strings';
-import { BattleSession, defaultBattleSession, useAppStore } from '../store/useAppStore';
+import { BattleSession, defaultBattleSession, hasBattleProgress, useAppStore } from '../store/useAppStore';
 import { useWarbandList, useWarbandLookup } from '../hooks/useWarbands';
 import { useBattlesQuery, useCampaignWarbandsQuery, useWarbandCampaign } from '../hooks/useCampaign';
 import { useTerrainPiecesQuery } from '../hooks/useCollection';
@@ -96,16 +96,7 @@ export default function PreBattleScreen() {
   // A saved draft only counts as "a battle in progress" once there's real
   // during-battle work in it — not merely a scenario picked on this very screen.
   // On that, offer restore rather than silently resuming (§4.3.2).
-  const hasProgress =
-    !!storedSession &&
-    (!!storedSession.wizard ||
-      storedSession.turn > 1 ||
-      storedSession.events.length > 0 ||
-      storedSession.outOfAction.heroIds.length > 0 ||
-      storedSession.outOfAction.hiredSwordIds.length > 0 ||
-      Object.keys(storedSession.outOfAction.henchmenCounts).length > 0 ||
-      Object.keys(storedSession.enemyOutOfAction).length > 0 ||
-      Object.keys(storedSession.wyrdstoneCarried).length > 0);
+  const hasProgress = hasBattleProgress(storedSession);
 
   function discardDraft() {
     if (!warband) return;

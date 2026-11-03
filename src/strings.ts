@@ -1185,7 +1185,6 @@ ${url}`,
   play: {
     title: 'Play',
     resumeSection: 'In progress',
-    resumeSetup: 'Setting up a battle',
     resumeDuring: (turn: number) => `Battle in progress · turn ${turn}`,
     resumeWizard: (step: number) => `Post-battle sequence · step ${step}`,
     resumeAction: 'Continue',

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Share2 } from 'lucide-react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { FROM_ROSTER } from '../lib/battleNavigation';
-import { useAppStore } from '../store/useAppStore';
+import { hasBattleProgress, useAppStore } from '../store/useAppStore';
 import { forgetRemoved, reinsert, removedFor, type RemovedModel } from '../lib/removedModels';
 import BackHeader from '../components/BackHeader';
 import InlineNumberField from '../components/InlineNumberField';
@@ -425,12 +425,12 @@ export default function RosterScreen() {
             warband left half-way (same stage logic as the resume card). */}
         <Link
           to={`/warbands/${warband.id}/${
-            !inProgress ? 'pre-battle' : inProgress.wizard ? 'post-battle' : inProgress.turn <= 1 && inProgress.events.length === 0 ? 'pre-battle' : 'during-battle'
+            !hasBattleProgress(inProgress) ? 'pre-battle' : inProgress?.wizard ? 'post-battle' : 'during-battle'
           }`}
           state={FROM_ROSTER}
           className={buttonClasses('primary')}
         >
-          {inProgress ? strings.play.continueBattle : strings.battle.startBattleButton}
+          {hasBattleProgress(inProgress) ? strings.play.continueBattle : strings.battle.startBattleButton}
         </Link>
 
         <Link to={`/warbands/${warband.id}/trading`} className={buttonClasses('secondary')}>
