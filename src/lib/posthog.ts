@@ -33,7 +33,7 @@ export const isAnalyticsConfigured = Boolean(projectToken && host);
  * Where events are sent. On the production domain that's the first-party
  * Worker proxy at `/lantern` (worker/index.js), so ad blockers that list
  * `*.posthog.com` don't silently drop consented analytics; everywhere else —
- * `vite dev`, previews, the old Netlify host, none of which run the Worker —
+ * `vite dev` and previews, which don't run the Worker —
  * it's the configured PostHog host directly. The proxy targets PostHog's EU
  * region, matching the configured host.
  */
@@ -66,7 +66,27 @@ export type AnalyticsEvent =
   | 'issue_report_submitted'
   // §26.4.3 — the zero-warband "Create your first warband" card on Home.
   | 'onboarding_first_warband_shown'
-  | 'onboarding_first_warband_clicked';
+  | 'onboarding_first_warband_clicked'
+  // §36.6 — the in-app install offer.
+  | 'install_cta_shown'
+  | 'install_clicked'
+  | 'install_prompt_result'
+  | 'app_installed'
+  | 'install_nudge_dismissed'
+  // §37.5 — the roster share panel.
+  | 'warband_share_opened'
+  | 'warband_card_shared'
+  // §38 — player profiles. Never the viewed player's id, never field values.
+  | 'profile_viewed'
+  | 'profile_edited'
+  | 'directory_searched'
+  // §39.7 — which door into the directory was used.
+  | 'directory_opened'
+  | 'invite_sent'
+  | 'invite_responded'
+  | 'invite_revoked'
+  // §40 — which tab (or the avatar) gets tapped; closed set, see navItems.
+  | 'nav_tab_tapped';
 
 type EventProps = Record<string, string | number | boolean>;
 
@@ -174,7 +194,12 @@ export async function capturePageview(pathname: string): Promise<void> {
   if (!ph) return;
   // Override $current_url so PostHog can't refill it from window.location and
   // smuggle the query string back in.
-  ph.capture('$pageview', { $current_url: `${window.location.origin}/app${pathname}` });
+  ph.capture('$pageview', {
+    $current_url: `${window.location.origin}/app${pathname}`,
+    // §36.6 — whether installs actually get used. Read inline rather than from
+    // install.ts, which imports this module.
+    display_mode: window.matchMedia?.('(display-mode: standalone)').matches ? 'standalone' : 'browser',
+  });
 }
 
 /**

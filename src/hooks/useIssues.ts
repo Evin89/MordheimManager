@@ -19,8 +19,10 @@ import {
   fetchTimeToActivation,
 } from '../api/adminAnalytics';
 import { fetchAdminDeletedWarbands, restoreDeletedWarband } from '../api/adminDeletedWarbands';
+import { fetchAdminUserWarbands, fetchAdminWarbandRoster } from '../api/adminWarbands';
 import {
   fetchAdminCampaigns,
+  fetchAdminCampaignContent,
   fetchAdminCampaignDetail,
   fetchStrandedCampaignCount,
 } from '../api/adminCampaigns';
@@ -122,6 +124,32 @@ export function useRestoreDeletedWarbandMutation() {
   });
 }
 
+/** §4.9.4.2 — one player's warbands, soft-deleted included (migration 0056). */
+export function useAdminUserWarbandsQuery(userId: string | undefined) {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['adminUserWarbands', userId],
+    queryFn: () => fetchAdminUserWarbands(userId!),
+    enabled: isAdmin === true && !!userId,
+    staleTime: 5 * 60_000,
+  });
+}
+
+/**
+ * §4.9.4.3 — read-only roster for the admin. `staleTime: 0`: every open is a
+ * fresh, logged read on the server, so the view log reflects real views.
+ */
+export function useAdminWarbandRosterQuery(warbandId: string | undefined) {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['adminWarbandRoster', warbandId],
+    queryFn: () => fetchAdminWarbandRoster(warbandId!),
+    enabled: isAdmin === true && !!warbandId,
+    staleTime: 0,
+    retry: false,
+  });
+}
+
 /** §4.9.5 admin campaign list + detail + the stranded-count badge. */
 export function useAdminCampaignsQuery(search: string) {
   const { data: isAdmin } = useIsAdminQuery();
@@ -138,6 +166,20 @@ export function useAdminCampaignDetailQuery(id: string | undefined) {
     queryKey: ['adminCampaignDetail', id],
     queryFn: () => fetchAdminCampaignDetail(id!),
     enabled: isAdmin === true && !!id,
+  });
+}
+
+/** §4.9.8 — the full read-only content. Every fetch writes an audit row, so it
+ * is not refetched on focus. */
+export function useAdminCampaignContentQuery(id: string | undefined) {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['adminCampaignContent', id],
+    queryFn: () => fetchAdminCampaignContent(id!),
+    enabled: isAdmin === true && !!id,
+    staleTime: 5 * 60_000,
+    refetchOnWindowFocus: false,
+    retry: false,
   });
 }
 

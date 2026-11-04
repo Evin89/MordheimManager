@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+import { campaignPath, readActiveCampaignId } from '../lib/activeCampaign';
 import { useState } from 'react';
 import { capture } from '../lib/posthog';
 import DisclosureChevron from './DisclosureChevron';
@@ -20,6 +22,7 @@ import { Button, Card, SectionHeading, Field, TextField } from './ui';
  */
 export function JoinCampaignForm({ title, compact = false }: { title: string; compact?: boolean }) {
   const joinCampaign = useJoinCampaignMutation();
+  const navigate = useNavigate();
   const [code, setCode] = useState('');
   const [joinError, setJoinError] = useState<string | null>(null);
   const [joining, setJoining] = useState(false);
@@ -33,6 +36,9 @@ export function JoinCampaignForm({ title, compact = false }: { title: string; co
     else {
       void capture('campaign_joined');
       setCode('');
+      // §40.3 — open what you just joined. The join records it as last opened.
+      const joined = readActiveCampaignId();
+      if (joined) navigate(campaignPath(joined));
     }
   }
 
@@ -98,6 +104,7 @@ export function JoinCampaignForm({ title, compact = false }: { title: string; co
  */
 export function CreateCampaignForm({ title, hint, compact = false }: { title: string; hint: string; compact?: boolean }) {
   const createCampaign = useCreateCampaignMutation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(!compact);
   const [draftName, setDraftName] = useState('My Campaign');
   const [draftUsesBtb, setDraftUsesBtb] = useState(false);
@@ -115,7 +122,10 @@ export function CreateCampaignForm({ title, hint, compact = false }: { title: st
     createCampaign(
       effectiveName,
       draftUsesBtb,
-      () => void capture('campaign_created', { uses_btb: draftUsesBtb }),
+      (campaign) => {
+        void capture('campaign_created', { uses_btb: draftUsesBtb });
+        navigate(campaignPath(campaign.id));
+      },
       setSubmitError,
     );
   }

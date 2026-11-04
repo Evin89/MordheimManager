@@ -1,5 +1,6 @@
-import { Navigate, NavLink, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import BackHeader from '../../components/BackHeader';
+import SubTabs from '../../components/SubTabs';
 import { useIsAdminQuery } from '../../hooks/useIssues';
 import { strings } from '../../strings';
 
@@ -22,6 +23,7 @@ const TABS = [
 
 export default function AdminLayout() {
   const { data: isAdmin, isPending } = useIsAdminQuery();
+  const { pathname } = useLocation();
 
   if (isPending) {
     return (
@@ -34,23 +36,16 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title="Admin" />
-
-      <div className="px-4 pt-3 flex gap-2 overflow-x-auto">
-        {TABS.map((t) => (
-          <NavLink
-            key={t.to}
-            to={t.to}
-            className={({ isActive }) =>
-              `min-h-[40px] px-3 rounded-md border font-ui text-sm font-semibold whitespace-nowrap flex items-center ${
-                isActive ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
-              }`
-            }
-          >
-            {t.label}
-          </NavLink>
-        ))}
-      </div>
+      <BackHeader title="Admin">
+        <SubTabs
+          scroll
+          items={TABS.map((t) => ({
+            label: t.label,
+            to: t.to,
+            active: pathname === t.to || pathname.startsWith(`${t.to}/`),
+          }))}
+        />
+      </BackHeader>
 
       <main className="flex-1 px-4 py-4 space-y-6">
         <Outlet />

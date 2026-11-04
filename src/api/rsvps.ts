@@ -12,13 +12,13 @@ export type EventRsvp = {
   status: RsvpStatus;
 };
 
-type RsvpRow = {
+export type RsvpRow = {
   event_id: string;
   user_id: string;
   status: RsvpStatus;
 };
 
-function toRsvp(row: RsvpRow): EventRsvp {
+export function toRsvp(row: RsvpRow): EventRsvp {
   return { eventId: row.event_id, userId: row.user_id, status: row.status };
 }
 

@@ -1,5 +1,45 @@
 [
   {
+    "date": "2026-11-04",
+    "title": "Dice Roller on Every Screen",
+    "description": "The dice roller is now at the top of every screen, just left of your picture, so you can roll from wherever you are. The headers across the app also look the same everywhere now: the same buttons, the same size, in the same place."
+  },
+  {
+    "date": "2026-11-02",
+    "title": "Easier to Find Your Way Around",
+    "description": "The menu at the bottom now has five tabs with their names under the icons: Home, Warbands, Play, Campaigns and Rules. Play is where you start a battle or pick up one you left half-way, and where the dice roller, battlefield generator and solo mode now live. Your account is behind your picture at the top of each tab, and the Account screen is now short, with Settings, Your data and Help & about each on their own page. Every campaign has its own link, so you can bookmark it or share it with your group, and Campaigns has a Players tab for finding people to play with. The Trading Post is on each warband's roster."
+  },
+  {
+    "date": "2026-10-31",
+    "title": "Player Profiles and Finding Players",
+    "description": "Every player now has a profile: tap a name in a campaign or under a comment to see their photo, country, favourite warband, battle record and the warbands you can see. Yours is at the top of the Account screen, with a button to edit it. You can also choose to be listed in the new player directory, where others can find you by country and warband, and campaign leaders can invite you straight to a campaign. Being listed is off until you switch it on. Not in a campaign yet? My Campaigns has a Looking for a group switch that lists you in one tap. Open invites wait for you at the top of the Campaigns screen."
+  },
+  {
+    "date": "2026-10-29",
+    "title": "Install the App, Share Your Warband",
+    "description": "You can now install Mordheim Manager on your phone from the Account screen, with a one-tap install where your browser supports it and short step-by-step instructions on iPhone. A Share button at the top of your roster sends a picture of your warband straight to WhatsApp or Discord, with a link when the warband is public. On someone else's public roster you can copy its link."
+  },
+  {
+    "date": "2026-10-28",
+    "title": "Admin Can View Campaigns",
+    "description": "The app admin can now open any campaign, including private ones, read-only: its standings, battle log, events and RSVPs, narrative log, territories and honours. As with warbands, every view is logged and nothing can be changed. The admin never sees the join code, and your Border Town Burning objectives stay visible to you alone. The privacy policy now says so."
+  },
+  {
+    "date": "2026-10-26",
+    "title": "Hired Swords Come With Their Own Gear",
+    "description": "A newly hired Hired Sword now carries exactly what his entry lists, such as the Warlock's Staff or the Elf Ranger's Elf Bow, Sword and Elven Cloak, instead of only a dagger. Where the entry offers a choice, like the Troll Slayer's two axes or double-handed axe, you pick it when hiring. Hired Swords can no longer buy or be given other equipment. One hired earlier, with only the dagger, gets a button on his page to put on his starting equipment."
+  },
+  {
+    "date": "2026-10-24",
+    "title": "Henchmen Can Buy Their Own Special Gear",
+    "description": "Henchmen can now buy the special gear their own equipment list names, such as the Night Goblin Fanatic's Ball & chain and Mad Cap Mushrooms, Halfling Scouts' hunting arrows, a Shadow Warrior's Elven cloak or a Pirate crew's boat hook. The Trading Post listed these items but then held them back as Heroes-only."
+  },
+  {
+    "date": "2026-10-15",
+    "title": "Admin Can View Warbands",
+    "description": "The app admin can now open any warband, including private ones, read-only, to see how features are used and whether they work. Every view is logged, nothing can be changed, and your Border Town Burning objectives stay visible to you alone. The visibility text and privacy policy now say so."
+  },
+  {
     "date": "2026-10-12",
     "title": "Smoother Battle Navigation",
     "description": "After committing a battle, Back no longer drops you into an empty During Battle screen, and no phantom “Resume the battle in progress?” prompt appears next time. The last post-battle step now has a second button, Commit & visit Trading Post, so recruiting and buying follow straight on. And the ← button on a page you opened from a shared link now takes you to the page above it instead of out of the app."

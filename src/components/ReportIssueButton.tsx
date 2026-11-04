@@ -11,7 +11,7 @@ import { strings } from '../strings';
  *
  * Sits at the foot of the content rather than floating over it or taking a nav
  * cell: floating controls cover the thing being reported, and the tab bar has
- * seven tabs on a 375px phone already.
+ * six tabs on a 375px phone already.
  *
  * The textbox is the small part. What makes a report worth having is the
  * context attached to it — the route, the build, the viewport — because the

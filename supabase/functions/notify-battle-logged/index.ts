@@ -1,15 +1,21 @@
 // §19.4 Push notifications, phase 2 — "a campaign-mate logged a battle".
 //
-// Driven by a Database Webhook on `battles` INSERT (not a cron): the moment a
-// battle is committed to a campaign, its *other* members get a push. Personal
-// battles (no campaign_id) notify nobody. Reuses the VAPID secrets and the
-// push_subscriptions table from phase 1.
+// Called by the `battles_notify` trigger (migration 0063) through pg_net with
+// only the new battle's id — the same no-secret shape as notify-campaign-invite
+// (§38.5). The function is deployed with verify_jwt off and only acts on a
+// battle that
+//   • belongs to a campaign (personal battles notify nobody),
+//   • was logged in the last 10 minutes, and
+//   • has not been notified yet —
+// claiming it atomically through `notified_at` before sending. An outside
+// caller can at most trigger early the one push that was coming anyway, and
+// only with a battle uuid they could already read.
+//
+// The earlier version expected a dashboard Database Webhook that was never
+// created, so this push had never actually fired.
 //
 // Deploy:
-//   supabase functions deploy notify-battle-logged
-// Then add a Database Webhook (Database → Webhooks):
-//   table public.battles, event INSERT, type "Supabase Edge Functions",
-//   function notify-battle-logged  (this adds the service-role auth header).
+//   supabase functions deploy notify-battle-logged --no-verify-jwt
 
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import webpush from 'npm:web-push@3.6.7';
@@ -20,13 +26,6 @@ type BattleRecord = {
   scenario: string;
 };
 
-type BattleRow = {
-  id: string;
-  campaign_id: string | null;
-  reported_by: string;
-  data: BattleRecord;
-};
-
 type SubRow = { id: string; endpoint: string; p256dh: string; auth: string };
 
 const RESULT_LABEL: Record<BattleRecord['result'], string> = {
@@ -35,7 +34,14 @@ const RESULT_LABEL: Record<BattleRecord['result'], string> = {
   draw: 'Draw',
 };
 
+const json = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 Deno.serve(async (req) => {
+  if (req.method !== 'POST') return json({ error: 'method_not_allowed' }, 405);
+
   const supabaseUrl = Deno.env.get('SUPABASE_URL');
   const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
   const vapidPublic = Deno.env.get('VAPID_PUBLIC_KEY');
@@ -43,29 +49,35 @@ Deno.serve(async (req) => {
   const vapidSubject = Deno.env.get('VAPID_SUBJECT') ?? 'mailto:admin@mordheimmanager.net';
 
   if (!supabaseUrl || !serviceKey || !vapidPublic || !vapidPrivate) {
-    return new Response(JSON.stringify({ error: 'missing_env' }), {
-      status: 500,
-      headers: { 'content-type': 'application/json' },
-    });
+    return json({ error: 'missing_env' }, 500);
   }
 
   const body = await req.json().catch(() => null);
-  const battle = body?.record as BattleRow | undefined;
-  if (!battle?.campaign_id) {
-    // No campaign, or a malformed payload — nothing to notify.
-    return new Response(JSON.stringify({ skipped: true }), {
-      headers: { 'content-type': 'application/json' },
-    });
-  }
+  const battleId = typeof body?.battle_id === 'string' ? body.battle_id : '';
+  if (!UUID.test(battleId)) return json({ skipped: true });
+
+  const supabase = createClient(supabaseUrl, serviceKey);
+
+  // Claim it: one UPDATE that only matches a fresh, campaign, un-notified battle.
+  const { data: battle } = await supabase
+    .from('battles')
+    .update({ notified_at: new Date().toISOString() })
+    .eq('id', battleId)
+    .not('campaign_id', 'is', null)
+    .is('notified_at', null)
+    .gte('created_at', new Date(Date.now() - 10 * 60 * 1000).toISOString())
+    .select('id, campaign_id, reported_by, data')
+    .maybeSingle();
+  if (!battle) return json({ skipped: true });
 
   webpush.setVapidDetails(vapidSubject, vapidPublic, vapidPrivate);
-  const supabase = createClient(supabaseUrl, serviceKey);
+  const record = battle.data as BattleRecord;
 
   // The campaign it belongs to, and the warband that fought — both named so the
   // notification reads like the activity feed.
   const [{ data: campaign }, { data: warband }, { data: members }] = await Promise.all([
     supabase.from('campaigns').select('name').eq('id', battle.campaign_id).maybeSingle(),
-    supabase.from('warbands').select('name').eq('id', battle.data?.warbandId ?? '').maybeSingle(),
+    supabase.from('warbands').select('name').eq('id', record?.warbandId ?? '').maybeSingle(),
     // Everyone in the campaign except whoever reported it — they know already.
     supabase
       .from('campaign_members')
@@ -75,11 +87,7 @@ Deno.serve(async (req) => {
   ]);
 
   const userIds = (members ?? []).map((m: { user_id: string }) => m.user_id);
-  if (userIds.length === 0) {
-    return new Response(JSON.stringify({ notified: 0 }), {
-      headers: { 'content-type': 'application/json' },
-    });
-  }
+  if (userIds.length === 0) return json({ notified: 0 });
 
   const { data: subs } = await supabase
     .from('push_subscriptions')
@@ -87,10 +95,10 @@ Deno.serve(async (req) => {
     .in('user_id', userIds);
 
   const warbandName = warband?.name ?? 'A warband';
-  const result = RESULT_LABEL[battle.data?.result] ?? '';
+  const result = RESULT_LABEL[record?.result] ?? '';
   const payload = JSON.stringify({
     title: campaign?.name ? `New battle · ${campaign.name}` : 'New battle logged',
-    body: [`${warbandName} — ${result}`, battle.data?.scenario].filter(Boolean).join(' · '),
+    body: [`${warbandName} — ${result}`, record?.scenario].filter(Boolean).join(' · '),
     tag: `battle-${battle.id}`,
     url: '/app/campaigns',
   });
@@ -113,7 +121,5 @@ Deno.serve(async (req) => {
     }
   }
 
-  return new Response(JSON.stringify({ notified, pruned }), {
-    headers: { 'content-type': 'application/json' },
-  });
+  return json({ notified, pruned });
 });

@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { Share2 } from 'lucide-react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { FROM_ROSTER } from '../lib/battleNavigation';
+import { hasBattleProgress, useAppStore } from '../store/useAppStore';
 import { forgetRemoved, reinsert, removedFor, type RemovedModel } from '../lib/removedModels';
 import BackHeader from '../components/BackHeader';
+import { HeaderAction } from '../components/HeaderTools';
 import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
 import WarbandPhotoEditor, { WarbandThumb } from '../components/WarbandPhoto';
@@ -13,7 +16,7 @@ import RatingHistoryChart from '../components/RatingHistoryChart';
 import { modelDisplayName } from '../lib/modelNames';
 import WarbandSharingCard from '../components/WarbandSharingCard';
 import ShareNudgeCard from '../components/ShareNudgeCard';
-import ShareableWarbandCard from '../components/ShareableWarbandCard';
+import ShareWarbandPanel from '../components/ShareWarbandPanel';
 import WarbandHealthPanel from '../components/WarbandHealthPanel';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import SaveBar from '../components/SaveBar';
@@ -297,12 +300,14 @@ function RemovedModelsBanner({
 
 export default function RosterScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
+  const inProgress = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
   const navigate = useNavigate();
   const { warband, loading } = useWarbandLookup(warbandId);
   const deleteWarband = useDeleteWarbandMutation();
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [confirmUndo, setConfirmUndo] = useState(false);
+  const [sharingOpen, setSharing] = useState(false);
   // Named, not just flagged: "drops out of Grudge Season" is a consequence
   // someone can weigh; "is in a campaign" is not.
   const { data: campaigns } = useMyCampaignsQuery();
@@ -358,9 +363,32 @@ export default function RosterScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={warband.name} subtitle={getWarbandTypeLabel(warband.warbandType, warband.subfaction)} />
+      <BackHeader
+        title={warband.name}
+        subtitle={getWarbandTypeLabel(warband.warbandType, warband.subfaction)}
+        action={
+          // §36.1 — visible without scrolling; the panel opens at the top.
+          <HeaderAction
+            Icon={Share2}
+            label={strings.roster.card.button}
+            onClick={() => setSharing((open) => !open)}
+            aria-expanded={sharingOpen}
+          />
+        }
+      />
 
       <main className="flex-1 px-4 py-6 space-y-6">
+        {sharingOpen && (
+          <ShareWarbandPanel
+            warband={draft}
+            visibility={sharing.visibility}
+            onClose={() => setSharing(false)}
+            onGoToSharing={() =>
+              document.getElementById('warband-sharing')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          />
+        )}
+
         <RemovedModelsBanner warbandId={warband.id} onRestore={(patch) => saveNow(patch)} />
 
         <Card as="section" gap="lg">
@@ -391,8 +419,16 @@ export default function RosterScreen() {
 
         <WarbandPhotoEditor warbandId={warband.id} warbandName={warband.name} />
 
-        <Link to={`/warbands/${warband.id}/pre-battle`} state={FROM_ROSTER} className={buttonClasses('primary')}>
-          {strings.battle.startBattleButton}
+        {/* §40.3 — one way into a game: start one, or pick up the one this
+            warband left half-way (same stage logic as the resume card). */}
+        <Link
+          to={`/warbands/${warband.id}/${
+            !hasBattleProgress(inProgress) ? 'pre-battle' : inProgress?.wizard ? 'post-battle' : 'during-battle'
+          }`}
+          state={FROM_ROSTER}
+          className={buttonClasses('primary')}
+        >
+          {hasBattleProgress(inProgress) ? strings.play.continueBattle : strings.battle.startBattleButton}
         </Link>
 
         <Link to={`/warbands/${warband.id}/trading`} className={buttonClasses('secondary')}>
@@ -497,8 +533,6 @@ export default function RosterScreen() {
         <ShareNudgeCard warbandId={warband.id} />
 
         <WarbandSharingCard warbandId={warband.id} />
-
-        <ShareableWarbandCard warband={draft} />
 
         {/* Opens in place rather than as a dialog — see ConfirmByTyping. */}
         {!confirmingDelete ? (
