@@ -270,7 +270,7 @@ export default function SpellBlock({
   // re-runs this constantly. Paired with the bail-out below — `filter` also
   // returns a new array every time, and setting state unconditionally on every
   // render is an unbounded update loop, which is exactly what it did.
-  const knownKey = known.join(' ');
+  const knownKey = known.join('\0');
   useEffect(() => {
     setPending((p) => {
       const next = p.filter((id) => !known.includes(id));
