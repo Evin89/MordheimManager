@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import TabHeader from '../components/TabHeader';
-import DiceButton from '../components/DiceButton';
 import PersonalBattles from '../components/PersonalBattles';
 import ResumeBattles from '../components/ResumeBattles';
 import { Card, ListGroup, ListRow, SectionHeading, buttonClasses } from '../components/ui';
@@ -25,7 +24,7 @@ export default function PlayScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <TabHeader title={s.title} action={<DiceButton />} />
+      <TabHeader title={s.title} />
 
       <main className="flex-1 px-4 py-6 space-y-6">
         {user && <ResumeBattles />}

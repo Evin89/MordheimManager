@@ -1,12 +1,14 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { strings } from '../strings';
 import { isFirstEntry, parentPath } from '../lib/backNavigation';
+import HeaderTools from './HeaderTools';
+import { HEADER_ROW, HEADER_SHELL, HEADER_TITLE } from './headerStyles';
 
 type BackHeaderProps = {
   title: string;
   subtitle?: string;
   onBack?: () => void;
-  /** A control on the right, e.g. the roster's Share button (§37.1). */
+  /** A control left of the dice and avatar — a `HeaderAction`, e.g. the roster's Share (§37.1). */
   action?: React.ReactNode;
   /** A small tag beside the title, e.g. Beta. */
   badge?: string;
@@ -36,8 +38,11 @@ export default function BackHeader({ title, subtitle, badge, onBack, action, chi
   }
 
   return (
-    <header className="px-4 pt-6 pb-4 border-b border-ink-800 space-y-4">
-      <div className="flex items-start gap-3">
+    // §40.2 — `TabHeader` with a back arrow: same shell, same row, same
+    // corner (dice · avatar), so detail screens no longer look like a
+    // different app from the tab roots.
+    <header className={HEADER_SHELL}>
+      <div className={HEADER_ROW}>
         <button
           type="button"
           onClick={goBack}
@@ -48,12 +53,13 @@ export default function BackHeader({ title, subtitle, badge, onBack, action, chi
         </button>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 min-w-0">
-            <h1 className="min-w-0 text-2xl font-bold text-bone-100 tracking-wide truncate">{title}</h1>
+            <h1 className={HEADER_TITLE}>{title}</h1>
             {badge && <HeaderBadge>{badge}</HeaderBadge>}
           </div>
           {subtitle && <p className="text-bone-300 text-sm mt-0.5 truncate">{subtitle}</p>}
         </div>
-        {action && <div className="shrink-0">{action}</div>}
+        {action && <div className="shrink-0 flex items-center gap-2">{action}</div>}
+        <HeaderTools />
       </div>
       {children}
     </header>

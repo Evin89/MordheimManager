@@ -5,6 +5,7 @@ import { FROM_ROSTER } from '../lib/battleNavigation';
 import { hasBattleProgress, useAppStore } from '../store/useAppStore';
 import { forgetRemoved, reinsert, removedFor, type RemovedModel } from '../lib/removedModels';
 import BackHeader from '../components/BackHeader';
+import { HeaderAction } from '../components/HeaderTools';
 import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
 import WarbandPhotoEditor, { WarbandThumb } from '../components/WarbandPhoto';
@@ -367,15 +368,12 @@ export default function RosterScreen() {
         subtitle={getWarbandTypeLabel(warband.warbandType, warband.subfaction)}
         action={
           // §36.1 — visible without scrolling; the panel opens at the top.
-          <button
-            type="button"
+          <HeaderAction
+            Icon={Share2}
+            label={strings.roster.card.button}
             onClick={() => setSharing((open) => !open)}
             aria-expanded={sharingOpen}
-            className="inline-flex items-center gap-1.5 min-h-[44px] px-2 text-ember-400 text-sm font-semibold"
-          >
-            <Share2 className="w-5 h-5" aria-hidden />
-            {strings.roster.card.button}
-          </button>
+          />
         }
       />
 

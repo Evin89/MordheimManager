@@ -3,6 +3,8 @@ import { campaignPath } from '../lib/activeCampaign';
 import { capture } from '../lib/posthog';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import { HeaderAction } from '../components/HeaderTools';
+import { Pencil } from 'lucide-react';
 import PlayerAvatar from '../components/players/PlayerAvatar';
 import { Button, Card, Field, SectionHeading, Select, Textarea, buttonClasses } from '../components/ui';
 import { useAuth } from '../auth/AuthProvider';
@@ -283,12 +285,7 @@ export default function PlayerProfileScreen() {
         title={name}
         action={
           isMe ? (
-            <Link
-              to="/account/profile"
-              className="min-h-[44px] px-3 inline-flex items-center rounded-md border border-ink-700 text-bone-100 text-sm font-semibold hover:bg-ink-800"
-            >
-              {s.editShort}
-            </Link>
+            <HeaderAction to="/account/profile" Icon={Pencil} label={s.editShort} />
           ) : undefined
         }
       />
