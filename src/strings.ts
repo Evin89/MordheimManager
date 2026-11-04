@@ -218,7 +218,6 @@ export const strings = {
     noAccountNeeded: 'No account needed',
   },
   rules: {
-    title: 'Rules Reference',
     searchPlaceholder: 'Search rules…',
     allCategories: 'All',
     noResults: 'No rules match your search.',
@@ -230,7 +229,6 @@ export const strings = {
     groupPostBattle: 'Post-Battle',
     groupTrading: 'Trading',
     groupWarbands: 'Warbands & Scenarios',
-    diceRoller: 'Dice roller',
     entryCount: (n: number) => `${n} rule${n === 1 ? '' : 's'}`,
     sourceLabel: 'Source',
     relatedSection: 'Related rules',
@@ -603,7 +601,7 @@ export const strings = {
   warbandList: {
     title: 'Warbands',
     empty: 'No warbands yet. Create one to get started.',
-    newWarband: '+ New Warband',
+    newWarband: 'New Warband',
     ratingLabel: 'Rating',
     goldLabel: 'Gold',
     shardsLabel: 'Shards',

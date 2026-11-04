@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { campaignPath } from '../lib/activeCampaign';
-import { AccountButton } from '../components/TabHeader';
+import HeaderTools from '../components/HeaderTools';
+import { HEADER_SHELL } from '../components/headerStyles';
 import { Link, useNavigate } from 'react-router-dom';
 import AppBanner from '../components/AppBanner';
 import DiscordLink from '../components/DiscordLink';
@@ -22,17 +23,17 @@ import { NextEventBanner } from '../components/CampaignEvents';
 import { lastUsedFirst, readLastWarbandId } from '../lib/lastWarband';
 
 /**
- * Home's header (§40.2): the banner is the title, with the avatar beside it —
- * the same padding, rule and avatar slot as every other tab's `TabHeader`.
+ * Home's header (§40.2): the banner is the title, with the dice and avatar
+ * beside it — the same shell and corner as every other `TabHeader`.
  * One component for the signed-out, first-run and regular Home.
  */
 function HomeHeader() {
   return (
-    <header className="px-4 pt-6 pb-4 border-b border-ink-800 flex items-start gap-3">
+    <header className={`${HEADER_SHELL} flex items-start gap-3 space-y-0`}>
       <div className="min-w-0 flex-1">
         <AppBanner />
       </div>
-      <AccountButton />
+      <HeaderTools />
     </header>
   );
 }
@@ -258,7 +259,7 @@ export default function HomeScreen() {
           <div className="flex items-center justify-between">
             <SectionHeading>{strings.home.warbandsSection}</SectionHeading>
             <Link to="/warbands/new" className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
-              {strings.warbandList.newWarband}
+              + {strings.warbandList.newWarband}
             </Link>
           </div>
 
