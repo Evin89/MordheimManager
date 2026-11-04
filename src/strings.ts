@@ -19,28 +19,26 @@ export const strings = {
     appShort: 'Mordheim',
     home: 'Home',
     warbands: 'Warbands',
-    postBattle: 'Battle',
-    trading: 'Trading',
-    campaign: 'Campaign',
+    play: 'Play',
+    campaign: 'Campaigns',
     rules: 'Rules',
-    settings: 'Account',
+    account: 'Account',
+    // §40.3 — the Campaigns section's two screens.
+    campaignsList: 'Campaigns',
+    players: 'Players',
     signIn: 'Sign in',
-    signOut: 'Sign out',
     // One line per tab, shown by the guided tour (§20.4). Kept beside the labels
     // so the tour and the nav can't describe different things.
     help: {
-      home: 'Your dashboard — the active campaign, every warband at a glance, and quick links into the rest.',
-      warbands: 'Build and manage your warbands here: heroes, henchmen and hired swords, their gear, XP and injuries.',
-      postBattle: 'Run a game end to end — set up the scenario, track the fight, then the guided post-battle sequence.',
-      trading: 'The Trading Post: buy common and rare equipment against your gold, and sell from the treasury.',
-      campaign: 'Your campaigns — shared standings and battle log, game nights, awards, and the code to invite your group.',
+      home: 'Your dashboard — a game to pick up again, your campaign’s next game night, and your warbands.',
+      warbands: 'Build and manage your warbands here: heroes, henchmen and hired swords, their gear, XP and injuries. Each warband’s Trading Post is on its roster.',
+      play: 'Play a game end to end — set up the scenario, track the fight, then the post-battle sequence. The dice roller, battlefield generator and solo mode are here too.',
+      campaign: 'Your campaigns — standings, battle log, game nights and awards — and Players, to find a group near you.',
       rules: 'The full rulebook, searchable and grouped by chapter, with a dice roller for the table.',
-      settings: 'Your account: theme, display name, a full data backup, and sign out.',
+      account: 'Your account, behind your picture at the top of each tab: profile, settings, data backup and sign out.',
     },
   },
   tour: {
-    /** The floating ? control, and its accessible name. */
-    open: 'How to use the app',
     title: 'Getting around',
     progress: (n: number, total: number) => `${n} / ${total}`,
     next: 'Next',
@@ -111,9 +109,9 @@ export const strings = {
   // either way; public only changes things for people outside the campaign.
   shareNudge: {
     title: 'Show this warband off?',
-    body: 'It’s private, so only you can see it. Making it public lists it in the gallery and gives it a link anyone can open — no account needed.',
+    body: 'It’s private, so only you (and the app admin) can see it. Making it public lists it in the gallery and gives it a link anyone can open — no account needed.',
     bodyInCampaign:
-      'It’s private: your campaign can already see it, and nobody else can. Making it public lists it in the gallery and gives it a link anyone can open.',
+      'It’s private: your campaign (and the app admin) can already see it, and nobody else can. Making it public lists it in the gallery and gives it a link anyone can open.',
     makePublic: 'Make public',
     notNow: 'Not now',
     publicTitle: 'Your warband is public',
@@ -121,6 +119,26 @@ export const strings = {
     copyLink: 'Copy link',
     copied: 'Copied',
     done: 'Done',
+  },
+  // §36 — offering the PWA install: the Account card and the Home nudge.
+  install: {
+    section: 'Install the app',
+    intro:
+      'Put Mordheim on your home screen. It opens full-screen like any other app, without the browser bar, and game-night reminders work on iPhone only once it’s installed.',
+    button: 'Install app',
+    justInstalled: 'Installed. Open Mordheim from your home screen or app drawer.',
+    androidSteps: ['In Chrome, tap the menu (top right)', 'Tap Install app (or Add to Home screen).'],
+    androidInAppHint: 'Opened this from WhatsApp or Discord? Those can’t install apps. Use ⋮ → Open in Chrome first.',
+    androidFootnote: 'Already installed? Open it from your home screen instead of the browser.',
+    iosSteps: [
+      'Tap the Share button at the bottom of Safari',
+      'Scroll down and tap Add to Home Screen.',
+      'Tap Add.',
+    ],
+    iosInAppHint: 'Opened this from WhatsApp or Discord? Open the page in Safari first.',
+    nudgeTitle: 'Play from your home screen',
+    nudgeDismiss: 'Hide this tip',
+    pushLink: 'How to install it',
   },
   // §10.3.1 — claiming leadership of a campaign whose leaders have gone quiet.
   leaderClaim: {
@@ -148,6 +166,7 @@ export const strings = {
     more: (n: number) => `+${n} more in the changelog`,
   },
   home: {
+    allWarbands: (n: number) => `All ${n} warbands`,
     title: 'Home',
     // A guided next-step card for a player who hasn't finished setting up — the
     // three activation stages (warband -> campaign -> battle) the funnel tracks.
@@ -177,21 +196,16 @@ export const strings = {
         to: '/warbands',
       },
     },
-    warbandCount: (n: number) => `${n} warband${n === 1 ? '' : 's'} in your account`,
     noCampaign: 'No campaign started yet',
     campaignSection: 'Campaign',
     startCampaignCta: 'Set up a campaign to start logging battles.',
-    goToCampaign: 'Open Campaign Log',
+    goToCampaign: 'Open campaign',
     battleCount: (n: number) => `${n} battle${n === 1 ? '' : 's'} logged`,
     btbBadge: 'Border Town Burning',
     warbandsSection: 'Your Warbands',
     noWarbandsCta: 'Create your first warband to get started.',
     haveJoinCode: 'Got a campaign join code?',
     meanwhileSection: 'Meanwhile',
-    quickActionsSection: 'Quick Actions',
-    viewCampaignLog: 'View Campaign Log',
-    soloButton: 'Solo battle',
-    mapButton: 'Battlefield generator',
     // Signed-out landing: the rules reference is fully usable without an account,
     // only warband/campaign data needs one.
     signedOutTitle: 'Browse the rules, or sign in to manage your warbands',
@@ -204,7 +218,6 @@ export const strings = {
     noAccountNeeded: 'No account needed',
   },
   rules: {
-    title: 'Rules Reference',
     searchPlaceholder: 'Search rules…',
     allCategories: 'All',
     noResults: 'No rules match your search.',
@@ -216,7 +229,6 @@ export const strings = {
     groupPostBattle: 'Post-Battle',
     groupTrading: 'Trading',
     groupWarbands: 'Warbands & Scenarios',
-    diceRoller: 'Dice roller',
     entryCount: (n: number) => `${n} rule${n === 1 ? '' : 's'}`,
     sourceLabel: 'Source',
     relatedSection: 'Related rules',
@@ -276,7 +288,8 @@ export const strings = {
     home: 'Back to Home',
   },
 
-  settings: {
+  // §40.4 — the Account screen and its sub-screens (was `settings`).
+  account: {
     title: 'Account',
     appearanceSection: 'Appearance',
     themeNames: {
@@ -323,21 +336,14 @@ export const strings = {
       reportPlaceholder: 'e.g. the Necromancer’s spell list is missing an entry…',
       reportButton: 'Report a data error',
     },
-    accountSection: 'Your details',
     signedInAs: (email: string) => `Signed in as ${email}`,
     displayNameLabel: 'Display name',
-    // Says where it shows up, because it is the one field here other people see.
-    displayNameHint: 'Shown to your campaign-mates in standings and on any warband you make public.',
-    displayNameSave: 'Save name',
-    displayNameSaved: 'Name updated.',
     displayNameEmpty: 'Your display name cannot be empty.',
     signOutButton: 'Sign out',
     signedOutHint: 'Sign in to export or import your warband and campaign data.',
     adminSection: 'Admin',
-    adminLink: 'Issue inbox & statistics',
-    adminHint: 'Reported issues and aggregate numbers. Only you can see this.',
     signInButton: 'Sign in',
-    // §35.5 account deletion.
+    // §35.5 account deletion (Account › Your data).
     deleteAccountSection: 'Delete account',
     deleteAccountIntro:
       'Removes your account and everything that is only yours. Export your data first if you want a copy.',
@@ -354,6 +360,71 @@ export const strings = {
     deleteAccountCancel: 'Keep my account',
     deleteAccountDone: 'Your account and data have been deleted.',
     deleteAccountError: (message: string) => `Could not delete your account: ${message}`,
+    // §40.4 — Account is a short screen of rows leading to sub-screens.
+    rows: {
+      settings: 'Settings',
+      data: 'Your data',
+      about: 'Help & about',
+      admin: 'Admin',
+      notificationsOn: 'notifications on',
+    },
+    settingsTitle: 'Settings',
+    dataTitle: 'Your data',
+    aboutTitle: 'Help & about',
+    tourSection: 'Getting around',
+    tourHint: 'A short walk through the tabs at the bottom of the screen.',
+    tourButton: 'Show the tour again',
+    privacyLink: 'Privacy Policy',
+    version: (v: string) => `Version ${v}`,
+  },
+  // §4.9.4.3 — the admin's read-only view of any warband's roster.
+  adminRoster: {
+    back: '← Back to player',
+    banner: 'Admin view · read-only',
+    loadError: 'Could not load this roster.',
+    public: 'public',
+    private: 'private',
+    noCampaign: 'no campaign',
+    updated: (when: string) => `updated ${when}`,
+    deleted: (date: string) => `Deleted by its owner on ${date} — hidden from players until the purge.`,
+  },
+  // §4.9.8 — a campaign's full content, read-only, on the admin side.
+  adminCampaign: {
+    banner: 'Admin view · read-only · you are not a member of this campaign',
+    loadError: 'Could not load this campaign\u2019s content.',
+    migrationHint: 'if this mentions admin_campaign_content, migration 0057 has not been applied yet.',
+    settings: 'Settings',
+    btb: 'Border Town Burning',
+    btbOff: 'Standard campaign (no BTB)',
+    joinCodeActive: 'Join code active',
+    joinCodeRevoked: 'Join code revoked',
+    concluded: (date: string) => `Concluded ${date}`,
+    ongoing: 'Ongoing',
+    announcement: 'Pinned announcement',
+    notes: 'Campaign notes',
+    houseRules: 'House rules',
+    houseRulesNone: 'All rulebook defaults.',
+    standings: 'Standings',
+    noWarband: 'no warband entered',
+    battles: 'Battle log',
+    noBattles: 'No battles reported yet.',
+    reportedBy: (name: string) => `reported by ${name}`,
+    events: 'Events',
+    upcoming: 'Upcoming',
+    past: 'Past',
+    noEvents: 'No events scheduled.',
+    rsvpGoing: 'Going',
+    rsvpMaybe: 'Maybe',
+    rsvpCant: 'Can\u2019t',
+    log: 'Narrative log',
+    noLog: 'No log entries.',
+    territories: 'Territories',
+    noTerritories: 'No territories.',
+    unclaimed: 'unclaimed',
+    honours: 'Honours & awards',
+    noHonours: 'No honours granted.',
+    footer:
+      'Every open of this screen is logged (§4.9.8). BTB objectives and the join code are never shown to an admin.',
   },
   // §4.9.4.1 — the activity calendar, on the admin player screen and on the
   // player's own Account screen. Same component, two titles.
@@ -547,12 +618,13 @@ export const strings = {
   warbandList: {
     title: 'Warbands',
     empty: 'No warbands yet. Create one to get started.',
-    newWarband: '+ New Warband',
+    newWarband: 'New Warband',
     ratingLabel: 'Rating',
     goldLabel: 'Gold',
     shardsLabel: 'Shards',
     myWarbandsTab: 'Mine',
-    publicTab: 'Public Warbands',
+    publicTab: 'Gallery',
+    toolsSection: 'Tools',
     rulesTab: 'Rules',
     publicIntro: 'Warbands other players have chosen to share. Tap one to read its roster.',
     publicPhotosSignedIn: 'Sign in to see their photos — pictures are shown to players with an account only.',
@@ -698,6 +770,151 @@ export const strings = {
     referenceSpecialRules: 'Special rules',
   },
 
+  // §38 player profiles.
+  profile: {
+    title: 'Player',
+    notFound: 'This player could not be found.',
+    signInNeeded: 'Sign in to see player profiles.',
+    since: (when: string) => `since ${when}`,
+    favours: (type: string) => `Favours ${type}`,
+    // §39.4 — the record, laid out like a statline: four columns, the way the
+    // book prints a profile. Single letters get their word for screen readers.
+    recordLabel: 'Record',
+    statColumns: [
+      { short: 'Battles', long: 'Battles' },
+      { short: 'W', long: 'Wins' },
+      { short: 'L', long: 'Losses' },
+      { short: 'D', long: 'Draws' },
+    ],
+    recordCaption: (warbands: number, campaigns: number) =>
+      `${warbands === 1 ? '1 warband' : `${warbands} warbands`} · ${
+        campaigns === 1 ? '1 campaign' : `${campaigns} campaigns`
+      }`,
+    warbandsSection: 'Warbands',
+    warbandsEmpty: 'No warbands you can see.',
+    campaignOnly: (campaign: string) => `Campaign only · ${campaign}`,
+    privateLabel: 'Private',
+    rating: (n: number) => `Rating ${n}`,
+    campaignsTogether: 'Campaigns together',
+    yourCampaigns: 'Your campaigns',
+    honoursSection: 'Honours',
+    visibleTo: 'Visible to signed-in players',
+    inDirectory: 'In the player directory',
+    notInDirectory: 'Not in the player directory',
+    change: 'Change',
+    addPhoto: 'Add a photo',
+    addCountry: 'Add your country',
+    addBio: 'Write a bio',
+    edit: 'Edit profile',
+    editShort: 'Edit',
+    // §39.3 — the identity header at the top of Account.
+    viewProfile: 'View profile',
+    listed: 'Listed',
+    notListed: 'Not listed',
+    report: 'Report this profile',
+    reportPrompt: 'What is wrong with this profile? An admin will look at it.',
+    reportSend: 'Send report',
+    reportSent: 'Thanks — the report has been sent.',
+    reportFailed: 'The report could not be sent. Try again.',
+
+    // Account card
+    cardHint: 'Your name, photo and country show on your profile and next to your name in campaigns.',
+    view: 'View my profile',
+    photoUpload: 'Upload photo',
+    photoReplace: 'Replace photo',
+    photoRemove: 'Remove photo',
+    photoReroll: 'New avatar',
+    photoUploading: 'Uploading…',
+    photoHint: 'Every signed-in player can see this photo. It is cropped square and resized on your device, and location data is removed before it is uploaded.',
+    countryLabel: 'Country',
+    countryPlaceholder: 'Not shown',
+    countrySearch: 'Search countries…',
+    countryNone: 'Not shown',
+    favouriteLabel: 'Favourite warband',
+    favouritePlaceholder: 'None',
+    favouriteSearch: 'Search warbands…',
+    favouriteNone: 'None',
+    noMatches: 'No matches.',
+    bioLabel: 'About you',
+    bioPlaceholder: 'What you play, where you play, what you are looking for.',
+    bioCount: (n: number, max: number) => `${n}/${max}`,
+    save: 'Save profile',
+    saved: 'Profile saved.',
+
+    // Admin moderation
+    adminSection: 'Profile moderation',
+    adminClearPhoto: 'Remove photo',
+    adminClearBio: 'Clear bio',
+    adminDone: 'Done.',
+    adminViewProfile: 'View profile',
+    adminRemoveFromDirectory: 'Remove from directory',
+
+    // Directory switches (Account card)
+    directoryHeading: 'Player directory',
+    directoryOn: 'Show me in the player directory',
+    directoryOnHint: 'Other players can find you by country and warband, and campaign leaders can invite you directly.',
+    lookingOn: "I'm looking for a campaign",
+    directoryVisible:
+      'Shown in the directory: your photo, name, country, favourite warband, number of public warbands and whether you are looking for a campaign.',
+    lookingBadge: 'Looking for a campaign',
+
+    // Invite sheet on a profile
+    invite: 'Invite to campaign',
+    inviteCampaign: 'Campaign',
+    inviteAlreadyMember: 'already a member',
+    invitePending: 'already invited',
+    inviteMessage: 'Message (optional)',
+    inviteMessagePlaceholder: 'When and where you play.',
+    inviteSend: 'Send invite',
+    inviteSent: 'Invite sent.',
+    inviteCancel: 'Cancel',
+  },
+
+  // §38.4 the player directory.
+  directory: {
+    title: 'Find players',
+    hint: 'Players who have chosen to be listed. Leaders can invite them to a campaign from their profile.',
+    country: 'Country',
+    anyCountry: 'Any country',
+    countrySearch: 'Search countries…',
+    warband: 'Warband',
+    anyWarband: 'Any warband',
+    warbandSearch: 'Search warbands…',
+    noMatches: 'No matches.',
+    lookingOnly: 'Only players looking for a campaign',
+    search: 'Name',
+    searchPlaceholder: 'Search by name',
+    notListed: "You're not in the directory. Others can't find you.",
+    notListedLink: 'Change this in your profile',
+    empty: (country: string | null) => (country ? `No players found in ${country} yet.` : 'No players found.'),
+    allCountries: 'Search all countries',
+    publicWarbands: (n: number) => (n === 1 ? '1 public warband' : `${n} public warbands`),
+    loadMore: 'Load more',
+    findPlayers: 'Find players',
+    filters: 'Filters',
+    filtersActive: (n: number) => `Filters (${n})`,
+    // §39.3 — the door for a player with no campaign yet.
+    lookingTitle: 'Looking for a group?',
+    lookingBody: 'Find players near you, or let campaign leaders find and invite you.',
+    lookingSwitch: "I'm looking for a campaign",
+    lookingOnNote: "You're listed as looking for a campaign. Leaders can invite you.",
+  },
+
+  // §38.5 direct campaign invites.
+  invites: {
+    title: 'Campaign invites',
+    from: (name: string) => `Invited by ${name || 'a player'}`,
+    members: (n: number) => (n === 1 ? '1 member' : `${n} members`),
+    publicLabel: 'Public',
+    privateLabel: 'Private',
+    accept: 'Accept',
+    decline: 'Decline',
+    pendingTitle: 'Pending invites',
+    sentOn: (when: string) => `Sent ${when}`,
+    revoke: 'Revoke',
+    invitePlayer: 'Invite a player',
+  },
+
   photo: {
     section: 'Warband photo',
     modelSection: 'Photo',
@@ -721,15 +938,38 @@ export const strings = {
     skillsLabel: 'Skills',
     rulesLabel: 'Rules',
     // Shareable warband card (canvas image for Discord/group chats).
+    // §37 — the share panel opened from the roster header.
     card: {
-      button: 'Share card',
-      hint: 'A clean card image of this warband — for pasting into Discord or a group chat.',
+      button: 'Share',
       generating: 'Building card…',
       download: 'Download',
       share: 'Share',
-      regenerate: 'Rebuild',
+      shareImage: 'Share image',
+      shareImageHint: 'Pick WhatsApp or Discord in the menu that opens.',
+      copyImage: 'Copy image',
+      copiedImage: 'Copied. Paste it into Discord or WhatsApp.',
+      linkHeading: 'Or send a link',
+      whatsapp: 'WhatsApp',
+      discord: 'Copy for Discord',
+      discordCopied: 'Copied — paste it',
+      privateHint: 'Want to send a link instead? Make the warband public in Sharing below.',
+      privateHintAction: 'Go to Sharing',
+      copyLink: 'Copy link',
+      linkCopied: 'Copied',
+      close: 'Close',
       failed: 'Could not build the card. Try again.',
       alt: (name: string) => `Shareable card for ${name}`,
+      // Text that rides along with the shared image (§37.3).
+      imageTextPublic: (name: string, rating: number, url: string) => `${name} · Rating ${rating}
+${url}`,
+      imageTextPrivate: (url: string) => `Made with Mordheim Manager
+${url}`,
+      shareMessage: (name: string, rating: number, url: string) =>
+        `My Mordheim warband ${name} (rating ${rating}) — see the roster: ${url}`,
+      // Name in bold; link on its own line so Discord unfurls it.
+      shareMessageDiscord: (name: string, rating: number, url: string) =>
+        `My Mordheim warband **${name}** (rating ${rating})
+${url}`,
     },
     // Warband health / legality check panel.
     health: {
@@ -814,6 +1054,8 @@ export const strings = {
     perBattle: 'per battle',
     hiredByLabel: 'May be hired by',
     equipmentLabel: 'Comes with',
+    gearChoiceLabel: 'Equipment choice',
+    gearChoiceHint: 'His entry lets the hiring player choose. Hired Swords carry only what their entry lists.',
     specialRulesLabel: 'Special rules',
     notCountedHint: "Hired Swords don't count toward your maximum warband size.",
     hireFeeLabel: 'Hire fee',
@@ -833,6 +1075,10 @@ export const strings = {
     newGroup: 'Start a new group',
   },
   modelDetail: {
+    hiredSwordFixedGear: "Hired Swords carry exactly what their entry lists, so they can't buy or be given other equipment.",
+    hiredSwordMissingGear: (entry: string) =>
+      `Hired before starting equipment was added, so he only got a dagger. His entry: ${entry}`,
+    hiredSwordApplyGear: 'Give him his starting equipment',
     nameLabel: 'Name',
     nicknameLabel: 'Nickname',
     nicknamePlaceholder: 'e.g. One-Eye',
@@ -935,12 +1181,29 @@ export const strings = {
     deleteModelFallbackPhrase: 'remove',
     deleteModelTypeLabel: (name: string) => `Type ${name} to confirm`,
   },
+  // §40.3 — the Play tab: start or resume a game, your battles, the table tools.
+  play: {
+    title: 'Play',
+    resumeSection: 'In progress',
+    resumeDuring: (turn: number) => `Battle in progress · turn ${turn}`,
+    resumeWizard: (step: number) => `Post-battle sequence · step ${step}`,
+    resumeAction: 'Continue',
+    continueBattle: 'Continue battle',
+    startSection: 'Start a battle',
+    signInToPlay: 'Sign in to set up a battle with your warband and keep its history. The dice roller and battlefield generator work without an account.',
+    newWarband: 'Create a warband',
+    toolsSection: 'At the table',
+    dice: 'Dice roller',
+    map: 'Battlefield generator',
+    solo: 'Solo battle',
+    beta: 'beta',
+  },
   battle: {
-    pickWarbandTitle: 'Battle',
+    pickWarbandTitle: 'Play',
     pickWarbandPrompt: 'Which warband is about to fight?',
     noWarbands: 'Create a warband first.',
     startBattleButton: 'Start Battle',
-    // §34 — friendly games and Your Battles on the Battle tab.
+    // §34 — friendly games and Your Battles on the Play tab.
     friendlyChip: 'Friendly',
     houseRulesUsedLabel: 'House rules',
     houseRulesNone: 'None',
@@ -1310,14 +1573,13 @@ export const strings = {
     settingsSection: 'Campaign settings',
     rulesTab: 'Campaign Rules',
     startTitle: 'Start a Campaign',
-    startHint: "Set this up once — you can change it later. Battles you commit from the Post-Battle Sequence will log here automatically.",
     nameLabel: 'Campaign name',
     namePlaceholder: 'e.g. Border Town Burning 2026',
     usesBtbLabel: 'Uses Border Town Burning objectives',
     startButton: 'Start Campaign',
     notesLabel: 'Campaign notes',
     battleLogSection: 'Battle Log',
-    noBattles: 'No battles logged yet. Play one from the Post-Battle tab.',
+    noBattles: 'No battles logged yet. Play one from the Play tab.',
     narrative: {
       section: 'Campaign Log',
       hint: 'The story between games — a grudge sworn, a rumour heard, whatever the score sheet misses.',
@@ -1418,16 +1680,11 @@ export const strings = {
     membersTab: 'Players',
     joinTitle: 'Join a Campaign',
     joinAnotherTitle: 'Join another campaign with a code',
-    myCampaignsTitle: 'My Campaigns',
     myCampaignsLink: 'All my campaigns',
-    inCampaignCount: (n: number) => `You're in ${n} campaigns`,
     myCampaignsEmpty: "You're not in any campaigns yet. Start one or join with a code.",
-    activeBadge: 'Showing now',
     playersStat: 'Players',
     battlesStat: 'Battles',
     yourWarbandsStat: 'Your warbands',
-    openActive: 'Open campaign',
-    switchToThis: 'Switch to this campaign',
     startOrJoinLink: 'Start or join another campaign',
     startAnotherTitle: 'Start another campaign',
     startAnotherHint:
@@ -1436,7 +1693,7 @@ export const strings = {
     // campaign only saw "start or join one".
     oneOffTitle: 'Just want to play a game?',
     oneOffBody:
-      "No campaign needed. Pick a warband and play a one-off battle: set up the scenario, track it at the table, then run the post-battle sequence — injuries, experience and income — on your roster. It's kept on the Battle tab under Your Battles.",
+      "No campaign needed. Pick a warband and play a one-off battle: set up the scenario, track it at the table, then run the post-battle sequence — injuries, experience and income — on your roster. It's kept on the Play tab under Your Battles.",
     oneOffButton: 'Start a battle',
     joinHint: 'Got a code from your campaign leader? Enter it here.',
     joinCodeLabel: 'Join code',
@@ -1444,7 +1701,6 @@ export const strings = {
     joinButton: 'Join Campaign',
     joinFailed: "That code didn't work. Check it with your campaign leader.",
     joinedTitle: (name: string) => `Joined ${name}`,
-    orDivider: 'or',
     switchCampaignLabel: 'Current campaign',
     shareCodeSection: 'Invite Players',
     shareCodeHint: 'Share this code so others can join. Anyone with it can enter the campaign.',
@@ -1599,7 +1855,7 @@ export const strings = {
     notInCampaign: 'Not entered',
     visibilityLabel: 'Visible outside the campaign',
     visibilityPublic: 'Anyone can view this roster, and it’s listed in the gallery',
-    visibilityPrivate: 'Only you (and your campaign) can view this roster',
+    visibilityPrivate: 'Only you, your campaign and the app admin can view this roster',
     campaignMatesAlwaysSee: 'Players in your campaign can always see a warband you enter, whatever this is set to.',
     noCampaignsToJoin: 'Start or join a campaign first to enter a warband in one.',
 

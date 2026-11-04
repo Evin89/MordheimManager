@@ -1,11 +1,14 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import CampaignInvitesCard from '../components/players/CampaignInvitesCard';
 import { capture } from '../lib/posthog';
 import { CreateCampaignForm, JoinCampaignForm } from '../components/CampaignForms';
-import { Button } from '../components/ui';
+import { Card, SectionHeading, buttonClasses } from '../components/ui';
+import TabHeader, { CampaignsSectionLinks } from '../components/TabHeader';
 import { strings } from '../strings';
-import { useCampaignSummariesQuery, useSetActiveCampaign } from '../hooks/useCampaign';
-import { readActiveCampaignId } from '../lib/activeCampaign';
+import { useCampaignSummariesQuery } from '../hooks/useCampaign';
+import { campaignPath } from '../lib/activeCampaign';
 import { CampaignSummary } from '../types';
+import LookingForGroup from '../components/players/LookingForGroup';
 
 function Stat({ label, value }: { label: string; value: string | number }) {
   return (
@@ -16,23 +19,21 @@ function Stat({ label, value }: { label: string; value: string | number }) {
   );
 }
 
-function CampaignCard({
-  summary,
-  isActive,
-  onOpen,
-}: {
-  summary: CampaignSummary;
-  isActive: boolean;
-  onOpen: () => void;
-}) {
+/**
+ * One campaign, and the whole card is the way in (§40.3). There's no "active"
+ * campaign to switch to any more — each has its own address — so every card
+ * reads the same and opens the same way. The join code moved to the campaign's
+ * Players tab, which is where it's handed out.
+ */
+function CampaignCard({ summary }: { summary: CampaignSummary }) {
   const { campaign, role, memberCount, battleCount, myWarbandCount } = summary;
   const isLeader = role === 'campaign_leader';
 
   return (
-    <div
-      className={`rounded-lg border p-4 space-y-3 ${
-        isActive ? 'border-ember-500 bg-ink-900' : 'border-ink-800 bg-ink-900'
-      }`}
+    <Link
+      to={campaignPath(campaign.id)}
+      onClick={() => void capture('campaign_selected')}
+      className="block rounded-lg border border-ink-800 bg-ink-900 p-4 space-y-3 hover:border-ink-700 transition-colors"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
@@ -41,9 +42,7 @@ function CampaignCard({
             {/* Role first: it's the thing that decides what you can do here. */}
             <span
               className={`text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded border ${
-                isLeader
-                  ? 'border-ember-500 text-ember-400'
-                  : 'border-ink-700 text-bone-300'
+                isLeader ? 'border-ember-500 text-ember-400' : 'border-ink-700 text-bone-300'
               }`}
             >
               {isLeader ? strings.campaign.roleLeader : strings.campaign.rolePlayer}
@@ -53,13 +52,9 @@ function CampaignCard({
                 {strings.home.btbBadge}
               </span>
             )}
-            {isActive && (
-              <span className="text-xs font-semibold uppercase tracking-wide text-ember-400">
-                {strings.campaign.activeBadge}
-              </span>
-            )}
           </div>
         </div>
+        <span aria-hidden className="text-bone-300 text-xl leading-none pt-0.5">›</span>
       </div>
 
       <div className="grid grid-cols-3 gap-3">
@@ -67,90 +62,66 @@ function CampaignCard({
         <Stat label={strings.campaign.battlesStat} value={battleCount} />
         <Stat label={strings.campaign.yourWarbandsStat} value={myWarbandCount} />
       </div>
-
-      {/* Only leaders can hand the code out, so only they are shown it here. */}
-      {isLeader && campaign.joinCode && (
-        <p className="text-bone-300 text-sm">
-          {strings.campaign.joinCodeLabel}:{' '}
-          <code className="font-mono tracking-widest text-ember-400">{campaign.joinCode}</code>
-        </p>
-      )}
-
-      {/* Only on the campaign you're actually in: /campaign/events resolves
-          against the active campaign, so offering it on the others would open
-          the wrong one's calendar. */}
-      {isActive && (
-        <Link
-          to="/campaign/events"
-          className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
-        >
-          {strings.events.homeLink}
-        </Link>
-      )}
-
-      <Button variant={isActive ? 'secondary' : 'primary'} onClick={onOpen}>
-        {isActive ? strings.campaign.openActive : strings.campaign.switchToThis}
-      </Button>
-    </div>
+    </Link>
   );
 }
 
 /**
- * Every campaign you're in, at a glance.
- *
- * The campaign screen only ever shows one campaign, and switching was a bare
- * dropdown of names — which tells you nothing about which one you lead, which
- * is still being played, or where your warbands are. This is the index that was
- * missing; the campaign screen remains the detail view for whichever is active.
+ * Every campaign you're in, at a glance — the Campaigns tab's root.
+ * Finding players is the section's other screen (`/players`), one tap away in
+ * the header rather than under the list.
  */
 export default function MyCampaignsScreen() {
   const { data: summaries, isLoading } = useCampaignSummariesQuery();
-  const setActiveCampaign = useSetActiveCampaign();
-  const navigate = useNavigate();
-  const activeId = readActiveCampaignId();
-
-  function open(campaignId: string) {
-    setActiveCampaign(campaignId);
-    void capture('campaign_selected');
-    navigate('/campaign');
-  }
+  const none = !isLoading && (summaries?.length ?? 0) === 0;
 
   return (
     <div className="min-h-full flex flex-col">
-      {/* A plain header, not BackHeader: this is now a nav destination in its
-          own right, and a back arrow on a tab root goes nowhere useful. */}
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-        <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{strings.campaign.myCampaignsTitle}</h1>
-      </header>
+      <TabHeader title={strings.nav.campaign}>
+        <CampaignsSectionLinks current="campaigns" />
+      </TabHeader>
 
       <main className="flex-1 px-4 py-6 space-y-4">
+        {/* §38.5 — open invites first: they're the one thing here waiting on you. */}
+        <CampaignInvitesCard />
+
         {isLoading && <p className="text-bone-300">{strings.common.loading}</p>}
 
-        {!isLoading && (summaries?.length ?? 0) === 0 && (
-          <p className="text-bone-300 text-sm">{strings.campaign.myCampaignsEmpty}</p>
+        {none && (
+          <>
+            <p className="text-bone-300 text-sm">{strings.campaign.myCampaignsEmpty}</p>
+            {/* §39.3 — the one place a player without a group goes looking. */}
+            <Card>
+              <LookingForGroup />
+            </Card>
+          </>
         )}
 
         {(summaries ?? []).map((summary) => (
-          <CampaignCard
-            key={summary.campaign.id}
-            summary={summary}
-            // Falls back to the first, matching how the app picks one elsewhere.
-            isActive={summary.campaign.id === (activeId ?? summaries?.[0]?.campaign.id)}
-            onOpen={() => open(summary.campaign.id)}
-          />
+          <CampaignCard key={summary.campaign.id} summary={summary} />
         ))}
 
-        {/* The forms themselves, not a link to them. This used to send you to
-            the campaign *detail* screen to find them, which is the one place a
-            list of campaigns shouldn't take you. */}
         <div className="pt-2 space-y-4">
-          <JoinCampaignForm title={strings.campaign.joinAnotherTitle} compact />
+          <JoinCampaignForm title={none ? strings.campaign.joinTitle : strings.campaign.joinAnotherTitle} compact />
           <CreateCampaignForm
-            title={strings.campaign.startAnotherTitle}
+            title={none ? strings.campaign.startTitle : strings.campaign.startAnotherTitle}
             hint={strings.campaign.startAnotherHint}
             compact
           />
         </div>
+
+        {/* §26.6 — the third way in, for someone with no group yet: battles
+            work without a campaign and land in Your Battles on Play. Moved here
+            from the old /campaign first-run screen, which no longer exists. */}
+        {none && (
+          <Card as="section" gap="sm">
+            <SectionHeading>{strings.campaign.oneOffTitle}</SectionHeading>
+            <p className="text-bone-300 text-sm">{strings.campaign.oneOffBody}</p>
+            <Link to="/post-battle" className={buttonClasses('secondary')}>
+              {strings.campaign.oneOffButton}
+            </Link>
+          </Card>
+        )}
       </main>
     </div>
   );

@@ -1,7 +1,11 @@
 import { Suspense, lazy, useState } from 'react';
 import { Link } from 'react-router-dom';
+import TabHeader from '../components/TabHeader';
+import { HeaderAction } from '../components/HeaderTools';
+import { Plus } from 'lucide-react';
+import SubTabs from '../components/SubTabs';
 import PublicWarbandBrowser from '../components/PublicWarbandBrowser';
-import { buttonClasses } from '../components/ui';
+import { ListGroup, ListRow, SectionHeading, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
 import { useWarbandList, useWarbandsQuery } from '../hooks/useWarbands';
 import { useWarbandThumbnails } from '../hooks/usePhotos';
@@ -29,29 +33,16 @@ export default function WarbandListScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800 flex items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{strings.warbandList.title}</h1>
-        {tab === 'warbands' && (
-          <Link to="/warbands/new" className={`${buttonClasses('primary', 'dense', false)} shrink-0`}>
-            {strings.warbandList.newWarband}
-          </Link>
-        )}
-      </header>
-
-      <div className="px-4 pt-4 flex gap-2">
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            onClick={() => setTab(t.id)}
-            className={`flex-1 min-h-[40px] rounded-md border text-xs sm:text-sm font-semibold px-1 ${
-              tab === t.id ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
+      <TabHeader
+        title={strings.warbandList.title}
+        action={
+          tab === 'warbands' ? (
+            <HeaderAction to="/warbands/new" Icon={Plus} label={strings.warbandList.newWarband} />
+          ) : undefined
+        }
+      >
+        <SubTabs items={TABS.map((t) => ({ label: t.label, active: tab === t.id, onSelect: () => setTab(t.id) }))} />
+      </TabHeader>
 
       <main className="flex-1 px-4 py-4 space-y-3">
         {tab === 'public' ? (
@@ -73,16 +64,6 @@ export default function WarbandListScreen() {
                 </div>
               ))}
 
-            {/* Comparison needs two warbands, so the entry only appears once
-                there are two to compare. */}
-            {warbands.length >= 2 && (
-              <Link
-                to="/compare"
-                className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
-              >
-                {strings.compare.entry}
-              </Link>
-            )}
 
             {warbands.map((warband) => (
               <Link
@@ -110,6 +91,18 @@ export default function WarbandListScreen() {
                 </div>
               </Link>
             ))}
+            {/* §40.3 — the warband tools, which had no home: compare (it needs
+                two warbands) and your own custom warband types, which were only
+                reachable from New Warband. */}
+            {warbands.length > 0 && (
+              <section className="pt-4 space-y-2">
+                <SectionHeading>{strings.warbandList.toolsSection}</SectionHeading>
+                <ListGroup>
+                  {warbands.length >= 2 && <ListRow to="/compare" label={strings.compare.entry} />}
+                  <ListRow to="/custom-warbands" label={strings.customWarbands.title} />
+                </ListGroup>
+              </section>
+            )}
           </>
         ) : (
           <Suspense fallback={<p className="text-bone-300 text-sm">{strings.common.loading}</p>}>

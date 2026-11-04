@@ -11,7 +11,7 @@ import {
   StandingsRow,
 } from '../types';
 
-type CampaignRow = {
+export type CampaignRow = {
   id: string;
   name: string;
   uses_btb: boolean;
@@ -26,7 +26,7 @@ type CampaignRow = {
   concluded_at?: string | null;
 };
 
-function toCampaign(row: CampaignRow): Campaign {
+export function toCampaign(row: CampaignRow): Campaign {
   return {
     id: row.id,
     name: row.name,
@@ -245,12 +245,21 @@ export async function regenerateJoinCode(campaignId: string): Promise<string> {
   return data as string;
 }
 
-type MemberRow = {
+export type MemberRow = {
   user_id: string;
   role: CampaignRole;
   joined_at: string;
   profiles: { display_name: string } | null;
 };
+
+export function toMember(row: MemberRow): CampaignMember {
+  return {
+    userId: row.user_id,
+    role: row.role,
+    joinedAt: row.joined_at,
+    displayName: row.profiles?.display_name || '',
+  };
+}
 
 export async function fetchCampaignMembers(campaignId: string): Promise<CampaignMember[]> {
   if (isDemoMode()) return demo.fetchCampaignMembers(campaignId);
@@ -261,12 +270,7 @@ export async function fetchCampaignMembers(campaignId: string): Promise<Campaign
     .order('joined_at', { ascending: true });
   if (error) throw error;
 
-  return (data as unknown as MemberRow[]).map((row) => ({
-    userId: row.user_id,
-    role: row.role,
-    joinedAt: row.joined_at,
-    displayName: row.profiles?.display_name || '',
-  }));
+  return (data as unknown as MemberRow[]).map(toMember);
 }
 
 /**

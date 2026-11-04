@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useClaimableCampaignsQuery, useClaimLeadershipMutation } from '../hooks/useCampaign';
-import { writeActiveCampaignId } from '../lib/activeCampaign';
+import { campaignPath, writeActiveCampaignId } from '../lib/activeCampaign';
 import { strings } from '../strings';
 import { Button } from './ui';
 
@@ -88,7 +88,7 @@ export default function LeaderClaimPrompt() {
             fullWidth={false}
             onClick={() => {
               setOutcome(null);
-              if (outcome.kind === 'claimed') navigate('/campaign');
+              if (outcome.kind === 'claimed') navigate(outcome.campaignId ? campaignPath(outcome.campaignId) : '/campaigns');
             }}
           >
             {outcome.kind === 'claimed' ? s.openCampaign : s.close}

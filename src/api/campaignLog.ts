@@ -19,7 +19,7 @@ export type CampaignLogEntry = {
   createdAt: string;
 };
 
-type LogRow = {
+export type LogRow = {
   id: string;
   campaign_id: string;
   author_id: string;
@@ -30,7 +30,7 @@ type LogRow = {
   profiles: { display_name: string } | null;
 };
 
-function toEntry(row: LogRow): CampaignLogEntry {
+export function toEntry(row: LogRow): CampaignLogEntry {
   return {
     id: row.id,
     campaignId: row.campaign_id,
