@@ -32,6 +32,7 @@ const AccountScreen = lazy(loadSettingsScreen);
 const AccountSettingsScreen = lazy(() => import('./screens/account/AccountSettingsScreen'));
 const AccountDataScreen = lazy(() => import('./screens/account/AccountDataScreen'));
 const AccountAboutScreen = lazy(() => import('./screens/account/AccountAboutScreen'));
+const MyReportsScreen = lazy(() => import('./screens/account/MyReportsScreen'));
 
 const AdminLayout = lazy(() => import('./screens/admin/AdminLayout'));
 const AdminOverviewScreen = lazy(() => import('./screens/admin/AdminOverviewScreen'));
@@ -202,6 +203,8 @@ function AppShell() {
             <Route path="/account/settings" element={<AccountSettingsScreen />} />
             <Route path="/account/data" element={guarded(<AccountDataScreen />)} />
             <Route path="/account/about" element={<AccountAboutScreen />} />
+            {/* §41 — your own reports and the replies to them. */}
+            <Route path="/account/reports" element={guarded(<MyReportsScreen />)} />
             {/* The tab was renamed Settings -> Profile. Redirects rather
                 than a bare rename, so a bookmark or an old changelog link
                 still lands somewhere. */}

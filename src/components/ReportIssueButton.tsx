@@ -30,6 +30,9 @@ export default function ReportIssueButton() {
   const [message, setMessage] = useState('');
   const [shareIdentity, setShareIdentity] = useState(false);
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle');
+  // Whether the last sent report carried the username — only then can it be
+  // answered, so only then does the thanks point at Your reports (§41).
+  const [sentAttributed, setSentAttributed] = useState(false);
 
   async function submit() {
     const trimmed = message.trim();
@@ -59,6 +62,7 @@ export default function ReportIssueButton() {
         signed_in: Boolean(user),
         shared_identity: Boolean(user && shareIdentity),
       });
+      setSentAttributed(Boolean(user && shareIdentity));
       setState('sent');
       setMessage('');
     } catch {
@@ -121,7 +125,9 @@ export default function ReportIssueButton() {
             )}
 
             {state === 'sent' && (
-              <p className="font-ui text-sm text-verdigris">{strings.report.thanks}</p>
+              <p className="font-ui text-sm text-verdigris">
+                {sentAttributed ? strings.report.thanksAttributed : strings.report.thanks}
+              </p>
             )}
             {state === 'failed' && (
               <p className="font-ui text-sm text-blood">{strings.report.failed}</p>
