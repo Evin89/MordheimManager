@@ -3146,7 +3146,7 @@ _⚠️ until migration 0066 is applied._ The privacy policy promised account de
 - **Leadership:** a campaign they lead alone, with other members, passes to the member who joined first. This is the move a leadership transfer (0010) makes, and the 0010 trigger would otherwise refuse the cascade.
 - **Photos:** file paths are queued in `storage_purge_queue` for Admin › Maintenance, like the 30-day warband purge.
 - **This device:** signs out locally (the server session died with the user). It clears the battle draft and the per-account conveniences: undo list, last-used warband, active campaign, dismissed nudges. Theme, analytics consent and the tour flag stay.
-- The privacy policy (§7, §8) now describes this, dated 12 October 2026, with a changelog entry.
+- The privacy policy (§7, §8) now describes this, dated 4 November 2026 (the day it shipped), with a changelog entry.
 
 ❓ **Owner to confirm:** the keep/remove split above, and the first-joined member as new leader. The alternative is to refuse until the player transfers leadership, the way leaving a campaign does.
 
