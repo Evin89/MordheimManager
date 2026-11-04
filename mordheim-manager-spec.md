@@ -1701,17 +1701,17 @@ Entry points, all reaching the same picker:
 
 #### 15.3.1 Same spell twice ✅
 
-Raised by a player (issue `2711d406`, 2026-10-31): the app re-rolled every duplicate automatically, but the rule gives a choice. Mordheimer, *Magic*: **"If you get the same spell twice, roll again or lower the spell's difficulty by 1."** The source marks this sentence with an editor's ❓ but carries no note explaining it.
+Raised by a player (issue `2711d406`, 2026-10-31): the app re-rolled every duplicate automatically, but the rule gives a choice. Mordheimer, *Magic*: **"If you get the same spell twice, roll again or lower the spell's difficulty by 1."** The source's editor's ❓ on this sentence points to a rulebook FAQ, which settles it: *"There is no limit to the number of times you can reduce the difficulty of the spell. Of course after 2+ there would be no point. Luckily, you can choose to roll again instead."*
 
 - **A duplicate roll stops and offers both.** "Rolled 3: *Wendala's Maelstrom* — already known." Next to it are two buttons: **Lower to 6+** and **Roll again**. Nothing is applied until the player taps one (§15.3). "Roll again" keeps the re-roll history visible, as before.
-- **The exception is an entry with no difficulty** (`difficulty: null`, e.g. *Spell of Awakening*). It has no number to lower, so re-rolling is the only option and the app still does it automatically.
+- **The exception is when lowering would do nothing.** That covers an entry with no difficulty (`difficulty: null`, e.g. *Spell of Awakening*) and one already at **2+**, where any 2D6 succeeds. Re-rolling is then the only useful option, so the app does it automatically.
 - **If every entry is already known,** rolling can only lower a difficulty. "Roll again" is hidden.
 - **For a physical die:** the choose list also shows the model's known entries, under "Already known — rolled again?". Each has a **Lower difficulty by 1** action.
 - **It applies at every entry point.** The rule says "same spell twice", not "via advance", so it covers recruitment (the Warlock's two starting spells), the Record Advance panel and the post-battle wizard. In the wizard, a known id in `newSpells` *is* the lowering, and `applySpellGains` resolves it at commit, so the draft shape stays the same.
 - **It still spends the advance.** It is logged as a `skill` advance whose detail reads "*[spell]* (difficulty −1)". It also counts in the wizard's "*n* of *m*" tally.
 - **Storage:** `spellReductions` on `Hero`/`HiredSword` (§15.2). `spells` stays free of duplicates (§15.5). Effective difficulty = printed − lowered − `prayerModifier`. The working is shown ("6+ (7+ lowered by 1)") so the number never reads as a data error.
 - **Hand correction:** the unit entry's known row gets an **Undo −1** action. Removing the spell clears its lowering. Removing a lowered-difficulty advance with the §4.2.1 grant option ticked takes off the −1, not the spell.
-- ❓ **Floor and repeats.** The source gives no minimum, and doesn't say whether one spell can be lowered more than once. **Default: no floor, repeats allowed.** Every further duplicate lowers by another 1, and nothing is invented to stop it. Revisit if the ❓ is resolved upstream.
+- ✅ **Repeats and floor (FAQ).** No limit on how many times one spell is lowered, so every further duplicate takes another −1. The only stop is 2+, where the FAQ says there's no point. The app simply stops offering the −1 there; it is not a rule cap.
 
 ### 15.4 In the unit entry
 

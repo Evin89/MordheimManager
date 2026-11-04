@@ -72,14 +72,18 @@ export function formatDifficulty(spell: Spell, modifier = 0, lowered = 0): strin
 }
 
 /**
- * Whether rolling an entry again can lower its difficulty.
+ * Whether rolling an entry again can usefully lower its difficulty.
  *
  * Mordheim Magic: "If you get the same spell twice, roll again or lower the
- * spell's difficulty by 1." An entry that succeeds automatically has no number
- * to lower, so for it the only option left is the re-roll.
+ * spell's difficulty by 1." The rulebook FAQ settles the editor's query on it:
+ * "There is no limit to the number of times you can reduce the difficulty of
+ * the spell. Of course after 2+ there would be no point." So there is no rule
+ * cap — but at 2+ any 2D6 already succeeds, and the app stops offering a −1
+ * that would do nothing, leaving the re-roll. An entry that succeeds
+ * automatically has no number to lower at all.
  */
-export function canLowerDifficulty(spell: Spell): boolean {
-  return spell.difficulty !== null;
+export function canLowerDifficulty(spell: Spell, lowered = 0): boolean {
+  return spell.difficulty !== null && spell.difficulty - lowered > 2;
 }
 
 function signed(n: number): string {

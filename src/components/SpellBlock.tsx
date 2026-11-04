@@ -287,7 +287,7 @@ export default function SpellBlock({
   const knownSpells = held.map(getSpell).filter((s): s is Spell => !!s);
   const unknown = getAvailableSpells(spellLists).filter((s) => !held.includes(s.id));
   // Known entries that rolling again could lower — only when lowering is on offer.
-  const lowerable = onLower ? knownSpells.filter(canLowerDifficulty) : [];
+  const lowerable = onLower ? knownSpells.filter((sp) => canLowerDifficulty(sp, reductions[sp.id] ?? 0)) : [];
   const canAct = unknown.length > 0 || lowerable.length > 0;
   duplicateRef.current = duplicate;
 
@@ -314,12 +314,12 @@ export default function SpellBlock({
     }
 
     // With lowering on offer a duplicate is the player's call, not the app's —
-    // except on an entry that always works, which has no difficulty to lower,
-    // so re-rolling it is the only option and the app takes it.
+    // except where lowering would do nothing (an automatic entry, or one
+    // already at 2+), so re-rolling is the only option and the app takes it.
     const list = getSpellList(spellLists[0]);
     if (!list) return;
     const known = heldRef.current;
-    if (list.spells.every((s) => known.includes(s.id) && !canLowerDifficulty(s))) return;
+    if (list.spells.every((s) => known.includes(s.id) && !canLowerDifficulty(s, reductions[s.id] ?? 0))) return;
 
     const rerolled = [...rerolledSoFar];
     for (let attempt = 0; attempt < 100; attempt += 1) {
@@ -331,7 +331,7 @@ export default function SpellBlock({
         setLastRoll({ die: result.die, name: result.spell.name, rerolled });
         return;
       }
-      if (!canLowerDifficulty(result.spell)) {
+      if (!canLowerDifficulty(result.spell, reductions[result.spell.id] ?? 0)) {
         rerolled.push(result.die);
         continue;
       }
