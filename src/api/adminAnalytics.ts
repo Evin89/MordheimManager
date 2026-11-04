@@ -24,6 +24,34 @@ export type TimeToActivation = {
   battle: { reached: number; median_hours: number | null };
 };
 export type ActivityDay = { day: string; signups: number; warbands: number; battles: number };
+/** §4.9.9 — the series behind the admin activity charts (migration 0068). */
+export const ACTIVITY_KINDS = [
+  'edits',
+  'editors',
+  'warbands_created',
+  'warbands_deleted',
+  'campaigns_created',
+  'campaign_battles',
+  'campaign_joins',
+  'game_nights',
+  'active_campaigns',
+] as const;
+export type ActivityKind = (typeof ACTIVITY_KINDS)[number];
+export type ActivityBucket = 'day' | 'week';
+/**
+ * Every series over the same zero-filled buckets (`YYYY-MM-DD`, a day or the
+ * Monday of a week, in the admin's zone). `totals` are over the whole range,
+ * so the distinct kinds (`editors`, `active_campaigns`) are not the sum of
+ * their buckets.
+ */
+export type ActivityBreakdown = {
+  bucket: ActivityBucket;
+  from: string;
+  to: string;
+  buckets: string[];
+  series: Record<ActivityKind, number[]>;
+  totals: Record<ActivityKind, number>;
+};
 export type AcquisitionRow = { channel: string; n: number };
 /** §26.7.2 — self-reported source counts (incl. `not_answered`) and the last 20
  * "Other" notes, text only: no user id, name or date. */
@@ -58,6 +86,17 @@ export async function fetchRetentionCohorts(weeks = 8): Promise<CohortCell[]> {
 export async function fetchActivitySeries(days = 30): Promise<ActivityDay[]> {
   if (isDemoMode()) return demo.fetchActivitySeries(days);
   return callJson<ActivityDay[]>('admin_activity_series', { p_days: days });
+}
+
+export async function fetchActivityBreakdown(bucket: ActivityBucket, count: number): Promise<ActivityBreakdown> {
+  if (isDemoMode()) return demo.fetchActivityBreakdown(bucket, count);
+  const { data, error } = await supabase.rpc('admin_activity_breakdown', {
+    p_bucket: bucket,
+    p_count: count,
+    p_tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  });
+  if (error) throw error;
+  return data as ActivityBreakdown;
 }
 
 export async function fetchAcquisitionBreakdown(days = 30): Promise<AcquisitionRow[]> {

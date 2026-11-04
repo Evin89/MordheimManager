@@ -879,6 +879,22 @@ The operator chores with no "where the thing lives" home (§4.6) because they ar
 
 **Demo mode.** `demo.fetchAdminCampaignContent` composes the existing member-side demo fetchers, so the admin screen shows exactly what the demo campaign screen shows.
 
+#### 4.9.9 Activity charts — edits, warbands, campaigns ✅ _(migration 0068)_
+
+The Growth panel's daily series (§23.5) counts signups, new warbands and battles. It can't tell whether players keep working on their rosters, how many warbands get thrown away, or whether campaigns are alive. Overview now has an **Activity** section above Growth that answers those three questions.
+
+- **Edits:** *Warband edits* (one per saved roster change, from `warband_edits`, §0035) and *Players editing* (distinct editors).
+- **Warbands:** *Warbands created* (soft-deleted ones included) and *Warbands deleted* (by `deleted_at`).
+- **Campaigns:** *Active campaigns* (distinct campaigns with a battle, a join, a game night, a log entry or an edit to a warband entered in it), *Campaign battles* (friendly games excluded), *Players joining* (creators included), *Campaigns created*, *Game nights planned*.
+
+**Form.** Small multiples: one bar chart per measure, all in the one ember hue, each with its own scale (the measures differ by orders of magnitude, and a shared or dual axis would flatten the small ones). The title names the measure, so colour never carries identity. Each chart shows its range total; hovering a bar shows that bucket's value instead. Every group has a *Show as table* view with the exact numbers, which is also the screen-reader path since bars aren't individually focusable. Hand-drawn, no chart library (§4.9).
+
+**Range.** One control for all charts: *30 days* (daily buckets) or *26 weeks* (ISO weeks, Monday first). Buckets are in the admin's own time zone (`Intl` → `_valid_tz`), never server `::date`.
+
+**`admin_activity_breakdown(p_bucket, p_count, p_tz)`**, SECURITY DEFINER, admin-asserted first, `authenticated` only. One round trip returns every series over the same zero-filled buckets plus a total per series. Totals of the distinct measures (*Players editing*, *Active campaigns*) are distinct over the whole range, not the sum of the buckets. Content-blind like §4.9.7: kinds and counts only. About 100 ms on production data for 30 days. `supabase/db-tests/admin-activity-breakdown.sql` (21 checks) covers the counts, the distinct totals, the week buckets, and that players and anon are refused.
+
+Edits are only recorded since 14 September 2026, so earlier weeks in the 26-week view are empty; the chart's note says so.
+
 #### 4.9.7 What every admin function must never return
 
 **Never, for any admin, regardless of visibility: no email addresses, no BTB objectives, no campaign join codes.** Owner-only objectives are the entire reason that table is separate (§8.3); an admin function that returned them would undo it. A join code is a credential, not content.

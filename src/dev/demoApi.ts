@@ -731,6 +731,43 @@ export async function fetchActivitySeries(days = 30) {
   });
 }
 
+/** §4.9.9 — plausible, deterministic activity: busier at weekends, more edits
+ * than anything else, campaigns a trickle. */
+export async function fetchActivityBreakdown(bucket: 'day' | 'week', count: number) {
+  const step = bucket === 'day' ? 1 : 7;
+  const end = new Date();
+  if (bucket === 'week') end.setDate(end.getDate() - ((end.getDay() + 6) % 7));
+  const buckets = Array.from({ length: count }, (_, i) => {
+    const dt = new Date(end);
+    dt.setDate(dt.getDate() - (count - 1 - i) * step);
+    return dt.toISOString().slice(0, 10);
+  });
+  const wave = (i: number, base: number, spread: number) => {
+    const weekend = bucket === 'day' && [0, 6].includes(new Date(buckets[i]).getDay()) ? 2 : 1;
+    return Math.round((base + ((i * 7 + 3) % spread)) * weekend * step ** 0.8);
+  };
+  const series = {
+    edits: buckets.map((_, i) => wave(i, 30, 40)),
+    editors: buckets.map((_, i) => wave(i, 4, 6)),
+    warbands_created: buckets.map((_, i) => wave(i, 1, 4)),
+    warbands_deleted: buckets.map((_, i) => (i % 3 === 0 ? wave(i, 1, 2) : 0)),
+    campaigns_created: buckets.map((_, i) => (i % 9 === 4 ? 1 : 0) * Math.ceil(step / 3)),
+    campaign_battles: buckets.map((_, i) => wave(i, 0, 4)),
+    campaign_joins: buckets.map((_, i) => (i % 4 === 1 ? wave(i, 1, 2) : 0)),
+    game_nights: buckets.map((_, i) => (i % 6 === 2 ? 1 : 0) * Math.ceil(step / 3)),
+    active_campaigns: buckets.map((_, i) => wave(i, 1, 3)),
+  };
+  const sum = (xs: number[]) => xs.reduce((a, b) => a + b, 0);
+  const totals = Object.fromEntries(
+    Object.entries(series).map(([k, xs]) => [
+      k,
+      // Distinct kinds over a range are fewer than the sum of their buckets.
+      k === 'editors' || k === 'active_campaigns' ? Math.max(...xs) + 3 : sum(xs),
+    ]),
+  ) as Record<keyof typeof series, number>;
+  return { bucket, from: buckets[0], to: buckets[buckets.length - 1], buckets, series, totals };
+}
+
 export async function fetchRetentionCohorts(weeks = 8) {
   const out: { cohort_week: string; weeks_since: number; cohort_size: number; active: number }[] = [];
   const cohorts = Math.min(weeks, 5);
