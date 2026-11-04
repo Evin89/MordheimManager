@@ -1,6 +1,7 @@
 import { Suspense, lazy, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
+import SubTabs from '../components/SubTabs';
 import EquipmentShop from '../components/EquipmentShop';
 import NumberInput from '../components/NumberInput';
 import { Button, Card, SectionHeading } from '../components/ui';
@@ -9,7 +10,7 @@ import { strings } from '../strings';
 // Lazy: see TabRules — keeps the rules catalogues out of this chunk too.
 const TabRules = lazy(() => import('../components/TabRules'));
 import { useSaveWarbandMutation, useWarbandLookup } from '../hooks/useWarbands';
-import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
+import { useBattlesQuery, useWarbandCampaign } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { EQUIPMENT_CATEGORY_LABELS, groupByCategory } from '../lib/equipmentCategories';
@@ -82,7 +83,8 @@ export default function TradingPostScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const { warband, loading } = useWarbandLookup(warbandId);
   const saveWarband = useSaveWarbandMutation();
-  const { data: campaign } = useMyCampaignQuery();
+  // The warband's own campaign (§34.4), not whichever one was opened last.
+  const campaign = useWarbandCampaign(warbandId);
   const { data: battles } = useBattlesQuery(campaign?.id);
   const [tab, setTab] = useState<Tab>('shop');
   const purchase = usePurchase();
@@ -131,28 +133,14 @@ export default function TradingPostScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={strings.nav.trading} subtitle={warband.name} />
-
-      <div className="px-4 pt-4 flex gap-2">
-        <button
-          type="button"
-          onClick={() => setTab('shop')}
-          className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-            tab === 'shop' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
-          }`}
-        >
-          {strings.trading.shopTab}
-        </button>
-        <button
-          type="button"
-          onClick={() => setTab('rules')}
-          className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-            tab === 'rules' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
-          }`}
-        >
-          {strings.trading.rulesTab}
-        </button>
-      </div>
+      <BackHeader title={strings.trading.pickWarbandTitle} subtitle={warband.name}>
+        <SubTabs
+          items={[
+            { label: strings.trading.shopTab, active: tab === 'shop', onSelect: () => setTab('shop') },
+            { label: strings.trading.rulesTab, active: tab === 'rules', onSelect: () => setTab('rules') },
+          ]}
+        />
+      </BackHeader>
 
       <main className="flex-1 px-4 py-4 space-y-6">
         {tab === 'shop' ? (

@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
+import { campaignPath } from '../lib/activeCampaign';
 import { Link, Navigate } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import { CampaignEvent } from '../api/events';
 import { useCampaignEventsQuery } from '../hooks/useEvents';
-import { useMyCampaignQuery } from '../hooks/useCampaign';
+import { useRouteCampaign } from '../hooks/useCampaign';
 import { SectionHeading } from '../components/ui';
 import { strings } from '../strings';
 import { dayKey, monthCells } from '../lib/calendar';
@@ -24,7 +25,7 @@ function formatTime(iso: string): string {
  * dependency for it would be larger than the feature.
  */
 export default function CampaignCalendarScreen() {
-  const { data: campaign, isLoading } = useMyCampaignQuery();
+  const { data: campaign, isLoading } = useRouteCampaign();
   const { data: events } = useCampaignEventsQuery(campaign?.id);
 
   const today = new Date();
@@ -80,7 +81,7 @@ export default function CampaignCalendarScreen() {
 
       <main className="flex-1 px-4 py-4 space-y-4">
         <Link
-          to="/campaign/events"
+          to={campaignPath(campaign.id, 'events')}
           className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
         >
           {strings.events.viewAsList}
@@ -173,7 +174,7 @@ export default function CampaignCalendarScreen() {
             selectedEvents.map((e) => (
               <Link
                 key={e.id}
-                to={`/campaign/events/${e.id}`}
+                to={campaignPath(campaign.id, `events/${e.id}`)}
                 className="block rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-1 hover:border-ink-700 transition-colors"
               >
                 <p className="text-bone-100 font-semibold">{e.title}</p>

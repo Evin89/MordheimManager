@@ -5,7 +5,33 @@ import { IssueReport, IssueStatus } from '../../api/issues';
 import { useIssueReportsQuery, useUpdateIssueStatusMutation } from '../../hooks/useIssues';
 import { strings } from '../../strings';
 
-const FILTERS: { id: IssueStatus | 'all'; label: string }[] = [
+/** The warband a report was filed from, when its route had one (`:warbandId`). */
+function warbandIdFrom(context: Record<string, unknown>): string | null {
+  const params = context.params as Record<string, unknown> | undefined;
+  const id = params?.warbandId;
+  return typeof id === 'string' && /^[0-9a-f-]{36}$/i.test(id) ? id : null;
+}
+
+/** Plain-text dump of a report, for pasting into a bug tracker or Claude Code. */
+function reportAsText(report: IssueReport): string {
+  const lines = [
+    `Issue ${report.id} [${report.status}]`,
+    '',
+    report.message,
+    '',
+    `Path: ${report.path}`,
+    `Filed: ${new Date(report.createdAt).toISOString()}`,
+    `Build: ${report.appVersion || '—'}`,
+    `Reporter: ${report.reporterId ? `${report.reporterName || 'Unnamed player'} (${report.reporterId})` : 'anonymous'}`,
+    `Agent: ${report.userAgent || '—'}`,
+  ];
+  if (Object.keys(report.context).length > 0) {
+    lines.push('', 'Context:', JSON.stringify(report.context, null, 2));
+  }
+  return lines.join('\n');
+}
+
+const FILTERS:{ id: IssueStatus | 'all'; label: string }[] = [
   { id: 'open', label: 'Open' },
   { id: 'triaged', label: 'Triaged' },
   { id: 'closed', label: 'Closed' },
@@ -20,6 +46,18 @@ function ReportRow({
   onStatus: (status: IssueStatus) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(reportAsText(report));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Clipboard access can be denied; the report is on screen to copy by hand.
+    }
+  }
+
   return (
     <div className="border-b border-ink-800 last:border-b-0">
       <button
@@ -70,6 +108,16 @@ function ReportRow({
             </div>
           </dl>
 
+          {/* §4.9.4.3 — a report filed from a roster screen carries its id. */}
+          {warbandIdFrom(report.context) && (
+            <Link
+              to={`/admin/warbands/${warbandIdFrom(report.context)}`}
+              className="inline-flex items-center min-h-[40px] text-ember-400 text-sm font-semibold"
+            >
+              Open roster →
+            </Link>
+          )}
+
           {Object.keys(report.context).length > 0 && (
             <pre className="overflow-x-auto rounded-md border border-ink-800 bg-ink-950 p-2 font-ui text-xs text-bone-100">
               {JSON.stringify(report.context, null, 2)}
@@ -77,6 +125,13 @@ function ReportRow({
           )}
 
           <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={copy}
+              className="min-h-[44px] px-3 rounded-md border border-ink-700 font-ui text-sm font-semibold text-bone-100"
+            >
+              {copied ? 'Copied ✓' : 'Copy'}
+            </button>
             {(['open', 'triaged', 'closed'] as IssueStatus[])
               .filter((s) => s !== report.status)
               .map((s) => (

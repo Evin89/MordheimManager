@@ -53,3 +53,13 @@ export function pickActiveCampaign(campaigns: Campaign[]): Campaign | null {
   const storedId = readActiveCampaignId();
   return campaigns.find((c) => c.id === storedId) ?? campaigns[0];
 }
+
+/**
+ * §40.3 — a campaign's own address. `/campaigns/:id` (and its tabs and game
+ * nights beneath it) replaces the old `/campaign`, which showed "the active
+ * campaign" and so could be neither shared nor bookmarked. The stored id above
+ * is still written on every open, but only as "last opened" for Home.
+ */
+export function campaignPath(campaignId: string, sub?: string): string {
+  return sub ? `/campaigns/${campaignId}/${sub.replace(/^\/+/, '')}` : `/campaigns/${campaignId}`;
+}

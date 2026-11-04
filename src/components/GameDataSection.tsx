@@ -17,7 +17,7 @@ import { insertIssueReport } from '../api/issues';
 export default function GameDataSection() {
   const { user } = useAuth();
   const location = useLocation();
-  const s = strings.settings.gameData;
+  const s = strings.account.gameData;
   const [body, setBody] = useState('');
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
