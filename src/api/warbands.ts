@@ -189,14 +189,27 @@ export async function undoLastBattle(id: string, ownerId: string): Promise<Warba
  * Battles are left alone deliberately: they are the campaign's history, and a
  * deleted warband's games still happened.
  */
-export async function deleteWarband(id: string, ownerId: string): Promise<void> {
+/** §42 — the answers offered when deleting a warband (migration 0069). */
+export const DELETE_REASONS = ['trying_out', 'starting_over', 'mistake', 'finished', 'problem', 'other'] as const;
+export type DeleteReason = (typeof DELETE_REASONS)[number];
+/** The optional "why", sent with the delete. Stored anonymously. */
+export type DeleteFeedback = { reason: DeleteReason | null; note: string };
+
+export async function deleteWarband(id: string, ownerId: string, feedback?: DeleteFeedback): Promise<void> {
   if (isDemoMode()) return demo.deleteWarband(id, ownerId);
   // Routed through a SECURITY DEFINER function (migration 0040) rather than a
   // direct UPDATE: a bare `update warbands set deleted_at` was being rejected by
   // the row-level-security WITH CHECK even for the row's own owner. The function
   // takes only the id, verifies ownership server-side, and sets `deleted_at`
   // outside RLS — so the delete can't be tripped by the update policy.
-  const { error } = await supabase.rpc('soft_delete_warband', { warband_id: id });
+  // The answer, if any, rides along in the same call (§42): one round trip, and
+  // the server files it only once the delete has actually happened.
+  const note = feedback?.note.trim() ?? '';
+  const { error } = await supabase.rpc('soft_delete_warband', {
+    warband_id: id,
+    p_reason: feedback?.reason ?? null,
+    p_note: note === '' ? null : note,
+  });
   if (error) throw error;
 }
 

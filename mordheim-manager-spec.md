@@ -3991,3 +3991,38 @@ Without step 2, replies still work and show in-app. Only the push is missing.
 
 - ❓ **The reporter can't answer back.** Default: the reply is one-way, and a follow-up is a new report. A two-way thread would need a reporter insert path (an RPC, since reporters have no table access) and an admin unread marker. Add it if players start replying via new reports.
 - Email notification. Push and the in-app dot only, consistent with "no email provider" (migration 0006).
+
+## 42. Asking why a warband is deleted ✅ _(built 2026-11-04; migration 0069)_
+
+**Why.** The activity charts (§4.9.9) showed about one warband deleted for every two created. The data alone can't say why. Of the 98 deleted by 4 November, 63 went within a day of being made (25 within ten minutes), 53 were followed by a new warband of the same type from the same owner, and only 7 were in a campaign. That fits "trying it out", "starting over" and "something was wrong" equally well, and each needs a different fix. So the delete step now asks.
+
+### 42.1 The question
+
+On the roster's delete step, above the typed confirmation (§10.1): **"Why are you deleting it? (optional)"**, with a one-line note that the answer is kept anonymously. Six answers, one tap each, nothing preselected:
+
+| Stored as | Shown as |
+| --- | --- |
+| `trying_out` | I was just trying the app out |
+| `starting_over` | I'm starting it over |
+| `mistake` | I made it by mistake, or twice |
+| `finished` | I'm done with it (campaign over, warband retired) |
+| `problem` | Something didn't work right |
+| `other` | Something else |
+
+Then an optional note (500 characters; its label becomes "What went wrong?" for *Something didn't work right*). *Clear my answer* undoes a tap. Skipping the question changes nothing about the delete, and cancelling clears the answer.
+
+### 42.2 Data — migration 0069
+
+- **`warband_deletion_feedback`**: `reason`, `note`, and context copied from the warband at that moment: `warband_type`, `age_hours`, `edit_count` (from `warband_edits`), `in_campaign`. **No owner, no warband id, no name**, so an answer can't be traced back to a player, and it survives the 30-day purge (0014) and a restore (0065). RLS on with no policies, and table privileges revoked from `anon` and `authenticated`: only the two functions below touch it.
+- **`soft_delete_warband(warband_id, p_reason, p_note)`** replaces the one-argument version (0040). Both new arguments default to null, so a client that hasn't updated still resolves to it. It files the answer in the same call, and only once the delete has happened. It never blocks a delete: an unknown reason is dropped, the note is trimmed and cut at 500, and a note without a reason is filed as `other`. Deleting an already-deleted warband is now a no-op, where it used to restart the 30 days.
+- **`admin_deletion_feedback(p_days = 90)`**: admin only. Per reason: count, median age, median edit count, how many were in a campaign. Also how many deletions were answered out of all deletions in the window, and the latest 30 notes with their reason (no date).
+
+`supabase/db-tests/warband-deletion-feedback.sql` (14 checks).
+
+### 42.3 Admin side
+
+**Why players delete** at the top of Admin › Deleted warbands: answered of deleted (with %), a bar per reason with its typical age and edit count, then the latest notes in the player's words. The reason labels are the player's own wording, so the admin reads exactly what was asked.
+
+### 42.4 Privacy
+
+The privacy policy (§3) says so: the answer and note are stored with the warband's type, age, edit count and campaign flag, but not the player's name, account or the warband, and are used only to improve the app.

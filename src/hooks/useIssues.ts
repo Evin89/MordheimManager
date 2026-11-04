@@ -24,7 +24,11 @@ import {
   fetchSelfReportBreakdown,
   fetchTimeToActivation,
 } from '../api/adminAnalytics';
-import { fetchAdminDeletedWarbands, restoreDeletedWarband } from '../api/adminDeletedWarbands';
+import {
+  fetchAdminDeletedWarbands,
+  fetchAdminDeletionFeedback,
+  restoreDeletedWarband,
+} from '../api/adminDeletedWarbands';
 import { fetchAdminUserWarbands, fetchAdminWarbandRoster } from '../api/adminWarbands';
 import {
   fetchAdminCampaigns,
@@ -118,6 +122,17 @@ export function useAdminSelfReportQuery() {
 }
 
 /** Soft-deleted warbands (migration 0054), admin-only. */
+/** §42 — why players delete warbands, from the anonymous answers. */
+export function useAdminDeletionFeedbackQuery(days = 90) {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['adminDeletionFeedback', days],
+    queryFn: () => fetchAdminDeletionFeedback(days),
+    enabled: isAdmin === true,
+    retry: false,
+  });
+}
+
 export function useAdminDeletedWarbandsQuery() {
   const { data: isAdmin } = useIsAdminQuery();
   return useQuery({
