@@ -20,6 +20,7 @@ import {
 import { generateBattlefield } from '../../lib/solo/battlefield';
 import { useSoloStore, SoloSession } from '../../store/useSoloStore';
 import { generateId } from '../../lib/id';
+import { logFeatureUse } from '../../api/featureUsage';
 import { Button, Card, Field, SectionHeading, Select } from '../../components/ui';
 
 
@@ -126,6 +127,7 @@ export default function SoloSetupScreen() {
       ],
     };
     setSoloSession(session);
+    logFeatureUse('solo_battle_started');
     navigate(`/solo/${yourWarband.id}`);
   }
 
