@@ -48,13 +48,16 @@ Deno.serve(async (req) => {
 
   const body = await req.json().catch(() => null);
   const replyId = typeof body?.reply_id === 'string' ? body.reply_id : '';
-  if (!UUID.test(replyId)) return json({ skipped: true });
+  if (!UUID.test(replyId)) return json({ skipped: true, reason: 'bad_reply_id' });
 
   const supabase = createClient(supabaseUrl, serviceKey);
 
   // Claim it: only a fresh, un-notified reply matches. Two concurrent calls
-  // can't both win, and anything else is a no-op.
-  const { data: reply } = await supabase
+  // can't both win, and anything else is a no-op. A failed query is not the
+  // same as "nothing to claim": log it and answer 500, so it shows up in the
+  // function logs and in pg_net's net._http_response instead of passing as a
+  // quiet skip.
+  const { data: reply, error: claimError } = await supabase
     .from('issue_replies')
     .update({ notified_at: new Date().toISOString() })
     .eq('id', replyId)
@@ -62,21 +65,36 @@ Deno.serve(async (req) => {
     .gte('created_at', new Date(Date.now() - 10 * 60 * 1000).toISOString())
     .select('id, issue_id, body')
     .maybeSingle();
-  if (!reply) return json({ skipped: true });
+  if (claimError) {
+    console.error(`notify-issue-reply: claim failed for reply ${replyId}`, claimError);
+    return json({ error: 'claim_failed', detail: claimError.message }, 500);
+  }
+  if (!reply) {
+    console.log(`notify-issue-reply: reply ${replyId} not claimable (missing, stale or already notified)`);
+    return json({ skipped: true, reason: 'not_claimable' });
+  }
 
-  const { data: issue } = await supabase
+  const { data: issue, error: issueError } = await supabase
     .from('issue_reports')
     .select('reporter_id')
     .eq('id', reply.issue_id)
     .maybeSingle();
-  if (!issue?.reporter_id) return json({ skipped: true });
+  if (issueError) {
+    console.error(`notify-issue-reply: report lookup failed for reply ${replyId}`, issueError);
+    return json({ error: 'issue_lookup_failed', detail: issueError.message }, 500);
+  }
+  if (!issue?.reporter_id) return json({ skipped: true, reason: 'anonymous_report' });
 
   webpush.setVapidDetails(vapidSubject, vapidPublic, vapidPrivate);
 
-  const { data: subs } = await supabase
+  const { data: subs, error: subsError } = await supabase
     .from('push_subscriptions')
     .select('id, endpoint, p256dh, auth')
     .eq('user_id', issue.reporter_id);
+  if (subsError) {
+    console.error(`notify-issue-reply: subscription lookup failed for reply ${replyId}`, subsError);
+    return json({ error: 'subscriptions_lookup_failed', detail: subsError.message }, 500);
+  }
 
   // Unlike the invite push, the text is included: it is written by the admin,
   // not by another player, and the answer is the whole point of the push.
@@ -101,6 +119,8 @@ Deno.serve(async (req) => {
       if (status === 404 || status === 410) {
         await supabase.from('push_subscriptions').delete().eq('id', sub.id);
         pruned += 1;
+      } else {
+        console.error(`notify-issue-reply: push failed for subscription ${sub.id}`, status, err);
       }
     }
   }
