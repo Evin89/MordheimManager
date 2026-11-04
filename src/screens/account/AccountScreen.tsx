@@ -4,7 +4,7 @@ import BackHeader from '../../components/BackHeader';
 import AccountIdentity from '../../components/players/AccountIdentity';
 import { Button, Card, ListGroup, ListRow, SectionHeading, buttonClasses } from '../../components/ui';
 import { useAuth } from '../../auth/AuthProvider';
-import { useIsAdminQuery } from '../../hooks/useIssues';
+import { useIsAdminQuery, useMyUnreadRepliesQuery } from '../../hooks/useIssues';
 import { usePush } from '../../hooks/usePush';
 import { useTheme } from '../../hooks/useTheme';
 import { strings } from '../../strings';
@@ -23,6 +23,7 @@ export default function AccountScreen() {
   const { data: isAdmin } = useIsAdminQuery();
   const [theme] = useTheme();
   const { subscribed } = usePush();
+  const { data: unreadReplies } = useMyUnreadRepliesQuery();
   const location = useLocation();
   const navigate = useNavigate();
   const s = strings.account;
@@ -62,6 +63,13 @@ export default function AccountScreen() {
         <ListGroup>
           <ListRow to="/account/settings" label={s.rows.settings} status={settingsStatus} />
           {user && <ListRow to="/account/data" label={s.rows.data} />}
+          {user && (
+            <ListRow
+              to="/account/reports"
+              label={s.rows.reports}
+              status={unreadReplies ? strings.myReports.rowStatus(unreadReplies) : undefined}
+            />
+          )}
           <ListRow to="/account/about" label={s.rows.about} />
           {/* Presentation, not protection: the admin RPCs are gated in the
               database, so showing or hiding the row is equally safe. */}

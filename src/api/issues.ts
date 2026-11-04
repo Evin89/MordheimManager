@@ -146,6 +146,96 @@ export async function updateIssueStatus(id: string, status: IssueStatus): Promis
   if (error) throw error;
 }
 
+// ---------------------------------------------------------------------------
+// §41 — replies to reports (migration 0064).
+// ---------------------------------------------------------------------------
+
+export type IssueReply = {
+  id: string;
+  issueId: string;
+  body: string;
+  createdAt: string;
+  /** When the reporter opened it; null while unread. */
+  readAt: string | null;
+};
+
+type ReplyRow = { id: string; issue_id: string; body: string; created_at: string; read_at: string | null };
+
+function toReply(row: ReplyRow): IssueReply {
+  return { id: row.id, issueId: row.issue_id, body: row.body, createdAt: row.created_at, readAt: row.read_at };
+}
+
+/** Admin: every reply on the given reports, oldest first. One query for a whole
+ * inbox page rather than one per expanded row. */
+export async function fetchIssueReplies(issueIds: string[]): Promise<IssueReply[]> {
+  if (issueIds.length === 0) return [];
+  if (isDemoMode()) return demo.fetchIssueReplies(issueIds);
+  const { data, error } = await supabase
+    .from('issue_replies')
+    .select('id, issue_id, body, created_at, read_at')
+    .in('issue_id', issueIds)
+    .order('created_at', { ascending: true });
+  if (error) throw error;
+  return (data as ReplyRow[]).map(toReply);
+}
+
+/** Admin: answer an attributed report. The database refuses a reply to an
+ * anonymous one. */
+export async function insertIssueReply(issueId: string, authorId: string, body: string): Promise<void> {
+  if (isDemoMode()) return demo.insertIssueReply(issueId, authorId, body);
+  const { error } = await supabase
+    .from('issue_replies')
+    .insert({ issue_id: issueId, author_id: authorId, body });
+  if (error) throw error;
+}
+
+/** A report as its own reporter sees it: no admin notes, no captured context. */
+export type MyIssueReport = {
+  id: string;
+  message: string;
+  path: string;
+  status: IssueStatus;
+  createdAt: string;
+  replies: IssueReply[];
+};
+
+/** The signed-in player's own attributed reports, with replies. */
+export async function fetchMyIssueReports(): Promise<MyIssueReport[]> {
+  if (isDemoMode()) return demo.fetchMyIssueReports();
+  const { data, error } = await supabase.rpc('my_issue_reports');
+  if (error) throw error;
+  return (
+    (data ?? []) as {
+      id: string;
+      message: string;
+      path: string;
+      status: IssueStatus;
+      created_at: string;
+      replies: Omit<ReplyRow, 'issue_id'>[];
+    }[]
+  ).map((r) => ({
+    id: r.id,
+    message: r.message,
+    path: r.path,
+    status: r.status,
+    createdAt: r.created_at,
+    replies: (r.replies ?? []).map((rp) => toReply({ ...rp, issue_id: r.id })),
+  }));
+}
+
+export async function fetchMyUnreadReplyCount(): Promise<number> {
+  if (isDemoMode()) return demo.fetchMyUnreadReplyCount();
+  const { data, error } = await supabase.rpc('my_unread_issue_reply_count');
+  if (error) throw error;
+  return Number(data ?? 0);
+}
+
+export async function markMyIssueRepliesRead(issueId: string): Promise<void> {
+  if (isDemoMode()) return demo.markMyIssueRepliesRead(issueId);
+  const { error } = await supabase.rpc('mark_my_issue_replies_read', { p_issue_id: issueId });
+  if (error) throw error;
+}
+
 /** Players per page in the admin user overview. */
 export const ADMIN_USER_PAGE_SIZE = 25;
 

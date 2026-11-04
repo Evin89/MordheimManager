@@ -3856,3 +3856,46 @@ Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled
 - ✅ Naming (2026-11-03): `strings.settings` → `strings.account`, `nav.postBattle` → `nav.play`; strings orphaned by §40 removed; `AdminUserScreen` moved into `screens/admin/`.
 - ~~On phones, Account screens light no tab (the avatar isn't on a `BackHeader`). Decided 2026-11-03: keep it so.~~ Superseded 2026-11-04: the avatar is on every header and lights on Account (§40.2, *One header corner*).
 
+
+---
+
+## 41. Replying to issue reports ✅ _(built 2026-11-04; migration 0064 + Edge Function `notify-issue-reply` to deploy)_
+
+Until now a report only went one way. It landed in the §4.9.3 inbox, and the player who filed it never heard back. The first case was issue `2711d406` (same spell twice, §15.3.1): it was fixed, but there was no way to tell the reporter. This section adds the way back.
+
+### 41.1 Who can be answered
+
+**Only attributed reports.** The report form's opt-in "Include my username" (§4.9) already decides this. An anonymous report has nobody to answer, so the inbox says *"Filed anonymously — there is nobody to reply to"* instead of showing a reply box. The database refuses such a reply as well. The opt-in's hint now says what it buys: *"This allows us to reply to you — the answer appears under Account → Your reports."* After an attributed report is sent, the thanks message points to the same place.
+
+Reports filed from flows that are never attributed (profile reports, §38) stay unanswerable by design.
+
+### 41.2 Data — migration 0064
+
+- **`issue_replies`** (`issue_id` → `issue_reports` on delete cascade, `author_id`, `body` 1–4000 chars, `created_at`, `read_at`, `notified_at`). One row per reply, so a report can be answered more than once ("fixed in the next build", then "now live"). There is no update or delete policy: a correction is a second reply.
+- **RLS:** admins can select all replies, and can insert one as themselves, only on a report with a `reporter_id`. Reporters get **no** table access.
+- **Reporter reads go through `SECURITY DEFINER` functions** rather than a select policy on `issue_reports`. RLS is row-level, and a policy letting reporters read their own rows would also hand them `admin_notes`. The functions:
+  - `my_issue_reports()` returns your attributed reports (message, path, status, date), newest first and capped at 50, each with its replies.
+  - `my_unread_issue_reply_count()` returns the number of unread replies.
+  - `mark_my_issue_replies_read(issue_id)` marks a report's replies read. A report id that isn't yours matches nothing.
+
+### 41.3 Admin side (§4.9.3)
+
+The expanded report row gets a **Replies** block: replies so far, oldest first, each marked *Read [date]* or *Not read yet*, then a textarea and **Send reply**. A collapsed row shows "↩ n" under its status pill, so answered reports stand out without being opened. Replying does **not** change the status — triage stays a separate, deliberate tap.
+
+### 41.4 Reporter side
+
+- **Account → Your reports** (`/account/reports`). Each report shows its message, status and date, then the replies. Status labels are player-facing: *Open*, *Seen* (for `triaged`), *Closed*. Opening the screen marks every reply shown as read. Replies stay highlighted as **New** until you leave, so the thing you came to read doesn't un-highlight itself under you.
+- **Unread dot** on the header avatar (§40.2) and on the side rail's account row. It is the same dot as the invite marker (§38.5): presence, not a number, with the count read out to screen readers. The Account row shows "1 new reply".
+- **Push** (§19.4): a trigger on `issue_replies` insert calls `notify-issue-reply` through pg_net. This is the same no-secret pattern as 0062/0063: verify_jwt off, claims the reply via `notified_at`, only fresh replies (10 min). Title *"Reply to your report"*, the reply's first ~120 characters as the body, and a link to `/app/account/reports`. Unlike the invite push, the text is included, because the admin wrote it, not another player.
+
+### 41.5 Deploy
+
+1. Apply `0064_issue_replies.sql`.
+2. `supabase functions deploy notify-issue-reply --no-verify-jwt` (needs the existing VAPID secrets).
+
+Without step 2, replies still work and show in-app. Only the push is missing.
+
+### 41.6 Not in this pass
+
+- ❓ **The reporter can't answer back.** Default: the reply is one-way, and a follow-up is a new report. A two-way thread would need a reporter insert path (an RPC, since reporters have no table access) and an admin unread marker. Add it if players start replying via new reports.
+- Email notification. Push and the in-app dot only, consistent with "no email provider" (migration 0006).

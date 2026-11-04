@@ -8,6 +8,7 @@ import { strings } from '../strings';
 import DiceButton from './DiceButton';
 import { HEADER_CONTROL } from './headerStyles';
 import PlayerAvatar from './players/PlayerAvatar';
+import ReplyDot from './issues/ReplyDot';
 
 type HeaderActionProps = {
   label: string;
@@ -73,9 +74,10 @@ export function AccountButton() {
       aria-label={strings.nav.account}
       aria-current={current ? 'page' : undefined}
       title={strings.nav.account}
-      className={`print:hidden shrink-0 rounded-sm outline-offset-2 ${current ? 'ring-2 ring-ember-500' : ''}`}
+      className={`relative print:hidden shrink-0 rounded-sm outline-offset-2 ${current ? 'ring-2 ring-ember-500' : ''}`}
     >
       <PlayerAvatar url={avatars[user.id]} name={name} seed={profile?.avatarSeed ?? user.id} size="sm" />
+      <ReplyDot />
     </Link>
   );
 }
