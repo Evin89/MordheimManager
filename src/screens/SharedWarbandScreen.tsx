@@ -1,4 +1,7 @@
+import { useState, type ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { Check, Link2 } from 'lucide-react';
+import { HeaderAction } from '../components/HeaderTools';
 import BackHeader from '../components/BackHeader';
 import ProfileBlock from '../components/ProfileBlock';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
@@ -10,13 +13,19 @@ import WarbandAwards from '../components/WarbandAwards';
 import WarbandComments from '../components/WarbandComments';
 import { Card, Eyebrow, SectionHeading } from '../components/ui';
 import { strings } from '../strings';
-import { useSharedWarbandQuery, useWarband, useWarbandOwnerNameQuery } from '../hooks/useWarbands';
+import {
+  useSharedWarbandQuery,
+  useWarband,
+  useWarbandOwnerNameQuery,
+  useWarbandVisibilityQuery,
+} from '../hooks/useWarbands';
+import { capture } from '../lib/posthog';
 import { useEnsureWarbandType } from '../hooks/useCustomWarbands';
 import { useRosterPhotos } from '../hooks/usePhotos';
 import { computeWarbandRating } from '../lib/rating';
 import { getWarbandTypeName, getUnitSpecialRules } from '../data/warbandRegistry';
 import { modelDisplayName } from '../lib/modelNames';
-import { EquipmentItem, Injury, StatLine } from '../types';
+import { EquipmentItem, Injury, StatLine, Warband } from '../types';
 
 // One header style shared by the Equipment / Skills / Special rules columns,
 // so the three read as siblings — the same treatment the battle roster uses.
@@ -250,46 +259,23 @@ function ModelSection({
   );
 }
 
-export default function SharedWarbandScreen() {
-  const { warbandId } = useParams<{ warbandId: string }>();
-  const { data: warband, isLoading } = useSharedWarbandQuery(warbandId);
-  const { data: ownerName } = useWarbandOwnerNameQuery(warbandId);
-  // The standings table links every warband here, including your own — so this
-  // screen has to know when it's showing you back to yourself.
-  const isMine = useWarband(warbandId) !== undefined;
-  // A warband built on the owner's *custom* type: fetch and register that type
-  // (readable since 0022) so its name and unit rules resolve here the same as a
-  // bundled one, rather than showing a raw `custom-<id>` and blank rules.
-  const { loading: typeLoading } = useEnsureWarbandType(warband?.warbandType);
-  // Keyed by model id (the group shot lives under ''). Resolves to nothing for
-  // an anonymous visitor, since photos are readable only when signed in (§11.5),
-  // so the cards simply show no portrait rather than erroring.
-  const photos = useRosterPhotos(warbandId);
-
-  if (isLoading || typeLoading) {
-    return (
-      <div className="min-h-full flex items-center justify-center">
-        <p className="text-bone-300">{strings.common.loading}</p>
-      </div>
-    );
-  }
-
-  // A null result is RLS declining to return the row, not an app error — the
-  // warband may be private, or the viewer may have left the campaign since the
-  // link was made. Either way the honest message is the same.
-  if (!warband) {
-    return (
-      <div className="min-h-full flex flex-col">
-        <BackHeader title={strings.campaign.sharedRosterTitle} />
-        <main className="flex-1 px-4 py-6">
-          <Card gap="none">
-            <p className="text-bone-200 text-sm">{strings.campaign.sharedRosterUnavailable}</p>
-          </Card>
-        </main>
-      </div>
-    );
-  }
-
+/**
+ * The read-only roster itself — masthead, muster and model cards — shared by
+ * the public `/rosters/:id` screen and the admin roster view (§4.9.4.3), so the
+ * two can never render a warband differently. Carries no data fetching of its
+ * own beyond photos, and no edit affordances.
+ */
+export function ReadOnlyRoster({
+  warband,
+  ownerName,
+  photos,
+  hint,
+}: {
+  warband: Warband;
+  ownerName?: string | null;
+  photos: Record<string, string>;
+  hint?: ReactNode;
+}) {
   const type = warband.warbandType;
   const heroes: SharedModel[] = warband.heroes.map((hero) => ({
     id: hero.id,
@@ -339,52 +325,136 @@ export default function SharedWarbandScreen() {
   ].filter(Boolean);
 
   return (
+    <>
+      {/* The masthead: group shot as a book plate, then the name in the
+          display face — this is the one place a warband gets to show off. */}
+      <section className="space-y-4">
+        <WarbandPhotoFrame
+          warbandId={warband.id}
+          alt={strings.photo.alt(warband.name)}
+          variant="full"
+          className="max-h-[420px]"
+        />
+        <div className="space-y-1">
+          <Eyebrow>{getWarbandTypeName(type)}</Eyebrow>
+          <h2 className="font-display text-4xl sm:text-5xl leading-none tracking-[0.03em] text-bone-100 break-words">
+            {warband.name}
+          </h2>
+          {byline.length > 0 && <p className="text-bone-300 pt-1">{byline.join(' · ')}</p>}
+        </div>
+
+        <div className="grid grid-cols-4 gap-2">
+          <StatTile label={strings.campaign.sharedStatRating} value={computeWarbandRating(warband)} accent />
+          <StatTile label={strings.campaign.sharedStatModels} value={modelCount} />
+          <StatTile label={strings.campaign.sharedStatGold} value={warband.gold} />
+          <StatTile label={strings.campaign.sharedStatShards} value={warband.wyrdstoneShards} />
+        </div>
+
+        {hint}
+      </section>
+
+      {all.length > 1 && <Muster models={all} photos={photos} />}
+
+      <ModelSection title={strings.campaign.sharedHeroes} models={heroes} photos={photos} />
+      <ModelSection title={strings.campaign.sharedHenchmen} models={henchmen} photos={photos} />
+      <ModelSection title={strings.campaign.sharedHiredSwords} models={hiredSwords} photos={photos} />
+    </>
+  );
+}
+
+/**
+ * §36.1 — the one share action on someone else's roster: its link. The image
+ * card is the owner's to send; the link only travels what's already public.
+ */
+function CopyRosterLink({ warbandId }: { warbandId: string }) {
+  const [copied, setCopied] = useState(false);
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}/app/rosters/${warbandId}?ref=share-link`);
+      void capture('warband_card_shared', { method: 'copy_link', visibility: 'public' });
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* clipboard refused — the address bar still has it */
+    }
+  }
+  return (
+    // Icon-only on phones, so "copied" shows as a tick too, not just as text.
+    <HeaderAction
+      Icon={copied ? Check : Link2}
+      label={copied ? strings.roster.card.linkCopied : strings.roster.card.copyLink}
+      onClick={() => void copy()}
+    />
+  );
+}
+
+export default function SharedWarbandScreen() {
+  const { warbandId } = useParams<{ warbandId: string }>();
+  const { data: warband, isLoading } = useSharedWarbandQuery(warbandId);
+  const { data: ownerName } = useWarbandOwnerNameQuery(warbandId);
+  const { data: visibility } = useWarbandVisibilityQuery(warbandId);
+  // The standings table links every warband here, including your own — so this
+  // screen has to know when it's showing you back to yourself.
+  const isMine = useWarband(warbandId) !== undefined;
+  // A warband built on the owner's *custom* type: fetch and register that type
+  // (readable since 0022) so its name and unit rules resolve here the same as a
+  // bundled one, rather than showing a raw `custom-<id>` and blank rules.
+  const { loading: typeLoading } = useEnsureWarbandType(warband?.warbandType);
+  // Keyed by model id (the group shot lives under ''). Resolves to nothing for
+  // an anonymous visitor, since photos are readable only when signed in (§11.5),
+  // so the cards simply show no portrait rather than erroring.
+  const photos = useRosterPhotos(warbandId);
+
+  if (isLoading || typeLoading) {
+    return (
+      <div className="min-h-full flex items-center justify-center">
+        <p className="text-bone-300">{strings.common.loading}</p>
+      </div>
+    );
+  }
+
+  // A null result is RLS declining to return the row, not an app error — the
+  // warband may be private, or the viewer may have left the campaign since the
+  // link was made. Either way the honest message is the same.
+  if (!warband) {
+    return (
+      <div className="min-h-full flex flex-col">
+        <BackHeader title={strings.campaign.sharedRosterTitle} />
+        <main className="flex-1 px-4 py-6">
+          <Card gap="none">
+            <p className="text-bone-200 text-sm">{strings.campaign.sharedRosterUnavailable}</p>
+          </Card>
+        </main>
+      </div>
+    );
+  }
+
+  return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={strings.campaign.sharedRosterTitle} />
+      <BackHeader
+        title={strings.campaign.sharedRosterTitle}
+        action={visibility === 'public' ? <CopyRosterLink warbandId={warband.id} /> : undefined}
+      />
 
       <main className="flex-1 px-4 py-6 space-y-6">
-        {/* The masthead: group shot as a book plate, then the name in the
-            display face — this is the one place a warband gets to show off. */}
-        <section className="space-y-4">
-          <WarbandPhotoFrame
-            warbandId={warband.id}
-            alt={strings.photo.alt(warband.name)}
-            variant="full"
-            className="max-h-[420px]"
-          />
-          <div className="space-y-1">
-            <Eyebrow>{getWarbandTypeName(type)}</Eyebrow>
-            <h2 className="font-display text-4xl sm:text-5xl leading-none tracking-[0.03em] text-bone-100 break-words">
-              {warband.name}
-            </h2>
-            {byline.length > 0 && <p className="text-bone-300 pt-1">{byline.join(' · ')}</p>}
-          </div>
-
-          <div className="grid grid-cols-4 gap-2">
-            <StatTile label={strings.campaign.sharedStatRating} value={computeWarbandRating(warband)} accent />
-            <StatTile label={strings.campaign.sharedStatModels} value={modelCount} />
-            <StatTile label={strings.campaign.sharedStatGold} value={warband.gold} />
-            <StatTile label={strings.campaign.sharedStatShards} value={warband.wyrdstoneShards} />
-          </div>
-
-          <p className="text-bone-400 text-xs">
-            {isMine ? strings.campaign.sharedRosterOwnHint : strings.campaign.sharedRosterReadOnly}
-            {isMine && (
-              <>
-                {' '}
-                <Link to={`/warbands/${warband.id}`} className="text-ember-400 font-semibold">
-                  {strings.campaign.sharedRosterEditMine}
-                </Link>
-              </>
-            )}
-          </p>
-        </section>
-
-        {all.length > 1 && <Muster models={all} photos={photos} />}
-
-        <ModelSection title={strings.campaign.sharedHeroes} models={heroes} photos={photos} />
-        <ModelSection title={strings.campaign.sharedHenchmen} models={henchmen} photos={photos} />
-        <ModelSection title={strings.campaign.sharedHiredSwords} models={hiredSwords} photos={photos} />
+        <ReadOnlyRoster
+          warband={warband}
+          ownerName={ownerName}
+          photos={photos}
+          hint={
+            <p className="text-bone-400 text-xs">
+              {isMine ? strings.campaign.sharedRosterOwnHint : strings.campaign.sharedRosterReadOnly}
+              {isMine && (
+                <>
+                  {' '}
+                  <Link to={`/warbands/${warband.id}`} className="text-ember-400 font-semibold">
+                    {strings.campaign.sharedRosterEditMine}
+                  </Link>
+                </>
+              )}
+            </p>
+          }
+        />
 
         <WarbandAwards warbandId={warband.id} />
         <WarbandComments warbandId={warband.id} />

@@ -13,7 +13,7 @@ export type CampaignEvent = {
   createdBy: string;
 };
 
-type EventRow = {
+export type EventRow = {
   id: string;
   campaign_id: string;
   title: string;
@@ -23,7 +23,7 @@ type EventRow = {
   created_by: string;
 };
 
-function toEvent(row: EventRow): CampaignEvent {
+export function toEvent(row: EventRow): CampaignEvent {
   return {
     id: row.id,
     campaignId: row.campaign_id,

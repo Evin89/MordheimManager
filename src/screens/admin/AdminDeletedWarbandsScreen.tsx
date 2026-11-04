@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAdminDeletedWarbandsQuery } from '../../hooks/useIssues';
+import ConfirmAction from '../../components/ConfirmAction';
+import { useAdminDeletedWarbandsQuery, useRestoreDeletedWarbandMutation } from '../../hooks/useIssues';
 import { strings } from '../../strings';
 import { ago } from './shared';
 
@@ -15,6 +17,9 @@ function daysLeft(purgeAt: string): number {
  */
 export default function AdminDeletedWarbandsScreen() {
   const { data: rows, isError, error } = useAdminDeletedWarbandsQuery();
+  const restore = useRestoreDeletedWarbandMutation();
+  const [confirming, setConfirming] = useState<string | null>(null);
+  const [restored, setRestored] = useState<string | null>(null);
 
   if (isError) {
     return (
@@ -32,8 +37,13 @@ export default function AdminDeletedWarbandsScreen() {
     <section className="space-y-3">
       <h2 className="text-bone-100 font-semibold">Deleted warbands{rows ? ` (${rows.length})` : ''}</h2>
       <p className="font-ui text-xs text-bone-400">
-        Hidden from players, kept for 30 days, then purged by the nightly job. Metadata only.
+        Hidden from players, kept for 30 days, then purged by the nightly job. Tap a name for the read-only roster.
       </p>
+      {restored && (
+        <p role="status" className="font-ui text-xs text-bone-200">
+          Restored {restored}. It is back on its owner's list.
+        </p>
+      )}
 
       {!rows ? (
         <p className="text-bone-400 text-sm">{strings.common.loading}</p>
@@ -46,7 +56,12 @@ export default function AdminDeletedWarbandsScreen() {
             return (
               <div key={w.id} className="rounded-lg bg-ink-900 border border-ink-800 p-3 space-y-1">
                 <div className="flex items-start justify-between gap-3">
-                  <p className="text-bone-100 font-semibold break-words min-w-0">{w.name}</p>
+                  <Link
+                    to={`/admin/players/${w.owner_id}/warbands/${w.id}`}
+                    className="text-bone-100 font-semibold break-words min-w-0 hover:text-ember-400"
+                  >
+                    {w.name}
+                  </Link>
                   <span
                     className={`font-ui text-xs whitespace-nowrap ${left <= 3 ? 'text-danger' : 'text-bone-400'}`}
                   >
@@ -64,6 +79,50 @@ export default function AdminDeletedWarbandsScreen() {
                   Deleted {ago(w.deleted_at)} ({new Date(w.deleted_at).toLocaleDateString()}) · created{' '}
                   {new Date(w.created_at).toLocaleDateString()}
                 </p>
+                {confirming === w.id ? (
+                  <ConfirmAction
+                    prompt={`Restore ${w.name}?`}
+                    impact={
+                      <>
+                        <p>
+                          It comes back exactly as it was deleted: same owner and roster
+                          {w.campaign_name ? `, back in ${w.campaign_name}` : ''}.
+                        </p>
+                        {restore.isError && (
+                          <p className="text-danger">
+                            {(restore.error as Error).message} — if this mentions <code>admin_restore_warband</code>,
+                            migration 0065 has not been applied yet.
+                          </p>
+                        )}
+                      </>
+                    }
+                    action="Restore warband"
+                    busy={restore.isPending}
+                    onConfirm={() =>
+                      restore.mutate(w.id, {
+                        onSuccess: () => {
+                          setConfirming(null);
+                          setRestored(w.name);
+                        },
+                      })
+                    }
+                    onCancel={() => {
+                      setConfirming(null);
+                      restore.reset();
+                    }}
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      restore.reset();
+                      setConfirming(w.id);
+                    }}
+                    className="min-h-[44px] font-ui text-xs font-semibold text-bone-200 underline"
+                  >
+                    Restore
+                  </button>
+                )}
               </div>
             );
           })}

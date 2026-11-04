@@ -18,7 +18,6 @@ const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 
 const COMMIT =
   process.env.WORKERS_CI_COMMIT_SHA ?? // Cloudflare Workers Builds — this deploy
   process.env.CF_PAGES_COMMIT_SHA ?? // Cloudflare Pages
-  process.env.COMMIT_REF ?? // Netlify
   process.env.GITHUB_SHA ?? // GitHub Actions
   'dev';
 const APP_VERSION = `${pkg.version}+${COMMIT.slice(0, 7)}`;
@@ -58,7 +57,6 @@ function assertConfigured(env: Record<string, string>) {
       'BUILD variables, not as the host\'s runtime variables/secrets:',
       '',
       '  Cloudflare Workers  Settings -> Build -> Build variables and secrets',
-      '  Netlify             Site configuration -> Environment variables',
       '  Locally             copy .env.example to .env.local',
       '',
       'Set ALLOW_UNCONFIGURED_BUILD=1 to build anyway (the app will render its',
@@ -145,7 +143,7 @@ export default defineConfig(({ command, mode }) => {
               expiration: { maxEntries: 1 },
               plugins: [
                 {
-                  // Netlify rewrites every path to the same index.html, so
+                  // The host serves the same index.html for every path, so
                   // storing per-URL would cache identical copies and — worse —
                   // leave a deep link like /rules uncached until it had been
                   // visited online. One fixed key means any route opened
@@ -227,6 +225,10 @@ export default defineConfig(({ command, mode }) => {
         // (a link to the landing) opens in the browser instead.
         start_url: '/app',
         scope: '/app',
+        // §36.1 — pins the app's identity. Chrome already derived it from
+        // start_url (`/app`), so existing installs are unaffected; this stops a
+        // future start_url change from orphaning them.
+        id: '/app',
         display: 'standalone',
         background_color: '#0b0a09',
         theme_color: '#0b0a09',

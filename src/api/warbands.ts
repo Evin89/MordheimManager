@@ -250,7 +250,7 @@ export type CampaignWarbandRow = {
   playerName: string;
 };
 
-type CampaignWarbandQueryRow = {
+export type CampaignWarbandQueryRow = {
   id: string;
   owner_id: string;
   name: string;
@@ -272,14 +272,18 @@ export async function fetchCampaignWarbands(campaignId: string): Promise<Campaig
     .order('rating', { ascending: false });
   if (error) throw error;
 
-  return (data as unknown as CampaignWarbandQueryRow[]).map((row) => ({
+  return (data as unknown as CampaignWarbandQueryRow[]).map(toCampaignWarband);
+}
+
+export function toCampaignWarband(row: CampaignWarbandQueryRow): CampaignWarbandRow {
+  return {
     id: row.id,
     ownerId: row.owner_id,
     name: row.name,
     warbandType: row.warband_type,
     rating: row.rating,
     playerName: row.profiles?.display_name || '',
-  }));
+  };
 }
 
 /** Rows per page in the gallery.
@@ -361,6 +365,19 @@ export async function fetchSharedWarband(id: string): Promise<Warband | null> {
   const { data, error } = await supabase.from('warbands').select('data').eq('id', id).maybeSingle();
   if (error) throw error;
   return data ? (data as { data: Warband }).data : null;
+}
+
+/**
+ * A readable warband's visibility, or null when RLS hides it. The shared roster
+ * offers its link to others only when the warband is public (§37.1): a
+ * campaign-mate can see a private one, but the link wouldn't open for anyone
+ * they sent it to.
+ */
+export async function fetchWarbandVisibility(id: string): Promise<WarbandVisibility | null> {
+  if (isDemoMode()) return demo.fetchWarbandVisibility(id);
+  const { data, error } = await supabase.from('warbands').select('visibility').eq('id', id).maybeSingle();
+  if (error) throw error;
+  return (data as { visibility: WarbandVisibility } | null)?.visibility ?? null;
 }
 
 /**

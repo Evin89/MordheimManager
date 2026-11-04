@@ -1,3 +1,4 @@
+import { computeWarbandRating } from '../lib/rating';
 import { ConcurrencyError } from '../api/errors';
 import type { CampaignWarbandRow, WarbandRecord } from '../api/warbands';
 import {
@@ -387,6 +388,10 @@ export async function fetchSharedWarband(id: string): Promise<Warband | null> {
   return db().warbands.find((w) => w.id === id)?.warband ?? null;
 }
 
+export async function fetchWarbandVisibility(id: string): Promise<WarbandVisibility | null> {
+  return db().warbands.find((w) => w.id === id)?.visibility ?? null;
+}
+
 export async function fetchWarbandOwnerName(id: string): Promise<string> {
   const owner = db().warbands.find((w) => w.id === id)?.ownerId;
   return owner ? displayName(owner) : '';
@@ -542,6 +547,7 @@ export async function fetchIsAdmin(userId: string): Promise<boolean> {
 }
 
 export async function fetchIssueReports(status: string, cursor = 0) {
+  seedDemoReplies();
   const users = db().users;
   const all = issues
     .filter((r) => status === 'all' || r.status === status)
@@ -557,6 +563,87 @@ export async function fetchIssueReports(status: string, cursor = 0) {
 export async function updateIssueStatus(id: string, status: 'open' | 'triaged' | 'closed'): Promise<void> {
   const issue = issues.find((i) => i.id === id);
   if (issue) issue.status = status;
+}
+
+// §41 — replies. In memory like everything else here. The demo viewer is the
+// admin *and* a reporter: one report of theirs is seeded with an unread reply so
+// the avatar dot and the Your reports screen have something to show.
+const issueReplies: { id: string; issueId: string; authorId: string; body: string; createdAt: string; readAt: string | null }[] = [];
+let demoRepliesSeeded = false;
+function seedDemoReplies() {
+  if (demoRepliesSeeded) return;
+  demoRepliesSeeded = true;
+  const viewerId = db().viewerId;
+  issues.unshift({
+    id: 'demo-issue-own',
+    reporterId: viewerId,
+    path: '/warbands/demo-wb-0-0',
+    message: 'Rolling a spell I already know only re-rolls — the rules let me lower its difficulty instead.',
+    context: {},
+    appVersion: '1.0.0',
+    userAgent: 'Mozilla/5.0 (Linux; Android 14)',
+    status: 'triaged',
+    adminNotes: '',
+    createdAt: new Date(2026, 9, 31, 22, 3).toISOString(),
+  });
+  issueReplies.push({
+    id: 'demo-reply-1',
+    issueId: 'demo-issue-own',
+    authorId: viewerId,
+    body: 'Thanks — you are right. This is fixed and will be in the next update.',
+    createdAt: new Date(2026, 10, 4, 10, 0).toISOString(),
+    readAt: null,
+  });
+}
+
+export async function fetchIssueReplies(issueIds: string[]) {
+  seedDemoReplies();
+  return issueReplies
+    .filter((r) => issueIds.includes(r.issueId))
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+    .map(({ authorId: _a, ...r }) => r);
+}
+
+export async function insertIssueReply(issueId: string, authorId: string, body: string): Promise<void> {
+  seedDemoReplies();
+  const issue = issues.find((i) => i.id === issueId);
+  if (!issue?.reporterId) throw new Error('This report was filed anonymously and cannot be answered.');
+  issueReplies.push({
+    id: `demo-reply-${issueReplies.length + 1}`,
+    issueId,
+    authorId,
+    body,
+    createdAt: new Date().toISOString(),
+    readAt: null,
+  });
+}
+
+export async function fetchMyIssueReports() {
+  seedDemoReplies();
+  const viewerId = db().viewerId;
+  return issues
+    .filter((i) => i.reporterId === viewerId)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .map((i) => ({
+      id: i.id,
+      message: i.message,
+      path: i.path,
+      status: i.status,
+      createdAt: i.createdAt,
+      replies: issueReplies
+        .filter((r) => r.issueId === i.id)
+        .map(({ authorId: _a, ...r }) => r),
+    }));
+}
+
+export async function fetchMyUnreadReplyCount(): Promise<number> {
+  const reports = await fetchMyIssueReports();
+  return reports.reduce((n, r) => n + r.replies.filter((rp) => !rp.readAt).length, 0);
+}
+
+export async function markMyIssueRepliesRead(issueId: string): Promise<void> {
+  const now = new Date().toISOString();
+  for (const r of issueReplies) if (r.issueId === issueId && !r.readAt) r.readAt = now;
 }
 
 /** Counted off the generated database, so the numbers move when you click
@@ -690,6 +777,13 @@ export async function fetchSelfReportBreakdown(_days = 30) {
 
 // --- admin deleted warbands (demo) ------------------------------------------
 
+// Restored rows drop out of the synthetic list until the next reload.
+const demoRestoredWarbands = new Set<string>();
+
+export async function restoreDeletedWarband(id: string) {
+  demoRestoredWarbands.add(id);
+}
+
 export async function fetchAdminDeletedWarbands() {
   const d = db();
   const day = 86_400_000;
@@ -709,7 +803,7 @@ export async function fetchAdminDeletedWarbands() {
       deleted_at: new Date(deleted).toISOString(),
       purge_at: new Date(deleted + 30 * day).toISOString(),
     };
-  });
+  }).filter((w) => !demoRestoredWarbands.has(w.id));
 }
 
 // --- §4.9.5 admin campaign view (demo) -------------------------------------
@@ -774,6 +868,39 @@ export async function fetchStrandedCampaignCount() {
       r.leader_count <= 1 &&
       (!r.last_activity || Date.now() - new Date(r.last_activity).getTime() > 30 * 86_400_000),
   ).length;
+}
+
+/** §4.9.8 — composed from the same demo fetchers the member screens use, so the
+ * admin view shows exactly what a member would. Join code withheld. */
+export async function fetchAdminCampaignContent(id: string) {
+  const d = db();
+  const found = d.campaigns.find((c) => c.id === id);
+  if (!found) throw new Error('No such campaign');
+  const [members, warbands, battles, events, log, territories, awards] = await Promise.all([
+    fetchCampaignMembers(id),
+    fetchCampaignWarbands(id),
+    fetchBattles(id),
+    fetchCampaignEvents(id),
+    fetchCampaignLog(id),
+    fetchTerritories(id),
+    fetchCampaignAwards(id),
+  ]);
+  const rsvpLists = await Promise.all(events.map((e) => fetchEventRsvps(e.id)));
+  return {
+    campaign: { ...found, joinCode: null },
+    hasJoinCode: found.joinCode !== null,
+    members,
+    warbands,
+    battles,
+    reporters: Object.fromEntries(
+      battles.map((b) => [b.id, warbands.find((w) => w.id === b.warbandId)?.ownerId ?? '']),
+    ),
+    events,
+    rsvps: rsvpLists.flat(),
+    log,
+    territories,
+    awards,
+  };
 }
 
 // --- profile ---------------------------------------------------------------
@@ -1588,4 +1715,211 @@ export async function fetchDemoActivityDay(userId: string, day: string): Promise
     }
   }
   return items;
+}
+
+// --- §4.9.4.2 / §4.9.4.3 admin warband list + read-only roster (demo) -------
+
+export async function fetchAdminUserWarbands(userId: string) {
+  const d = db();
+  const day = 86_400_000;
+  const owned = d.warbands.filter((w) => w.ownerId === userId);
+  const live = owned.map((w) => ({
+    id: w.id,
+    name: w.warband.name,
+    warband_type: w.warband.warbandType,
+    visibility: w.visibility,
+    rating: ratingOf(w),
+    campaign_id: w.campaignId ?? null,
+    campaign_name: d.campaigns.find((c) => c.id === w.campaignId)?.name ?? null,
+    created_at: w.updatedAt,
+    updated_at: w.updatedAt,
+    deleted_at: null as string | null,
+    edits_total: Math.max(1, Math.round(ratingOf(w) / 60)),
+    edits_30d: Math.max(0, Math.round(ratingOf(w) / 120)),
+  }));
+  // One fabricated soft-deleted row, so the dimmed "deleted" styling shows.
+  const first = live[0];
+  const deleted = first
+    ? [{
+        ...first,
+        id: `${first.id}-deleted`,
+        name: `${first.name} (old)`,
+        visibility: 'private' as const,
+        campaign_id: null,
+        campaign_name: null,
+        updated_at: new Date(Date.now() - 20 * day).toISOString(),
+        deleted_at: new Date(Date.now() - 6 * day).toISOString(),
+        edits_30d: 0,
+      }]
+    : [];
+  return [...live.sort((a, b) => b.updated_at.localeCompare(a.updated_at)), ...deleted];
+}
+
+export async function fetchAdminWarbandRoster(warbandId: string) {
+  const d = db();
+  const liveId = warbandId.replace(/-deleted$/, '');
+  const row = d.warbands.find((w) => w.id === liveId);
+  if (!row) throw new Error('No such warband');
+  const isDeleted = liveId !== warbandId;
+  return {
+    id: warbandId,
+    name: isDeleted ? `${row.warband.name} (old)` : row.warband.name,
+    warband_type: row.warband.warbandType,
+    owner_id: row.ownerId,
+    owner_name: displayName(row.ownerId),
+    visibility: isDeleted ? ('private' as const) : row.visibility,
+    campaign_name: d.campaigns.find((c) => c.id === row.campaignId)?.name ?? null,
+    updated_at: row.updatedAt,
+    deleted_at: isDeleted ? new Date(Date.now() - 6 * 86_400_000).toISOString() : null,
+    data: row.warband,
+  };
+}
+
+// --- player profiles (§38) -------------------------------------------------
+
+/** Demo-only profile fields, kept beside the generated users so an edit sticks
+ * for the session. Countries are spread deterministically by index. */
+const demoProfileExtras = new Map<
+  string,
+  { bio: string | null; favouriteWarbandType: string | null; country: string | null }
+>();
+const DEMO_COUNTRIES = ['NL', 'NL', 'BE', 'DE', 'GB', 'US', 'FR', 'ES', 'IT', 'SE'];
+
+function demoExtras(userId: string) {
+  let extras = demoProfileExtras.get(userId);
+  if (!extras) {
+    const index = db().users.findIndex((u) => u.id === userId);
+    const firstWarband = db().warbands.find((w) => w.ownerId === userId);
+    extras = {
+      bio: index % 3 === 0 ? 'Weekend skirmisher. Paints slowly, rolls badly.' : null,
+      favouriteWarbandType: firstWarband?.warband.warbandType ?? null,
+      country: index % 5 === 4 ? null : DEMO_COUNTRIES[Math.max(index, 0) % DEMO_COUNTRIES.length],
+    };
+    demoProfileExtras.set(userId, extras);
+  }
+  return extras;
+}
+
+export async function fetchPlayerProfile(userId: string) {
+  const user = db().users.find((u) => u.id === userId);
+  if (!user) return null;
+  const battles = db().battles.filter((b) => b.ownerId === userId);
+  const count = (r: string) => battles.filter((b) => b.battle.result === r).length;
+  return {
+    id: user.id,
+    displayName: user.displayName,
+    avatarSeed: user.id,
+    avatarPath: null,
+    ...demoExtras(userId),
+    joinedAt: '2026-01-15T12:00:00.000Z',
+    ...demoDirectory(userId),
+    stats: {
+      battles: battles.length,
+      wins: count('win'),
+      losses: count('loss'),
+      draws: count('draw'),
+      warbands: db().warbands.filter((w) => w.ownerId === userId).length,
+      campaigns: db().memberships.filter((m) => m.userId === userId).length,
+    },
+  };
+}
+
+export async function updateMyProfile(
+  userId: string,
+  input: { displayName: string; bio: string; favouriteWarbandType: string; country: string },
+) {
+  const user = db().users.find((u) => u.id === userId);
+  if (!user) throw new Error('User not found.');
+  user.displayName = input.displayName.trim();
+  demoProfileExtras.set(userId, {
+    bio: input.bio.trim() || null,
+    favouriteWarbandType: input.favouriteWarbandType || null,
+    country: input.country || null,
+  });
+}
+
+/** Warbands the demo viewer could see: public ones, plus private ones in a
+ * campaign the viewer is in — the same rule RLS applies for real. */
+export async function fetchProfileWarbands(userId: string) {
+  const viewer = db().viewerId;
+  const myCampaigns = new Set(db().memberships.filter((m) => m.userId === viewer).map((m) => m.campaignId));
+  return db()
+    .warbands.filter(
+      (w) =>
+        w.ownerId === userId &&
+        (userId === viewer || w.visibility === 'public' || (w.campaignId && myCampaigns.has(w.campaignId))),
+    )
+    .map((w) => ({
+      id: w.id,
+      name: w.warband.name,
+      warbandType: w.warband.warbandType,
+      rating: computeWarbandRating(w.warband),
+      visibility: w.visibility,
+      campaignId: w.campaignId,
+      campaignName: db().campaigns.find((c) => c.id === w.campaignId)?.name ?? null,
+    }));
+}
+
+export async function fetchSharedCampaigns(userId: string) {
+  const viewer = db().viewerId;
+  const mine = new Set(db().memberships.filter((m) => m.userId === viewer).map((m) => m.campaignId));
+  return db()
+    .memberships.filter((m) => m.userId === userId && mine.has(m.campaignId))
+    .map((m) => ({
+      id: m.campaignId,
+      name: db().campaigns.find((c) => c.id === m.campaignId)?.name ?? '',
+      role: m.role,
+    }));
+}
+
+/** Demo directory: every third generated player is discoverable, so the
+ * directory screen has rows to judge at volume. */
+const demoDirectoryOverrides = new Map<string, { discoverable: boolean; lookingForCampaign: boolean }>();
+
+function demoDirectory(userId: string) {
+  const override = demoDirectoryOverrides.get(userId);
+  if (override) return override;
+  const index = db().users.findIndex((u) => u.id === userId);
+  const discoverable = index % 3 === 1;
+  return { discoverable, lookingForCampaign: discoverable && index % 2 === 0 };
+}
+
+export async function setMyDirectory(discoverable: boolean, looking: boolean) {
+  demoDirectoryOverrides.set(db().viewerId, { discoverable, lookingForCampaign: discoverable && looking });
+}
+
+export async function searchPlayers(
+  filters: { country: string; warbandType: string; lookingOnly: boolean; query: string },
+  before: string | null,
+) {
+  const q = filters.query.trim().toLowerCase();
+  const rows = db()
+    .users.filter((u) => u.id !== db().viewerId && demoDirectory(u.id).discoverable)
+    .map((u, i) => {
+      const extras = demoExtras(u.id);
+      const dir = demoDirectory(u.id);
+      const owned = db().warbands.filter((w) => w.ownerId === u.id && w.visibility === 'public');
+      return {
+        id: u.id,
+        displayName: u.displayName,
+        avatarSeed: u.id,
+        avatarPath: null,
+        country: extras.country,
+        favouriteWarbandType: extras.favouriteWarbandType,
+        lookingForCampaign: dir.lookingForCampaign,
+        joinedAt: new Date(Date.UTC(2026, 9, 30) - i * 86400000).toISOString(),
+        publicWarbandCount: owned.length,
+        types: owned.map((w) => w.warband.warbandType),
+      };
+    })
+    .filter(
+      (r) =>
+        (!filters.country || r.country === filters.country) &&
+        (!filters.warbandType || r.favouriteWarbandType === filters.warbandType || r.types.includes(filters.warbandType)) &&
+        (!filters.lookingOnly || r.lookingForCampaign) &&
+        (!q || r.displayName.toLowerCase().includes(q)) &&
+        (!before || r.joinedAt < before),
+    )
+    .slice(0, 25);
+  return rows.map(({ types: _types, ...r }) => r);
 }

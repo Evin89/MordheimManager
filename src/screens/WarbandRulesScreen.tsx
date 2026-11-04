@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import BackHeader from '../components/BackHeader';
 import { buttonClasses } from '../components/ui';
 import { getWarbandDefinition, getWarbandProvenance, slotSkillLists, subfactionLabel } from '../data/warbandRegistry';
 import { useCustomWarbandAuthorQuery, useEnsureWarbandType } from '../hooks/useCustomWarbands';
@@ -528,6 +529,7 @@ function JumpNav({ items }: { items: NavItem[] }) {
 }
 
 export default function WarbandRulesScreen() {
+  const navigate = useNavigate();
   const { warbandSlug } = useParams<{ warbandSlug: string }>();
   // A player-made type isn't bundled: fetch it (readable by anyone since 0022)
   // and register it, after which the registry lookup below resolves it.
@@ -618,15 +620,14 @@ export default function WarbandRulesScreen() {
 
   return (
     <div className="min-h-full flex flex-col" ref={topRef}>
-      <header className="px-4 pt-5 pb-4 border-b border-ink-800 space-y-3">
-        <Link
-          to={isCustom ? '/rules/custom-warbands' : '/rules'}
-          className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
-        >
-          {isCustom ? '← Custom warbands' : '← Rules'}
-        </Link>
+      {/* §40 — the standard header; the reference page's own introduction
+          (source, playstyle, key facts) follows it as the page's first section. */}
+      <BackHeader
+        title={def.name}
+        onBack={() => navigate(isCustom ? '/rules/custom-warbands' : '/rules')}
+      />
+      <section className="px-4 pt-4 pb-4 border-b border-ink-800 space-y-3">
         <div className="space-y-2">
-          <h1 className="text-3xl text-bone-100">{def.name}</h1>
           {isCustom && author && (
             <p className="text-bone-200 text-sm">
               Written by <span className="font-semibold text-ember-400">{author}</span>
@@ -657,7 +658,7 @@ export default function WarbandRulesScreen() {
             Build this warband →
           </Link>
         )}
-      </header>
+      </section>
 
       <JumpNav items={sections} />
 

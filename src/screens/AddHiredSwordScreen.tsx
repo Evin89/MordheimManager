@@ -10,6 +10,7 @@ import { resolveStatLine } from '../lib/statLine';
 import hiredSwordsData from '../data/hiredSwords.json';
 import { HiredSwordDefinition, HiredSwordsData } from '../data/types';
 import { goldWarning, usePurchase } from '../hooks/usePurchase';
+import { describeGear, getStartingEquipment } from '../lib/hiredSwordEquipment';
 
 const hiredSwords = [...(hiredSwordsData as HiredSwordsData).hiredSwords].sort((a, b) =>
   a.name.localeCompare(b.name),
@@ -45,6 +46,7 @@ export default function AddHiredSwordScreen() {
 
   const [definitionId, setDefinitionId] = useState('');
   const [name, setName] = useState('');
+  const [choiceIndex, setChoiceIndex] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const purchase = usePurchase();
 
@@ -76,7 +78,7 @@ export default function AddHiredSwordScreen() {
       warnings: [!canAfford && goldWarning(fee, warband.gold)],
       action: strings.trading.hireAnyway,
       proceed: () => {
-        const sword = createHiredSwordFromDefinition(definition, name.trim());
+        const sword = createHiredSwordFromDefinition(definition, name.trim(), choiceIndex);
         saveWarband({
           ...warband,
           gold: warband.gold - fee,
@@ -88,6 +90,7 @@ export default function AddHiredSwordScreen() {
   }
 
   const stats = definition ? resolveStatLine(definition.statLine).stats : null;
+  const choice = definition ? getStartingEquipment(definition.id)?.choice : undefined;
 
   return (
     <div className="min-h-full flex flex-col">
@@ -98,7 +101,10 @@ export default function AddHiredSwordScreen() {
           <label className="block text-bone-200 text-sm font-semibold" htmlFor="hired-sword">
             {strings.addHiredSword.pickType}
           </label>
-          <Select id="hired-sword" value={definition?.id ?? ''} onChange={(e) => setDefinitionId(e.target.value)}>
+          <Select id="hired-sword" value={definition?.id ?? ''} onChange={(e) => {
+              setDefinitionId(e.target.value);
+              setChoiceIndex(0);
+            }}>
             {listed.length > 0 ? (
               <>
                 <optgroup label={strings.addHiredSword.listedGroup}>
@@ -168,6 +174,22 @@ export default function AddHiredSwordScreen() {
               )}
             </p>
           </Card>
+        )}
+
+        {choice && choice.length > 1 && (
+          <div className="space-y-2">
+            <label className="block text-bone-200 text-sm font-semibold" htmlFor="hired-sword-gear">
+              {strings.addHiredSword.gearChoiceLabel}
+            </label>
+            <Select id="hired-sword-gear" value={String(choiceIndex)} onChange={(e) => setChoiceIndex(Number(e.target.value))}>
+              {choice.map((option, i) => (
+                <option key={option.label} value={i}>
+                  {option.label} ({describeGear(option.items)})
+                </option>
+              ))}
+            </Select>
+            <p className="text-bone-400 text-xs">{strings.addHiredSword.gearChoiceHint}</p>
+          </div>
         )}
 
         <div className="space-y-2">
