@@ -110,7 +110,7 @@ export function useAdminDeletedWarbandsQuery() {
   });
 }
 
-/** §35.4 restore a soft-deleted warband (migration 0056). */
+/** §35.4 restore a soft-deleted warband (migration 0065). */
 export function useRestoreDeletedWarbandMutation() {
   const queryClient = useQueryClient();
   return useMutation({

@@ -3112,9 +3112,9 @@ Verified in demo mode: remove a hero, the banner appears, Undo restores it in pl
 
 ### 35.4 Restore a deleted warband from Admin ⚠️
 
-_⚠️ until migration 0056 is applied._ The warband delete copy promised that a deletion "can be reversed on request", and Admin › Deleted warbands (migration 0054) listed what was deleted — but reversing one still meant a hand-written `update warbands set deleted_at = null`.
+_⚠️ until migration 0065 is applied._ The warband delete copy promised that a deletion "can be reversed on request", and Admin › Deleted warbands (migration 0054) listed what was deleted — but reversing one still meant a hand-written `update warbands set deleted_at = null`.
 
-- **`admin_restore_warband(p_warband_id)`** (migration 0056), SECURITY DEFINER. Asserts `is_admin()` first, then clears `deleted_at` on a row that is still soft-deleted. A row the nightly purge (0014) already removed raises an error instead of silently doing nothing.
+- **`admin_restore_warband(p_warband_id)`** (migration 0065), SECURITY DEFINER. Asserts `is_admin()` first, then clears `deleted_at` on a row that is still soft-deleted. A row the nightly purge (0014) already removed raises an error instead of silently doing nothing.
 - **Restore** on each row of Admin › Deleted warbands, behind the lighter confirm tier (§4.2.1 `ConfirmAction`): restoring is not destructive. The confirm says what comes back: same owner and roster, and the campaign it was in.
 - The warband returns exactly as it was deleted. The delete changed nothing but `deleted_at`, so standings and history pick it up again.
 - The delete copy now names the window: "kept, hidden, for 30 days, so within that time this can be reversed on request."

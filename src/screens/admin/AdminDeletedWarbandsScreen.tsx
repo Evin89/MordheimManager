@@ -91,7 +91,7 @@ export default function AdminDeletedWarbandsScreen() {
                         {restore.isError && (
                           <p className="text-danger">
                             {(restore.error as Error).message} — if this mentions <code>admin_restore_warband</code>,
-                            migration 0056 has not been applied yet.
+                            migration 0065 has not been applied yet.
                           </p>
                         )}
                       </>

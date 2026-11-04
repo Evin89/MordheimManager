@@ -27,7 +27,7 @@ export async function fetchAdminDeletedWarbands(): Promise<AdminDeletedWarband[]
 }
 
 /**
- * §35.4 — put a soft-deleted warband back (migration 0056). Admin-only on the
+ * §35.4 — put a soft-deleted warband back (migration 0065). Admin-only on the
  * server; fails if the nightly purge already removed the row.
  */
 export async function restoreDeletedWarband(id: string): Promise<void> {

@@ -1,4 +1,4 @@
--- §35.4 admin_restore_warband (migration 0056).
+-- §35.4 admin_restore_warband (migration 0065).
 insert into auth.users (id, email) values
   ('00000000-0000-0000-0000-0000000000ad', 'admin@example.test'),
   ('00000000-0000-0000-0000-0000000000b1', 'player@example.test');
