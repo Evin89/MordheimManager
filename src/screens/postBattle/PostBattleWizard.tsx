@@ -4,6 +4,7 @@ import { battleState } from '../../lib/battleNavigation';
 import { clearRemovedFor } from '../../lib/removedModels';
 import { capture } from '../../lib/posthog';
 import BackHeader from '../../components/BackHeader';
+import ActionBar from '../../components/ActionBar';
 import { Button } from '../../components/ui';
 import { strings } from '../../strings';
 import { defaultBattleSession, useAppStore } from '../../store/useAppStore';
@@ -220,16 +221,14 @@ export default function PostBattleWizard() {
         title={WIZARD_STEPS[stepNumber]}
         subtitle={strings.postBattle.stepOf(position + 1, steps.length)}
         onBack={goBack}
-      />
-
-      <div className="px-4 pt-3">
+      >
         <div className="h-1.5 rounded-full bg-ink-800 overflow-hidden">
           <div
             className="h-full bg-ember-500 transition-all"
             style={{ width: `${((position + 1) / steps.length) * 100}%` }}
           />
         </div>
-      </div>
+      </BackHeader>
 
       <main className="flex-1 px-4 py-6">
         {friendliesNowOff && campaign && (
@@ -239,7 +238,7 @@ export default function PostBattleWizard() {
         )}
         <StepComponent warband={warband} draft={draft} updateDraft={updateDraft} />
 
-        <div className="pt-6">
+        <ActionBar>
           {isLastStep ? (
             friendly ? (
               <Button onClick={() => handleCommit('roster')} disabled={committing || campaignLoading}>
@@ -265,7 +264,7 @@ export default function PostBattleWizard() {
           ) : (
             <Button onClick={goNext}>{strings.postBattle.next}</Button>
           )}
-        </div>
+        </ActionBar>
       </main>
     </div>
   );

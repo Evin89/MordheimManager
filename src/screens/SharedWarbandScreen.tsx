@@ -1,5 +1,7 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { Check, Link2 } from 'lucide-react';
+import { HeaderAction } from '../components/HeaderTools';
 import BackHeader from '../components/BackHeader';
 import ProfileBlock from '../components/ProfileBlock';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
@@ -11,7 +13,13 @@ import WarbandAwards from '../components/WarbandAwards';
 import WarbandComments from '../components/WarbandComments';
 import { Card, Eyebrow, SectionHeading } from '../components/ui';
 import { strings } from '../strings';
-import { useSharedWarbandQuery, useWarband, useWarbandOwnerNameQuery } from '../hooks/useWarbands';
+import {
+  useSharedWarbandQuery,
+  useWarband,
+  useWarbandOwnerNameQuery,
+  useWarbandVisibilityQuery,
+} from '../hooks/useWarbands';
+import { capture } from '../lib/posthog';
 import { useEnsureWarbandType } from '../hooks/useCustomWarbands';
 import { useRosterPhotos } from '../hooks/usePhotos';
 import { computeWarbandRating } from '../lib/rating';
@@ -354,10 +362,37 @@ export function ReadOnlyRoster({
   );
 }
 
+/**
+ * §36.1 — the one share action on someone else's roster: its link. The image
+ * card is the owner's to send; the link only travels what's already public.
+ */
+function CopyRosterLink({ warbandId }: { warbandId: string }) {
+  const [copied, setCopied] = useState(false);
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}/app/rosters/${warbandId}?ref=share-link`);
+      void capture('warband_card_shared', { method: 'copy_link', visibility: 'public' });
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* clipboard refused — the address bar still has it */
+    }
+  }
+  return (
+    // Icon-only on phones, so "copied" shows as a tick too, not just as text.
+    <HeaderAction
+      Icon={copied ? Check : Link2}
+      label={copied ? strings.roster.card.linkCopied : strings.roster.card.copyLink}
+      onClick={() => void copy()}
+    />
+  );
+}
+
 export default function SharedWarbandScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
   const { data: warband, isLoading } = useSharedWarbandQuery(warbandId);
   const { data: ownerName } = useWarbandOwnerNameQuery(warbandId);
+  const { data: visibility } = useWarbandVisibilityQuery(warbandId);
   // The standings table links every warband here, including your own — so this
   // screen has to know when it's showing you back to yourself.
   const isMine = useWarband(warbandId) !== undefined;
@@ -396,7 +431,10 @@ export default function SharedWarbandScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <BackHeader title={strings.campaign.sharedRosterTitle} />
+      <BackHeader
+        title={strings.campaign.sharedRosterTitle}
+        action={visibility === 'public' ? <CopyRosterLink warbandId={warband.id} /> : undefined}
+      />
 
       <main className="flex-1 px-4 py-6 space-y-6">
         <ReadOnlyRoster

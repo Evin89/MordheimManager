@@ -239,7 +239,7 @@
 
   <main class="doc">
     <h1 class="title">Privacy Policy</h1>
-    <p class="updated">Last updated 15 October 2026</p>
+    <p class="updated">Last updated 31 October 2026</p>
 
     <p class="lede">This policy explains what personal data Mordheim Manager collects, why, and what rights you have. Mordheim Manager (&ldquo;the app&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) is a tool for managing Mordheim tabletop warbands and campaigns, available at <strong>mordheimmanager.net</strong>.</p>
 
@@ -257,9 +257,11 @@
     <p><strong>Account data.</strong> When you register, we collect your <strong>email address</strong> and a <strong>password</strong> (stored only in hashed form by our authentication provider — we never see it). You also choose a <strong>display name</strong> and an avatar style. Your email is used to sign you in, to send password-reset messages, and to contact you about your account if needed.</p>
     <p><strong>Warband and campaign data.</strong> Everything you create in the app: warband names and rosters, models, experience, injuries, equipment, gold, battle records (including dates, scenarios, opponents and results), campaigns you create or join, and campaign events (including dates, times and optional locations). This is the content the app exists to store for you.</p>
     <p><strong>Campaign membership.</strong> If you join a campaign, other members of that campaign can see your display name, your warband&rsquo;s name, type and rating, and the shared battle log. Your private campaign objectives are <strong>not</strong> visible to other members — they are protected by database-level access rules, not just hidden in the interface.</p>
-    <p><strong>Admin access to warbands.</strong> The app admin can view any warband&rsquo;s roster, including private ones, read-only. This is used to check how features are used and whether they work. Every such view is logged. The admin cannot change your warband, and your private campaign (Border Town Burning) objectives are <strong>never</strong> visible to the admin or anyone else.</p>
+    <p><strong>Admin access to warbands and campaigns.</strong> The app admin can view any warband&rsquo;s roster and any campaign&rsquo;s content &mdash; standings, battle log, events and RSVPs, narrative log, territories and honours &mdash; including private ones, read-only. This is used to check how features are used and whether they work. Every such view is logged. The admin cannot change your warband or campaign, never sees a campaign&rsquo;s join code, and your private campaign (Border Town Burning) objectives are <strong>never</strong> visible to the admin or anyone else.</p>
     <p><strong>Support reports.</strong> If you submit an issue report, we store the text you write together with technical context: the page you were on, the app version, your browser&rsquo;s user-agent string, and a small amount of app context (for example, which warband type or unit you were viewing). This helps us reproduce and fix problems.</p>
     <p><strong>Photos (planned feature).</strong> If and when photo uploads are enabled, any images you upload of your miniatures are stored on our behalf by our storage provider. Photos are kept in a private store and shown only to signed-in users; they are not exposed to anonymous visitors of the public gallery.</p>
+    <p><strong>Your player profile.</strong> You can add a <strong>profile photo</strong>, a <strong>country</strong>, a short <strong>bio</strong> and a favourite warband type. All of these are optional. We store your country only &mdash; never a region, city or address. A profile photo is cropped and resized on your device before upload, and any location data embedded in the photo is removed in the process. Your profile, including your photo, is visible to <strong>every signed-in player</strong>; it is never shown to anonymous visitors or search engines. Your profile also shows counts of your battles, results, warbands and campaigns, but not their content.</p>
+    <p><strong>The player directory and campaign invites.</strong> The player directory is <strong>opt-in</strong> and off by default. If you switch on &ldquo;Show me in the player directory&rdquo;, other signed-in players can find you by country, warband type and name, and campaign leaders can send you a direct campaign invite with an optional short message. When you&rsquo;re listed, the directory shows your photo, display name, country, favourite warband type, number of public warbands, and whether you&rsquo;re looking for a campaign. You can switch it off at any time; you then disappear from the directory and can no longer receive direct invites. If you decline an invite, nobody is told apart from the leader seeing that the invite is no longer open.</p>
     <p><strong>Technical data.</strong> Like any website, our hosting provider processes your IP address to deliver the app to you.</p>
     <p><strong>Analytics.</strong> We use <strong>PostHog</strong> to understand how the app is used so we can improve it. <strong>PostHog only runs if you agree to it</strong> via our consent banner. When you consent, PostHog collects usage data such as which pages and features you use and the actions you take, along with technical details like device type, browser, operating system, and an approximate location derived from your IP address, and it assigns a pseudonymous identifier to your browser. We use this only in aggregate to see which parts of the app are used and where problems occur; we do not use it for advertising. If you decline, PostHog is not loaded and no analytics cookies are set. You can change your choice at any time (see Section 10).</p>
 
@@ -270,6 +272,8 @@
         <tbody>
           <tr><td>Creating and running your account</td><td>Performance of a contract — you asked us to provide the service</td></tr>
           <tr><td>Storing your warbands, campaigns and battles</td><td>Performance of a contract</td></tr>
+          <tr><td>Showing your profile photo, country and bio to signed-in players</td><td>Consent — these are optional fields you fill in yourself, and you can remove them at any time</td></tr>
+          <tr><td>Listing you in the player directory and letting leaders invite you</td><td>Consent — only when you switch it on, and you can switch it off at any time</td></tr>
           <tr><td>Showing a warband in the public gallery</td><td>Consent — this only happens when you mark a warband &ldquo;public&rdquo;, and you can make it private again at any time</td></tr>
           <tr><td>Analytics, to see how the app is used and improve it (PostHog)</td><td>Consent — analytics runs only if you accept it, and you can withdraw at any time</td></tr>
           <tr><td>Handling your support reports</td><td>Legitimate interest — fixing and improving the app</td></tr>
@@ -298,6 +302,7 @@
       <li><strong>Account and game data</strong> — kept for as long as your account exists.</li>
       <li><strong>Deleted warbands</strong> — when you delete a warband it is first soft-deleted (hidden and recoverable), then permanently purged after <strong>30 days</strong>, along with any associated photos.</li>
       <li><strong>Campaign records</strong> — battle log entries and campaigns remain as shared history for the group; you can remove your own reported battles.</li>
+      <li><strong>Deleting your account</strong> — done from <strong>Account &rsaquo; Your data</strong> and immediate. It removes your account, profile, warbands (with their photos), collection, comments and log entries you wrote, your friendly games, and campaigns in which you are the only member. Battles you reported in a campaign, events you organised and awards you granted stay as the group&rsquo;s shared history, without your name. A campaign you lead alone passes to the member who joined it first.</li>
       <li><strong>Support reports</strong> — kept while they remain useful for fixing the issue.</li>
     </ul>
     <p>You can delete your account and associated data at any time (see Section 8). You can also export all of your data to a JSON file from the app at any moment.</p>
@@ -307,7 +312,7 @@
     <ul>
       <li><strong>Access</strong> a copy of your data — the app&rsquo;s JSON export gives you this directly.</li>
       <li><strong>Rectify</strong> inaccurate data — you can edit essentially everything in the app yourself.</li>
-      <li><strong>Erase</strong> your data (&ldquo;right to be forgotten&rdquo;) — you can delete warbands, campaigns and your account.</li>
+      <li><strong>Erase</strong> your data (&ldquo;right to be forgotten&rdquo;) — you can delete warbands, campaigns and your account (Account &rsaquo; Your data &rsaquo; Delete account).</li>
       <li><strong>Restrict</strong> or <strong>object</strong> to certain processing.</li>
       <li><strong>Data portability</strong> — again, the JSON export provides this in a machine-readable format.</li>
       <li><strong>Withdraw consent</strong> — for anything based on consent (such as a public warband), by making it private again.</li>

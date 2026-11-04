@@ -11,7 +11,7 @@ import { strings } from '../strings';
  *
  * Sits at the foot of the content rather than floating over it or taking a nav
  * cell: floating controls cover the thing being reported, and the tab bar has
- * seven tabs on a 375px phone already.
+ * six tabs on a 375px phone already.
  *
  * The textbox is the small part. What makes a report worth having is the
  * context attached to it — the route, the build, the viewport — because the
@@ -30,6 +30,9 @@ export default function ReportIssueButton() {
   const [message, setMessage] = useState('');
   const [shareIdentity, setShareIdentity] = useState(false);
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle');
+  // Whether the last sent report carried the username — only then can it be
+  // answered, so only then does the thanks point at Your reports (§41).
+  const [sentAttributed, setSentAttributed] = useState(false);
 
   async function submit() {
     const trimmed = message.trim();
@@ -59,6 +62,7 @@ export default function ReportIssueButton() {
         signed_in: Boolean(user),
         shared_identity: Boolean(user && shareIdentity),
       });
+      setSentAttributed(Boolean(user && shareIdentity));
       setState('sent');
       setMessage('');
     } catch {
@@ -121,7 +125,9 @@ export default function ReportIssueButton() {
             )}
 
             {state === 'sent' && (
-              <p className="font-ui text-sm text-verdigris">{strings.report.thanks}</p>
+              <p className="font-ui text-sm text-verdigris">
+                {sentAttributed ? strings.report.thanksAttributed : strings.report.thanks}
+              </p>
             )}
             {state === 'failed' && (
               <p className="font-ui text-sm text-blood">{strings.report.failed}</p>

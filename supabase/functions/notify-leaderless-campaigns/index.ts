@@ -112,7 +112,7 @@ Deno.serve(async () => {
   let sent = 0;
   let failed = 0;
   for (const [campaignId, rows] of byCampaign) {
-    const link = `${APP_ORIGIN}/app/campaign?claim=${campaignId}`;
+    const link = `${APP_ORIGIN}/app/campaigns/${campaignId}?claim=${campaignId}`;
     let anyDelivered = false;
 
     for (const row of rows) {

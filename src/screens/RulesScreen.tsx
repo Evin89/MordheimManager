@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
+import TabHeader from '../components/TabHeader';
 import { Link } from 'react-router-dom';
 import {
   Search,
   X,
   ChevronRight,
   ChevronDown,
-  Dices,
   Ruler,
   RefreshCw,
   Footprints,
@@ -30,7 +30,6 @@ import {
   BookOpen,
   type LucideIcon,
 } from 'lucide-react';
-import DiceRoller from '../components/DiceRoller';
 import { strings } from '../strings';
 import { RuleSearchResult, getAllRuleEntries, searchRules } from '../lib/rulesIndex';
 import { RuleEntry, RulesCategoryId } from '../data/types';
@@ -279,7 +278,6 @@ function SearchResults({ results }: { results: RuleSearchResult[] }) {
 export default function RulesScreen() {
   const [query, setQuery] = useState('');
   const [group, setGroup] = useState<GroupId>('all');
-  const [diceOpen, setDiceOpen] = useState(false);
 
   // Chapters in the rulebook's canonical order — `getAllRuleEntries` is already
   // chapter-sorted, so first-seen insertion order is the order to show.
@@ -307,13 +305,11 @@ export default function RulesScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-3">
-        <h1 className="text-4xl leading-none text-bone-100">{strings.rules.title}</h1>
-      </header>
-
-      {/* Search is the hero: at a table you usually know the word. Clears the
-          dice button on phones, which sits at this height. */}
-      <div className="px-4 pb-3 max-md:pr-14">
+      {/* §40.2 — the standard tab header; search sits in it as the screen's
+          one control, the way sub-tabs do elsewhere. */}
+      <TabHeader title={strings.nav.rules}>
+        {/* Search is the hero: at a table you usually know the word. */}
+        <div>
         <div className="flex items-center gap-2.5 h-[50px] px-3.5 rounded-xl bg-ink-900 border border-ink-800 focus-within:border-ember-500 transition-colors">
           <Search size={19} className="text-ink-faded shrink-0" aria-hidden="true" />
           <input
@@ -335,34 +331,8 @@ export default function RulesScreen() {
             </button>
           )}
         </div>
-      </div>
-
-      {/* The dice roller lives here rather than a page of its own — this is the
-          reference open at the table. Collapsed until wanted; the real DiceRoller
-          component, the same one the battle screen embeds. */}
-      <div className="px-4 pb-3">
-        <button
-          type="button"
-          onClick={() => setDiceOpen((v) => !v)}
-          aria-expanded={diceOpen}
-          className="w-full h-[46px] flex items-center gap-3 px-3.5 rounded-lg bg-ink-900 border border-ink-800"
-        >
-          <Dices size={19} className="text-ember-400 shrink-0" aria-hidden="true" />
-          <span className="flex-1 text-left font-ui font-semibold text-bone-100">
-            {strings.rules.diceRoller}
-          </span>
-          {diceOpen ? (
-            <ChevronDown size={18} className="text-ink-faded" aria-hidden="true" />
-          ) : (
-            <ChevronRight size={18} className="text-ink-faded" aria-hidden="true" />
-          )}
-        </button>
-        {diceOpen && (
-          <div className="mt-3 rounded-lg bg-ink-900 border border-ink-800 p-3">
-            <DiceRoller compact />
-          </div>
-        )}
-      </div>
+        </div>
+      </TabHeader>
 
       {/* Coarse filter. Hidden while searching, where a flat result list makes a
           category chip meaningless. */}

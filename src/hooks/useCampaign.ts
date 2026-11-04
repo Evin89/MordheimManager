@@ -24,6 +24,8 @@ import {
 import { deleteBattle, fetchBattles, fetchPersonalBattles, insertBattle } from '../api/battles';
 import { fetchCampaignWarbands, fetchWarbands, type WarbandRecord } from '../api/warbands';
 import { pickActiveCampaign, resolveWarbandCampaign, writeActiveCampaignId } from '../lib/activeCampaign';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useWarbandsQuery } from './useWarbands';
 import { useDebouncedValue } from './useDebouncedValue';
 import { describeError } from '../lib/errorMessage';
@@ -100,6 +102,24 @@ export function useMyCampaignQuery() {
   return { ...query, data: query.data ? pickActiveCampaign(query.data) : undefined };
 }
 
+/**
+ * §40.3 — the campaign named in the URL (`/campaigns/:campaignId/…`).
+ * `undefined` while loading, `null` when you aren't (or are no longer) a member.
+ * Opening one records it as last opened, which is all Home's campaign card and
+ * `/campaign` (the old address) read from now.
+ */
+export function useRouteCampaign() {
+  const { campaignId } = useParams<{ campaignId: string }>();
+  const query = useMyCampaignsQuery();
+  const campaign =
+    query.data === undefined || !campaignId ? undefined : (query.data.find((c) => c.id === campaignId) ?? null);
+  const openedId = campaign?.id;
+  useEffect(() => {
+    if (openedId) writeActiveCampaignId(openedId);
+  }, [openedId]);
+  return { ...query, data: campaign };
+}
+
 export function useSetActiveCampaign() {
   const queryClient = useQueryClient();
   const { user } = useAuth();
@@ -135,10 +155,15 @@ export function useCreateCampaignMutation() {
       queryClient.invalidateQueries({ queryKey: campaignsKey(user?.id) });
     },
   });
-  return (name: string, usesBtb: boolean, onSuccess?: () => void, onError?: (message: string) => void) =>
+  return (
+    name: string,
+    usesBtb: boolean,
+    onSuccess?: (campaign: Campaign) => void,
+    onError?: (message: string) => void,
+  ) =>
     mutation.mutate(
       { name, usesBtb },
-      { onSuccess, onError: onError ? (err) => onError(describeError(err)) : undefined },
+      { onSuccess: (campaign) => onSuccess?.(campaign), onError: onError ? (err) => onError(describeError(err)) : undefined },
     );
 }
 

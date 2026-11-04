@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { battleState } from '../lib/battleNavigation';
 import BackHeader from '../components/BackHeader';
+import ActionBar from '../components/ActionBar';
 import { Button, TextField, Textarea, Select, Field } from '../components/ui';
 import { strings } from '../strings';
-import { BattleSession, defaultBattleSession, useAppStore } from '../store/useAppStore';
+import { BattleSession, defaultBattleSession, hasBattleProgress, useAppStore } from '../store/useAppStore';
 import { useWarbandList, useWarbandLookup } from '../hooks/useWarbands';
 import { useBattlesQuery, useCampaignWarbandsQuery, useWarbandCampaign } from '../hooks/useCampaign';
 import { useTerrainPiecesQuery } from '../hooks/useCollection';
@@ -96,16 +97,7 @@ export default function PreBattleScreen() {
   // A saved draft only counts as "a battle in progress" once there's real
   // during-battle work in it — not merely a scenario picked on this very screen.
   // On that, offer restore rather than silently resuming (§4.3.2).
-  const hasProgress =
-    !!storedSession &&
-    (!!storedSession.wizard ||
-      storedSession.turn > 1 ||
-      storedSession.events.length > 0 ||
-      storedSession.outOfAction.heroIds.length > 0 ||
-      storedSession.outOfAction.hiredSwordIds.length > 0 ||
-      Object.keys(storedSession.outOfAction.henchmenCounts).length > 0 ||
-      Object.keys(storedSession.enemyOutOfAction).length > 0 ||
-      Object.keys(storedSession.wyrdstoneCarried).length > 0);
+  const hasProgress = hasBattleProgress(storedSession);
 
   function discardDraft() {
     if (!warband) return;
@@ -395,18 +387,19 @@ export default function PreBattleScreen() {
           />
         </section>
 
-        <Button onClick={() => navigate(`/warbands/${warband.id}/during-battle`, { replace: true, state: navState })}>
-          {strings.battle.preBattle.continueButton}
-        </Button>
-
-        <Link
-          to={`/warbands/${warband.id}/post-battle`}
-          replace
-          state={navState}
-          className="block text-center w-full min-h-[44px] leading-[44px] text-bone-300 text-sm"
-        >
-          {strings.battle.preBattle.skipToPostBattle}
-        </Link>
+        <ActionBar>
+          <Button onClick={() => navigate(`/warbands/${warband.id}/during-battle`, { replace: true, state: navState })}>
+            {strings.battle.preBattle.continueButton}
+          </Button>
+          <Link
+            to={`/warbands/${warband.id}/post-battle`}
+            replace
+            state={navState}
+            className="block text-center w-full min-h-[36px] leading-[36px] text-bone-300 text-sm"
+          >
+            {strings.battle.preBattle.skipToPostBattle}
+          </Link>
+        </ActionBar>
       </main>
     </div>
   );
