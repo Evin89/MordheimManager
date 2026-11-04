@@ -12,7 +12,7 @@ const ACCOUNT_KEYS = [
 ];
 
 /**
- * §35.5 — delete the signed-in account (migration 0057). The server removes the
+ * §35.5 — delete the signed-in account (migration 0066). The server removes the
  * auth user and everything personal in one transaction; shared campaign
  * history stays, anonymised. This device then forgets the account too: the
  * local session, the battle draft and the per-account conveniences.

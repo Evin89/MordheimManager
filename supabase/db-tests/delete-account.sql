@@ -1,4 +1,4 @@
--- §35.5 delete_my_account (migration 0057).
+-- §35.5 delete_my_account (migration 0066).
 -- Users: A leads C1 (with B, C as players) and is alone in C2; B owns a warband in C1.
 insert into auth.users (id, email) values
  ('00000000-0000-0000-0000-00000000000a','a@x'),('00000000-0000-0000-0000-00000000000b','b@x'),

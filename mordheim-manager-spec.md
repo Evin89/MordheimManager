@@ -3112,10 +3112,10 @@ Verified in demo mode: remove a hero, the banner appears, Undo restores it in pl
 
 ### 35.5 Delete your own account (AVG/GDPR) ⚠️
 
-_⚠️ until migration 0057 is applied._ The privacy policy promised account deletion "at any time", but there was no way to do it in the app, and the dashboard route failed too: five author columns referenced the user with no `ON DELETE` action, so deleting the auth user was refused for anyone who had ever created a campaign or reported a battle.
+_⚠️ until migration 0066 is applied._ The privacy policy promised account deletion "at any time", but there was no way to do it in the app, and the dashboard route failed too: five author columns referenced the user with no `ON DELETE` action, so deleting the auth user was refused for anyone who had ever created a campaign or reported a battle.
 
-- **Where:** Account › *Delete account*, below Your activity. A danger button opens the unrecoverable confirm tier (§10.1 `ConfirmByTyping`). The impact is stated in full: what is gone, what is kept, and what happens to leadership. The phrase to type is "delete my account". *Keep my account* closes it.
-- **`delete_my_account()`** (migration 0057), SECURITY DEFINER, for the caller only. Everything runs in one transaction, so a failure leaves the account untouched.
+- **Where:** Account › Your data › *Delete account*, at the bottom of the screen. Afterwards the sign-in screen confirms the deletion (Your data requires sign-in, so it can't show it itself). A danger button opens the unrecoverable confirm tier (§10.1 `ConfirmByTyping`). The impact is stated in full: what is gone, what is kept, and what happens to leadership. The phrase to type is "delete my account". *Keep my account* closes it.
+- **`delete_my_account()`** (migration 0066), SECURITY DEFINER, for the caller only. Everything runs in one transaction, so a failure leaves the account untouched.
 - **Gone:**
   - the auth user and profile;
   - warbands, with their objectives, photos, rating history and edits;
