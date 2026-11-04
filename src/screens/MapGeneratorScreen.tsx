@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import BackHeader from '../components/BackHeader';
 import { Link, useSearchParams } from 'react-router-dom';
 import { generateBattlefield } from '../lib/solo/battlefield';
 import BattlefieldBoard from '../components/solo/BattlefieldBoard';
@@ -56,18 +57,11 @@ export default function MapGeneratorScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-        <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-bold text-bone-100 tracking-wide">Battlefield generator</h1>
-          <span className="text-xs font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
-            Beta
-          </span>
-        </div>
-        <p className="text-bone-400 text-sm mt-1">
-          A suggested board for any scenario and table size, drawn as an old map. Move the pieces to
-          fit the terrain you own.
-        </p>
-      </header>
+      <BackHeader title="Battlefield generator" badge="Beta" />
+      <p className="px-4 pt-4 text-bone-300 text-sm">
+        A suggested board for any scenario and table size, drawn as an old map. Move the pieces to fit the
+        terrain you own.
+      </p>
 
       <main className="flex-1 px-4 py-6 space-y-6">
         <Card as="section">

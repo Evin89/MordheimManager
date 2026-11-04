@@ -1,4 +1,7 @@
 import { useEffect, useRef } from 'react';
+import { campaignPath } from '../lib/activeCampaign';
+import HeaderTools from '../components/HeaderTools';
+import { HEADER_SHELL } from '../components/headerStyles';
 import { Link, useNavigate } from 'react-router-dom';
 import AppBanner from '../components/AppBanner';
 import DiscordLink from '../components/DiscordLink';
@@ -14,6 +17,26 @@ import { getWarbandTypeLabel } from '../data/warbandNames';
 import { consumeFreshSignIn } from '../lib/firstRun';
 import GoogleSelfReportCard from '../components/GoogleSelfReportCard';
 import { arrivedWithAuthLinkError } from '../lib/supabaseClient';
+import LookingForGroup from '../components/players/LookingForGroup';
+import ResumeBattles from '../components/ResumeBattles';
+import { NextEventBanner } from '../components/CampaignEvents';
+import { lastUsedFirst, readLastWarbandId } from '../lib/lastWarband';
+
+/**
+ * Home's header (§40.2): the banner is the title, with the dice and avatar
+ * beside it — the same shell and corner as every other `TabHeader`.
+ * One component for the signed-out, first-run and regular Home.
+ */
+function HomeHeader() {
+  return (
+    <header className={`${HEADER_SHELL} flex items-start gap-3 space-y-0`}>
+      <div className="min-w-0 flex-1">
+        <AppBanner />
+      </div>
+      <HeaderTools />
+    </header>
+  );
+}
 
 /**
  * About and the changelog, at the foot of Home.
@@ -26,7 +49,7 @@ import { arrivedWithAuthLinkError } from '../lib/supabaseClient';
 function AboutSection() {
   return (
     <section className="space-y-3">
-      <SectionHeading>{strings.settings.aboutSection}</SectionHeading>
+      <SectionHeading>{strings.account.aboutSection}</SectionHeading>
       {/* Community entry point (§4.10) — reaches signed-out visitors too, since
           AboutSection is on both Home views. */}
       <DiscordLink />
@@ -34,7 +57,7 @@ function AboutSection() {
         to="/account/changelog"
         className="block min-h-[44px] leading-[44px] text-ember-400 font-semibold"
       >
-        {strings.settings.changelogLink}
+        {strings.account.changelogLink}
       </Link>
     </section>
   );
@@ -45,9 +68,7 @@ function AboutSection() {
 function SignedOutHome() {
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-        <AppBanner />
-      </header>
+      <HomeHeader />
 
       <main className="flex-1 px-4 py-6 space-y-6">
         {arrivedWithAuthLinkError && (
@@ -89,6 +110,7 @@ function SignedOutHome() {
 export default function HomeScreen() {
   const { user, loading } = useAuth();
   const warbands = useWarbandList();
+  const recentWarbands = lastUsedFirst(warbands, readLastWarbandId()).slice(0, 3);
   const { isLoading: warbandsLoading, data: warbandRows } = useWarbandsQuery();
   const { data: campaign, isLoading: campaignLoading } = useMyCampaignQuery();
   const { data: battles } = useBattlesQuery(campaign?.id);
@@ -133,9 +155,7 @@ export default function HomeScreen() {
   if (onboardingReady && warbands.length === 0) {
     return (
       <div className="min-h-full flex flex-col">
-        <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-          <AppBanner />
-        </header>
+        <HomeHeader />
 
         <main className="flex-1 px-4 py-6 space-y-6">
           <GoogleSelfReportCard />
@@ -146,7 +166,7 @@ export default function HomeScreen() {
               <SectionHeading>{strings.home.campaignSection}</SectionHeading>
               <p className="text-ember-400 font-semibold">{campaign.name}</p>
               <Link
-                to="/campaign"
+                to={campaign ? campaignPath(campaign.id) : '/campaigns'}
                 className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
               >
                 {strings.home.goToCampaign}
@@ -174,9 +194,7 @@ export default function HomeScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-        <AppBanner />
-      </header>
+      <HomeHeader />
 
       <main className="flex-1 px-4 py-6 space-y-6">
         <GoogleSelfReportCard />
@@ -188,6 +206,12 @@ export default function HomeScreen() {
           />
         )}
 
+        {/* §40.3 — a game left half-way comes first: it's the likeliest reason
+            to have opened the app. Renders nothing otherwise. */}
+        <ResumeBattles />
+
+        {/* The campaign you opened last, its next game night, and one way in.
+            The list of all of them is the Campaigns tab. */}
         <Card as="section" gap="sm">
           <SectionHeading>{strings.home.campaignSection}</SectionHeading>
           {campaign ? (
@@ -201,6 +225,13 @@ export default function HomeScreen() {
                 )}
               </div>
               <p className="text-bone-300 text-sm">{strings.home.battleCount(battles?.length ?? 0)}</p>
+              <NextEventBanner campaignId={campaign.id} />
+              <Link
+                to={campaignPath(campaign.id)}
+                className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+              >
+                {strings.home.goToCampaign} ›
+              </Link>
             </>
           ) : campaignLoading ? (
             // Distinct from "no campaign": on a cold load the query is still in
@@ -208,47 +239,36 @@ export default function HomeScreen() {
             // is worse than showing nothing for a moment.
             <p className="text-bone-300 text-sm">{strings.common.loading}</p>
           ) : (
-            <p className="text-bone-300 text-sm">{strings.home.startCampaignCta}</p>
+            <>
+              <p className="text-bone-300 text-sm">{strings.home.startCampaignCta}</p>
+              {/* §39.3 — or find a group that already plays. */}
+              <div className="border-t border-ink-800 pt-3">
+                <LookingForGroup />
+              </div>
+              <Link
+                to="/campaigns"
+                className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+              >
+                {strings.campaign.myCampaignsLink} ›
+              </Link>
+            </>
           )}
-          {/* Two destinations, because they answer different questions: the
-              campaign you're in, and the list of all of them. Only the log was
-              reachable before. */}
-          <div className="flex flex-wrap items-center gap-x-4">
-            <Link
-              to="/campaign"
-              className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
-            >
-              {strings.home.goToCampaign}
-            </Link>
-            <Link
-              to="/campaign/events"
-              className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
-            >
-              {strings.events.homeLink}
-            </Link>
-            <Link
-              to="/campaigns"
-              className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
-            >
-              {strings.campaign.myCampaignsLink}
-            </Link>
-          </div>
         </Card>
 
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <SectionHeading>{strings.home.warbandsSection}</SectionHeading>
             <Link to="/warbands/new" className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
-              {strings.warbandList.newWarband}
+              + {strings.warbandList.newWarband}
             </Link>
           </div>
-          <p className="text-bone-300 text-sm">{strings.home.warbandCount(warbands.length)}</p>
 
           {warbands.length === 0 ? (
             <p className="text-bone-300 text-sm">{strings.home.noWarbandsCta}</p>
           ) : (
             <div className="space-y-2">
-              {warbands.map((warband) => (
+              {/* The three you used last; the rest are a tap away on Warbands. */}
+              {recentWarbands.map((warband) => (
                 <Link
                   key={warband.id}
                   to={`/warbands/${warband.id}`}
@@ -270,43 +290,24 @@ export default function HomeScreen() {
                   </div>
                 </Link>
               ))}
+              {warbands.length > recentWarbands.length && (
+                <Link to="/warbands" className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
+                  {strings.home.allWarbands(warbands.length)} ›
+                </Link>
+              )}
             </div>
           )}
         </section>
 
-        <section className="space-y-3">
-          <SectionHeading>{strings.home.quickActionsSection}</SectionHeading>
-          <div className="space-y-2">
-            <Link to="/post-battle" className={buttonClasses('primary')}>
-              {strings.postBattle.startButton}
-            </Link>
-            <Link to="/trading" className={buttonClasses('secondary')}>
-              {strings.roster.visitTrading}
-            </Link>
-            <Link to="/campaign" className={buttonClasses('secondary')}>
-              {strings.home.viewCampaignLog}
-            </Link>
-            {/* Solo mode (beta) — app-original, client-only. Badged so it reads
-                as experimental next to the shipped actions. */}
-            <Link to="/solo" className={buttonClasses('secondary')}>
-              {strings.home.soloButton}
-              <span className="ml-2 text-xs font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
-                Beta
-              </span>
-            </Link>
-            <Link to="/map" className={buttonClasses('secondary')}>
-              {strings.home.mapButton}
-              <span className="ml-2 text-xs font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
-                Beta
-              </span>
-            </Link>
-          </div>
-        </section>
+        {/* One action, not a row of buttons repeating the tabs (§40.3). */}
+        {warbands.length > 0 && (
+          <Link to="/play" className={buttonClasses('primary')}>
+            {strings.campaign.oneOffButton}
+          </Link>
+        )}
 
         {/* §36.4 — below the main content, and only on this (≥1 warband) view. */}
         {warbands.length > 0 && <InstallNudgeCard />}
-
-        <AboutSection />
       </main>
     </div>
   );

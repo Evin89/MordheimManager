@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import BackHeader from '../../components/BackHeader';
 import { Link, useNavigate } from 'react-router-dom';
 import { useWarbandList } from '../../hooks/useWarbands';
 import { useOwnedModelsQuery, useTerrainPiecesQuery } from '../../hooks/useCollection';
@@ -132,22 +133,17 @@ export default function SoloSetupScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-        <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-bold text-bone-100 tracking-wide">Solo battle</h1>
-          <span className="text-xs font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
-            Beta
-          </span>
-        </div>
-        <p className="text-bone-400 text-sm mt-1">
-          Fight a game with no second player. The app musters an AI opponent with a hidden agenda,
-          suggests its moves and a board, and gives you an oracle for the calls no one is here to
-          make. All app-original — not part of the rules.
+      <BackHeader title="Solo battle" badge="Beta" />
+      <div className="px-4 pt-4">
+        <p className="text-bone-300 text-sm">
+          Fight a game with no second player. The app musters an AI opponent with a hidden agenda, suggests its
+          moves and a board, and gives you an oracle for the calls no one is here to make. All app-original — not
+          part of the rules.
         </p>
         <Link to="/solo/collection" className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
-          Manage my collection →
+          Manage my collection ›
         </Link>
-      </header>
+      </div>
 
       <main className="flex-1 px-4 py-6 space-y-6">
         {inProgress.length > 0 && (

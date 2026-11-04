@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useAdminUserDetailQuery, useAdminUserWarbandsQuery } from '../hooks/useIssues';
-import { getWarbandTypeName } from '../data/warbandRegistry';
-import { strings } from '../strings';
-import { ago } from './admin/shared';
-import ActivityPanel, { activityWindow } from '../components/activity/ActivityPanel';
-import { useAdminUserActivityDayQuery, useAdminUserActivityQuery } from '../hooks/useActivity';
-import { ACTIVITY_REF, type ActivityItem } from '../lib/activityKinds';
+import { useAdminUserDetailQuery, useAdminUserWarbandsQuery } from '../../hooks/useIssues';
+import { getWarbandTypeName } from '../../data/warbandRegistry';
+import { strings } from '../../strings';
+import { ago } from './shared';
+import ActivityPanel, { activityWindow } from '../../components/activity/ActivityPanel';
+import { useAdminUserActivityDayQuery, useAdminUserActivityQuery } from '../../hooks/useActivity';
+import { ACTIVITY_REF, type ActivityItem } from '../../lib/activityKinds';
+import { useAdminProfileModeration, useAvatarUrls, usePlayerProfileQuery } from '../../hooks/usePlayers';
+import PlayerAvatar from '../../components/players/PlayerAvatar';
 
 function when(iso: string | null): string {
   if (!iso) return '—';
@@ -80,6 +82,61 @@ function PlayerActivity({ userId }: { userId: string }) {
  * §4.9.4.2 — every warband this player owns, soft-deleted ones included (dimmed,
  * at the bottom). Metadata only; each row opens the read-only roster.
  */
+/**
+ * §38 — profile moderation. A reported photo or bio is removed here; the
+ * report itself arrives in the issue inbox with `kind: 'profile'`. The photo is
+ * one every signed-in player can already see, so showing it to the admin is
+ * not an exception to §4.9.7.
+ */
+function ProfileModeration({ userId }: { userId: string }) {
+  const { data: profile } = usePlayerProfileQuery(userId);
+  const avatars = useAvatarUrls([userId]);
+  const { clearAvatar, clearBio, removeFromDirectory } = useAdminProfileModeration(userId);
+  const s = strings.profile;
+  if (!profile) return null;
+  const error = (clearAvatar.error ?? clearBio.error ?? removeFromDirectory.error) as Error | null;
+  return (
+    <section className="space-y-3">
+      <h2 className="text-bone-100 font-semibold">{s.adminSection}</h2>
+      <div className="flex items-start gap-3">
+        <PlayerAvatar url={avatars[userId]} name={profile.displayName || '?'} seed={profile.avatarSeed} size="md" />
+        <p className="text-bone-200 text-sm whitespace-pre-line break-words">{profile.bio || '—'}</p>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        <button
+          type="button"
+          disabled={!profile.avatarPath || clearAvatar.isPending}
+          onClick={() => clearAvatar.mutate()}
+          className="min-h-[44px] px-4 rounded-md border border-blood-600 text-danger font-semibold disabled:opacity-40"
+        >
+          {s.adminClearPhoto}
+        </button>
+        <button
+          type="button"
+          disabled={!profile.bio || clearBio.isPending}
+          onClick={() => clearBio.mutate()}
+          className="min-h-[44px] px-4 rounded-md border border-blood-600 text-danger font-semibold disabled:opacity-40"
+        >
+          {s.adminClearBio}
+        </button>
+        <button
+          type="button"
+          disabled={!profile.discoverable || removeFromDirectory.isPending}
+          onClick={() => removeFromDirectory.mutate()}
+          className="min-h-[44px] px-4 rounded-md border border-blood-600 text-danger font-semibold disabled:opacity-40"
+        >
+          {s.adminRemoveFromDirectory}
+        </button>
+        <Link to={`/players/${userId}`} className="min-h-[44px] px-4 flex items-center text-ember-400 text-sm font-semibold">
+          {s.adminViewProfile}
+        </Link>
+      </div>
+      {(clearAvatar.isSuccess || clearBio.isSuccess || removeFromDirectory.isSuccess) && <p className="text-bone-300 text-xs">{s.adminDone}</p>}
+      {error && <p className="font-ui text-xs text-danger">{error.message}</p>}
+    </section>
+  );
+}
+
 function PlayerWarbands({ userId }: { userId: string }) {
   const { data: rows, isError, error } = useAdminUserWarbandsQuery(userId);
   const live = rows?.filter((w) => !w.deleted_at) ?? [];
@@ -216,6 +273,8 @@ export default function AdminUserScreen() {
             </p>
 
             {userId && <PlayerActivity userId={userId} />}
+
+            {userId && <ProfileModeration userId={userId} />}
 
             {userId && <PlayerWarbands userId={userId} />}
 

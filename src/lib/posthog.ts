@@ -33,7 +33,7 @@ export const isAnalyticsConfigured = Boolean(projectToken && host);
  * Where events are sent. On the production domain that's the first-party
  * Worker proxy at `/lantern` (worker/index.js), so ad blockers that list
  * `*.posthog.com` don't silently drop consented analytics; everywhere else —
- * `vite dev`, previews, the old Netlify host, none of which run the Worker —
+ * `vite dev` and previews, which don't run the Worker —
  * it's the configured PostHog host directly. The proxy targets PostHog's EU
  * region, matching the configured host.
  */
@@ -75,7 +75,18 @@ export type AnalyticsEvent =
   | 'install_nudge_dismissed'
   // §37.5 — the roster share panel.
   | 'warband_share_opened'
-  | 'warband_card_shared';
+  | 'warband_card_shared'
+  // §38 — player profiles. Never the viewed player's id, never field values.
+  | 'profile_viewed'
+  | 'profile_edited'
+  | 'directory_searched'
+  // §39.7 — which door into the directory was used.
+  | 'directory_opened'
+  | 'invite_sent'
+  | 'invite_responded'
+  | 'invite_revoked'
+  // §40 — which tab (or the avatar) gets tapped; closed set, see navItems.
+  | 'nav_tab_tapped';
 
 type EventProps = Record<string, string | number | boolean>;
 

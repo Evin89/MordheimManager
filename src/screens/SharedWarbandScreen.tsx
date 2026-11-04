@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Link2 } from 'lucide-react';
+import { Check, Link2 } from 'lucide-react';
+import { HeaderAction } from '../components/HeaderTools';
 import BackHeader from '../components/BackHeader';
 import ProfileBlock from '../components/ProfileBlock';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
@@ -378,14 +379,12 @@ function CopyRosterLink({ warbandId }: { warbandId: string }) {
     }
   }
   return (
-    <button
-      type="button"
-      onClick={copy}
-      className="inline-flex items-center gap-1.5 min-h-[44px] px-2 text-ember-400 text-sm font-semibold"
-    >
-      <Link2 className="w-5 h-5" aria-hidden />
-      {copied ? strings.roster.card.linkCopied : strings.roster.card.copyLink}
-    </button>
+    // Icon-only on phones, so "copied" shows as a tick too, not just as text.
+    <HeaderAction
+      Icon={copied ? Check : Link2}
+      label={copied ? strings.roster.card.linkCopied : strings.roster.card.copyLink}
+      onClick={() => void copy()}
+    />
   );
 }
 

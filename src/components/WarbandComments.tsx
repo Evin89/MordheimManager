@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PlayerLink from './players/PlayerLink';
 import { useLocation } from 'react-router-dom';
 import { Button, Card, SectionHeading, Textarea } from './ui';
 import { strings } from '../strings';
@@ -94,7 +95,9 @@ export default function WarbandComments({ warbandId }: { warbandId: string }) {
                   <Card key={comment.id} gap="sm">
                     <div className="flex items-start justify-between gap-3">
                       <p className="text-bone-400 text-xs">
-                        {s.by(comment.authorDisplayName, new Date(comment.createdAt).toLocaleDateString())}
+                        <PlayerLink userId={comment.authorId}>{comment.authorDisplayName || 'A player'}</PlayerLink>
+                        {' · '}
+                        {new Date(comment.createdAt).toLocaleDateString()}
                       </p>
                       <div className="flex shrink-0 gap-3">
                         {!mine &&

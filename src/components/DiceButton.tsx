@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { Dices, X } from 'lucide-react';
 import DiceRoller from './DiceRoller';
 import { strings } from '../strings';
+import { HEADER_CONTROL } from './headerStyles';
 
 /**
  * A floating dice roller, one tap away from anywhere.
  *
- * Sits directly under the nav tour's `?` (same round-chip styling, one row
- * down) so the two live as a small stack in the top-right corner. The roller
+ * Lives in every header's corner, left of the avatar (`HeaderTools`). The roller
  * itself is the same `DiceRoller` the /dice screen and the during-battle
  * tracker use — here it opens in an overlay so you can roll a house-rule die
  * without leaving whatever screen you're on and finding your way back.
@@ -30,13 +30,13 @@ export default function DiceButton() {
 
   return (
     <>
-      {/* One row below the `?` (top-2/top-3 + its 40px height + an 8px gap),
-          so the two float as a stack rather than overlapping. */}
+      {/* §40.2 — in every header, left of the avatar. */}
       <button
         type="button"
         onClick={() => setOpen(true)}
         aria-label={strings.dice.title}
-        className="print:hidden fixed top-14 right-2 md:top-[3.75rem] md:right-3 z-40 h-10 w-10 rounded-full bg-ink-900/90 border border-ink-700 text-ember-400 shadow-lg backdrop-blur-sm hover:bg-ink-800 transition-colors flex items-center justify-center"
+        title={strings.dice.title}
+        className={`${HEADER_CONTROL} w-10 px-0 text-ember-400`}
       >
         <Dices className="h-5 w-5" aria-hidden="true" />
       </button>

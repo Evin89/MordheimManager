@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { Share2 } from 'lucide-react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { FROM_ROSTER } from '../lib/battleNavigation';
+import { hasBattleProgress, useAppStore } from '../store/useAppStore';
 import { forgetRemoved, reinsert, removedFor, type RemovedModel } from '../lib/removedModels';
 import BackHeader from '../components/BackHeader';
+import { HeaderAction } from '../components/HeaderTools';
 import InlineNumberField from '../components/InlineNumberField';
 import ProfileBlock from '../components/ProfileBlock';
 import WarbandPhotoEditor, { WarbandThumb } from '../components/WarbandPhoto';
@@ -298,6 +300,7 @@ function RemovedModelsBanner({
 
 export default function RosterScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
+  const inProgress = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
   const navigate = useNavigate();
   const { warband, loading } = useWarbandLookup(warbandId);
   const deleteWarband = useDeleteWarbandMutation();
@@ -365,15 +368,12 @@ export default function RosterScreen() {
         subtitle={getWarbandTypeLabel(warband.warbandType, warband.subfaction)}
         action={
           // §36.1 — visible without scrolling; the panel opens at the top.
-          <button
-            type="button"
+          <HeaderAction
+            Icon={Share2}
+            label={strings.roster.card.button}
             onClick={() => setSharing((open) => !open)}
             aria-expanded={sharingOpen}
-            className="inline-flex items-center gap-1.5 min-h-[44px] px-2 text-ember-400 text-sm font-semibold"
-          >
-            <Share2 className="w-5 h-5" aria-hidden />
-            {strings.roster.card.button}
-          </button>
+          />
         }
       />
 
@@ -419,8 +419,16 @@ export default function RosterScreen() {
 
         <WarbandPhotoEditor warbandId={warband.id} warbandName={warband.name} />
 
-        <Link to={`/warbands/${warband.id}/pre-battle`} state={FROM_ROSTER} className={buttonClasses('primary')}>
-          {strings.battle.startBattleButton}
+        {/* §40.3 — one way into a game: start one, or pick up the one this
+            warband left half-way (same stage logic as the resume card). */}
+        <Link
+          to={`/warbands/${warband.id}/${
+            !hasBattleProgress(inProgress) ? 'pre-battle' : inProgress?.wizard ? 'post-battle' : 'during-battle'
+          }`}
+          state={FROM_ROSTER}
+          className={buttonClasses('primary')}
+        >
+          {hasBattleProgress(inProgress) ? strings.play.continueBattle : strings.battle.startBattleButton}
         </Link>
 
         <Link to={`/warbands/${warband.id}/trading`} className={buttonClasses('secondary')}>

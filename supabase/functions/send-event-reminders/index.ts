@@ -107,7 +107,7 @@ Deno.serve(async () => {
         title: 'Game night tomorrow',
         body: [event.title, formatWhen(event.event_datetime), event.location].filter(Boolean).join(' · '),
         tag: `event-${event.id}`,
-        url: `/app/campaign/events/${event.id}`,
+        url: `/app/campaigns/${event.campaign_id}/events/${event.id}`,
       });
 
       for (const sub of (subs ?? []) as SubRow[]) {

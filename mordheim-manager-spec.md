@@ -2,7 +2,7 @@
 
 A mobile-first Progressive Web App for managing Mordheim warbands and campaigns, including Border Town Burning (BTB) supplement content. Online, account-based, backed by Supabase. Installed via "Add to Home Screen" on Android.
 
-**Owner:** Evin — deployed as a Cloudflare **Worker** serving static assets at `mordheimmanager.net`, built from `main` (`wrangler.toml`). Not a Pages project: the two are grouped together in the dashboard but configured differently, and only the Worker needs a file in the repo. The former Netlify deployment at `mordheim.builderbasement.com` still builds from the same branch while the move settles; `public/_headers` is read by both hosts, while SPA routing is `not_found_handling` on Workers and `netlify.toml` on Netlify.
+**Owner:** Evin — deployed as a Cloudflare **Worker** serving static assets at `mordheimmanager.net`, built from `main` (`wrangler.toml`). Not a Pages project: the two are grouped together in the dashboard but configured differently, and only the Worker needs a file in the repo. The former Netlify deployment at `mordheim.builderbasement.com` was switched off on 2026-11-03 and `netlify.toml` removed; `public/_headers` sets cache headers and SPA routing is `not_found_handling` in `wrangler.toml`.
 
 ---
 
@@ -28,7 +28,7 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 | 4 | `BattleRecord` without `warbandId` | **Built version wins** — without it a player with two warbands got one merged W/L record. §3.1 |
 | 5 | `Campaign.joinCode: string` | **Nullable in build** — the leader can revoke rather than only rotate. §3.1 |
 | 6 | `HiredSword` without `countsTowardMax` | **Built version wins.** §3.1 |
-| 7 | Six bottom tabs incl. "Browse" | ⚠️ **Seven tabs shipped**, gallery reached from Home rather than a tab. The crowding concern is real and recorded. §4 |
+| 7 | Six bottom tabs incl. "Browse" | ✅ **Resolved by §40: five tabs** (Home · Warbands · Play · Campaigns · Rules), Account as the header avatar, gallery under Warbands. §4, §40 |
 | 8 | Fonts self-hosted woff2 | ✅ **Done** — `scripts/fetch-fonts.mjs` pulls the Latin woff2 subsets to `public/fonts/`, `font-display: swap`, no CDN request; SW caches them CacheFirst so they survive offline. §5.2, §12.4 |
 | 9 | Dark theme "optional later, not v1" | ⚠️ **Shipped first, as the default.** §5.5 |
 | 10 | "Requires login throughout, no logged-out mode" | ⚠️ **The gallery is anon-readable** (migration 0004). This has consequences for photos — see conflict 11. §8.1, §4.7 |
@@ -86,17 +86,17 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 
   | Request | Strategy | Why |
   | --- | --- | --- |
-  | HTML shell (navigations) | `NetworkFirst`, 3s timeout, single fixed cache key | A new deploy is picked up as soon as there's a connection. One key because Netlify rewrites every path to the same `index.html`, so per-URL storage would cache identical copies *and* leave a deep link like `/rules` uncached until visited online. |
+  | HTML shell (navigations) | `NetworkFirst`, 3s timeout, single fixed cache key | A new deploy is picked up as soon as there's a connection. One key because the host serves the same `index.html` for every path (`not_found_handling` in `wrangler.toml`), so per-URL storage would cache identical copies *and* leave a deep link like `/rules` uncached until visited online. |
   | `/assets/*.js`, `*.css` | `CacheFirst`, 60 entries / 30 days | Content-hashed, so a given URL's bytes can never change. A new deploy requests new filenames, which simply miss. |
   | Fonts and images | `StaleWhileRevalidate`, 60 entries / 30 days | |
   | Supabase | **Never cached** | Warbands, campaigns and battles must never come from a stale copy. |
 
   A precache *manifest* is what made two correct deploys look broken: workbox served the previous `index.html` out of `workbox-precache-v2` indefinitely, so the app kept booting an old bundle until site data was cleared. Runtime caching gives the same repeat-visit saving without a manifest that can pin a stale shell. **Do not reintroduce `globPatterns` for HTML.**
 - ✅ **Chunk-load recovery.** Every route screen in `App.tsx` is `React.lazy`-loaded. The fix above keeps the HTML shell itself fresh, but not an open tab that was already sitting on the *previous* shell when a deploy replaced the build's hashed chunk filenames: an in-app link (client-side navigation, no HTML fetch) that then tries to `import()` a route chunk which no longer exists 404s, and with no error boundary above `<Suspense>` that unmounted the whole tree to a blank page — reported live as "the app goes black on a link click, but reloading fixes it." `ChunkErrorBoundary` (`src/components/ChunkErrorBoundary.tsx`) wraps the router's top-level `<Suspense>` and catches this specific failure (matched by message, since browsers throw it as a plain `Error` with no shared class): it reloads once automatically, silently picking up the current shell and chunk manifest, and only falls back to a visible "Reload" prompt if a second consecutive load still fails — which means a genuinely broken deploy, not a stale tab. Verified by throwing the real error text from a test route and watching it auto-recover on the first hit and land on the fallback on the second, deliberately-unrecovered one.
-- ✅ **Deploy:** Netlify, standard Vite build, no Netlify functions.
+- ✅ **Deploy:** Cloudflare Workers (static assets), standard Vite build, from `main`. The Netlify host was switched off and `netlify.toml` removed on 2026-11-03.
 - ✅ **UI language:** English. All strings in `src/strings.ts`.
 
-**Environment:** `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`, in `.env.local` locally and in Netlify's build environment. No service-role key is ever present client-side or in the repo — see §13.2 for the one script that needs one.
+**Environment:** `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`, in `.env.local` locally and in the Cloudflare Workers build variables. No service-role key is ever present client-side or in the repo — see §13.2 for the one script that needs one.
 
 ---
 
@@ -292,6 +292,8 @@ type StandingsRow = {
   - **A unit that cannot gain Experience gets no profile**, deliberately: it never advances, so a ceiling is meaningless and inventing one implies it could. The resolver returns null rather than a fabricated line.
   - Three units keep per-unit numbers, their race having no published profile: Carnival of Chaos's Plague Bearers, Nurglings and Plague Cart.
   - A promoted Henchman ("That Lad's Got Talent") takes his unit type's racial ceiling. He used to be handed *his own current stats* as maximums, freezing him at the numbers he was promoted with.
+  - He also keeps the equipment he carried in the group: a group's `equipment` is what *each* member carries, so the promoted Hero gets a copy (fresh item ids) and the group keeps its list for the remaining members. He used to arrive with no equipment at all (issue bd6ab585).
+  - Promoting the **last** member disbands the group: it is removed from the roster rather than left behind at count 0, and its equipment goes with him (nothing to the treasury — there is no keep/delete choice as there is for a wiped-out group). The post-battle summary (`buildDiffSummary`) now logs every promotion, and says so when the group is disbanded.
 - ✅ **Max warband size / hero slots** from the warband definition (`src/lib/warbandLimits.ts`). Hired Swords excluded via `countsTowardMax`.
 - ✅ **Total upkeep** = sum of hired sword upkeep fees.
 - ✅ **Advance eligibility** (`advanceEligibility.ts`, `xpThresholds.ts`).
@@ -344,11 +346,11 @@ These files never change at runtime, which is why §12.1 gives them `staleTime: 
 
 Mobile-first. Bottom tab bar on phones, left rail on wider screens.
 
-**Tabs:** Home · Warbands · Battle · Trading · Campaigns · Rules · Settings
+**Tabs:** Home · Warbands · Play · Campaigns · Rules — each with its label under the icon on phones. **Account** is the avatar in each tab screen's header (and at the foot of the desktop rail), not a tab. See §40.
 
-⚠️ Seven tabs, not the six proposed (conflict 7). The gallery is reached from Home rather than occupying a tab. The crowding concern is real: seven targets on a narrow phone is tight, and moving Rules and Settings behind an overflow or profile menu is the obvious relief if it starts costing mistaps. Recorded, not yet acted on.
+✅ Conflict 7 resolved by §40: seven tabs (eight signed out), icon-only on phones, became five labelled ones. Trading lives on each roster; the gallery, compare and custom warbands under Warbands; dice, map and solo under Play; the player directory under Campaigns.
 
-Nav highlighting is not plain path-prefix matching. `NavLink` matches on its own prefix, which lit the wrong tab twice: the battle screens live under `/warbands/:id/…` and lit Warbands, and `/campaigns` lit for `/campaign/:id`. `isNavItemActive` lets an item both claim paths (`activeFor`, `alsoActiveFor`) and disclaim them (`notActiveFor`).
+Nav highlighting is not plain path-prefix matching: one ordered table, `navTargetForPath` (`src/lib/navTabs.ts`), maps every path to a tab or the avatar, and `scripts/check-nav-coverage.mjs` fails the build if a route in `App.tsx` maps to nothing (§40.1).
 
 ### 4.1 Warband list & roster ✅
 
@@ -1415,7 +1417,7 @@ Target (conflict 15):
 
 - ✅ **Fonts self-hosted.** §5.2's four families now ship as Latin woff2 subsets from our own origin (`scripts/fetch-fonts.mjs` → `public/fonts/`, ~640 kB across 19 faces), `font-display: swap`, above-the-fold faces preloaded, and cached CacheFirst by the service worker for offline. No Google CDN request is made — closing the largest unclaimed first-load win and removing a third-party dependency from every page.
 - ✅ **Service worker: already correct** (conflict 2). The incoming draft read "no precaching" as "no asset caching" and recommended enabling precache. The app instead uses **runtime caching** — `CacheFirst` on content-hashed `/assets/*.js|css`, `StaleWhileRevalidate` on fonts and images, `NetworkFirst` on the HTML shell, Supabase never cached. That achieves the repeat-visit saving *without* a precache manifest, which is what pinned a stale `index.html` through two deploys. See the table in §2. Do not reintroduce a manifest for HTML.
-- Verify Netlify actually serves hashed build assets with immutable cache headers rather than assuming it.
+- ~~Verify Netlify serves hashed build assets with immutable cache headers.~~ Obsolete: Netlify retired 2026-11-03; on Workers, `public/_headers` sets `immutable` on `/assets/*`.
 - ✅ Bundle size checked and fixed (2026-09-25): the entry was 1,312 kB / 362 kB gzipped; it's now three ~216 kB chunks, 648 kB / 194 kB gzipped — see §16's audit line for how. *Original note:* The production bundle was **1,068 kB raw / 285 kB gzipped** in one chunk, which already trips Vite's 500 kB warning. Look for full-library imports, a date library where `Intl` would do, and wholesale icon sets — then consider route-level code splitting, since the post-battle wizard and the rules browser are both large and rarely on the critical path.
 
 ### 12.5 Audit results
@@ -2061,7 +2063,7 @@ pinnedAnnouncement?: { body: string; postedAt: string; postedBy: string };
 
 ### 19.4 Push notifications ✅
 
-**Built** — migration `0028_push_notifications` (the `push_subscriptions` table + a `reminder_sent_at` marker) and the project's first server-side sending, in the two phases the open question below called for. **Phase 1**, the reminder: a `pg_cron`-driven Edge Function (`send-event-reminders`) finds events ≤24h out and pushes to their Going/Maybe RSVPs, once per event. **Phase 2**, the battle: a second function (`notify-battle-logged`) on a `battles`-insert database webhook alerts the campaign's other members. Both sign Web Push with VAPID and prune dead subscriptions on 404/410. The push handler is a separate file imported into the tuned caching worker (`workbox.importScripts`) so §2's carefully-built SW is untouched; a Settings toggle subscribes per device, honest that iOS needs a Home-Screen install (16.4+). What follows is the plan it was built from.
+**Built** — migration `0028_push_notifications` (the `push_subscriptions` table + a `reminder_sent_at` marker) and the project's first server-side sending, in the two phases the open question below called for. **Phase 1**, the reminder: a `pg_cron`-driven Edge Function (`send-event-reminders`) finds events ≤24h out and pushes to their Going/Maybe RSVPs, once per event. **Phase 2**, the battle: a second function (`notify-battle-logged`) alerts the campaign's other members. ✅ The database webhook it was written for was never created, so until 2026-11-02 it never fired; it is now called by the `battles_notify` trigger (migration 0063) with only the battle id, and claims the battle through `notified_at` before sending, the same no-secret pattern as the invite push (§38). Both sign Web Push with VAPID and prune dead subscriptions on 404/410. The push handler is a separate file imported into the tuned caching worker (`workbox.importScripts`) so §2's carefully-built SW is untouched; a Settings toggle subscribes per device, honest that iOS needs a Home-Screen install (16.4+). What follows is the plan it was built from.
 
 The largest infrastructure lift here. The PWA groundwork (§2) supports it, but nothing in the stack sends anything today. Two triggers are worth having: an event within 24 hours, and a campaign-mate reporting a battle. Both read data that already exists.
 
@@ -2370,7 +2372,7 @@ The client-side integration is built and privacy-scoped, and ingestion runs thro
 
 This realises the original scope: pageviews + named product events mirroring the §23.2 funnel, reconcilable against the DB funnel, and no firehose of autocaptured clicks — event discipline is what keeps the free tier free. (Names landed as `campaign_joined`/`campaign_selected` rather than the drafted `campaign_entered`.)
 
-**The reverse proxy ✅.** On `mordheimmanager.net`, both the app (`src/lib/posthog.ts`) and the landing page send analytics to **`/lantern/*`** on our own domain; `worker/index.js` forwards `/lantern/static/*` to `eu-assets.i.posthog.com` (the SDK's lazy scripts, edge-cached for an hour) and everything else to `eu.i.posthog.com`, and `wrangler.toml` routes `/lantern/*` through the Worker first. The path is deliberately unremarkable — blocklists catch `/ingest`, `/analytics`, `/track`, `/posthog`. Nothing sent changes (consent gating, the closed event union and `before_send` still run in the browser first); the proxy strips cookies and **forwards the visitor's IP** (`CF-Connecting-IP` → `X-Forwarded-For`, dropping any client-sent value) so PostHog can derive approximate location — the owner's call (2026-09-25), and already disclosed in the Privacy Policy for consenting visitors. Check PostHog's *Discard client IP data* project setting is off, or it drops the IP anyway. Dev, previews and the old Netlify host run no Worker, so they keep talking to the configured host directly. A same-origin `NetworkOnly` rule keeps the service worker off `/lantern/`. Residency is EU end to end. Still worth setting: per-product billing caps in PostHog as a backstop.
+**The reverse proxy ✅.** On `mordheimmanager.net`, both the app (`src/lib/posthog.ts`) and the landing page send analytics to **`/lantern/*`** on our own domain; `worker/index.js` forwards `/lantern/static/*` to `eu-assets.i.posthog.com` (the SDK's lazy scripts, edge-cached for an hour) and everything else to `eu.i.posthog.com`, and `wrangler.toml` routes `/lantern/*` through the Worker first. The path is deliberately unremarkable — blocklists catch `/ingest`, `/analytics`, `/track`, `/posthog`. Nothing sent changes (consent gating, the closed event union and `before_send` still run in the browser first); the proxy strips cookies and **forwards the visitor's IP** (`CF-Connecting-IP` → `X-Forwarded-For`, dropping any client-sent value) so PostHog can derive approximate location — the owner's call (2026-09-25), and already disclosed in the Privacy Policy for consenting visitors. Check PostHog's *Discard client IP data* project setting is off, or it drops the IP anyway. Dev and previews run no Worker, so they keep talking to the configured host directly. A same-origin `NetworkOnly` rule keeps the service worker off `/lantern/`. Residency is EU end to end. Still worth setting: per-product billing caps in PostHog as a backstop.
 
 **Privacy surface / residency (open).** The gallery is anon-readable (§8.1) and the community is heavily European, so any client-side tracker touches GDPR. The current posture — anonymous, cookieless (`localStorage`, no cookie), DNT-respecting, PII-free — is the lightweight path that likely avoids a consent banner; the EU-vs-US host choice (residency) is settled by which `VITE_POSTHOG_HOST` is configured and rides on the reverse-proxy work above.
 
@@ -3301,3 +3303,556 @@ The nicest end state: a shared roster **link** unfurls in Discord/WhatsApp with 
 - `?ref=share-card` needed no change to §23.4: `classify()` already files every `share*` ref under `share`.
 - **Copy image** is offered only for a PNG card (Chromium's clipboard takes PNG only). The JPEG fallback (§37.4, > 1.5 MB) is in place; the largest demo warband renders to ~220 kB, so it should rarely trigger.
 - Not verifiable in the browser pane: the OS share sheet and pasting into WhatsApp/Discord — these stay on the §37.7 device checklist.
+
+---
+
+## 38. Player profiles & player directory ✅ (database live 2026-11-01, app merged 2026-11-02)
+
+_Drafted 2026-10-31, revised the same day: profiles gained a **country** and an uploaded **profile photo**, and the section now includes a searchable **player directory** with **direct campaign invites**. New top-level section. Amends §4.5 (campaign screens), §4.6 (Account), §4.7 (Gallery), §8.1–§8.3 (profiles schema/RLS), §8.5 (invites — join codes stay, direct invites are added), §11 (photos) and §19.2 (comments) where noted; each amended section should carry a one-line pointer back here when this lands. If §38 is already taken in the repo, use the next free number and update the cross-references._
+
+**Decisions (Evin, 2026-10-31):** country only, never region or city · profile photos visible to every signed-in player · directory sorted newest first · Mord Hive is separate — this directory is Mordheim Manager's own · "request to join" stays open (§38.11).
+
+**As built (part A, migration 0059):** photos live in the existing private `images` bucket under an `avatars/{user_id}/` prefix rather than a new bucket, so 0013's private-bucket guard covers them too · `country` is `text` with a check, not `char(2)` (a `char(2)` truncation error fires before the check and gives the user a worse message) · display name stays 1–40 characters to match `MAX_DISPLAY_NAME` · list avatars come from `get_avatar_paths(uuid[])` because `avatar_path` can't be column-granted to `authenticated` without the gallery's anon read breaking · §38.0 audit: the 0038/0047 column grants already hide `last_seen_at` and every acquisition column and allow client UPDATE of `display_name` only — no defect · gallery rows are whole-row links, so the owner name there stays plain text (a nested link is invalid HTML); names link from Members, Standings and comments.
+
+**As built (part B, migration 0060):** directory switches are their own RPC (`set_my_directory`) so the profile save and the switches can't overwrite each other · `get_player_profile` gains `discoverable` / `looking_for_campaign` · the invitee's card reads `my_campaign_invites()` (name, visibility, member count, inviter) and the profile's invite sheet reads `invite_options(uuid)`, so neither needs a new campaign RLS path · leaders see pending invites on the Players tab, with "Invite a player" linking to `/players` · admin "Remove from directory" on the player screen · db test `player-directory.sql` (23 checks).
+
+**As built (follow-ups):** invite push is `supabase/functions/notify-campaign-invite` (deployed with verify_jwt off), called by the `campaign_invites_notify` trigger (migration 0062) through pg_net with only the invite id. No dashboard webhook — that stores the service-role key in the trigger — and no shared secret: the function only acts on a pending invite under 10 minutes old that it can claim atomically through `notified_at`, so an outside caller can at most trigger early the one push that was coming anyway. The invite message is left out of the push so another player's free text never lands on a lock screen first · the Campaigns nav icon carries a dot (not a count — unreadable at 56px) when invites are open, with the count for screen readers · §38.12's admin numbers are their own `admin_directory_stats()` (migration 0061) rather than two more keys on `admin_stats()`, whose whole body is copied by every migration that touches it; Overview shows "In directory" and "Invites accepted · 30d" · the JSON export carries your own profile fields (export-only; import ignores them) · privacy policy gains profile and directory paragraphs and two consent rows.
+
+**Live (2026-11-01):** migrations 0059–0062 applied and recorded under those numbers; function deployed. Verified live: none of the new columns is client-selectable, anon can execute none of the 17 new functions, RLS on `campaign_invites`.
+
+⚠️ **Found while deploying — affects all push, not only invites:** the Edge Functions have no `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` secrets (a test call returns `missing_env`), so no server push is sent today — game-night reminders included. And there is no webhook or trigger on `battles`, so `notify-battle-logged` is never called. ✅ Resolved 2026-11-02: both VAPID secrets are set in Edge Functions → Secrets, `VITE_VAPID_PUBLIC_KEY` is a Cloudflare **build** variable on the Worker, and the battles hook moved to the trigger pattern (0063, applied).
+
+**For Claude Code — read first.**
+- §38.0 is **report-only**: findings with file/line references, no edits in that pass. Several defaults below depend on its answers.
+- ❓ marks a genuine open decision with a reasoned default; use the default unless Evin has overridden it.
+- Migration numbers: the next free numbers after the latest in `supabase/migrations/` (0052 was the last known when drafted). Split into two migrations as in §38.10 so the directory/invite half can ship separately from the profile half.
+- Every new RPC is `SECURITY DEFINER`, `set search_path = public`, revoked from `public`/`anon`, granted to `authenticated` only.
+
+### Why
+
+Today a player can only be found through a join code that someone sends them over WhatsApp. That works for an existing group and does nothing for someone who wants a campaign but doesn't have a group yet. Players are also a first-class object everywhere in the app (gallery, Members, Standings, comments, RSVPs), yet there's nowhere to tap a name and see who that is.
+
+This section adds:
+1. A **profile** per player: photo, name, country, bio, favourite warband, stats.
+2. A **directory** to search players who have opted in, by country and other filters.
+3. **Direct invites**: a campaign leader invites a player found in the directory, and that player accepts or declines.
+
+**Principles**
+- **Being findable is opt-in.** Nobody appears in the directory or can receive a direct invite until they switch it on. Every existing account, and the 100 seeded test users, start switched off.
+- **A profile gathers what the viewer can already see.** It never becomes a new way to read a private warband, a campaign the viewer isn't in, or a BTB objective. The only new data it shows is counts (stats), in the §4.9.7 content-blind spirit.
+- **Coarse location only.** Country, never a city, a region or coordinates.
+
+### 38.0 Verify — report-only
+
+1. Which RLS policies exist on `profiles` today (SELECT and UPDATE), and for which roles?
+2. How are `acquisition_*`, `acquisition_self_report*` and `last_seen_at` kept from being read by clients: column-level grants, or only by never selecting them? §23.4 says no user may read them, including their own. If a plain `select *` on `profiles` returns them to `authenticated`, **report that as a defect before anything here ships**, because this section adds more profile reads.
+3. Is there a client `UPDATE` path on `profiles` (e.g. for `display_name`)? Can it also write the acquisition columns?
+4. Where is `display_name` edited in the UI today, if anywhere?
+5. What type is `avatar_seed`, and which component renders it?
+6. §11 photos: which storage bucket and path scheme, how images are downscaled client-side, and how URLs are produced (signed? batch `createSignedUrls`? cache lifetime?). The profile photo reuses that pipeline.
+7. Push (migration 0028): which function sends a push, and is there a per-user opt-in table the invite push can respect?
+8. Does an account-deletion path exist? If so, what does it remove?
+
+### 38.1 Data model
+
+**Migration A — `00NN_player_profiles.sql`:**
+
+```sql
+alter table profiles
+  add column bio text
+    check (bio is null or char_length(bio) <= 280),
+  add column favourite_warband_type text
+    check (favourite_warband_type is null or char_length(favourite_warband_type) <= 64),
+  add column country char(2)
+    check (country is null or country ~ '^[A-Z]{2}$'),       -- ISO 3166-1 alpha-2
+  add column avatar_path text,                               -- storage path, never a URL (§3.1 ModelPhoto rule)
+  add column discoverable boolean not null default false,    -- in the directory + can receive direct invites
+  add column looking_for_campaign boolean not null default false;
+
+-- No backfill. Everyone, seeded test users included, starts undiscoverable.
+create index profiles_directory_idx
+  on profiles (country, created_at desc)
+  where discoverable;
+```
+
+- `country`: an ISO code, so the stored value is language-neutral. The client shows it with `Intl.DisplayNames(['nl'|'en'], {type: 'region'})`, with no dependency. The code list lives in `src/lib/countries.ts` as a plain array of codes, because `Intl` can name regions but can't list them. **No flag emoji**: Windows renders them as two letters, and the Sociaal-AI-Lab-style shared Windows PCs are a real audience.
+- `bio`: plain text, ≤ 280 characters, no markdown and no rendered links. It is free text written by one user and read by others, so it can be reported (§38.8).
+- `favourite_warband_type`: a warband type id from the bundled data. It isn't checked in SQL because the list lives in JSON (§3.3). The client validates with the §25.6 picker, and an unknown id renders as nothing.
+- `discoverable` / `looking_for_campaign`: see §38.4. `looking_for_campaign` only has an effect when `discoverable` is true.
+
+**TypeScript (§3.1 read models):**
+
+```ts
+type PlayerProfile = {
+  id: string;
+  displayName: string;
+  avatarSeed: string;
+  avatarPath: string | null;     // resolved to a signed URL by the client, see 27.3
+  country: string | null;        // ISO alpha-2
+  bio: string | null;
+  favouriteWarbandType: string | null;
+  discoverable: boolean;
+  lookingForCampaign: boolean;   // false whenever discoverable is false
+  joinedAt: string;
+  stats: {
+    battles: number; wins: number; losses: number; draws: number;
+    warbands: number; campaigns: number;   // counts only, all visibilities
+  };
+};
+
+type DirectoryRow = {
+  id: string; displayName: string; avatarSeed: string; avatarPath: string | null;
+  country: string | null; favouriteWarbandType: string | null;
+  lookingForCampaign: boolean; joinedAt: string;
+  publicWarbandCount: number;
+};
+
+type ProfileWarbandRow = {
+  id: string; name: string; warbandType: string; rating: number;
+  visibility: 'public' | 'private';
+  campaignName: string | null;   // set when seen through a shared campaign
+};
+
+type SharedCampaignRow = { id: string; name: string; role: CampaignRole };
+
+type CampaignInvite = {
+  id: string; campaignId: string; campaignName: string;
+  invitedUserId: string; invitedBy: string; invitedByName: string;
+  status: 'pending' | 'accepted' | 'declined' | 'revoked';
+  message: string | null; createdAt: string; respondedAt: string | null;
+};
+```
+
+### 38.2 Profile read & write
+
+**Header and stats: one RPC.** The stats need rows the viewer can't read directly (a stranger's standalone battles), and a definer function that returns only numbers is the safe way to expose them.
+
+```sql
+create or replace function get_player_profile(p_uid uuid)
+returns table (
+  id uuid, display_name text, avatar_seed text,    -- match real column types (§38.0 q5)
+  avatar_path text, country char(2), bio text, favourite_warband_type text,
+  discoverable boolean, looking_for_campaign boolean, joined_at timestamptz,
+  battles int, wins int, losses int, draws int, warbands int, campaigns int
+)
+language sql stable security definer set search_path = public as $$
+  select p.id, p.display_name, p.avatar_seed,
+         p.avatar_path, p.country, p.bio, p.favourite_warband_type,
+         p.discoverable, (p.discoverable and p.looking_for_campaign), p.created_at,
+         coalesce(b.battles,0), coalesce(b.wins,0), coalesce(b.losses,0), coalesce(b.draws,0),
+         (select count(*)::int from warbands w where w.owner_id = p.id and w.deleted_at is null),
+         (select count(*)::int from campaign_members m where m.user_id = p.id)
+  from profiles p
+  left join lateral (
+    select count(*)::int as battles,
+           count(*) filter (where bt.data->>'result' = 'win')::int  as wins,
+           count(*) filter (where bt.data->>'result' = 'loss')::int as losses,
+           count(*) filter (where bt.data->>'result' = 'draw')::int as draws
+    from battles bt where bt.reported_by = p.id
+  ) b on true
+  where p.id = p_uid and auth.uid() is not null;
+$$;
+revoke all on function get_player_profile(uuid) from public, anon;
+grant execute on function get_player_profile(uuid) to authenticated;
+```
+
+The return list is the boundary. It never includes `last_seen_at`, an `acquisition_*` column or an email address, and adding a column to it is a privacy decision, not a refactor.
+
+❓ **Stats over all battles, or only over what the viewer can see?** **Default: totals over all, counts only.** Opponents, scenarios, dates and campaign names are never included. For the directory this is what makes a stranger's profile useful ("has played 30 games"). If you want the stricter line, drop the battle columns and compute them client-side from what RLS returns.
+
+**Warbands, campaigns together and honours: plain client queries under existing RLS**, with no new policy, exactly as in the principle above:
+- **Warbands:** `owner_id = :id and deleted_at is null`, selecting only the `ProfileWarbandRow` columns, sorted by rating. A private warband that's visible only through a shared campaign gets a "Campaign only · {campaign}" label.
+- **Campaigns together:** the player's `campaign_members` rows, which RLS limits to campaigns the viewer is in.
+- **Honours:** `campaign_awards` on those warbands (§17.4 manual honours).
+
+**Write: one RPC, never a client `UPDATE`**, so the acquisition columns can't be reached whatever §38.0 finds:
+
+```sql
+create or replace function update_my_profile(
+  p_display_name text, p_bio text, p_favourite_warband_type text,
+  p_country text, p_discoverable boolean, p_looking_for_campaign boolean
+) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if auth.uid() is null then raise exception 'not signed in'; end if;
+  if char_length(trim(p_display_name)) not between 2 and 32 then
+    raise exception 'display name must be 2–32 characters';
+  end if;
+  update profiles set
+    display_name           = trim(p_display_name),
+    bio                    = nullif(trim(p_bio), ''),
+    favourite_warband_type = nullif(trim(p_favourite_warband_type), ''),
+    country                = nullif(upper(trim(p_country)), ''),
+    discoverable           = coalesce(p_discoverable, false),
+    looking_for_campaign   = coalesce(p_discoverable, false) and coalesce(p_looking_for_campaign, false)
+  where id = auth.uid();
+end $$;
+revoke all on function update_my_profile(text,text,text,text,boolean,boolean) from public, anon;
+grant execute on function update_my_profile(text,text,text,text,boolean,boolean) to authenticated;
+```
+
+If §38.0 finds an existing client UPDATE policy on `profiles` that's only used for `display_name`, move that caller to this RPC and drop the policy in the same migration.
+
+❓ **Unique display names?** **Default: no.** The directory shows country and "Joined {month year}" next to the name, which is enough to tell two Robs apart.
+
+### 38.3 Profile photo
+
+Reuses the §11 photo pipeline (§38.0 q6). The things that differ:
+
+- **Bucket** `avatars`, **private** (not a public bucket). Path `{user_id}/{uuid}.webp`, with a new uuid on every upload so a cached old URL never shows the new face, or the other way round.
+- **Client-side processing before upload:** centre-crop to a square, downscale to **256×256**, encode WebP at about q0.8, which aims for ≤ 30 kB. Strip all metadata; re-encoding through a canvas drops EXIF, and with it any GPS location embedded in a phone photo. That matters more for a face than for a model photo. Reject non-image files and anything over 10 MB before processing.
+- **Storage RLS (`storage.objects`, bucket `avatars`):**
+  - INSERT / DELETE: only within your own folder (`(storage.foldername(name))[1] = auth.uid()::text`).
+  - SELECT: `authenticated` only, with no `anon` policy, matching §11.5 and §19.2.
+- **Setting it:** upload, then `set_my_avatar(p_path text)`. That RPC checks the path starts with `auth.uid()/`, writes `avatar_path`, and deletes the previous object. `clear_my_avatar()` removes the photo and falls back to the generated avatar from `avatar_seed`. `reroll_my_avatar()` gives a new seed for that generated avatar.
+- **Display:** `<PlayerAvatar>` takes `avatarPath` + `avatarSeed`. With a path it shows the photo, otherwise the generated avatar. Signed URLs are fetched in **one batch per list** (`createSignedUrls`), never one request per row, with a lifetime of 1 hour and cached in TanStack Query under `['avatarUrls', paths]` for 50 minutes. Lists show 40px, the profile header shows 128px, and both use the same 256px file.
+- **Egress:** 256px at ~30 kB × a directory page of 25 rows ≈ 750 kB worst case, uncached. That's acceptable at current scale (§ bundle/egress discipline). If it starts to show in the Supabase bill, add a 64px thumbnail variant for lists.
+- **Moderation:** see §38.8. An admin can remove a photo.
+- ✅ **Decided: photos visible to every signed-in player.** A photo that only some viewers see makes lists inconsistent, and anyone with an account could open the directory anyway. The real choice the user makes is whether to upload one at all, so the upload card says plainly: "Every signed-in player can see this photo."
+
+### 38.4 Directory
+
+**Opting in.** The Account Profile card (§38.7) has two switches:
+- **"Show me in the player directory"** (`discoverable`). Off by default. When on, you can be found and you can receive direct campaign invites.
+- **"I'm looking for a campaign"** (`looking_for_campaign`). Only enabled while the first switch is on.
+
+Directly under the switches the card shows what becomes visible: photo, name, country, favourite warband, number of public warbands, and "looking for a campaign".
+
+**Search RPC:**
+
+```sql
+create or replace function search_players(
+  p_country char(2) default null,
+  p_warband_type text default null,
+  p_looking_only boolean default false,
+  p_query text default null,              -- name contains, case-insensitive
+  p_before timestamptz default null,      -- keyset cursor on created_at
+  p_limit int default 25
+) returns table (
+  id uuid, display_name text, avatar_seed text, avatar_path text,
+  country char(2), favourite_warband_type text, looking_for_campaign boolean,
+  joined_at timestamptz, public_warband_count int
+)
+language sql stable security definer set search_path = public as $$
+  select p.id, p.display_name, p.avatar_seed, p.avatar_path,
+         p.country, p.favourite_warband_type, p.looking_for_campaign, p.created_at,
+         (select count(*)::int from warbands w
+            where w.owner_id = p.id and w.visibility = 'public' and w.deleted_at is null)
+  from profiles p
+  where auth.uid() is not null
+    and p.discoverable
+    and p.id <> auth.uid()
+    and (p_country is null or p.country = p_country)
+    and (p_warband_type is null or p.favourite_warband_type = p_warband_type
+         or exists (select 1 from warbands w where w.owner_id = p.id and w.visibility = 'public'
+                      and w.deleted_at is null and w.warband_type = p_warband_type))
+    and (not p_looking_only or p.looking_for_campaign)
+    and (p_query is null or p.display_name ilike '%' || replace(replace(p_query, '%', ''), '_', '') || '%')
+    and (p_before is null or p.created_at < p_before)
+  order by p.created_at desc
+  limit least(greatest(p_limit, 1), 50);
+$$;
+revoke all on function search_players(char,text,boolean,text,timestamptz,int) from public, anon;
+grant execute on function search_players(char,text,boolean,text,timestamptz,int) to authenticated;
+```
+
+- The warband-type filter matches the player's favourite **or** any of their public warbands. "Who plays Skaven near me" is the real question, and a private warband is never used, not even to filter (that would leak that it exists).
+- `p_query` is stripped of `%` and `_` so a search can't turn into a pattern that matches everyone.
+- No trigram index yet; `ilike` over a few hundred discoverable rows is trivial. Add `pg_trgm` when the directory passes ~5,000 discoverable players.
+- ✅ **Sort order — decided: newest first** (stable for the keyset cursor). Recent activity would be more useful ("players who are actually around"), but it would expose a coarse version of `last_seen_at`, which stays admin-only (§38.11). Revisit only together with that decision.
+- ✅ **Region below country — decided: no, country only.** In a small country "Utrecht" plus a name and a photo is close to identifying a person. Players can still write "Rotterdam area" in their bio if they want to.
+
+**Screen: `/players`, "Find players".** Reached from the Campaigns tab ("Find players" next to "Join with code") and from a campaign's Players tab for leaders ("Invite a player").
+- Filter bar: country (searchable picker, **defaulting to the viewer's own country** if set), warband type (§25.6 picker), a "Looking for a campaign" toggle, and a name search with a 300ms debounce.
+- Results: `useInfiniteQuery` with Load more (same pattern as §4.7). Each row shows avatar, name, country name, favourite warband, public warband count, and a "Looking for a campaign" badge. Tapping opens the profile.
+- If the viewer isn't discoverable themselves, a quiet banner at the top says: "You're not in the directory. Others can't find you." with a link to the Account card. It's not a gate; looking without being listed is allowed.
+- Empty state for a country with no results: "No players found in {country} yet." plus a "Search all countries" button that clears the country filter.
+
+### 38.5 Direct campaign invites
+
+Join codes (§8.5) stay as they are, and they remain the way to bring in someone you already know. Direct invites are for players found in the directory.
+
+**Migration B — `00NN_campaign_invites.sql`:**
+
+```sql
+create table campaign_invites (
+  id              uuid primary key default gen_random_uuid(),
+  campaign_id     uuid not null references campaigns(id) on delete cascade,
+  invited_user_id uuid not null references profiles(id) on delete cascade,
+  invited_by      uuid not null references profiles(id) on delete cascade,
+  status          text not null default 'pending'
+                    check (status in ('pending','accepted','declined','revoked')),
+  message         text check (message is null or char_length(message) <= 200),
+  created_at      timestamptz not null default now(),
+  responded_at    timestamptz
+);
+
+-- One open invite per player per campaign.
+create unique index campaign_invites_one_pending
+  on campaign_invites (campaign_id, invited_user_id) where status = 'pending';
+create index campaign_invites_invitee on campaign_invites (invited_user_id, status);
+
+alter table campaign_invites enable row level security;
+
+-- Read: the invitee, and the leaders of that campaign.
+create policy campaign_invites_select on campaign_invites for select to authenticated
+  using (invited_user_id = auth.uid() or is_campaign_leader(campaign_id));
+
+-- No INSERT/UPDATE/DELETE policies: every write goes through the RPCs below.
+```
+
+**RPCs:**
+
+- **`invite_to_campaign(p_campaign uuid, p_user uuid, p_message text)`**, which checks in order:
+  1. the caller `is_campaign_leader(p_campaign)`;
+  2. the campaign is not soft-deleted;
+  3. the invitee is `discoverable` (**this is the only way to receive a direct invite**: an undiscoverable player can't be invited even if the leader knows their id);
+  4. the invitee is not already a member;
+  5. the invitee hasn't **declined an invite to this campaign in the last 30 days** (a "no" holds, and a leader can't keep pressing);
+  6. the campaign has **fewer than 20 pending invites** and the caller has sent **fewer than 30 invites in the last 24 hours** across all campaigns (spam ceiling).
+
+  Then it inserts with `invited_by = auth.uid()`. Each failure raises a distinct, user-readable message ("Already a member", "This player declined recently", …).
+- **`respond_to_campaign_invite(p_invite uuid, p_accept boolean)`**: the caller must be the invitee and the invite must be `pending`. On accept it inserts a `campaign_members` row with role `player` (through the same path joining by code uses, so every existing membership trigger fires), and both steps happen in one transaction. It then sets the status and `responded_at`.
+- **`revoke_campaign_invite(p_invite uuid)`**: any leader of that campaign, pending invites only.
+
+**Notification.**
+- **In-app:** a "Campaign invites" card at the top of the Campaigns tab whenever the user has pending invites, plus a count dot on the Campaigns tab icon. Each invite shows the campaign name, who invited you, the message, member count, public/private, and Accept / Decline buttons. Decline doesn't ask for a reason.
+- **Push:** if the invitee has push enabled (§38.0 q7), send "{leader} invited you to {campaign}". This uses the existing sending path and adds no new opt-in. ❓ **Default: yes**, an invite is exactly the kind of thing push is for. If the existing push opt-in is per category, add an "Invites" category that's on by default.
+- **Leader side:** the campaign's Players tab gets a "Pending invites" list for leaders (name, sent date, Revoke). The activity feed records "{player} joined (invited by {leader})" on accept, and nothing on decline, because a declined invite is nobody else's business.
+
+**Private campaigns:** a leader can invite to a private campaign. The invitee sees the campaign's name and member count on the invite card, through the invite row and not through campaign RLS. That's the minimum they need to decide, and the leader chose to share it by inviting. They see nothing else until they accept.
+
+### 38.6 Profile page — `/players/:id`
+
+Top to bottom:
+1. **Header:** photo or generated avatar (128px), display name in the heading serif, country name, "Joined {month year}", "Favours: {warband type}" if set, and a "Looking for a campaign" badge when that's on.
+2. **Invite to campaign**: shown when the viewer leads at least one campaign the player isn't in **and** the player is discoverable. It opens a sheet: pick one of your campaigns (campaigns where they're already a member or already have a pending invite are listed but disabled, with the reason), an optional message (≤ 200, with a counter), then Send.
+3. **Bio**, if set, with line breaks preserved and nothing else.
+4. **Stat row:** Battles · W/L/D · Warbands · Campaigns, in tabular-lining numerals (§5.2). Zero is shown as 0.
+5. **Warbands** (§38.2), which open the read-only roster.
+6. **Campaigns together**, only when there is at least one.
+7. **Honours**, only when there is at least one.
+8. **Report**: a footer link (§38.8), not shown on your own profile.
+
+**Your own profile** is the same page with an **Edit profile** button and one line of text: "Others see your public warbands, plus any in campaigns you share with them." Your private warbands carry a "Private" label. If you're not discoverable, a second line says so, with a link.
+
+**A non-discoverable player's profile** can still be opened by tapping their name somewhere you've come across them (Members, comments, gallery). It simply has no Invite button and doesn't appear in `/players`.
+
+### 38.7 Account — Profile card (amends §4.6)
+
+Fields, in order:
+- **Photo**: preview with "Upload photo" / "Remove photo" buttons, and "New avatar" when there's no photo. Under it: "Every signed-in player can see this photo."
+- **Display name**
+- **Country**: searchable picker, with an empty option ("Not shown").
+- **Favourite warband**: §25.6 picker.
+- **Bio**: with an x/280 counter.
+- **Directory**: the two switches from §38.4, with the "what becomes visible" line.
+- **View my profile** link.
+
+Save calls `update_my_profile`; the photo saves straight away through its own upload flow. The `/profile` → `/account` redirect stays; the new pages live under `/players`, so they don't collide with that old path.
+
+**`<PlayerLink userId displayName />`**: a link to `/players/:id` when signed in, plain text when signed out. It replaces bare display names in the gallery rows and shared roster header (§4.7), the Members panel and Standings (§4.5), comments (§19.2), RSVP lists (§19.1), and the activity feed and log author lines (§17.3). Admin screens keep linking to `/admin/players/:id`. **`<PlayerAvatar>`** (40px) appears in front of the name in Members, comments and directory rows. It doesn't appear in Standings, where space is tight on a phone.
+
+### 38.8 Moderation
+
+A photo and a bio are user content that other users see, and the directory puts them in front of strangers. That's a larger moderation surface than comments (§19.2), so:
+
+- **Report** on the profile page files into `issue_reports` with context `{kind: 'profile', userId, hasPhoto, hasBio}`, so the existing admin inbox (§4.9.3) handles it without a second inbox.
+- **Admin actions** on `/admin/players/:id`: "Remove photo" and "Clear bio". These are new definer RPCs `admin_clear_avatar(uid)` and `admin_clear_bio(uid)`; each asserts `is_admin()` on its first line and deletes the storage object along with the column value. "Remove from directory" (`admin_set_discoverable(uid, false)`) is a third action for directory spam.
+- **Admin photo access:** the admin sees the photo the same way any signed-in user does. §4.9.7's "no content" rule is about warband/battle/objective data, and an avatar is already public to every signed-in user, so this isn't an exception to it.
+- ❓ **Automated image checking?** **Default: no**, which keeps cost and dependencies down. The report path and admin removal are the safety net. Revisit if a report ever arrives.
+
+### 38.9 Privacy, export, deletion
+
+- **Privacy page copy** gains: what the profile shows, that the directory is opt-in, that country is the only location stored, that photos are visible to every signed-in player, and that photo location data is stripped before upload.
+- **JSON export (§4.6)** includes your own profile fields (name, country, bio, favourite warband, the two switches) and, if present, the photo's storage path. It doesn't include the image itself; the user already has it.
+- **Account deletion** (§38.0 q8): if it exists, it must also delete the `avatars/{uid}/` folder. Rows in `campaign_invites` go via `on delete cascade`. If it doesn't exist, record that as a gap; it is not in scope here.
+- **Mord Hive** is separate (decided): this directory, country and photo are Mordheim Manager's.
+
+### 38.10 Build order
+
+**Part A: profiles**
+1. §38.0 report. Stop if q2 or q3 finds a defect, and fix that first.
+2. Migration A: profile columns, `get_player_profile`, `update_my_profile`, avatar RPCs, the `avatars` bucket and its storage policies.
+3. `src/api/profiles.ts`, `src/hooks/usePlayerProfile.ts`, `src/lib/countries.ts`, `<PlayerAvatar>` with batched signed URLs, and demo-mode data.
+4. `/players/:id` (without the Invite button), the Account Profile card, and `<PlayerLink>` rolled out.
+5. Report path, plus the admin remove-photo / clear-bio actions.
+
+**Part B: directory and invites**
+6. Migration B: `search_players`, `campaign_invites`, and the three invite RPCs.
+7. `/players` directory screen.
+8. Invite sheet on the profile, "Pending invites" for leaders, the invite card and badge on the Campaigns tab, and push.
+9. Admin "Remove from directory".
+10. Analytics (§38.12), privacy copy, export, changelog.
+
+### 38.11 Non-goals
+
+- **Following, friends, DMs or chat.** The invite message (≤ 200 characters, one per invite) is as close as it gets. Conversations happen in WhatsApp or Discord, which the group already uses.
+- **City, region, postcode or distance search** (§38.4).
+- **Showing last-seen or online status.** `last_seen_at` stays admin-only (§4.9.4, §23.2), in the directory too.
+- **"Request to join" from the player side.** Invites go from leader to player. A player who's looking for a campaign sets the badge and waits, or browses public campaigns. ❓ This is a natural follow-up if the directory gets used; it would be its own section.
+
+### 38.12 Analytics
+
+Owned events via `track.ts` (§23), never with a target user id or any field values:
+- `profile_viewed {own: boolean}`
+- `profile_edited {fields: string[]}`: field names only
+- `directory_searched {country: boolean, warbandType: boolean, lookingOnly: boolean, query: boolean}`: which filters were used, not what they were
+- `invite_sent`, `invite_responded {accepted: boolean}`, `invite_revoked`
+- `directory_optin {on: boolean}`
+
+Admin Overview (§4.9.2): add **discoverable players** and **invites sent / accepted (30d)** to `admin_stats()`. These are the numbers that show whether the directory is used at all.
+
+### 38.13 Acceptance checks
+
+- [ ] A newly registered account and every existing or seeded account start with `discoverable = false` and don't appear in `/players`.
+- [ ] `search_players` never returns an undiscoverable player, never the caller themselves, and fails as `anon`. Check the raw response: no `last_seen_at`, acquisition field, email or bio in directory rows.
+- [ ] Searching "%" or "_" doesn't return everyone.
+- [ ] The warband-type filter never matches through a **private** warband.
+- [ ] `invite_to_campaign`: rejected for a non-leader, for an undiscoverable invitee, for an existing member, for a second pending invite, within 30 days of a decline, and above the 20-pending / 30-per-day ceilings.
+- [ ] Accepting creates exactly one `campaign_members` row (role `player`), and the existing membership triggers fire. A failed member insert leaves the invite `pending`.
+- [ ] A declined invite doesn't appear in the activity feed.
+- [ ] Profile: B's private warband that isn't in a shared campaign is absent; one in a shared campaign is present with "Campaign only".
+- [ ] A photo upload from a phone with GPS EXIF: download the stored file and confirm it has no EXIF, is 256×256 and is under ~40 kB.
+- [ ] Storage: A can't upload into or delete from `avatars/B/`. A signed-out request for an avatar object fails.
+- [ ] Replacing a photo deletes the old object, and so does admin removal.
+- [ ] Bio over 280, message over 200, or a malformed country code is rejected by the database, not only by the form.
+- [ ] Signed out: names are plain text, and `/players` and `/players/:id` show a sign-in prompt.
+- [ ] At 375px: directory rows, profile header and invite sheet fit without horizontal scroll, and numbers are ≥ 14px (§5.4).
+- [ ] Both themes: badges and buttons use tokens (`var(--on-accent)` for button text), with no hard-coded colours.
+
+## 39. Profiles: where they live, and how the page should look ✅ _(built 2026-11-02; see 39.9)_
+
+**Why.** §38 built the profile and the directory, but placed them where there was room rather than where players will look. Nobody has used them yet (2026-11-02: 0 discoverable players, 0 photos, 0 countries, 0 invites), so this is the cheap moment to move them. This section records what was measured in the app (demo mode, 375×812), what comparable apps do, and a proposal with defaults.
+
+### 39.1 What the app does today (measured)
+
+- **Your own profile is three steps and a scroll away.** Account tab → the Profile card, the fifth card, starting at y≈1030 (below the first screen) → "View profile". The card is ~1,050px tall, so the edit form is now the bulk of the Account screen.
+- **The directory has two doors, both in Campaigns.** A button on My Campaigns and the leader's Pending invites. Nothing on Home, in the nav or on Account leads there, so a player who *wants* a campaign — the person the "Looking for a campaign" badge is for — has no obvious path to it.
+- **On `/players` and `/players/:id` no tab is lit.** All seven nav items are inactive, so the player loses their place.
+- **The header says "Player"** and the name is repeated below it in the hero.
+- **The page is a plain card stack.** Only the avatar uses the app's plate style (2px `ink` border). The record is a generic four-number strip with `2/3/0` packed into one cell. Your own view opens with an explanatory card ("Others see your public warbands…") above your bio, which pushes the content down.
+- **The directory's filter card** fills most of the first screen before the first result.
+
+### 39.2 What comparable apps do
+
+- **Tab count.** Material 3 puts 3–5 destinations in a navigation bar; Apple's HIG shows five tabs on iPhone and folds the rest into "More". This app already has seven (§5.6, conflict 7), so **a Players or Profile tab is out**. Profiles have to live inside existing tabs.
+- **"You" tab** (Strava, Discord, Duolingo): the account tab *opens on your own identity* — avatar, name, a "view profile" link — with settings below or behind a gear. Instagram and X go further and make the profile the tab, with settings behind a gear on it.
+- **Closest analogue: chess.com / lichess**, hobby games with player records. A profile is an identity header (avatar, name, country, member since), a record by mode, recent games and clubs. Your own profile and the public one are **the same page**; yours adds "Edit". Finding players sits under the *social* section (Community → Players, Social → Clubs), not under settings.
+- **Mapped onto this app:** the social unit is the campaign, so the directory belongs with Campaigns. Identity belongs at the top of Account.
+
+### 39.3 Placement — proposal
+
+1. **Account opens on you.** A compact identity header at the top of the Account screen: small avatar, name, country, a directory status chip ("Listed" / "Not listed"), and **View profile ›**. The edit form moves off the screen to its own route, `/account/profile` (Back returns to Account), so Account goes back to being short. Existing `/account#profile` links redirect there.
+   - ❓ **Rename the tab "You"? Default: no.** It has been renamed twice already (§4.6), and "Account" is accurate. The header does the work.
+2. **Players belong to Campaigns.** The Campaigns tab claims `/players` and other players' `/players/:id` (`activeFor`). Your own profile lights **Account**.
+3. **Directory doors, in addition to the existing two:**
+   - **My Campaigns, for everyone,** not only leaders: a "Find players" row under the campaign list.
+   - **The no-campaign empty state** (My Campaigns and Home's campaign card): "Looking for a group? Find players near you", plus a one-tap **I'm looking for a campaign** switch that turns on `discoverable` + `looking_for_campaign` together, with the §38 privacy line shown right there.
+   - **The Account identity header's status chip** links to the directory switches.
+   - ❓ **A Home card advertising the directory to everyone? Default: no.** §26.4 keeps Home to one card for new players, and existing campaign players don't need it.
+4. **Names keep linking** from Members, Standings, comments and RSVPs (§38). The gallery stays plain text (a nested link is invalid HTML).
+
+### 39.4 The profile page — proposal
+
+Order, top to bottom:
+
+1. **Header** — `BackHeader` title is the **player's name** (blackletter, truncating), so history and Back read correctly. On your own profile, **Edit** sits in the header's `action` slot instead of a card.
+2. **Hero plate** — the avatar plate (unchanged, `lg`), then the meta in one line, *Netherlands · since January 2026*, the favourite warband as a small chip, and the **Looking for a campaign** badge. The name isn't repeated here.
+3. **Actions** — directly under the hero: **Invite to campaign** (leaders, discoverable players). On your own profile, a one-line visibility strip replaces the explanatory card: *Visible to signed-in players · Not in the directory — Change*.
+4. **Bio.**
+5. **Record as a profile block.** Render the stats with the §5.3 `ProfileBlock` look: a small-caps header row `BATTLES W L D WARBANDS CAMPAIGNS`, values beneath, heavy 2px `ink` frame. W, L and D get their own columns instead of `2/3/0`. A player's record reads as *their statline*. That is the app's signature element, and it ties the page to the rulebook look instead of a generic dashboard. At 375px, six columns fit at the 14px floor by dropping cell padding (as §5.3 already does for nine).
+6. **Warbands** — unchanged rows, plus the warband photo thumbnail where one exists, since that is the most personal thing a player has made.
+7. **Honours** — moved **above** campaigns; they are the bragging rights.
+8. **Campaigns together.**
+9. **Report** — small link at the foot (unchanged).
+
+- **Empty own profile.** Most accounts will have nothing filled in. On your *own* profile only, show missing pieces as tappable chips under the hero: *Add a photo · Add your country · Write a bio*. No completeness percentage. Other people's empty profiles just render less, with no nagging.
+- **Tablet/desktop (md+).** Two columns: hero, actions, bio and record on the left; warbands, honours and campaigns on the right. Today it's a single 2xl column.
+
+### 39.5 Directory screen
+
+- Filters collapse to one row: the **country chip** (defaulting to your own country, as now) plus a **Filters** disclosure holding warband, name and "looking only". The first results then start above the fold at 375px.
+- ❓ **Remember the filters per device? Default: yes**, in `localStorage` (try/catch, convenience state per §2).
+
+### 39.6 Build order (each step shippable on its own)
+
+1. Nav active states (`activeFor` on Campaigns; own profile → Account). Tiny, and fixes the lost-place bug.
+2. Account identity header + `/account/profile` edit route + redirect.
+3. Profile page: header/title, action placement, record as a profile block, honours order, own-profile chips.
+4. Directory doors: My Campaigns row for everyone, the no-campaign empty state with the one-tap switch.
+5. Directory filter row.
+
+### 39.7 Measurement
+
+`profile_viewed { own }` and `directory_searched` already exist. Add one event, `directory_opened { surface }`, with the closed set `my_campaigns | empty_state | invites | direct` (see 39.9), to see which door gets used. Names only, consent-gated, §23.7.
+
+### 39.8 Acceptance
+
+- [ ] On `/players` and on another player's profile, Campaigns is lit; on your own profile, Account is.
+- [ ] Account's first screen at 375×812 shows the identity header and Appearance; the edit form is on `/account/profile`, and old `#profile` links land there.
+- [ ] A player with no campaign reaches the directory from My Campaigns and from Home's empty state in one tap, and can turn on "looking" from there.
+- [ ] The profile header title is the player's name; the record renders as a framed table with W, L and D in separate columns, and numbers ≥ 14px at 375px.
+- [ ] Own empty profile shows the add-chips; someone else's empty profile shows none.
+- [ ] Both themes: no hard-coded colours (§5.5).
+
+### 39.9 Status — built ✅
+
+Built as proposed, every ❓ at its default: the tab stays "Account", no Home card for everyone, filters remembered per device. Checked in demo mode at 375×812 and 1100×900: tabs light correctly, the old `/account#profile` link lands on `/account/profile`, `#directory` scrolls to the switches, a remembered "looking only" filter reopens as "Filters (1)", and the directory's first result moved from about y≈700 to y≈313.
+
+Deviations, each for a reason found while building:
+- **The record has four columns, `BATTLES W L D`**, not six. Six full small-caps heads need ~350px at the 14px floor and a phone card has 339px, and shortened heads ("Bands", "Camps") read worse than a caption. Warbands and campaigns totals sit in a caption line under the block (*2 warbands · 6 campaigns*), and four columns is how the book prints a short profile anyway.
+- **`directory_opened` surfaces are `my_campaigns | empty_state | invites | direct`.** The Account chip leads to the directory *switches*, not the directory, so `account` had nothing to count; `direct` covers a reload or a pasted link (router state doesn't survive those, so the first door isn't counted twice).
+- **On an empty My Campaigns, the lower "Find players" button is hidden**, since the Looking-for-a-group card directly above it offers the same link.
+- **The one-tap switch, turned off, clears "looking" but keeps the listing.** Leaving the directory is the bigger decision and stays in the profile form.
+
+---
+
+## 40. Navigation and structure — five tabs, Account behind the avatar ✅ _(built 2026-11-02)_
+
+**Why.** By §39 the app had 64 routes behind seven tabs, icon-only on phones (eight signed out). Eight destinations — dice, map, solo, gallery, shared rosters, compare, custom warbands, admin — lit no tab at all. Account was ten cards of equal weight (~2,700px at 375px) mixing identity, device settings, data, sign-out, activity, admin and game data. A campaign had no address of its own: `/campaign` meant "the active one on this device". The structure audit and recommendations that led here are in the project docs (`app-structuur-overzicht.md`, `app-structuur-aanbevelingen.md`).
+
+Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled **Play**; everything else at the recommendation's defaults — Account as the header avatar, campaign tabs as URL segments, theme in Settings rather than on Account.
+
+### 40.1 One table decides the lit tab
+`navTargetForPath(pathname, userId)` → `home | warbands | play | campaigns | rules | account | null`. First match wins; your own `/players/:id` lights the avatar, others' light Campaigns. Replaces `activeFor` / `alsoActiveFor` / `notActiveFor`. `npm run build` runs `check-nav-coverage.mjs` (bundles `navTabs.ts` with esbuild, reads routes from `App.tsx`, skips redirect-only routes and the sign-in flow). `npm run nav-coverage` lists the routes.
+
+### 40.2 Tabs, header and the avatar
+- **Five tabs** with labels (12px, §5.4 floor) on phones; the rail is unchanged in shape.
+- **`TabHeader`** (title · optional action · `AccountButton`) on tab roots; detail screens keep `BackHeader`. Signed out, the avatar slot is a **Sign in** link. The rail's foot shows your avatar and name (→ Account) or Sign in; `AuthNavButton` is gone — signing out is on Account.
+- **No floating controls.** The `?` tour button and the dice button no longer float over headers (and the `pr-14` header padding they forced is gone). Dice sits in every header's corner (see *One header corner*, below). The tour still runs once for a new player, now ends on the avatar (6 stops), and is replayed from Help & about (it opens Home first so the avatar is on screen).
+
+### 40.3 Sections
+- **Home:** resume card (games in progress) · last-opened campaign with its next game night and *Open campaign ›* · your three last-used warbands (*All N warbands ›*) · *Start a battle*. Quick Actions and About left the signed-in Home; the signed-out Home keeps About.
+- **Warbands:** sub-tabs *Mine · Gallery · Rules* (Public renamed). A *Tools* list: Compare (2+ warbands), Custom warband types. `/gallery`, `/rosters/:id`, `/compare`, `/custom-warbands`, `/trading` and the Trading Post light Warbands. The roster's battle button reads *Continue battle* when this warband has a game in progress.
+- **Play (`/play`):** resume card · *Start a battle* (warband list, last used first) · *At the table*: Dice roller, Battlefield generator (beta), Solo battle (beta) · Your Battles. `/post-battle` redirects here. The battle flow keeps its `/warbands/:id/…` URLs and lights Play.
+- **Campaigns:** header links *Campaigns · Players* (the directory, `/players`). Each card is a link to the campaign; *Switch to this campaign* and the join code on the card are gone (the code is on the campaign's Players tab). Create and join open the new campaign. The empty state also carries the §26.6 friendly-game card (moved from the deleted `/campaign` first-run screen).
+- **A campaign's own address:** `/campaigns/:id` and `/campaigns/:id/{standings|players|territory|settings}`, `/events`, `/events/:eventId`, `/calendar`. Tab switches replace history, so Back leaves the campaign. Opening one stores it as *last opened*, which only Home reads. `/campaign` and everything under it redirect to the last-opened campaign, keeping the query string (`?claim=`).
+- **Narrative log keeps its name** (*Campaign Log*, §17.3): a rename to *Chronicle* was built and reverted on 2026-11-03 at Evin's request.
+- **Warband screens read their own campaign** (`useWarbandCampaign`, §34.4) for battle history — Trading Post, model and henchmen detail used the active campaign before.
+
+- **One sub-tab look (2026-11-03):** `SubTabs` is the only sub-tab row — Warbands (*Mine · Gallery · Rules*), Campaigns (*Campaigns · Players*), a campaign's five tabs and the Trading Post (*Shop · Trading Rules*). Always inside the header under the title (`TabHeader` / `BackHeader` children), 40px, `text-xs sm:text-sm`. Route tabs replace history. The Campaigns section keeps one title (*Campaigns*) on both its screens, as Warbands does.
+
+- **One header, one footer (2026-11-03).** Every in-shell screen uses `TabHeader` (tab roots — Home's banner variant has the same padding, rule and avatar slot) or `BackHeader` (everything else). Rules, Gallery, the Trading picker, Battlefield generator, the three Solo screens, a warband's rules page and Admin dropped their own headers; Beta is a `badge` on `BackHeader`, intro text sits at the top of the page body, and a screen's own controls (sub-tabs, Rules search, the wizard's progress bar, Admin's scrolling tabs) go in the header's children slot. Only the sign-in screens (outside the shell) keep their centred header. Footer: `ActionBar` is the one sticky bar above the tab bar — the save bar and the pre-battle / during-battle / post-battle "next stage" buttons use it — and every bottom offset includes `env(safe-area-inset-bottom)`, as the tab bar does.
+
+- **One header corner (2026-11-04).** Every in-shell header — `TabHeader`, `BackHeader` and Home's banner header — ends in `HeaderTools`: **dice · avatar**, in that order, so a roll is one tap from any screen. This reverses "detail screens have no avatar": the avatar is now on every screen, and on Account's own screens it carries the ember ring (so Account now lights on phones, superseding the §40.6 note). The Rules screen's inline dice row is gone (the header has it); its title is the tab name, *Rules*. Shared classes live in `components/headerStyles.ts` (`HEADER_SHELL`, `HEADER_ROW` — 44px whatever it holds, `HEADER_TITLE`, `HEADER_CONTROL`). Every header action is a `HeaderAction`: 40px, ink outline, ember icon, label from `sm`, icon-only on phones — *New Warband* (was a filled primary button), roster *Share* and *Copy link* (were bare text links), profile *Edit* (was a 44px outlined button). The *Create a warband* button in the empty state stays primary.
+
+- **Play is public (2026-11-03)**, like the dice roller and map it lists: signed out, *Start a battle* is a sign-in card and the resume card and Your Battles are hidden; Solo still asks you to sign in. Account screens still light no tab on phones (§40.6), by decision.
+- **`nav_tab_tapped { tab, surface }`** (`tab`: `home|warbands|play|campaigns|rules|account`; `surface`: `bar|rail|header`) — the §40.5 measurement, consent-gated like every §23.7 event.
+
+### 40.4 Account
+`/account`: identity (§39.3) · rows *Settings* (status: theme · notifications) · *Your data* · *Help & about* · *Admin* (admins only) · signed in as · **Sign out** — all within 812px. Sub-screens:
+- `/account/settings` — Appearance, Install (§36), Notifications (§19.4), Analytics (§23.7).
+- `/account/data` — Export / import (§4.6, §10.1), Your activity; demo-data toggle in dev builds.
+- `/account/about` — replay the tour, What's New, Discord (§4.10), Game data and data-error form (§4.6), Privacy Policy, version.
+`#profile` → `/account/profile`, `#install` → `/account/settings#install`. New kit components `ListRow` / `ListGroup` (§5.6).
+
+### 40.5 Operator actions
+- ◻️ **Redeploy two edge functions:** `send-event-reminders` (links to `/app/campaigns/:id/events/:eventId`) and `notify-leaderless-campaigns` (links to `/app/campaigns/:id?claim=…`). Until then the old links still work through the redirect, but an event reminder for a campaign other than the last-opened one opens that campaign's events list instead of the event.
+- ◻️ **Check after 3–4 weeks** (PostHog `$pageview`): visits to `/dice`, `/map`, `/solo`, `/players` should rise; `/warbands/:id/trading` should not fall now the tab is gone.
+
+### 40.6 Not done in this pass
+- ✅ `CampaignScreen.tsx` split (2026-11-03): the screen keeps loading, shared queries and the tab switch (~360 lines); its parts live in `screens/campaign/` (members, standings/awards/rivalries, territory, campaign log, announcement, join code, objectives, delete).
+- ✅ Naming (2026-11-03): `strings.settings` → `strings.account`, `nav.postBattle` → `nav.play`; strings orphaned by §40 removed; `AdminUserScreen` moved into `screens/admin/`.
+- ~~On phones, Account screens light no tab (the avatar isn't on a `BackHeader`). Decided 2026-11-03: keep it so.~~ Superseded 2026-11-04: the avatar is on every header and lights on Account (§40.2, *One header corner*).
+
