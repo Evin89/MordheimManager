@@ -21,7 +21,13 @@ import { useWarbandLookup } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
 import { useBattlesQuery, useWarbandCampaign } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
-import { getSpell, resolveSpellLists, spellBlockLabel } from '../lib/spellLookup';
+import {
+  getSpell,
+  loweredAdvanceDetail,
+  parseLoweredAdvanceDetail,
+  resolveSpellLists,
+  spellBlockLabel,
+} from '../lib/spellLookup';
 import { getUniqueInjuries } from '../lib/injuryLookup';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
@@ -39,6 +45,20 @@ type ModelDetailScreenProps = {
   kind: 'hero' | 'hiredSword';
 };
 
+
+/** Adds `delta` to one entry's lowered-difficulty count, dropping it at zero so
+ * the stored map never carries meaningless entries. */
+function bumpReduction(
+  reductions: Record<string, number> | undefined,
+  spellId: string,
+  delta: number,
+): Record<string, number> {
+  const next = { ...(reductions ?? {}) };
+  const value = (next[spellId] ?? 0) + delta;
+  if (value > 0) next[spellId] = value;
+  else delete next[spellId];
+  return next;
+}
 
 /** Names a spell for an advance record, falling back to the id. */
 function spellName(spellId: string): string {
@@ -192,6 +212,35 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     setAdvanceMode(null);
   }
 
+  /**
+   * The "same spell twice" result spent on lowering a known entry's difficulty
+   * by 1 rather than rolling again (§15.3). Still the advance that was rolled,
+   * so it is logged as a skill advance; the detail says it lowered, not learned.
+   */
+  function lowerSpellAdvance(spellId: string) {
+    if (!model || !(model.spells ?? []).includes(spellId)) return;
+    commitModel({
+      spellReductions: bumpReduction(model.spellReductions, spellId, 1),
+      advances: [
+        ...model.advances,
+        { id: generateId(), type: 'skill', detail: loweredAdvanceDetail(spellName(spellId)) },
+      ],
+    });
+    setAdvanceMode(null);
+  }
+
+  // By hand, for a duplicate rolled at recruitment or a paper roster being
+  // copied in — and the undo for a mis-tap, since nothing else reverses it.
+  function lowerSpell(spellId: string) {
+    if (!model || !(model.spells ?? []).includes(spellId)) return;
+    commitModel({ spellReductions: bumpReduction(model.spellReductions, spellId, 1) });
+  }
+
+  function restoreSpell(spellId: string) {
+    if (!model) return;
+    commitModel({ spellReductions: bumpReduction(model.spellReductions, spellId, -1) });
+  }
+
   function addSpell(spellId: string) {
     if (!model) return;
     // Guarded rather than assumed: the picker filters known entries out, but a
@@ -202,7 +251,10 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
 
   function removeSpell(spellId: string) {
     if (!model) return;
-    commitModel({ spells: (model.spells ?? []).filter((id) => id !== spellId) });
+    // A forgotten entry takes its lowered difficulty with it; re-learning it
+    // later starts from the printed number.
+    const { [spellId]: _dropped, ...reductions } = model.spellReductions ?? {};
+    commitModel({ spells: (model.spells ?? []).filter((id) => id !== spellId), spellReductions: reductions });
     setToast(strings.modelDetail.removedToast(spellName(spellId)));
   }
 
@@ -232,7 +284,12 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     if (!model) return;
     const patch: Partial<EditableModel> = { advances: model.advances.filter((a) => a.id !== adv.id) };
     if (alsoRemoveGrant && adv.type === 'skill') {
-      if (model.skills.includes(adv.detail)) {
+      const loweredName = parseLoweredAdvanceDetail(adv.detail);
+      if (loweredName !== null) {
+        // The grant of a lowered-difficulty advance is the −1, not the spell.
+        const spellId = (model.spells ?? []).find((id) => spellName(id) === loweredName);
+        if (spellId) patch.spellReductions = bumpReduction(model.spellReductions, spellId, -1);
+      } else if (model.skills.includes(adv.detail)) {
         patch.skills = model.skills.filter((s) => s !== adv.detail);
       } else {
         const spellId = (model.spells ?? []).find((id) => spellName(id) === adv.detail);
@@ -558,8 +615,10 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                 <SpellBlock
                   spellLists={spellLists}
                   known={model.spells ?? []}
+                  reductions={model.spellReductions}
                   pickerOnly
                   onAdd={applySpellAdvance}
+                  onLower={lowerSpellAdvance}
                 />
               )}
 
@@ -674,9 +733,12 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
         <SpellBlock
           spellLists={spellLists}
           known={model.spells ?? []}
+          reductions={model.spellReductions}
           modelName={model.name}
           onAdd={addSpell}
           onRemove={removeSpell}
+          onLower={lowerSpell}
+          onRestore={restoreSpell}
         />
 
         {/* §4.2.1 — the advance log, now correctable by hand. */}

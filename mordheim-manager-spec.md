@@ -1678,6 +1678,7 @@ On the model (`Hero`, `HiredSword`):
 ```ts
 spells: string[];       // spell ids known — mirrors `skills`
 prayerModifier?: number;// e.g. the handmaiden's +2; omitted when zero
+spellReductions?: Record<string, number>; // spell id → times lowered by 1 (§15.3.1); omitted when none
 ```
 
 **Henchmen have none.** No henchmen type in the data names a list, and henchmen advance as a group, which a per-model spell list can't express. If a supplement ever needs it, it goes on the henchmen type explicitly rather than being assumed.
@@ -1688,7 +1689,7 @@ One component, `<SpellPicker>`, modelled directly on the injury step (`StepInjur
 
 - **Roll** — rolls the list's die via `src/lib/dice.ts`, shows its working ("D6 → 4: *Wings of Doom*"), and applies the result.
 - **Choose** — the same list as a picker, for a player who rolled a physical die, or whose group lets you choose, or who is rebuilding a roster that already exists on paper.
-- **Duplicates re-roll.** The rulebook's own instruction where a list is rolled on. The app should re-roll automatically and say that it did, rather than silently handing over a spell the model already knows or making the player notice.
+- **Duplicates: roll again or lower the difficulty** — see §15.3.1. *(Superseded: this point originally said duplicates re-roll automatically. That was half the rule.)*
 - **Nothing is applied without a tap.** No auto-roll on recruitment; a new caster arrives with an empty spell block and a prompt.
 
 Entry points, all reaching the same picker:
@@ -1697,6 +1698,20 @@ Entry points, all reaching the same picker:
 2. **Advances** — both the roster's Record Advance panel and the post-battle wizard's Advances step offer a third option beside Characteristic Increase and New Skill, labelled by list kind ("Prayer", "Ritual", "Spell") and shown only for a caster. Taking one is recorded as a **skill** advance whose detail names the entry: the advance rolled *was* a new skill, and it was spent on a spell. A third `Advance` type would have meant migrating stored data to record something the detail already says.
    The wizard's "*n* of *m* advances recorded" tally counts spells alongside stats and skills — without that a caster could take the spell and still be owed the skill.
 3. **The unit entry** — add or remove by hand, for corrections and house rules.
+
+#### 15.3.1 Same spell twice ✅
+
+Raised by a player (issue `2711d406`, 2026-10-31): the app re-rolled every duplicate automatically, but the rule gives a choice. Mordheimer, *Magic*: **"If you get the same spell twice, roll again or lower the spell's difficulty by 1."** The source's editor's ❓ on this sentence points to a rulebook FAQ, which settles it: *"There is no limit to the number of times you can reduce the difficulty of the spell. Of course after 2+ there would be no point. Luckily, you can choose to roll again instead."*
+
+- **A duplicate roll stops and offers both.** "Rolled 3: *Wendala's Maelstrom* — already known." Next to it are two buttons: **Lower to 6+** and **Roll again**. Nothing is applied until the player taps one (§15.3). "Roll again" keeps the re-roll history visible, as before.
+- **The exception is when lowering would do nothing.** That covers an entry with no difficulty (`difficulty: null`, e.g. *Spell of Awakening*) and one already at **2+**, where any 2D6 succeeds. Re-rolling is then the only useful option, so the app does it automatically.
+- **If every entry is already known,** rolling can only lower a difficulty. "Roll again" is hidden.
+- **For a physical die:** the choose list also shows the model's known entries, under "Already known — rolled again?". Each has a **Lower difficulty by 1** action.
+- **It applies at every entry point.** The rule says "same spell twice", not "via advance", so it covers recruitment (the Warlock's two starting spells), the Record Advance panel and the post-battle wizard. In the wizard, a known id in `newSpells` *is* the lowering, and `applySpellGains` resolves it at commit, so the draft shape stays the same.
+- **It still spends the advance.** It is logged as a `skill` advance whose detail reads "*[spell]* (difficulty −1)". It also counts in the wizard's "*n* of *m*" tally.
+- **Storage:** `spellReductions` on `Hero`/`HiredSword` (§15.2). `spells` stays free of duplicates (§15.5). Effective difficulty = printed − lowered − `prayerModifier`. The working is shown ("6+ (7+ lowered by 1)") so the number never reads as a data error.
+- **Hand correction:** the unit entry's known row gets an **Undo −1** action. Removing the spell clears its lowering. Removing a lowered-difficulty advance with the §4.2.1 grant option ticked takes off the −1, not the spell.
+- ✅ **Repeats and floor (FAQ).** No limit on how many times one spell is lowered, so every further duplicate takes another −1. The only stop is 2+, where the FAQ says there's no point. The app simply stops offering the −1 there; it is not a rule cap.
 
 ### 15.4 In the unit entry
 
@@ -1714,7 +1729,7 @@ Following §9's standard — enforce only where the mistake is silent and the ru
 
 - **Only a caster may hold spells.** A unit whose definition has an empty `spellLists` gets no block and no picker.
 - **A model may only draw from its own lists.** Same shape as the equipment-list rule (§9.3), and the same exception mechanism if a skill ever lifts it.
-- **No duplicates.** Enforced at the point of adding, which is also what makes automatic re-rolling correct rather than a convenience.
+- **No duplicates.** Enforced at the point of adding. A second copy of an entry is stored as a lowering (§15.3.1), never as a repeated id.
 - Everything else — how many spells a model may end up with, whether a house rule lets a priest choose rather than roll — stays a warning at most.
 
 Spells do **not** affect warband rating (§3.2); nothing in the rating formula accounts for them.

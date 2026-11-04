@@ -3,7 +3,7 @@ import { Button } from '../../components/ui';
 import { strings } from '../../strings';
 import SkillPicker from '../../components/SkillPicker';
 import SpellBlock from '../../components/SpellBlock';
-import { spellBlockLabel } from '../../lib/spellLookup';
+import { applySpellGains, spellBlockLabel } from '../../lib/spellLookup';
 import { STAT_KEYS } from '../../lib/statLine';
 import { roll2D6, rollD6 } from '../../lib/dice';
 import { parseAdvanceResult } from '../../lib/advanceLookup';
@@ -34,6 +34,10 @@ type AdvanceRecorderProps = {
   /** Empty for a non-caster, which is what hides the option. */
   spellLists?: string[];
   knownSpells?: string[];
+  /** The model's stored lowered-difficulty counts (§15.3). */
+  spellReductions?: Record<string, number>;
+  /** May repeat an id already known: that is a "same spell twice" result spent
+   * on lowering its difficulty, resolved at commit by `applySpellGains`. */
   newSpells?: string[];
   onAddSpell?: (spellId: string) => void;
   warbandType: string;
@@ -60,6 +64,7 @@ function AdvanceRecorder({
   knownSkills,
   spellLists,
   knownSpells,
+  spellReductions,
   newSpells,
   onAddSpell,
   warbandType,
@@ -303,8 +308,15 @@ function AdvanceRecorder({
           <SpellBlock
             spellLists={spellLists}
             known={[...(knownSpells ?? []), ...(newSpells ?? [])]}
+            reductions={applySpellGains(knownSpells ?? [], spellReductions, newSpells ?? []).spellReductions}
             pickerOnly
             onAdd={(spellId) => {
+              onAddSpell(spellId);
+              setOpen(null);
+              setLastRoll(null);
+            }}
+            // Same handler: a known id in newSpells *is* the lowering.
+            onLower={(spellId) => {
               onAddSpell(spellId);
               setOpen(null);
               setLastRoll(null);
@@ -402,6 +414,7 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               knownSkills={hero.skills}
               spellLists={hero.spellLists}
               knownSpells={hero.spells}
+              spellReductions={hero.spellReductions}
               warbandType={warband.warbandType}
               isLeader={hero.isLeader}
               statIncreases={state.statIncreases}
@@ -563,6 +576,7 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               knownSkills={sword.skills}
               spellLists={sword.spellLists}
               knownSpells={sword.spells}
+              spellReductions={sword.spellReductions}
               warbandType={warband.warbandType}
               isLeader={sword.isLeader}
               statIncreases={state.statIncreases}

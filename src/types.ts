@@ -85,6 +85,9 @@ export type Hero = {
   spellLists: string[];
   /** Entries known, as namespaced ids into spells.json. Mirrors `skills`. */
   spells: string[];
+  /** Spell id → times its difficulty was lowered by 1 for getting the same
+   * spell twice (§15.3). Optional: rosters predating it simply have none. */
+  spellReductions?: Record<string, number>;
   injuries: Injury[];
   equipment: EquipmentItem[];
   /** Append-only gear history (spec §18.2). Optional: warbands predating the
@@ -128,6 +131,8 @@ export type HiredSword = {
   skills: string[];
   spellLists: string[];
   spells: string[];
+  /** As on `Hero`. */
+  spellReductions?: Record<string, number>;
   injuries: Injury[];
   equipment: EquipmentItem[];
   equipmentLog?: EquipmentLogEntry[];

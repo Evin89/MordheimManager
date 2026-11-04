@@ -1176,6 +1176,16 @@ ${url}`,
       rollButton: (die: string) => `Roll ${die}`,
       rollResult: (die: number, name: string) => `Rolled ${die}: ${name}.`,
       rerolled: (dice: string) => `Re-rolled ${dice} — already known.`,
+      // Mordheim Magic: "If you get the same spell twice, roll again or lower
+      // the spell's difficulty by 1."
+      duplicateResult: (die: number, name: string) =>
+        `Rolled ${die}: ${name} — already known. Roll again, or lower its difficulty by 1.`,
+      lowerTo: (difficulty: number) => `Lower to ${difficulty}+`,
+      rollAgain: 'Roll again',
+      loweredResult: (die: number, name: string) => `Rolled ${die}: ${name} again — difficulty lowered by 1.`,
+      knownHeading: 'Already known — rolled again? Lower its difficulty by 1',
+      lowerThis: 'Lower difficulty by 1',
+      restoreDifficulty: 'Undo −1',
       chooseInstead: 'Or choose from the list',
       chooseCount: (n: number) => `${n} available`,
       chooseThis: 'Learn this',
