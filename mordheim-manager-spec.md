@@ -1104,7 +1104,7 @@ Rich game state stays as `jsonb` blobs matching the TypeScript types — heroes 
 | `0004_public_gallery_anon.sql` | Signed-out read access for public warbands |
 | `0005_standalone_battles.sql` | `battles.campaign_id` nullable, so a one-off game has somewhere to go |
 
-⚠️ **Indexes to add before the scale test** (§13.4): `campaign_members (user_id)`, `campaign_members (campaign_id)`, `warbands (owner_id)`, `(campaign_id)`, `(visibility)`. Membership-subquery RLS policies are the usual thing that falls over at a few hundred rows. _Status 2026-10-12: everything is in place except `campaign_members (user_id)`, which migration 0067 adds. `(campaign_id)` is served by the primary key, and `(visibility)` by a partial gallery index (§35.6). ⚠️ until 0067 is applied._
+✅ **Indexes to add before the scale test** (§13.4): `campaign_members (user_id)`, `campaign_members (campaign_id)`, `warbands (owner_id)`, `(campaign_id)`, `(visibility)`. Membership-subquery RLS policies are the usual thing that falls over at a few hundred rows. _Status 2026-11-04: all in place; `campaign_members (user_id)` came last, with migration 0067. `(campaign_id)` is served by the primary key, and `(visibility)` by a partial gallery index (§35.6)._
 
 ### 8.3 Row-level security ✅
 
@@ -3110,9 +3110,9 @@ Verified in demo mode: step 4 survives a reload; *Resume* reopens step 4; commit
 
 Verified in demo mode: remove a hero, the banner appears, Undo restores it in place and the banner goes.
 
-### 35.4 Restore a deleted warband from Admin ⚠️
+### 35.4 Restore a deleted warband from Admin ✅
 
-_⚠️ until migration 0065 is applied._ The warband delete copy promised that a deletion "can be reversed on request", and Admin › Deleted warbands (migration 0054) listed what was deleted — but reversing one still meant a hand-written `update warbands set deleted_at = null`.
+_Live since 2026-11-04 (migration 0065)._ The warband delete copy promised that a deletion "can be reversed on request", and Admin › Deleted warbands (migration 0054) listed what was deleted — but reversing one still meant a hand-written `update warbands set deleted_at = null`.
 
 - **`admin_restore_warband(p_warband_id)`** (migration 0065), SECURITY DEFINER. Asserts `is_admin()` first, then clears `deleted_at` on a row that is still soft-deleted. A row the nightly purge (0014) already removed raises an error instead of silently doing nothing.
 - **Restore** on each row of Admin › Deleted warbands, behind the lighter confirm tier (§4.2.1 `ConfirmAction`): restoring is not destructive. The confirm says what comes back: same owner and roster, and the campaign it was in.
@@ -3122,9 +3122,9 @@ _⚠️ until migration 0065 is applied._ The warband delete copy promised that 
 
 Verified in demo mode (Restore → confirm → the row leaves the list, a status line confirms) and with `npm run db:test -- restore` (non-admins refused, a live warband is an error, owner unchanged).
 
-### 35.5 Delete your own account (AVG/GDPR) ⚠️
+### 35.5 Delete your own account (AVG/GDPR) ✅
 
-_⚠️ until migration 0066 is applied._ The privacy policy promised account deletion "at any time", but there was no way to do it in the app, and the dashboard route failed too: five author columns referenced the user with no `ON DELETE` action, so deleting the auth user was refused for anyone who had ever created a campaign or reported a battle.
+_Live since 2026-11-04 (migration 0066)._ The privacy policy promised account deletion "at any time", but there was no way to do it in the app, and the dashboard route failed too: five author columns referenced the user with no `ON DELETE` action, so deleting the auth user was refused for anyone who had ever created a campaign or reported a battle.
 
 - **Where:** Account › Your data › *Delete account*, at the bottom of the screen. Afterwards the sign-in screen confirms the deletion (Your data requires sign-in, so it can't show it itself). A danger button opens the unrecoverable confirm tier (§10.1 `ConfirmByTyping`). The impact is stated in full: what is gone, what is kept, and what happens to leadership. The phrase to type is "delete my account". *Keep my account* closes it.
 - **`delete_my_account()`** (migration 0066), SECURITY DEFINER, for the caller only. Everything runs in one transaction, so a failure leaves the account untouched.
@@ -3148,7 +3148,7 @@ _⚠️ until migration 0066 is applied._ The privacy policy promised account de
 - **This device:** signs out locally (the server session died with the user). It clears the battle draft and the per-account conveniences: undo list, last-used warband, active campaign, dismissed nudges. Theme, analytics consent and the tour flag stay.
 - The privacy policy (§7, §8) now describes this, dated 4 November 2026 (the day it shipped), with a changelog entry.
 
-❓ **Owner to confirm:** the keep/remove split above, and the first-joined member as new leader. The alternative is to refuse until the player transfers leadership, the way leaving a campaign does.
+✅ **Confirmed by the owner (2026-11-04):** the keep/remove split above, and the first-joined member as new leader. (The alternative considered was to refuse until the player transfers leadership, the way leaving a campaign does.)
 
 Verified with `npm run db:test -- delete-account` (`supabase/db-tests/delete-account.sql`, 17 checks, anonymous callers refused). In demo mode the confirm flow works and the local keys are cleared.
 
@@ -3156,9 +3156,9 @@ Verified with `npm run db:test -- delete-account` (`supabase/db-tests/delete-acc
 
 §14.4's matrix is now a SQL test in the database harness (`npm run db:test`, PR #24): `supabase/db-tests/rls-matrix.sql`. Run it after any schema change. It needs no Supabase project and no second account. See §14.4 for what it covers.
 
-### 35.6 The remaining pre-scale indexes ⚠️
+### 35.6 The remaining pre-scale indexes ✅
 
-_⚠️ until migration 0067 is applied._ §8.2 and §23.3 listed indexes to add before the scale test. Most were already in place:
+_Live since 2026-11-04 (migration 0067)._ §8.2 and §23.3 listed indexes to add before the scale test. Most were already in place:
 - `warbands (owner_id)`, `(campaign_id)` and `(owner_id, created_at)`;
 - `battles (reported_by, created_at)`;
 - `profiles (created_at)`.
