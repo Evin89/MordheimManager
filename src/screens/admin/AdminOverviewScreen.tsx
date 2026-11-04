@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import AdminActivityCharts from '../../components/AdminActivityCharts';
 import AdminGrowth from '../../components/AdminGrowth';
 import {
   useAdminStatsQuery,
@@ -104,6 +105,8 @@ export default function AdminOverviewScreen() {
           </>
         )}
       </section>
+
+      <AdminActivityCharts />
 
       <AdminGrowth />
     </>

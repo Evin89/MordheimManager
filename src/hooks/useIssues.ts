@@ -18,6 +18,7 @@ import {
 import {
   fetchActivationFunnel,
   fetchRetentionCohorts,
+  fetchActivityBreakdown,
   fetchActivitySeries,
   fetchAcquisitionBreakdown,
   fetchSelfReportBreakdown,
@@ -86,6 +87,17 @@ export function useAdminRetentionQuery() {
 export function useAdminActivitySeriesQuery() {
   const { data: isAdmin } = useIsAdminQuery();
   return useQuery({ queryKey: ['adminActivitySeries'], queryFn: () => fetchActivitySeries(30), enabled: isAdmin === true });
+}
+
+/** §4.9.9 — the admin activity charts, per range. */
+export function useAdminActivityBreakdownQuery(bucket: 'day' | 'week', count: number) {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['adminActivityBreakdown', bucket, count],
+    queryFn: () => fetchActivityBreakdown(bucket, count),
+    enabled: isAdmin === true,
+    staleTime: 5 * 60_000,
+  });
 }
 
 export function useAdminAcquisitionQuery() {
