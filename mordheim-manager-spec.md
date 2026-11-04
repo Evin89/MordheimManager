@@ -1104,7 +1104,7 @@ Rich game state stays as `jsonb` blobs matching the TypeScript types — heroes 
 | `0004_public_gallery_anon.sql` | Signed-out read access for public warbands |
 | `0005_standalone_battles.sql` | `battles.campaign_id` nullable, so a one-off game has somewhere to go |
 
-⚠️ **Indexes to add before the scale test** (§13.4): `campaign_members (user_id)`, `campaign_members (campaign_id)`, `warbands (owner_id)`, `(campaign_id)`, `(visibility)`. Membership-subquery RLS policies are the usual thing that falls over at a few hundred rows. _Status 2026-10-12: everything is in place except `campaign_members (user_id)`, which migration 0058 adds. `(campaign_id)` is served by the primary key, and `(visibility)` by a partial gallery index (§35.6). ⚠️ until 0058 is applied._
+⚠️ **Indexes to add before the scale test** (§13.4): `campaign_members (user_id)`, `campaign_members (campaign_id)`, `warbands (owner_id)`, `(campaign_id)`, `(visibility)`. Membership-subquery RLS policies are the usual thing that falls over at a few hundred rows. _Status 2026-10-12: everything is in place except `campaign_members (user_id)`, which migration 0067 adds. `(campaign_id)` is served by the primary key, and `(visibility)` by a partial gallery index (§35.6). ⚠️ until 0067 is applied._
 
 ### 8.3 Row-level security ✅
 
@@ -3116,12 +3116,12 @@ Verified in demo mode: remove a hero, the banner appears, Undo restores it in pl
 
 ### 35.6 The remaining pre-scale indexes ⚠️
 
-_⚠️ until migration 0058 is applied._ §8.2 and §23.3 listed indexes to add before the scale test. Most were already in place:
+_⚠️ until migration 0067 is applied._ §8.2 and §23.3 listed indexes to add before the scale test. Most were already in place:
 - `warbands (owner_id)`, `(campaign_id)` and `(owner_id, created_at)`;
 - `battles (reported_by, created_at)`;
 - `profiles (created_at)`.
 
-`campaign_members (campaign_id)` is the leading column of the primary key. Migration 0058 adds what was still missing:
+`campaign_members (campaign_id)` is the leading column of the primary key. Migration 0067 adds what was still missing:
 
 - **`campaign_members (user_id)`**: "which campaigns am I in", behind the campaign list, the leaderless checks and the RLS membership subqueries.
 - **`warbands (rating desc, id) where visibility = 'public' and deleted_at is null`**: the public gallery's filter and page order. `visibility` alone is not worth an index with two values.

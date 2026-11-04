@@ -1,4 +1,4 @@
--- §35.6 pre-scale indexes (migration 0058): present, and chosen by the planner
+-- §35.6 pre-scale indexes (migration 0067): present, and chosen by the planner
 -- for the queries they exist for (seq scans disabled, so "chosen" means usable).
 select t.ok(
   (select count(*) from pg_indexes where schemaname = 'public' and indexname in (
