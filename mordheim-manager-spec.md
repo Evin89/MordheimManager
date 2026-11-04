@@ -3129,6 +3129,7 @@ _⚠️ until migration 0067 is applied._ §8.2 and §23.3 listed indexes to add
   - `campaign_events (created_by)`
   - `campaign_log_entries (author_id)` and `(battle_id)`
   - `issue_reports (reporter_id)`
+  - `admin_roster_views (admin_id)`, `admin_campaign_views (admin_id)` and `issue_replies (author_id)`, from tables added while this was waiting
 
 `supabase/db-tests/indexes.sql` checks that all of them exist, that the planner uses the two query indexes, and that **no foreign key in `public` is left without a covering index**, so a future table that forgets one fails the test.
 

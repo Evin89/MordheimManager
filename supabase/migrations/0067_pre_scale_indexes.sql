@@ -39,3 +39,15 @@ create index if not exists campaign_log_entries_battle_id_idx
 
 create index if not exists issue_reports_reporter_id_idx
   on public.issue_reports (reporter_id);
+
+-- Foreign keys added after this migration was first written (0056, 0057,
+-- 0064): the admin view logs and issue replies. All three reference
+-- auth.users, so deleting an account (§35.5) would scan them otherwise.
+create index if not exists admin_roster_views_admin_id_idx
+  on public.admin_roster_views (admin_id);
+
+create index if not exists admin_campaign_views_admin_id_idx
+  on public.admin_campaign_views (admin_id);
+
+create index if not exists issue_replies_author_id_idx
+  on public.issue_replies (author_id);
