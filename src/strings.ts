@@ -369,6 +369,23 @@ export const strings = {
     signedOutHint: 'Sign in to export or import your warband and campaign data.',
     adminSection: 'Admin',
     signInButton: 'Sign in',
+    // §35.5 account deletion (Account › Your data).
+    deleteAccountSection: 'Delete account',
+    deleteAccountIntro:
+      'Removes your account and everything that is only yours. Export your data first if you want a copy.',
+    deleteAccountButton: 'Delete my account…',
+    deleteAccountGoes:
+      'Gone for good: your warbands with their photos, your collection, comments and log entries you wrote, your friendly games, and campaigns where you are the only member.',
+    deleteAccountStays:
+      'Kept, without your name: battles you reported in a campaign, events you organised and awards you granted, so other players keep their history.',
+    deleteAccountLeaders:
+      'A campaign you lead alone passes to the member who joined it first.',
+    deleteAccountPhrase: 'delete my account',
+    deleteAccountLabel: 'Type "delete my account" to confirm',
+    deleteAccountAction: 'Delete account',
+    deleteAccountCancel: 'Keep my account',
+    deleteAccountDone: 'Your account and data have been deleted.',
+    deleteAccountError: (message: string) => `Could not delete your account: ${message}`,
     // §40.4 — Account is a short screen of rows leading to sub-screens.
     rows: {
       settings: 'Settings',

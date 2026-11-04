@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import ConfirmByTyping from '../../components/ConfirmByTyping';
 import { strings } from '../../strings';
 import { useAuth } from '../../auth/AuthProvider';
@@ -16,6 +17,8 @@ import ActivityPanel, { activityWindow } from '../../components/activity/Activit
 import { useMyActivityDayQuery, useMyActivityQuery } from '../../hooks/useActivity';
 import type { ActivityItem } from '../../lib/activityKinds';
 import { Button, Card, SectionHeading } from '../../components/ui';
+import { deleteMyAccount } from '../../api/account';
+import { isDemoMode } from '../../dev/demoMode';
 
 /*
  * The Account sections (§4.6), shared by the sub-screens of §40.4. Lifted out
@@ -259,6 +262,77 @@ export function DataSection() {
         </>
       ) : (
         <p className="text-bone-300 text-sm">{strings.account.signedOutHint}</p>
+      )}
+    </Card>
+  );
+}
+
+/**
+ * §35.5 — delete your own account (migration 0066). Behind a button so the
+ * danger zone isn't open by default, then the unrecoverable tier (§10.1):
+ * the impact in full, and a typed phrase.
+ *
+ * Lives on Account › Your data, which requires sign-in, so the "deleted"
+ * confirmation is shown on the sign-in screen this sends you to.
+ */
+export function DeleteAccountSection() {
+  const s = strings.account;
+  const { signOut } = useAuth();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function confirm() {
+    setBusy(true);
+    setError(null);
+    try {
+      const demo = isDemoMode();
+      await deleteMyAccount();
+      queryClient.clear();
+      navigate('/login', { replace: true, state: { accountDeleted: true } });
+      // Demo mode has no server session; leaving it is its sign-out.
+      if (demo) await signOut();
+    } catch (err) {
+      setError(s.deleteAccountError(err instanceof Error ? err.message : String(err)));
+      setBusy(false);
+    }
+  }
+
+  return (
+    <Card as="section">
+      <SectionHeading>{s.deleteAccountSection}</SectionHeading>
+      <p className="text-bone-300 text-sm">{s.deleteAccountIntro}</p>
+      {!open ? (
+        <Button variant="danger" onClick={() => setOpen(true)}>
+          {s.deleteAccountButton}
+        </Button>
+      ) : (
+        <>
+          <ConfirmByTyping
+            phrase={s.deleteAccountPhrase}
+            label={s.deleteAccountLabel}
+            action={s.deleteAccountAction}
+            impact={
+              <>
+                <p>{s.deleteAccountGoes}</p>
+                <p>{s.deleteAccountStays}</p>
+                <p>{s.deleteAccountLeaders}</p>
+              </>
+            }
+            busy={busy}
+            onConfirm={confirm}
+          />
+          <Button variant="secondary" onClick={() => setOpen(false)} disabled={busy}>
+            {s.deleteAccountCancel}
+          </Button>
+        </>
+      )}
+      {error && (
+        <p role="alert" className="text-danger text-sm">
+          {error}
+        </p>
       )}
     </Card>
   );
