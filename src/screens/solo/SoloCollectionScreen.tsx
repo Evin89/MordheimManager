@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import BackHeader from '../../components/BackHeader';
 import { Card, SectionHeading } from '../../components/ui';
 import ModelLibraryEditor from '../../components/solo/ModelLibraryEditor';
 import TerrainLibraryEditor from '../../components/solo/TerrainLibraryEditor';
@@ -28,21 +28,11 @@ export default function SoloCollectionScreen() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-        <div className="flex items-center gap-2">
-          <Link to="/solo" className="text-ember-400 text-sm">
-            ← Solo
-          </Link>
-          <span className="text-xs font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
-            Beta
-          </span>
-        </div>
-        <h1 className="text-2xl font-bold text-bone-100 tracking-wide mt-1">My collection</h1>
-        <p className="text-bone-400 text-sm mt-1">
-          The models and terrain you own. Solo games are generated only from these — no enemy you can’t
-          field, no board you can’t build.
-        </p>
-      </header>
+      <BackHeader title="My collection" badge="Beta" />
+      <p className="px-4 pt-4 text-bone-300 text-sm">
+        The models and terrain you own. Solo games are generated only from these — no enemy you can’t field, no
+        board you can’t build.
+      </p>
 
       <main className="flex-1 px-4 py-6 space-y-6">
         <Card as="section">

@@ -21,3 +21,8 @@ mordheim-backup-*.json
 # banner originals.
 public/**/*.ai
 public/**/*.psd
+
+# Claude Code local state: per-machine permissions and session worktrees
+# (full checkouts of other branches), never for version control.
+.claude/settings.local.json
+.claude/worktrees/

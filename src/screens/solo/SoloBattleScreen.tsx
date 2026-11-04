@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import BackHeader from '../../components/BackHeader';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useWarband } from '../../hooks/useWarbands';
 import { useSoloStore, SoloSession } from '../../store/useSoloStore';
 import { generateId } from '../../lib/id';
+import { logFeatureUse } from '../../api/featureUsage';
 import { generateBattlefield } from '../../lib/solo/battlefield';
 import { difficultyForBudget, TEMPERAMENT_HINTS, TEMPERAMENT_LABELS } from '../../lib/solo/npc';
 import { getCatalogScenario } from '../../lib/scenarioCatalog';
@@ -67,28 +69,18 @@ export default function SoloBattleScreen() {
 
   function endGame() {
     if (!warbandId) return;
+    logFeatureUse('solo_battle_ended');
     clearSoloSession(warbandId);
     navigate('/solo');
   }
 
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800 space-y-1">
-        <div className="flex items-center gap-2">
-          <Link to="/solo" className="text-ember-400 text-sm">
-            ← Solo
-          </Link>
-          <span className="text-xs font-bold uppercase tracking-wide text-ember-400 border border-ember-500 rounded px-1.5 py-0.5">
-            Beta
-          </span>
-        </div>
-        <h1 className="text-xl font-bold text-bone-100">
-          {yourWarband?.name ?? 'Your warband'} <span className="text-bone-400">vs</span> {session.opponentName}
-        </h1>
-        <p className="text-bone-400 text-sm">
-          {scenarioName(session.scenario)} · {difficultyForBudget(session.budget)} · {standing} enemy models standing
-        </p>
-      </header>
+      <BackHeader
+        title={`${yourWarband?.name ?? 'Your warband'} vs ${session.opponentName}`}
+        subtitle={`${scenarioName(session.scenario)} · ${difficultyForBudget(session.budget)} · ${standing} enemy models standing`}
+        badge="Beta"
+      />
 
       <main className="flex-1 px-4 py-6 space-y-6">
         {/* Turn control */}

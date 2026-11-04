@@ -8,6 +8,8 @@ import { useStoragePurgeQueueQuery } from '../../hooks/usePhotos';
 import { getWarbandTypeName } from '../../data/warbandRegistry';
 import { strings } from '../../strings';
 import { Stat, Signups } from './shared';
+import { useQuery } from '@tanstack/react-query';
+import { fetchAdminDirectoryStats } from '../../api/players';
 
 /** §4.9.2 — the glance screen: counts, the §23 analytics, and attention badges
  * that carry the counts so the operator doesn't open each screen to find them. */
@@ -30,6 +32,14 @@ function AttentionBadge({ to, label, n, urgent }: { to: string; label: string; n
 
 export default function AdminOverviewScreen() {
   const { data: stats } = useAdminStatsQuery();
+  // §38.12 — whether the directory and direct invites get used. Fails quietly
+  // (no tiles) until migration 0061 is applied.
+  const { data: dir } = useQuery({
+    queryKey: ['adminDirectoryStats'],
+    queryFn: fetchAdminDirectoryStats,
+    enabled: !!stats,
+    retry: false,
+  });
   const { data: queue } = useStoragePurgeQueueQuery(true);
   const { data: stranded } = useStrandedCampaignCountQuery();
 
@@ -64,6 +74,12 @@ export default function AdminOverviewScreen() {
               <Stat label="Campaigns" value={stats.campaigns} />
               <Stat label="Battles" value={stats.battles} />
               <Stat label="Open issues" value={stats.open_issues} />
+              {dir && (
+                <>
+                  <Stat label="In directory" value={dir.discoverable} />
+                  <Stat label="Invites accepted · 30d" value={`${dir.invites_accepted_30d}/${dir.invites_sent_30d}`} />
+                </>
+              )}
             </div>
 
             <Signups data={stats.signups} />

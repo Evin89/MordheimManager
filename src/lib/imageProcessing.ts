@@ -117,6 +117,30 @@ async function cropped(bitmap: ImageBitmap, w: number, h: number): Promise<Blob>
   return toBlob(canvas);
 }
 
+/** §38 — a profile photo is one square file, small enough to show in every list. */
+const AVATAR_EDGE = 256;
+const MAX_AVATAR_INPUT_BYTES = 10 * 1024 * 1024;
+
+/**
+ * A picked file, ready to upload as a profile photo: centre-cropped to a
+ * 256×256 WebP.
+ *
+ * Re-encoding through a canvas drops every byte of metadata, EXIF included — so
+ * the GPS position a phone embeds in a photo of someone's face never leaves the
+ * device. That matters more here than for a miniature.
+ */
+export async function processAvatar(file: File): Promise<Blob> {
+  if (file.size > MAX_AVATAR_INPUT_BYTES) {
+    throw new ImageError('That image is over 10 MB. Try a smaller one.');
+  }
+  const bitmap = await decode(file);
+  try {
+    return await cropped(bitmap, AVATAR_EDGE, AVATAR_EDGE);
+  } finally {
+    bitmap.close();
+  }
+}
+
 /**
  * A picked file, ready to upload: a full image and a list thumbnail.
  *

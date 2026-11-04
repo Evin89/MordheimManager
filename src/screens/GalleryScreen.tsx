@@ -1,4 +1,5 @@
 import PublicWarbandBrowser from '../components/PublicWarbandBrowser';
+import BackHeader from '../components/BackHeader';
 import { strings } from '../strings';
 
 /**
@@ -12,9 +13,7 @@ import { strings } from '../strings';
 export default function GalleryScreen() {
   return (
     <div className="min-h-full flex flex-col">
-      <header className="px-4 pt-6 pb-4 border-b border-ink-800">
-        <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{strings.warbandList.publicTab}</h1>
-      </header>
+      <BackHeader title={strings.warbandList.publicTab} />
       <main className="flex-1 px-4 py-4">
         <PublicWarbandBrowser />
       </main>

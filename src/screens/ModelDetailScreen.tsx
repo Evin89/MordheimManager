@@ -9,6 +9,7 @@ import ProfileBlock from '../components/ProfileBlock';
 import WarbandPhotoEditor from '../components/WarbandPhoto';
 import { STAT_KEYS } from '../lib/statLine';
 import EquipmentShop from '../components/EquipmentShop';
+import HiredSwordStartingGear from '../components/HiredSwordStartingGear';
 import EquipmentHistory from '../components/EquipmentHistory';
 import { appendEquipmentLog } from '../lib/equipmentLog';
 import SkillPicker from '../components/SkillPicker';
@@ -18,7 +19,7 @@ import { Button, Card, SectionHeading } from '../components/ui';
 import { strings } from '../strings';
 import { useWarbandLookup } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
-import { useBattlesQuery, useMyCampaignQuery } from '../hooks/useCampaign';
+import { useBattlesQuery, useWarbandCampaign } from '../hooks/useCampaign';
 import { generateId } from '../lib/id';
 import { getSpell, resolveSpellLists, spellBlockLabel } from '../lib/spellLookup';
 import { getUniqueInjuries } from '../lib/injuryLookup';
@@ -50,7 +51,8 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const { warband, loading } = useWarbandLookup(warbandId);
   const { draft, update, dirty, save, saveNow, discard } = useWarbandDraft(warband);
   useUnsavedChangesWarning(dirty);
-  const { data: campaign } = useMyCampaignQuery();
+  // The warband's own campaign (§34.4), not whichever one was opened last.
+  const campaign = useWarbandCampaign(warbandId);
   const { data: battles } = useBattlesQuery(campaign?.id);
 
   const [advanceMode, setAdvanceMode] = useState<'stat' | 'skill' | 'spell' | null>(null);
@@ -809,6 +811,14 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
             />
           }
           footer={<EquipmentHistory log={model.equipmentLog} />}
+          fixedGearNotice={
+            kind === 'hiredSword' ? (
+              <HiredSwordStartingGear
+                sword={model as HiredSword}
+                onApply={(equipment) => commitModel({ equipment })}
+              />
+            ) : undefined
+          }
         />
 
         <div className="space-y-2">
@@ -833,7 +843,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
       {toast && (
         <div
           role="status"
-          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 rounded-md bg-ink-800 border border-ink-700 px-4 py-2 text-bone-100 text-sm shadow-lg"
+          className="fixed bottom-[calc(72px+env(safe-area-inset-bottom))] md:bottom-4 left-1/2 -translate-x-1/2 z-50 rounded-md bg-ink-800 border border-ink-700 px-4 py-2 text-bone-100 text-sm shadow-lg"
         >
           {toast}
         </div>

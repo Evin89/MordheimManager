@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { campaignPath } from '../lib/activeCampaign';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import ConfirmByTyping from '../components/ConfirmByTyping';
@@ -7,7 +8,7 @@ import {
   useDeleteEventMutation,
   useUpdateEventMutation,
 } from '../hooks/useEvents';
-import { useCampaignMembersQuery, useMyCampaignQuery } from '../hooks/useCampaign';
+import { useCampaignMembersQuery, useRouteCampaign } from '../hooks/useCampaign';
 import { useEventRsvpsQuery, useSetRsvpMutation } from '../hooks/useRsvps';
 import { RsvpStatus } from '../api/rsvps';
 import { useAuth } from '../auth/AuthProvider';
@@ -113,7 +114,7 @@ export default function CampaignEventScreen() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const { data: campaign, isLoading: campaignLoading } = useMyCampaignQuery();
+  const { data: campaign, isLoading: campaignLoading } = useRouteCampaign();
   const { data: events, isLoading: eventsLoading } = useCampaignEventsQuery(campaign?.id);
   const { data: members } = useCampaignMembersQuery(campaign?.id);
   const saveEvent = useUpdateEventMutation(campaign?.id);
@@ -142,7 +143,7 @@ export default function CampaignEventScreen() {
   const event = events?.find((e) => e.id === eventId);
   // A deleted event, or a link from another campaign. The list is a more
   // useful landing place than an error.
-  if (!event) return <Navigate to="/campaign/events" replace />;
+  if (!event) return <Navigate to={campaignPath(campaign.id, 'events')} replace />;
 
   const isLeader = (members ?? []).some(
     (m) => m.userId === user?.id && m.role === 'campaign_leader',
@@ -235,7 +236,7 @@ export default function CampaignEventScreen() {
                   action={strings.events.deleteButton}
                   onConfirm={() => {
                     deleteEvent(event.id);
-                    navigate('/campaign/events', { replace: true });
+                    navigate(campaignPath(campaign.id, 'events'), { replace: true });
                   }}
                   impact={<p>{strings.events.deleteImpact}</p>}
                 />

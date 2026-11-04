@@ -1,7 +1,8 @@
 import { Link, Navigate } from 'react-router-dom';
+import { campaignPath } from '../lib/activeCampaign';
 import BackHeader from '../components/BackHeader';
 import CampaignEvents from '../components/CampaignEvents';
-import { useMyCampaignQuery } from '../hooks/useCampaign';
+import { useRouteCampaign } from '../hooks/useCampaign';
 import { strings } from '../strings';
 
 /**
@@ -13,12 +14,12 @@ import { strings } from '../strings';
  * future, and the thing people check before leaving the house. Burying it
  * behind a tab named after something else meant it was only found by accident.
  *
- * Scoped to the active campaign, like `/campaign` itself, rather than taking an
+ * Scoped to the campaign in the address (§40.3: `/campaigns/:id/events`), rather than taking an
  * id: someone arriving here is asking "when are we playing", not "when is that
  * other campaign playing".
  */
 export default function CampaignEventsScreen() {
-  const { data: campaign, isLoading } = useMyCampaignQuery();
+  const { data: campaign, isLoading } = useRouteCampaign();
 
   if (isLoading) {
     return (
@@ -38,7 +39,7 @@ export default function CampaignEventsScreen() {
 
       <main className="flex-1 px-4 py-4 space-y-6">
         <Link
-          to="/campaign/calendar"
+          to={campaignPath(campaign.id, 'calendar')}
           className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
         >
           {strings.events.viewAsCalendar}
