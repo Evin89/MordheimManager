@@ -8,6 +8,11 @@ import {
   fetchAdminUsers,
   fetchIsAdmin,
   fetchIssueReports,
+  fetchIssueReplies,
+  fetchMyIssueReports,
+  fetchMyUnreadReplyCount,
+  insertIssueReply,
+  markMyIssueRepliesRead,
   updateIssueStatus,
 } from '../api/issues';
 import {
@@ -222,4 +227,70 @@ export function useUpdateIssueStatusMutation() {
     },
   });
   return (id: string, status: IssueStatus) => mutation.mutate({ id, status });
+}
+
+// ---------------------------------------------------------------------------
+// §41 — replies.
+// ---------------------------------------------------------------------------
+
+/** Admin: replies for every report on the loaded inbox pages, in one query. */
+export function useIssueRepliesQuery(issueIds: string[]) {
+  const { data: isAdmin } = useIsAdminQuery();
+  return useQuery({
+    queryKey: ['issueReplies', issueIds],
+    queryFn: () => fetchIssueReplies(issueIds),
+    enabled: isAdmin === true && issueIds.length > 0,
+  });
+}
+
+export function useSendIssueReplyMutation() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ issueId, body }: { issueId: string; body: string }) =>
+      insertIssueReply(issueId, user!.id, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['issueReplies'] });
+      // In demo mode the admin is also a reporter, so their own view moves too.
+      queryClient.invalidateQueries({ queryKey: ['myIssueReports'] });
+      queryClient.invalidateQueries({ queryKey: ['myUnreadReplies'] });
+    },
+  });
+}
+
+/** The signed-in player's own reports, with replies. */
+export function useMyIssueReportsQuery() {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ['myIssueReports', user?.id],
+    queryFn: fetchMyIssueReports,
+    enabled: !!user,
+  });
+}
+
+/**
+ * Unread replies — the dot on the header avatar. Mounted on every screen, so it
+ * is cheap (one count) and not eager: a minute stale, refreshed on focus, which
+ * is when a player who just got the push comes back to the app.
+ */
+export function useMyUnreadRepliesQuery() {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ['myUnreadReplies', user?.id],
+    queryFn: fetchMyUnreadReplyCount,
+    enabled: !!user,
+    staleTime: 60_000,
+    refetchOnWindowFocus: true,
+  });
+}
+
+export function useMarkRepliesReadMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (issueId: string) => markMyIssueRepliesRead(issueId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myUnreadReplies'] });
+      queryClient.invalidateQueries({ queryKey: ['issueReplies'] });
+    },
+  });
 }

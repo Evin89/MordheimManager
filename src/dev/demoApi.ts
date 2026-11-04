@@ -547,6 +547,7 @@ export async function fetchIsAdmin(userId: string): Promise<boolean> {
 }
 
 export async function fetchIssueReports(status: string, cursor = 0) {
+  seedDemoReplies();
   const users = db().users;
   const all = issues
     .filter((r) => status === 'all' || r.status === status)
@@ -562,6 +563,87 @@ export async function fetchIssueReports(status: string, cursor = 0) {
 export async function updateIssueStatus(id: string, status: 'open' | 'triaged' | 'closed'): Promise<void> {
   const issue = issues.find((i) => i.id === id);
   if (issue) issue.status = status;
+}
+
+// §41 — replies. In memory like everything else here. The demo viewer is the
+// admin *and* a reporter: one report of theirs is seeded with an unread reply so
+// the avatar dot and the Your reports screen have something to show.
+const issueReplies: { id: string; issueId: string; authorId: string; body: string; createdAt: string; readAt: string | null }[] = [];
+let demoRepliesSeeded = false;
+function seedDemoReplies() {
+  if (demoRepliesSeeded) return;
+  demoRepliesSeeded = true;
+  const viewerId = db().viewerId;
+  issues.unshift({
+    id: 'demo-issue-own',
+    reporterId: viewerId,
+    path: '/warbands/demo-wb-0-0',
+    message: 'Rolling a spell I already know only re-rolls — the rules let me lower its difficulty instead.',
+    context: {},
+    appVersion: '1.0.0',
+    userAgent: 'Mozilla/5.0 (Linux; Android 14)',
+    status: 'triaged',
+    adminNotes: '',
+    createdAt: new Date(2026, 9, 31, 22, 3).toISOString(),
+  });
+  issueReplies.push({
+    id: 'demo-reply-1',
+    issueId: 'demo-issue-own',
+    authorId: viewerId,
+    body: 'Thanks — you are right. This is fixed and will be in the next update.',
+    createdAt: new Date(2026, 10, 4, 10, 0).toISOString(),
+    readAt: null,
+  });
+}
+
+export async function fetchIssueReplies(issueIds: string[]) {
+  seedDemoReplies();
+  return issueReplies
+    .filter((r) => issueIds.includes(r.issueId))
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+    .map(({ authorId: _a, ...r }) => r);
+}
+
+export async function insertIssueReply(issueId: string, authorId: string, body: string): Promise<void> {
+  seedDemoReplies();
+  const issue = issues.find((i) => i.id === issueId);
+  if (!issue?.reporterId) throw new Error('This report was filed anonymously and cannot be answered.');
+  issueReplies.push({
+    id: `demo-reply-${issueReplies.length + 1}`,
+    issueId,
+    authorId,
+    body,
+    createdAt: new Date().toISOString(),
+    readAt: null,
+  });
+}
+
+export async function fetchMyIssueReports() {
+  seedDemoReplies();
+  const viewerId = db().viewerId;
+  return issues
+    .filter((i) => i.reporterId === viewerId)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .map((i) => ({
+      id: i.id,
+      message: i.message,
+      path: i.path,
+      status: i.status,
+      createdAt: i.createdAt,
+      replies: issueReplies
+        .filter((r) => r.issueId === i.id)
+        .map(({ authorId: _a, ...r }) => r),
+    }));
+}
+
+export async function fetchMyUnreadReplyCount(): Promise<number> {
+  const reports = await fetchMyIssueReports();
+  return reports.reduce((n, r) => n + r.replies.filter((rp) => !rp.readAt).length, 0);
+}
+
+export async function markMyIssueRepliesRead(issueId: string): Promise<void> {
+  const now = new Date().toISOString();
+  for (const r of issueReplies) if (r.issueId === issueId && !r.readAt) r.readAt = now;
 }
 
 /** Counted off the generated database, so the numbers move when you click
