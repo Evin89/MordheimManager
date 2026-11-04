@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import RuleEntryList from './RuleEntryList';
 import { Field, Select } from './ui';
+import RuleBody from './RuleBody';
 import { getRuleEntry, getTradingTabRuleEntries, getWarbandsTabRuleEntries } from '../lib/rulesIndex';
 import { warbandDefinitionsByName } from '../data/warbandRegistry';
 import { RuleEntry } from '../data/types';
@@ -26,11 +27,7 @@ function CreationRule({ entry }: { entry: RuleEntry }) {
   return (
     <section className="space-y-2">
       <h3 className="text-ember-400 text-xs font-semibold uppercase tracking-wide">{entry.title}</h3>
-      {entry.body.split('\n\n').map((paragraph, i) => (
-        <p key={i} className="text-bone-200 text-sm leading-relaxed whitespace-pre-line">
-          {paragraph}
-        </p>
-      ))}
+      <RuleBody body={entry.body} />
     </section>
   );
 }
