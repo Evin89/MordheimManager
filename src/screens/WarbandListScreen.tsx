@@ -1,6 +1,8 @@
 import { Suspense, lazy, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TabHeader from '../components/TabHeader';
+import { HeaderAction } from '../components/HeaderTools';
+import { Plus } from 'lucide-react';
 import SubTabs from '../components/SubTabs';
 import PublicWarbandBrowser from '../components/PublicWarbandBrowser';
 import { ListGroup, ListRow, SectionHeading, buttonClasses } from '../components/ui';
@@ -35,9 +37,7 @@ export default function WarbandListScreen() {
         title={strings.warbandList.title}
         action={
           tab === 'warbands' ? (
-            <Link to="/warbands/new" className={`${buttonClasses('primary', 'dense', false)} shrink-0`}>
-              {strings.warbandList.newWarband}
-            </Link>
+            <HeaderAction to="/warbands/new" Icon={Plus} label={strings.warbandList.newWarband} />
           ) : undefined
         }
       >

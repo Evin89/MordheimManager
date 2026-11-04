@@ -3,9 +3,9 @@ import { Button, Card, SectionHeading } from '../../components/ui';
 import { useIsAdminQuery } from '../../hooks/useIssues';
 import { isDemoMode, setDemoMode } from '../../dev/demoMode';
 import { strings } from '../../strings';
-import { DataSection, YourActivitySection } from './sections';
+import { DataSection, DeleteAccountSection, YourActivitySection } from './sections';
 
-/** §40.4 — what the account holds: a full backup, a restore, and your activity. */
+/** §40.4 — what the account holds: a full backup, a restore, your activity, and deleting it all (§35.5). */
 export default function AccountDataScreen() {
   const { data: isAdmin } = useIsAdminQuery();
 
@@ -31,6 +31,8 @@ export default function AccountDataScreen() {
             </Button>
           </Card>
         )}
+
+        <DeleteAccountSection />
       </main>
     </div>
   );

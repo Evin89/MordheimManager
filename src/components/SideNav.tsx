@@ -7,6 +7,7 @@ import { NAV_ITEMS, isNavItemActive } from './navItems';
 import { navTargetForPath } from '../lib/navTabs';
 import InviteDot from './players/InviteDot';
 import PlayerAvatar from './players/PlayerAvatar';
+import ReplyDot from './issues/ReplyDot';
 import { SignInIcon } from './navItems';
 
 /**
@@ -71,7 +72,10 @@ export default function SideNav() {
               accountActive ? 'bg-ink-800 text-ember-400' : 'text-bone-200 hover:bg-ink-800/60'
             }`}
           >
-            <PlayerAvatar url={avatars[user.id]} name={name} seed={profile?.avatarSeed ?? user.id} size="sm" />
+            <span className="relative shrink-0">
+              <PlayerAvatar url={avatars[user.id]} name={name} seed={profile?.avatarSeed ?? user.id} size="sm" />
+              <ReplyDot />
+            </span>
             <span className="hidden lg:block min-w-0">
               <span className="block text-sm font-semibold truncate">{name}</span>
               <span className="block text-xs text-bone-400">{strings.nav.account}</span>

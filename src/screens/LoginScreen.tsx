@@ -11,6 +11,8 @@ export default function LoginScreen() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  // §35.5 — arriving here straight after deleting your account.
+  const accountDeleted = (location.state as { accountDeleted?: boolean } | null)?.accountDeleted === true;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +49,12 @@ export default function LoginScreen() {
           <h1 className="text-2xl font-bold text-bone-100 tracking-wide">{strings.appName}</h1>
           <p className="text-sm text-bone-400">{strings.auth.loginTitle}</p>
         </header>
+
+        {accountDeleted && (
+          <p role="status" className="text-sm text-bone-200 text-center">
+            {strings.account.deleteAccountDone}
+          </p>
+        )}
 
         <GoogleSignInButton />
         <AuthDivider />

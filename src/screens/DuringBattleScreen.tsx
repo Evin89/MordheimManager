@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { battleState } from '../lib/battleNavigation';
 import BackHeader from '../components/BackHeader';
-import DiceButton from '../components/DiceButton';
 import ActionBar from '../components/ActionBar';
 import DiceRoller from '../components/DiceRoller';
 import ProfileBlock from '../components/ProfileBlock';
@@ -624,7 +623,6 @@ export default function DuringBattleScreen() {
         subtitle={warband.name}
         // Back steps to pre-battle inside the same history entry, not out of the flow.
         onBack={() => navigate(`/warbands/${warband.id}/pre-battle`, { replace: true, state: navState })}
-        action={<DiceButton />}
       />
 
       <main className="flex-1 px-4 py-6 space-y-6">

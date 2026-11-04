@@ -33,7 +33,7 @@ export const isAnalyticsConfigured = Boolean(projectToken && host);
  * Where events are sent. On the production domain that's the first-party
  * Worker proxy at `/lantern` (worker/index.js), so ad blockers that list
  * `*.posthog.com` don't silently drop consented analytics; everywhere else —
- * `vite dev`, previews, the old Netlify host, none of which run the Worker —
+ * `vite dev` and previews, which don't run the Worker —
  * it's the configured PostHog host directly. The proxy targets PostHog's EU
  * region, matching the configured host.
  */

@@ -2,7 +2,7 @@
 
 A mobile-first Progressive Web App for managing Mordheim warbands and campaigns, including Border Town Burning (BTB) supplement content. Online, account-based, backed by Supabase. Installed via "Add to Home Screen" on Android.
 
-**Owner:** Evin — deployed as a Cloudflare **Worker** serving static assets at `mordheimmanager.net`, built from `main` (`wrangler.toml`). Not a Pages project: the two are grouped together in the dashboard but configured differently, and only the Worker needs a file in the repo. The former Netlify deployment at `mordheim.builderbasement.com` still builds from the same branch while the move settles; `public/_headers` is read by both hosts, while SPA routing is `not_found_handling` on Workers and `netlify.toml` on Netlify.
+**Owner:** Evin — deployed as a Cloudflare **Worker** serving static assets at `mordheimmanager.net`, built from `main` (`wrangler.toml`). Not a Pages project: the two are grouped together in the dashboard but configured differently, and only the Worker needs a file in the repo. The former Netlify deployment at `mordheim.builderbasement.com` was switched off on 2026-11-03 and `netlify.toml` removed; `public/_headers` sets cache headers and SPA routing is `not_found_handling` in `wrangler.toml`.
 
 ---
 
@@ -86,17 +86,17 @@ A second spec was drafted separately and merged in on 2026-08-03. It was written
 
   | Request | Strategy | Why |
   | --- | --- | --- |
-  | HTML shell (navigations) | `NetworkFirst`, 3s timeout, single fixed cache key | A new deploy is picked up as soon as there's a connection. One key because Netlify rewrites every path to the same `index.html`, so per-URL storage would cache identical copies *and* leave a deep link like `/rules` uncached until visited online. |
+  | HTML shell (navigations) | `NetworkFirst`, 3s timeout, single fixed cache key | A new deploy is picked up as soon as there's a connection. One key because the host serves the same `index.html` for every path (`not_found_handling` in `wrangler.toml`), so per-URL storage would cache identical copies *and* leave a deep link like `/rules` uncached until visited online. |
   | `/assets/*.js`, `*.css` | `CacheFirst`, 60 entries / 30 days | Content-hashed, so a given URL's bytes can never change. A new deploy requests new filenames, which simply miss. |
   | Fonts and images | `StaleWhileRevalidate`, 60 entries / 30 days | |
   | Supabase | **Never cached** | Warbands, campaigns and battles must never come from a stale copy. |
 
   A precache *manifest* is what made two correct deploys look broken: workbox served the previous `index.html` out of `workbox-precache-v2` indefinitely, so the app kept booting an old bundle until site data was cleared. Runtime caching gives the same repeat-visit saving without a manifest that can pin a stale shell. **Do not reintroduce `globPatterns` for HTML.**
 - ✅ **Chunk-load recovery.** Every route screen in `App.tsx` is `React.lazy`-loaded. The fix above keeps the HTML shell itself fresh, but not an open tab that was already sitting on the *previous* shell when a deploy replaced the build's hashed chunk filenames: an in-app link (client-side navigation, no HTML fetch) that then tries to `import()` a route chunk which no longer exists 404s, and with no error boundary above `<Suspense>` that unmounted the whole tree to a blank page — reported live as "the app goes black on a link click, but reloading fixes it." `ChunkErrorBoundary` (`src/components/ChunkErrorBoundary.tsx`) wraps the router's top-level `<Suspense>` and catches this specific failure (matched by message, since browsers throw it as a plain `Error` with no shared class): it reloads once automatically, silently picking up the current shell and chunk manifest, and only falls back to a visible "Reload" prompt if a second consecutive load still fails — which means a genuinely broken deploy, not a stale tab. Verified by throwing the real error text from a test route and watching it auto-recover on the first hit and land on the fallback on the second, deliberately-unrecovered one.
-- ✅ **Deploy:** Netlify, standard Vite build, no Netlify functions.
+- ✅ **Deploy:** Cloudflare Workers (static assets), standard Vite build, from `main`. The Netlify host was switched off and `netlify.toml` removed on 2026-11-03.
 - ✅ **UI language:** English. All strings in `src/strings.ts`.
 
-**Environment:** `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`, in `.env.local` locally and in Netlify's build environment. No service-role key is ever present client-side or in the repo — see §13.2 for the one script that needs one.
+**Environment:** `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`, in `.env.local` locally and in the Cloudflare Workers build variables. No service-role key is ever present client-side or in the repo — see §13.2 for the one script that needs one.
 
 ---
 
@@ -1104,7 +1104,7 @@ Rich game state stays as `jsonb` blobs matching the TypeScript types — heroes 
 | `0004_public_gallery_anon.sql` | Signed-out read access for public warbands |
 | `0005_standalone_battles.sql` | `battles.campaign_id` nullable, so a one-off game has somewhere to go |
 
-◻️ **Indexes to add before the scale test** (§13.4): `campaign_members (user_id)`, `campaign_members (campaign_id)`, `warbands (owner_id)`, `(campaign_id)`, `(visibility)`. Membership-subquery RLS policies are the usual thing that falls over at a few hundred rows.
+⚠️ **Indexes to add before the scale test** (§13.4): `campaign_members (user_id)`, `campaign_members (campaign_id)`, `warbands (owner_id)`, `(campaign_id)`, `(visibility)`. Membership-subquery RLS policies are the usual thing that falls over at a few hundred rows. _Status 2026-10-12: everything is in place except `campaign_members (user_id)`, which migration 0067 adds. `(campaign_id)` is served by the primary key, and `(visibility)` by a partial gallery index (§35.6). ⚠️ until 0067 is applied._
 
 ### 8.3 Row-level security ✅
 
@@ -1417,7 +1417,7 @@ Target (conflict 15):
 
 - ✅ **Fonts self-hosted.** §5.2's four families now ship as Latin woff2 subsets from our own origin (`scripts/fetch-fonts.mjs` → `public/fonts/`, ~640 kB across 19 faces), `font-display: swap`, above-the-fold faces preloaded, and cached CacheFirst by the service worker for offline. No Google CDN request is made — closing the largest unclaimed first-load win and removing a third-party dependency from every page.
 - ✅ **Service worker: already correct** (conflict 2). The incoming draft read "no precaching" as "no asset caching" and recommended enabling precache. The app instead uses **runtime caching** — `CacheFirst` on content-hashed `/assets/*.js|css`, `StaleWhileRevalidate` on fonts and images, `NetworkFirst` on the HTML shell, Supabase never cached. That achieves the repeat-visit saving *without* a precache manifest, which is what pinned a stale `index.html` through two deploys. See the table in §2. Do not reintroduce a manifest for HTML.
-- Verify Netlify actually serves hashed build assets with immutable cache headers rather than assuming it.
+- ~~Verify Netlify serves hashed build assets with immutable cache headers.~~ Obsolete: Netlify retired 2026-11-03; on Workers, `public/_headers` sets `immutable` on `/assets/*`.
 - ✅ Bundle size checked and fixed (2026-09-25): the entry was 1,312 kB / 362 kB gzipped; it's now three ~216 kB chunks, 648 kB / 194 kB gzipped — see §16's audit line for how. *Original note:* The production bundle was **1,068 kB raw / 285 kB gzipped** in one chunk, which already trips Vite's 500 kB warning. Look for full-library imports, a date library where `Intl` would do, and wholesale icon sets — then consider route-level code splitting, since the post-battle wizard and the rules browser are both large and rarely on the critical path.
 
 ### 12.5 Audit results
@@ -2387,7 +2387,7 @@ The client-side integration is built and privacy-scoped, and ingestion runs thro
 
 This realises the original scope: pageviews + named product events mirroring the §23.2 funnel, reconcilable against the DB funnel, and no firehose of autocaptured clicks — event discipline is what keeps the free tier free. (Names landed as `campaign_joined`/`campaign_selected` rather than the drafted `campaign_entered`.)
 
-**The reverse proxy ✅.** On `mordheimmanager.net`, both the app (`src/lib/posthog.ts`) and the landing page send analytics to **`/lantern/*`** on our own domain; `worker/index.js` forwards `/lantern/static/*` to `eu-assets.i.posthog.com` (the SDK's lazy scripts, edge-cached for an hour) and everything else to `eu.i.posthog.com`, and `wrangler.toml` routes `/lantern/*` through the Worker first. The path is deliberately unremarkable — blocklists catch `/ingest`, `/analytics`, `/track`, `/posthog`. Nothing sent changes (consent gating, the closed event union and `before_send` still run in the browser first); the proxy strips cookies and **forwards the visitor's IP** (`CF-Connecting-IP` → `X-Forwarded-For`, dropping any client-sent value) so PostHog can derive approximate location — the owner's call (2026-09-25), and already disclosed in the Privacy Policy for consenting visitors. Check PostHog's *Discard client IP data* project setting is off, or it drops the IP anyway. Dev, previews and the old Netlify host run no Worker, so they keep talking to the configured host directly. A same-origin `NetworkOnly` rule keeps the service worker off `/lantern/`. Residency is EU end to end. Still worth setting: per-product billing caps in PostHog as a backstop.
+**The reverse proxy ✅.** On `mordheimmanager.net`, both the app (`src/lib/posthog.ts`) and the landing page send analytics to **`/lantern/*`** on our own domain; `worker/index.js` forwards `/lantern/static/*` to `eu-assets.i.posthog.com` (the SDK's lazy scripts, edge-cached for an hour) and everything else to `eu.i.posthog.com`, and `wrangler.toml` routes `/lantern/*` through the Worker first. The path is deliberately unremarkable — blocklists catch `/ingest`, `/analytics`, `/track`, `/posthog`. Nothing sent changes (consent gating, the closed event union and `before_send` still run in the browser first); the proxy strips cookies and **forwards the visitor's IP** (`CF-Connecting-IP` → `X-Forwarded-For`, dropping any client-sent value) so PostHog can derive approximate location — the owner's call (2026-09-25), and already disclosed in the Privacy Policy for consenting visitors. Check PostHog's *Discard client IP data* project setting is off, or it drops the IP anyway. Dev and previews run no Worker, so they keep talking to the configured host directly. A same-origin `NetworkOnly` rule keeps the service worker off `/lantern/`. Residency is EU end to end. Still worth setting: per-product billing caps in PostHog as a backstop.
 
 **Privacy surface / residency (open).** The gallery is anon-readable (§8.1) and the community is heavily European, so any client-side tracker touches GDPR. The current posture — anonymous, cookieless (`localStorage`, no cookie), DNT-respecting, PII-free — is the lightweight path that likely avoids a consent banner; the EU-vs-US host choice (residency) is settled by which `VITE_POSTHOG_HOST` is configured and rides on the reverse-proxy work above.
 
@@ -3125,9 +3125,70 @@ Verified in demo mode: step 4 survives a reload; *Resume* reopens step 4; commit
 
 Verified in demo mode: remove a hero, the banner appears, Undo restores it in place and the banner goes.
 
+### 35.4 Restore a deleted warband from Admin ⚠️
+
+_⚠️ until migration 0065 is applied._ The warband delete copy promised that a deletion "can be reversed on request", and Admin › Deleted warbands (migration 0054) listed what was deleted — but reversing one still meant a hand-written `update warbands set deleted_at = null`.
+
+- **`admin_restore_warband(p_warband_id)`** (migration 0065), SECURITY DEFINER. Asserts `is_admin()` first, then clears `deleted_at` on a row that is still soft-deleted. A row the nightly purge (0014) already removed raises an error instead of silently doing nothing.
+- **Restore** on each row of Admin › Deleted warbands, behind the lighter confirm tier (§4.2.1 `ConfirmAction`): restoring is not destructive. The confirm says what comes back: same owner and roster, and the campaign it was in.
+- The warband returns exactly as it was deleted. The delete changed nothing but `deleted_at`, so standings and history pick it up again.
+- The delete copy now names the window: "kept, hidden, for 30 days, so within that time this can be reversed on request."
+- No admin audit row is written; there is no admin audit table yet (the only audit tables are per-warband, §10.4).
+
+Verified in demo mode (Restore → confirm → the row leaves the list, a status line confirms) and with `npm run db:test -- restore` (non-admins refused, a live warband is an error, owner unchanged).
+
+### 35.5 Delete your own account (AVG/GDPR) ⚠️
+
+_⚠️ until migration 0066 is applied._ The privacy policy promised account deletion "at any time", but there was no way to do it in the app, and the dashboard route failed too: five author columns referenced the user with no `ON DELETE` action, so deleting the auth user was refused for anyone who had ever created a campaign or reported a battle.
+
+- **Where:** Account › Your data › *Delete account*, at the bottom of the screen. Afterwards the sign-in screen confirms the deletion (Your data requires sign-in, so it can't show it itself). A danger button opens the unrecoverable confirm tier (§10.1 `ConfirmByTyping`). The impact is stated in full: what is gone, what is kept, and what happens to leadership. The phrase to type is "delete my account". *Keep my account* closes it.
+- **`delete_my_account()`** (migration 0066), SECURITY DEFINER, for the caller only. Everything runs in one transaction, so a failure leaves the account untouched.
+- **Gone:**
+  - the auth user and profile;
+  - warbands, with their objectives, photos, rating history and edits;
+  - custom warband types, the collection, push subscriptions and visits;
+  - comments and RSVPs;
+  - friendly battles (no campaign, §34);
+  - campaign log entries they wrote;
+  - campaigns in which they are the only member.
+- **Kept, anonymised:**
+  - battles they reported in a campaign;
+  - events they organised;
+  - awards they granted;
+  - campaigns they created that others are still in.
+
+  The author column becomes null. Other players' standings and records don't change because someone left. Issue reports were already `on delete set null`.
+- **Leadership:** a campaign they lead alone, with other members, passes to the member who joined first. This is the move a leadership transfer (0010) makes, and the 0010 trigger would otherwise refuse the cascade.
+- **Photos:** file paths are queued in `storage_purge_queue` for Admin › Maintenance, like the 30-day warband purge.
+- **This device:** signs out locally (the server session died with the user). It clears the battle draft and the per-account conveniences: undo list, last-used warband, active campaign, dismissed nudges. Theme, analytics consent and the tour flag stay.
+- The privacy policy (§7, §8) now describes this, dated 12 October 2026, with a changelog entry.
+
+❓ **Owner to confirm:** the keep/remove split above, and the first-joined member as new leader. The alternative is to refuse until the player transfers leadership, the way leaving a campaign does.
+
+Verified with `npm run db:test -- delete-account` (`supabase/db-tests/delete-account.sql`, 17 checks, anonymous callers refused). In demo mode the confirm flow works and the local keys are cleared.
+
 ### 35.7 The RLS matrix as an automated test ✅
 
 §14.4's matrix is now a SQL test in the database harness (`npm run db:test`, PR #24): `supabase/db-tests/rls-matrix.sql`. Run it after any schema change. It needs no Supabase project and no second account. See §14.4 for what it covers.
+
+### 35.6 The remaining pre-scale indexes ⚠️
+
+_⚠️ until migration 0067 is applied._ §8.2 and §23.3 listed indexes to add before the scale test. Most were already in place:
+- `warbands (owner_id)`, `(campaign_id)` and `(owner_id, created_at)`;
+- `battles (reported_by, created_at)`;
+- `profiles (created_at)`.
+
+`campaign_members (campaign_id)` is the leading column of the primary key. Migration 0067 adds what was still missing:
+
+- **`campaign_members (user_id)`**: "which campaigns am I in", behind the campaign list, the leaderless checks and the RLS membership subqueries.
+- **`warbands (rating desc, id) where visibility = 'public' and deleted_at is null`**: the public gallery's filter and page order. `visibility` alone is not worth an index with two values.
+- Foreign keys without an index, which makes deleting the parent scan the child (relevant to account deletion, §35.5):
+  - `campaign_events (created_by)`
+  - `campaign_log_entries (author_id)` and `(battle_id)`
+  - `issue_reports (reporter_id)`
+  - `admin_roster_views (admin_id)`, `admin_campaign_views (admin_id)` and `issue_replies (author_id)`, from tables added while this was waiting
+
+`supabase/db-tests/indexes.sql` checks that all of them exist, that the planner uses the two query indexes, and that **no foreign key in `public` is left without a covering index**, so a future table that forgets one fails the test.
 
 ## 36. "Install the app" — making the PWA findable ✅
 
@@ -3835,7 +3896,7 @@ Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled
 ### 40.2 Tabs, header and the avatar
 - **Five tabs** with labels (12px, §5.4 floor) on phones; the rail is unchanged in shape.
 - **`TabHeader`** (title · optional action · `AccountButton`) on tab roots; detail screens keep `BackHeader`. Signed out, the avatar slot is a **Sign in** link. The rail's foot shows your avatar and name (→ Account) or Sign in; `AuthNavButton` is gone — signing out is on Account.
-- **No floating controls.** The `?` tour button and the dice button no longer float over headers (and the `pr-14` header padding they forced is gone). Dice is a header action on Play and during a battle (Rules already has its dice row). The tour still runs once for a new player, now ends on the avatar (6 stops), and is replayed from Help & about (it opens Home first so the avatar is on screen).
+- **No floating controls.** The `?` tour button and the dice button no longer float over headers (and the `pr-14` header padding they forced is gone). Dice sits in every header's corner (see *One header corner*, below). The tour still runs once for a new player, now ends on the avatar (6 stops), and is replayed from Help & about (it opens Home first so the avatar is on screen).
 
 ### 40.3 Sections
 - **Home:** resume card (games in progress) · last-opened campaign with its next game night and *Open campaign ›* · your three last-used warbands (*All N warbands ›*) · *Start a battle*. Quick Actions and About left the signed-in Home; the signed-out Home keeps About.
@@ -3849,6 +3910,8 @@ Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled
 - **One sub-tab look (2026-11-03):** `SubTabs` is the only sub-tab row — Warbands (*Mine · Gallery · Rules*), Campaigns (*Campaigns · Players*), a campaign's five tabs and the Trading Post (*Shop · Trading Rules*). Always inside the header under the title (`TabHeader` / `BackHeader` children), 40px, `text-xs sm:text-sm`. Route tabs replace history. The Campaigns section keeps one title (*Campaigns*) on both its screens, as Warbands does.
 
 - **One header, one footer (2026-11-03).** Every in-shell screen uses `TabHeader` (tab roots — Home's banner variant has the same padding, rule and avatar slot) or `BackHeader` (everything else). Rules, Gallery, the Trading picker, Battlefield generator, the three Solo screens, a warband's rules page and Admin dropped their own headers; Beta is a `badge` on `BackHeader`, intro text sits at the top of the page body, and a screen's own controls (sub-tabs, Rules search, the wizard's progress bar, Admin's scrolling tabs) go in the header's children slot. Only the sign-in screens (outside the shell) keep their centred header. Footer: `ActionBar` is the one sticky bar above the tab bar — the save bar and the pre-battle / during-battle / post-battle "next stage" buttons use it — and every bottom offset includes `env(safe-area-inset-bottom)`, as the tab bar does.
+
+- **One header corner (2026-11-04).** Every in-shell header — `TabHeader`, `BackHeader` and Home's banner header — ends in `HeaderTools`: **dice · avatar**, in that order, so a roll is one tap from any screen. This reverses "detail screens have no avatar": the avatar is now on every screen, and on Account's own screens it carries the ember ring (so Account now lights on phones, superseding the §40.6 note). The Rules screen's inline dice row is gone (the header has it); its title is the tab name, *Rules*. Shared classes live in `components/headerStyles.ts` (`HEADER_SHELL`, `HEADER_ROW` — 44px whatever it holds, `HEADER_TITLE`, `HEADER_CONTROL`). Every header action is a `HeaderAction`: 40px, ink outline, ember icon, label from `sm`, icon-only on phones — *New Warband* (was a filled primary button), roster *Share* and *Copy link* (were bare text links), profile *Edit* (was a 44px outlined button). The *Create a warband* button in the empty state stays primary.
 
 - **Play is public (2026-11-03)**, like the dice roller and map it lists: signed out, *Start a battle* is a sign-in card and the resume card and Your Battles are hidden; Solo still asks you to sign in. Account screens still light no tab on phones (§40.6), by decision.
 - **`nav_tab_tapped { tab, surface }`** (`tab`: `home|warbands|play|campaigns|rules|account`; `surface`: `bar|rail|header`) — the §40.5 measurement, consent-gated like every §23.7 event.
@@ -3867,5 +3930,48 @@ Decisions (Evin, 2026-11-02): Trading leaves the nav; the Battle tab is labelled
 ### 40.6 Not done in this pass
 - ✅ `CampaignScreen.tsx` split (2026-11-03): the screen keeps loading, shared queries and the tab switch (~360 lines); its parts live in `screens/campaign/` (members, standings/awards/rivalries, territory, campaign log, announcement, join code, objectives, delete).
 - ✅ Naming (2026-11-03): `strings.settings` → `strings.account`, `nav.postBattle` → `nav.play`; strings orphaned by §40 removed; `AdminUserScreen` moved into `screens/admin/`.
-- On phones, Account screens light no tab (the avatar isn't on a `BackHeader`). Decided 2026-11-03: keep it so — Account is a place you visit and leave, like a sheet.
+- ~~On phones, Account screens light no tab (the avatar isn't on a `BackHeader`). Decided 2026-11-03: keep it so.~~ Superseded 2026-11-04: the avatar is on every header and lights on Account (§40.2, *One header corner*).
 
+
+---
+
+## 41. Replying to issue reports ✅ _(built 2026-11-04; migration 0064 + Edge Function `notify-issue-reply` to deploy)_
+
+Until now a report only went one way. It landed in the §4.9.3 inbox, and the player who filed it never heard back. The first case was issue `2711d406` (same spell twice, §15.3.1): it was fixed, but there was no way to tell the reporter. This section adds the way back.
+
+### 41.1 Who can be answered
+
+**Only attributed reports.** The report form's opt-in "Include my username" (§4.9) already decides this. An anonymous report has nobody to answer, so the inbox says *"Filed anonymously — there is nobody to reply to"* instead of showing a reply box. The database refuses such a reply as well. The opt-in's hint now says what it buys: *"This allows us to reply to you — the answer appears under Account → Your reports."* After an attributed report is sent, the thanks message points to the same place.
+
+Reports filed from flows that are never attributed (profile reports, §38) stay unanswerable by design.
+
+### 41.2 Data — migration 0064
+
+- **`issue_replies`** (`issue_id` → `issue_reports` on delete cascade, `author_id`, `body` 1–4000 chars, `created_at`, `read_at`, `notified_at`). One row per reply, so a report can be answered more than once ("fixed in the next build", then "now live"). There is no update or delete policy: a correction is a second reply.
+- **RLS:** admins can select all replies, and can insert one as themselves, only on a report with a `reporter_id`. Reporters get **no** table access.
+- **Reporter reads go through `SECURITY DEFINER` functions** rather than a select policy on `issue_reports`. RLS is row-level, and a policy letting reporters read their own rows would also hand them `admin_notes`. The functions:
+  - `my_issue_reports()` returns your attributed reports (message, path, status, date), newest first and capped at 50, each with its replies.
+  - `my_unread_issue_reply_count()` returns the number of unread replies.
+  - `mark_my_issue_replies_read(issue_id)` marks a report's replies read. A report id that isn't yours matches nothing.
+
+### 41.3 Admin side (§4.9.3)
+
+The expanded report row gets a **Replies** block: replies so far, oldest first, each marked *Read [date]* or *Not read yet*, then a textarea and **Send reply**. A collapsed row shows "↩ n" under its status pill, so answered reports stand out without being opened. Replying does **not** change the status — triage stays a separate, deliberate tap.
+
+### 41.4 Reporter side
+
+- **Account → Your reports** (`/account/reports`). Each report shows its message, status and date, then the replies. Status labels are player-facing: *Open*, *Seen* (for `triaged`), *Closed*. Opening the screen marks every reply shown as read. Replies stay highlighted as **New** until you leave, so the thing you came to read doesn't un-highlight itself under you.
+- **Unread dot** on the header avatar (§40.2) and on the side rail's account row. It is the same dot as the invite marker (§38.5): presence, not a number, with the count read out to screen readers. The Account row shows "1 new reply".
+- **Push** (§19.4): a trigger on `issue_replies` insert calls `notify-issue-reply` through pg_net. This is the same no-secret pattern as 0062/0063: verify_jwt off, claims the reply via `notified_at`, only fresh replies (10 min). Title *"Reply to your report"*, the reply's first ~120 characters as the body, and a link to `/app/account/reports`. Unlike the invite push, the text is included, because the admin wrote it, not another player.
+
+### 41.5 Deploy
+
+1. Apply `0064_issue_replies.sql`.
+2. `supabase functions deploy notify-issue-reply --no-verify-jwt` (needs the existing VAPID secrets).
+
+Without step 2, replies still work and show in-app. Only the push is missing.
+
+### 41.6 Not in this pass
+
+- ❓ **The reporter can't answer back.** Default: the reply is one-way, and a follow-up is a new report. A two-way thread would need a reporter insert path (an RPC, since reporters have no table access) and an admin unread marker. Add it if players start replying via new reports.
+- Email notification. Push and the in-app dot only, consistent with "no email provider" (migration 0006).

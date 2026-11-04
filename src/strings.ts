@@ -218,7 +218,6 @@ export const strings = {
     noAccountNeeded: 'No account needed',
   },
   rules: {
-    title: 'Rules Reference',
     searchPlaceholder: 'Search rules…',
     allCategories: 'All',
     noResults: 'No rules match your search.',
@@ -230,7 +229,6 @@ export const strings = {
     groupPostBattle: 'Post-Battle',
     groupTrading: 'Trading',
     groupWarbands: 'Warbands & Scenarios',
-    diceRoller: 'Dice roller',
     entryCount: (n: number) => `${n} rule${n === 1 ? '' : 's'}`,
     sourceLabel: 'Source',
     relatedSection: 'Related rules',
@@ -247,10 +245,36 @@ export const strings = {
     sending: 'Sending…',
     cancel: 'Cancel',
     thanks: 'Thanks — that has been logged.',
+    thanksAttributed: 'Thanks — that has been logged. Any reply will appear under Account → Your reports.',
     failed: 'That could not be sent. Check your connection and try again.',
     attachedTo: (path: string) => `Attached: ${path}`,
     shareIdentity: 'Include my username with this report',
-    shareIdentityHint: 'This allows us to follow up with you regarding it. Leave unchecked to submit anonymously.',
+    shareIdentityHint:
+      'This allows us to reply to you — the answer appears under Account → Your reports. Leave unchecked to submit anonymously.',
+  },
+
+  // §41 — replies to reports.
+  myReports: {
+    title: 'Your reports',
+    intro: 'Issues you reported with your username attached, and any reply to them.',
+    empty: 'No reports yet. Reports sent with your username attached appear here, with any reply.',
+    reported: (date: string) => `Reported ${date}`,
+    replyFrom: 'Reply',
+    newBadge: 'New',
+    noReply: 'No reply yet.',
+    status: { open: 'Open', triaged: 'Seen', closed: 'Closed' } as Record<string, string>,
+    unreadSr: (n: number) => (n === 1 ? '1 new reply to your reports' : `${n} new replies to your reports`),
+    rowStatus: (n: number) => (n === 1 ? '1 new reply' : `${n} new replies`),
+  },
+  adminReplies: {
+    heading: 'Replies',
+    placeholder: 'Write a reply to the reporter…',
+    send: 'Send reply',
+    sending: 'Sending…',
+    failed: 'The reply could not be sent.',
+    anonymous: 'Filed anonymously — there is nobody to reply to.',
+    read: (date: string) => `Read ${date}`,
+    unread: 'Not read yet',
   },
 
   comments: {
@@ -345,11 +369,29 @@ export const strings = {
     signedOutHint: 'Sign in to export or import your warband and campaign data.',
     adminSection: 'Admin',
     signInButton: 'Sign in',
+    // §35.5 account deletion (Account › Your data).
+    deleteAccountSection: 'Delete account',
+    deleteAccountIntro:
+      'Removes your account and everything that is only yours. Export your data first if you want a copy.',
+    deleteAccountButton: 'Delete my account…',
+    deleteAccountGoes:
+      'Gone for good: your warbands with their photos, your collection, comments and log entries you wrote, your friendly games, and campaigns where you are the only member.',
+    deleteAccountStays:
+      'Kept, without your name: battles you reported in a campaign, events you organised and awards you granted, so other players keep their history.',
+    deleteAccountLeaders:
+      'A campaign you lead alone passes to the member who joined it first.',
+    deleteAccountPhrase: 'delete my account',
+    deleteAccountLabel: 'Type "delete my account" to confirm',
+    deleteAccountAction: 'Delete account',
+    deleteAccountCancel: 'Keep my account',
+    deleteAccountDone: 'Your account and data have been deleted.',
+    deleteAccountError: (message: string) => `Could not delete your account: ${message}`,
     // §40.4 — Account is a short screen of rows leading to sub-screens.
     rows: {
       settings: 'Settings',
       data: 'Your data',
       about: 'Help & about',
+      reports: 'Your reports',
       admin: 'Admin',
       notificationsOn: 'notifications on',
     },
@@ -603,7 +645,7 @@ export const strings = {
   warbandList: {
     title: 'Warbands',
     empty: 'No warbands yet. Create one to get started.',
-    newWarband: '+ New Warband',
+    newWarband: 'New Warband',
     ratingLabel: 'Rating',
     goldLabel: 'Gold',
     shardsLabel: 'Shards',
@@ -1002,7 +1044,7 @@ ${url}`,
       `This warband is entered in ${campaign}.`,
     deleteWarbandCampaignAck: (campaign: string) =>
       `I understand this removes it from ${campaign}'s standings.`,
-    deleteWarbandRecoverable: 'Deleted warbands are kept, hidden, so this can be reversed on request.',
+    deleteWarbandRecoverable: 'Deleted warbands are kept, hidden, for 30 days, so within that time this can be reversed on request.',
     addHiredSword: 'Hire a Hired Sword',
     slotFull: 'full',
     slotsUnlimited: 'No limit on this unit',
