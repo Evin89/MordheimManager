@@ -49,8 +49,8 @@
     "type": "git",
     "url": "git+https://github.com/Evin89/MordheimManager.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Evin Wijninga",
+  "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/Evin89/MordheimManager/issues"
   },

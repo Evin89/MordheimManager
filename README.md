@@ -246,6 +246,12 @@ The old Netlify deployment at `mordheim.builderbasement.com` was switched off on
 
 **A domain move needs one thing changed outside this repo:** Supabase → Authentication → URL Configuration. The Site URL and the redirect allow-list gate where auth emails may send people, so until the new domain is listed there, password resets and email confirmations land on the old host or are refused outright. Everything else follows the domain on its own — share links and the password-reset callback are both built from `window.location.origin`.
 
+## Licence and contributions
+
+The app's code, design and the way it works are © Evin Wijninga and licensed under the [PolyForm Strict License 1.0.0](LICENSE). You may read and use it for noncommercial purposes, but not copy it into another project or publish a modified version. Mordheim rules and background text in `src/data/` are © Games Workshop and are not covered by that licence. [`NOTICE.md`](NOTICE.md) explains the split.
+
+Contributions (data corrections, translations, fixes) are welcome under the terms in [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 ## Known gaps
 
 - **Offline.** There is none for *data*, by design — everything lives server-side and the app requires a connection. Assets are a separate question and are cached: hashed `/assets/` on CacheFirst, the self-hosted fonts under `/fonts/` on CacheFirst too (they're subset woff2 pulled from Google once by `scripts/fetch-fonts.mjs` and served from our own origin, so the Rulebook look survives offline with no third-party request), same-origin images on StaleWhileRevalidate, the shell on NetworkFirst, Supabase never. What was removed is the precache *manifest*, which is what pinned a stale `index.html` through two deploys — not caching as such. Spec §2 and §12.4.
