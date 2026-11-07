@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-11-07",
+    "title": "Game Nights: Calendar and Replies",
+    "description": "The game nights screen now shows a month calendar right above the list. Tap a day to see what's on, or schedule a game night on that day in one tap. You can also answer Going, Maybe or Can't straight from the list and the calendar, and see how many are coming, without opening the event first. Picking the date for a game night now opens a small calendar instead of a typed date box, with the time chosen from hour and minute lists. The battle date after a game uses the same calendar."
+  },
+  {
     "date": "2026-11-04",
     "title": "Replies to Your Reports",
     "description": "When you report a problem with your name attached, the admin can now answer it. Replies show under Account › Your reports, a dot on your picture tells you there's something new, and if notifications are on you get a push when an answer arrives."

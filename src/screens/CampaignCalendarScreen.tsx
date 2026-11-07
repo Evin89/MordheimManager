@@ -1,49 +1,21 @@
-import { useMemo, useState } from 'react';
 import { campaignPath } from '../lib/activeCampaign';
 import { Link, Navigate } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
-import { CampaignEvent } from '../api/events';
+import EventCalendar from '../components/EventCalendar';
 import { useCampaignEventsQuery } from '../hooks/useEvents';
 import { useRouteCampaign } from '../hooks/useCampaign';
-import { SectionHeading } from '../components/ui';
 import { strings } from '../strings';
-import { dayKey, monthCells } from '../lib/calendar';
-
-function formatTime(iso: string): string {
-  return new Date(iso).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-}
 
 /**
- * Game nights on a month grid.
+ * Game nights on a month grid, on their own screen.
  *
- * A calendar answers a question the list cannot: "are we free that weekend".
- * The list is still the place to *read* an event — this shows shape, so the
- * cells carry a marker and a count rather than trying to fit titles into a
- * 50px square on a phone.
- *
- * No date library. One month grid is about forty lines of arithmetic, and a
- * dependency for it would be larger than the feature.
+ * The calendar now also sits inline on the game-nights screen; this route stays
+ * so existing links to `/campaigns/:id/calendar` keep working. The grid, day
+ * panel and RSVP row all live in the shared `EventCalendar`.
  */
 export default function CampaignCalendarScreen() {
   const { data: campaign, isLoading } = useRouteCampaign();
   const { data: events } = useCampaignEventsQuery(campaign?.id);
-
-  const today = new Date();
-  const [view, setView] = useState({ year: today.getFullYear(), month: today.getMonth() });
-  const [selected, setSelected] = useState<string | null>(dayKey(today));
-
-  const byDay = useMemo(() => {
-    const map = new Map<string, CampaignEvent[]>();
-    for (const e of events ?? []) {
-      const key = dayKey(new Date(e.eventDateTime));
-      map.set(key, [...(map.get(key) ?? []), e]);
-    }
-    // Several games on one day sort by time, not insertion order.
-    for (const list of map.values()) {
-      list.sort((a, b) => a.eventDateTime.localeCompare(b.eventDateTime));
-    }
-    return map;
-  }, [events]);
 
   if (isLoading) {
     return (
@@ -53,27 +25,6 @@ export default function CampaignCalendarScreen() {
     );
   }
   if (!campaign) return <Navigate to="/campaigns" replace />;
-
-  const cells = monthCells(view.year, view.month);
-  const monthLabel = new Date(view.year, view.month, 1).toLocaleDateString(undefined, {
-    month: 'long',
-    year: 'numeric',
-  });
-  const todayKey = dayKey(today);
-  const selectedEvents = selected ? (byDay.get(selected) ?? []) : [];
-
-  function shiftMonth(delta: number) {
-    const d = new Date(view.year, view.month + delta, 1);
-    setView({ year: d.getFullYear(), month: d.getMonth() });
-
-    // Drop a selection that has scrolled out of view. Keeping it left the panel
-    // describing a day the grid no longer shows — reading "Saturday, August 15"
-    // under a July calendar.
-    if (selected) {
-      const [y, m] = selected.split('-').map(Number);
-      if (y !== d.getFullYear() || m - 1 !== d.getMonth()) setSelected(null);
-    }
-  }
 
   return (
     <div className="min-h-full flex flex-col">
@@ -87,108 +38,7 @@ export default function CampaignCalendarScreen() {
           {strings.events.viewAsList}
         </Link>
 
-        <div className="flex items-center justify-between gap-2">
-          <button
-            type="button"
-            onClick={() => shiftMonth(-1)}
-            aria-label={strings.events.previousMonth}
-            className="min-w-[48px] min-h-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold"
-          >
-            ‹
-          </button>
-          <p className="text-bone-100 font-semibold">{monthLabel}</p>
-          <button
-            type="button"
-            onClick={() => shiftMonth(1)}
-            aria-label={strings.events.nextMonth}
-            className="min-w-[48px] min-h-[48px] rounded-md border border-ink-700 text-bone-100 font-semibold"
-          >
-            ›
-          </button>
-        </div>
-
-        <div>
-          <div className="grid grid-cols-7 gap-1 mb-1">
-            {strings.events.weekdayInitials.map((d, i) => (
-              <div
-                key={i}
-                className="text-center font-ui text-xs uppercase tracking-wide text-bone-400"
-              >
-                {d}
-              </div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-7 gap-1">
-            {cells.map((date, i) => {
-              if (!date) return <div key={i} />;
-              const key = dayKey(date);
-              const count = byDay.get(key)?.length ?? 0;
-              const isToday = key === todayKey;
-              const isSelected = key === selected;
-              return (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setSelected(key)}
-                  aria-pressed={isSelected}
-                  className={`min-h-[48px] rounded-md border flex flex-col items-center justify-center gap-0.5 tabular-nums lining-nums transition-colors ${
-                    isSelected
-                      ? 'border-ember-500 bg-ink-800 text-bone-100'
-                      : isToday
-                        ? 'border-ember-500/50 text-bone-100'
-                        : 'border-ink-800 text-bone-300 hover:bg-ink-800'
-                  }`}
-                >
-                  <span className="text-sm">{date.getDate()}</span>
-                  {/* A dot, not the title: a 50px cell cannot hold "Game night
-                      — Session 5", and a truncated title is worse than a mark
-                      that says "something is here, tap to read it". */}
-                  {count > 0 && (
-                    <span className="flex items-center gap-0.5" aria-hidden="true">
-                      {Array.from({ length: Math.min(count, 3) }).map((_, n) => (
-                        <span key={n} className="h-1 w-1 rounded-full bg-ember-400" />
-                      ))}
-                    </span>
-                  )}
-                  {count > 0 && <span className="sr-only">{strings.events.eventCount(count)}</span>}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <section className="space-y-2">
-          <SectionHeading>
-            {selected
-              ? new Date(selected).toLocaleDateString(undefined, {
-                  weekday: 'long',
-                  day: 'numeric',
-                  month: 'long',
-                })
-              : strings.events.pickADay}
-          </SectionHeading>
-          {selectedEvents.length === 0 ? (
-            <p className="text-bone-300 text-sm">{strings.events.nothingOnThisDay}</p>
-          ) : (
-            selectedEvents.map((e) => (
-              <Link
-                key={e.id}
-                to={campaignPath(campaign.id, `events/${e.id}`)}
-                className="block rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-1 hover:border-ink-700 transition-colors"
-              >
-                <p className="text-bone-100 font-semibold">{e.title}</p>
-                <p className="text-bone-300 text-sm">
-                  {formatTime(e.eventDateTime)}
-                  {e.location && ` · ${e.location}`}
-                </p>
-                {e.notes && (
-                  <p className="text-bone-400 text-sm line-clamp-2 whitespace-pre-line">{e.notes}</p>
-                )}
-              </Link>
-            ))
-          )}
-        </section>
+        <EventCalendar campaignId={campaign.id} events={events} />
       </main>
     </div>
   );
