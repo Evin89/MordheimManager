@@ -821,6 +821,26 @@ export async function restoreDeletedWarband(id: string) {
   demoRestoredWarbands.add(id);
 }
 
+export async function fetchAdminDeletionFeedback(days = 90) {
+  return {
+    days,
+    deleted: 58,
+    answered: 31,
+    reasons: [
+      { reason: 'trying_out', n: 12, median_age_hours: 0, median_edits: 3, in_campaign: 0 },
+      { reason: 'starting_over', n: 9, median_age_hours: 5, median_edits: 14, in_campaign: 1 },
+      { reason: 'mistake', n: 5, median_age_hours: 0, median_edits: 1, in_campaign: 0 },
+      { reason: 'finished', n: 3, median_age_hours: 610, median_edits: 88, in_campaign: 2 },
+      { reason: 'problem', n: 2, median_age_hours: 26, median_edits: 9, in_campaign: 0 },
+    ],
+    notes: [
+      { reason: 'problem', note: 'Could not give my champion a second hand weapon.' },
+      { reason: 'starting_over', note: 'Picked the wrong subfaction at the start.' },
+      { reason: 'finished', note: 'Our campaign ended, starting a new one next month.' },
+    ],
+  };
+}
+
 export async function fetchAdminDeletedWarbands() {
   const d = db();
   const day = 86_400_000;

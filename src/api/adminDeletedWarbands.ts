@@ -35,3 +35,28 @@ export async function restoreDeletedWarband(id: string): Promise<void> {
   const { error } = await supabase.rpc('admin_restore_warband', { p_warband_id: id });
   if (error) throw error;
 }
+
+/** §42 — why players delete, from the anonymous answers (migration 0069). */
+export type DeletionReasonRow = {
+  reason: string;
+  n: number;
+  median_age_hours: number | null;
+  median_edits: number | null;
+  in_campaign: number;
+};
+export type DeletionFeedback = {
+  days: number;
+  /** Warbands deleted in the window that are still in the table (not yet purged). */
+  deleted: number;
+  answered: number;
+  reasons: DeletionReasonRow[];
+  /** Latest notes, text and reason only: no player, warband or date. */
+  notes: { reason: string; note: string }[];
+};
+
+export async function fetchAdminDeletionFeedback(days = 90): Promise<DeletionFeedback> {
+  if (isDemoMode()) return demo.fetchAdminDeletionFeedback(days);
+  const { data, error } = await supabase.rpc('admin_deletion_feedback', { p_days: days });
+  if (error) throw error;
+  return data as DeletionFeedback;
+}

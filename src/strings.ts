@@ -1045,6 +1045,23 @@ ${url}`,
     deleteWarbandCampaignAck: (campaign: string) =>
       `I understand this removes it from ${campaign}'s standings.`,
     deleteWarbandRecoverable: 'Deleted warbands are kept, hidden, for 30 days, so within that time this can be reversed on request.',
+    // §42 — the optional "why" on the delete step. Stored without the player's
+    // name or the warband, which the hint says plainly.
+    deleteReason: {
+      question: 'Why are you deleting it? (optional)',
+      why: 'It helps improve the app. Your answer is kept anonymously, without your name or the warband.',
+      options: {
+        trying_out: 'I was just trying the app out',
+        starting_over: "I'm starting it over",
+        mistake: 'I made it by mistake, or twice',
+        finished: "I'm done with it (campaign over, warband retired)",
+        problem: "Something didn't work right",
+        other: 'Something else',
+      },
+      clear: 'Clear my answer',
+      noteLabel: 'Anything to add? (optional)',
+      noteLabelProblem: 'What went wrong? (optional)',
+    },
     addHiredSword: 'Hire a Hired Sword',
     slotFull: 'full',
     slotsUnlimited: 'No limit on this unit',

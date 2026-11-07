@@ -19,6 +19,8 @@ import ShareNudgeCard from '../components/ShareNudgeCard';
 import ShareWarbandPanel from '../components/ShareWarbandPanel';
 import WarbandHealthPanel from '../components/WarbandHealthPanel';
 import ConfirmByTyping from '../components/ConfirmByTyping';
+import DeleteReasonPicker from '../components/DeleteReasonPicker';
+import type { DeleteReason } from '../api/warbands';
 import SaveBar from '../components/SaveBar';
 import { Button, Card, SectionHeading, buttonClasses } from '../components/ui';
 import { strings } from '../strings';
@@ -306,6 +308,9 @@ export default function RosterScreen() {
   const deleteWarband = useDeleteWarbandMutation();
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  // §42 — the optional answer to "why are you deleting it?".
+  const [deleteReason, setDeleteReason] = useState<DeleteReason | null>(null);
+  const [deleteNote, setDeleteNote] = useState('');
   const [confirmUndo, setConfirmUndo] = useState(false);
   const [sharingOpen, setSharing] = useState(false);
   // Named, not just flagged: "drops out of Grudge Season" is a consequence
@@ -348,7 +353,7 @@ export default function RosterScreen() {
       // fire-and-forget navigated away regardless, so a failed delete left the
       // warband in place with nothing but the generic connection banner to
       // explain it. On failure we stay on the page and show the real reason.
-      await deleteWarband.mutateAsync(warband.id);
+      await deleteWarband.mutateAsync({ id: warband.id, feedback: { reason: deleteReason, note: deleteNote } });
       navigate('/warbands', { replace: true });
     } catch (err) {
       setDeleteError(describeError(err));
@@ -540,7 +545,14 @@ export default function RosterScreen() {
             {strings.roster.deleteWarband}
           </Button>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-4">
+            <DeleteReasonPicker
+              reason={deleteReason}
+              note={deleteNote}
+              onReason={setDeleteReason}
+              onNote={setDeleteNote}
+              disabled={deleteWarband.isPending}
+            />
             <ConfirmByTyping
               phrase={warband.name}
               label={strings.roster.deleteWarbandTypeLabel(warband.name)}
@@ -571,6 +583,8 @@ export default function RosterScreen() {
               onClick={() => {
                 setConfirmingDelete(false);
                 setDeleteError(null);
+                setDeleteReason(null);
+                setDeleteNote('');
               }}
               className="w-full min-h-[44px] rounded-md text-bone-300 text-sm"
             >

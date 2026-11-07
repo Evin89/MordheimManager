@@ -15,6 +15,7 @@ import {
   undoLastBattle as undoLastBattleApi,
   updateWarband,
 } from '../api/warbands';
+import type { DeleteFeedback } from '../api/warbands';
 import { ConcurrencyError } from '../api/errors';
 import { Warband, WarbandVisibility } from '../types';
 import { strings } from '../strings';
@@ -212,7 +213,8 @@ export function useDeleteWarbandMutation() {
   // reason inline. `suppressGlobalError` keeps the global connection banner out
   // of it — a delete that fails shouldn't both alert here and there.
   return useMutation({
-    mutationFn: (id: string) => deleteWarbandApi(id, user!.id),
+    mutationFn: ({ id, feedback }: { id: string; feedback?: DeleteFeedback }) =>
+      deleteWarbandApi(id, user!.id, feedback),
     meta: { suppressGlobalError: true },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: warbandsKey(user?.id) }),
   });
