@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import NumberInput from '../../components/NumberInput';
+import DateTimePicker from '../../components/DateTimePicker';
 import { Button, TextField, Textarea, Select } from '../../components/ui';
 import { strings } from '../../strings';
 import { filterScenarios, getCatalogScenarioByName, groupBySource } from '../../lib/scenarioCatalog';
@@ -122,11 +123,11 @@ export default function StepBattleInfo({ warband, draft, updateDraft }: StepProp
         <label className="block text-bone-200 text-sm font-semibold" htmlFor="battle-date">
           {strings.postBattle.battleInfo.dateLabel}
         </label>
-        <TextField
+        <DateTimePicker
           id="battle-date"
-          type="date"
+          dateOnly
           value={draft.date}
-          onChange={(e) => updateDraft({ date: e.target.value })}
+          onChange={(date) => updateDraft({ date })}
         />
       </div>
 

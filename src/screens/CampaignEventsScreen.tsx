@@ -1,5 +1,4 @@
-import { Link, Navigate } from 'react-router-dom';
-import { campaignPath } from '../lib/activeCampaign';
+import { Navigate } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import CampaignEvents from '../components/CampaignEvents';
 import { useRouteCampaign } from '../hooks/useCampaign';
@@ -17,6 +16,10 @@ import { strings } from '../strings';
  * Scoped to the campaign in the address (§40.3: `/campaigns/:id/events`), rather than taking an
  * id: someone arriving here is asking "when are we playing", not "when is that
  * other campaign playing".
+ *
+ * The month calendar sits inline on this screen (with RSVP on upcoming events in
+ * both the calendar and the list), so the old "View as calendar" hop is gone;
+ * `/calendar` still renders the calendar on its own for existing links.
  */
 export default function CampaignEventsScreen() {
   const { data: campaign, isLoading } = useRouteCampaign();
@@ -38,13 +41,6 @@ export default function CampaignEventsScreen() {
       <BackHeader title={strings.events.section} subtitle={campaign.name} />
 
       <main className="flex-1 px-4 py-4 space-y-6">
-        <Link
-          to={campaignPath(campaign.id, 'calendar')}
-          className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
-        >
-          {strings.events.viewAsCalendar}
-        </Link>
-
         <CampaignEvents campaignId={campaign.id} />
       </main>
     </div>
