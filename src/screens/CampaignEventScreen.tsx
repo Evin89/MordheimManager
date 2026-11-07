@@ -9,8 +9,10 @@ import {
   useUpdateEventMutation,
 } from '../hooks/useEvents';
 import { useCampaignMembersQuery, useRouteCampaign } from '../hooks/useCampaign';
-import { useEventRsvpsQuery, useSetRsvpMutation } from '../hooks/useRsvps';
+import { useEventRsvpsQuery } from '../hooks/useRsvps';
 import { RsvpStatus } from '../api/rsvps';
+import { RSVP_OPTIONS, RsvpButtons } from '../components/EventRsvp';
+import DateTimePicker from '../components/DateTimePicker';
 import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
 import { Button, Card, SectionHeading, Field, TextField, Textarea } from '../components/ui';
@@ -19,30 +21,21 @@ import { Button, Card, SectionHeading, Field, TextField, Textarea } from '../com
  * §19.1 — Going / Maybe / Can't for one game night.
  *
  * Tapping the option you already chose withdraws it, so the row doubles as its
- * own "un-RSVP". Names come from the campaign member list the screen already
+ * own "un-RSVP" (the button row is the shared `RsvpButtons`, also used in
+ * the game-night list and calendar). Names come from the campaign member list the screen already
  * loaded rather than a per-row profile join. Anyone who can see the event sees
  * the tally; only members can add their own row (the 0019 policy decides).
  */
 function RsvpSection({
   eventId,
   members,
-  userId,
 }: {
   eventId: string;
   members: { userId: string; displayName: string }[];
-  userId: string | undefined;
 }) {
   const { data: rsvps } = useEventRsvpsQuery(eventId);
-  const setRsvp = useSetRsvpMutation(eventId);
-  const mine = rsvps?.find((r) => r.userId === userId)?.status ?? null;
   const nameOf = (id: string) =>
     members.find((m) => m.userId === id)?.displayName || strings.campaign.unknownWarband;
-
-  const options: { value: RsvpStatus; label: string }[] = [
-    { value: 'going', label: strings.events.rsvp.going },
-    { value: 'maybe', label: strings.events.rsvp.maybe },
-    { value: 'cant', label: strings.events.rsvp.cant },
-  ];
 
   const byStatus = (status: RsvpStatus) => (rsvps ?? []).filter((r) => r.status === status);
 
@@ -50,29 +43,13 @@ function RsvpSection({
     <section className="space-y-3">
       <SectionHeading>{strings.events.rsvp.heading}</SectionHeading>
 
-      <div className="flex gap-2">
-        {options.map((o) => {
-          const active = mine === o.value;
-          return (
-            <Button
-              key={o.value}
-              variant={active ? 'primary' : 'secondary'}
-              size="dense"
-              fullWidth={false}
-              onClick={() => setRsvp(active ? null : o.value)}
-              className="flex-1"
-            >
-              {o.label}
-            </Button>
-          );
-        })}
-      </div>
+      <RsvpButtons eventId={eventId} />
 
       {(rsvps?.length ?? 0) === 0 ? (
         <p className="text-bone-300 text-sm">{strings.events.rsvp.noneYet}</p>
       ) : (
         <div className="space-y-2">
-          {options.map((o) => {
+          {RSVP_OPTIONS.map((o) => {
             const people = byStatus(o.value);
             if (people.length === 0) return null;
             return (
@@ -88,7 +65,7 @@ function RsvpSection({
   );
 }
 
-/** `datetime-local` wants local wall-clock `YYYY-MM-DDTHH:mm`, not an ISO
+/** The date picker wants local wall-clock `YYYY-MM-DDTHH:mm`, not an ISO
  * instant. Building it from local parts keeps the value the user originally
  * picked; going through toISOString would shift it by the UTC offset every
  * time the form was opened. */
@@ -208,7 +185,7 @@ export default function CampaignEventScreen() {
               )}
             </Card>
 
-            <RsvpSection eventId={event.id} members={members ?? []} userId={user?.id} />
+            <RsvpSection eventId={event.id} members={members ?? []} />
 
             {event.notes && (
               <section className="space-y-2">
@@ -262,11 +239,10 @@ export default function CampaignEventScreen() {
             </Field>
 
             <Field label={strings.events.whenLabel} htmlFor="edit-when">
-              <TextField
+              <DateTimePicker
                 id="edit-when"
-                type="datetime-local"
                 value={draft?.when ?? ''}
-                onChange={(e) => setDraft((d) => (d ? { ...d, when: e.target.value } : d))}
+                onChange={(when) => setDraft((d) => (d ? { ...d, when } : d))}
               />
             </Field>
 
