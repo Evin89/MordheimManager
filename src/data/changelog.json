@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-11-08",
+    "title": "Solo: Enemy Equipment",
+    "description": "The AI opponent's roster in a solo battle now lists what each enemy model carries, under its profile. Henchmen groups show the loadout each member has."
+  },
+  {
     "date": "2026-11-07",
     "title": "Terms: Games Workshop Text",
     "description": "Section 6 of the Terms of Use said the app contains no Games Workshop text. That was no longer true: rules and warband backgrounds are quoted word for word from the fan transcriptions on Mordheimer. The section now says so, and that the text stays Games Workshop's property. It also says the app itself is not open source."
