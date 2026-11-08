@@ -1,4 +1,4 @@
-import { Warband, StatLine } from '../../types';
+import { Warband, StatLine, EquipmentItem } from '../../types';
 import { NpcTemperament, suggestNpcAction } from '../../lib/solo/npc';
 
 const STAT_KEYS: (keyof StatLine)[] = ['M', 'WS', 'BS', 'S', 'T', 'W', 'I', 'A', 'Ld'];
@@ -15,6 +15,13 @@ function StatRow({ stats }: { stats: StatLine }) {
   );
 }
 
+/** "Sword, Dagger ×2" — duplicates are separate rows in the data, so count them here. */
+function equipmentSummary(items: EquipmentItem[]): string {
+  const counts = new Map<string, number>();
+  for (const i of items) counts.set(i.name, (counts.get(i.name) ?? 0) + 1);
+  return [...counts].map(([name, n]) => (n > 1 ? `${name} ×${n}` : name)).join(', ');
+}
+
 type Model = {
   id: string;
   name: string;
@@ -22,12 +29,13 @@ type Model = {
   isLeader: boolean;
   isAnimal: boolean;
   stats: StatLine;
+  equipment: EquipmentItem[];
   count?: number;
 };
 
 /**
  * The AI opponent's roster for the table-side solo tracker: each model with its
- * statline, a per-turn activation *suggestion* (app-original, badged), and a
+ * statline and equipment, a per-turn activation *suggestion* (app-original, badged), and a
  * tap-to-mark out-of-action toggle. The suggestions read off the profile and the
  * warband's temperament — guidance, never an authoritative move.
  */
@@ -52,6 +60,7 @@ export default function NpcRoster({
       isLeader: h.isLeader,
       isAnimal: false,
       stats: h.stats,
+      equipment: h.equipment,
     })),
     ...warband.henchmenGroups.map((g) => ({
       id: g.id,
@@ -60,6 +69,7 @@ export default function NpcRoster({
       isLeader: false,
       isAnimal: g.isAnimal,
       stats: g.stats,
+      equipment: g.equipment,
       count: g.count,
     })),
   ];
@@ -103,6 +113,11 @@ export default function NpcRoster({
               </button>
             </div>
             <StatRow stats={m.stats} />
+            <p className="text-bone-300 text-xs">
+              <span className="text-bone-400">Equipment</span>{' '}
+              {m.equipment.length > 0 ? equipmentSummary(m.equipment) : 'None'}
+              {m.count && m.count > 1 && m.equipment.length > 0 ? <span className="text-bone-400"> (each)</span> : null}
+            </p>
             {!down && <p className="text-bone-300 text-sm">{suggestion}</p>}
           </li>
         );
