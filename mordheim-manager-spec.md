@@ -879,10 +879,11 @@ The operator chores with no "where the thing lives" home (§4.6) because they ar
 
 **Demo mode.** `demo.fetchAdminCampaignContent` composes the existing member-side demo fetchers, so the admin screen shows exactly what the demo campaign screen shows.
 
-#### 4.9.9 Activity charts — edits, warbands, campaigns ✅ _(migration 0068)_
+#### 4.9.9 Activity charts — players, edits, warbands, campaigns ✅ _(migrations 0068, 0070)_
 
 The Growth panel's daily series (§23.5) counts signups, new warbands and battles. It can't tell whether players keep working on their rosters, how many warbands get thrown away, or whether campaigns are alive. Overview now has an **Activity** section above Growth that answers those three questions.
 
+- **Players** _(migration 0070)_: *Active players* — distinct players per bucket who opened the app (`user_visits`, §4.9.4.1) or left any trace (a warband, an edit, a battle, a join, an RSVP, a comment). Same definition as `_active_players()` behind the weekly report (0055), so the chart and the report agree. One measure, so it gets the full row. App opens are logged since 27 September 2026 (0052); earlier days count actions only and read low, and the hint says so.
 - **Edits:** *Warband edits* (one per saved roster change, from `warband_edits`, §0035) and *Players editing* (distinct editors).
 - **Warbands:** *Warbands created* (soft-deleted ones included) and *Warbands deleted* (by `deleted_at`).
 - **Campaigns:** *Active campaigns* (distinct campaigns with a battle, a join, a game night, a log entry or an edit to a warband entered in it), *Campaign battles* (friendly games excluded), *Players joining* (creators included), *Campaigns created*, *Game nights planned*.
@@ -891,7 +892,7 @@ The Growth panel's daily series (§23.5) counts signups, new warbands and battle
 
 **Range.** One control for all charts: *30 days* (daily buckets) or *26 weeks* (ISO weeks, Monday first). Buckets are in the admin's own time zone (`Intl` → `_valid_tz`), never server `::date`.
 
-**`admin_activity_breakdown(p_bucket, p_count, p_tz)`**, SECURITY DEFINER, admin-asserted first, `authenticated` only. One round trip returns every series over the same zero-filled buckets plus a total per series. Totals of the distinct measures (*Players editing*, *Active campaigns*) are distinct over the whole range, not the sum of the buckets. Content-blind like §4.9.7: kinds and counts only. About 100 ms on production data for 30 days. `supabase/db-tests/admin-activity-breakdown.sql` (21 checks) covers the counts, the distinct totals, the week buckets, and that players and anon are refused.
+**`admin_activity_breakdown(p_bucket, p_count, p_tz)`**, SECURITY DEFINER, admin-asserted first, `authenticated` only. One round trip returns every series over the same zero-filled buckets plus a total per series. Totals of the distinct measures (*Active players*, *Players editing*, *Active campaigns*) are distinct over the whole range, not the sum of the buckets. Content-blind like §4.9.7: kinds and counts only. About 100 ms on production data for 30 days. `supabase/db-tests/admin-activity-breakdown.sql` (26 checks) covers the counts, the distinct totals (incl. a visit-only player and a deletion that is not activity), the week buckets, and that players and anon are refused.
 
 Edits are only recorded since 14 September 2026, so earlier weeks in the 26-week view are empty; the chart's note says so.
 

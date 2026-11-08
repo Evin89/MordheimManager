@@ -3,7 +3,7 @@ import { useAdminActivityBreakdownQuery } from '../hooks/useIssues';
 import type { ActivityBreakdown, ActivityBucket, ActivityKind } from '../api/adminAnalytics';
 
 /**
- * §4.9.9 — edit, warband and campaign activity on /admin, as small multiples.
+ * §4.9.9 — player, edit, warband and campaign activity on /admin, as small multiples.
  *
  * One small bar chart per measure rather than one chart with many coloured
  * series: the measures run at very different scales (thousands of edits beside
@@ -34,6 +34,17 @@ type Measure = {
 type Group = { title: string; hint: string; measures: Measure[] };
 
 const GROUPS: Group[] = [
+  {
+    title: 'Players',
+    hint: 'Active: opened the app or did anything (warband, edit, battle, join, RSVP, comment) that day. App opens are logged since 27 September 2026 (migration 0052); earlier days count actions only.',
+    measures: [
+      {
+        kind: 'active_players',
+        label: 'Active players',
+        total: (n) => `${n} different ${n === 1 ? 'player' : 'players'}`,
+      },
+    ],
+  },
   {
     title: 'Edits',
     hint: 'Every saved change to a roster counts as one edit. Recorded since 14 September 2026 (migration 0035).',
@@ -95,6 +106,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 
 function MiniBars({ data, measure }: { data: ActivityBreakdown; measure: Measure }) {
   const [hover, setHover] = useState<number | null>(null);
+  const missing = data.series[measure.kind] === undefined;
   const values = data.series[measure.kind] ?? [];
   const peak = Math.max(1, ...values);
   const total = data.totals[measure.kind] ?? 0;
@@ -108,7 +120,9 @@ function MiniBars({ data, measure }: { data: ActivityBreakdown; measure: Measure
         {/* Reads the hovered bucket, or the range total when nothing is hovered.
             Text tokens only — the bar beside it carries the colour. */}
         <span className="font-ui text-xs tabular-nums lining-nums text-bone-300 text-right" aria-live="polite">
-          {hover === null
+          {missing
+            ? 'Needs a newer migration'
+            : hover === null
             ? measure.total(total)
             : `${formatBucket(data.buckets[hover], data.bucket)}: ${values[hover]}`}
         </span>
@@ -246,7 +260,8 @@ export default function AdminActivityCharts() {
               <Eyebrow>{group.title}</Eyebrow>
               <p className="font-ui text-xs text-bone-400">{group.hint}</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {/* A group with one measure gets the full width rather than half a row. */}
+            <div className={`grid grid-cols-1 gap-2 ${group.measures.length > 1 ? 'sm:grid-cols-2' : ''}`}>
               {group.measures.map((m) => (
                 <MiniBars key={m.kind} data={data} measure={m} />
               ))}
