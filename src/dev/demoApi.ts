@@ -756,13 +756,14 @@ export async function fetchActivityBreakdown(bucket: 'day' | 'week', count: numb
     campaign_joins: buckets.map((_, i) => (i % 4 === 1 ? wave(i, 1, 2) : 0)),
     game_nights: buckets.map((_, i) => (i % 6 === 2 ? 1 : 0) * Math.ceil(step / 3)),
     active_campaigns: buckets.map((_, i) => wave(i, 1, 3)),
+    active_players: buckets.map((_, i) => wave(i, 8, 9)),
   };
   const sum = (xs: number[]) => xs.reduce((a, b) => a + b, 0);
   const totals = Object.fromEntries(
     Object.entries(series).map(([k, xs]) => [
       k,
       // Distinct kinds over a range are fewer than the sum of their buckets.
-      k === 'editors' || k === 'active_campaigns' ? Math.max(...xs) + 3 : sum(xs),
+      k === 'editors' || k === 'active_campaigns' || k === 'active_players' ? Math.max(...xs) + 3 : sum(xs),
     ]),
   ) as Record<keyof typeof series, number>;
   return { bucket, from: buckets[0], to: buckets[buckets.length - 1], buckets, series, totals };

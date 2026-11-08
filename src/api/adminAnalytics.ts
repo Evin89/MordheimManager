@@ -24,7 +24,7 @@ export type TimeToActivation = {
   battle: { reached: number; median_hours: number | null };
 };
 export type ActivityDay = { day: string; signups: number; warbands: number; battles: number };
-/** §4.9.9 — the series behind the admin activity charts (migration 0068). */
+/** §4.9.9 — the series behind the admin activity charts (migrations 0068, 0070). */
 export const ACTIVITY_KINDS = [
   'edits',
   'editors',
@@ -35,13 +35,14 @@ export const ACTIVITY_KINDS = [
   'campaign_joins',
   'game_nights',
   'active_campaigns',
+  'active_players',
 ] as const;
 export type ActivityKind = (typeof ACTIVITY_KINDS)[number];
 export type ActivityBucket = 'day' | 'week';
 /**
  * Every series over the same zero-filled buckets (`YYYY-MM-DD`, a day or the
  * Monday of a week, in the admin's zone). `totals` are over the whole range,
- * so the distinct kinds (`editors`, `active_campaigns`) are not the sum of
+ * so the distinct kinds (`editors`, `active_campaigns`, `active_players`) are not the sum of
  * their buckets.
  */
 export type ActivityBreakdown = {

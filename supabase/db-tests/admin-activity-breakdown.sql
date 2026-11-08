@@ -1,8 +1,9 @@
--- §4.9.9 admin_activity_breakdown (migration 0068).
+-- §4.9.9 admin_activity_breakdown (migrations 0068, 0070).
 insert into auth.users (id, email) values
   ('00000000-0000-0000-0000-0000000000ad', 'admin@example.test'),
   ('00000000-0000-0000-0000-0000000000b1', 'one@example.test'),
-  ('00000000-0000-0000-0000-0000000000b2', 'two@example.test');
+  ('00000000-0000-0000-0000-0000000000b2', 'two@example.test'),
+  ('00000000-0000-0000-0000-0000000000b3', 'three@example.test');
 insert into public.admins (user_id) values ('00000000-0000-0000-0000-0000000000ad');
 
 insert into public.campaigns (id, name, created_by) values
@@ -36,6 +37,12 @@ insert into public.battles (campaign_id, reported_by, data) values
   (null, '00000000-0000-0000-0000-0000000000b2', '{}');
 insert into public.campaign_events (campaign_id, title, event_datetime, created_by) values
   ('c0000000-0000-0000-0000-0000000000c1', 'Game night', now() + interval '3 days', '00000000-0000-0000-0000-0000000000b1');
+
+-- App opens (0070's active players): the admin today, and a third player who
+-- only opened the app four days ago and did nothing else.
+insert into public.user_visits (user_id, visit_day, first_seen_at) values
+  ('00000000-0000-0000-0000-0000000000ad', current_date, now()),
+  ('00000000-0000-0000-0000-0000000000b3', current_date - 4, now() - interval '4 days');
 
 -- A player cannot read it.
 select t.login('00000000-0000-0000-0000-0000000000b1');
@@ -82,6 +89,13 @@ select t.ok((select (r->'totals'->>'active_campaigns')::int = 1 from d), 'active
 select t.ok((select (r->'series'->'edits'->>6)::int = 4 from d), 'today: 4 edits');
 select t.ok((select (r->'series'->'edits'->>4)::int = 1 from d), 'two days ago: 1 edit');
 select t.ok((select (r->'series'->'editors'->>6)::int = 2 from d), 'today: 2 players editing');
+
+-- Active players (0070): opened the app or did anything that day.
+select t.ok((select (r->'series'->'active_players'->>6)::int = 3 from d), 'today: 3 active players (two acting, one visit only)');
+select t.ok((select (r->'series'->'active_players'->>5)::int = 0 from d), 'yesterday: a deletion alone is not activity');
+select t.ok((select (r->'series'->'active_players'->>4)::int = 1 from d), 'two days ago: the player who edited');
+select t.ok((select (r->'series'->'active_players'->>2)::int = 1 from d), 'four days ago: a visit with no action still counts');
+select t.ok((select (r->'totals'->>'active_players')::int = 4 from d), 'active players total: distinct over the range, not a sum');
 
 -- Weekly: four buckets, and the 20-day-old edit is now in range.
 select t.ok((select jsonb_array_length(r->'buckets') = 4 from w), '4 weekly buckets');
