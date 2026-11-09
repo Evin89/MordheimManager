@@ -325,8 +325,22 @@ export default function EventSheetScreen() {
         };
       }),
     }));
-  const slipPages = packSlips(slipData);
-  const hasSlips = slipData.length > 0;
+  // Nothing paired yet: print blank slips (numbered) so the set is complete
+  // and a group that pairs at the table with dice can still use them.
+  const unpairedSlips = slipData.length === 0 && printRound !== -1;
+  const blankSlipCount = Math.max(3, Math.ceil(hereOf(roundIndex).length / 2));
+  const shownSlips: SlipData[] = unpairedSlips
+    ? Array.from({ length: blankSlipCount }, (_, i) => ({
+        key: `blank-${i}`,
+        round: roundIndex + 1,
+        table: i + 1,
+        players: 2,
+        scenario: '',
+        sides: [],
+      }))
+    : slipData;
+  const slipPages = packSlips(shownSlips);
+  const hasSlips = shownSlips.length > 0;
 
   const campaignStandings = (standings ?? [])
     .filter((s) => s.warbandId)
@@ -734,10 +748,13 @@ export default function EventSheetScreen() {
           <Field label={S.printSlips} htmlFor="print-round">
             <Select
               id="print-round"
-              value={slipRoundIndex === null ? '-1' : String(slipRoundIndex)}
-              onChange={(e) => setPrintRound(Number(e.target.value))}
+              value={printRound === null ? '' : String(printRound)}
+              onChange={(e) => setPrintRound(e.target.value === '' ? null : Number(e.target.value))}
             >
-              <option value="-1">—</option>
+              <option value="">
+                {slipRound ? S.roundN((slipRoundIndex ?? 0) + 1) : S.slipsBlankOption(roundIndex + 1)}
+              </option>
+              <option value="-1">{S.slipsNone}</option>
               {state.rounds.map((r, i) =>
                 r.tables.length ? (
                   <option key={i} value={i}>
@@ -794,6 +811,11 @@ export default function EventSheetScreen() {
         </Card>
       </main>
 
+      {unpairedSlips && (
+        <p className="print:hidden max-w-[750px] mx-auto mb-3 rounded-md border border-ember-500/60 bg-ember-500/10 px-3 py-2 text-sm text-bone-100">
+          {S.slipsUnpaired(roundIndex + 1)}
+        </p>
+      )}
       {/* The sheet. `print-sheet` puts it in ink on white whatever the theme (index.css). */}
       <div className="print-sheet mx-auto max-w-[750px] px-0 pb-8 print:max-w-none print:p-0">
         {printRoster && (
@@ -801,6 +823,7 @@ export default function EventSheetScreen() {
             heading={heading}
             common={common}
             rows={rosterRows}
+            blankRows={rosterRows.length === 0 ? 12 : 0}
             roundCount={state.rounds.length}
             showRecord={showRecord}
             challengeRule={state.method === 'choose' && state.showChallengeRule}
@@ -815,11 +838,11 @@ export default function EventSheetScreen() {
             pages={slipPages}
             heading={heading}
             common={common}
-            subtitle={`${title} · ${S.roundN((slipRoundIndex ?? 0) + 1).toLowerCase()}`}
+            subtitle={`${title} · ${S.roundN(unpairedSlips ? roundIndex + 1 : (slipRoundIndex ?? 0) + 1).toLowerCase()}`}
             note={S.ratingsAt(time, slipRoundIndex ? slipRoundIndex : null)}
             pageLabel={(i) => {
               const before = slipPages.slice(0, i).reduce((n, p) => n + p.length, 0);
-              return `${S.slipsPageLabel((slipRoundIndex ?? 0) + 1, before + 1, before + slipPages[i].length, slipData.length)} · ${S.pageOf(nRoster + i + 1, total)}`;
+              return `${S.slipsPageLabel(unpairedSlips ? roundIndex + 1 : (slipRoundIndex ?? 0) + 1, before + 1, before + slipPages[i].length, shownSlips.length)} · ${S.pageOf(nRoster + i + 1, total)}`;
             }}
           />
         )}
