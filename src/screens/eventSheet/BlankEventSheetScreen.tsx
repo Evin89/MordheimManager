@@ -3,7 +3,7 @@ import { Button } from '../../components/ui';
 import { useStoreLogo } from '../../lib/storeLogo';
 import { capture } from '../../lib/posthog';
 import { strings } from '../../strings';
-import { CampaignPages, RosterPages, SheetCommon, SheetHeading, SlipData, SlipPages } from './SheetPages';
+import { CampaignPages, RosterPages, SheetCommon, SheetHeading, SheetPreview, SlipData, SlipPages } from './SheetPages';
 
 const S = strings.eventSheet;
 
@@ -67,7 +67,8 @@ export default function BlankEventSheetScreen() {
         </div>
       </div>
 
-      <div className="print-sheet mx-auto max-w-[750px] py-4 print:max-w-none print:p-0">
+      <div className="py-4 print:p-0">
+      <SheetPreview>
         <RosterPages
           heading={heading}
           common={common}
@@ -103,6 +104,7 @@ export default function BlankEventSheetScreen() {
           subtitle=""
           pageLabel={() => S.campaignTitle}
         />
+      </SheetPreview>
       </div>
     </div>
   );
