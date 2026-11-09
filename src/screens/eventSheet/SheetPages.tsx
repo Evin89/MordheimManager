@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { strings } from '../../strings';
 import { underdogFor, underdogTableText } from '../../lib/underdog';
 import type { RoundCell } from '../../lib/eventSheet';
@@ -32,6 +32,52 @@ export type SheetHeading = {
   when: string;
   location: string;
 };
+
+/* ------------------------------------------------------------ preview */
+
+/** The sheet's laid-out width on screen: A4 content (718px) plus the page padding. */
+const SHEET_WIDTH = 750;
+
+/**
+ * Shows the A4 pages at their real layout width, scaled down to fit a narrow
+ * screen. Without this a phone squeezes the fixed-size slips into ~360px and
+ * the boxes run over each other. Printing ignores the scale entirely: the
+ * transform and the fixed height are screen-only.
+ */
+export function SheetPreview({ children }: { children: ReactNode }) {
+  const outer = useRef<HTMLDivElement>(null);
+  const inner = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+  const [height, setHeight] = useState<number | undefined>(undefined);
+
+  useLayoutEffect(() => {
+    const o = outer.current;
+    const i = inner.current;
+    if (!o || !i) return;
+    const measure = () => {
+      const s = Math.min(1, o.clientWidth / SHEET_WIDTH);
+      setScale(s);
+      setHeight(i.offsetHeight * s);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(o);
+    ro.observe(i);
+    return () => ro.disconnect();
+  }, []);
+
+  return (
+    <div ref={outer} className="w-full max-w-[750px] mx-auto overflow-hidden print:overflow-visible print:max-w-none print:!h-auto" style={{ height }}>
+      <div
+        ref={inner}
+        className="print-sheet w-[750px] origin-top-left print:w-auto print:!transform-none"
+        style={{ transform: scale < 1 ? `scale(${scale})` : undefined }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
 
 /* ------------------------------------------------------------ primitives */
 

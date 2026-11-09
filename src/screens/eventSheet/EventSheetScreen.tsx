@@ -50,6 +50,7 @@ import {
   SheetCommon,
   SheetHeading,
   SlipData,
+  SheetPreview,
   SlipPages,
   rosterPageCount,
 } from './SheetPages';
@@ -817,7 +818,8 @@ export default function EventSheetScreen() {
         </p>
       )}
       {/* The sheet. `print-sheet` puts it in ink on white whatever the theme (index.css). */}
-      <div className="print-sheet mx-auto max-w-[750px] px-0 pb-8 print:max-w-none print:p-0">
+      <div className="pb-8 print:p-0">
+      <SheetPreview>
         {printRoster && (
           <RosterPages
             heading={heading}
@@ -856,6 +858,7 @@ export default function EventSheetScreen() {
             pageLabel={(i) => `${S.campaignTitle} · ${S.pageOf(nRoster + nSlips + i + 1, total)}`}
           />
         )}
+      </SheetPreview>
       </div>
     </div>
   );
