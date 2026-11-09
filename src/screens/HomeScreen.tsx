@@ -53,6 +53,13 @@ function AboutSection() {
       {/* Community entry point (§4.10) — reaches signed-out visitors too, since
           AboutSection is on both Home views. */}
       <DiscordLink />
+      {/* §44.1 — Resources reachable from the bottom of every Home view, signed in or out. */}
+      <Link
+        to="/resources"
+        className="block min-h-[44px] leading-[44px] text-ember-400 font-semibold"
+      >
+        {strings.home.resourcesLink}
+      </Link>
       <Link
         to="/account/changelog"
         className="block min-h-[44px] leading-[44px] text-ember-400 font-semibold"
@@ -97,6 +104,17 @@ function SignedOutHome() {
             </Link>
             <Link to="/gallery" className={buttonClasses('secondary')}>
               {strings.home.browseGallery}
+            </Link>
+            {/* §44.1 — everything public is listed here, so a signed-out visitor
+                can find it without knowing which tab hides it. */}
+            <Link to="/resources" className={buttonClasses('secondary')}>
+              {strings.home.browseResources}
+            </Link>
+            <Link to="/dice" className={buttonClasses('secondary')}>
+              {strings.home.openDice}
+            </Link>
+            <Link to="/map" className={buttonClasses('secondary')}>
+              {strings.home.openMap}
             </Link>
           </div>
         </section>

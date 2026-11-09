@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- §44.1 — public pages only. The rules reference stays out on purpose (§3: GW-sourced
+     content is kept out of public crawl paths). Add a line here for every new resource. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://mordheimmanager.net/</loc></url>
+  <url><loc>https://mordheimmanager.net/about</loc></url>
+  <url><loc>https://mordheimmanager.net/app/resources</loc></url>
+  <url><loc>https://mordheimmanager.net/app/resources/event-sheet</loc></url>
+  <url><loc>https://mordheimmanager.net/app/resources/roster</loc></url>
+  <url><loc>https://mordheimmanager.net/downloads/mordheim-manager-event-sheet-a4.pdf</loc></url>
+  <url><loc>https://mordheimmanager.net/downloads/mordheim-manager-event-sheet-letter.pdf</loc></url>
+  <url><loc>https://mordheimmanager.net/downloads/mordheim-manager-roster-a4.pdf</loc></url>
+  <url><loc>https://mordheimmanager.net/downloads/mordheim-manager-roster-letter.pdf</loc></url>
+  <url><loc>https://mordheimmanager.net/privacy</loc></url>
+  <url><loc>https://mordheimmanager.net/terms</loc></url>
+</urlset>
