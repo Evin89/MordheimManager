@@ -4042,3 +4042,314 @@ Then an optional note (500 characters; its label becomes "What went wrong?" for 
 ### 42.4 Privacy
 
 The privacy policy (§3) says so: the answer and note are stored with the warband's type, age, edit count and campaign flag, but not the player's name, account or the warband, and are used only to improve the app.
+
+---
+
+## 43. Printable event sheet — rounds, battle slips and a roster ✅ _(specced and built 2026-11-09, for UX/UI testing; see §43.14)_
+
+**Why.** The warband sheet (§4.1.1) is what a *player* brings to the table. The game night itself still runs on a scrap of paper: who turned up, who plays whom, which scenario on which table, who won, who's the underdog. The app already knows most of that — the event (§4.5), who said Going (§19.1), every entered warband and its rating, the scenario suggester (§21.3), the campaign's house rules. This section turns that into a printed set: a roster for the organiser, one slip per battle for the players, and a campaign page for the pinboard. Each has blank boxes for what only the evening can fill in, so the results can be typed into the post-battle wizard (§4.3) afterwards.
+
+**Built for events of any size, with several rounds.** A club night is 4–6 people and one battle each. A store event is 20 players and three rounds. The first draft (one page with three tables) failed a 20-player dry run: the attendance list ran off page 1, the bookkeeping grid ran off page 2, and twenty people can't share one sheet of paper. **A warband's rating changes after every battle** (XP, new recruits, deaths), and the underdog bonus for round 2 has to come from the round-2 rating. So the rating belongs to each battle, not to the warband for the whole evening.
+
+It is a **sheet, not a tournament system.** It records nothing in the database, creates no battles and applies no outcome (§1). It's a printout made from data that already exists.
+
+### 43.1 Route & entry point
+
+- `/campaigns/:campaignId/events/:eventId/print` → `EventPrintScreen`, guarded, beside the existing event routes (App.tsx, before the `/campaigns/:campaignId/:tab` catch-all).
+- **Entry:** a *Print event sheet* button on the event detail screen (`/campaign/events/:id`, §4.5), shown to every member. ✅ **Decided — Who can print**: any member, since RLS already lets every member read everything on the sheet, and the person with a printer isn't always the leader.
+- Hidden for past events? No — reprinting last week's sheet to finish typing in the results is a real case.
+
+**Design.** Mockup of the set (roster, battle slips, campaign page, plus blank versions): https://claude.ai/artifact/1ZZg6LnRXoeugBUYhVA35E — shown for a 20-warband event after round 1, with the round-2 slips. Build to it with the warband sheet's primitives (§4.1.1): 2px ink frames, IM Fell SC section heads over a 2px rule, Alegreya Sans labels.
+
+### 43.2 Output — same print path as §4.1.1
+
+Reuse the warband sheet's approach exactly: a real route rendered inside `.print-sheet` (theme variables redefined to ink on white, **outside** `@media print`), a 750px preview that breaks lines where A4 will, `print-color-adjust: exact`, the browser's print dialog for paper or "Save as PDF". No PDF library. Portrait A4, 10mm margins.
+
+The screen has two parts: a **setup panel** above the sheet (hidden in print, `print:hidden`) where the organiser makes the pairings, and the **sheet** itself, which updates live.
+
+### 43.3 The set — three kinds of page
+
+The printout is a **set**: one roster, one slip per battle, and one campaign page. Each part grows on its own, so a page never overflows; it continues onto the next page of the same kind.
+
+| Page | One per | Holds | Grows by |
+| --- | --- | --- | --- |
+| **Roster & rounds** | event | Every warband taking part, and for each round: table, result, rating after | 28 warbands per page, then a continuation page with the same header |
+| **Battle slips** | round | One slip per battle, cut apart along dashed lines: 3 two-player slips per A4, or 2 multiplayer slips, packed in table order (§43.3.2a) | 10 tables → 4 pages per round |
+| **The campaign** | event, optional | Standings before the event, territories, ruled lines for the Campaign Log | Standings run to as many rows as the campaign has warbands (20 per page) |
+
+Page numbers count the whole set ("Round 2 · slips 1–3 of 10 · page 2 of 6"). Each page is a `break-after: page` block of fixed height, and a slip never splits across two pages.
+
+### 43.3.1 Roster & rounds
+
+- **Header:** event title · campaign · date, time and location. Boxes for *Warbands* and *Rounds*.
+- **Grid**, one row per warband taking part, sorted A–Z by warband name: ☐ here · warband · player · *Start* rating, then for each round three narrow columns: **Tbl** (table number), **W/L/D**, **After** (rating after that battle). A 2px rule separates the rounds. The number of rounds comes from the setup panel (1–5). The grid fits 3 rounds at A4 portrait; 4–5 rounds switch the roster page to landscape.
+- A one-line note over the grid: *Rating changes after every battle. Write the new rating in, and play the next round with it.*
+- **Printed from the app partway through the event**, the grid arrives filled for the rounds already entered: table, result and new rating come from the battle log and the warbands' current `rating`. The *printed at* line says so: "Printed 15:10 · after round 1 · ratings as entered in the app".
+- **Footer:** house rules that differ from the default, the Mordheim Manager credit (§43.12), *printed at*, page number.
+
+### 43.3.2 Battle slips
+
+One slip is one battle. It goes to the table, the two players fill in their own half, and it comes back to the organiser, who copies the result into the roster. The same slip is what each player types into the post-battle wizard later.
+
+- **Top strip:** **Round N · Table N** (large, small caps) · scenario.
+- **Two sides** (A left, B right): warband name, player · type, and a boxed **Rating at start**: filled in from the app, blank on a blank slip. Between them: *vs*, the rating gap and the **underdog bonus** (§43.6), worked out from *these* ratings.
+- **Per side, the post-battle half:** OOA heroes · XP gained · Injuries · Exploration ☐☐☐☐☐☐ · Wyrdstone · Gold ± · **New rating** · ☐ *in the app*.
+- **Middle:** Result ☐ A ☐ Draw ☐ B, and Routed ☐ A ☐ B.
+- A dashed **cut** line under each slip.
+- **Footer:** the underdog table, printed small, because the slips are where people work it out, and the Mordheim Manager credit.
+- **Multiplayer tables** (3–4 warbands) get their own slip, the **multiplayer battle slip** (§43.3.2a).
+
+### 43.3.2a Multiplayer battle slip _(designed 2026-11-09)_
+
+Used for a three-way table (odd numbers, §43.5.4) and for every table in a multiplayer round.
+
+- **Top strip:** **Round N · Table N** · *3 warbands* or *4 warbands* · scenario.
+- **Underdog line:** "lowest vs next-lowest rating: 171 vs 152 · gap 19 → no underdog". Only the lowest-rated warband can get the bonus (§43.6). It's marked in its row (*· +1*).
+- **One row per warband,** lettered A–D, sorted by rating at start, highest first:
+  - line 1: warband name · player · type · **Rating at start** (boxed) · ☐ **Winner** ☐ **Routed**
+  - line 2: OOA heroes · XP · Injuries
+  - line 3: Exploration ☐☐☐☐☐☐ · Wyrdstone · Gold ± · **New rating** · ☐ *in the app*
+- **One winner, everyone else loses.** That matches how Mordheim's multiplayer scenarios are decided. On the roster the winner gets W and the others L. A table with no winner ticked (time called) is a draw for all.
+- **Notes** line, then the dashed *cut* line.
+- **Size:** a 4-warband slip is about 420px tall, a 3-warband slip about 340px, and a 2-player slip about 265px. Slip pages are **packed in table order**: the next slip goes on the page if it fits, otherwise it starts a new page. Never split. A mixed round (nine 1v1 tables + one three-way) prints on the same slip pages.
+- **Blank version (§44):** a page of two 4-row slips, with "for a table of 3, leave row D empty" in the footer.
+
+### 43.3.3 The campaign _(toggle, on by default)_
+
+Standings before the event (W/L/D, rating, from `useStandingsQuery`), territories held (§17.1), and five ruled lines *For the Campaign Log*. Useful on the club's pinboard. The standings continue onto a second page past 20 warbands.
+
+### 43.4 Rounds and ratings — how printing works through the event
+
+The app can't know round-2 pairings before round 1 is played, and it can't know the new ratings until someone enters them. So the sheet is printed **once per round**, not once per event:
+
+1. **Before the event:** *Print* gives the roster (empty round columns), the round-1 slips (ratings as they are now) and the campaign page.
+2. **After each round** the players run their own post-battle wizards on their phones. That updates their warband, and its `rating` on the row, which is the number the pairing and the slips read.
+3. **Pair round 2** in the setup panel reads those current ratings, and the roster shows each warband's battle and result. **Print round 2** prints only the round-2 slips and a fresh roster.
+4. **No phones, or no time?** Then the roster and slips do it on paper: write *New rating* on the slip, copy it to *After* on the roster, and pair the next round from that column. The blank set (§44) works the same way.
+
+**A warband that hasn't been entered** after a round keeps its last rating, and its slip shows that rating with a small *not updated since round 1* note. The organiser can type a rating in by hand for that one slip. That number is only printed, never written back.
+
+### 43.5 Pairing setup (screen only, not printed)
+
+What tournament and campaign-event packs do was surveyed on 2026-11-09 (Invasion 2020, Round Table Games league, GW and community Swiss packs, Crossroads, Black Knight Games, "Ten Players, One Campaign"). There are five ways of pairing in use, and Mordheim events add two habits on top: multiplayer rounds, and changing warbands between games. The setup panel offers all of them, so that a club night, a store league and a campaign weekend each run without workarounds.
+
+#### 43.5.1 Who's here and how many rounds
+
+- **Who's here:** from Going RSVPs (§19.1), or every member's entered warbands for an ad-hoc sheet (§43.11). A *here* toggle **per round**. A warband that leaves after round 2 is switched off for round 3, and a late arrival is switched on from the round they join. Players with two warbands pick one per round.
+- **Rounds:** 1–7, default 1. A round can be added during the event. 4–7 rounds print the roster landscape (§43.3.1); 6–7 rounds also split the roster into two pages of round columns.
+
+#### 43.5.2 Pairing method
+
+One setting per event, with a per-round override, because a common pattern is "random first round, then Swiss".
+
+| Method | What it does | Typical use |
+| --- | --- | --- |
+| **By rating** _(default)_ | Pairs the closest **current** ratings. Keeps the underdog bonus small. | Club nights, campaign play. Mordheim's own tradition ("assign battles by warband rating"). |
+| **Swiss** | Round 1 by rating or random (sub-setting). After that, warbands with the same record play each other. Within a group, the closest rating; an odd one out *pairs down* to the next group, at most once per warband per event. | Store events and tournaments. |
+| **Random** | Shuffles, then swaps to remove rematches and same-owner pairs. | An ice-breaker round 1, or a laid-back day. |
+| **Players choose** | No automatic pairing. Tables are filled as players report who they're playing. An optional line on the roster prints the challenge rule: *The higher-rated warband may not refuse a challenge.* | Leagues where people arrange their own games (Round Table Games style). |
+| **Manual** | The organiser fills every table by hand. | Narrative events and grudge matches. |
+
+**Swiss record.** A win is 1 point, a draw ½, a loss 0, and a bye counts as a win *for pairing only*. These points only decide who plays whom. They are not a tournament score, and none is shown as a ranking (§43.8 non-goal stays). With Swiss on, the roster gains a narrow **Record** column (e.g. `2-0-1`) after the last round. Tie-breaks inside a group: closest rating, then random.
+
+#### 43.5.3 Rules that apply to every automatic method
+
+- **No rematches within the event.** On by default, can be turned off for small groups.
+- **Never one player's two warbands against each other.** Always on.
+- **Avoid mirror matches** (the same warband type). Off by default.
+- **When the rules can't all be met** (small groups, late rounds), they are relaxed in a fixed order: mirror matches first, then rematches. Same-owner pairing is never relaxed. A table that needed relaxing shows a small warning, e.g. *Rematch: no other option*.
+- **The algorithm** is backtracking, not greedy. Take the first unpaired warband in sort order, try its candidates best-first, and back up when the rest can't be paired. At event sizes (≤ 64 warbands) that's instant, and it avoids the classic greedy failure where the last two warbands are a forced rematch.
+- **Deterministic.** Random choices use a seed stored with the round, so pressing *Pair round N* again on another phone, or reprinting, gives the same tables. *Re-roll* makes a new seed.
+
+#### 43.5.4 Odd numbers and multiplayer rounds
+
+- **Odd number of warbands.** Setting: **three-way table** _(default)_ or **bye**.
+  - *Three-way table:* the warband left over joins the two-player table whose ratings are closest to its own (by rating), or the last table of the lowest score group (Swiss). Nobody sits out, and Mordheim's multiplayer rules cover it. That table gets a multiplayer battle slip (designed separately).
+  - *Bye:* the warband left over sits out. It's a different warband each round and never the same one twice in an event. A bye isn't a battle, so it earns no Experience or income. It counts as a win for Swiss pairing only.
+- **Multiplayer round.** A per-round switch: **tables of 3–4**. Warbands are grouped by rating, or by record and then rating for Swiss, into tables of 4, using 3s to make the numbers fit (e.g. 10 warbands give 4 + 3 + 3). Scenarios are limited to multiplayer ones via `fitsGame`. Crossroads plays two such rounds in a weekend, and it's how campaign weekends end.
+- **Underdog at a multiplayer table:** the lowest-rated warband is compared with the *next-lowest*, and the normal underdog table decides the bonus (mordheimer.net, *Multiplayer Games*: "Chaos on the Streets"). See §43.6.
+
+#### 43.5.5 Scenario per round
+
+- **Per table** _(default)_: the shared `ScenarioPicker` with *Suggest a scenario* and `fitsGame` (§21.3).
+- **One for the whole round:** one picker at the top of the round, printed on every slip. Many events do this ("all tables played the same scenario each round"). It's checked against every table with `fitsGame`; if a table can't play it (a warband-specific scenario, a multiplayer one at a 1v1 table), that table falls back to its own picker with a warning.
+
+#### 43.5.6 Between rounds
+
+- The players update their warbands through the post-battle wizard. At a campaign-in-a-day that includes hiring and buying, which changes the rating more than XP does, which is why pairing always reads the **current** rating (§43.4).
+- **Before pairing round N**, the panel lists round N−1's tables with no battle entered yet. The organiser can wait, or **tick a result by hand** (A / draw / B) for pairing. A ticked result is stored with the round in localStorage, shown as *from paper* on the roster, and never written to the battle log. When the real battle comes in, it takes precedence.
+- **Ratings that weren't updated** print with the *not updated since round N* note (§43.4).
+- **Pairings can be changed after they're made:** drag a warband to another table, or swap two. The changed table shows *edited*. Printing doesn't lock anything; a reprint simply shows the current state.
+
+#### 43.5.7 What's saved
+
+In localStorage under `eventSheet:{eventId}` or `eventSheet:adhoc:{campaignId}`: method and per-round overrides, options, seeds, *here* toggles per round, tables per round, scenarios, results ticked by hand. Nothing is stored server-side (no migration, decided earlier). Results and ratings otherwise always come from the battle log and the warbands, so two people printing get the same numbers. ❓ **Sharing the setup between phones.** Default: an *Export setup* / *Import setup* pair (a small JSON file or a QR code), so a co-organiser can take over if the first one leaves. A shared table is the alternative, if it turns out people need it.
+
+#### 43.5.8 `lib/pairing.ts`
+
+```ts
+type PairingInput = {
+  warbands: {
+    id: string; ownerId: string; type: string;
+    rating: number;                 // current, from the warband row
+    points: number;                 // Swiss record: W 1, D 0.5, L 0, bye 1
+    opponents: string[];            // earlier this event
+    pairedDown: number;             // Swiss
+    byes: number;
+  }[];
+  method: 'rating' | 'swiss' | 'random';   // 'choose' and 'manual' never call this
+  firstRound: 'rating' | 'random';         // Swiss round 1
+  tableSize: 2 | 'multi';                  // multi = tables of 3–4
+  odd: 'threeWay' | 'bye';
+  avoidRematch: boolean; avoidMirror: boolean;
+  seed: number;
+};
+type PairingResult = {
+  tables: { warbandIds: string[]; warnings: ('rematch' | 'mirror' | 'pairedDown')[] }[];
+  bye?: string;
+};
+```
+
+A pure function, unit-tested with fixtures: 20 warbands × 3 rounds in each method; 21 warbands with three-way and with bye; 6 warbands × 5 rounds (rematches unavoidable, so warnings appear and never a same-owner pair); a 10-warband multiplayer round (4 + 3 + 3). The pre-battle fair-pairing sort (§43.10 step 1) becomes `method: 'rating'` with two warbands.
+
+### 43.6 Underdog bonus
+
+There is no underdog helper today. The table lives only as hint text in `strings.ts` (`underdogHint`). Add `src/lib/underdog.ts`: `underdogBonus(ratingA, ratingB) → { underdog: 'a' | 'b' | null, bonus: number }`, from the same bands the hint states. **`TODO: verify vs rulebook p.XX`** before shipping (§3.3). The hint and this function must not disagree: the hint text should be built from the same table.
+
+- **Multiplayer tables:** `underdogMultiplayer(ratings[])` compares the lowest rating with the next-lowest and applies the same table (mordheimer.net, *Multiplayer Games*). If there's a bonus, it goes to the lowest-rated warband only.
+- Hidden when the campaign's `underdog` house rule is off (houseRules.ts), and the footer says so.
+- A friendly game (§34) doesn't award underdog Experience, but an event belongs to a campaign, so this doesn't apply here.
+
+### 43.7 Data — what the screen reads
+
+All of it is already fetched elsewhere with existing hooks. There are no new RPCs and no RLS changes:
+
+- the event (`useCampaignEvent` / `toEvent`), its RSVPs (`useRsvps`)
+- the campaign's warbands (`CampaignWarbandRow`: owner, name, type, rating, playerName)
+- campaign settings and house rules
+- the battle log (for "battles so far" and standings), territories
+- **this event's battles**, to fill the roster's round columns: battles in this campaign whose `created_at` is after the sheet's first *Pair round 1*, matched to a table by the two warband ids (`warbandId` and the opponent's id). The round is the pairing round that warband pair was on. A battle that matches no table (two players who played off-sheet) is listed under the roster as *Other battles tonight* rather than dropped. ❓ **Event id on the battle.** Default: no. Matching by time and warband pair needs no migration; a `battles.event_id` would be exact but means a schema change and a pre-battle field nobody fills in.
+
+### 43.8 Non-goals
+
+- No tournament points, tie-breaks, brackets or prizes. The roster records W/L/D per round. Swiss uses a record (W 1 · D ½ · L 0) to decide pairings, and shows it as `2-0-1`, never as a ranking. Points systems like Invasion's (OOA heroes, shards, scenario) are out of scope.
+- No battles created from the sheet. Results go in through the post-battle wizard, as always. The roster only *reads* them.
+- No public or anonymous version of a filled sheet. It names players and is members-only, like the event. The blank set is public (§44).
+
+### 43.9 Acceptance
+
+1. **20-player dry run:** 20 warbands, 3 rounds. *Print* gives 1 roster page (20 rows) + 4 round-1 slip pages (10 slips, the last page holding 1) + 1 campaign page. Nothing is cut off.
+2. *Pair round 1* with 20 warbands gives 10 tables, closest ratings first. With 21, one warband gets a bye, and a different one in round 2.
+3. After round 1, two players run their post-battle wizards. *Pair round 2* uses their new ratings, avoids the round-1 rematches, and the round-2 slips print those ratings. The 18 warbands not yet entered print their old rating with the *not updated since round 1* note.
+4. The roster printed after round 1 shows Tbl, W/L/D and After for round 1, taken from the battle log, and empty round-2 and round-3 columns.
+5. The underdog bonus on each slip matches `underdogBonus()` for that slip's two ratings. With the `underdog` house rule off it isn't shown, and the footer says so.
+6. 29 warbands → the roster continues onto a second roster page with the same header. 4 rounds → the roster page prints landscape.
+7. A slip never splits across two pages. The cut lines print.
+8. Refresh → rounds and pairings are still there (localStorage). Blocked storage → the screen still works, starting empty.
+9. A non-member who types the URL gets nothing (the existing RLS).
+10. **Swiss**, 20 warbands, 3 rounds: round 2 pairs within score groups (1, ½, 0), pairs down at most once per warband, and has no rematches. The roster shows a Record column.
+11. **Random** round 1, then **By rating** for rounds 2–3 (per-round override). The same seed gives the same tables on a second device.
+12. 21 warbands with *three-way table*: 9 tables of 2 and 1 of 3, the three-way at the closest ratings. With *bye*: a different warband sits out each round.
+13. A **multiplayer round** with 10 warbands gives tables of 4 + 3 + 3, and only multiplayer scenarios are suggested.
+14. 6 warbands, 5 rounds, no rematches possible: pairing still succeeds, shows *Rematch: no other option* on those tables, and never pairs one player's two warbands.
+15. Round 1 has two tables with no battle entered. The organiser ticks results by hand, pairs round 2, and the roster shows *from paper*. The real battles, entered later, replace the ticks.
+16. *One scenario for the whole round*, where one table can't play it → that table falls back to its own picker with a warning.
+
+### 43.10 Build order
+
+1. `lib/underdog.ts` (+ multiplayer variant; build the hint text from it). `lib/pairing.ts` (§43.5.8) with its fixtures. Pre-battle switches to it with the same behaviour.
+2. `EventPrintScreen` with the roster and round-1 slips, read-only.
+3. Pairing setup: rounds, here toggles, method + per-round override, options, odd numbers, *Pair round N*, edit/swap, localStorage. Then Swiss and multiplayer rounds.
+4. Filling the roster from the battle log during the event. *Print round N*.
+5. Campaign page + toggle. Continuation pages for the roster and standings.
+
+### 43.11 Any member can make the sheet, with or without an event ◻️ _(added 2026-11-09)_
+
+The leader is often the one who can't make it, so nothing on the sheet depends on the leader. Any member can already add an event (RLS 0001/0042: insert by any member; `CampaignEvents.tsx` already says organising isn't a leader-only job). This section adds a way in that doesn't need an event at all.
+
+- **Second entry point:** a *Game night sheet* action on the campaign screen (`/campaigns/:id`), shown to every member.
+  - If an event is coming up in the next 7 days, the action opens that event's sheet. If there's more than one, a small picker asks which.
+  - With no event in that window, it opens the **ad-hoc sheet** at `/campaigns/:campaignId/sheet`.
+- **Ad-hoc sheet:** the same screen as §43.1–43.5 with three differences.
+  - The header has an editable title (default "Game night") and a date (default today). Location is optional.
+  - With no RSVPs, *Present* lists **every** member's entered warbands. The setup panel has a *here tonight* toggle per warband, and only warbands marked here go into *Pair round N*. The printed list shows all of them with the ☐ box, so absent players can be ticked off on paper.
+  - Pairings are stored in localStorage under `eventSheet:adhoc:{campaignId}`.
+- **Export** is the print path (§43.2): **Print / Save as PDF**. On phones the button reads *Save as PDF*, because most players will send the file to the group rather than print it themselves.
+- ✅ **Decided — no stored sheets.** Two members making a sheet for the same evening each get their own. That's fine: the sheet is a printout, not a record, and the results only count once they go through the post-battle wizard.
+
+### 43.12 Branding — Mordheim Manager emblem and a store logo ◻️ _(added 2026-11-09)_
+
+- **Top: the store's band.** When a store logo is set, every page opens with a 46px band holding only that logo, right-aligned, at most 240 × 46px, object-fit contain. 240 wide because most store logos are wide wordmarks (tested with a ~6:1 logo, which comes out about 240 × 40). A colour logo prints in colour (`print-color-adjust: exact`); a black-and-white printer turns it grey, which is fine. With no logo there's no band and the header moves up. On the blank sheet (§44) an empty slot prints as a dashed box saying *Your store's logo*, so a store can stick its own on.
+- **Bottom: Mordheim Manager, small.** In the footer of every page: the emblem at 20px, the wordmark "Mordheim Manager" in Pirata One at 14px, and `mordheimmanager.net` in Alegreya Sans. Right-hand column on page 1 (above "Page 1 of 2 · Printed …"), left-hand on page 2. The store's logo is the big one at the top, and the app's credit sits quietly at the bottom. _(Decided 2026-11-09; an earlier draft put both logos in the top band.)_
+
+**Emblem for print.** `icons/icon-512.png` is a painted, photographic emblem. In greyscale it prints as a dark grey blob that eats toner, and it goes muddy on a laser printer. The design mockup uses a greyscale copy at 44px as a stand-in. ⚠️ **Operator action:** commission or draw a **one-colour line version** of the emblem as `public/brand/mm-emblem-ink.svg` (black on transparent, no fills larger than the skull). Until it exists, the sheet uses the greyscale PNG.
+
+**Store logo.**
+- ✅ **Decided — it never leaves the device.** *Add store logo* in the setup panel opens a file picker (PNG, JPG, SVG or WebP, max 1 MB). The image is downscaled in a canvas to at most 600px wide, kept as a data URL and remembered in `localStorage` under `sheetStoreLogo`. There's no upload, so there's no storage cost, no moderation and no question of whose trademark sits in our bucket. *Remove* clears it. The same stored logo is used on the blank sheet (§44) and on filled sheets.
+- An SVG is drawn into a canvas and stored as PNG, never inlined, so a hostile SVG can't run script on the page.
+- ❓ **Per campaign, for everyone.** Later, if clubs ask: a `campaigns.store_logo_path` in the photos bucket (§11), set by the leader and shown on every member's sheet. Not now, because it brings back storage and moderation for a feature most groups won't use.
+- **Rights:** the panel says in one line that you should only add a logo you're allowed to use. Nothing else is needed, because the logo only exists on that person's own device and printout.
+
+### 43.13 Acceptance — additions
+
+10. A member who isn't the leader opens a campaign with no upcoming event, taps *Game night sheet*, gets the ad-hoc sheet, marks 4 warbands as here, fills the pairings and saves a PDF.
+11. Adding a 3 MB JPG gives a clear message (max 1 MB). A 400 KB PNG appears in the band on both pages, is still there after a refresh and is gone after *Remove*.
+12. With no store logo there is no top band on a filled sheet, the dashed slot is not printed, and the Mordheim Manager credit is still in every footer.
+
+
+### 43.14 As built (2026-11-09) — where it differs from the text above
+
+Built in one pass for UX and UI testing; everything above stands except:
+
+- **Routes.** `/campaigns/:campaignId/events/:eventId/sheet` and `/campaigns/:campaignId/sheet` (not `…/print`), behind the `/app` basename like every route. Entry points: *Print event sheet* on the event screen; a *Game night sheet* row under the next-event banner on the campaign screen. The ad-hoc sheet links to an event in the next 7 days when there is one.
+- **Files.** `src/lib/underdog.ts` (bands from rulebook p.104, the `underdog-bonus` source in `rules.json`; the post-battle hint text is now built from it), `src/lib/pairing.ts` (§43.5.8; the pre-battle fair-pairing sort uses its `byClosestRating`), `src/lib/eventSheet.ts` (state, localStorage, battle matching, roster cells, slip packing), `src/lib/storeLogo.ts`, `src/screens/eventSheet/{EventSheetScreen,SheetPages,BlankEventSheetScreen}.tsx`, `src/screens/{ResourcesScreen,BlankRosterScreen}.tsx`. Fixtures: `scripts/test-pairing.mjs` (18 checks), run by `npm run build` and `npm run test:pairing`.
+- **Underdog bands verified.** The `TODO: verify` in §43.6 is resolved: the bands match the rulebook entry already sourced in `data/rules.json`.
+- **More than three rounds.** The roster shows three rounds per page and continues rounds 4–6 / 7 on further roster pages, rather than switching to landscape. Simpler, and it prints on any printer.
+- **Who's here, defaults.** Event sheet: every Going player's highest-rated entered warband. Ad-hoc sheet: none (an *All here* button fills it). Later rounds start from the round before.
+- **Per-seat editing.** Each table seat is a dropdown; picking a warband that sits elsewhere swaps the two. *Re-roll* draws a new seed; *Clear the tables* empties the round.
+- **Paper results** print with an asterisk on the roster and a legend in the footer (*ticked on paper, not yet in the app*).
+- **Slip packing.** Budgets measured from the render: 2-player slip 260px, 3-way 340, 4-way 420, page budget 900 — three head-to-head slips, two 4-way slips, or two head-to-head plus a three-way fit on one page.
+- **Analytics.** PostHog events (the closed `AnalyticsEvent` union, not `app_events`): `event_sheet_paired` {method, warbands, round, multiplayer}, `event_sheet_printed` {roster, slips, campaign, rounds, storeLogo}, `resource_download` {resource, paper}, `resource_print` {resource, withStoreLogo}. Counts and booleans only.
+- **Resources.** `/app/resources` (public), `/app/resources/event-sheet`, `/app/resources/roster`. A *Resources* row heads the Rules chapter list (with the *All* filter); the landing page footer links to it. The static PDFs and thumbnails in `public/downloads/` were generated from the blank routes with headless Chromium's print-to-PDF — A4 at 100 %, US Letter at 93 % so the A4-sized pages fit — event sheet 4 pages, roster 2 pages. ⚠️ Re-export them when a sheet's layout changes.
+- **Blank roster.** Six hero boxes on page 1, six henchmen groups plus the foot boxes on page 2; the Experience label sits beside the track to make six heroes fit an A4.
+- **Not built yet:** export/import of the setup between phones (§43.5.7 ❓) and the `event_id` on battles (§43.7 ❓) — both still open, both waiting on what testing shows.
+
+---
+
+## 44. Resources — blank sheets to download ✅ _(built 2026-11-09; see §43.14)_
+
+**Why.** Not everyone at the table uses the app, and a group that doesn't want to set up a campaign still wants a decent sheet. A blank version of the event sheet is also the cheapest advert the app can have: it carries `mordheimmanager.net` on every page and lies on a table in a games store.
+
+### 44.1 Route and placement
+
+- **`/resources`**, **public**: readable signed out, like the rules browser and the gallery (§4.7). Included in the landing page's footer links and in the sitemap. The blank sheets contain no GW content (layout and field names only, drawn in the app's own type), so the IP rule (§3) doesn't keep them behind sign-in.
+- In the app: under the **Rules** tab as a *Resources* row at the top of the chapter list (§4.8), and as a footer link. Not a new tab (§40: five tabs).
+
+### 44.2 What's on it
+
+One card per resource: title, a one-line description, a thumbnail of page 1, and two buttons.
+
+| Resource | Download | Customise |
+| --- | --- | --- |
+| **Blank event sheet** (4 pages, A4: roster & rounds, battle slips, multiplayer slips, the campaign; copy the slip pages as needed) | `/downloads/mordheim-manager-event-sheet-a4.pdf`, a static file | *Add your store's logo and print* → `/resources/event-sheet`, the print route in blank mode (§43.12, the logo stays on the device) |
+| **Blank event sheet, US Letter** | `/downloads/mordheim-manager-event-sheet-letter.pdf` | Same route, with `?paper=letter` |
+| ❓ **Blank warband roster** | `/downloads/mordheim-manager-roster-a4.pdf` | `/resources/roster`: the §4.1.1 sheet with an empty warband |
+
+❓ **Blank warband roster.** Default: yes. It's the same sheet as §4.1.1 with no data, so it costs one empty-warband render, and it's the sheet people would otherwise photocopy from the 1999 book.
+
+### 44.3 How the PDFs are made
+
+**No PDF library, no headless browser in the build** (same reasoning as §4.1.1). The static PDFs are exported by hand from the blank print routes with the browser's *Save as PDF*, and committed to `public/downloads/`. ⚠️ **Operator action:** re-export them whenever the sheet's layout changes. Add a checklist line to §27.3's deploy checklist.
+
+The **print routes** (`/resources/event-sheet`, `/resources/roster`) are public. They render the same components as §43/§4.1.1 with a `blank` prop: the event sheet with a 28-row roster (3 rounds), one page of 3 blank battle slips with *Round ☐ · Table ☐* to write in (so copies never repeat numbers), and a campaign page with 20 empty standings rows and 5 territories. The *Underdog* table and the brand band stay, and the *Printed* line reads "Blank sheet · mordheimmanager.net/resources".
+
+### 44.4 Measurement
+
+`app_events` (§17.6): `resource_download { resource, paper }` when a static PDF link is clicked, and `resource_print { resource, withStoreLogo: boolean }` when the print button on a blank route is pressed. Both are closed-union events with no free text. Signed-out visitors are counted only with consent, as on the landing page (§23.7.1).
+
+### 44.5 Acceptance
+
+1. Signed out, `/resources` loads and both PDFs download.
+2. `/resources/event-sheet` → add a store logo → print. Both pages show the logo, and the printout matches the static PDF apart from the logo.
+3. The Rules tab shows *Resources* first. The landing page footer links to it.
+4. No call to Supabase on `/resources` or its print routes when signed out, apart from the analytics proxy.

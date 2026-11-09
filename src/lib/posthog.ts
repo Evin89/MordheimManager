@@ -86,7 +86,13 @@ export type AnalyticsEvent =
   | 'invite_responded'
   | 'invite_revoked'
   // §40 — which tab (or the avatar) gets tapped; closed set, see navItems.
-  | 'nav_tab_tapped';
+  | 'nav_tab_tapped'
+  // §43 — the event sheet: counts and booleans only, never names.
+  | 'event_sheet_paired'
+  | 'event_sheet_printed'
+  // §44.4 — the Resources page.
+  | 'resource_download'
+  | 'resource_print';
 
 type EventProps = Record<string, string | number | boolean>;
 

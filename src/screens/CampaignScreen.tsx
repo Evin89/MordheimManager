@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import SubTabs from '../components/SubTabs';
 import { NextEventBanner } from '../components/CampaignEvents';
@@ -154,6 +154,19 @@ export default function CampaignScreen() {
         )}
         {campaign && <AnnouncementBanner campaign={campaign} isLeader={isLeader} />}
         {campaign && <NextEventBanner campaignId={campaign.id} />}
+        {/* §43.11 — the evening's sheet, for any member: the leader is often the one who can't make it. */}
+        {campaign && (
+          <Link
+            to={campaignPath(campaign.id, 'sheet')}
+            className="flex items-center justify-between gap-3 rounded-lg border border-ink-800 bg-ink-900 px-4 py-3 hover:border-ink-700 transition-colors"
+          >
+            <span>
+              <span className="block text-bone-100 font-semibold text-sm">{strings.eventSheet.campaignLink}</span>
+              <span className="block text-bone-400 text-xs">{strings.eventSheet.campaignLinkHint}</span>
+            </span>
+            <span aria-hidden="true" className="text-bone-400">→</span>
+          </Link>
+        )}
         {!campaign ? (
           <p className="text-bone-300">{strings.common.loading}</p>
         ) : (
