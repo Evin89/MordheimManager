@@ -2504,6 +2504,21 @@ A separate secret by default, so the digest can live in its own channel; for the
 - **Top events.** The draft read them from `app_events`, but no such table exists: §26.4.3's events (`warband_created` with `is_first`, onboarding clicks) go to PostHog only (`src/lib/posthog.ts`), which is consent-gated and so not a complete count. Add the section if and when an owned event table is built.
 - **Mord Hive split.** Once the shared project gains a `system` column, split each count by it and render two blocks. Single-system for now, marked `-- TODO system split` in the builder.
 
+### 23.11 Slack delivery check ✅ (migration 0072)
+
+_Closes the gap in §23.9/§23.10's "never fails noisily": it also never failed **visibly**._
+
+`notify_slack()` returns true as soon as `pg_net` has *queued* the POST; Slack's answer lands later in `net._http_response` (kept ~6 h) and nothing read it. So a dead webhook looked sent: from 2026-10-11 the weekly report was logged in `usage_report_log` every Sunday while Slack answered `404 no_team` (the URL pointed at a workspace that no longer existed). Found and fixed 2026-11-09 by creating a new webhook for the report channel.
+
+**As built (migration 0072).**
+- `slack_deliveries` (deny-all RLS) — one row per POST: the `pg_net` request id, the secret name, an `is_alert` flag, and once checked the HTTP status, error and `failed`.
+- `_slack_post(secret, text, is_alert)` is the poster; `notify_slack(secret, text)` keeps its signature and calls it with `is_alert = false`, so every caller (signup triggers 0031, issue trigger 0071, weekly report 0055) is covered without changes.
+- `check_slack_deliveries()`, `pg_cron` every 15 minutes (`check-slack-deliveries`): copies Slack's answer onto each delivery; non-2xx, a `pg_net` error or timeout, or no answer after 2 hours counts as failed. Per failing secret it posts **one** alert — *⚠️ Slack-webhook `…` werkt niet: n bericht(en) niet afgeleverd (HTTP …)* — through the first *other* configured webhook (`slack_issues_webhook` → `slack_signup_webhook` → `slack_report_webhook`). Rows are kept 90 days.
+
+**Properties.** (1) **No ping-pong**: alert deliveries are flagged and never trigger alerts, so two dead webhooks can't alert each other forever. (2) **Same safety as 0031**: the poster and the checker swallow errors; nothing blocks a signup or an issue report. (3) **Not client-reachable**: `EXECUTE` revoked from `public`/`anon`/`authenticated`.
+
+**Not changed.** `usage_report_log` still records a week once it is *queued*, so a failed digest isn't resent automatically; the alert says which webhook broke, and after fixing it `select public.send_weekly_usage_report(p_force => true);` resends last week. With only one webhook configured there is nowhere to alert; the failure is still recorded in `slack_deliveries`.
+
 ---
 
 ## 24. Battlefield generator — the map ⚠️ Beta
