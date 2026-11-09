@@ -218,6 +218,11 @@ export const strings = {
     browseRules: 'Browse the Rules Reference',
     browseGallery: 'Browse Public Warbands',
     noAccountNeeded: 'No account needed',
+    browseResources: 'Blank Sheets to Print',
+    openDice: 'Dice Roller',
+    openMap: 'Battlefield Generator',
+    // §44.1 — the in-app "footer" link: AboutSection sits at the bottom of every Home view.
+    resourcesLink: 'Resources — blank sheets to print',
   },
   rules: {
     searchPlaceholder: 'Search rules…',

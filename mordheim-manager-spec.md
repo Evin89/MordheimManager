@@ -4324,6 +4324,12 @@ Built in one pass for UX and UI testing; everything above stands except:
 
 - **`/resources`**, **public**: readable signed out, like the rules browser and the gallery (§4.7). Included in the landing page's footer links and in the sitemap. The blank sheets contain no GW content (layout and field names only, drawn in the app's own type), so the IP rule (§3) doesn't keep them behind sign-in.
 - In the app: under the **Rules** tab as a *Resources* row at the top of the chapter list (§4.8), and as a footer link. Not a new tab (§40: five tabs).
+- **Findable signed out, from every front door** _(added 2026-11-09)_. A visitor without an account must be able to reach every resource without guessing which tab hides it:
+  - **Signed-out Home**, *No account needed* block: *Browse the Rules Reference*, *Browse Public Warbands*, *Blank Sheets to Print* (`/resources`), *Dice Roller* (`/dice`), *Battlefield Generator* (`/map`).
+  - **Home's About section** (bottom of every Home view, signed in or out): a *Resources — blank sheets to print* link. This is the in-app "footer link" above.
+  - **Static pages:** the landing footer and the `about.html` footer both link *Blank sheets to print* → `/app/resources`.
+  - **`public/sitemap.xml` + `public/robots.txt`.** The sitemap lists only pages without GW content: landing, about, privacy, terms, `/app/resources`, both blank print routes and the four PDFs. The rules reference stays out of it (§3). `robots.txt` blocks nothing and points at the sitemap. ⚠️ A new resource gets a card on `/resources` **and** a line in the sitemap.
+  - The static PDFs under `/downloads/` are plain files: they need no login and no JavaScript, so a link to one works from anywhere (a Discord message, a QR code on a printed sheet).
 
 ### 44.2 What's on it
 

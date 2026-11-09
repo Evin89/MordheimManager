@@ -1,0 +1,6 @@
+# §44.1 — no paths are blocked; the sitemap only lists pages without
+# Games Workshop content (landing, about, legal, and the blank-sheet Resources).
+User-agent: *
+Allow: /
+
+Sitemap: https://mordheimmanager.net/sitemap.xml
