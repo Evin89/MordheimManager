@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { campaignPath } from '../lib/activeCampaign';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import ConfirmByTyping from '../components/ConfirmByTyping';
 import {
@@ -15,7 +15,7 @@ import { RSVP_OPTIONS, RsvpButtons } from '../components/EventRsvp';
 import DateTimePicker from '../components/DateTimePicker';
 import { useAuth } from '../auth/AuthProvider';
 import { strings } from '../strings';
-import { Button, Card, SectionHeading, Field, TextField, Textarea } from '../components/ui';
+import { Button, Card, SectionHeading, Field, TextField, Textarea, buttonClasses } from '../components/ui';
 
 /**
  * §19.1 — Going / Maybe / Can't for one game night.
@@ -186,6 +186,14 @@ export default function CampaignEventScreen() {
             </Card>
 
             <RsvpSection eventId={event.id} members={members ?? []} />
+
+            {/* §43 — any member can print the evening's sheet, not only whoever made the event. */}
+            <Link
+              to={`${campaignPath(campaign.id, `events/${event.id}`)}/sheet`}
+              className={buttonClasses('secondary')}
+            >
+              {strings.eventSheet.eventLink}
+            </Link>
 
             {event.notes && (
               <section className="space-y-2">

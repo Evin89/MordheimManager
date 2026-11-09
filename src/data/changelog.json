@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-11-09",
+    "title": "Event Sheet for Game Nights",
+    "description": "Anyone in a campaign can now print a sheet for the evening: a roster with a column per round, one battle slip per table to cut apart, and a campaign page with the standings. Pair warbands by rating, Swiss, at random, or by hand; an odd warband joins a three-way table or takes a bye. Ratings are read fresh before every round, so the underdog bonus on each slip is the right one. Open it from a game night, or from the campaign screen when nothing is scheduled. Stores can add their own logo; it stays on your device."
+  },
+  {
+    "date": "2026-11-09",
+    "title": "Blank Sheets to Print",
+    "description": "A new Resources page, under Rules, has a blank event sheet and a blank warband roster to download as PDF or print, no account needed."
+  },
+  {
     "date": "2026-11-08",
     "title": "Solo: Enemy Equipment",
     "description": "The AI opponent's roster in a solo battle now lists what each enemy model carries, under its profile. Henchmen groups show the loadout each member has."

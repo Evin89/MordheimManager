@@ -19,6 +19,7 @@ import BattlefieldBoard from '../components/solo/BattlefieldBoard';
 import ScenarioSetupPanel from '../components/ScenarioSetupPanel';
 import FriendlyGameControls from '../components/FriendlyGameControls';
 import { isFriendlyGame } from '../data/houseRules';
+import { byClosestRating } from '../lib/pairing';
 
 export default function PreBattleScreen() {
   const { warbandId } = useParams<{ warbandId: string }>();
@@ -75,7 +76,7 @@ export default function PreBattleScreen() {
   // is carried on its row. A close match is a fair game; a big gap tells you
   // who'd be the underdog before you commit.
   const myRating = computeWarbandRating(warband);
-  const pairingCandidates = [
+  const unsortedCandidates = [
     ...otherWarbands.map((w) => ({
       id: w.id,
       name: w.name,
@@ -88,7 +89,8 @@ export default function PreBattleScreen() {
       rating: w.rating,
       sub: w.playerName || strings.campaign.unnamedPlayer,
     })),
-  ].sort((a, b) => Math.abs(a.rating - myRating) - Math.abs(b.rating - myRating));
+  ];
+  const pairingCandidates = byClosestRating(myRating, unsortedCandidates);
 
   function pickOpponent(id: string, name: string) {
     updateSession({ opponentWarbandId: id, opponentName: name });

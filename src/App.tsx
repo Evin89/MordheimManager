@@ -60,6 +60,11 @@ const PostBattleWizard = lazy(() => import('./screens/postBattle/PostBattleWizar
 const TradingPostScreen = lazy(() => import('./screens/TradingPostScreen'));
 
 const WarbandPrintScreen = lazy(() => import('./screens/WarbandPrintScreen'));
+// §43 / §44 — the event sheet, and the public Resources page with blank sheets.
+const EventSheetScreen = lazy(() => import('./screens/eventSheet/EventSheetScreen'));
+const ResourcesScreen = lazy(() => import('./screens/ResourcesScreen'));
+const BlankEventSheetScreen = lazy(() => import('./screens/eventSheet/BlankEventSheetScreen'));
+const BlankRosterScreen = lazy(() => import('./screens/BlankRosterScreen'));
 
 const DiceRollerScreen = lazy(() => import('./screens/DiceRollerScreen'));
 
@@ -281,6 +286,10 @@ function AppShell() {
             {/* Public, like the dice roller and map it holds; starting a battle asks you to sign in. */}
             <Route path="/play" element={<PlayScreen />} />
             <Route path="/post-battle" element={<Navigate to="/play" replace />} />
+            {/* §44 — public, like the rules: blank sheets anyone can print. */}
+            <Route path="/resources" element={<ResourcesScreen />} />
+            <Route path="/resources/event-sheet" element={<BlankEventSheetScreen />} />
+            <Route path="/resources/roster" element={<BlankRosterScreen />} />
             <Route
               path="/trading"
               element={guarded(
@@ -300,6 +309,9 @@ function AppShell() {
             <Route path="/campaigns/:campaignId/events" element={guarded(<CampaignEventsScreen />)} />
             <Route path="/campaigns/:campaignId/calendar" element={guarded(<CampaignCalendarScreen />)} />
             <Route path="/campaigns/:campaignId/events/:eventId" element={guarded(<CampaignEventScreen />)} />
+            {/* §43 — the event sheet: for a game night on the calendar, or one without (§43.11). */}
+            <Route path="/campaigns/:campaignId/events/:eventId/sheet" element={guarded(<EventSheetScreen />)} />
+            <Route path="/campaigns/:campaignId/sheet" element={guarded(<EventSheetScreen />)} />
             <Route path="/campaigns/:campaignId/:tab" element={guarded(<CampaignScreen />)} />
             {/* The old "active campaign" addresses, and anything beneath them. */}
             <Route path="/campaign" element={guarded(<CampaignRedirect />)} />

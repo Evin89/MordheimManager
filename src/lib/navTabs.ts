@@ -49,6 +49,8 @@ const ROWS: Row[] = [
   [under('/custom-warbands'), 'warbands'],
 
   [under('/rules'), 'rules'],
+  // §44 — blank sheets; reached from the Rules tab.
+  [under('/resources'), 'rules'],
 
   [/^\/$/, 'home'],
 ];
