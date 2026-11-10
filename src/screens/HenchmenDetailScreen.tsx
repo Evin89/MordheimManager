@@ -91,6 +91,16 @@ export default function HenchmenDetailScreen() {
     }));
   }
 
+  /** §45.2: thrown away, not moved; groups keep no equipment log. */
+  function discardFreeDagger(itemId: string) {
+    if (!group) return;
+    saveNow((current: Warband) => ({
+      henchmenGroups: current.henchmenGroups.map((g) =>
+        g.id === groupId ? { ...g, equipment: g.equipment.filter((e) => e.id !== itemId) } : g,
+      ),
+    }));
+  }
+
   function assignFromTreasury(itemId: string) {
     if (!draft || !group) return;
     const item = draft.treasury.find((e) => e.id === itemId);
@@ -284,6 +294,7 @@ export default function HenchmenDetailScreen() {
           treasury={draft.treasury}
           gold={draft.gold}
           onMoveToTreasury={moveToTreasury}
+          onDiscardFreeDagger={discardFreeDagger}
           onAssignFromTreasury={assignFromTreasury}
           purchasePanel={purchase.panel}
           shop={

@@ -7,10 +7,11 @@
   "scripts": {
     "dev": "vite",
     "build:about": "node scripts/build-about.mjs",
-    "build": "node scripts/design-sheet.mjs --check && node scripts/check-nav-coverage.mjs && node scripts/test-pairing.mjs && node scripts/build-about.mjs && tsc -b && vite build",
+    "build": "node scripts/design-sheet.mjs --check && node scripts/check-nav-coverage.mjs && node scripts/test-pairing.mjs && node scripts/test-free-dagger.mjs && node scripts/build-about.mjs && tsc -b && vite build",
     "preview": "vite preview",
     "lint": "tsc --noEmit",
     "test:pairing": "node scripts/test-pairing.mjs",
+    "test:free-dagger": "node scripts/test-free-dagger.mjs",
     "design-sheet": "node scripts/design-sheet.mjs",
     "seed:scale": "node scripts/seed-scale-test.mjs",
     "seed:teardown": "node scripts/seed-teardown.mjs",

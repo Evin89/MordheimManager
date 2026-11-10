@@ -169,6 +169,14 @@ revoke all on function public._slack_post(text, text, boolean) from public, anon
 revoke all on function public.notify_slack(text, text) from public, anon, authenticated;
 revoke all on function public.check_slack_deliveries() from public, anon, authenticated;
 
--- Every 15 minutes (pg_cron is enabled since 0014).
-select cron.unschedule(jobid) from cron.job where jobname = 'check-slack-deliveries';
-select cron.schedule('check-slack-deliveries', '*/15 * * * *', 'select public.check_slack_deliveries()');
+-- Every 15 minutes (pg_cron is enabled since 0014). Guarded like 0014, so the
+-- migration also applies where pg_cron is absent (npm run db:test, PGlite).
+-- Same effect in production, where this already ran unguarded.
+do $$
+begin
+  if exists (select 1 from pg_extension where extname = 'pg_cron') then
+    perform cron.unschedule(jobid) from cron.job where jobname = 'check-slack-deliveries';
+    perform cron.schedule('check-slack-deliveries', '*/15 * * * *', 'select public.check_slack_deliveries()');
+  end if;
+end;
+$$;

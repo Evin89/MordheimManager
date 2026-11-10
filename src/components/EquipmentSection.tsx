@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useRef, useState } from 'react';
 import { EquipmentItem } from '../types';
 import { strings } from '../strings';
 import { MAX_MELEE, MAX_MISSILE_TYPES, countWeaponSlots } from '../lib/weaponSlots';
+import { isFreeDagger } from '../lib/freeDagger';
 import WeaponRulesDisclosure from './WeaponRulesDisclosure';
 import ConfirmByTyping from './ConfirmByTyping';
 import { Button, SectionHeading } from './ui';
@@ -21,6 +22,7 @@ export function EquipmentSection({
   treasury,
   gold,
   onMoveToTreasury,
+  onDiscardFreeDagger,
   onAssignFromTreasury,
   shop,
   purchasePanel,
@@ -32,6 +34,11 @@ export function EquipmentSection({
   treasury: EquipmentItem[];
   gold: number;
   onMoveToTreasury: (itemId: string) => void;
+  /**
+   * §45.2: a free dagger gets Discard instead of Move to treasury. It is part
+   * of the warrior, not warband property, so it never lands in the stash.
+   */
+  onDiscardFreeDagger: (itemId: string) => void;
   onAssignFromTreasury: (itemId: string) => void;
   /** The `<EquipmentShop>` configured for this buyer. */
   shop: ReactNode;
@@ -74,6 +81,7 @@ export function EquipmentSection({
         items={equipment}
         actionLabel={strings.modelDetail.moveToTreasury}
         onAction={fixed ? undefined : onMoveToTreasury}
+        onDiscardFreeDagger={fixed ? undefined : onDiscardFreeDagger}
       />
 
       {fixed ? (
@@ -113,31 +121,38 @@ function ItemList({
   items,
   actionLabel,
   onAction,
+  onDiscardFreeDagger,
 }: {
   items: EquipmentItem[];
   actionLabel: string;
   /** Omitted for gear that can't be moved, e.g. a Hired Sword's own. */
   onAction?: (itemId: string) => void;
+  /** When set, a free dagger shows Discard in place of `onAction` (§45.2). */
+  onDiscardFreeDagger?: (itemId: string) => void;
 }) {
   return (
     <div className="space-y-2">
-      {items.map((item) => (
-        <WeaponRulesDisclosure
-          key={item.id}
-          name={item.name}
-          action={
-            onAction && (
-            <button
-              type="button"
-              onClick={() => onAction(item.id)}
-              className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold shrink-0"
-            >
-              {actionLabel}
-            </button>
-            )
-          }
-        />
-      ))}
+      {items.map((item) => {
+        const discard = onDiscardFreeDagger && isFreeDagger(item);
+        const handler = discard ? onDiscardFreeDagger : onAction;
+        return (
+          <WeaponRulesDisclosure
+            key={item.id}
+            name={item.name}
+            action={
+              handler && (
+              <button
+                type="button"
+                onClick={() => handler(item.id)}
+                className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold shrink-0"
+              >
+                {discard ? strings.modelDetail.discardFreeDagger : actionLabel}
+              </button>
+              )
+            }
+          />
+        );
+      })}
     </div>
   );
 }

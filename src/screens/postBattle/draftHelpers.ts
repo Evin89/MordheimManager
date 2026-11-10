@@ -7,6 +7,7 @@ import { countModels } from '../../lib/rating';
 import { resolveEquipmentItem } from '../../lib/equipmentLookup';
 import { promotionSkillListOptions, unitGainsExperience } from '../../lib/ruleEffects';
 import { createHenchmenGroupFromType } from '../../lib/warbandFactory';
+import { withoutFreeDaggers } from '../../lib/freeDagger';
 import { getWarbandDefinition } from '../../data/warbandRegistry';
 import { EquipmentItem } from '../../types';
 import { OutOfActionTally } from '../../store/useAppStore';
@@ -123,7 +124,6 @@ export function createInitialDraft(warband: Warband): PostBattleDraft {
       outOfActionCount: 0,
       diedCount: 0,
       xpAwarded: 0,
-      equipmentFateForDead: 'treasury',
       deleteGroupIfEmpty: true,
       statIncreases: emptyStatIncreases(),
       ladsGotTalent: false,
@@ -221,8 +221,11 @@ export function applyDraftToWarband(
         const epitaph = state.lastWords?.trim();
         deadHeroNames.push(epitaph ? `${hero.name} — “${epitaph}”` : hero.name);
       }
-      if (state.equipmentFate === 'treasury') {
-        treasury = [...treasury, ...hero.equipment];
+      // §45.3: a dead hero's gear is lost, as the rulebook says — whatever the
+      // draft holds. Captured or left: the player's choice stands, but a free
+      // dagger never goes to the stash (§45.1).
+      if (state.resultingStatus !== 'dead' && state.equipmentFate === 'treasury') {
+        treasury = [...treasury, ...withoutFreeDaggers(hero.equipment)];
       }
       continue; // removed from roster
     }
@@ -281,9 +284,7 @@ export function applyDraftToWarband(
     }
 
     if (newCount <= 0 && state.deleteGroupIfEmpty) {
-      if (state.equipmentFateForDead === 'treasury') {
-        treasury = [...treasury, ...group.equipment];
-      }
+      // §45.3: a wiped-out group's gear is lost with it.
       continue; // group removed from roster
     }
 

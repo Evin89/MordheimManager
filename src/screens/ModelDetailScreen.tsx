@@ -344,6 +344,32 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     }));
   }
 
+  /**
+   * §45.2: the free dagger is thrown away, not moved — it is part of the
+   * warrior, worth nothing in the stash. Gold and treasury are untouched.
+   */
+  function discardFreeDagger(itemId: string) {
+    if (!model) return;
+    const item = model.equipment.find((e) => e.id === itemId);
+    if (!item) return;
+    saveNow((current: Warband) => ({
+      [listKey]: (current[listKey] as EditableModel[]).map((m) =>
+        m.id === modelId
+          ? {
+              ...m,
+              equipment: m.equipment.filter((e: EquipmentItem) => e.id !== itemId),
+              equipmentLog: appendEquipmentLog(
+                m.equipmentLog,
+                'lost',
+                item.name,
+                strings.modelDetail.logFreeDaggerDiscarded,
+              ),
+            }
+          : m,
+      ),
+    }));
+  }
+
   function assignFromTreasury(itemId: string) {
     if (!draft || !model) return;
     const item = draft.treasury.find((e) => e.id === itemId);
@@ -860,6 +886,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           treasury={draft.treasury}
           gold={draft.gold}
           onMoveToTreasury={moveToTreasury}
+          onDiscardFreeDagger={discardFreeDagger}
           onAssignFromTreasury={assignFromTreasury}
           purchasePanel={purchase.panel}
           shop={
