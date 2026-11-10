@@ -4359,3 +4359,94 @@ The **print routes** (`/resources/event-sheet`, `/resources/roster`) are public.
 2. `/resources/event-sheet` → add a store logo → print. Both pages show the logo, and the printout matches the static PDF apart from the logo.
 3. The Rules tab shows *Resources* first. The landing page footer links to it.
 4. No call to Supabase on `/resources` or its print routes when signed out, apart from the analytics proxy.
+
+## 45. Free daggers out of the treasury; a dead model's gear is lost ✅ _(specced 2026-11-09, built 2026-11-10; MM-004; migration 0073 to apply after the dry-run)_
+
+**Why.** The warband-deletion analysis (§42, issue tracker MM-004) found loose free daggers in the stash of deleted warbands. The pattern is still live. On 2026-11-09, **24 active warbands held 49 free daggers in their treasury**, up to 6 in one warband; by the next morning it was 56 in 26.
+
+Where they come from, from the data and the code:
+
+| Route | Code | Evidence |
+| --- | --- | --- |
+| **Move to treasury** on a hero or Hired Sword | `ModelDetailScreen.tsx` `moveToTreasury` | 16 of the 24 warbands have an `equipmentLog` entry *Dagger · Moved to treasury*: 76 entries in total. This is the main route. |
+| **Move to treasury** on a henchmen group | `HenchmenDetailScreen.tsx` `moveToTreasury` | Writes no `equipmentLog`, which explains most of the 5 warbands with no trace. |
+| **Dead/captured/left hero, equipment → treasury** | `postBattle/draftHelpers.ts` `applyDraftToWarband` (`treasury = [...treasury, ...hero.equipment]`) | 8 of the 24 have a battle commit (`previous_data_at`). |
+
+Dismissing a model is **not** a route: its gear goes with it (the dismiss copy in `strings.ts`). So the tracker's title "when a model is removed" is corrected to the three routes above.
+
+The underlying problem: the free dagger (`createFreeDagger` in `lib/warbandFactory.ts`) is a normal `EquipmentItem` with `cost: 0`. Every equipment action treats it like bought gear. But it isn't gear the warband owns. It is part of the warrior ("all warriors are assumed to have a dagger"). It means nothing in the stash, it sells for 0 gc, and it piles up.
+
+**Decided (Evin, 2026-11-09):** players may discard the free dagger (§45.2); a dead model's equipment is lost, as the rulebook says (§45.3); the cleanup does not give daggers back (§45.4).
+
+### 45.1 One definition of "free dagger"
+
+Move `isFreeDagger` out of `lib/weaponSlots.ts` into its own dependency-free module, `lib/freeDagger.ts` (with `withoutFreeDaggers`), so the weapon limits don't pull in the warband factory and its data. The rule stays as it is: `name` is "dagger" (trimmed, case-insensitive) **and** `cost` is 0 or missing. A bought dagger (2 gc) is a real weapon and is never affected. Do **not** match on `notes`: older data and Hired Sword gear don't all carry the "Free — every warrior…" note.
+
+`weaponSlots.ts` imports it from there; `createFreeDagger` stays in `warbandFactory.ts`. Every rule below uses this one function.
+
+### 45.2 The free dagger can be discarded, not moved
+
+On the equipment list of a hero and a henchmen group (`EquipmentSection`), a free dagger gets **Discard** instead of *Move to treasury*. Discard removes it from the model completely. Nothing goes to the treasury and the gold doesn't change. Most players would rather not have the dagger on the card at all, and this gives them that without leaving a 0 gc item in the stash.
+
+- One tap, no `ConfirmAction`: the item is worth nothing and changes nothing in the rating.
+- Hired Swords are unchanged: their gear is fixed (PR #35), so their list has no controls at all.
+- On a hero it writes an `equipmentLog` entry: *Dagger · lost · "Free dagger discarded"* (new string, `strings.modelDetail.logFreeDaggerDiscarded`). Henchmen groups have no equipment log, so nothing is written there.
+- A bought dagger (cost > 0) keeps the normal controls.
+- There is no control to get a discarded free dagger back. Someone who wants one buys a dagger in the shop.
+- The weapon-limit message (`strings.modelDetail` "…on top of his free dagger. Move one to the treasury first.") is unchanged. It is about the *other* weapons, and the free dagger already doesn't count (`countWeaponSlots`).
+- `createFreeDagger` stays as it is: new models still start with the dagger. Players who don't want it discard it.
+
+### 45.3 Post-battle: a dead model's equipment is lost
+
+The rulebook: "When a warrior is killed (Hero or Henchman) all his weapons and equipment are lost." The app currently offers *Send to treasury / Lost*, with *Send to treasury* as the default for wiped-out henchmen groups. That changes:
+
+- **Dead hero** (`resultingStatus === 'dead'`): equipment is always lost. In Step 5 (`StepDeadCleanup.tsx`) the choice disappears. In its place, one muted line: "His equipment is lost with him." (new string `strings.postBattle.deadCleanup.equipmentLostDead`). In `applyDraftToWarband`, a dead hero's equipment never goes to the treasury, whatever `equipmentFate` says.
+- **Wiped-out henchmen group** (count reaches 0 and the group is removed): the same. No choice; "Their equipment is lost with them." In `applyDraftToWarband` the `equipmentFateForDead === 'treasury'` branch goes away. The field `equipmentFateForDead` can be removed from `HenchmenBattleState` and from `createInitialDraft`. A battle draft saved in `localStorage` (§4.3.2) that still has the field must still load: an unknown extra field is ignored.
+- **Captured or left** (`captured`, `left`): the choice stays as it is, but free daggers are filtered out when the gear goes to the treasury:
+
+  ```ts
+  treasury = [...treasury, ...hero.equipment.filter((e) => !isFreeDagger(e))];
+  ```
+
+  If such a hero carries only a free dagger, the choice isn't shown.
+- ❓ **Captured and left: keep the choice?** Default: **keep it**. This pass only aligns *death* with the rulebook. Whether a captured hero's gear goes with him (to the captors) is a separate rules question.
+- Changelog line for this part: see §45.7.
+
+### 45.4 Clean up existing data — migration `0073_free_dagger_stash_cleanup.sql`
+
+One-time `UPDATE` on `warbands.data` (all rows, including soft-deleted ones, so a restore via 0065 comes back clean): **remove** every free dagger (§45.1 rule, in SQL: `lower(trim(name)) = 'dagger' and coalesce((cost)::numeric, 0) = 0`) from `data->'treasury'`. Nothing else changes. Models that lost their dagger don't get it back: with §45.2, not having one is a normal state.
+
+- **Don't** touch `updated_at`. This is a repair, not a player edit, and bumping it would trip the optimistic-concurrency check (§8.4) on any open screen. **Don't** write `warband_edits` rows. **Do** leave `previous_data` alone: an undo (§4.3) may bring daggers back into the stash once, and that is acceptable. A screen that is open during the migration and saves afterwards can write the old daggers back for that one warband. That is also acceptable: it happens once, and §45.2 stops the stash from filling again.
+- Triggers on `UPDATE warbands`: the edit log (0035) fires on any `data` change, so `cleanup_free_dagger_stash()` switches `warbands_log_edit` off around its update and back on. The rating trigger (0016) only fires on a rating change, which doesn't happen. Nothing sets `updated_at` server-side.
+- The repair lives in two functions, `strip_free_daggers_from_treasury(jsonb)` and `cleanup_free_dagger_stash()` (returns rows changed), so the db test runs exactly what the migration ran. Both are revoked from `anon`/`authenticated`.
+- Before applying, Claude Code reports a **dry-run** from the live database: number of warbands changed and daggers removed. Evin approves, then the migration is applied.
+
+`supabase/db-tests/free-dagger-stash.sql` (14 checks): free daggers in three spellings go, a bought dagger and a sword stay, models untouched, soft-deleted cleaned, no treasury key left alone, `updated_at` and rating unchanged, no edit-log or rating-history rows, the edit-log trigger works again afterwards, a second run changes nothing, players can't call it.
+
+On the way: `0072_slack_delivery_check.sql` called `cron.*` unguarded, which broke `npm run db:test` (PGlite has no pg_cron). Its schedule now sits in the same `if pg_cron exists` guard as 0014. Production already ran it, so nothing changes there.
+
+### 45.5 Tests
+
+The repo has no unit-test runner, so these are `node:assert` fixtures in `scripts/test-free-dagger.mjs` (same approach as `test-pairing.mjs`, run by `npm run build`). It bundles the real modules with esbuild, stubbing Vite's `import.meta.glob`/`import.meta.env`.
+
+
+- `isFreeDagger`: free dagger yes; bought dagger (2 gc) no; "Dagger " / "dagger" yes; dagger with `cost` missing yes.
+- `applyDraftToWarband`: a **dead** hero with sword + free dagger and `equipmentFate: 'treasury'` → nothing lands in the treasury; a wiped-out henchmen group → nothing lands in the treasury; a **captured** hero with sword + free dagger and `equipmentFate: 'treasury'` → only the sword lands in the treasury.
+- A saved battle draft with the old `equipmentFateForDead` field still loads and commits.
+- `countWeaponSlots`: the first free dagger is exempt, a second one and a bought dagger count.
+- The *Discard* control has no automated test (no component test setup); check it by hand: a free dagger shows *Discard*, a bought dagger *Move to treasury*, and discarding leaves treasury and gold unchanged.
+
+### 45.6 How we know it worked
+
+After deploy, this should return 0 and stay 0 (check again after a week; admin query, no new panel):
+
+```sql
+select count(*) from warbands, jsonb_array_elements(data->'treasury') t
+where deleted_at is null and lower(trim(t->>'name')) = 'dagger' and coalesce((t->>'cost')::numeric, 0) = 0;
+```
+
+Secondary, not a pass/fail: the share of `starting_over` answers in §42's deletion feedback.
+
+### 45.7 Changelog
+
+User-facing line in `src/data/changelog.json`: "Free daggers can now be discarded instead of piling up in the treasury, and we've cleared the ones already there. A dead warrior's equipment is now lost with him, as the rulebook says."

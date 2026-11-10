@@ -1,5 +1,6 @@
 import { strings } from '../../strings';
 import { StepProps } from './types';
+import { withoutFreeDaggers } from '../../lib/freeDagger';
 
 export default function StepDeadCleanup({ warband, draft, updateDraft }: StepProps) {
   // Every dead/captured/left hero appears — even one with no gear — because a
@@ -28,6 +29,7 @@ export default function StepDeadCleanup({ warband, draft, updateDraft }: StepPro
 
       {deadHeroes.map((hero) => {
         const state = draft.heroes[hero.id];
+        const keepable = withoutFreeDaggers(hero.equipment);
         return (
           <div key={hero.id} className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
             <p className="text-bone-100 font-semibold">{hero.name}</p>
@@ -50,10 +52,17 @@ export default function StepDeadCleanup({ warband, draft, updateDraft }: StepPro
               </label>
             )}
 
-            {hero.equipment.length > 0 && (
+            {/* §45.3: the dead lose their gear, as the rulebook says — no
+                choice to make. Captured or left: the choice stays, but only for
+                gear worth keeping; a free dagger never goes to the stash. */}
+            {state.resultingStatus === 'dead'
+              ? hero.equipment.length > 0 && (
+                  <p className="text-bone-300 text-sm">{strings.postBattle.deadCleanup.equipmentLostDead}</p>
+                )
+              : keepable.length > 0 && (
               <>
                 <p className="text-bone-300 text-sm">
-                  {hero.equipment.length} item{hero.equipment.length === 1 ? '' : 's'}: {hero.equipment.map((e) => e.name).join(', ')}
+                  {keepable.length} item{keepable.length === 1 ? '' : 's'}: {keepable.map((e) => e.name).join(', ')}
                 </p>
                 <p className="text-bone-300 text-sm">{strings.postBattle.deadCleanup.equipmentFate}</p>
                 <div className="flex gap-2">
@@ -91,42 +100,7 @@ export default function StepDeadCleanup({ warband, draft, updateDraft }: StepPro
           <div key={group.id} className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
             <p className="text-bone-100 font-semibold">{strings.postBattle.deadCleanup.henchmenWipedTitle(group.groupName)}</p>
             {hasEquipment && (
-              <>
-                <p className="text-bone-300 text-sm">
-                  {group.equipment.length} item{group.equipment.length === 1 ? '' : 's'}: {group.equipment.map((e) => e.name).join(', ')}
-                </p>
-                <p className="text-bone-300 text-sm">{strings.postBattle.deadCleanup.equipmentFate}</p>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      updateDraft({
-                        henchmenGroups: { ...draft.henchmenGroups, [group.id]: { ...state, equipmentFateForDead: 'treasury' } },
-                      })
-                    }
-                    className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-                      state.equipmentFateForDead === 'treasury'
-                        ? 'bg-ember-500 text-on-accent border-ember-500'
-                        : 'border-ink-700 text-bone-200'
-                    }`}
-                  >
-                    {strings.postBattle.deadCleanup.toTreasury}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      updateDraft({
-                        henchmenGroups: { ...draft.henchmenGroups, [group.id]: { ...state, equipmentFateForDead: 'lost' } },
-                      })
-                    }
-                    className={`flex-1 min-h-[40px] rounded-md border text-sm font-semibold ${
-                      state.equipmentFateForDead === 'lost' ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
-                    }`}
-                  >
-                    {strings.postBattle.deadCleanup.lost}
-                  </button>
-                </div>
-              </>
+              <p className="text-bone-300 text-sm">{strings.postBattle.deadCleanup.equipmentLostWiped}</p>
             )}
             <label className="flex items-center gap-2 text-bone-200 pt-2">
               <input

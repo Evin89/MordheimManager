@@ -33,7 +33,8 @@ export type HenchmenBattleState = {
   outOfActionCount: number;
   diedCount: number;
   xpAwarded: number;
-  equipmentFateForDead: 'treasury' | 'lost';
+  // `equipmentFateForDead` was removed in §45.3: a wiped-out group's gear is
+  // always lost. Drafts saved before that still carry the field; it is ignored.
   deleteGroupIfEmpty: boolean;
   statIncreases: StatIncreases;
   /** "That Lad's Got Talent": one member of the group becomes a Hero. Recorded
