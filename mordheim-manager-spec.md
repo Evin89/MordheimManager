@@ -4359,3 +4359,15 @@ The **print routes** (`/resources/event-sheet`, `/resources/roster`) are public.
 2. `/resources/event-sheet` → add a store logo → print. Both pages show the logo, and the printout matches the static PDF apart from the logo.
 3. The Rules tab shows *Resources* first. The landing page footer links to it.
 4. No call to Supabase on `/resources` or its print routes when signed out, apart from the analytics proxy.
+
+### 44.6 Indexing policy _(added 2026-11-12)_
+
+**Why.** Search Console's first report (2026-11-09) showed `http://` duplicates, app screens (`/app/register`, `/app/warbands`, a shared roster), the `/lantern` analytics proxy and the rules reference in Google's index, and canonicals on the static pages pointing at `.html` URLs that the assets layer redirects away from.
+
+- **https only.** Cloudflare zone setting *SSL/TLS → Edge Certificates → Always Use HTTPS* is **on** (dashboard, owner's step — not in the repo). `worker/index.js` also 301s `http:` GET/HEAD to https for the paths routed through it, as a safety net.
+- **Canonicals match the sitemap exactly**, without `.html`: `/about`, `/privacy`, `/terms` (`public/*.html`, `scripts/build-about.mjs`).
+- **`X-Robots-Tag: noindex` on all of `/app/*`, except `/app/resources` and `/app/resources/*`** — set in `public/_headers` for responses from the assets layer (including the SPA fallback), and by `withNoindex()` in the Worker for responses it builds itself (`/lantern/*`, both roster paths). That includes:
+  - **Shared and public rosters** — shareable by link and still unfurled with OG meta, but not findable by search (owner's call, 2026-11-12).
+  - **The rules reference** (`/app/rules/*`) — readable signed out (§44.1) but kept out of search because it carries GW content (§3). ❓ Reversible: drop it from the noindex by adding a `! X-Robots-Tag` block for `/app/rules` and `/app/rules/*` in `_headers`.
+- **`robots.txt` disallows nothing.** A crawler that may not fetch a page never sees its `noindex`, and the URL can linger in the index.
+- ⚠️ A new public, indexable page under `/app` needs **both** a sitemap line and a `! X-Robots-Tag` block in `_headers`.
