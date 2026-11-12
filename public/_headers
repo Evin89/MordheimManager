@@ -29,3 +29,22 @@
 # new weight is picked up.
 /fonts/*.woff2
   Cache-Control: public, max-age=31536000, immutable
+
+# §44.6 — indexing policy. The app shell under /app is for using the app, not
+# for search results: sign-in, a player's warbands, shared rosters (shareable by
+# link, not findable by search) and the rules reference, which carries GW
+# content and stays out of public crawl paths (§3). Only the Resources pages are
+# meant to be found. robots.txt deliberately does NOT disallow these paths —
+# Google has to be able to crawl a page to see its noindex.
+#
+# This covers responses served by the assets layer, including the SPA fallback.
+# Responses the Worker builds itself (/lantern, the bot roster path) don't get
+# _headers rules, so worker/index.js sets the same header on those.
+/app/*
+  X-Robots-Tag: noindex
+
+/app/resources
+  ! X-Robots-Tag
+
+/app/resources/*
+  ! X-Robots-Tag
