@@ -10,6 +10,7 @@
     {
       "id": "tomb-lord",
       "unitType": "Tomb Lord",
+      "racialProfile": "tombLord",
       "cost": 150,
       "isLargeCreature": false,
       "maxCount": 1,
@@ -60,6 +61,7 @@
     {
       "id": "liche-priest",
       "unitType": "Liche Priest",
+      "racialProfile": "lichePriest",
       "cost": 55,
       "isLargeCreature": false,
       "maxCount": 1,
@@ -112,6 +114,7 @@
     {
       "id": "acolytes",
       "unitType": "Acolyte",
+      "racialProfile": "lichePriest",
       "cost": 20,
       "isLargeCreature": false,
       "maxCount": 2,
@@ -193,6 +196,13 @@
         {
           "name": "Undead",
           "description": "Skeletons are undead and follow all rules for the Undead."
+        },
+        {
+          "name": "No Brain",
+          "description": "Skeletons are not alive, thus they never gain experience.",
+          "effects": {
+            "noExperience": true
+          }
         }
       ]
     },
@@ -275,7 +285,9 @@
         {
           "name": "Animals",
           "description": "Scorpions are animals and do not gain experience points.",
-          "effects": { "noExperience": true }
+          "effects": {
+            "noExperience": true
+          }
         },
         {
           "name": "Scorpions sting*",

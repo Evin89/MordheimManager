@@ -14,6 +14,7 @@ import { StatLine } from '../../types';
 import { StatIncreases, StepProps } from './types';
 import { heroSkillLists, promotionSkillListOptions } from '../../lib/ruleEffects';
 import { getSkillList } from '../../lib/skillLookup';
+import { effectiveStatMaximums } from '../../lib/racialMaximums';
 
 type LastAdvanceRoll = {
   total: number;
@@ -408,7 +409,7 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               {strings.postBattle.advances.currentXp}: {hero.xp + state.xpAwarded}
             </p>
             <AdvanceRecorder
-              statMaximums={hero.statMaximums}
+              statMaximums={effectiveStatMaximums(warband.warbandType, hero.unitType, hero.statMaximums)}
               currentStats={hero.stats}
               skillLists={heroSkillLists(warband.warbandType, hero, warband.subfaction)}
               knownSkills={hero.skills}
@@ -570,7 +571,7 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               {strings.postBattle.advances.currentXp}: {sword.xp + state.xpAwarded}
             </p>
             <AdvanceRecorder
-              statMaximums={sword.statMaximums}
+              statMaximums={effectiveStatMaximums(warband.warbandType, sword.type, sword.statMaximums)}
               currentStats={sword.stats}
               skillLists={sword.skillLists}
               knownSkills={sword.skills}
