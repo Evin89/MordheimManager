@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-11-16",
+    "title": "Free Dagger Back from the Treasury",
+    "description": "A warrior carrying two close combat weapons can take his free dagger back from the treasury again. The free dagger never counts towards the two-weapon limit, but the app refused it on the way back. A bought dagger still counts as a weapon."
+  },
+  {
+    "date": "2026-11-16",
     "title": "Tomb Guardians: Characteristic Advances",
     "description": "Liche Priests and Acolytes could not raise any characteristic: their maximums were missing and came out as zero. They now use the Liche Priest & Acolyte maximum profile, and the Tomb Lord his own. This also fixes warriors recruited before today. Skeleton Warriors no longer gain experience, as their No Brain rule says."
   },
