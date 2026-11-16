@@ -1131,6 +1131,18 @@ ${url}`,
     addToExisting: 'Add to an existing group instead',
     newGroup: 'Start a new group',
   },
+  // Henchmen screen — advances recorded outside the post-battle wizard.
+  henchmenDetail: {
+    advanceHelp:
+      'A Henchman advance is +1 to one characteristic (never more than +1 per stat) — tap it below — or, on a roll of 10–12, "That Lad\'s Got Talent": one member becomes a Hero.',
+    ladsGotTalent: "That Lad's Got Talent — promote a member",
+    promotePrompt: (group: string) => `Promote one member of ${group} to a Hero?`,
+    promoteImpact: (left: number) =>
+      `He keeps the group's profile, Experience and equipment. ${left} ${left === 1 ? 'member stays' : 'members stay'} in the group.`,
+    promoteImpactLast:
+      "He keeps the group's profile, Experience and equipment. He is the last member, so the group is disbanded.",
+    promoteAction: 'Promote to Hero',
+  },
   modelDetail: {
     hiredSwordFixedGear: "Hired Swords carry exactly what their entry lists, so they can't buy or be given other equipment.",
     hiredSwordMissingGear: (entry: string) =>

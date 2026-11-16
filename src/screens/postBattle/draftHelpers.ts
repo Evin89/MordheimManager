@@ -1,11 +1,11 @@
 import { generateId } from '../../lib/id';
 import { defaultHouseRules } from '../../data/houseRules';
-import { getUnitRacialMaximums } from '../../lib/racialMaximums';
 import { applySpellGains, getSpell, loweredAdvanceDetail } from '../../lib/spellLookup';
 import { getWyrdstoneSellPrice } from '../../lib/wyrdstonePricing';
 import { countModels } from '../../lib/rating';
 import { resolveEquipmentItem } from '../../lib/equipmentLookup';
-import { promotionSkillListOptions, unitGainsExperience } from '../../lib/ruleEffects';
+import { unitGainsExperience } from '../../lib/ruleEffects';
+import { buildPromotedHero } from '../../lib/promotion';
 import { createHenchmenGroupFromType } from '../../lib/warbandFactory';
 import { getWarbandDefinition } from '../../data/warbandRegistry';
 import { EquipmentItem } from '../../types';
@@ -298,51 +298,17 @@ export function applyDraftToWarband(
     const groupXp = unitGainsExperience(warband.warbandType, group) ? group.xp + state.xpAwarded : group.xp;
     const groupStats = applyStatIncreases(group.stats, state.statIncreases);
 
-    // "That Lad's Got Talent": one member leaves the group and joins the
-    // Heroes, keeping the characteristics and Experience he had as a Henchman.
-    // His skill lists come from his unit's rule effects (ruleEffects): fixed by
-    // the rules where they say so, otherwise the two the player picked in the
-    // Advances step, plus any list the rules add on top.
-    const promotion = promotionSkillListOptions(warband.warbandType, group.unitType, warband.subfaction);
-    const promotedLists = [
-      ...(promotion.fixed ?? (state.promotionSkillLists ?? []).slice(0, promotion.choose)),
-      ...promotion.extra,
-    ];
+    // "That Lad's Got Talent" (lib/promotion): one member leaves the group and
+    // joins the Heroes, keeping his characteristics and Experience.
     if (state.ladsGotTalent && newCount > 0) {
-      promotedHeroes.push({
-        id: generateId(),
-        name: `${group.unitType} (promoted)`,
-        unitType: group.unitType,
-        isLeader: false,
-        isLargeCreature: group.isLargeCreature,
-        stats: groupStats,
-        // The racial ceiling for his unit type, not the stats he happens to
-        // have. Using his own line froze the promoted model permanently: every
-        // stat already sat at its "maximum", so he could never advance again.
-        statMaximums: getUnitRacialMaximums(warband.warbandType, group.unitType) ?? groupStats,
-        xp: groupXp,
-        startingXp: groupXp,
-        advances: [],
-        skillLists: promotedLists,
-        skills: [],
-        // A promoted Henchman is not a caster: which lists a warband's Heroes
-        // may use varies, and none of them grant magic on promotion. Left empty
-        // for the same reason as `skillLists` — the player sets it if the
-        // warband's own rules say otherwise.
-        spellLists: [],
-        spells: [],
-        injuries: [],
-        // He keeps the kit he carried as a Henchman. A group's equipment list is
-        // what every member carries, so he takes a copy (fresh ids — the items
-        // are now his own) and the group keeps its list for the rest.
-        equipment: group.equipment.map((item) => ({ ...item, id: generateId() })),
-        status: 'active',
-        notes:
-          `Promoted from ${group.groupName} by "That Lad's Got Talent" after ${draft.scenario || 'a battle'}. ` +
-          (promotedLists.length > 0
-            ? 'He keeps the equipment he carried in the group.'
-            : 'Set his skill lists — the rulebook decides these per warband. He keeps the equipment he carried in the group.'),
-      });
+      promotedHeroes.push(
+        buildPromotedHero(warband, group, {
+          stats: groupStats,
+          xp: groupXp,
+          chosenLists: state.promotionSkillLists ?? [],
+          origin: `after ${draft.scenario || 'a battle'}`,
+        }),
+      );
     }
 
     // The promoted lad is no longer part of the group.
