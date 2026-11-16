@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-11-16",
+    "title": "That Lad's Got Talent from the Roster",
+    "description": "A Henchman group's screen now has a \"That Lad's Got Talent\" button under its advances. Use it when you roll the promotion at the table instead of in the post-battle sequence: pick his two skill lists and one member joins your Heroes, with the group's profile, Experience and equipment. Promoting the last member disbands the group, the same as after a battle."
+  },
+  {
+    "date": "2026-11-16",
     "title": "Free Dagger Back from the Treasury",
     "description": "A warrior carrying two close combat weapons can take his free dagger back from the treasury again. The free dagger never counts towards the two-weapon limit, but the app refused it on the way back. A bought dagger still counts as a weapon."
   },
