@@ -383,7 +383,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
    * The treasury itself stays unlimited: the rules cap what a warrior carries,
    * not what the warband owns.
    */
-  function weaponBlock(item: { name: string; category: EquipmentItem['category'] }): string | null {
+  function weaponBlock(item: { name: string; category: EquipmentItem['category']; cost?: number | null }): string | null {
     if (!model) return null;
     const verdict = canAddWeapon(model.equipment, item);
     if (verdict.allowed) return null;

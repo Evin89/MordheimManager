@@ -109,7 +109,7 @@ export default function HenchmenDetailScreen() {
 
   /** The two-weapon limits apply per model, and every model in a group carries
    * the same gear — so the group's own list is what gets checked. */
-  function weaponBlock(item: { name: string; category: EquipmentItem['category'] }): string | null {
+  function weaponBlock(item: { name: string; category: EquipmentItem['category']; cost?: number | null }): string | null {
     if (!group) return null;
     const verdict = canAddWeapon(group.equipment, item);
     if (verdict.allowed) return null;

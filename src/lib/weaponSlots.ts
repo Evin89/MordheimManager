@@ -14,7 +14,7 @@ export const MAX_MISSILE_TYPES = 2;
  * limit. Identified by being a cost-free Dagger: a *bought* dagger costs money
  * and does count, so name alone would be wrong. Only one is ever exempt.
  */
-function isFreeDagger(item: EquipmentItem): boolean {
+function isFreeDagger(item: { name: string; cost?: number | null }): boolean {
   return item.name.trim().toLowerCase() === 'dagger' && (item.cost ?? 0) === 0;
 }
 
@@ -59,11 +59,16 @@ export type SlotVerdict = { allowed: true } | { allowed: false; reason: 'meleeFu
  */
 export function canAddWeapon(
   equipment: EquipmentItem[],
-  item: { name: string; category: EquipmentItem['category'] },
+  item: { name: string; category: EquipmentItem['category']; cost?: number | null },
 ): SlotVerdict {
   const usage = countWeaponSlots(equipment);
 
   if (item.category === 'melee') {
+    // The free dagger sits outside the limit on the way back on, too: a warrior
+    // with two weapons whose free dagger went to the treasury may take it back
+    // (issue 80e99596). Only while he has no exempt dagger already — a second
+    // free dagger is a real weapon, as in countWeaponSlots.
+    if (isFreeDagger(item) && !usage.freeDaggerExempt) return { allowed: true };
     return usage.melee >= MAX_MELEE ? { allowed: false, reason: 'meleeFull' } : { allowed: true };
   }
 
