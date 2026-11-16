@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-11-16",
+    "title": "Tomb Guardians: Characteristic Advances",
+    "description": "Liche Priests and Acolytes could not raise any characteristic: their maximums were missing and came out as zero. They now use the Liche Priest & Acolyte maximum profile, and the Tomb Lord his own. This also fixes warriors recruited before today. Skeleton Warriors no longer gain experience, as their No Brain rule says."
+  },
+  {
     "date": "2026-11-09",
     "title": "Event Sheet for Game Nights",
     "description": "Anyone in a campaign can now print a sheet for the evening: a roster with a column per round, one battle slip per table to cut apart, and a campaign page with the standings. Pair warbands by rating, Swiss, at random, or by hand; an odd warband joins a three-way table or takes a bye. Ratings are read fresh before every round, so the underdog bonus on each slip is the right one. Open it from a game night, or from the campaign screen when nothing is scheduled. Stores can add their own logo; it stays on your device."

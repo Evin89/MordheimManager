@@ -17,6 +17,7 @@ import SpellBlock from '../components/SpellBlock';
 import SaveBar from '../components/SaveBar';
 import { Button, Card, SectionHeading } from '../components/ui';
 import { strings } from '../strings';
+import { effectiveStatMaximums } from '../lib/racialMaximums';
 import { useWarbandLookup } from '../hooks/useWarbands';
 import { useUnsavedChangesWarning, useWarbandDraft } from '../hooks/useWarbandDraft';
 import { useBattlesQuery, useWarbandCampaign } from '../hooks/useCampaign';
@@ -113,6 +114,11 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const list = draft[listKey] as EditableModel[];
   const model = list.find((m) => m.id === modelId);
   if (!model) return <Navigate to={`/warbands/${draft.id}`} replace />;
+  const maximums = effectiveStatMaximums(
+    draft.warbandType,
+    'unitType' in model ? model.unitType : model.type,
+    model.statMaximums,
+  );
 
   // From the game data, not from the model's stored copy — a caster recruited
   // before spell lists existed has an empty one, and would show no magic.
@@ -501,7 +507,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           <SectionHeading>{strings.modelDetail.statsSection}</SectionHeading>
           <ProfileBlock
             stats={model.stats}
-            maximums={model.statMaximums}
+            maximums={maximums}
             onStatChange={updateStat}
             showMaximums
           />
@@ -592,7 +598,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
                   <p className="text-bone-300 text-sm">{strings.modelDetail.pickStat}</p>
                   <div className="grid grid-cols-3 gap-2">
                     {STAT_KEYS.map((key) => {
-                      const atMax = model.stats[key] >= model.statMaximums[key];
+                      const atMax = !!maximums && model.stats[key] >= maximums[key];
                       return (
                         <button
                           key={key}

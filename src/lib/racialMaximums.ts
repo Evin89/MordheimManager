@@ -73,3 +73,28 @@ export function maximumsSourceLabel(unit: MaximumsSource): string | null {
   if (unit.racialProfile) return getRacialProfile(unit.racialProfile)?.name ?? null;
   return null;
 }
+
+/**
+ * The ceiling to advance a *saved* model against.
+ *
+ * The game data wins over the copy stored on the model: maximums are frozen
+ * onto a model when it is recruited, so a data fix (a missing racial profile,
+ * say) would otherwise never reach warriors recruited before it. Tomb
+ * Guardians' Liche Priests and Acolytes were stored with a line of zeroes and
+ * could never raise a characteristic (issue d25a0c97, 2026-11-16).
+ *
+ * Falls back to the stored copy for units the data can't place (Hired Swords,
+ * custom warbands, renamed types) — unless that copy is all zeroes, which is
+ * the factory's placeholder for "no source", not a real ceiling. Undefined
+ * means no known cap: advancing is allowed and nothing is marked as maxed.
+ */
+export function effectiveStatMaximums(
+  warbandType: string,
+  unitType: string | undefined,
+  stored: StatLine | undefined,
+): StatLine | undefined {
+  const fromData = unitType ? getUnitRacialMaximums(warbandType, unitType) : null;
+  if (fromData) return fromData;
+  if (!stored || Object.values(stored).every((v) => !v)) return undefined;
+  return stored;
+}
