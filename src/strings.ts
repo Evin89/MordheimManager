@@ -1210,6 +1210,11 @@ ${url}`,
     ineligibleEquipmentWarning: (items: string) =>
       `Not on this model's equipment list: ${items}. Unassign it, or re-add a skill that allows it.`,
     removedToast: (what: string) => `Removed: ${what}`,
+    removeInjuryPrompt: (injury: string, model: string) => `Remove ${injury} from ${model}?`,
+    removeInjuryRestores: (change: string) => `This undoes its penalty on the profile (${change}).`,
+    removeInjuryNoStats:
+      'The profile stays as it is — this injury was recorded without a characteristic change. Check the profile by hand if you lowered it yourself.',
+    removeInjuryAction: 'Remove injury',
     spells: {
       // The heading itself comes from the list's kind — a priest prays rather
       // than casts — so these take the word rather than hardcoding "spell".

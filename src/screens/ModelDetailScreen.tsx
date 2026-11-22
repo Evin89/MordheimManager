@@ -29,7 +29,7 @@ import {
   resolveSpellLists,
   spellBlockLabel,
 } from '../lib/spellLookup';
-import { getUniqueInjuries } from '../lib/injuryLookup';
+import { applyInjuryStatChange, formatStatChange, getUniqueInjuries } from '../lib/injuryLookup';
 import { ResolvedEquipmentItem } from '../lib/equipmentLookup';
 import { hasFoughtFirstBattle } from '../lib/battleHistory';
 import { MAX_MELEE, MAX_MISSILE_TYPES, canAddWeapon } from '../lib/weaponSlots';
@@ -82,6 +82,7 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
   const [confirmSkill, setConfirmSkill] = useState<string | null>(null);
   const [addingSkill, setAddingSkill] = useState(false);
   const [confirmAdvanceId, setConfirmAdvanceId] = useState<string | null>(null);
+  const [confirmInjuryId, setConfirmInjuryId] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [addingInjury, setAddingInjury] = useState(false);
   const [injuryChoice, setInjuryChoice] = useState('custom');
@@ -315,16 +316,40 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
     const effect = picked ? picked.effect : customInjuryEffect.trim();
     if (!name) return;
 
+    // A table result with a characteristic penalty (Chest Wound: −1 T…) is
+    // applied to the profile now and remembered on the injury, so removing it
+    // later undoes exactly that. Custom injuries change nothing.
+    const statChange = picked?.statChange;
     commitModel({
+      stats: applyInjuryStatChange(model.stats, statChange),
       injuries: [
         ...model.injuries,
-        { id: generateId(), name, effect, dateAcquired: new Date().toISOString().slice(0, 10) },
+        {
+          id: generateId(),
+          name,
+          effect,
+          dateAcquired: new Date().toISOString().slice(0, 10),
+          ...(statChange ? { statChange } : {}),
+        },
       ],
     });
     setAddingInjury(false);
     setInjuryChoice('custom');
     setCustomInjuryName('');
     setCustomInjuryEffect('');
+  }
+
+  /** Removes an injury recorded by mistake, undoing the penalty it applied. */
+  function removeInjury(injuryId: string) {
+    if (!model) return;
+    const injury = model.injuries.find((i) => i.id === injuryId);
+    if (!injury) return;
+    commitModel({
+      stats: applyInjuryStatChange(model.stats, injury.statChange, -1),
+      injuries: model.injuries.filter((i) => i.id !== injuryId),
+    });
+    setToast(strings.modelDetail.removedToast(injury.name));
+    setConfirmInjuryId(null);
   }
 
   function moveToTreasury(itemId: string) {
@@ -805,9 +830,38 @@ export default function ModelDetailScreen({ kind }: ModelDetailScreenProps) {
           {model.injuries.length === 0 && <p className="text-bone-300 text-sm">{strings.modelDetail.noInjuries}</p>}
           <div className="space-y-2">
             {model.injuries.map((injury) => (
-              <div key={injury.id} className="rounded-md bg-ink-900 border border-ink-800 p-3">
-                <p className="text-bone-100 font-semibold">{injury.name}</p>
-                {injury.effect && <p className="text-bone-300 text-sm mt-1">{injury.effect}</p>}
+              <div key={injury.id} className="rounded-md bg-ink-900 border border-ink-800 p-3 space-y-2">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-bone-100 font-semibold">
+                      {injury.name}
+                      {injury.statChange && (
+                        <span className="text-bone-300 text-sm font-normal"> ({formatStatChange(injury.statChange)})</span>
+                      )}
+                    </p>
+                    {injury.effect && <p className="text-bone-300 text-sm mt-1">{injury.effect}</p>}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmInjuryId(injury.id)}
+                    className="shrink-0 inline-flex items-center min-h-[44px] text-danger text-xs font-semibold"
+                  >
+                    {strings.common.remove}
+                  </button>
+                </div>
+                {confirmInjuryId === injury.id && (
+                  <ConfirmAction
+                    prompt={strings.modelDetail.removeInjuryPrompt(injury.name, model.name)}
+                    impact={
+                      injury.statChange
+                        ? strings.modelDetail.removeInjuryRestores(formatStatChange(injury.statChange))
+                        : strings.modelDetail.removeInjuryNoStats
+                    }
+                    action={strings.modelDetail.removeInjuryAction}
+                    onConfirm={() => removeInjury(injury.id)}
+                    onCancel={() => setConfirmInjuryId(null)}
+                  />
+                )}
               </div>
             ))}
           </div>
