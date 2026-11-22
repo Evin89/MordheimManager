@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import BackHeader from '../../components/BackHeader';
-import DiscordLink from '../../components/DiscordLink';
+import DiscordLink, { DISCORD_CHANNEL_URL } from '../../components/DiscordLink';
 import GameDataSection from '../../components/GameDataSection';
 import { Button, Card, ListGroup, ListRow, SectionHeading } from '../../components/ui';
 import { openNavTour } from '../../lib/tour';
@@ -39,8 +39,8 @@ export default function AccountAboutScreen() {
           <ListRow to="/account/changelog" label={s.changelogLink} />
         </ListGroup>
 
-        {/* Community entry point (§4.10). */}
-        <DiscordLink />
+        {/* Community entry point (§4.10.1) — signed in, so straight to the channel. */}
+        <DiscordLink url={DISCORD_CHANNEL_URL} />
 
         <GameDataSection />
 
