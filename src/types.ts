@@ -20,6 +20,13 @@ export type Injury = {
   dateAcquired: string; // battle reference
   missNextGame?: boolean;
   /**
+   * The characteristic change this injury applied to the model when it was
+   * recorded (e.g. Chest Wound → { T: -1 }), so removing it can undo exactly
+   * that. Absent on injuries recorded before the app applied penalties, and on
+   * custom ones — removing those leaves the statline alone.
+   */
+  statChange?: Partial<StatLine>;
+  /**
    * An epitaph, written at the point of death (spec §18.1). Only meaningful on
    * the injury that killed the model — prompted in the post-battle Dead Models
    * step, the one moment it is narratively relevant.

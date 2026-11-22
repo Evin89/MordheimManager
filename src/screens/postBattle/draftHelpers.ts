@@ -6,6 +6,7 @@ import { countModels } from '../../lib/rating';
 import { resolveEquipmentItem } from '../../lib/equipmentLookup';
 import { unitGainsExperience } from '../../lib/ruleEffects';
 import { buildPromotedHero } from '../../lib/promotion';
+import { applyInjuryStatChange, injuryStatChange } from '../../lib/injuryLookup';
 import { createHenchmenGroupFromType } from '../../lib/warbandFactory';
 import { getWarbandDefinition } from '../../data/warbandRegistry';
 import { EquipmentItem } from '../../types';
@@ -244,22 +245,31 @@ export function applyDraftToWarband(
       advances.push({ id: generateId(), type: 'skill', detail, battleRef: draft.scenario });
     }
 
+    // New injuries' characteristic penalties (Chest Wound: −1 T…) land on the
+    // profile, and each injury keeps its own change so it can be undone.
+    const newInjuries = state.injuries.map((injury) => {
+      const statChange = injuryStatChange(injury.name);
+      return {
+        id: generateId(),
+        name: injury.name,
+        effect: injury.effect,
+        dateAcquired: draft.date,
+        ...(statChange ? { statChange } : {}),
+      };
+    });
+    const injuredStats = newInjuries.reduce(
+      (stats, injury) => applyInjuryStatChange(stats, injury.statChange),
+      applyStatIncreases(hero.stats, state.statIncreases),
+    );
+
     heroes.push({
       ...hero,
       xp: hero.xp + state.xpAwarded,
-      stats: applyStatIncreases(hero.stats, state.statIncreases),
+      stats: injuredStats,
       skills: [...hero.skills, ...state.newSkills],
       ...applySpellGains(hero.spells, hero.spellReductions, state.newSpells),
       advances,
-      injuries: [
-        ...hero.injuries,
-        ...state.injuries.map((injury) => ({
-          id: generateId(),
-          name: injury.name,
-          effect: injury.effect,
-          dateAcquired: draft.date,
-        })),
-      ],
+      injuries: [...hero.injuries, ...newInjuries],
       status: state.participated ? state.resultingStatus : 'active',
     });
   }
