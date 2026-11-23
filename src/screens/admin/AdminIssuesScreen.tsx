@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import DisclosureChevron from '../../components/DisclosureChevron';
-import { IssueReply, IssueReport, IssueStatus } from '../../api/issues';
+import { IssuePatch, IssueReply, IssueReport, IssueStatus } from '../../api/issues';
 import {
   useIssueRepliesQuery,
   useIssueReportsQuery,
   useSendIssueReplyMutation,
-  useUpdateIssueStatusMutation,
+  useUpdateIssueMutation,
 } from '../../hooks/useIssues';
 import { strings } from '../../strings';
 
@@ -92,6 +92,72 @@ function ReplySection({ report, replies }: { report: IssueReport; replies: Issue
   );
 }
 
+/** Max length of the public summary; one sentence for a Discord embed. */
+const SUMMARY_MAX = 200;
+
+/**
+ * Migration 0073 — the one public line about a fix. A trigger posts it to
+ * Discord #fixed-issues once the report is closed with it set, exactly once.
+ * Controlled by the row so "Mark closed" can save an unsaved draft in the same
+ * write as the status.
+ */
+function PublicSummarySection({
+  report,
+  draft,
+  onDraft,
+  onSave,
+  saving,
+  failed,
+}: {
+  report: IssueReport;
+  draft: string;
+  onDraft: (value: string) => void;
+  onSave: () => void;
+  saving: boolean;
+  failed: boolean;
+}) {
+  const dirty = draft.trim() !== report.publicSummary;
+  const hint = report.fixedPostedAt
+    ? `Posted to Discord ${new Date(report.fixedPostedAt).toLocaleString()}. Edits are not re-posted.`
+    : report.status === 'closed'
+      ? report.publicSummary
+        ? 'Queued for Discord.'
+        : 'Closed without a public summary, so not posted. Saving one now posts it.'
+      : 'Posted to Discord when the report is closed.';
+
+  return (
+    <div className="space-y-2">
+      <label
+        htmlFor={`summary-${report.id}`}
+        className="block font-ui text-xs font-semibold uppercase tracking-wide text-bone-400"
+      >
+        Public summary · #fixed-issues
+      </label>
+      <textarea
+        id={`summary-${report.id}`}
+        value={draft}
+        onChange={(e) => onDraft(e.target.value)}
+        rows={2}
+        maxLength={SUMMARY_MAX}
+        placeholder="Hired swords now keep their XP after a battle."
+        className="w-full rounded-md border border-ink-700 bg-ink-950 px-3 py-2 text-base text-bone-100 placeholder:text-bone-400 focus:outline-none focus:border-ember-500"
+      />
+      <p className={`font-ui text-xs ${report.fixedPostedAt ? 'text-verdigris' : 'text-bone-400'}`}>
+        {hint} <span className="text-bone-400">({draft.length}/{SUMMARY_MAX})</span>
+      </p>
+      {failed && <p className="font-ui text-sm text-danger">Saving the summary failed. Try again.</p>}
+      <button
+        type="button"
+        disabled={!dirty || saving}
+        onClick={onSave}
+        className="min-h-[44px] px-4 rounded-md bg-ember-500 text-on-accent font-ui text-sm font-semibold disabled:opacity-50"
+      >
+        {saving ? 'Saving…' : 'Save summary'}
+      </button>
+    </div>
+  );
+}
+
 const FILTERS:{ id: IssueStatus | 'all'; label: string }[] = [
   { id: 'open', label: 'Open' },
   { id: 'triaged', label: 'Triaged' },
@@ -102,14 +168,26 @@ const FILTERS:{ id: IssueStatus | 'all'; label: string }[] = [
 function ReportRow({
   report,
   replies,
-  onStatus,
+  onUpdate,
+  saving,
+  failed,
 }: {
   report: IssueReport;
   replies: IssueReply[];
-  onStatus: (status: IssueStatus) => void;
+  onUpdate: (patch: IssuePatch, onSuccess?: () => void) => void;
+  saving: boolean;
+  failed: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [draft, setDraft] = useState(report.publicSummary);
+  const summaryDirty = draft.trim() !== report.publicSummary;
+
+  function changeStatus(status: IssueStatus) {
+    // Closing with an unsaved summary saves both in one write, so the Discord
+    // trigger sees the closed row and its summary together.
+    onUpdate(status === 'closed' && summaryDirty ? { status, publicSummary: draft } : { status });
+  }
 
   async function copy() {
     try {
@@ -193,6 +271,15 @@ function ReportRow({
             </pre>
           )}
 
+          <PublicSummarySection
+            report={report}
+            draft={draft}
+            onDraft={setDraft}
+            onSave={() => onUpdate({ publicSummary: draft }, () => setDraft(draft.trim()))}
+            saving={saving}
+            failed={failed}
+          />
+
           <ReplySection report={report} replies={replies} />
 
           <div className="flex flex-wrap gap-2">
@@ -209,10 +296,11 @@ function ReportRow({
                 <button
                   key={s}
                   type="button"
-                  onClick={() => onStatus(s)}
+                  onClick={() => changeStatus(s)}
                   className="min-h-[44px] px-3 rounded-md border border-ink-700 font-ui text-sm font-semibold text-bone-100"
                 >
                   Mark {s}
+                  {s === 'closed' && summaryDirty ? ' + save summary' : ''}
                 </button>
               ))}
           </div>
@@ -228,7 +316,7 @@ export default function AdminIssuesScreen() {
   const { data: reportPages, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useIssueReportsQuery(filter);
   const reports = reportPages ? reportPages.pages.flatMap((p) => p.rows) : undefined;
-  const setStatus = useUpdateIssueStatusMutation();
+  const update = useUpdateIssueMutation();
   const { data: replies } = useIssueRepliesQuery(reports?.map((r) => r.id) ?? []);
 
   return (
@@ -261,7 +349,9 @@ export default function AdminIssuesScreen() {
               key={report.id}
               report={report}
               replies={(replies ?? []).filter((rp) => rp.issueId === report.id)}
-              onStatus={(status) => setStatus(report.id, status)}
+              onUpdate={(patch, onSuccess) => update.mutate({ id: report.id, patch }, { onSuccess })}
+              saving={update.isPending && update.variables?.id === report.id}
+              failed={update.isError && update.variables?.id === report.id}
             />
           ))}
         </div>
