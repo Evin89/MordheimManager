@@ -1,0 +1,48 @@
+# Posts new src/data/changelog.json entries to the community Discord (#changelog).
+# Secret: DISCORD_CHANGELOG_WEBHOOK (Discord › #changelog › Integrations › Webhooks ›
+# "Mordheim Manager changelog" › Copy Webhook URL). Without it the job is a no-op.
+name: Discord changelog
+
+on:
+  push:
+    branches: [main]
+    paths: [src/data/changelog.json]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: discord-changelog
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Changelog at the previous head
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            echo "No previous head (new branch): skipping."
+            exit 0
+          fi
+          git fetch --depth=1 origin "$BEFORE"
+          if git show "$BEFORE:src/data/changelog.json" > "$RUNNER_TEMP/before.tmp"; then
+            mv "$RUNNER_TEMP/before.tmp" "$RUNNER_TEMP/changelog-before.json"
+          else
+            echo "Changelog did not exist before: skipping."
+          fi
+
+      - name: Post new entries
+        env:
+          DISCORD_CHANGELOG_WEBHOOK: ${{ secrets.DISCORD_CHANGELOG_WEBHOOK }}
+        run: node scripts/post-changelog-discord.mjs "$RUNNER_TEMP/changelog-before.json" src/data/changelog.json
