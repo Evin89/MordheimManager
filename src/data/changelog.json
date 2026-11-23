@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-11-23",
+    "title": "Our Own Discord Server",
+    "description": "Mordheim Manager now has its own Discord server, shared with Mord Hive Manager. Ask questions and suggest features in #general, talk solo play in #solo-play, and see every update in #changelog as soon as it ships. Fixes to reported problems are posted in #fixed-issues. The Discord button on Home and under Account › About takes you there, and the solo setup screen links straight to #solo-play."
+  },
+  {
     "date": "2026-11-22",
     "title": "Injuries: Remove, and Penalties on the Profile",
     "description": "An injury recorded by mistake can now be removed from a Hero or Hired Sword. Injuries with a characteristic penalty (Leg Wound, Chest Wound, Blinded in One Eye, Nervous Condition, Hand Injury) now lower the profile when you record them, on the model screen or after a battle, and removing one gives the point back. Injuries recorded before today didn't change the profile, so removing them leaves it as it is."
