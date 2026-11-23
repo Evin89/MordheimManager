@@ -1,6 +1,7 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../auth/AuthProvider';
 import {
+  IssuePatch,
   IssueStatus,
   fetchAdminStats,
   fetchAdminUserBattles,
@@ -13,7 +14,7 @@ import {
   fetchMyUnreadReplyCount,
   insertIssueReply,
   markMyIssueRepliesRead,
-  updateIssueStatus,
+  updateIssue,
 } from '../api/issues';
 import {
   fetchActivationFunnel,
@@ -256,18 +257,23 @@ export function useAdminUserBattlesQuery(userId: string | undefined) {
   });
 }
 
-export function useUpdateIssueStatusMutation() {
+/** Admin: status and/or public summary of a report, as one write (see
+ * `updateIssue`). */
+export function useUpdateIssueMutation() {
   const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: ({ id, status }: { id: string; status: IssueStatus }) =>
-      updateIssueStatus(id, status),
+  return useMutation({
+    mutationFn: ({ id, patch }: { id: string; patch: IssuePatch }) => updateIssue(id, patch),
     onSuccess: () => {
       // Both the list and the open-issue count on the stats panel move.
       queryClient.invalidateQueries({ queryKey: ['issueReports'] });
       queryClient.invalidateQueries({ queryKey: ['adminStats'] });
     },
   });
-  return (id: string, status: IssueStatus) => mutation.mutate({ id, status });
+}
+
+export function useUpdateIssueStatusMutation() {
+  const mutation = useUpdateIssueMutation();
+  return (id: string, status: IssueStatus) => mutation.mutate({ id, patch: { status } });
 }
 
 // ---------------------------------------------------------------------------
