@@ -21,6 +21,9 @@ import { strings } from '../strings';
 // user is signed in.
 export const DISCORD_INVITE = 'https://discord.gg/F7HTH5zrmj';
 export const DISCORD_CHANNEL_URL = 'https://discord.com/channels/1573273187393863851/1573273188132196434';
+// §4.10.1 — the #solo-play forum (questions, feedback and bugs about §24).
+// Members-only like the #general link, so it is only used in signed-in screens.
+export const DISCORD_SOLO_PLAY_URL = 'https://discord.com/channels/1573273187393863851/1573275581007527986';
 
 export default function DiscordLink({ url = DISCORD_INVITE }: { url?: string }) {
   return (

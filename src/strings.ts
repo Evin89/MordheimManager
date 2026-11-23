@@ -105,6 +105,8 @@ export const strings = {
   discord: {
     cta: 'Questions or ideas? Join the Discord',
     aria: 'Join the Mordheim Manager Discord for questions and suggestions',
+    soloPlay: 'Questions, ideas or bugs? #solo-play on Discord ›',
+    soloPlayAria: 'Open the #solo-play forum on the Mordheim Manager Discord',
   },
   // §26.5 — the owner-only nudge to make a battle-tested private warband public.
   // The copy says exactly what the flag does: campaign-mates see the warband
