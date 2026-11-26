@@ -24,7 +24,7 @@ import { EquipmentItem, HenchmenGroup, StatLine, Warband } from '../types';
 import { goldWarning, usePurchase } from '../hooks/usePurchase';
 import { EquipmentSection, RemoveModelControl } from '../components/EquipmentSection';
 import { rememberRemoved } from '../lib/removedModels';
-import { buildPromotedHero } from '../lib/promotion';
+import { buildPromotedHero, canPromote } from '../lib/promotion';
 import PromotionListsPicker from '../components/PromotionListsPicker';
 import { Button } from '../components/ui';
 
@@ -54,6 +54,7 @@ export default function HenchmenDetailScreen() {
   // Render from the draft so typed edits show immediately.
   const group = draft.henchmenGroups.find((g) => g.id === groupId);
   if (!group) return <Navigate to={`/warbands/${draft.id}`} replace />;
+  const ladAtHeroMax = !canPromote(warband);
   // From the unit's rule effects as well as the animal flag (ruleEffects).
   const gainsXp = unitGainsExperience(draft.warbandType, group);
 
@@ -93,11 +94,12 @@ export default function HenchmenDetailScreen() {
    * member promoted disbands the group, as in the wizard.
    */
   function promoteMember() {
-    if (!draft || !group) return;
+    if (!draft || !group || ladAtHeroMax) return;
     const heroId = generateId();
+    let promoted = false;
     saveNow((current: Warband) => {
       const g = current.henchmenGroups.find((x) => x.id === groupId);
-      if (!g || g.count < 1) return {};
+      if (!g || g.count < 1 || !canPromote(current)) return {};
       const hero = buildPromotedHero(current, g, {
         id: heroId,
         stats: g.stats,
@@ -106,6 +108,7 @@ export default function HenchmenDetailScreen() {
         origin: 'on the roster',
       });
       const remaining = g.count - 1;
+      promoted = true;
       return {
         heroes: [...current.heroes, hero],
         henchmenGroups:
@@ -114,6 +117,7 @@ export default function HenchmenDetailScreen() {
             : current.henchmenGroups.filter((x) => x.id !== groupId),
       };
     });
+    if (!promoted) return;
     setPromoting(false);
     navigate(`/warbands/${draft.id}/hero/${heroId}`, { replace: true });
   }
@@ -312,17 +316,16 @@ export default function HenchmenDetailScreen() {
                 </button>
               ))}
             </div>
-            {!promoting ? (
-              <button
-                type="button"
+            {!promoting && !ladAtHeroMax ? (
+              <Button
+                variant="secondary"
                 onClick={() => {
                   setPromotionLists([]);
                   setPromoting(true);
                 }}
-                className="w-full min-h-[44px] rounded-md border border-ink-700 text-bone-100 font-semibold"
               >
                 {strings.henchmenDetail.ladsGotTalent}
-              </button>
+              </Button>
             ) : (
               <div className="space-y-3 rounded-lg border border-ember-500 p-4">
                 <p className="text-bone-100 text-sm font-semibold">{strings.henchmenDetail.promotePrompt(group.groupName)}</p>
@@ -331,20 +334,26 @@ export default function HenchmenDetailScreen() {
                     ? strings.henchmenDetail.promoteImpact(group.count - 1)
                     : strings.henchmenDetail.promoteImpactLast}
                 </p>
-                <PromotionListsPicker
-                  warbandType={draft.warbandType}
-                  subfaction={draft.subfaction}
-                  unitType={group.unitType}
-                  chosen={promotionLists}
-                  onChange={setPromotionLists}
-                />
+                {ladAtHeroMax ? (
+                  <p className="text-ember-400 text-sm">{strings.henchmenDetail.ladAtHeroMax}</p>
+                ) : (
+                  <PromotionListsPicker
+                    warbandType={draft.warbandType}
+                    subfaction={draft.subfaction}
+                    unitType={group.unitType}
+                    chosen={promotionLists}
+                    onChange={setPromotionLists}
+                  />
+                )}
                 <div className="flex gap-2">
-                  <Button className="flex-1" onClick={promoteMember}>
+                  <Button className="flex-1" onClick={promoteMember} disabled={ladAtHeroMax}>
                     {strings.henchmenDetail.promoteAction}
                   </Button>
-                  <Button variant="secondary" onClick={() => setPromoting(false)}>
-                    {strings.common.cancel}
-                  </Button>
+                  {promoting && (
+                    <Button variant="secondary" onClick={() => setPromoting(false)}>
+                      {strings.common.cancel}
+                    </Button>
+                  )}
                 </div>
               </div>
             )}

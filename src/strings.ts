@@ -1138,6 +1138,7 @@ ${url}`,
     advanceHelp:
       'A Henchman advance is +1 to one characteristic (never more than +1 per stat) — tap it below — or, on a roll of 10–12, "That Lad\'s Got Talent": one member becomes a Hero.',
     ladsGotTalent: "That Lad's Got Talent — promote a member",
+    ladAtHeroMax: 'Your warband already has 6 Heroes. Dismiss a Hero first, or re-roll the advance.',
     promotePrompt: (group: string) => `Promote one member of ${group} to a Hero?`,
     promoteImpact: (left: number) =>
       `He keeps the group's profile, Experience and equipment. ${left} ${left === 1 ? 'member stays' : 'members stay'} in the group.`,
@@ -1517,6 +1518,7 @@ ${url}`,
       rerollNeeded: (stat: string) =>
         `${stat} is already at its maximum — roll again for a characteristic that can still be raised.`,
       ladsGotTalent: "That Lad's Got Talent",
+      ladAtHeroMax: 'Your warband already has 6 Heroes — re-roll this advance (the table says to re-roll at the Hero maximum).',
       // §15 — skill lists for the promoted Hero, from his unit's rules.
       promotion: {
         fixed: (lists: string) => `His rules fix his skill lists: ${lists}.`,
