@@ -15,11 +15,15 @@ import { strings } from '../strings';
  * worse than an honest generic icon (§3.3 sourcing discipline for a vector).
  */
 
-// The public server invite works for non-members (a stranger clicking cold).
-// The in-app channel deep link (discord.com/channels/{guild}/{channel}) would
-// drop an existing member straight into the #app channel — pass it as `url` on
-// Home once the ids are known. TODO: wire the channel deep link in-app.
-export const DISCORD_INVITE = 'https://discord.gg/mordheim-682102252080857148';
+// Own server (§4.10.1). The invite works for non-members (a stranger clicking
+// cold), so it is the default and the signed-out link; the channel deep link
+// (#general) resolves only for members, so it is passed as `url` where the
+// user is signed in.
+export const DISCORD_INVITE = 'https://discord.gg/F7HTH5zrmj';
+export const DISCORD_CHANNEL_URL = 'https://discord.com/channels/1573273187393863851/1573273188132196434';
+// §4.10.1 — the #solo-play forum (questions, feedback and bugs about §24).
+// Members-only like the #general link, so it is only used in signed-in screens.
+export const DISCORD_SOLO_PLAY_URL = 'https://discord.com/channels/1573273187393863851/1573275581007527986';
 
 export default function DiscordLink({ url = DISCORD_INVITE }: { url?: string }) {
   return (

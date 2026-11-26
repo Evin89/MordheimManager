@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackHeader from '../components/BackHeader';
 import { getUnitSpecialRules, getUnitNotes } from '../data/warbandRegistry';
@@ -23,6 +24,9 @@ import { EquipmentItem, HenchmenGroup, StatLine, Warband } from '../types';
 import { goldWarning, usePurchase } from '../hooks/usePurchase';
 import { EquipmentSection, RemoveModelControl } from '../components/EquipmentSection';
 import { rememberRemoved } from '../lib/removedModels';
+import { buildPromotedHero } from '../lib/promotion';
+import PromotionListsPicker from '../components/PromotionListsPicker';
+import { Button } from '../components/ui';
 
 export default function HenchmenDetailScreen() {
   const { warbandId, groupId } = useParams<{ warbandId: string; groupId: string }>();
@@ -34,6 +38,9 @@ export default function HenchmenDetailScreen() {
   const campaign = useWarbandCampaign(warbandId);
   const { data: battles } = useBattlesQuery(campaign?.id);
   const purchase = usePurchase();
+  // "That Lad's Got Talent" from the roster: open panel + chosen skill lists.
+  const [promoting, setPromoting] = useState(false);
+  const [promotionLists, setPromotionLists] = useState<string[]>([]);
 
   if (loading) {
     return (
@@ -79,6 +86,38 @@ export default function HenchmenDetailScreen() {
     });
   }
 
+  /**
+   * Records a "That Lad's Got Talent" result rolled at the table (§15): one
+   * member leaves the group as a Hero with the group's current profile, XP and
+   * kit (lib/promotion, the same builder the post-battle wizard uses). The last
+   * member promoted disbands the group, as in the wizard.
+   */
+  function promoteMember() {
+    if (!draft || !group) return;
+    const heroId = generateId();
+    saveNow((current: Warband) => {
+      const g = current.henchmenGroups.find((x) => x.id === groupId);
+      if (!g || g.count < 1) return {};
+      const hero = buildPromotedHero(current, g, {
+        id: heroId,
+        stats: g.stats,
+        xp: g.xp,
+        chosenLists: promotionLists,
+        origin: 'on the roster',
+      });
+      const remaining = g.count - 1;
+      return {
+        heroes: [...current.heroes, hero],
+        henchmenGroups:
+          remaining > 0
+            ? current.henchmenGroups.map((x) => (x.id === groupId ? { ...x, count: remaining } : x))
+            : current.henchmenGroups.filter((x) => x.id !== groupId),
+      };
+    });
+    setPromoting(false);
+    navigate(`/warbands/${draft.id}/hero/${heroId}`, { replace: true });
+  }
+
   function moveToTreasury(itemId: string) {
     if (!group) return;
     const item = group.equipment.find((e) => e.id === itemId);
@@ -91,7 +130,7 @@ export default function HenchmenDetailScreen() {
     }));
   }
 
-  /** §45.2: thrown away, not moved; groups keep no equipment log. */
+  /** §48.2: thrown away, not moved; groups keep no equipment log. */
   function discardFreeDagger(itemId: string) {
     if (!group) return;
     saveNow((current: Warband) => ({
@@ -119,7 +158,7 @@ export default function HenchmenDetailScreen() {
 
   /** The two-weapon limits apply per model, and every model in a group carries
    * the same gear — so the group's own list is what gets checked. */
-  function weaponBlock(item: { name: string; category: EquipmentItem['category'] }): string | null {
+  function weaponBlock(item: { name: string; category: EquipmentItem['category']; cost?: number | null }): string | null {
     if (!group) return null;
     const verdict = canAddWeapon(group.equipment, item);
     if (verdict.allowed) return null;
@@ -270,10 +309,7 @@ export default function HenchmenDetailScreen() {
                 );
               return null;
             })()}
-            <p className="text-bone-300 text-xs">
-              Henchmen advances are always a +1 characteristic increase (never more than +1 per stat, per the
-              rulebook) — tap a characteristic below when the group earns an advance.
-            </p>
+            <p className="text-bone-300 text-xs">{strings.henchmenDetail.advanceHelp}</p>
             <div className="grid grid-cols-3 gap-2">
               {STAT_KEYS.map((key) => (
                 <button
@@ -286,6 +322,42 @@ export default function HenchmenDetailScreen() {
                 </button>
               ))}
             </div>
+            {!promoting ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setPromotionLists([]);
+                  setPromoting(true);
+                }}
+                className="w-full min-h-[44px] rounded-md border border-ink-700 text-bone-100 font-semibold"
+              >
+                {strings.henchmenDetail.ladsGotTalent}
+              </button>
+            ) : (
+              <div className="space-y-3 rounded-lg border border-ember-500 p-4">
+                <p className="text-bone-100 text-sm font-semibold">{strings.henchmenDetail.promotePrompt(group.groupName)}</p>
+                <p className="text-bone-200 text-sm">
+                  {group.count > 1
+                    ? strings.henchmenDetail.promoteImpact(group.count - 1)
+                    : strings.henchmenDetail.promoteImpactLast}
+                </p>
+                <PromotionListsPicker
+                  warbandType={draft.warbandType}
+                  subfaction={draft.subfaction}
+                  unitType={group.unitType}
+                  chosen={promotionLists}
+                  onChange={setPromotionLists}
+                />
+                <div className="flex gap-2">
+                  <Button className="flex-1" onClick={promoteMember}>
+                    {strings.henchmenDetail.promoteAction}
+                  </Button>
+                  <Button variant="secondary" onClick={() => setPromoting(false)}>
+                    {strings.common.cancel}
+                  </Button>
+                </div>
+              </div>
+            )}
           </section>
         )}
 

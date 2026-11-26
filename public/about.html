@@ -353,6 +353,17 @@
         <div class="cta">
           <a class="btn btn-primary" href="/app">Open the app</a>
           <a class="btn btn-ghost" href="/">Home</a>
+          <!-- Community entry point (§4.10.1): own server invite, works for non-members. -->
+          <a
+            class="discord-link"
+            href="https://discord.gg/F7HTH5zrmj"
+            target="_blank"
+            rel="noopener external"
+            aria-label="Join the Mordheim Manager Discord for questions and suggestions"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>
+            <span>Join the Discord</span>
+          </a>
         </div>
       </header>
 
@@ -363,9 +374,39 @@
 
       <div class="changelog">
       <article class="entry">
-        <p class="entry-date ui tnum">2026-11-10</p>
+        <p class="entry-date ui tnum">2026-11-26</p>
         <h3>Free Daggers and Fallen Warriors</h3>
         <p>The free dagger every warrior starts with can now be discarded instead of moved to the treasury, where it was piling up at 0 gc. The ones already in treasuries have been cleared. And a warrior who dies now loses his equipment, as the rulebook says: after a battle there's no longer a choice to send a dead hero's or a wiped-out group's gear to the treasury.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-11-26</p>
+        <h3>Rout Test Fixes, and Stunned Tracking in Beta</h3>
+        <p>The rout test on the battle screen now follows the rules. It uses your leader's Leadership, or, when he is out of action, the highest Leadership among your remaining fighters, henchmen included. Heroes who sit out the battle no longer count towards the quarter that triggers the test, and they no longer appear on the battle roster: a line underneath names them instead. New and in beta: switch on Stunned tracking on the battle screen to mark stunned models. The rout test then skips a stunned leader, a stunned model reminds you it goes out of action if an enemy can attack it, and Recovery: clear stunned turns them into knocked down in your Recovery phase.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-11-23</p>
+        <h3>Our Own Discord Server</h3>
+        <p>Mordheim Manager now has its own Discord server, shared with Mord Hive Manager. Ask questions and suggest features in #general, talk solo play in #solo-play, and see every update in #changelog as soon as it ships. Fixes to reported problems are posted in #fixed-issues. The Discord button on Home and under Account › About takes you there, and the solo setup screen links straight to #solo-play.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-11-22</p>
+        <h3>Injuries: Remove, and Penalties on the Profile</h3>
+        <p>An injury recorded by mistake can now be removed from a Hero or Hired Sword. Injuries with a characteristic penalty (Leg Wound, Chest Wound, Blinded in One Eye, Nervous Condition, Hand Injury) now lower the profile when you record them, on the model screen or after a battle, and removing one gives the point back. Injuries recorded before today didn't change the profile, so removing them leaves it as it is.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-11-16</p>
+        <h3>That Lad's Got Talent from the Roster</h3>
+        <p>A Henchman group's screen now has a &quot;That Lad's Got Talent&quot; button under its advances. Use it when you roll the promotion at the table instead of in the post-battle sequence: pick his two skill lists and one member joins your Heroes, with the group's profile, Experience and equipment. Promoting the last member disbands the group, the same as after a battle.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-11-16</p>
+        <h3>Free Dagger Back from the Treasury</h3>
+        <p>A warrior carrying two close combat weapons can take his free dagger back from the treasury again. The free dagger never counts towards the two-weapon limit, but the app refused it on the way back. A bought dagger still counts as a weapon.</p>
+      </article>
+      <article class="entry">
+        <p class="entry-date ui tnum">2026-11-16</p>
+        <h3>Tomb Guardians: Characteristic Advances</h3>
+        <p>Liche Priests and Acolytes could not raise any characteristic: their maximums were missing and came out as zero. They now use the Liche Priest &amp; Acolyte maximum profile, and the Tomb Lord his own. This also fixes warriors recruited before today. Skeleton Warriors no longer gain experience, as their No Brain rule says.</p>
       </article>
       <article class="entry">
         <p class="entry-date ui tnum">2026-11-09</p>
@@ -900,6 +941,7 @@
           <a href="/app/gallery">Public gallery</a>
           <a href="/app/rules">Rules reference</a>
           <a href="/">Home</a>
+          <a href="https://discord.gg/F7HTH5zrmj" target="_blank" rel="noopener external">Mordheim Manager Discord</a>
         </div>
         <p class="community-label">Other Mordheim resources</p>
         <div class="links links-community">

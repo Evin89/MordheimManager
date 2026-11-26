@@ -287,6 +287,8 @@ export type InjuryTableEntry = {
   roll: string; // D66 notation, e.g. "11".."66"
   name: string;
   effect: string;
+  /** App field, not source text: the characteristic penalty `effect` states. */
+  statChange?: Partial<import('../types').StatLine>;
 };
 
 export type InjuriesData = {

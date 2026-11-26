@@ -1,11 +1,12 @@
 import { generateId } from '../../lib/id';
 import { defaultHouseRules } from '../../data/houseRules';
-import { getUnitRacialMaximums } from '../../lib/racialMaximums';
 import { applySpellGains, getSpell, loweredAdvanceDetail } from '../../lib/spellLookup';
 import { getWyrdstoneSellPrice } from '../../lib/wyrdstonePricing';
 import { countModels } from '../../lib/rating';
 import { resolveEquipmentItem } from '../../lib/equipmentLookup';
-import { promotionSkillListOptions, unitGainsExperience } from '../../lib/ruleEffects';
+import { unitGainsExperience } from '../../lib/ruleEffects';
+import { buildPromotedHero } from '../../lib/promotion';
+import { applyInjuryStatChange, injuryStatChange } from '../../lib/injuryLookup';
 import { createHenchmenGroupFromType } from '../../lib/warbandFactory';
 import { withoutFreeDaggers } from '../../lib/freeDagger';
 import { getWarbandDefinition } from '../../data/warbandRegistry';
@@ -221,9 +222,9 @@ export function applyDraftToWarband(
         const epitaph = state.lastWords?.trim();
         deadHeroNames.push(epitaph ? `${hero.name} — “${epitaph}”` : hero.name);
       }
-      // §45.3: a dead hero's gear is lost, as the rulebook says — whatever the
+      // §48.3: a dead hero's gear is lost, as the rulebook says — whatever the
       // draft holds. Captured or left: the player's choice stands, but a free
-      // dagger never goes to the stash (§45.1).
+      // dagger never goes to the stash (§48.1).
       if (state.resultingStatus !== 'dead' && state.equipmentFate === 'treasury') {
         treasury = [...treasury, ...withoutFreeDaggers(hero.equipment)];
       }
@@ -247,22 +248,31 @@ export function applyDraftToWarband(
       advances.push({ id: generateId(), type: 'skill', detail, battleRef: draft.scenario });
     }
 
+    // New injuries' characteristic penalties (Chest Wound: −1 T…) land on the
+    // profile, and each injury keeps its own change so it can be undone.
+    const newInjuries = state.injuries.map((injury) => {
+      const statChange = injuryStatChange(injury.name);
+      return {
+        id: generateId(),
+        name: injury.name,
+        effect: injury.effect,
+        dateAcquired: draft.date,
+        ...(statChange ? { statChange } : {}),
+      };
+    });
+    const injuredStats = newInjuries.reduce(
+      (stats, injury) => applyInjuryStatChange(stats, injury.statChange),
+      applyStatIncreases(hero.stats, state.statIncreases),
+    );
+
     heroes.push({
       ...hero,
       xp: hero.xp + state.xpAwarded,
-      stats: applyStatIncreases(hero.stats, state.statIncreases),
+      stats: injuredStats,
       skills: [...hero.skills, ...state.newSkills],
       ...applySpellGains(hero.spells, hero.spellReductions, state.newSpells),
       advances,
-      injuries: [
-        ...hero.injuries,
-        ...state.injuries.map((injury) => ({
-          id: generateId(),
-          name: injury.name,
-          effect: injury.effect,
-          dateAcquired: draft.date,
-        })),
-      ],
+      injuries: [...hero.injuries, ...newInjuries],
       status: state.participated ? state.resultingStatus : 'active',
     });
   }
@@ -284,7 +294,7 @@ export function applyDraftToWarband(
     }
 
     if (newCount <= 0 && state.deleteGroupIfEmpty) {
-      // §45.3: a wiped-out group's gear is lost with it.
+      // §48.3: a wiped-out group's gear is lost with it.
       continue; // group removed from roster
     }
 
@@ -299,51 +309,17 @@ export function applyDraftToWarband(
     const groupXp = unitGainsExperience(warband.warbandType, group) ? group.xp + state.xpAwarded : group.xp;
     const groupStats = applyStatIncreases(group.stats, state.statIncreases);
 
-    // "That Lad's Got Talent": one member leaves the group and joins the
-    // Heroes, keeping the characteristics and Experience he had as a Henchman.
-    // His skill lists come from his unit's rule effects (ruleEffects): fixed by
-    // the rules where they say so, otherwise the two the player picked in the
-    // Advances step, plus any list the rules add on top.
-    const promotion = promotionSkillListOptions(warband.warbandType, group.unitType, warband.subfaction);
-    const promotedLists = [
-      ...(promotion.fixed ?? (state.promotionSkillLists ?? []).slice(0, promotion.choose)),
-      ...promotion.extra,
-    ];
+    // "That Lad's Got Talent" (lib/promotion): one member leaves the group and
+    // joins the Heroes, keeping his characteristics and Experience.
     if (state.ladsGotTalent && newCount > 0) {
-      promotedHeroes.push({
-        id: generateId(),
-        name: `${group.unitType} (promoted)`,
-        unitType: group.unitType,
-        isLeader: false,
-        isLargeCreature: group.isLargeCreature,
-        stats: groupStats,
-        // The racial ceiling for his unit type, not the stats he happens to
-        // have. Using his own line froze the promoted model permanently: every
-        // stat already sat at its "maximum", so he could never advance again.
-        statMaximums: getUnitRacialMaximums(warband.warbandType, group.unitType) ?? groupStats,
-        xp: groupXp,
-        startingXp: groupXp,
-        advances: [],
-        skillLists: promotedLists,
-        skills: [],
-        // A promoted Henchman is not a caster: which lists a warband's Heroes
-        // may use varies, and none of them grant magic on promotion. Left empty
-        // for the same reason as `skillLists` — the player sets it if the
-        // warband's own rules say otherwise.
-        spellLists: [],
-        spells: [],
-        injuries: [],
-        // He keeps the kit he carried as a Henchman. A group's equipment list is
-        // what every member carries, so he takes a copy (fresh ids — the items
-        // are now his own) and the group keeps its list for the rest.
-        equipment: group.equipment.map((item) => ({ ...item, id: generateId() })),
-        status: 'active',
-        notes:
-          `Promoted from ${group.groupName} by "That Lad's Got Talent" after ${draft.scenario || 'a battle'}. ` +
-          (promotedLists.length > 0
-            ? 'He keeps the equipment he carried in the group.'
-            : 'Set his skill lists — the rulebook decides these per warband. He keeps the equipment he carried in the group.'),
-      });
+      promotedHeroes.push(
+        buildPromotedHero(warband, group, {
+          stats: groupStats,
+          xp: groupXp,
+          chosenLists: state.promotionSkillLists ?? [],
+          origin: `after ${draft.scenario || 'a battle'}`,
+        }),
+      );
     }
 
     // The promoted lad is no longer part of the group.

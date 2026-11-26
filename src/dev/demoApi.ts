@@ -460,6 +460,8 @@ const issues: {
   userAgent: string;
   status: 'open' | 'triaged' | 'closed';
   adminNotes: string;
+  publicSummary: string;
+  fixedPostedAt: string | null;
   createdAt: string;
 }[] = [
   {
@@ -472,6 +474,8 @@ const issues: {
     userAgent: 'Mozilla/5.0 (Linux; Android 14)',
     status: 'open',
     adminNotes: '',
+    publicSummary: '',
+    fixedPostedAt: null,
     createdAt: new Date(2026, 7, 1, 19, 24).toISOString(),
   },
   {
@@ -484,6 +488,8 @@ const issues: {
     userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5)',
     status: 'triaged',
     adminNotes: '',
+    publicSummary: '',
+    fixedPostedAt: null,
     createdAt: new Date(2026, 6, 28, 9, 10).toISOString(),
   },
 ];
@@ -519,6 +525,8 @@ for (let i = 0; i < 28; i += 1) {
     // Mostly open, so the default filter is the one worth paging.
     status: i % 7 === 0 ? 'closed' : i % 5 === 0 ? 'triaged' : 'open',
     adminNotes: '',
+    publicSummary: '',
+    fixedPostedAt: null,
     createdAt: new Date(2026, 6, 27 - Math.floor(i / 2), 8 + (i % 12), i % 60).toISOString(),
   });
 }
@@ -536,6 +544,8 @@ export async function insertIssueReport(report: {
     ...report,
     status: 'open',
     adminNotes: '',
+    publicSummary: '',
+    fixedPostedAt: null,
     createdAt: new Date().toISOString(),
   });
 }
@@ -560,9 +570,23 @@ export async function fetchIssueReports(status: string, cursor = 0) {
   return { rows, nextCursor: cursor + rows.length >= all.length ? null : cursor + rows.length };
 }
 
-export async function updateIssueStatus(id: string, status: 'open' | 'triaged' | 'closed'): Promise<void> {
+/** Mirrors the 0073 trigger: closed + non-empty summary + not yet posted →
+ * "posted" (nothing is sent anywhere in demo mode). */
+export async function updateIssue(
+  id: string,
+  patch: { status?: 'open' | 'triaged' | 'closed'; publicSummary?: string },
+): Promise<void> {
   const issue = issues.find((i) => i.id === id);
-  if (issue) issue.status = status;
+  if (!issue) return;
+  if (patch.status) issue.status = patch.status;
+  if (patch.publicSummary !== undefined) issue.publicSummary = patch.publicSummary.trim();
+  if (issue.status === 'closed' && issue.publicSummary !== '' && issue.fixedPostedAt === null) {
+    issue.fixedPostedAt = new Date().toISOString();
+  }
+}
+
+export async function updateIssueStatus(id: string, status: 'open' | 'triaged' | 'closed'): Promise<void> {
+  return updateIssue(id, { status });
 }
 
 // §41 — replies. In memory like everything else here. The demo viewer is the
@@ -584,6 +608,8 @@ function seedDemoReplies() {
     userAgent: 'Mozilla/5.0 (Linux; Android 14)',
     status: 'triaged',
     adminNotes: '',
+    publicSummary: '',
+    fixedPostedAt: null,
     createdAt: new Date(2026, 9, 31, 22, 3).toISOString(),
   });
   issueReplies.push({

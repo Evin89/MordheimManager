@@ -1,8 +1,38 @@
 [
   {
-    "date": "2026-11-10",
+    "date": "2026-11-26",
     "title": "Free Daggers and Fallen Warriors",
     "description": "The free dagger every warrior starts with can now be discarded instead of moved to the treasury, where it was piling up at 0 gc. The ones already in treasuries have been cleared. And a warrior who dies now loses his equipment, as the rulebook says: after a battle there's no longer a choice to send a dead hero's or a wiped-out group's gear to the treasury."
+  },
+  {
+    "date": "2026-11-26",
+    "title": "Rout Test Fixes, and Stunned Tracking in Beta",
+    "description": "The rout test on the battle screen now follows the rules. It uses your leader's Leadership, or, when he is out of action, the highest Leadership among your remaining fighters, henchmen included. Heroes who sit out the battle no longer count towards the quarter that triggers the test, and they no longer appear on the battle roster: a line underneath names them instead. New and in beta: switch on Stunned tracking on the battle screen to mark stunned models. The rout test then skips a stunned leader, a stunned model reminds you it goes out of action if an enemy can attack it, and Recovery: clear stunned turns them into knocked down in your Recovery phase."
+  },
+  {
+    "date": "2026-11-23",
+    "title": "Our Own Discord Server",
+    "description": "Mordheim Manager now has its own Discord server, shared with Mord Hive Manager. Ask questions and suggest features in #general, talk solo play in #solo-play, and see every update in #changelog as soon as it ships. Fixes to reported problems are posted in #fixed-issues. The Discord button on Home and under Account › About takes you there, and the solo setup screen links straight to #solo-play."
+  },
+  {
+    "date": "2026-11-22",
+    "title": "Injuries: Remove, and Penalties on the Profile",
+    "description": "An injury recorded by mistake can now be removed from a Hero or Hired Sword. Injuries with a characteristic penalty (Leg Wound, Chest Wound, Blinded in One Eye, Nervous Condition, Hand Injury) now lower the profile when you record them, on the model screen or after a battle, and removing one gives the point back. Injuries recorded before today didn't change the profile, so removing them leaves it as it is."
+  },
+  {
+    "date": "2026-11-16",
+    "title": "That Lad's Got Talent from the Roster",
+    "description": "A Henchman group's screen now has a \"That Lad's Got Talent\" button under its advances. Use it when you roll the promotion at the table instead of in the post-battle sequence: pick his two skill lists and one member joins your Heroes, with the group's profile, Experience and equipment. Promoting the last member disbands the group, the same as after a battle."
+  },
+  {
+    "date": "2026-11-16",
+    "title": "Free Dagger Back from the Treasury",
+    "description": "A warrior carrying two close combat weapons can take his free dagger back from the treasury again. The free dagger never counts towards the two-weapon limit, but the app refused it on the way back. A bought dagger still counts as a weapon."
+  },
+  {
+    "date": "2026-11-16",
+    "title": "Tomb Guardians: Characteristic Advances",
+    "description": "Liche Priests and Acolytes could not raise any characteristic: their maximums were missing and came out as zero. They now use the Liche Priest & Acolyte maximum profile, and the Tomb Lord his own. This also fixes warriors recruited before today. Skeleton Warriors no longer gain experience, as their No Brain rule says."
   },
   {
     "date": "2026-11-09",

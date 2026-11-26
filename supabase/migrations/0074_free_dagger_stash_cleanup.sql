@@ -1,7 +1,7 @@
 -- ============================================================================
--- §45 — Free daggers out of the treasury (MM-004).
+-- §48 — Free daggers out of the treasury (MM-004).
 --
--- Every warrior starts with a free dagger (cost 0). Until §45 the app treated
+-- Every warrior starts with a free dagger (cost 0). Until §48 the app treated
 -- it like bought gear: "Move to treasury" parked it in the stash, and a dead
 -- hero's gear went there too. On 2026-11-10 that had left 56 free daggers in
 -- the treasuries of 26 active warbands. They are worth nothing there, sell for
@@ -9,7 +9,7 @@
 --
 -- The app no longer puts them there (Discard instead of Move, and a dead
 -- model's gear is lost). This clears the ones already there. Nothing is given
--- back to the models: since §45.2, a warrior without his dagger is a normal
+-- back to the models: since §48.2, a warrior without his dagger is a normal
 -- state the player chose.
 --
 -- A repair, not a player edit:

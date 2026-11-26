@@ -1,4 +1,4 @@
--- §45 free daggers out of the treasury (migration 0073).
+-- §48 free daggers out of the treasury (migration 0074).
 insert into auth.users (id, email) values
   ('00000000-0000-0000-0000-0000000000c1', 'one@example.test');
 

@@ -105,6 +105,8 @@ export const strings = {
   discord: {
     cta: 'Questions or ideas? Join the Discord',
     aria: 'Join the Mordheim Manager Discord for questions and suggestions',
+    soloPlay: 'Questions, ideas or bugs? #solo-play on Discord ›',
+    soloPlayAria: 'Open the #solo-play forum on the Mordheim Manager Discord',
   },
   // §26.5 — the owner-only nudge to make a battle-tested private warband public.
   // The copy says exactly what the flag does: campaign-mates see the warband
@@ -1131,6 +1133,18 @@ ${url}`,
     addToExisting: 'Add to an existing group instead',
     newGroup: 'Start a new group',
   },
+  // Henchmen screen — advances recorded outside the post-battle wizard.
+  henchmenDetail: {
+    advanceHelp:
+      'A Henchman advance is +1 to one characteristic (never more than +1 per stat) — tap it below — or, on a roll of 10–12, "That Lad\'s Got Talent": one member becomes a Hero.',
+    ladsGotTalent: "That Lad's Got Talent — promote a member",
+    promotePrompt: (group: string) => `Promote one member of ${group} to a Hero?`,
+    promoteImpact: (left: number) =>
+      `He keeps the group's profile, Experience and equipment. ${left} ${left === 1 ? 'member stays' : 'members stay'} in the group.`,
+    promoteImpactLast:
+      "He keeps the group's profile, Experience and equipment. He is the last member, so the group is disbanded.",
+    promoteAction: 'Promote to Hero',
+  },
   modelDetail: {
     hiredSwordFixedGear: "Hired Swords carry exactly what their entry lists, so they can't buy or be given other equipment.",
     hiredSwordMissingGear: (entry: string) =>
@@ -1199,6 +1213,11 @@ ${url}`,
     ineligibleEquipmentWarning: (items: string) =>
       `Not on this model's equipment list: ${items}. Unassign it, or re-add a skill that allows it.`,
     removedToast: (what: string) => `Removed: ${what}`,
+    removeInjuryPrompt: (injury: string, model: string) => `Remove ${injury} from ${model}?`,
+    removeInjuryRestores: (change: string) => `This undoes its penalty on the profile (${change}).`,
+    removeInjuryNoStats:
+      'The profile stays as it is — this injury was recorded without a characteristic change. Check the profile by hand if you lowered it yourself.',
+    removeInjuryAction: 'Remove injury',
     spells: {
       // The heading itself comes from the list's kind — a priest prays rather
       // than casts — so these take the word rather than hardcoding "spell".
@@ -1233,7 +1252,7 @@ ${url}`,
     treasurySection: 'Warband Treasury',
     noTreasury: 'Treasury is empty.',
     moveToTreasury: 'Move to treasury',
-    // §45.2: the free dagger is part of the warrior, not warband property —
+    // §48.2: the free dagger is part of the warrior, not warband property —
     // it can be thrown away, but never parked in the treasury.
     discardFreeDagger: 'Discard',
     assignToModel: 'Assign here',
@@ -1362,13 +1381,36 @@ ${url}`,
         seriousLog: (key: string, name: string) => `Serious injury (${key}): ${name}`,
         logged: 'Logged to events.',
       },
+      stunned: 'Stunned',
+      stunnedBetaLabel: 'Stunned tracking',
+      stunnedBetaHint: 'Mark stunned models; the rout test then skips a stunned leader.',
+      markStunned: 'Mark stunned',
+      stunnedCount: 'Stunned',
+      oneMoreStunned: 'One more stunned',
+      oneFewerStunned: 'One fewer stunned',
+      stunnedBadge: 'Stunned',
+      stunnedSummary: (n: number) => `${n} stunned — in your Recovery phase they become knocked down.`,
+      clearStunned: 'Recovery: clear stunned',
+      stunnedClearedLog: (n: number) => `Recovery: ${n} stunned model(s) now knocked down`,
+      stunnedReminder: 'Out of action if an enemy can attack it in close combat.',
+      rulesLink: 'Rules',
+      undo: 'Undo',
+      sittingOut: (names: string) => `Sitting out this battle: ${names}`,
       rout: {
         section: 'Rout test',
         status: (down: number, total: number, pct: number) =>
           `${down} of ${total} out of action (${pct}%)`,
         safe: 'Below 25% — no rout test needed.',
         required: 'A quarter of the warband is down — take a Rout test at the start of your turn.',
-        bestLd: (n: number) => `Best Leadership on the table: ${n}`,
+        leaderLd: (ld: number, name: string) => `Leadership ${ld} (${name}, leader)`,
+        fallbackLd: (ld: number, name: string, reason: 'leaderOutOfAction' | 'leaderStunned' | 'leaderNotPlaying' | 'noLeader') =>
+          `Leadership ${ld} (${name}: ${{
+            leaderOutOfAction: 'leader out of action',
+            leaderStunned: 'leader stunned',
+            leaderNotPlaying: 'leader not playing',
+            noLeader: 'no leader',
+          }[reason]})`,
+        noLd: 'Nobody left to take the test.',
         roll: 'Roll rout test (2D6)',
         passLog: (total: number, ld: number) => `Rout test passed (rolled ${total} vs Ld ${ld})`,
         failLog: (total: number, ld: number) => `Rout test FAILED (rolled ${total} vs Ld ${ld}) — the warband routs`,
@@ -1500,7 +1542,7 @@ ${url}`,
       equipmentFate: "What happens to their equipment?",
       toTreasury: 'Send to treasury',
       lost: 'Lost',
-      // §45.3: "When a warrior is killed … all his weapons and equipment are lost."
+      // §48.3: "When a warrior is killed … all his weapons and equipment are lost."
       equipmentLostDead: 'His equipment is lost with him.',
       equipmentLostWiped: 'Their equipment is lost with them.',
       henchmenWipedTitle: (name: string) => `${name} was wiped out`,

@@ -35,7 +35,7 @@ export function EquipmentSection({
   gold: number;
   onMoveToTreasury: (itemId: string) => void;
   /**
-   * §45.2: a free dagger gets Discard instead of Move to treasury. It is part
+   * §48.2: a free dagger gets Discard instead of Move to treasury. It is part
    * of the warrior, not warband property, so it never lands in the stash.
    */
   onDiscardFreeDagger: (itemId: string) => void;
@@ -127,7 +127,7 @@ function ItemList({
   actionLabel: string;
   /** Omitted for gear that can't be moved, e.g. a Hired Sword's own. */
   onAction?: (itemId: string) => void;
-  /** When set, a free dagger shows Discard in place of `onAction` (§45.2). */
+  /** When set, a free dagger shows Discard in place of `onAction` (§48.2). */
   onDiscardFreeDagger?: (itemId: string) => void;
 }) {
   return (

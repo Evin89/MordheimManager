@@ -52,7 +52,7 @@ export default function StepDeadCleanup({ warband, draft, updateDraft }: StepPro
               </label>
             )}
 
-            {/* §45.3: the dead lose their gear, as the rulebook says — no
+            {/* §48.3: the dead lose their gear, as the rulebook says — no
                 choice to make. Captured or left: the choice stays, but only for
                 gear worth keeping; a free dagger never goes to the stash. */}
             {state.resultingStatus === 'dead'

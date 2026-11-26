@@ -1,5 +1,5 @@
 /**
- * Fixtures for §45: the free dagger and a dead model's gear. Bundles the real
+ * Fixtures for §48: the free dagger and a dead model's gear. Bundles the real
  * modules with esbuild and checks them with node:assert — no test runner,
  * same approach as test-pairing.mjs.
  *
@@ -37,7 +37,7 @@ const { countWeaponSlots } = await load('src/lib/weaponSlots.ts');
 const { createFreeDagger } = await load('src/lib/warbandFactory.ts');
 const { createInitialDraft, applyDraftToWarband } = await load('src/screens/postBattle/draftHelpers.ts');
 
-// §45.1 — one definition.
+// §48.1 — one definition.
 const free = createFreeDagger();
 const bought = { id: 'b', name: 'Dagger', category: 'melee', cost: 2 };
 const sword = { id: 's', name: 'Sword', category: 'melee', cost: 10 };
@@ -53,7 +53,7 @@ assert.equal(countWeaponSlots([free, sword]).melee, 1, 'free dagger outside the 
 assert.equal(countWeaponSlots([free, { ...free, id: 'f2' }, sword]).melee, 2, 'a second free dagger counts');
 assert.equal(countWeaponSlots([bought, sword]).melee, 2, 'a bought dagger counts');
 
-// §45.3 — post-battle.
+// §48.3 — post-battle.
 function hero(id, equipment) {
   return {
     id, name: id, unitType: 'Champion', isLeader: false, stats: { M: 4, WS: 4, BS: 4, S: 3, T: 3, W: 1, I: 4, A: 1, Ld: 7 },
@@ -74,7 +74,7 @@ const draft = createInitialDraft(warband);
 draft.heroes.dead = { ...draft.heroes.dead, resultingStatus: 'dead', equipmentFate: 'treasury' };
 draft.heroes.captured = { ...draft.heroes.captured, resultingStatus: 'captured', equipmentFate: 'treasury' };
 draft.henchmenGroups.g = { ...draft.henchmenGroups.g, diedCount: 2, deleteGroupIfEmpty: true };
-// A draft saved before §45 still carries the old field; it must be ignored.
+// A draft saved before §48 still carries the old field; it must be ignored.
 draft.henchmenGroups.g.equipmentFateForDead = 'treasury';
 
 const { warband: after } = applyDraftToWarband(warband, draft);
