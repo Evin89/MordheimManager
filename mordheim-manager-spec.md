@@ -16,6 +16,8 @@ This document started as a design brief written before any code existed. It is n
 
 Most of the feature-expansion block has since shipped too: the campaign-collaboration set (§17, §19.1/§19.3 — territory, narrative log, awards/rivalries, RSVPs, announcements, plus a campaign activity feed and end-of-campaign recap), roster/model depth (§18), all of §20 Utility (dice roller with tumble + sound, comparison, afford-filter, nav tour), the §21 bigger swings (per-model photos, custom warbands, scenario generator), the admin analytics DB layer with the split admin back-end (§23, §4.9 revised), shareable warband cards, in-battle injury/rout rolls, a per-warband legality check, hand-editing of skills/spells/advances, a Discord community link (§4.10), a static landing page (§4.11), the privacy-scoped PostHog client and its first-party reverse proxy (§23.7), gallery comments (§19.2) and push notifications (§19.4 — the project's first server-side sending). That completes the feature-expansion block; the PostHog reverse-proxy (§23.7) is the one deferred piece still noted above. AI-generated battle reports, once floated as a possible next step, are **out of scope** and not planned.
 
+**2026-11-26 — battle flow v2 (§45–§47):** the rout-test and battle-roster fixes of §45.1 are live for everyone, with stunned tracking behind a per-device beta switch (PR #78). The rest of §45 (turn tracker, wound rolls that set model states, underdog pre-fill, wizard reorder) and §46 (linked battles) are specced and decided but not built. §47 lists the follow-ups from the Rosterheim comparison, still open.
+
 ### 0.1 Conflict register
 
 A second spec was drafted separately and merged in on 2026-08-03. It was written against the pre-implementation baseline, so it contributed four genuinely new sections (§10 deletion, §11 photos, §12 caching, §13 scale testing) and contradicted the built app in the places below. Each conflict is resolved here so no section has to argue with another.
@@ -457,6 +459,8 @@ New reusable component `<ConfirmAction>` alongside `<ConfirmByTyping>`. Skills b
 
 ### 4.3 Battle flow ✅
 
+_Being reworked by **§45** (battle flow v2: rout fixes ✅ live, turn tracker ◻️, wizard reorder ◻️) and extended by **§46** (two players linking their apps for one battle ◻️). Read those sections for anything they amend._
+
 ⚠️ Wider than the single wizard originally specced. Three screens, because players wanted the roster in front of them *during* the game:
 
 - **Pre-battle** — scenario (with page reference), opponent picked from the campaign's other warbands rather than typed free-hand.
@@ -492,6 +496,8 @@ The two `TODO: verify vs rulebook` items (the exact per-enemy XP wording, and wh
 The screen kept its original job — mark your own models out of action as they fall, so nobody rebuilds the casualty list from memory — and gains two things the post-battle wizard was silently assuming the player still remembered.
 
 ##### A. Enemy taken out of action ✅ (built)
+
+_Revisited for linked battles in **§46.5.1**: there the player whose model fell attributes the kill, and it feeds the other player's counter. Unlinked battles keep the self-reported tally below._
 
 **The gap:** the wizard's Experience step (§4.3 step 3) awards XP but had no source for the *per-enemy* award. A hero earns **+1 Experience for each enemy model they put out of action** — `TODO: verify exact wording and scope vs rulebook (Experience section)`. With no way to record it during the game, that award was being entered from memory at the end, which is exactly the error-prone bookkeeping the app exists to remove.
 
@@ -1181,7 +1187,7 @@ Rich game state stays as `jsonb` blobs matching the TypeScript types — heroes 
 - No local database, no offline writes. Every read and write goes to Supabase.
 - Each warband carries `updated_at`; saves use an optimistic-concurrency check (update only if `updated_at` still matches what was loaded). On mismatch the app raises `ConcurrencyError` and asks the user to reload and redo, rather than silently clobbering. Verified against a simulated server: the old path loses the second purchase, the current one catches it.
 - Entering or leaving a campaign deliberately sits *outside* that check — it isn't a change to the warband's game state and shouldn't collide with one.
-- ⚠️ Real-time subscriptions are not used, and §12.2 argues they should stay unused: an open websocket per member per campaign is ongoing traffic for a screen that changes a few times a week.
+- ⚠️ Real-time subscriptions are not used, and §12.2 argues they should stay unused: an open websocket per member per campaign is ongoing traffic for a screen that changes a few times a week. _Scoped exception decided in **§46.1** (◻️ not built): one subscription per player while a **linked battle** is open on the During Battle screen, closed on leaving it. Campaign and roster screens stay without Realtime._
 - A connection-lost banner surfaces any failed Supabase call, since there is no offline fallback to hide behind.
 
 ### 8.5 Campaign flow ✅
@@ -1442,7 +1448,7 @@ Target (conflict 15):
 - `battles` and `objectives` also use `select('*')`, but those rows are small and fully rendered; leave them.
 - Use keyset pagination everywhere (§13.3), page size 20–25.
 - Prefer a Postgres view or RPC for joined screens so one round trip returns exactly the columns the UI renders. The members panel is currently three batched queries, which is already far better than the obvious one-per-campaign loop.
-- Realtime: keep it unused (§8.4).
+- Realtime: keep it unused (§8.4), except for an open linked battle (§46.1).
 
 ### 12.3 Images — expect ~80% of egress once §11 ships
 
@@ -2983,6 +2989,7 @@ Applied across the existing data (counts at the time):
 - **Equipment:** notes for the catalogue items are the source's rules, prefixed with its range, Strength, save and profile; warband-exclusive items' `rulesText` likewise (131), including mutations, blessings and Sacred Markings from the warband files.
 - **Hired Swords:** the seven rulebook entries now take their hire permission, equipment and rules from the source like the other 63 (`import-hired-swords.mjs` keeps only their ids, numbers and skill lists).
 - **Not covered:** `rules.json` (the core rules, sourced from the rulebook PDF rather than the Mordheimer data).
+- **2026-11-25 amendment (§45.1 item 7):** the owner decided that the core-rule entries the battle flow leans on — `rout-tests`, `recovery-phase` and `wounds-injuries-in-game` — move to the **mordheimer.net** rules pages, copied 1:1 like everything above. ◻️ Not done yet: the texts could not be fetched by the tooling, so the three entries still carry the rulebook-PDF paraphrase until they are pasted by hand.
 
 ## 34. Battles outside the campaign — friendly games and one home for your history ✅
 
@@ -4380,3 +4387,462 @@ The **print routes** (`/resources/event-sheet`, `/resources/roster`) are public.
 2. `/resources/event-sheet` → add a store logo → print. Both pages show the logo, and the printout matches the static PDF apart from the logo.
 3. The Rules tab shows *Resources* first. The landing page footer links to it.
 4. No call to Supabase on `/resources` or its print routes when signed out, apart from the analytics proxy.
+
+---
+
+## 45. Battle flow v2 — correctness fixes, a turn tracker, a shorter wizard ◻️ _(§45.1 ✅ live 2026-11-26, PR #78)_
+
+_Project doc: `claude/battle-flow-v2-spec.md`. Drafted 2026-11-25 from a read of `main` @ `da7346c` (PreBattleScreen, DuringBattleScreen, postBattle/*, lib/underdog.ts, data/rules.json) and the Rosterheim comparison (`claude/concurrent-rosterheim.md`). Amends §4.3, §4.3.1 and §4.3.3. Committed battles gain one optional field (`BattleRecord.turns`, §45.3.5); all other new state lives on the `BattleSession` draft (§4.3.2)._
+
+_Decided 2026-11-25 by the owner: **the turn structure is wanted.** It is the main thing Rosterheim and GW's own apps have that MM lacks, so §45.3 is the centrepiece of this section, not an add-on. The tracker is also a teaching aid: it should help newer players learn the turn sequence, which drives several decisions below (empty steps stay visible, the tracker is always on)._
+
+_All open decisions resolved by the owner on 2026-11-25; this section is ready to build. One **build check** remains (Exploration grants → Advances in §45.6): a fact to confirm in code, not a choice._
+
+### 45.0 Findings
+
+| # | Kind | Where | What |
+|---|---|---|---|
+| F1 | **Bug** | `DuringBattleScreen.tsx` `RoutTest` (~l.418) | `bestLd` is the highest Ld of **every** hero, henchmen group and hired sword, including those already out of action and those sitting out. `data/rules.json` `rout-tests` says: the leader's Ld, or the highest among remaining non-stunned, non-OOA fighters if the leader is down. |
+| F2 | **Bug** | `RoutTest` → `countModels` (`lib/rating.ts` l.22 `ACTIVE_STATUSES` includes `missNextGame`) | A Hero missing the game counts toward the rout total. `reference/glossary.json` (Miss Next Game): he "does not count as part of the warband when taking Rout tests". The 25% threshold is too high. |
+| F3 | **Bug** | `DuringBattleScreen.tsx` l.313 `warband.heroes.map` | The battle roster lists every hero regardless of status: sitting-out, captured, left. They can be marked OOA and given enemy kills or wyrdstone. The wizard already treats them as `participated: false` (`draftHelpers.ts` l.109), so taps on them are silently lost. |
+| F4 | Gap | During Battle → Injury rolls | The D6 wound roll and the D66 serious-injury roll only write an event line. A wound result of *Out of action* does not mark anyone. A D66 rolled at the table is not offered in the wizard's Injuries step, so it gets rolled twice or typed again. |
+| F5 | Gap | `StepBattleInfo.tsx` l.137 | The underdog bonus is typed by hand, with a hint to look up the table. `lib/underdog.ts` already computes it, and pre-battle already knows both ratings when the opponent is a campaign warband (fair-pairing block). |
+| F6 | Friction | During Battle section order | Board → Turn → Dice → Injury rolls → Event log → **Roster** (with the OOA, kill and wyrdstone controls). The one thing touched every turn sits at the bottom of a long scroll, below three tools that are used occasionally. |
+| F7 | Friction | Wizard | Always 8 steps. Advances, Dead Models and Upkeep show a "nothing to do" message but still cost a tap each. |
+| F8 | Friction | Wizard | The rulebook (`rules.json` `post-battle-sequence`) says to do the first three steps (injuries, experience, exploration) at the table while both players can see the dice, and the rest later. The wizard mixes them: exploration sits in step 6, after advances and dead-model cleanup. |
+| F9 | **Gap (main)** | Turn counter | Turn number only: no phases, no model states (knocked down, stunned, fleeing), no prompts at the moment a rule applies. Rosterheim has a 13-step tracker; GW's own apps have a phase tracker with phase-relevant abilities. |
+
+### 45.1 Correctness fixes (F1–F3) — ship first ✅ (live, stunned in beta)
+
+_2026-11-26: live via PR #78 (squash `7d3f79b`). As shipped, on the owner's decision: the rout and roster fixes (items 1–3) are on for everyone; **stunned tracking (item 5) sits behind a per-device "Stunned tracking · beta" switch** on the battle screen (`src/lib/betaFlags.ts`, `localStorage` key `mordheim.beta.stunnedTracking`, default off). With the switch off, the rout panel gets an empty stunned tally and no stunned UI is shown; stored stunned marks are kept, not deleted. Still open: (1) item 7 — `rules.json` was left unchanged in this release (no TODO bodies live); the 1:1 mordheimer.net texts for `rout-tests`, `recovery-phase` and `wounds-injuries-in-game` still have to be pasted; (2) Stunned uses `chart-1` gold as a stand-in — add a `warning` token via `design-sheet.mjs`; (3) decide when the beta switch goes away (default: with §45.3, whose model states replace it)._
+
+1. **Rout total** — count only models that took part: exclude `missNextGame` heroes and hired swords from the rout denominator. Add `countBattleModels(warband)` next to `countModels` and keep `countModels` unchanged, because rating and wyrdstone prices still count sitting-out heroes (glossary).
+2. **Rout Leadership — exactly as the Mordheim rules** _(decided by the owner)_. Source, mordheimer.net *Leadership & Psychology › The Rout Test*, 1:1:
+
+   > To take a Rout test roll 2D6. If the score is equal to or less than the warband leader's Leadership, the player has passed the test and may continue to fight.
+   >
+   > If the warband's leader is out of action or stunned, then the player may not use his Leadership to take the test. Instead, use the highest Leadership characteristic amongst any remaining fighters who are not stunned or out of action.
+
+   Implemented as a resolver `routLeadership(warband, session)`:
+   - **Leader** = the hero with `isLeader`. Use his Ld unless he is **out of action or stunned** (or sitting out, in which case he is not on the table). A **knocked-down** leader still counts: the rule names only out of action and stunned.
+   - **Otherwise** the highest Ld among **all remaining fighters** — heroes, hired swords and henchmen groups — that are not out of action and not stunned. A henchmen group qualifies while at least one of its models is neither OOA nor stunned.
+   - **Stunned** comes from the new stunned tally (item 5 below), so the full rule applies from this PR on.
+   - The rout card shows which Ld it used: "Ld 8 (leader)" or "Ld 7 (Name — leader stunned)", so the player can check it at the table.
+   - **Threshold**, same source: a test at the start of your turn "if a quarter (25%) or more of his warband is out of action" — `ooa / countBattleModels >= 0.25`. Immunity to psychology does not exempt a warband.
+   - **Data fix:** the `rules.json` `rout-tests` body is a paraphrase ("if the leader himself is down") that drops the *stunned* case. Replace its body with the mordheimer.net text above, 1:1, and point `source` at that page.
+3. **Battle roster** — list only models with status `active`. Sitting-out heroes get a collapsed one-line "Sitting out: Name, Name" with no controls.
+4. Acceptance: warband 12 models, 1 sitting out, 2 OOA → 2/11, no test (was 2/12, no test). 3 OOA of 11 → test. Add a boundary case where the old count gives a different answer: 13 models, 1 sitting out, 3 OOA → 3/12 = 25% → test (was 3/13 → no test). Leader OOA → the shown Ld is the best remaining, not the leader's.
+
+5. **Stunned tracking** _(decided by the owner 2026-11-25: pulled forward from §45.3.2, so the rout test follows the rules in full)_.
+   - **Data:** `BattleSession.stunned?: OutOfActionTally` — the same shape as `outOfAction` (`heroIds`, `hiredSwordIds`, `henchmenCounts`). Absent (older sessions) reads as empty. Persisted with the rest of the session (§4.3.2); discarded at commit. It never reaches the wizard, the BattleRecord or the roster: stunned has no post-battle effect.
+   - **Heroes and hired swords:** a **Stunned** toggle on the card, next to *Mark out of action*, and a "Stunned" badge on the card header while set. Marking a model **out of action clears its stunned** (OOA supersedes it); the Stunned toggle is disabled while the model is OOA.
+   - **Henchmen groups:** a *Stunned* stepper under the OOA stepper, capped at `count − OOA`. When OOA goes up past that cap, stunned is lowered to fit.
+   - **Source** _(owner: stunned rules come from mordheimer.net)_: *Recovery Phase* (`https://mordheimer.pages.dev/docs/rules/recovery`), verbatim:
+     > During the recovery phase, warriors in your warband who have been stunned become knocked down instead and warriors who have been knocked down may stand up (see the Injuries section).
+
+     And *Wounds & Injuries* (`https://mordheimer.pages.dev/docs/rules/wounds-and-injuries`): the injury chart (3–4 stunned, model face down), the *Stunned* section, and *Attacking stunned and knocked down warriors in hand-to-hand combat*. Those passages are copied 1:1 into `rules.json` by the implementer from the page (§45.1 item 7); the spec does not restate them. What the app relies on from them: a stunned model can do nothing; it becomes knocked down in **its own side's** next Recovery phase; a stunned model that an enemy can attack in hand-to-hand combat is taken out of action automatically.
+   - **Ending stunned:** per the Recovery text above, in *your* Recovery phase. Until the turn tracker (§45.3) knows whose Recovery it is, the player clears it: a line above the roster, "2 stunned — in your Recovery phase they become knocked down", with a **Recovery: clear stunned** button (logs an event, with Undo). Untoggling a single model works too. ✅ **No auto-clear on the turn counter's +1** _(decided by the owner)_: the counter does not know whose turn it is, so it would clear at the wrong moment half the time. §45.3 automates it in your Recovery step.
+   - **Rout:** `routLeadership(warband, outOfAction, stunned)`; the rout card shows "Ld 7 (Name — leader stunned)" when that applies. Stunned models still count as standing for the 25% threshold (the threshold counts out of action only).
+   - **Reminder on the card:** a stunned model's card shows one muted line "Out of action if an enemy can attack it in close combat" with a link to the *Wounds & Injuries* rule entry, so the player doesn't forget to take it out when an enemy reaches it. Tapping *Mark out of action* is still the player's call.
+   - **Rules links:** the stunned line above the roster and the stunned badge both open the `rules.json` entries `recovery-phase` and `wounds-injuries-in-game` in the existing rule sheet.
+   - `hasBattleProgress` also returns true when anything is stunned.
+6. Acceptance for 5: leader stunned → the rout card uses the fallback and says *leader stunned*; mark him OOA → the stunned badge disappears and the reason changes to *leader out of action*; a henchmen group of 3 with 2 OOA and 1 stunned is not a fallback; *Recovery: clear stunned* empties the tally and logs it; a page refresh keeps the stunned marks; a stunned hero's card shows the close-combat reminder.
+7. **Rule text from mordheimer.net, 1:1.** `rules.json` entries `rout-tests`, `recovery-phase` and `wounds-injuries-in-game` are paraphrases sourced from a Broheim PDF. Replace each `body` with the matching mordheimer.net section(s) verbatim and point `source` at the page: *Leadership & Psychology › The Rout Test* (incl. *Voluntary Rout*), *Recovery Phase*, and *Wounds & Injuries* (injury chart, Knocked down, Stunned, Out of action, Attacking stunned and knocked down warriors). If the implementer cannot fetch a page, the body gets a `TODO(owner): paste 1:1 from <url>` line instead of any rewritten text.
+
+### 45.2 During Battle, table-first layout (F6)
+
+New order, top to bottom:
+
+1. **Turn tracker, sticky under the header** (§45.3): turn, whose turn, phase, `Next ›`, and the rout state as a chip (`4/12 down`, green or red).
+2. **Phase panel** (§45.3.3): what to do in this phase, for this warband. Collapsible; it remembers open or closed per device.
+3. **Roster** (moved up). Cards show the model state (§45.3.2) and get the state controls and the **Wound roll** (§45.4).
+4. **Capture summary** — enemy kills total, wyrdstone (unchanged).
+5. **Tools**, collapsed accordions: Dice roller · Serious injury (D66) · Event log · Board.
+6. **Go to Post-Battle** (unchanged).
+
+- ✅ **Board when generated** _(decided)_: collapsed under Tools, with a one-line "Board 4×4 · Show" in the tracker's overflow menu.
+- No new routes. All strings are new keys under `battle.duringBattle.*`.
+
+### 45.3 Turn tracker (F9) — the centrepiece
+
+**Principle:** the tracker walks through the rulebook turn sequence and, at each step, shows **this warband's** models and rules that matter at that moment. It never resolves anything on its own (§1): it prompts, rolls with you when asked, and changes model states only on a tap, except for the one transition the rules make compulsory (stunned → knocked down in Recovery), which is shown and undoable.
+
+All rule text comes from `data/rules.json`, the same entries the Rules browser shows. Nothing new is written from memory.
+
+#### 45.3.1 The sequence
+
+Mordheim players take **whole turns** (`rules.json` `turn-sequence`), and hand-to-hand combat is fought in **both** players' turns. The tracker models that, rather than Rosterheim's interleaved "my/opponent" sub-steps:
+
+| Step | Shown on | Source entries (`rules.json`) | What the panel lists (§45.3.3) |
+|---|---|---|---|
+| **Pre-game** | before turn 1 | — | Who goes first (toggle: *I go first* / *They go first*). Start-of-game skills, once phase tags exist (§45.3.4). |
+| **Start of turn** | your turn | `rout-tests`, `stupidity`, `animosity`, `all-alone` | Rout test if 25%+ are down (the existing card, with the Ld from §45.1). Models with *Stupidity* or *Animosity*, each with a "Test" roll. Fleeing models re-test (*All Alone*). |
+| **Recovery** | your turn | `recovery-phase` | Fleeing models: a rally roll, 2D6 against their Ld. Stunned → knocked down (applied, with Undo). Knocked down: "Stands up" per model, default ticked. |
+| **Movement** | your turn | `movement-order`, `charging`, `running`, `hiding`, `climbing`, `falling-jumping` | The movement order as three lines (charges, compulsory moves, the rest). Models that are knocked down: "crawl 2" / stand up at half rate" note. |
+| **Shooting** | your turn | `shooting-overview`, `casting-spells` | Standing, non-fleeing models with a `missile` item, with that item. Casters with their known spells and Difficulty (`spells.json`), and a "Cast" 2D6 roll per spell. |
+| **Close combat** | your turn | `close-combat-basics`, `parry`, `moving-breaking-from-combat`, `all-alone` | A reminder that knocked-down and stunned enemies are auto-hit / taken out (`wounds-injuries-in-game`). The wound roll (§45.4) is the main action here. |
+| **Opponent's turn** | their turn | `wounds-injuries-in-game` | One step with three sub-labels (Movement · Shooting · Close combat). Your roster stays live for wound rolls and OOA. Nothing to tick. |
+| **End of game** | any time | `rout-tests` | Reached by a failed rout test (offered, not forced), *Voluntary rout* (from the rout chip once eligible), or *End battle*. Leads to Go to Post-Battle. |
+
+- **Next ›** advances one step. After *Close combat* comes *Opponent's turn*, then your next *Start of turn*. If they go first, the battle opens on *Opponent's turn*.
+- **‹ Back** steps back. Going back across a turn boundary asks, as the turn counter does now (`turnBackConfirm`).
+- ✅ **Turn numbering follows the rulebook** _(decided by the owner)_. `rules.json` `turn-sequence` defines a turn as one player's whole turn ("players alternate whole turns"); there is no round of two turns. So every turn gets its own number, whoever's it is: the first player's turn is turn 1, the second player's turn is turn 2, and so on. The tracker shows `Turn 3 · Your turn` or `Turn 4 · Opponent's turn`. The event log prefixes every line with `T3 · Shooting:`.
+- ✅ **Empty steps stay visible** _(decided by the owner)_. A step whose panel has nothing to list (no stupid models, nobody fleeing, nobody to rally) still shows, with a one-line "nothing to do" and its **Rules for this step** disclosure, so players see and learn the whole sequence. Next is one tap either way.
+- ✅ **The tracker is always on** _(decided by the owner)_. There is no simple-counter mode; the tracker replaces today's turn counter.
+- ✅ **Multiplayer games (3+ warbands)** _(decided)_: *Opponent's turn* becomes *Other players' turns*, one step, numbered as one turn per other player in table order (the player sets how many others there are at Pre-game). No per-opponent detail.
+
+#### 45.3.2 Model states
+
+The tracker is only useful if the app knows who is down. `BattleSession` gains:
+
+```ts
+// on BattleSession (all optional; absent = empty)
+phase?: 'pregame' | 'start' | 'recovery' | 'movement' | 'shooting' | 'combat' | 'opponent' | 'ended';
+firstPlayer?: 'me' | 'them';
+stunned?: OutOfActionTally;      // already added in §45.1 item 5
+knockedDown?: OutOfActionTally;  // new here
+fleeing?: OutOfActionTally;      // new here
+```
+
+One tally per state, in the same shape as `outOfAction`, so every state uses the same card controls and the same helpers. _(Changed 2026-11-25 from a per-model `modelStates` map, once stunned shipped early as a tally in §45.1.)_ A model is in at most one of out of action / stunned / knocked down; *fleeing* combines only with standing. Setting one state clears the others for that model.
+
+- **Out of action stays where it is** (`outOfAction` tally), so §4.3.1 and the wizard feed-forward are untouched. A model marked OOA loses its state entry.
+- **Heroes and hired swords** get a state chip on their card: tap to cycle *Standing → Knocked down → Stunned → Standing* (this replaces §45.1's separate Stunned toggle), and a separate *Fleeing* toggle (fleeing combines with standing only).
+- **Henchmen groups** get two more counters (KD, Fleeing) next to the OOA and Stunned counters from §45.1. The sum is capped by the models not OOA.
+- **Recovery applies the rule as written** (`recovery-phase`): on entering your Recovery step, stunned become knocked down. The panel shows "2 stunned → knocked down" with **Undo**. Standing up is a per-model tick, default on, because the rules say knocked-down models *may* stand.
+- **Shooting and casting lists** leave out knocked-down, stunned and fleeing models (`shooting-overview`: "isn't stunned/knocked down"; a rallied model "can't move or shoot this turn, but can still cast spells", so it is kept in the casting list only).
+- **Rout Ld** (§45.1) already skips stunned models; nothing changes there.
+- The §45.1 *Recovery: clear stunned* button is removed: the Recovery step does it.
+- ✅ **Track rallied-this-turn** _(decided)_: **yes, transient** (cleared at your next Start of turn), only to apply the shooting exception above.
+
+#### 45.3.3 What the panel derives without new data
+
+Everything in the table above comes from data the app already has. No phase tags are needed for v1:
+
+| Derived list | From |
+|---|---|
+| Models that shoot | `equipment` items whose catalogue `category` is `missile` (`equipment.json` `categories`) |
+| Casters and spells | `hero.spells` → `spells.json` (name, Difficulty) |
+| Psychology tests | special rules on the unit **matched by exact rule name** to the `rules.json` psychology entries: *Stupidity*, *Animosity*, *Frenzy*, *Hatred*, *Fear*, *All Alone*. Name matching only; no keyword search in rule text. |
+| Immune to Psychology | a unit with the rule *Immune to Psychology* is left out of psychology prompts. The rout test still applies (`rout-tests`: "Even psychology-immune warbands like Undead must test"). |
+| Rout | §45.1 |
+
+Each step has a **Rules for this step** disclosure that opens the listed `rules.json` entries in the existing rule sheet. No new rule text.
+
+#### 45.3.4 Phase abilities — v2, data pass
+
+Skills and special rules that matter in one phase (e.g. Quick Shot, Pistolier and Knife Fighter in Shooting; Step Aside or Sprint elsewhere) need a phase tag. The text in `skills.json` names the phase, but matching on rule text is not reliable enough to show at the table.
+
+- **Data:** a new `src/data/phaseTags.json`, `{ "<skill or rule id>": ["shooting", ...] }`, with `source: "app design"`, like `scenarioWeights.json` (§21.3). It is metadata about *when to remind*, not game data, so it is allowed under the sourcing rule. The rule text shown is still the source's own, 1:1.
+- **Panel:** each step lists "Abilities now" per model with a disclosure for the effect text.
+- **Order of work:** tag the core skill lists first (Combat, Shooting, Academic, Strength, Speed), then the psychology-carrying warband rules, then warband skill lists. Untagged entries simply don't appear; nothing breaks.
+- ✅ **Who tags** _(decided by the owner)_: Codex drafts the tags from the effect text, one PR per batch in the order above. Each tag in the PR carries the phrase from the effect text it was based on (in the PR description, not in the data file). The owner reviews every batch as a diff before merge; nothing is merged unreviewed.
+- ✅ **Separate from the effect layer** (`concurrent-rosterheim.md` §3.2) _(decided)_: **separate files.** `phaseTags.json` is about reminders; an effect layer changes numbers, and needs stricter review.
+
+#### 45.3.5 Feed-forward
+
+| Tracker capture | Used by |
+|---|---|
+| Turn and phase | event-log prefix; the BattleRecord notes (as now) |
+| Turns played | ✅ _(decided by the owner)_ `BattleRecord.turns?: number`: the number of the last turn reached (rulebook numbering, §45.3.1). Shown in Your Battles and the campaign log ("8 turns"). Optional, so old records and battles entered after the fact (Skip to Post-Battle) carry none. Pre-filled in wizard step 1 from the tracker, editable. |
+| Model states | rout Ld and lists during the game only; discarded at commit |
+
+- **Storage:** `turns` goes into the battle's stored record the same way `houseRules` does (§34.5). Checked 2026-11-25: `public.battles` stores the record in `data jsonb` (`0001_init.sql`), so **no migration** is needed.
+
+### 45.4 Wound and serious-injury rolls feed the record (F4)
+
+- **Per-model Wound roll** on each roster card (heroes and hired swords; groups ask "how many" first). The result is logged as now, and **sets the state** (§45.3.2): 1–2 knocked down, 3–4 stunned, applied with Undo, because they are table facts both players see. On **Out of action** it shows a one-tap "Mark Name out of action" with Undo, so the roll never sets OOA by itself (§1).
+- **Serious injury at the table:** the D66 tool asks "for whom?" (a picker over OOA heroes). The result is stored on the session as `seriousInjuries?: Record<heroId, string /* D66 key */>`.
+- **Wizard step 2** pre-fills that hero's injury from the session ("Rolled at the table: 41 Leg wound"), editable as every pre-fill is (§4.3.1 feed-forward table: add the row).
+- ✅ **Generic D66 button stays** _(decided)_ for house rules and checking, but it no longer writes into the record.
+
+### 45.5 Underdog bonus pre-filled (F5)
+
+- At **Continue** on pre-battle, store `ratingsAtStart?: { mine: number; theirs: number | null }` on the session (rating now, not at commit, because the post-battle XP changes it).
+- At step 1, when both are known: pre-fill `underdogBonus` with `underdogFor([mine, theirs])`, but only if this warband is the underdog. Hint: "Rating 142 vs 231 (gap 89) → +2". If the opponent was typed free-hand, show the field empty as now.
+- Multiplayer: out of scope (one opponent field).
+
+### 45.6 Wizard: table steps first, empty steps explained (F7, F8)
+
+**Order**, following `rules.json` `post-battle-sequence`:
+
+| New | Step | Was |
+|---|---|---|
+| 1 | Battle Info | 1 |
+| 2 | Injuries | 2 |
+| 3 | Experience | 3 |
+| 4 | Exploration & wyrdstone (the current Income content) | 6 |
+| — | _"Done at the table" checkpoint_ | — |
+| 5 | Advances | 4 |
+| 6 | Dead Models | 5 |
+| 7 | Upkeep | 7 |
+| 8 | Confirm | 8 |
+
+- **Why Exploration before Advances is safe:** exploration dice depend only on participating heroes not OOA and the result (`ExplorationRoll.tsx` l.34). Neither depends on advances or cleanup. **Build check:** do the Exploration grants (`xp` to a hero) need to land before Advances, so an XP grant can trigger an advance in the same battle? With the new order they do, which is an improvement. Confirm that `StepAdvances` reads `draft` XP including grants.
+- **Checkpoint** after step 4: "The table steps are done. Finish now, or later. Your progress is saved." with **Continue** and **Finish later** (goes to the roster; the draft persists per §35.2). The Resume card shows "Post-battle, step 5 of 8".
+- ✅ **Empty steps stay visible** _(decided by the owner, 2026-11-25, same reasoning as the tracker in §45.3.1: players learn the post-battle sequence)_. The wizard is always 8 steps. When Advances, Dead Models or Upkeep has nothing to do, the step shows one line with the reason ("Nothing to do: no hired swords to pay") and a **Rules for this step** disclosure opening the matching `rules.json` entry (`post-battle-sequence`, `hired-swords-recruiting`). Next is one tap. The step is never removed from the list, so no recomputation of the step list is needed. (F7 is resolved by making the empty step fast and explanatory, not by hiding it.)
+- **Step list:** tapping the "Step x of 8" subtitle opens a list of the steps for jumping back. Jumping forward only to steps already visited.
+- `WIZARD_STEPS` is reordered. `wizard.step` in a persisted draft is an index, so store the step **id**, not the index. Map old drafts: index → old id → new position. Old drafts are otherwise dropped by the §35.2 stale guard anyway.
+
+### 45.7 Not in this section
+
+- Veterans (post-battle sequence step 5), rare-item rolls and Dramatis Personae lookup stay in Trading after commit (§4.3.3). ✅ _(decided)_ No new wizard step. The Trading Post gets a "Post-battle shopping" header when opened through "Commit & visit Trading Post".
+- Warband-specific post-battle rules (Banditry, Cutpurse, Seeker): see `concurrent-rosterheim.md` §3.2, second phase.
+- Tracking the **opponent's** models: still not done (§4.3.1 A). The tracker is for your own warband; the opponent's turn is one step.
+- Server-side drafts across devices: still `localStorage` only (§4.3.2).
+
+### 45.8 Build order
+
+1. §45.1 (bugfix PR incl. stunned tracking; tests on `countBattleModels`, the rout-Ld resolver and the stunned/OOA interplay).
+2. §45.2 + §45.3.1–45.3.3 + §45.3.5 (layout, tracker, model states, derived panels, `turns` on the record; one PR, client only).
+3. §45.4 (wound roll sets state; serious injury feeds step 2).
+4. §45.5 (underdog pre-fill).
+5. §45.6 (wizard order, one-line empty steps, checkpoint, step-id persistence).
+6. §45.3.4 (phase tags: Codex data PRs in batches, each reviewed by the owner).
+
+### 45.9 Acceptance
+
+1. A warband with a sitting-out hero: he is not on the battle roster and not in the rout total. Rating and the wyrdstone price are unchanged.
+2. Leader OOA or stunned: the rout card names the fallback model and its Ld; a henchmen group can be the fallback; a stunned fallback is skipped. After §45.3: a knocked-down leader still counts.
+3. *I go first*: Next from Pre-game lands on Turn 1 · Your turn, Start of turn. After Close combat, Next lands on Turn 2 · Opponent's turn, then Turn 3 · Your turn. *They go first*: Pre-game → Turn 1 · Opponent's turn → Turn 2 · Your turn.
+4. Empty steps (e.g. Recovery with nobody stunned, knocked down or fleeing) still appear, with "nothing to do" and the rules disclosure.
+5. A hero marked stunned in the opponent's turn shows as knocked down on entering your Recovery, with Undo. Knocked-down heroes stand up by default; untick one and he stays down into Movement.
+6. Shooting lists a standing hero with a crossbow and leaves out a knocked-down one with a handgun. A caster shows his spells with Difficulty and a Cast roll.
+7. A unit with *Stupidity* appears at Start of turn with a Test roll; an Undead warband with *Immune to Psychology* gets no psychology prompts, but still gets the rout test at 25%.
+8. Rout test failed → the tracker offers End of game → Go to Post-Battle. Wizard step 1 shows the turns played, pre-filled; after commit the battle shows "N turns" in Your Battles.
+9. Refresh mid-turn: turn, phase, first player and all states come back (§4.3.2).
+10. There is no setting that turns the tracker off.
+11. Campaign opponent, ratings 142 vs 231: step 1 shows +2 pre-filled. A typed opponent: empty.
+12. No hired swords, no deaths, no advances: all 8 steps show; Advances, Dead Models and Upkeep each show a one-line reason and the rules disclosure.
+13. Finish later at the checkpoint → the roster shows Resume → it reopens at step 5 with injuries and XP intact.
+14. Wound roll 3 on a hero → he is stunned (Undo available); roll 6 → one tap marks him OOA; the D66 rolled for him appears pre-filled in step 2.
+15. §4.3.3 navigation and §34 friendly checks still pass (a friendly still runs Info → Confirm).
+
+---
+
+## 46. Linked battles — two players, one synced battle ◻️
+
+_Drafted 2026-11-25 against `main` @ `da7346c`. Project doc: `claude/linked-battles-spec.md`. Builds on §45 (turn tracker, model states); do not start before §45.2–45.3 have shipped. Amends §4.3.1 A, §4.3.2, §8.4 and §12.2 (scoped, see §46.1)._
+
+_Decided 2026-11-25 by the owner: **both players need an account.** Linking is for signed-in users only, also for a friendly outside a campaign._
+
+### 46.0 Why
+
+Today each player runs the battle flow alone. Two things are reconstructed by hand that the other player's phone already knows: whose turn and phase it is, and who took whom out of action (§4.3.1 A: "revisit only if both players routinely use the app"). Linking two apps for one battle removes both, puts every roll in one shared log both players witness, and lets the result be agreed rather than typed twice.
+
+Playing unlinked stays fully supported and unchanged. Linking is opt-in per battle.
+
+### 46.1 Decisions this section supersedes (scoped)
+
+| Was | Now |
+|---|---|
+| §8.4 / §12.2: Realtime is not used | Still true for every campaign and roster screen. **Exception:** one Realtime subscription per player while a *linked* battle is on the During Battle screen, closed on leaving the screen, unlinking or commit. Two connections for an hour or two per game, not one per member per campaign. |
+| §4.3.2: the battle draft is `localStorage` only; nothing reaches the server before commit | Unlinked battles: unchanged. Linked battles: the `localStorage` draft stays the working copy, and **a summary of your own side** plus the shared clock and event log are mirrored to the server while the battle runs. The roster and the BattleRecord are still written only at commit (§4.3, unchanged). |
+| §4.3.1 A: enemy casualties are a self-reported tally | Linked battles: attributed by the player whose model fell (§46.4). Unlinked: unchanged. |
+
+### 46.2 Scope
+
+- **Two players**, each with an account and their own warband. ❓ **3+ players** (multiplayer, §43): default **not in v1**.
+- Works for **campaign battles and friendlies** (§34). The opponent does not need to be in your campaign: linking goes by code, not by membership.
+- **Each player writes only their own side.** Nobody edits the other's models, ever (the same reasoning as §4.3.1 A).
+- ❓ **Mord Hive.** Default: **Mordheim Manager first**; the tables carry a `system` column (default `'mordheim'`) so Mord Hive can reuse them later without a migration.
+
+### 46.3 Data model
+
+Three new tables. Migration `00NN_linked_battles.sql` — ⚠️ **placeholder number**: the next free number after `0073` in this repo, but the Supabase project is shared with Mord Hive, so check `Evin89/mordhivemanager`'s migrations for a collision before applying.
+
+```sql
+-- One row per linked battle.
+create table public.linked_battles (
+  id uuid primary key default gen_random_uuid(),
+  system text not null default 'mordheim',
+  code text not null unique,                 -- short join code, same alphabet as campaign codes (§8.5)
+  host_id uuid not null references public.profiles (id),
+  guest_id uuid references public.profiles (id),
+  campaign_id uuid references public.campaigns (id) on delete set null,
+  status text not null default 'open'
+    check (status in ('open', 'active', 'ended', 'abandoned')),
+  clock jsonb not null default '{}'::jsonb,  -- { turn, phase, firstPlayer: 'host'|'guest', activeSide: 'host'|'guest' }
+  clock_version integer not null default 0,  -- optimistic concurrency for the clock (§46.3.2)
+  result jsonb,                              -- §46.5: { proposedBy, outcome, turns, confirmedBy[] }
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  expires_at timestamptz not null default now() + interval '12 hours'
+);
+
+-- One row per player: a summary of their own side, written only by that player.
+create table public.linked_battle_sides (
+  battle_id uuid not null references public.linked_battles (id) on delete cascade,
+  player_id uuid not null references public.profiles (id),
+  warband_id uuid not null references public.warbands (id) on delete cascade,
+  summary jsonb not null,   -- §46.3.1
+  updated_at timestamptz not null default now(),
+  primary key (battle_id, player_id)
+);
+
+-- Append-only shared log: rolls, state changes, attributions, notes.
+create table public.linked_battle_events (
+  id bigint generated always as identity primary key,
+  battle_id uuid not null references public.linked_battles (id) on delete cascade,
+  author_id uuid not null references public.profiles (id),
+  turn integer not null,
+  phase text not null,
+  kind text not null check (kind in ('roll', 'state', 'attribution', 'note', 'clock')),
+  payload jsonb not null,
+  created_at timestamptz not null default now()
+);
+create index linked_battle_events_battle_idx on public.linked_battle_events (battle_id, id);
+```
+
+**RLS** (all three tables enabled):
+
+- `linked_battles`: `select` where `auth.uid() in (host_id, guest_id)`; `insert` with `host_id = auth.uid()`; **no direct update/delete** — every change goes through the RPCs below.
+- `linked_battle_sides`: `select` for both participants of the battle; `insert`/`update` only `player_id = auth.uid()` **and** the caller is a participant **and** `warband_id` is one of the caller's own warbands; no delete (cascades with the battle).
+- `linked_battle_events`: `select` for both participants; `insert` only `author_id = auth.uid()` and caller is a participant and the battle is `active`; no update/delete (append-only; corrections are new events).
+- Helper `public.is_linked_battle_participant(p_battle_id uuid) returns boolean`, `security definer`, `stable`, like `is_campaign_member`.
+
+**RPCs** (`security definer`, `set search_path = public`):
+
+- `create_linked_battle(p_warband_id uuid, p_campaign_id uuid) returns linked_battles` — checks the warband is the caller's; generates the code; inserts the host's side row with an empty summary.
+- `join_linked_battle(p_code text, p_warband_id uuid) returns linked_battles` — only while `status = 'open'` and not expired and `guest_id is null` and the caller is not the host; checks the warband is the caller's; sets `guest_id`, `status = 'active'`; inserts the guest's side row.
+- `advance_linked_clock(p_battle_id uuid, p_expected_version integer, p_clock jsonb)` — caller must be the participant whose side is `clock.activeSide` (or either player while `phase = 'pregame'`); fails with a version conflict if `clock_version <> p_expected_version`; increments the version; writes a `clock` event.
+- `unlink_battle(p_battle_id uuid)` — either participant; `status = 'abandoned'`. Each player carries on unlinked with their local draft.
+- `propose_linked_result` / `confirm_linked_result` — §46.5.
+
+**Realtime:** add the three tables to the `supabase_realtime` publication. Clients subscribe with `postgres_changes` filtered on `id`/`battle_id` (RLS applies to Realtime). Postgres stays the source of truth, so a reconnecting phone just refetches.
+
+**Retention:** a `pg_cron` job deletes `ended`/`abandoned` battles after 7 days and `open` ones past `expires_at`. Nothing in these tables is needed after both players have committed: the BattleRecords (§4.3) are the history.
+
+#### 46.3.1 The side summary
+
+What the opponent's phone may see of your side — enough for the live strip (§46.4.2) and attribution, nothing of the roster blob. `warbands` RLS is untouched: a guest from outside your campaign never reads your warband.
+
+```ts
+type LinkedSideSummary = {
+  warbandName: string;
+  warbandType: string;
+  ratingAtStart: number;              // feeds §45.5 for both players
+  battleModels: number;               // countBattleModels (§45.1)
+  down: number;                       // countDown
+  routTestDue: boolean;
+  routLd: { ld: number | null; name: string; reason?: string };
+  models: Array<{                     // heroes and hired swords on the table
+    id: string; name: string; kind: 'hero' | 'hiredSword';
+    state: 'standing' | 'knockedDown' | 'stunned' | 'fleeing' | 'outOfAction';
+  }>;
+  groups: Array<{                     // henchmen groups
+    id: string; name: string; count: number;
+    outOfAction: number; stunned: number; knockedDown: number; fleeing: number;
+  }>;
+  wyrdstoneCarried: number;           // total only
+};
+```
+
+#### 46.3.2 Sync rules
+
+- **Local first.** The During Battle screen keeps reading and writing the `localStorage` session (§4.3.2). A change to your own side recomputes the summary and upserts your side row, debounced 300 ms. Taps never wait on the network.
+- **Single writer per row.** Your side row is only ever written by you, so it has no conflicts. The clock has one writer at a time (the active side) and a version check, so a double tap or a stale phone gets a conflict, refetches and shows the current step.
+- **Offline.** A failed push shows the existing connection banner (§8.4) as "Linked · offline — saved on this phone, will sync"; the next successful push sends the latest summary (not a replay). Events written offline are queued in the session and inserted on reconnect, in order, with their original turn and phase.
+- **Unlink or expiry** leaves both local drafts intact; each player finishes alone, exactly as an unlinked battle.
+
+### 46.4 Phase 46a — link, shared clock, live opponent
+
+#### 46.4.1 Linking
+
+- **Host:** on Pre-battle or the tracker's Pre-game step, **Link with opponent** → `create_linked_battle` → a sheet with a QR code and the code in large type ("MRDH-7F2K" style), plus *Share* (WhatsApp/Discord, as §8.5). If the opponent was picked from the campaign, the sheet also offers **Send invite** (§19 push), which opens the join screen with the code filled in.
+- **Guest:** **Join a battle** on Play (§40) or Pre-battle → scan or type the code → pick one of their warbands → `join_linked_battle`. Their scenario and opponent fields are filled from the host's battle; editable only by the host until Pre-game ends.
+- Both screens then show a **Linked with Grim Blades ●** chip in the tracker. Tapping it: connection state, the code, **Unlink**.
+
+#### 46.4.2 The tracker, linked
+
+- **Who goes first** is set on Pre-game by either player (the clock is writable by both in `pregame`); the other sees it change live.
+- **Next** is shown only on the active player's phone. The other phone shows the same step, read-only: "Waiting for Grim Blades · Shooting" with their phase strip, and its own roster stays live for wound rolls and states (§45.3.1, *Opponent's turn*). Turn numbering as §45.3.1, shared.
+- **Back** on the active phone goes through `advance_linked_clock` as well, so both phones step back together.
+- **Opponent strip** above your roster: "Grim Blades · 3/11 down · Rout test due · Ld 7 (Dieter, leader stunned)", expandable into their model and group states, read-only.
+- **Shared event log** (Tools › Event log): both players' rolls and state changes, each line marked with the player's warband name, in insertion order. Rolls made in the app (rout, wound, rally, cast, injury) are posted as `roll` events with the dice and the result, so the other player sees them as they happen.
+
+### 46.5 Phase 46b — attribution and an agreed result
+
+#### 46.5.1 Who took whom out
+
+- In a linked battle, marking one of **your** models out of action opens a small sheet: **Taken out by** — the opponent's heroes and hired swords on the table (from their summary), plus *Their henchmen*, *Something else* (falling, a scenario effect) and *Skip*.
+- The choice is written as an `attribution` event `{ victimModelId, byModelId | 'henchmen' | 'other' }`.
+- The **opponent's** client folds attributions that name their models into their own enemy-OOA steppers (§4.3.1 A), as defaults they can still correct. Only they write their side, so the counter changes on their phone, from the event, never by your hand.
+- Unmarking an OOA model writes a reversing `attribution` event; the opponent's count drops again.
+
+#### 46.5.2 Agreeing the result
+
+- On **End battle**, the player who ends it proposes the outcome (`propose_linked_result`: win/loss/draw from each side's view, turns played from the clock, who routed). The other player gets it on their tracker: **Confirm** or **Report a difference**.
+- Both wizards then open with Battle Info pre-filled from the agreed result: opponent, scenario, result, turns (§45.3.5), underdog from both `ratingAtStart` values (§45.5), enemy OOA per hero from the attributions.
+- Each player still commits **their own** roster and BattleRecord (§4.3, unchanged). Both records carry `linkedBattleId` in their `data` jsonb (no migration on `battles`).
+- ❓ **One entry in the campaign log.** Default: when two BattleRecords in a campaign share a `linkedBattleId`, the log shows them as **one** game ("Ashen Writ beat Grim Blades · 9 turns · linked") with both rosters' changes underneath, instead of two separate reports.
+- ❓ **When they disagree.** Default: *Report a difference* lets each player commit their own view; both records get `resultDisputed: true`, the log shows "Results differ" on that game, and the campaign leader resolves it through the existing battle edit/undo paths. No new arbitration screen in v1.
+
+### 46.6 Not in this section
+
+- Three or more players linked to one battle (❓ above).
+- Spectators, or a third phone showing both sides.
+- Editing or marking the opponent's models.
+- Syncing the same player's battle across their own two devices (§4.3.2 still: one battle, one device).
+- Chat. The shared event log takes `note` events, nothing more.
+
+### 46.7 Cost and risk
+
+- **Realtime:** two connections per linked battle, open only on the During Battle screen. Message volume is small (summaries debounced to 300 ms, a few dozen events per turn at most).
+- **Game-store wifi** is the main risk; local-first (§46.3.2) means a dropped link never blocks a tap, it only delays the opponent's view.
+- **Privacy:** the opponent sees only the side summary (§46.3.1) for the battle's lifetime plus 7 days. Their access ends when the battle is purged; nothing new is exposed about your warband outside the battle.
+
+### 46.8 Build order
+
+1. Migration (tables, RLS, helper, RPCs, publication, pg_cron purge) with SQL tests in `supabase/db-tests/linked-battles.sql` (run by `npm run db:test`) for every RLS rule: a non-participant reads nothing; a participant cannot write the other's side; only the active side can advance the clock; a guest cannot join a full, expired or own battle.
+2. 46a client: link/join screens, linked chip, shared clock on the tracker, side-summary push, opponent strip, shared event log.
+3. 46b client: attribution sheet and folding, propose/confirm result, wizard pre-fill, `linkedBattleId` on records, the merged campaign-log entry.
+
+### 46.9 Acceptance
+
+1. Host links, guest joins by QR and by typed code; a third account with the same code gets "battle already full".
+2. Host's phone on Turn 3 · Shooting; guest's phone shows the same step read-only with "Waiting for…"; host taps Next → both phones show Close combat within a second or two.
+3. Both tap Next at once on a stale phone → one wins, the other shows a conflict toast and the current step.
+4. Guest marks a model stunned → host's opponent strip shows it; the guest's rout Ld change appears on the host's strip.
+5. Wifi off on one phone for a turn: taps still work there; on reconnect the other phone catches up to the latest state and the queued events appear in order.
+6. Guest marks a Zealot out of action, *Taken out by* Dieter → on the host's phone Dieter's kill counter goes up by one; unmarking takes it back.
+7. Host ends the battle and proposes the result; guest confirms; both wizards open with result, turns, underdog and per-hero kills pre-filled; after both commit, the campaign log shows one game.
+8. Unlink mid-battle → both phones carry on unlinked with all local marks intact.
+9. A non-participant querying any of the three tables, directly or over Realtime, gets nothing.
+10. Unlinked battles behave exactly as before §46.
+
+---
+
+## 47. Follow-ups from the Rosterheim comparison ◻️ ❓
+
+_Researched 2026-11-23 (rosterheim.net: public pages, a walk through the app, its changelog and feedback board) against this spec. Full comparison: project doc `claude/concurrent-rosterheim.md`. Nothing here is decided yet unless marked; each ❓ carries a default for the owner to confirm or change._
+
+### 47.1 What Rosterheim is
+
+A free, single-developer community web app for Mordheim rosters (beta, weekly releases since January 2026), hosted on Firebase. Accounts are optional: without one it stores warbands in `localStorage`, with one (e-mail or Google) it syncs to the cloud. It is built for **one player managing their own warband**: there are no shared campaigns, standings, events or player-to-player features.
+
+**Where it is ahead of MM:** rules automation per warband and per skill, house rules per warband, a gold ledger, loadouts, a 13-step turn-order tracker with phase abilities, warband-specific post-battle hooks, a Card Builder for printable fighter cards, and use without an account.
+
+**Where MM is ahead:** everything between players — shared campaigns and standings, territory/rivalries/awards, events with RSVP and push, the event sheet, friendly games and battle history, scenario and battlefield generators, BTB objectives, gallery and profiles, the installable PWA, sharing to WhatsApp/Discord, and the sister app Mord Hive.
+
+### 47.2 Already taken up
+
+- **Turn structure** → §45.3 (decided 2026-11-25: wanted; modelled on the rulebook's whole-turn sequence rather than Rosterheim's interleaved steps).
+- **Rout and stunned handling** → §45.1 ✅ live.
+- **Linking two players' apps** (Rosterheim has nothing comparable) → §46.
+
+### 47.3 Open candidates
+
+| # | Candidate | Size | ❓ Default |
+|---|---|---|---|
+| 1 | **Missing warbands:** Lahmian, Lothern Sea Patrol, Mercenaries (Ostermark, already noted in §30), Night Goblins Web, Skaven Clan Skryre. (Asrai Wayfarer: check whether it is a warband or a Hired Sword/DP.) | per warband | **Add those that exist on mordheimer.net**, through the §32 route (save page → converter → 1:1 check). Skip anything not on mordheimer.net. |
+| 2 | **Skill effects as data** (Iron Sinews +1 S, Big Bully/Maneater unlocking skill lists, Dog of War widening Hired Swords, bloodline stat changes). Conflicts with §1 "warn, don't apply". | large | **Yes, as a confirmable proposal**: an optional `effects` field on skills (`statModifier`, `unlockSkillList`, `unlockHiredSwords`), shown pre-ticked in the advance flow, untickable; only effects literally in the Mordheimer text, with the source in the data. Separate from the phase tags of §45.3.4. |
+| 3 | **Warband-specific post-battle rules** (Banditry, Cutpurse, Wily Thief, Seeker). | medium | **Later**, after item 2: a "Warband rules" wizard step showing the relevant rule text with free gold/XP fields. |
+| 4 | **Card Builder** — printable fighter cards (63×88 mm), components on/off and reorderable. | medium | **Yes**, through the §4.1.1 print path (no PDF library); ink-on-white plus the Rulebook look only, no theme engine. |
+| 5 | **Gold ledger** — append-only log of gold and shard changes (wizard income, trading, upkeep, manual), filterable per battle. | medium | **Yes**, mirroring the equipment log of §18.2. Storage (jsonb field vs table) decided at spec time. |
+| 6 | **More house rules** — blackpowder −20%, armour −50%, Light Armour 5+, ignore racial maximums, universal hiring. | small | **Add to the campaign/friendly `HOUSE_RULES` catalogue (§34)**; not per warband outside a campaign. |
+| 7 | **Stand-alone Exploration page** and wyrdstone selling table under Tools, outside the wizard. | small | **Yes** — the data exists. |
+| 8 | **Duplicate a warband** (new ids, no battles or campaign). | small | **Yes, if not already possible** — check first. |
+| 9 | **Overrides with a note** (stat override "why"; per-model skill-list override; a per-model "house rule: ignore restriction" for §9.2/§9.3). | medium | **Only when the campaign has the matching house rule on.** The §9 refusals stay the default. |
+| 10 | **Guest mode without an account** (`localStorage`, migrate later). | large | **No** — it conflicts with §1 ("Supabase is the only source of truth") and doubles the storage paths; onboarding (§26.4) and the gallery stay the trial path. |
+| 11 | **Public roadmap / changelog page.** | small | **Yes**, as a static page fed by `changelog.json` (which already drives #changelog on Discord). |
