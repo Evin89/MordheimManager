@@ -74,7 +74,10 @@ export default function PostBattleWizard() {
       ? warbands.find((w) => w.id === session.opponentWarbandId)
       : undefined;
     const opponents = opponentWarband?.name || session.opponentName || base.opponents;
-    const eventNotes = session.events.map((e) => `Turn ${e.turn}: ${e.text}`).join('\n');
+    const tracker = strings.battle.duringBattle.tracker;
+    const eventNotes = session.events.map((e) => e.phase
+      ? tracker.event(e.turn, tracker.phases[e.phase], e.text)
+      : `Turn ${e.turn}: ${e.text}`).join('\n');
     const notes = [session.notes, eventNotes].filter(Boolean).join('\n\n') || base.notes;
 
     const casualties = seedCasualties(warband, base, session.outOfAction);
@@ -107,6 +110,7 @@ export default function PostBattleWizard() {
       opponentWarbandId: session.opponentWarbandId ?? null,
       opponentWarbandName: session.opponentWarbandId ? opponents : '',
       notes,
+      turns: session.phase && session.phase !== 'pregame' ? session.turn : undefined,
       ...casualties,
       heroes,
       hiredSwords,

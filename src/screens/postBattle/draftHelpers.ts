@@ -438,6 +438,7 @@ export function applyDraftToWarband(
     id: generateId(),
     warbandId: warband.id,
     date: draft.date,
+    turns: draft.turns,
     scenario: draft.scenario,
     opponents: opponentList,
     opponentWarbandIds:
@@ -471,6 +472,7 @@ export function buildFriendlyRecord(warband: Warband, draft: PostBattleDraft): B
     id: generateId(),
     warbandId: warband.id,
     date: draft.date,
+    turns: draft.turns,
     scenario: draft.scenario,
     opponents: opponentList,
     opponentWarbandIds:
