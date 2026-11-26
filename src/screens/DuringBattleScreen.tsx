@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { battleState } from '../lib/battleNavigation';
-import BackHeader from '../components/BackHeader';
+import { isStunnedBetaOn, setStunnedBeta } from '../lib/betaFlags';
+import BackHeader, { HeaderBadge } from '../components/BackHeader';
 import ActionBar from '../components/ActionBar';
 import DiceRoller from '../components/DiceRoller';
 import ProfileBlock from '../components/ProfileBlock';
 import { WarbandThumb } from '../components/WarbandPhoto';
 import { useRosterPhotos } from '../hooks/usePhotos';
 import WeaponRulesDisclosure from '../components/WeaponRulesDisclosure';
+import RuleBody from '../components/RuleBody';
+import { getRuleEntry } from '../lib/rulesIndex';
 import RuleDisclosure from '../components/RuleDisclosure';
 import { getUnitSpecialRules } from '../data/warbandRegistry';
 import { getSkillByName } from '../lib/skillLookup';
@@ -17,11 +20,13 @@ import BattlefieldBoard from '../components/solo/BattlefieldBoard';
 import { strings } from '../strings';
 import { rollD6, rollD66, roll2D6 } from '../lib/dice';
 import { getInjuryByRoll } from '../lib/injuryLookup';
-import { countModels } from '../lib/rating';
+import { countBattleModels, countDown, reconcileStunned, routLeadership, routTestRequired } from '../lib/rout';
 import {
   BattleSession,
   OutOfActionTally,
   defaultBattleSession,
+  emptyOutOfAction,
+  stunnedOf,
   useAppStore,
 } from '../store/useAppStore';
 import { useSharedWarbandQuery, useWarbandList, useWarbandLookup } from '../hooks/useWarbands';
@@ -132,6 +137,65 @@ function MiniStepper({
   );
 }
 
+const during = strings.battle.duringBattle;
+
+function StunnedRules() {
+  return (
+    <details className="text-xs text-bone-300">
+      <summary className="w-fit cursor-pointer font-semibold text-ember-400">{during.rulesLink}</summary>
+      {['recovery-phase', 'wounds-injuries-in-game'].map((id) => {
+        const entry = getRuleEntry(id);
+        return entry && (
+          <div key={id} className="my-2 space-y-1">
+            <p className="font-semibold text-bone-100">{entry.title}</p>
+            <RuleBody body={entry.body} />
+          </div>
+        );
+      })}
+    </details>
+  );
+}
+
+type StunnedControl =
+  | { kind: 'single'; active: boolean; disabled: boolean; onToggle: () => void }
+  | Extract<OutOfActionControl, { kind: 'group' }>;
+
+function StunnedButtons({ control }: { control: StunnedControl }) {
+  if (control.kind === 'single') {
+    return (
+      <Button
+        variant={control.active ? 'ghost' : 'secondary'}
+        size="dense"
+        className={control.active ? 'min-h-[44px] border border-chart-1 bg-chart-1/10 !text-chart-1' : 'min-h-[44px]'}
+        aria-pressed={control.active}
+        disabled={control.disabled}
+        onClick={control.onToggle}
+      >
+        {control.active ? during.stunned : during.markStunned}
+      </Button>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <span className="flex-1 text-xs uppercase tracking-wide text-bone-300">{during.stunnedCount}</span>
+      <Button variant="secondary" size="dense" fullWidth={false} className="min-h-[44px] min-w-[44px]"
+        onClick={() => control.onChange(control.downed - 1)}
+        disabled={control.downed <= 0} aria-label={during.oneFewerStunned}>
+        −
+      </Button>
+      <span className="min-w-[3.5rem] text-center font-semibold tabular-nums">
+        {control.downed}/{control.total}
+      </span>
+      <Button variant="secondary" size="dense" fullWidth={false} className="min-h-[44px] min-w-[44px]"
+        onClick={() => control.onChange(control.downed + 1)}
+        disabled={control.downed >= control.total} aria-label={during.oneMoreStunned}>
+        +
+      </Button>
+    </div>
+  );
+}
+
 type CounterControl = { value: number; onChange: (n: number) => void };
 
 // One header style shared by the Equipment / Skills / Special rules sections on
@@ -146,6 +210,7 @@ function RosterCard({
   skills,
   detailLink,
   outOfAction,
+  stunned,
   enemyOoa,
   wyrdstone,
   specialRules,
@@ -160,6 +225,7 @@ function RosterCard({
   specialRules?: ResolvedSpecialRule[];
   detailLink: string;
   outOfAction?: OutOfActionControl;
+  stunned?: StunnedControl;
   /** Enemies this model took out of action (§4.3.1 A) — heroes and hired swords. */
   enemyOoa?: CounterControl;
   /** Wyrdstone shards this model is carrying (§4.3.1 B) — shown when tracking is on. */
@@ -167,6 +233,7 @@ function RosterCard({
   /** Signed model portrait, resolved by the parent; absent when there is none. */
   photoUrl?: string;
 }) {
+  const anyStunned = stunned && (stunned.kind === 'single' ? stunned.active : stunned.downed > 0);
   const anyDown =
     outOfAction &&
     (outOfAction.kind === 'single' ? outOfAction.active : outOfAction.downed > 0);
@@ -181,7 +248,13 @@ function RosterCard({
         <div className="flex items-center gap-3 min-w-0">
           <WarbandThumb url={photoUrl} alt={strings.photo.alt(name)} shape="square" />
           <div className="min-w-0">
-            <p className="text-bone-100 font-semibold truncate">{name}</p>
+            <div className="flex flex-wrap items-center gap-x-2">
+              <p className="text-bone-100 font-semibold truncate">{name}</p>
+              {stunned?.kind === 'single' && stunned.active && (
+                <span className="rounded border border-chart-1 px-1 text-xs text-chart-1">{during.stunnedBadge}</span>
+              )}
+            </div>
+            {stunned?.kind === 'single' && stunned.active && <StunnedRules />}
             <p className="text-bone-300 text-sm truncate">{subtitle}</p>
           </div>
         </div>
@@ -225,6 +298,8 @@ function RosterCard({
       {(outOfAction || enemyOoa || wyrdstone) && (
         <div className="pt-1 border-t border-ink-800 space-y-2">
           {outOfAction && <OutOfActionButtons control={outOfAction} />}
+          {stunned && <StunnedButtons control={stunned} />}
+          {anyStunned && <p className="text-xs text-bone-300">{during.stunnedReminder}</p>}
           {enemyOoa && (
             <MiniStepper
               label={strings.battle.duringBattle.enemyOoaLabel}
@@ -257,6 +332,8 @@ function RosterReference({
   warband,
   tally,
   onTallyChange,
+  stunned,
+  onStunnedChange,
   enemyOoa,
   onEnemyOoaChange,
   wyrdstone,
@@ -266,6 +343,8 @@ function RosterReference({
   warband: Warband;
   tally?: OutOfActionTally;
   onTallyChange?: (next: OutOfActionTally) => void;
+  stunned?: OutOfActionTally;
+  onStunnedChange?: (next: OutOfActionTally) => void;
   /** Your modelId → enemies taken OOA (§4.3.1 A); steppers on heroes and hired swords. */
   enemyOoa?: Record<string, number>;
   onEnemyOoaChange?: (modelId: string, count: number) => void;
@@ -294,23 +373,43 @@ function RosterReference({
   // too — a campaign-mate can read it, so their portraits show here as well.
   const photos = useRosterPhotos(warband.id);
 
-  function toggleId(key: 'heroIds' | 'hiredSwordIds', id: string) {
-    if (!tally || !onTallyChange) return;
-    const current = tally[key];
-    onTallyChange({
-      ...tally,
-      [key]: current.includes(id) ? current.filter((x) => x !== id) : [...current, id],
-    });
+  function toggleId(current: OutOfActionTally, key: 'heroIds' | 'hiredSwordIds', id: string) {
+    const ids = current[key];
+    return { ...current, [key]: ids.includes(id) ? ids.filter((x) => x !== id) : [...ids, id] };
   }
 
-  function setGroupCount(groupId: string, downed: number) {
-    if (!tally || !onTallyChange) return;
-    onTallyChange({ ...tally, henchmenCounts: { ...tally.henchmenCounts, [groupId]: downed } });
+  function setGroupCount(current: OutOfActionTally, groupId: string, count: number) {
+    return { ...current, henchmenCounts: { ...current.henchmenCounts, [groupId]: count } };
   }
+
+  function singleStunned(key: 'heroIds' | 'hiredSwordIds', id: string): StunnedControl | undefined {
+    if (!tally || !stunned || !onStunnedChange) return undefined;
+    return {
+      kind: 'single',
+      active: stunned[key].includes(id),
+      disabled: tally[key].includes(id),
+      onToggle: () => onStunnedChange(toggleId(stunned, key, id)),
+    };
+  }
+
+  function groupStunned(id: string, count: number): StunnedControl | undefined {
+    if (!tally || !stunned || !onStunnedChange) return undefined;
+    return {
+      kind: 'group',
+      downed: stunned.henchmenCounts[id] ?? 0,
+      total: Math.max(0, count - (tally.henchmenCounts[id] ?? 0)),
+      onChange: (n) => onStunnedChange(setGroupCount(stunned, id, n)),
+    };
+  }
+
+  const sittingOut = [...warband.heroes, ...warband.hiredSwords]
+    .filter((model) => model.status === 'missNextGame')
+    .map((model) => model.name);
+
 
   return (
     <div className="space-y-2">
-      {warband.heroes.map((hero) => (
+      {warband.heroes.filter((model) => model.status === 'active').map((hero) => (
         <RosterCard
           key={hero.id}
           name={hero.name}
@@ -323,12 +422,13 @@ function RosterReference({
           photoUrl={photos[hero.id]}
           enemyOoa={enemyControl(hero.id)}
           wyrdstone={wyrdControl(hero.id)}
+          stunned={singleStunned('heroIds', hero.id)}
           outOfAction={
             interactive
               ? {
                   kind: 'single',
                   active: tally!.heroIds.includes(hero.id),
-                  onToggle: () => toggleId('heroIds', hero.id),
+                  onToggle: () => onTallyChange!(toggleId(tally!, 'heroIds', hero.id)),
                 }
               : undefined
           }
@@ -345,19 +445,20 @@ function RosterReference({
           photoUrl={photos[group.id]}
           specialRules={rulesFor(group.unitType)}
           wyrdstone={wyrdControl(group.id)}
+          stunned={groupStunned(group.id, group.count)}
           outOfAction={
             interactive
               ? {
                   kind: 'group',
                   downed: Math.min(tally!.henchmenCounts[group.id] ?? 0, group.count),
                   total: group.count,
-                  onChange: (downed) => setGroupCount(group.id, downed),
+                  onChange: (downed) => onTallyChange!(setGroupCount(tally!, group.id, downed)),
                 }
               : undefined
           }
         />
       ))}
-      {warband.hiredSwords.map((sword) => (
+      {warband.hiredSwords.filter((model) => model.status === 'active').map((sword) => (
         <RosterCard
           key={sword.id}
           name={sword.name}
@@ -370,60 +471,49 @@ function RosterReference({
           photoUrl={photos[sword.id]}
           enemyOoa={enemyControl(sword.id)}
           wyrdstone={wyrdControl(sword.id)}
+          stunned={singleStunned('hiredSwordIds', sword.id)}
           outOfAction={
             interactive
               ? {
                   kind: 'single',
                   active: tally!.hiredSwordIds.includes(sword.id),
-                  onToggle: () => toggleId('hiredSwordIds', sword.id),
+                  onToggle: () => onTallyChange!(toggleId(tally!, 'hiredSwordIds', sword.id)),
                 }
               : undefined
           }
         />
       ))}
+      {sittingOut.length > 0 && (
+        <p className="text-xs text-bone-300">{during.sittingOut(sittingOut.join(', '))}</p>
+      )}
     </div>
   );
 }
 
-/**
- * Rout test helper — the screen already tallies who's out of action, so it can
- * do the arithmetic the rule asks for: a warband must test when a quarter of it
- * is down. Shows the live down/total and, at the threshold, prompts the test and
- * rolls it against the best Leadership on the table (a good-enough figure — the
- * player knows if that model is itself down), logging the result to the events.
- *
- * Only for your own warband: `tally` is your bookkeeping, and the opponent's
- * roster here is a read-only reference.
- */
-function RoutTestPanel({
-  warband,
-  tally,
-  onLog,
-}: {
+/** Show the current rout threshold and roll against the eligible Leadership. */
+function RoutTestPanel({ warband, tally, stunned, onLog }: {
   warband: Warband;
   tally: OutOfActionTally;
+  stunned: OutOfActionTally;
   onLog: (text: string) => void;
 }) {
-  const t = strings.battle.duringBattle.rout;
-  const total = countModels(warband);
-  const down =
-    tally.heroIds.length +
-    tally.hiredSwordIds.length +
-    Object.values(tally.henchmenCounts).reduce((s, n) => s + n, 0);
+  const t = during.rout;
+  const total = countBattleModels(warband);
+  // Older sessions could have OOA marks for heroes or swords sitting out.
+  const down = countDown({
+    ...tally,
+    heroIds: tally.heroIds.filter((id) => warband.heroes.some((hero) => hero.id === id && hero.status === 'active')),
+    hiredSwordIds: tally.hiredSwordIds.filter((id) => warband.hiredSwords.some((sword) => sword.id === id && sword.status === 'active')),
+  });
   const pct = total > 0 ? Math.round((down / total) * 100) : 0;
-  // Integer 25% test, not the rounded percentage: exactly a quarter counts.
-  const mustTest = total > 0 && down * 4 >= total;
-  const bestLd = Math.max(
-    0,
-    ...warband.heroes.map((h) => h.stats.Ld ?? 0),
-    ...warband.henchmenGroups.map((g) => g.stats.Ld ?? 0),
-    ...warband.hiredSwords.map((s) => s.stats.Ld ?? 0),
-  );
+  const mustTest = routTestRequired(down, total);
+  const leadership = routLeadership(warband, tally, stunned);
+  const { ld } = leadership;
 
   function rollRout() {
+    if (ld === null) return;
     const { total: rolled } = roll2D6();
-    const passed = rolled <= bestLd;
-    onLog(passed ? t.passLog(rolled, bestLd) : t.failLog(rolled, bestLd));
+    onLog(rolled <= ld ? t.passLog(rolled, ld) : t.failLog(rolled, ld));
   }
 
   return (
@@ -441,14 +531,12 @@ function RoutTestPanel({
       {mustTest ? (
         <>
           <p className="text-bone-200 text-sm">{t.required}</p>
-          <p className="text-bone-400 text-xs">{t.bestLd(bestLd)}</p>
-          <button
-            type="button"
-            onClick={rollRout}
-            className="w-full min-h-[44px] rounded-md bg-ember-500 hover:bg-ember-600 text-on-accent font-semibold text-sm"
-          >
-            {t.roll}
-          </button>
+          <p className="text-bone-400 text-xs">
+            {leadership.source === 'leader' && t.leaderLd(leadership.ld, leadership.name)}
+            {leadership.source === 'fallback' && t.fallbackLd(leadership.ld, leadership.name, leadership.reason)}
+            {leadership.source === 'none' && t.noLd}
+          </p>
+          <Button onClick={rollRout} disabled={ld === null}>{t.roll}</Button>
         </>
       ) : (
         <p className="text-bone-400 text-xs">{t.safe}</p>
@@ -520,6 +608,8 @@ export default function DuringBattleScreen() {
   const [session, setSession] = useState<BattleSession>(
     () => storedSession ?? defaultBattleSession(warbandId ?? ''),
   );
+  const [stunnedBetaOn, setStunnedBetaOn] = useState(isStunnedBetaOn);
+  const [recoveryUndo, setRecoveryUndo] = useState<{ tally: OutOfActionTally; eventId: string }>();
   const [newEventText, setNewEventText] = useState('');
   const [viewSide, setViewSide] = useState<'mine' | 'opponent'>('mine');
   const [confirmTurnBack, setConfirmTurnBack] = useState(false);
@@ -551,10 +641,33 @@ export default function DuringBattleScreen() {
   }
   if (!warband) return <Navigate to="/warbands" replace />;
 
+  const stunned = stunnedOf(session);
+  const stunnedCount = countDown(stunned);
+
+  function toggleStunnedBeta(on: boolean) {
+    setStunnedBeta(on);
+    setStunnedBetaOn(on);
+  }
+
   function updateSession(patch: Partial<BattleSession>) {
+    setRecoveryUndo(undefined);
     const updated = { ...session, ...patch };
     setSession(updated);
     setStoredSession(updated);
+  }
+
+  function clearStunned() {
+    const event = { id: generateId(), turn: session.turn, text: during.stunnedClearedLog(stunnedCount) };
+    updateSession({ stunned: emptyOutOfAction(), events: [...session.events, event] });
+    setRecoveryUndo({ tally: stunned, eventId: event.id });
+  }
+
+  function undoRecovery() {
+    if (!recoveryUndo) return;
+    updateSession({
+      stunned: recoveryUndo.tally,
+      events: session.events.filter((event) => event.id !== recoveryUndo.eventId),
+    });
   }
 
   function addEvent() {
@@ -594,6 +707,7 @@ export default function DuringBattleScreen() {
   // the player then reassigns them (a +tap on whoever grabbed them) or marks them
   // lost. Henchmen groups are left to the player, since "which member" is unknown.
   function handleTallyChange(next: OutOfActionTally) {
+    if (!warband) return;
     const prev = session.outOfAction;
     const newlyDown = [
       ...next.heroIds.filter((id) => !prev.heroIds.includes(id)),
@@ -608,7 +722,12 @@ export default function DuringBattleScreen() {
         dropped += shards;
       }
     }
-    updateSession({ outOfAction: next, wyrdstoneCarried: carried, droppedWyrdstone: dropped });
+    updateSession({
+      outOfAction: next,
+      stunned: reconcileStunned(warband, next, stunned),
+      wyrdstoneCarried: carried,
+      droppedWyrdstone: dropped,
+    });
   }
 
   const enemyOoaTotal = Object.values(session.enemyOutOfAction).reduce((s, n) => s + n, 0);
@@ -775,7 +894,12 @@ export default function DuringBattleScreen() {
           </div>
           {viewSide === 'mine' ? (
             <>
-              <RoutTestPanel warband={warband} tally={session.outOfAction} onLog={logEvent} />
+              <RoutTestPanel
+                warband={warband}
+                tally={session.outOfAction}
+                stunned={stunnedBetaOn ? stunned : emptyOutOfAction()}
+                onLog={logEvent}
+              />
 
               {/* Running capture summary + the wyrdstone-counter toggle (§4.3.1). */}
               <div className="rounded-lg bg-ink-900 border border-ink-800 p-3 space-y-2">
@@ -814,10 +938,45 @@ export default function DuringBattleScreen() {
                 )}
               </div>
 
+              <div>
+                <div className="flex items-center gap-2">
+                  <label className="flex min-h-[44px] cursor-pointer items-center gap-2 text-sm font-semibold text-bone-100">
+                    <input
+                      type="checkbox"
+                      checked={stunnedBetaOn}
+                      onChange={(event) => toggleStunnedBeta(event.currentTarget.checked)}
+                      aria-describedby="stunned-beta-hint"
+                      className="accent-ember-500"
+                    />
+                    {during.stunnedBetaLabel}
+                  </label>
+                  <HeaderBadge>{strings.play.beta}</HeaderBadge>
+                </div>
+                <p id="stunned-beta-hint" className="text-xs text-bone-400">{during.stunnedBetaHint}</p>
+              </div>
+
+              {stunnedBetaOn && stunnedCount > 0 && (
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-baseline gap-x-2 text-xs text-bone-300">
+                    <span>{during.stunnedSummary(stunnedCount)}</span>
+                    <StunnedRules />
+                  </div>
+                  <Button variant="secondary" size="dense" fullWidth={false} onClick={clearStunned}>
+                    {during.clearStunned}
+                  </Button>
+                </div>
+              )}
+              {stunnedBetaOn && recoveryUndo && (
+                <Button variant="secondary" size="dense" fullWidth={false} onClick={undoRecovery}>
+                  {during.undo}
+                </Button>
+              )}
               <RosterReference
                 warband={warband}
                 tally={session.outOfAction}
                 onTallyChange={handleTallyChange}
+                stunned={stunnedBetaOn ? stunned : undefined}
+                onStunnedChange={(next) => updateSession({ stunned: next })}
                 enemyOoa={session.enemyOutOfAction}
                 onEnemyOoaChange={setEnemyOoa}
                 wyrdstone={session.wyrdstoneCarried}
