@@ -12,9 +12,9 @@ This document started as a design brief written before any code existed. It is n
 
 **Conventions:** ✅ built · ◻️ not built · ⚠️ built differently from the design · ❓ open decision.
 
-**Built and deployed:** milestones 1–6, the v2 account/campaign work (§8), the Rulebook design language (§5) with a shared UI kit and self-hosted fonts, and the shared-campaign screens. **49 warband lists** (20 curated + 27 imported from mordheimer.net) with warband-specific skill lists, **30 spell/prayer/ritual lists**, the full post-battle wizard (with the exploration roller), trading post, rules browser, public gallery, printable roster sheet, and multi-campaign membership.
+**Built and deployed:** milestones 1–6, the v2 account/campaign work (§8), the Rulebook design language (§5) with a shared UI kit and self-hosted fonts, and the shared-campaign screens. **68 warband lists** (49 at the time of this summary: 20 curated + 27 imported from mordheimer.net; the rest imported since, §30–§32) with warband-specific skill lists, **30 spell/prayer/ritual lists**, the full post-battle wizard (with the exploration roller), trading post, rules browser, public gallery, printable roster sheet, and multi-campaign membership.
 
-Most of the feature-expansion block has since shipped too: the campaign-collaboration set (§17, §19.1/§19.3 — territory, narrative log, awards/rivalries, RSVPs, announcements, plus a campaign activity feed and end-of-campaign recap), roster/model depth (§18), all of §20 Utility (dice roller with tumble + sound, comparison, afford-filter, nav tour), the §21 bigger swings (per-model photos, custom warbands, scenario generator), the admin analytics DB layer with the split admin back-end (§23, §4.9 revised), shareable warband cards, in-battle injury/rout rolls, a per-warband legality check, hand-editing of skills/spells/advances, a Discord community link (§4.10), a static landing page (§4.11), the privacy-scoped PostHog client and its first-party reverse proxy (§23.7), gallery comments (§19.2) and push notifications (§19.4 — the project's first server-side sending). That completes the feature-expansion block; the PostHog reverse-proxy (§23.7) is the one deferred piece still noted above. AI-generated battle reports, once floated as a possible next step, are **out of scope** and not planned.
+Most of the feature-expansion block has since shipped too: the campaign-collaboration set (§17, §19.1/§19.3 — territory, narrative log, awards/rivalries, RSVPs, announcements, plus a campaign activity feed and end-of-campaign recap), roster/model depth (§18), all of §20 Utility (dice roller with tumble + sound, comparison, afford-filter, nav tour), the §21 bigger swings (per-model photos, custom warbands, scenario generator), the admin analytics DB layer with the split admin back-end (§23, §4.9 revised), shareable warband cards, in-battle injury/rout rolls, a per-warband legality check, hand-editing of skills/spells/advances, a Discord community link (§4.10), a static landing page (§4.11), the privacy-scoped PostHog client and its first-party reverse proxy (§23.7), gallery comments (§19.2) and push notifications (§19.4 — the project's first server-side sending). That completes the feature-expansion block, the PostHog reverse proxy (§23.7, served under `/lantern/*`) included. AI-generated battle reports, once floated as a possible next step, are **out of scope** and not planned.
 
 **2026-11-26 — battle flow v2 (§45–§47):** the rout-test and battle-roster fixes of §45.1 are live for everyone, with stunned tracking behind a per-device beta switch (PR #78). The rest of §45 (turn tracker, wound rolls that set model states, underdog pre-fill, wizard reorder) and §46 (linked battles) are specced and decided but not built. §47 lists the follow-ups from the Rosterheim comparison, still open.
 
@@ -1817,7 +1817,7 @@ Deliberate, with reasons. Kept here rather than in a tracker so the spec and the
 
 
 - **Offline.** There is none, by design — data is server-side and the app requires a connection. Asset caching is a separate question, and is handled (§2).
-- **The RLS matrix has never been run with a second account.** §14.4. The single-player half is verified live. Untested: two accounts against each other, and specifically that a campaign-mate *cannot* see the owner's BTB objective — the claim the separate objectives table exists to make.
+- ✅ ~~**The RLS matrix has never been run with a second account.**~~ Automated since §35.7: `supabase/db-tests/rls-matrix.sql` runs the matrix with several roles in `npm run db:test`, including that a campaign-mate cannot see the owner's BTB objective.
 - **`fetchWarbands` selects the full jsonb blob** for the owner's list view. §12.2.
 - **Fonts are self-hosted** — Latin woff2 subsets under `/fonts/`, no Google CDN request. §12.4.
 - ✅ **The entry bundle is 648 kB across three chunks** (194 kB gzipped; was 1,312 kB / 362 kB at 49 warbands), under Vite's warning. Demo mode is compiled out of production (a build plugin rewrites `isDemoMode()` to `false`), which was what actually dragged every warband file in; names come from `warbandNames.ts` (the warband JSON under a `?names` query, tree-shaken to `id`/`name`); the registry's top-level sort is `/* @__PURE__ */`; Roster and Account are lazy with a signed-in idle prefetch; React/router/Supabase are vendor chunks so a deploy invalidates only the app chunk. §12.4.
@@ -2238,7 +2238,7 @@ Done so far: per-model photos (§21.1, migration 0015), all of §20 Utility (dic
 
 _Renumbered from the drafted §17 because the feature-expansion block (§17–22) landed first; the one dangling "§17" reference in §16 (which meant §4.9's report button) has been fixed. This is a top-level section in the shape of §11/§13 — it carries a data model, migrations and a build order, not just a screen description. The screen work in §23.5 extends the existing admin back-end at §4.9._
 
-**Status:** the DB-derived layer (§23.1–§23.6) is **built** — migration 0025 (acquisition capture, the extended `admin_stats`, the funnel/cohort/activity/acquisition RPCs, indexes) and the admin growth panels, now living on `/admin/overview` (§4.9 revised). §23.7 (PostHog) now has its **client-side integration built** — privacy-scoped, direct-to-host — with the Cloudflare reverse-proxy the one remaining piece; §23.8's tagged-links step is external link hygiene. The rest is the as-built record.
+**Status:** the DB-derived layer (§23.1–§23.6) is **built** — migration 0025 (acquisition capture, the extended `admin_stats`, the funnel/cohort/activity/acquisition RPCs, indexes) and the admin growth panels, now living on `/admin/overview` (§4.9 revised). §23.7 (PostHog) now has its **client-side integration built** — privacy-scoped, direct-to-host — and the Cloudflare reverse proxy built too (`/lantern/*`); §23.8's tagged-links step is external link hygiene. The rest is the as-built record.
 
 The app crossed into organic growth — a Discord-driven influx (11 users in 6 days, all word-of-mouth). The admin screen (§4.9, `admin_stats()`) answers **how much exists**: players, warbands, campaigns, battles, a 30-day signup series, warband-type distribution. It cannot answer the two questions growth actually raises: **where do users come from, and where do new users stall or leave.**
 
@@ -2454,7 +2454,7 @@ This is what makes the §23.9 database-side signup alert the right call rather t
 6. ✅ **PostHog client (§23.7)** — shipped after the above: privacy-scoped, direct-to-host, a closed nine-event union plus pageviews.
 7. ✅ **PostHog reverse-proxy (§23.7)** — route ingestion through the Cloudflare Worker on a non-obvious path; settles the ad-blocker and residency questions.
 
-### 23.9 Signup alerts (Slack) ✅ (migration 0031; Vault secret to be set)
+### 23.9 Signup alerts (Slack) ✅ (migration 0031; Vault secret set)
 
 A "someone registered" ping to a Slack Incoming Webhook — the ops counterpart to the §23.2 funnel, deliberately **server-side** rather than a PostHog event. Since §23.7 analytics is now consent-gated (§23.7.1), a client-side signup event would miss everyone who declines the banner, be lost if the tab closes before it flushes, and leak the webhook URL to the browser. A row is written on every signup regardless of consent, so the trigger fires from the SQL layer instead — the same layer that owns the §10.5 purge and §19.4 reminders.
 
@@ -2469,7 +2469,7 @@ A "someone registered" ping to a Slack Incoming Webhook — the ops counterpart 
 
 **Alternative not taken.** A Database Webhook → Edge Function → Slack would allow richer messages (warband counts, buttons) with the URL as a Function env-var, at the cost of more moving parts. The pure-SQL trigger was chosen for the same reason the rest of this layer is SQL: fewer parts, and it's the layer already owned.
 
-### 23.10 Weekly usage report (Slack) ✅ (migration 0055 applied; Vault secret to be set)
+### 23.10 Weekly usage report (Slack) ✅ (migration 0055 applied; Vault secret set)
 
 _Extends §23 and reuses the §23.9 poster. Same discipline: SQL-owned, `pg_cron`-scheduled, `pg_net`-async, counts only._
 
