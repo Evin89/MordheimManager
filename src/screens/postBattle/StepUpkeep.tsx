@@ -1,3 +1,4 @@
+import EmptyStep from './EmptyStep';
 import { strings } from '../../strings';
 import { getWyrdstoneSellPrice } from '../../lib/wyrdstonePricing';
 import { countModels } from '../../lib/rating';
@@ -7,7 +8,7 @@ import { StepProps } from './types';
 export default function StepUpkeep({ warband, draft, updateDraft }: StepProps) {
   const survivingSwords = warband.hiredSwords.filter((s) => {
     const state = draft.hiredSwords[s.id];
-    return state && !state.removed;
+    return state && (!state.removed || state.removalReason === 'unpaidUpkeep');
   });
 
   const modelCountAfter = countModels(previewWarbandAfterDeaths(warband, draft));
@@ -22,8 +23,7 @@ export default function StepUpkeep({ warband, draft, updateDraft }: StepProps) {
   if (survivingSwords.length === 0) {
     return (
       <div className="space-y-4">
-        <p className="text-bone-300 text-sm">{strings.postBattle.upkeep.none}</p>
-        <p className="text-bone-300 text-sm">{strings.postBattle.upkeep.tradingHint}</p>
+        <EmptyStep reason={strings.postBattle.upkeep.none} rule="hired-swords-recruiting" />
       </div>
     );
   }

@@ -591,9 +591,10 @@ usesWyrdstoneCounters?: boolean;   // default false; true for counter-carrying s
 
 | During-battle capture (§4.3.1) | Wizard step it pre-fills | Editable? |
 | --- | --- | --- |
-| Friendly OOA marks | Step 2 Injuries, Step 5 dead-model cleanup | yes |
+| Friendly OOA marks | Step 2 Injuries, Step 6 Dead Models | yes |
+| D66 serious injury rolled for an out-of-action hero | Step 2 Injuries (result and table-roll label) | yes |
 | Enemy-OOA tally per hero | Step 3 Experience (`+1 per enemy`) | yes |
-| Wyrdstone carried by survivors | Step 6 Income (wyrdstone found) | yes |
+| Wyrdstone carried by survivors | Step 4 Exploration & wyrdstone (wyrdstone found) | yes |
 | Notes | carried through to the BattleRecord | yes |
 
 Every pre-fill is a default the player confirms at its step (§1) — the during-battle screen speeds the wizard, it does not commit anything on its own.
@@ -4430,6 +4431,8 @@ _2026-11-26: live via PR #78 (squash `7d3f79b`). As shipped, on the owner's deci
 
 _2026-11-26: §45.2 + §45.3.1–45.3.3 + §45.3.5 built on branch `feat/turn-tracker-45-3` (rollout step 2, client only). The always-on turn tracker and model states (stunned, knocked down, fleeing, rallied) replace the stunned beta switch: `src/lib/betaFlags.ts` is removed and stunned tracking is on for everyone. Logic in `src/lib/turnTracker.ts` (tests: `scripts/test-turn-tracker.mjs`), roster mapping in `src/lib/battleTrackerRoster.ts`, panel in `src/screens/BattleTrackerPanel.tsx`. Two-player turn numbering only; three or more players still follow §45.3.1 by hand. Not in this PR: §45.3.4 phase tags, §45.4 wound roll, item 7 rule texts (MM-034), `warning` token (MM-035)._
 
+_2026-11-27: §45.4, §45.5, §45.6 and MM-035 built on branch `feat/battle-flow-45-4-6` (client only). Build check (§45.6): Advances now counts staged exploration XP, so a grant can trigger an advance in the same battle; commit applies the grant once. Stunned uses the new `warning` token (MM-035). Wound and serious-injury rolls feed the record via `DuringBattleScreen.tsx` and `src/lib/battleRolls.ts`. `PreBattleScreen.tsx` records starting ratings. `src/screens/postBattle/PostBattleWizard.tsx` and `src/lib/battleWizardSteps.ts` handle the reordered wizard and resume. `src/index.css` and `scripts/design-sheet.mjs` define and check stunned's warning colour._
+
 1. **Rout total** — count only models that took part: exclude `missNextGame` heroes and hired swords from the rout denominator. Add `countBattleModels(warband)` next to `countModels` and keep `countModels` unchanged, because rating and wyrdstone prices still count sitting-out heroes (glossary).
 2. **Rout Leadership — exactly as the Mordheim rules** _(decided by the owner)_. Source, mordheimer.net *Leadership & Psychology › The Rout Test*, 1:1:
 
@@ -4567,7 +4570,7 @@ Skills and special rules that matter in one phase (e.g. Quick Shot, Pistolier an
 
 - **Per-model Wound roll** on each roster card (heroes and hired swords; groups ask "how many" first). The result is logged as now, and **sets the state** (§45.3.2): 1–2 knocked down, 3–4 stunned, applied with Undo, because they are table facts both players see. On **Out of action** it shows a one-tap "Mark Name out of action" with Undo, so the roll never sets OOA by itself (§1).
 - **Serious injury at the table:** the D66 tool asks "for whom?" (a picker over OOA heroes). The result is stored on the session as `seriousInjuries?: Record<heroId, string /* D66 key */>`.
-- **Wizard step 2** pre-fills that hero's injury from the session ("Rolled at the table: 41 Leg wound"), editable as every pre-fill is (§4.3.1 feed-forward table: add the row).
+- **Wizard step 2** pre-fills that hero's injury from the session ("Rolled at the table: 22 Leg Wound", with the label and result read from the injury table), editable as every pre-fill is (§4.3.1 feed-forward table: add the row).
 - ✅ **Generic D66 button stays** _(decided)_ for house rules and checking, but it no longer writes into the record.
 
 ### 45.5 Underdog bonus pre-filled (F5)

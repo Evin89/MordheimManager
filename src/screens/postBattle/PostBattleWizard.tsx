@@ -8,11 +8,14 @@ import ActionBar from '../../components/ActionBar';
 import { Button } from '../../components/ui';
 import { strings } from '../../strings';
 import { defaultBattleSession, useAppStore } from '../../store/useAppStore';
-import { useCommitBattleWarbandMutation, useWarbandList, useWarbandsQuery } from '../../hooks/useWarbands';
+import { useCommitBattleWarbandMutation, useWarbandLookup, useWarbandList, useWarbandsQuery } from '../../hooks/useWarbands';
 import { useLogBattleMutation, useWarbandCampaign } from '../../hooks/useCampaign';
 import { defaultHouseRules, isFriendlyGame } from '../../data/houseRules';
 import { applyDraftToWarband, buildFriendlyRecord, createInitialDraft, seedCasualties } from './draftHelpers';
-import { FRIENDLY_STEP_INDICES, PostBattleDraft, WIZARD_STEPS } from './types';
+import type { PostBattleDraft } from './types';
+import { visitedWizardSteps, wizardStep, wizardSteps } from '../../lib/battleWizardSteps';
+import type { WizardStep } from '../../lib/battleWizardSteps';
+import { battleUnderdog } from '../../lib/battleRolls';
 import StepBattleInfo from './StepBattleInfo';
 import StepInjuries from './StepInjuries';
 import StepExperience from './StepExperience';
@@ -22,19 +25,26 @@ import StepIncome from './StepIncome';
 import StepUpkeep from './StepUpkeep';
 import StepConfirm from './StepConfirm';
 
-const STEP_COMPONENTS = [
-  StepBattleInfo,
-  StepInjuries,
-  StepExperience,
-  StepAdvances,
-  StepDeadCleanup,
-  StepIncome,
-  StepUpkeep,
-  StepConfirm,
-];
+const STEP_COMPONENTS = {
+  info: StepBattleInfo,
+  injuries: StepInjuries,
+  experience: StepExperience,
+  exploration: StepIncome,
+  advances: StepAdvances,
+  deadModels: StepDeadCleanup,
+  upkeep: StepUpkeep,
+  confirm: StepConfirm,
+};
 
 export default function PostBattleWizard() {
   const { warbandId } = useParams<{ warbandId: string }>();
+  const { warband, loading } = useWarbandLookup(warbandId);
+  if (loading) return <p className="p-4 text-ink-faded">{strings.common.loading}</p>;
+  if (!warbandId || !warband) return <Navigate to="/warbands" replace />;
+  return <Wizard key={warbandId} warbandId={warbandId} />;
+}
+
+function Wizard({ warbandId }: { warbandId: string }) {
   const navigate = useNavigate();
   const navState = battleState(useLocation().state);
   const warbands = useWarbandList();
@@ -48,7 +58,7 @@ export default function PostBattleWizard() {
   // `undefined` = warbands or campaigns still loading. Until then we can't know
   // whether this campaign forbids friendlies, so the commit waits for it.
   const campaignLoading = resolvedCampaign === undefined;
-  const session = useAppStore((state) => (warbandId ? state.battleSessions[warbandId] : undefined));
+  const session = useAppStore((state) => state.battleSessions[warbandId]);
   const clearBattleSession = useAppStore((state) => state.clearBattleSession);
   const setBattleSession = useAppStore((state) => state.setBattleSession);
   const { data: records } = useWarbandsQuery();
@@ -59,7 +69,12 @@ export default function PostBattleWizard() {
   const saved =
     session?.wizard && session.wizard.warbandUpdatedAt === warbandUpdatedAt ? session.wizard : undefined;
 
-  const [stepIndex, setStepIndex] = useState(() => saved?.step ?? 0);
+  const wasFriendly = !!(saved?.draft as PostBattleDraft | undefined)?.friendly
+    && !(typeof saved?.step === 'number' && saved.step > 1);
+  const [step, setStep] = useState(() => wizardStep(saved?.step, wasFriendly));
+  const [visited, setVisited] = useState(() => saved?.visited ?? visitedWizardSteps(saved?.step, wasFriendly));
+  const [showSteps, setShowSteps] = useState(false);
+  const [checkpoint, setCheckpoint] = useState(false);
   const [committing, setCommitting] = useState(false);
   // Set once the battle is committed: from then on the draft must never be
   // written back, or the next battle opens on a stale "Resume?" banner.
@@ -80,7 +95,7 @@ export default function PostBattleWizard() {
       : `Turn ${e.turn}: ${e.text}`).join('\n');
     const notes = [session.notes, eventNotes].filter(Boolean).join('\n\n') || base.notes;
 
-    const casualties = seedCasualties(warband, base, session.outOfAction);
+    const casualties = seedCasualties(warband, base, session.outOfAction, session.seriousInjuries);
 
     // §4.3.1 A feed-forward: +1 XP per enemy a hero or hired sword took out of
     // action, pre-filled onto its Experience default (editable at step 3).
@@ -98,7 +113,7 @@ export default function PostBattleWizard() {
     }
 
     // §4.3.1 B feed-forward: shards still carried by surviving models pre-fill
-    // "wyrdstone found" at step 6 (dropped/lost shards are excluded already).
+    // "wyrdstone found" at Exploration & wyrdstone (dropped/lost shards are excluded already).
     const wyrdstoneFound =
       Object.values(session.wyrdstoneCarried).reduce((sum, n) => sum + n, 0) || base.wyrdstoneFound;
 
@@ -115,31 +130,34 @@ export default function PostBattleWizard() {
       heroes,
       hiredSwords,
       wyrdstoneFound,
+      ratingsAtStart: session.ratingsAtStart,
+      underdogBonus: battleUnderdog(session.ratingsAtStart)?.bonus ?? base.underdogBonus,
       // §34 — carried from pre-battle.
       friendly: !!session.friendly,
       houseRules: session.houseRules,
     };
   });
 
+  const friendly = isFriendlyGame(campaign, !!draft?.friendly);
+  const steps = wizardSteps(friendly);
+  const friendliesNowOff = !!draft?.friendly && !friendly && !!campaign;
+  const position = friendliesNowOff && step === 'confirm' && !visited.includes('upkeep')
+    ? 1 : Math.max(0, steps.indexOf(step));
+  const currentStep = steps[position];
+  const canJump = (id: WizardStep, index: number) => index <= position || (
+    visited.includes(id) && (id !== 'confirm' || friendly || visited.includes('upkeep'))
+  );
+
   // Write the wizard's progress into the battle draft on every change. Read
   // the latest session from the store (not the render's copy) so this never
   // overwrites during-battle state with an older snapshot.
   useEffect(() => {
-    if (!warbandId || !draft || committing || committed.current) return;
+    if (!draft || committing || committed.current) return;
     const current = useAppStore.getState().battleSessions[warbandId] ?? defaultBattleSession(warbandId);
-    setBattleSession({ ...current, wizard: { step: stepIndex, draft, warbandUpdatedAt } });
-  }, [warbandId, draft, stepIndex, warbandUpdatedAt, committing, setBattleSession]);
+    setBattleSession({ ...current, wizard: { step: currentStep, visited, draft, warbandUpdatedAt } });
+  }, [warbandId, draft, currentStep, visited, warbandUpdatedAt, committing, setBattleSession]);
 
   if (!warband || !draft) return <Navigate to="/warbands" replace />;
-
-  // §34.2.2 — a friendly runs Battle Info → Confirm only. `stepIndex` is a
-  // position in the active list, so when the path changes under the player (a
-  // leader turning friendlies off mid-game) the short path's Confirm lands on
-  // Injuries — the first step they now have to review — rather than committing.
-  const friendly = isFriendlyGame(campaign, draft.friendly);
-  const steps: readonly number[] = friendly ? FRIENDLY_STEP_INDICES : WIZARD_STEPS.map((_, i) => i);
-  const position = Math.min(stepIndex, steps.length - 1);
-  const friendliesNowOff = draft.friendly && !friendly && !!campaign;
 
   function updateDraft(patch: Partial<PostBattleDraft> | ((current: PostBattleDraft) => Partial<PostBattleDraft>)) {
     setDraft((current) => {
@@ -162,15 +180,24 @@ export default function PostBattleWizard() {
   }
 
   function goBack() {
+    if (checkpoint) return openStep('exploration');
     if (position === 0) {
       leaveFlow('roster');
     } else {
-      setStepIndex(position - 1);
+      openStep(steps[position - 1]);
     }
   }
 
+  function openStep(next: WizardStep) {
+    setShowSteps(false);
+    setCheckpoint(false);
+    setStep(next);
+    setVisited((previous) => [...new Set([...previous, currentStep, next])]);
+  }
+
   function goNext() {
-    setStepIndex(Math.min(position + 1, steps.length - 1));
+    openStep(steps[position + 1]);
+    if (currentStep === 'exploration' && !visited.includes('advances')) setCheckpoint(true);
   }
 
   async function handleCommit(then: 'roster' | 'trading' = 'roster') {
@@ -215,17 +242,32 @@ export default function PostBattleWizard() {
     }
   }
 
-  const stepNumber = steps[position];
-  const StepComponent = STEP_COMPONENTS[stepNumber];
+  const StepComponent = STEP_COMPONENTS[currentStep];
   const isLastStep = position === steps.length - 1;
 
   return (
     <div className="min-h-full flex flex-col">
       <BackHeader
-        title={WIZARD_STEPS[stepNumber]}
+        title={strings.postBattle.steps[currentStep]}
         subtitle={strings.postBattle.stepOf(position + 1, steps.length)}
+        onSubtitleClick={() => setShowSteps(!showSteps)}
+        subtitleExpanded={showSteps}
         onBack={goBack}
       >
+        {showSteps && (
+          <ol className="space-y-1 px-4 pb-2">
+            {steps.map((id, index) => (
+              <li key={id}>
+                <button type="button" disabled={!canJump(id, index)}
+                  aria-current={id === currentStep ? 'step' : undefined}
+                  className="min-h-[44px] text-bone-100 disabled:opacity-40"
+                  onClick={() => openStep(id)}>
+                  {strings.postBattle.stepListItem(index + 1, strings.postBattle.steps[id])}
+                </button>
+              </li>
+            ))}
+          </ol>
+        )}
         <div className="h-1.5 rounded-full bg-ink-800 overflow-hidden">
           <div
             className="h-full bg-ember-500 transition-all"
@@ -240,10 +282,19 @@ export default function PostBattleWizard() {
             {strings.postBattle.friendliesOff(campaign.name)}
           </p>
         )}
-        <StepComponent warband={warband} draft={draft} updateDraft={updateDraft} />
+        {checkpoint ? (
+          <p className="text-bone-100">{strings.postBattle.checkpoint}</p>
+        ) : (
+          <StepComponent warband={warband} draft={draft} updateDraft={updateDraft} />
+        )}
 
         <ActionBar>
-          {isLastStep ? (
+          {checkpoint ? (
+            <div className="space-y-3">
+              <Button onClick={() => setCheckpoint(false)}>{strings.postBattle.continue}</Button>
+              <Button variant="secondary" onClick={() => leaveFlow('roster')}>{strings.postBattle.finishLater}</Button>
+            </div>
+          ) : isLastStep ? (
             friendly ? (
               <Button onClick={() => handleCommit('roster')} disabled={committing || campaignLoading}>
                 {strings.postBattle.saveFriendly}

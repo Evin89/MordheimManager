@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { hasBattleProgress, useAppStore } from '../store/useAppStore';
 import { useWarbandList } from '../hooks/useWarbands';
 import { strings } from '../strings';
+import { wizardProgress } from '../lib/battleWizardSteps';
 import { Card, SectionHeading } from './ui';
 
 /**
@@ -40,7 +41,7 @@ export default function ResumeBattles() {
               <span className="min-w-0 flex-1">
                 <span className="block text-bone-100 font-semibold truncate">{warband.name}</span>
                 <span className="block text-bone-300 text-sm truncate">
-                  {wizard ? s.resumeWizard(wizard.step + 1) : s.resumeDuring(session.turn)}
+                  {wizard ? s.resumeWizard(...wizardProgress(wizard)) : s.resumeDuring(session.turn)}
                 </span>
               </span>
               <span className="shrink-0 text-ember-400 text-sm font-semibold">{s.resumeAction} ›</span>

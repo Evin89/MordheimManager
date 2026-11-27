@@ -4,6 +4,7 @@ import { Button } from '../../components/ui';
 import { useAppStore } from '../../store/useAppStore';
 import { hasCarriedCasualties } from './draftHelpers';
 import { strings } from '../../strings';
+import { injuryStatus } from '../../lib/battleRolls';
 import { getInjuryByRoll, getUniqueInjuries } from '../../lib/injuryLookup';
 import { rollD6, rollD66 } from '../../lib/dice';
 import { HenchmenGroup, Hero, HiredSword, MODEL_STATUSES, ModelStatus } from '../../types';
@@ -24,8 +25,22 @@ function HeroInjuryCard({
 
   function applyInjury(name: string, effect: string) {
     const nextInjuries = [...state.injuries, { name, effect }];
-    const nextStatus = name === 'Dead' ? 'dead' : name === 'Captured' ? 'captured' : state.resultingStatus;
+    const nextStatus = injuryStatus(name, state.resultingStatus);
     onUpdate({ injuries: nextInjuries, resultingStatus: nextStatus });
+  }
+
+  function removeInjury(index: number) {
+    const removed = state.injuries[index];
+    const injuries = state.injuries.filter((_, current) => current !== index);
+    const status = injuryStatus(removed.name, 'active');
+    const resultingStatus = status !== 'active' && state.resultingStatus === status
+      ? injuries.reduce<ModelStatus>((current, injury) => injuryStatus(injury.name, current), 'active')
+      : state.resultingStatus;
+    onUpdate({
+      injuries, resultingStatus,
+      tableInjuryRoll: index === 0 ? undefined : state.tableInjuryRoll,
+    });
+    setLastRoll(null);
   }
 
   function rollInjury() {
@@ -61,7 +76,13 @@ function HeroInjuryCard({
               {state.injuries.map((injury, idx) => (
                 <div key={idx} className="rounded-md bg-ink-800 border border-ink-700 p-3">
                   <p className="text-bone-100 font-semibold">{injury.name}</p>
+                  {idx === 0 && state.tableInjuryRoll && (
+                    <p className="text-bone-300 text-xs">{strings.postBattle.tableInjury(state.tableInjuryRoll, injury.name)}</p>
+                  )}
                   {injury.effect && <p className="text-bone-300 text-sm mt-1">{injury.effect}</p>}
+                  <Button variant="secondary" size="dense" fullWidth={false} onClick={() => removeInjury(idx)}>
+                    {strings.postBattle.removeInjury}
+                  </Button>
                 </div>
               ))}
 

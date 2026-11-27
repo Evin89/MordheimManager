@@ -38,6 +38,7 @@
    * connection banner) — white in both themes, because bone-100 resolves to dark
    * ink under Rulebook and measured 1.45:1 there. All checked by design-sheet.
    */
+  --color-warning: 226 166 69;
   --color-danger: 230 96 84;
   --color-on-danger: 255 255 255;
   /* Label on a verdigris fill. White in both themes (4.73:1 here, 7.08:1 under
@@ -147,6 +148,7 @@
 
   /* Destructive roles — see the Grimdark block. Blood itself already reads on
      parchment (6.54:1), so danger text stays that value here. */
+  --color-warning: 100 62 8;
   --color-danger: 143 32 32;
   --color-on-danger: 255 255 255;
   --color-on-verdigris: 255 255 255;
@@ -271,6 +273,7 @@ body,
   --color-ember-600: 0 0 0;
   --color-blood-500: 0 0 0;
   --color-blood-600: 0 0 0;
+  --color-warning: 0 0 0;
   --color-danger: 0 0 0;
   --color-on-danger: 255 255 255;
   --color-on-verdigris: 255 255 255;

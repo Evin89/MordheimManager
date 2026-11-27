@@ -67,6 +67,7 @@ export default {
         'on-accent': themed('on-accent'),
         // Destructive roles (§5.1 amendment): `danger` for red text on the page,
         // `on-danger` for the label on a blood fill. See index.css for values.
+        warning: themed('warning'),
         danger: themed('danger'),
         'on-danger': themed('on-danger'),
         'on-verdigris': themed('on-verdigris'),

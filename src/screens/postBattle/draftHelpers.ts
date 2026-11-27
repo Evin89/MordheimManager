@@ -1,3 +1,4 @@
+import { seedTableInjury } from '../../lib/battleRolls';
 import { generateId } from '../../lib/id';
 import { defaultHouseRules } from '../../data/houseRules';
 import { applySpellGains, getSpell, loweredAdvanceDetail } from '../../lib/spellLookup';
@@ -51,9 +52,8 @@ function spellAdvanceDetails(known: string[] | undefined, gained: string[]): str
  * Fills the Injuries step from what was marked during the battle.
  *
  * Casualties were previously re-entered from memory after the game, which is
- * exactly when memory is worst. Only the out-of-action flags are carried: who
- * *died* is a post-battle roll, so `diedCount` stays at zero and the player
- * still works through the injury table.
+ * exactly when memory is worst. A hero's named table roll also carries through.
+ * Henchmen deaths still start at zero and are resolved in the wizard.
  *
  * Everything is re-derived against the current warband rather than trusted:
  * ids that no longer exist are dropped, and group counts are clamped, so a
@@ -63,11 +63,12 @@ export function seedCasualties(
   warband: Warband,
   base: PostBattleDraft,
   tally: OutOfActionTally,
+  seriousInjuries?: Record<string, string>,
 ): Pick<PostBattleDraft, 'heroes' | 'henchmenGroups' | 'hiredSwords'> {
   const heroes = { ...base.heroes };
   for (const hero of warband.heroes) {
     if (tally.heroIds.includes(hero.id) && heroes[hero.id]) {
-      heroes[hero.id] = { ...heroes[hero.id], outOfAction: true };
+      heroes[hero.id] = seedTableInjury({ ...heroes[hero.id], outOfAction: true }, seriousInjuries?.[hero.id]);
     }
   }
 
