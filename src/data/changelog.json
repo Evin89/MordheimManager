@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-11-27",
+    "title": "Free Daggers and Fallen Warriors",
+    "description": "The free dagger every warrior starts with can now be discarded instead of moved to the treasury, where it was piling up at 0 gc. The ones already in treasuries have been cleared. And a warrior who dies now loses his equipment, as the rulebook says: after a battle there's no longer a choice to send a dead hero's or a wiped-out group's gear to the treasury."
+  },
+  {
+    "date": "2026-11-27",
     "title": "Turn by Turn: the Battle Tracker",
     "description": "The battle screen now walks you through the game turn by turn. Pick who goes first, then step through your Recovery, Movement, Shooting and Close Combat phases and your opponent's turn, with the turn number counted the way the rulebook does. Mark models as stunned, knocked down, fleeing or rallied: in your Recovery phase stunned models become knocked down for you (with Undo), and knocked-down models can stand up. Stunned tracking is no longer a beta switch; it is simply part of the tracker. When you finish, the number of turns played is filled in on the post-battle wizard, and shows up in Your Battles."
   },

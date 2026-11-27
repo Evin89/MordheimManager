@@ -1,4 +1,5 @@
 import { EquipmentItem } from '../types';
+import { isFreeDagger } from './freeDagger';
 
 /**
  * "Each warrior you recruit can be armed with up to two close combat weapons
@@ -8,15 +9,6 @@ import { EquipmentItem } from '../types';
  */
 export const MAX_MELEE = 2;
 export const MAX_MISSILE_TYPES = 2;
-
-/**
- * The dagger every warrior starts with, which sits outside the two-weapon
- * limit. Identified by being a cost-free Dagger: a *bought* dagger costs money
- * and does count, so name alone would be wrong. Only one is ever exempt.
- */
-function isFreeDagger(item: EquipmentItem): boolean {
-  return item.name.trim().toLowerCase() === 'dagger' && (item.cost ?? 0) === 0;
-}
 
 export type SlotUsage = {
   melee: number;
