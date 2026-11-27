@@ -1,3 +1,4 @@
+import EmptyStep from './EmptyStep';
 import { strings } from '../../strings';
 import { StepProps } from './types';
 import { withoutFreeDaggers } from '../../lib/freeDagger';
@@ -25,7 +26,7 @@ export default function StepDeadCleanup({ warband, draft, updateDraft }: StepPro
 
   return (
     <div className="space-y-4">
-      {nothingToShow && <p className="text-bone-300 text-sm">{strings.postBattle.deadCleanup.none}</p>}
+      {nothingToShow && <EmptyStep reason={strings.postBattle.deadCleanup.none} rule="post-battle-sequence" />}
 
       {deadHeroes.map((hero) => {
         const state = draft.heroes[hero.id];

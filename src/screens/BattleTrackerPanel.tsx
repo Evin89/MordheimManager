@@ -150,7 +150,7 @@ export default function BattleTrackerPanel({ phase, warbandType, session, models
             <>
               {converted > 0 && (
                 <div className="flex flex-wrap items-center gap-2">
-                  <p>{t.converted(converted)}</p>
+                  <p className="text-warning">{t.converted(converted)}</p>
                   {recovery?.eventId && !recovery.finished && (
                     <Button size="dense" variant="secondary" fullWidth={false} className="min-h-[44px]" onClick={onUndo}>
                       {strings.battle.duringBattle.undo}

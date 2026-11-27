@@ -23,6 +23,7 @@ import DeleteReasonPicker from '../components/DeleteReasonPicker';
 import type { DeleteReason } from '../api/warbands';
 import SaveBar from '../components/SaveBar';
 import { Button, Card, SectionHeading, buttonClasses } from '../components/ui';
+import { wizardProgress } from '../lib/battleWizardSteps';
 import { strings } from '../strings';
 import { describeError } from '../lib/errorMessage';
 import {
@@ -433,8 +434,15 @@ export default function RosterScreen() {
           state={FROM_ROSTER}
           className={buttonClasses('primary')}
         >
-          {hasBattleProgress(inProgress) ? strings.play.continueBattle : strings.battle.startBattleButton}
+          {inProgress?.wizard ? strings.play.resumePostBattle
+            : hasBattleProgress(inProgress) ? strings.play.continueBattle : strings.battle.startBattleButton}
         </Link>
+
+        {inProgress?.wizard && (
+          <p className="text-center text-sm text-bone-300">
+            {strings.play.resumeWizard(...wizardProgress(inProgress.wizard))}
+          </p>
+        )}
 
         <Link to={`/warbands/${warband.id}/trading`} className={buttonClasses('secondary')}>
           {strings.roster.visitTrading}

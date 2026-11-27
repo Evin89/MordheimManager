@@ -2,6 +2,7 @@ import { useState } from 'react';
 import NumberInput from '../../components/NumberInput';
 import DateTimePicker from '../../components/DateTimePicker';
 import { Button, TextField, Textarea, Select } from '../../components/ui';
+import { battleUnderdog } from '../../lib/battleRolls';
 import { strings } from '../../strings';
 import { filterScenarios, getCatalogScenarioByName, groupBySource } from '../../lib/scenarioCatalog';
 import { ScenarioFilterFields } from '../../components/ScenarioPicker';
@@ -18,6 +19,13 @@ const RESULT_LABEL: Record<BattleResult, string> = {
   loss: strings.postBattle.battleInfo.loss,
   draw: strings.postBattle.battleInfo.draw,
 };
+
+function ratingHint(ratings: Parameters<typeof battleUnderdog>[0]) {
+  const result = battleUnderdog(ratings);
+  return result
+    ? strings.postBattle.ratingHint(result.mine, result.theirs, result.gap, result.bonus)
+    : strings.postBattle.battleInfo.underdogHint;
+}
 
 export default function StepBattleInfo({ warband, draft, updateDraft }: StepProps) {
   // §34.2.2 — the friendly switch also lives here, for the "log it afterwards"
@@ -150,10 +158,11 @@ export default function StepBattleInfo({ warband, draft, updateDraft }: StepProp
             id="underdog-bonus"
             min={0}
             value={draft.underdogBonus}
+            blankWhenZero
             onChange={(underdogBonus) => updateDraft({ underdogBonus })}
             className="w-full min-h-[48px] rounded-md bg-ink-900 border border-ink-700 px-3 text-bone-100 focus:outline-none focus:border-ember-500"
           />
-          <p className="text-bone-300 text-xs">{strings.postBattle.battleInfo.underdogHint}</p>
+          <p className="text-bone-300 text-xs">{ratingHint(draft.ratingsAtStart)}</p>
         </div>
       )}
 

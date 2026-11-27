@@ -1,3 +1,4 @@
+import type { RatingsAtStart } from '../../lib/battleRolls';
 import { BattleResult, ModelStatus, StatLine, Warband } from '../../types';
 
 export type InjuryPick = {
@@ -12,6 +13,7 @@ export type HeroBattleState = {
   outOfAction: boolean;
   xpAwarded: number;
   injuries: InjuryPick[];
+  tableInjuryRoll?: string;
   resultingStatus: ModelStatus;
   equipmentFate: 'keep' | 'treasury' | 'lost';
   statIncreases: StatIncreases;
@@ -112,6 +114,7 @@ export type PostBattleDraft = {
   date: string;
   turns?: number;
   underdogBonus: number;
+  ratingsAtStart?: RatingsAtStart;
   /** Enemy models this warband took out of action — self-reported, not derivable. */
   enemiesTakenOut: number;
   notes: string;
@@ -136,18 +139,3 @@ export type StepProps = {
   draft: PostBattleDraft;
   updateDraft: (patch: DraftPatch) => void;
 };
-
-export const WIZARD_STEPS = [
-  'Battle Info',
-  'Injuries',
-  'Experience',
-  'Advances',
-  'Dead Models',
-  'Income',
-  'Upkeep',
-  'Confirm',
-] as const;
-
-/** §34.2.2 — a friendly's short path: positions in WIZARD_STEPS. Everything
- * between (injuries to upkeep) writes to the roster, which a friendly doesn't. */
-export const FRIENDLY_STEP_INDICES = [0, WIZARD_STEPS.length - 1] as const;

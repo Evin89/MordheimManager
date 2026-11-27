@@ -9,6 +9,7 @@ type NumberInputProps = {
   id?: string;
   className?: string;
   ariaLabel?: string;
+  blankWhenZero?: boolean;
 };
 
 /**
@@ -36,15 +37,17 @@ export default function NumberInput({
   id,
   className = '',
   ariaLabel,
+  blankWhenZero = false,
 }: NumberInputProps) {
-  const [text, setText] = useState(String(value));
+  const displayValue = blankWhenZero && value === 0 ? '' : String(value);
+  const [text, setText] = useState(displayValue);
   const focused = useRef(false);
 
   // Track external changes (a reset, another field recalculating this one), but
   // never while the user is mid-edit — that would rewrite what they're typing.
   useEffect(() => {
-    if (!focused.current) setText(String(value));
-  }, [value]);
+    if (!focused.current) setText(displayValue);
+  }, [displayValue]);
 
   function clamp(n: number): number {
     const lower = Math.max(min, n);
@@ -53,7 +56,10 @@ export default function NumberInput({
 
   function handleChange(raw: string) {
     setText(raw);
-    if (raw.trim() === '') return;
+    if (raw.trim() === '') {
+      if (blankWhenZero && min === 0) onChange(0);
+      return;
+    }
     const parsed = Number(raw);
     if (!Number.isFinite(parsed)) return;
     // Only propagate values that need no correction. Anything out of range or
@@ -69,7 +75,7 @@ export default function NumberInput({
     // An empty or nonsense field falls back to the last good value rather than
     // silently becoming zero.
     const next = text.trim() === '' || !Number.isFinite(parsed) ? value : clamp(Math.round(parsed));
-    setText(String(next));
+    setText(blankWhenZero && next === 0 ? '' : String(next));
     if (next !== value) onChange(next);
   }
 

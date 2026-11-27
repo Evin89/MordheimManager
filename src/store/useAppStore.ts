@@ -1,3 +1,5 @@
+import type { WizardStep } from '../lib/battleWizardSteps';
+import type { RatingsAtStart } from '../lib/battleRolls';
 import type { FirstPlayer, TrackerPhase } from '../lib/turnTracker';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -82,13 +84,15 @@ export type BattleSession = {
   /** §34 — house rules the players picked for a personal battle. Absent reads
    * as the rulebook defaults. */
   houseRules?: Record<string, boolean>;
+  ratingsAtStart?: RatingsAtStart;
+  seriousInjuries?: Record<string, string>;
   /**
    * §35.2 — the post-battle wizard in progress: its step and staged draft, so a
    * refresh resumes on the same step. `warbandUpdatedAt` is the warband's
    * `updated_at` when the draft was built; if the warband has been saved since,
    * the draft is stale (it may name models that are gone) and is dropped.
    */
-  wizard?: { step: number; draft: unknown; warbandUpdatedAt: string | null };
+  wizard?: { step: WizardStep | number; visited?: WizardStep[]; draft: unknown; warbandUpdatedAt: string | null };
 };
 
 export function stunnedOf(session: BattleSession): OutOfActionTally {

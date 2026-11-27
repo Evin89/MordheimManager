@@ -16,6 +16,8 @@ import { Button, SectionHeading, TextField } from '../components/ui';
 import BattlefieldBoard from '../components/solo/BattlefieldBoard';
 import { strings } from '../strings';
 import { rollD6, rollD66, roll2D6 } from '../lib/dice';
+import type { WoundSource } from '../lib/battleRolls';
+import { applyGroupWounds, applyWoundRolls, recordSeriousInjury, woundResult } from '../lib/battleRolls';
 import { getInjuryByRoll } from '../lib/injuryLookup';
 import { countBattleModels, routLeadership, routTestRequired } from '../lib/rout';
 import {
@@ -53,12 +55,14 @@ function MiniStepper({
   onChange,
   max,
   stacked,
+  warning,
 }: {
   label: string;
   value: number;
   onChange: (n: number) => void;
   max?: number;
   stacked?: boolean;
+  warning?: boolean;
 }) {
   return (
     <div className={stacked ? "grid grid-cols-[auto_1fr_auto] items-center gap-x-1" : "flex items-center gap-2"}>
@@ -72,7 +76,7 @@ function MiniStepper({
       >
         −
       </button>
-      <span className={`min-w-[2rem] text-center font-semibold tabular-nums ${value > 0 ? 'text-ember-400' : 'text-bone-100'}`}>
+      <span className={`min-w-[2rem] text-center font-semibold tabular-nums ${value > 0 ? (warning ? 'text-warning' : 'text-ember-400') : 'text-bone-100'}`}>
         {value}
       </span>
       <button
@@ -95,7 +99,7 @@ const singleStates = ['standing', 'knockedDown', 'stunned', 'outOfAction'] as co
 const stateStyle = {
   standing: 'border-ink-700 bg-ink-800 text-bone-100',
   knockedDown: 'border-bone-400 bg-ink-700 text-bone-100',
-  stunned: 'border-chart-1 bg-chart-1/10 text-chart-1',
+  stunned: 'border-warning text-warning',
   outOfAction: 'border-blood-600 bg-blood-600 text-on-danger',
   fleeing: 'border-ember-500 text-ember-400',
 };
@@ -104,6 +108,8 @@ type StateControl = {
   model: TrackerModel;
   counts: StateCounts;
   change: (state: ModelState | 'standing', value: number) => void;
+  roll: (count: number, source?: WoundSource) => void;
+  wound?: { rolls: number[]; pending: number; mark?: () => void; undo?: () => void };
 };
 
 function ModelControls({ control }: { control: StateControl }) {
@@ -114,7 +120,7 @@ function ModelControls({ control }: { control: StateControl }) {
         {MODEL_STATES.map((state) => (
           <MiniStepper key={state} label={tracker.states[state]} value={counts[state]}
             max={state === 'outOfAction' ? model.count : counts[state] + standingCount(counts, model.count)}
-            onChange={(value) => change(state, value)} stacked />
+            onChange={(value) => change(state, value)} warning={state === 'stunned'} stacked />
         ))}
       </div>
     );
@@ -133,6 +139,60 @@ function ModelControls({ control }: { control: StateControl }) {
         disabled={selected !== 'standing'} aria-pressed={counts.fleeing > 0}
         onClick={() => change('fleeing', counts.fleeing ? 0 : 1)}>{tracker.states.fleeing}</Button>
     </>
+  );
+}
+
+function WoundControls({ control }: { control: StateControl }) {
+  const { model, counts, roll, wound } = control;
+  const group = model.key === 'henchmenCounts';
+  const [source, setSource] = useState<WoundSource>('standing');
+  const sources = ['standing', 'knockedDown', 'stunned', 'fleeing'] as const;
+  const available = group
+    ? source === 'standing' ? standingCount(counts, model.count) : counts[source]
+    : Number(!counts.outOfAction);
+  const [quantity, setQuantity] = useState('');
+  const t = during.injury;
+
+  return (
+    <div className="space-y-2">
+      {group && counts.outOfAction < model.count && (
+        <label className="flex items-center gap-2 text-sm text-bone-200">
+          {t.groupState}
+          <select className="min-h-[44px] rounded border border-ink-700 bg-ink-800 px-2"
+            value={source} onChange={(e) => { setSource(e.target.value as WoundSource); setQuantity(''); }}>
+            {sources.map((state) => <option key={state} value={state}>{tracker.states[state]}</option>)}
+          </select>
+        </label>
+      )}
+      {group && available > 0 && (
+        <label className="flex items-center gap-2 text-sm text-bone-200">
+          {t.howMany}
+          <select className="min-h-[44px] rounded border border-ink-700 bg-ink-800 px-2"
+            value={Number(quantity) <= available ? quantity : ''} onChange={(e) => setQuantity(e.target.value)}>
+            <option value="">{t.chooseCount}</option>
+            {Array.from({ length: available }, (_, index) => index + 1).map((count) =>
+              <option key={count} value={count}>{count}</option>)}
+          </select>
+        </label>
+      )}
+      <Button variant="secondary" size="dense" disabled={!available || (group && (!quantity || Number(quantity) > available))}
+        onClick={() => { roll(group ? Number(quantity) : 1, group ? source : undefined); setQuantity(''); }}>
+        {t.rollCombat}
+      </Button>
+      {wound && (
+        <div className="space-y-2">
+          <p role="status" className="text-sm text-bone-200">
+            {wound.rolls.map((die) => t.combatLog(die, tracker.states[woundResult(die)])).join(' · ')}
+          </p>
+          {wound.mark && (
+            <Button size="dense" onClick={wound.mark}>
+              {group ? t.markGroup(model.name, wound.pending) : t.markOutOfAction(model.name)}
+            </Button>
+          )}
+          {wound.undo && <Button variant="secondary" size="dense" onClick={wound.undo}>{during.undo}</Button>}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -234,7 +294,12 @@ function RosterCard({
       )}
       {(stateControl || enemyOoa || wyrdstone) && (
         <div className="pt-1 border-t border-ink-800 space-y-2">
-          {stateControl && <ModelControls control={stateControl} />}
+          {stateControl && (
+            <>
+              <ModelControls control={stateControl} />
+              <WoundControls control={stateControl} />
+            </>
+          )}
           {!!counts?.stunned && <p className="text-xs text-bone-300">{during.stunnedReminder}</p>}
           {enemyOoa && (
             <MiniStepper
@@ -256,10 +321,10 @@ function RosterCard({
   );
 }
 
-function RosterReference({ warband, session, onStateChange, onEnemyOoaChange, onWyrdstoneChange, showWyrdstone }: {
+function RosterReference({ warband, stateControl, session, onEnemyOoaChange, onWyrdstoneChange, showWyrdstone }: {
   warband: Warband;
   session?: BattleSession;
-  onStateChange?: (model: TrackerModel, state: ModelState | 'standing', value: number) => void;
+  stateControl?: (model: TrackerModel) => StateControl;
   onEnemyOoaChange?: (id: string, count: number) => void;
   onWyrdstoneChange?: (id: string, count: number) => void;
   showWyrdstone?: boolean;
@@ -284,10 +349,7 @@ function RosterReference({ warband, session, onStateChange, onEnemyOoaChange, on
             specialRules={getUnitSpecialRules(warband.warbandType, model.unitType)}
             detailLink={`/warbands/${warband.id}/${route}/${model.id}`}
             photoUrl={photos[model.id]}
-            stateControl={session && onStateChange ? {
-              model, counts: modelCounts(session, model),
-              change: (state, value) => onStateChange(model, state, value),
-            } : undefined}
+            stateControl={stateControl?.(model)}
             enemyOoa={session && !group && onEnemyOoaChange ? {
               value: session.enemyOutOfAction[model.id] ?? 0,
               onChange: (value) => onEnemyOoaChange(model.id, value),
@@ -366,51 +428,37 @@ function RoutTestPanel({ warband, tally, stunned, down, total, onLog, onEnd }: {
   );
 }
 
-/**
- * Rolls the two injury results the game asks for and drops each into the event
- * log, so the screen does the bookkeeping the physical dice were doing beside
- * it. The wound result (D6) is the fixed 1–2/3–4/5–6 rule; the serious injury
- * (D66) reads the same table the post-battle wizard uses. Neither mutates a
- * roster — that's the wizard's job after the game — this only records what was
- * rolled at the table.
- */
-function InjuryRoller({ onLog }: { onLog: (text: string) => void }) {
-  const t = strings.battle.duringBattle.injury;
-  const [last, setLast] = useState<string | null>(null);
+function InjuryRoller({ heroes, onRecord }: {
+  heroes: TrackerModel[];
+  onRecord: (heroId: string, key: string, text: string) => void;
+}) {
+  const t = during.injury;
+  const [last, setLast] = useState<string>();
+  const [heroId, setHeroId] = useState('');
+  const hero = heroes.find((model) => model.id === heroId);
 
-  function rollWound() {
-    const r = rollD6();
-    const result = r <= 2 ? t.knockedDown : r <= 4 ? t.stunned : t.outOfAction;
-    const text = t.combatLog(r, result);
-    onLog(text);
-    setLast(text);
-  }
-
-  function rollSerious() {
+  function rollSerious(target?: TrackerModel) {
     const { key } = rollD66();
     const entry = getInjuryByRoll(key);
-    const name = entry?.name ?? key;
-    onLog(t.seriousLog(key, name));
-    setLast(entry ? `${t.seriousLog(key, name)} — ${entry.effect}` : t.seriousLog(key, name));
+    if (!entry) return;
+    const text = t.seriousLog(key, entry.name);
+    if (target) onRecord(target.id, key, text);
+    setLast(`${target ? t.namedResult(target.name, text) : text} · ${entry.effect}`);
   }
 
   return (
     <div className="px-4 pb-4 space-y-3">
-      <p className="text-bone-300 text-xs">{t.hint}</p>
-      <div className="flex gap-2">
-        <Button variant="secondary" size="dense" fullWidth={false} onClick={rollWound} className="min-h-[44px] flex-1">
-          {t.rollCombat}
-        </Button>
-        <Button variant="secondary" size="dense" fullWidth={false} onClick={rollSerious} className="min-h-[44px] flex-1">
-          {t.rollSerious}
-        </Button>
-      </div>
-      {last && (
-        <div className="rounded-md bg-ink-950 border border-ink-700 p-3 space-y-1">
-          <p className="text-bone-100 text-sm">{last}</p>
-          <p className="text-verdigris text-xs">{t.logged}</p>
-        </div>
-      )}
+      <label className="flex flex-col gap-1 text-sm text-bone-200">
+        {t.forWhom}
+        <select value={hero?.id ?? ''} onChange={(e) => setHeroId(e.target.value)}
+          className="min-h-[44px] rounded border border-ink-700 bg-ink-800 px-2">
+          <option value="">{t.chooseHero}</option>
+          {heroes.map((model) => <option key={model.id} value={model.id}>{model.name}</option>)}
+        </select>
+      </label>
+      <Button size="dense" disabled={!hero} onClick={() => rollSerious(hero)}>{t.rollSerious}</Button>
+      <Button variant="secondary" size="dense" onClick={() => rollSerious()}>{t.genericD66}</Button>
+      {last && <p className="text-bone-100 text-sm" role="status">{last}</p>}
     </div>
   );
 }
@@ -429,6 +477,9 @@ export default function DuringBattleScreen() {
   const [session, setSession] = useState<BattleSession>(
     () => storedSession ?? defaultBattleSession(warbandId ?? ''),
   );
+  const [lastWound, setLastWound] = useState<{
+    modelId: string; rolls: number[]; pending: number; source?: WoundSource; after: BattleSession; undo?: BattleSession;
+  }>();
   const [newEventText, setNewEventText] = useState('');
   const [viewSide, setViewSide] = useState<'mine' | 'opponent'>('mine');
   const [confirmTurnBack, setConfirmTurnBack] = useState(false);
@@ -474,6 +525,7 @@ export default function DuringBattleScreen() {
     const updated = { ...session, phase, ...patch };
     setSession(updated);
     setStoredSession(updated);
+    return updated;
   }
 
   function newEvent(text: string, step: TrackerPhase = phase): BattleEvent {
@@ -602,11 +654,8 @@ export default function DuringBattleScreen() {
     });
   }
 
-  function changeModelState(model: TrackerModel, state: ModelState | 'standing', value: number) {
+  function modelStateUpdate(model: TrackerModel, counts: StateCounts) {
     const current = modelCounts(session, model);
-    const counts = model.key === 'henchmenCounts'
-      ? reconcileGroup({ ...current, [state]: value }, model.count)
-      : state === 'standing' && current.fleeing ? current : setModelState(current, value ? state : 'standing');
     const updated = writeModelCounts(session, model, counts);
     const recovery = session.recovery;
     const choice = recovery?.models[model.id];
@@ -625,7 +674,64 @@ export default function DuringBattleScreen() {
         updated.droppedWyrdstone += shards;
       }
     }
-    updateSession(updated);
+    return updated;
+  }
+
+  function changeModelState(model: TrackerModel, state: ModelState | 'standing', value: number) {
+    const current = modelCounts(session, model);
+    const counts = model.key === 'henchmenCounts'
+      ? reconcileGroup({ ...current, [state]: value }, model.count)
+      : state === 'standing' && current.fleeing ? current : setModelState(current, value ? state : 'standing');
+    updateSession(modelStateUpdate(model, counts));
+  }
+
+  function rollWounds(model: TrackerModel, count: number, source?: WoundSource) {
+    const before = modelCounts(session, model);
+    const rolls = Array.from({ length: count }, () => rollD6());
+    const { counts, undo, results } = applyWoundRolls(before, rolls, source);
+    const t = during.injury;
+    const events = [...session.events, ...results.map((result, index) =>
+      newEvent(t.namedResult(model.name, t.combatLog(rolls[index], tracker.states[result]))))];
+    const after = updateSession({ ...modelStateUpdate(model, counts), events });
+    setLastWound({
+      modelId: model.id, rolls, after, source,
+      pending: results.filter((result) => result === 'outOfAction').length,
+      undo: counts !== undo ? { ...session, events } : undefined,
+    });
+  }
+
+  function stateControl(model: TrackerModel): StateControl {
+    const counts = modelCounts(session, model);
+    const wound = lastWound?.modelId === model.id && lastWound.after === session ? lastWound : undefined;
+    const undo = wound?.undo;
+    return {
+      model, counts,
+      change: (state, value) => changeModelState(model, state, value),
+      roll: (quantity, source) => rollWounds(model, quantity, source),
+      wound: wound && {
+        rolls: wound.rolls,
+        pending: wound.pending,
+        mark: wound.pending > 0 ? () => {
+          const next = wound.source
+            ? applyGroupWounds(counts, wound.source, 'outOfAction', wound.pending)
+            : setModelState(counts, 'outOfAction');
+          const after = updateSession(modelStateUpdate(model, next));
+          setLastWound({ ...wound, after, pending: 0, undo: session });
+        } : undefined,
+        undo: undo && (() => {
+          const after = updateSession(undo);
+          setLastWound({ ...wound, after, pending: wound.rolls.filter((die) => woundResult(die) === 'outOfAction').length, undo: undefined });
+        }),
+      },
+    };
+  }
+
+  const outOfActionHeroes = models.filter((model) => model.key === 'heroIds' && modelCounts(session, model).outOfAction);
+  function saveSeriousInjury(heroId: string, key: string, text: string) {
+    const seriousInjuries = recordSeriousInjury(session.seriousInjuries, outOfActionHeroes.map((hero) => hero.id), heroId, key);
+    const hero = outOfActionHeroes.find((model) => model.id === heroId);
+    if (!hero || seriousInjuries === session.seriousInjuries) return;
+    updateSession({ seriousInjuries, events: [...session.events, newEvent(during.injury.namedResult(hero.name, text))] });
   }
 
   const enemyOoaTotal = Object.values(session.enemyOutOfAction).reduce((s, n) => s + n, 0);
@@ -728,7 +834,7 @@ export default function DuringBattleScreen() {
             )}
           </div>
           {!lookingAtOpponent ? (
-            <RosterReference warband={warband} session={session} onStateChange={changeModelState}
+            <RosterReference warband={warband} session={session} stateControl={stateControl}
               onEnemyOoaChange={setEnemyOoa} onWyrdstoneChange={setWyrdstone} showWyrdstone={showWyrdstone} />
           ) : <RosterReference warband={lookingAtOpponent} />}
         </section>
@@ -782,13 +888,11 @@ export default function DuringBattleScreen() {
           </div>
         </details>
 
-        {/* Injury rolls, logged straight into the events above — the D6 wound
-            result and the D66 serious-injury table, at hand mid-fight. */}
         <details className="rounded-lg bg-ink-900 border border-ink-800">
           <summary className="min-h-[48px] flex items-center px-4 text-bone-100 font-semibold cursor-pointer select-none">
             {strings.battle.duringBattle.injury.rollSerious}
           </summary>
-          <InjuryRoller onLog={logEvent} />
+          <InjuryRoller heroes={outOfActionHeroes} onRecord={saveSeriousInjury} />
         </details>
 
         <details className="rounded-lg bg-ink-900 border border-ink-800">

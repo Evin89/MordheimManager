@@ -7,6 +7,8 @@ import { HEADER_ROW, HEADER_SHELL, HEADER_TITLE } from './headerStyles';
 type BackHeaderProps = {
   title: string;
   subtitle?: string;
+  onSubtitleClick?: () => void;
+  subtitleExpanded?: boolean;
   onBack?: () => void;
   /** A control left of the dice and avatar — a `HeaderAction`, e.g. the roster's Share (§37.1). */
   action?: React.ReactNode;
@@ -25,7 +27,7 @@ export function HeaderBadge({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function BackHeader({ title, subtitle, badge, onBack, action, children }: BackHeaderProps) {
+export default function BackHeader({ title, subtitle, onSubtitleClick, subtitleExpanded, badge, onBack, action, children }: BackHeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -56,7 +58,11 @@ export default function BackHeader({ title, subtitle, badge, onBack, action, chi
             <h1 className={HEADER_TITLE}>{title}</h1>
             {badge && <HeaderBadge>{badge}</HeaderBadge>}
           </div>
-          {subtitle && <p className="text-bone-300 text-sm mt-0.5 truncate">{subtitle}</p>}
+          {subtitle && onSubtitleClick && (
+            <button type="button" onClick={onSubtitleClick} aria-expanded={subtitleExpanded}
+              className="min-h-[44px] text-bone-300 text-sm underline">{subtitle}</button>
+          )}
+          {subtitle && !onSubtitleClick && <p className="text-bone-300 text-sm mt-0.5 truncate">{subtitle}</p>}
         </div>
         {action && <div className="shrink-0 flex items-center gap-2">{action}</div>}
         <HeaderTools />

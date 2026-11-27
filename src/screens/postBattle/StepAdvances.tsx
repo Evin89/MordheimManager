@@ -15,6 +15,7 @@ import { StatIncreases, StepProps } from './types';
 import { heroSkillLists } from '../../lib/ruleEffects';
 import PromotionListsPicker from '../../components/PromotionListsPicker';
 import { effectiveStatMaximums } from '../../lib/racialMaximums';
+import EmptyStep from './EmptyStep';
 import { draftPromotions } from './draftHelpers';
 
 type LastAdvanceRoll = {
@@ -380,11 +381,16 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
   // Only models that crossed an Experience box this battle. Previously anyone
   // who gained a single point of XP was offered an advance, which is why the
   // step handed out far more than the campaign should.
+  const explorationXp = new Map<string, number>();
+  for (const grant of draft.exploration.resolved?.grants ?? []) {
+    if (grant.type === 'xp') explorationXp.set(grant.heroId, (explorationXp.get(grant.heroId) ?? 0) + grant.amount);
+  }
   const heroesDue = warband.heroes
     .map((h) => {
       const state = draft.heroes[h.id];
-      const due = state ? advancesDue(h.xp, h.xp + state.xpAwarded, 'hero') : 0;
-      return { model: h, state, due };
+      const currentXp = h.xp + (state?.xpAwarded ?? 0) + (explorationXp.get(h.id) ?? 0);
+      const due = state ? advancesDue(h.xp, currentXp, 'hero') : 0;
+      return { model: h, state, due, currentXp };
     })
     .filter((e) => e.state && e.due > 0 && e.state.resultingStatus !== 'dead');
 
@@ -409,15 +415,15 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
   return (
     <div className="space-y-4">
       <p className="text-bone-300 text-sm">{strings.postBattle.advances.thresholdsIntro}</p>
-      {nothingEligible && <p className="text-bone-300 text-sm">{strings.postBattle.advances.noneEligible}</p>}
+      {nothingEligible && <EmptyStep reason={strings.postBattle.advances.noneEligible} rule="post-battle-sequence" />}
 
-      {heroesDue.map(({ model: hero, state: rawState, due }) => {
+      {heroesDue.map(({ model: hero, state: rawState, due, currentXp }) => {
         const state = rawState!;
         return (
           <div key={hero.id} className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
             <p className="text-bone-100 font-semibold">{hero.name}</p>
             <p className="text-bone-300 text-sm">
-              {strings.postBattle.advances.currentXp}: {hero.xp + state.xpAwarded}
+              {strings.postBattle.advances.currentXp}: {currentXp}
             </p>
             <AdvanceRecorder
               statMaximums={effectiveStatMaximums(warband.warbandType, hero.unitType, hero.statMaximums)}

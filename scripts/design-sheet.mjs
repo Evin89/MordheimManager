@@ -90,6 +90,8 @@ function sheet(theme, tokens) {
     // Destructive roles. Both pairs failed before these tokens existed: red
     // text on Grimdark's near-black (2.51:1) and dark ink on a blood fill under
     // Rulebook (1.45:1) — legacy pairs this sheet never looked at.
+    ['warning on parchment', 'warning', 'parchment'],
+    ['warning on parchment-raised', 'warning', 'parchment-raised'],
     ['danger on parchment', 'danger', 'parchment'],
     ['danger on parchment-raised', 'danger', 'parchment-raised'],
     ['on-danger on blood-600', 'on-danger', 'blood-600'],
@@ -101,7 +103,7 @@ function sheet(theme, tokens) {
     ratio: contrast(fg ? rgb(fg) : [255, 255, 255], rgb(bg)),
   }));
 
-  const swatches = ['parchment', 'parchment-raised', 'ink', 'ink-faded', 'accent', 'verdigris'];
+  const swatches = ['parchment', 'parchment-raised', 'ink', 'ink-faded', 'accent', 'verdigris', 'warning'];
 
   const W = 880;
   const body = [];
@@ -120,8 +122,8 @@ function sheet(theme, tokens) {
   push(text(32, y, 'COLOUR TOKENS', { size: 11, family: UI, weight: 'bold', fill: c('ink-faded'), spacing: 1.5 }));
   y += 16;
   swatches.forEach((name, i) => {
-    const x = 32 + i * 138;
-    push(`<rect x="${x}" y="${y}" width="126" height="58" fill="${c(name)}" stroke="${c('ink')}" stroke-width="1.5"/>`);
+    const x = 32 + i * 117;
+    push(`<rect x="${x}" y="${y}" width="105" height="58" fill="${c(name)}" stroke="${c('ink')}" stroke-width="1.5"/>`);
     push(text(x, y + 76, name, { size: 12, family: UI, weight: 'bold' }));
     push(text(x, y + 92, c(name), { size: 11, family: UI, fill: c('ink-faded') }));
   });
@@ -257,6 +259,9 @@ for (const theme of THEMES) {
     ['on-verdigris', 'verdigris'],
     ['danger', 'parchment'],
     ['danger', 'parchment-raised'],
+    ['warning', 'parchment'],
+    ['warning', 'parchment-raised'],
+    ['warning', 'ink-800'],
     ['danger', 'ink-800'],
     ['on-danger', 'blood-600'],
     ['on-danger', 'blood-500'],

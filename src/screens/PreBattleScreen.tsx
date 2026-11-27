@@ -390,7 +390,13 @@ export default function PreBattleScreen() {
         </section>
 
         <ActionBar>
-          <Button onClick={() => navigate(`/warbands/${warband.id}/during-battle`, { replace: true, state: navState })}>
+          <Button onClick={() => {
+            updateSession({ ratingsAtStart: {
+              mine: myRating,
+              theirs: unsortedCandidates.find((candidate) => candidate.id === session.opponentWarbandId)?.rating ?? null,
+            } });
+            navigate(`/warbands/${warband.id}/during-battle`, { replace: true, state: navState });
+          }}>
             {strings.battle.preBattle.continueButton}
           </Button>
           <Link

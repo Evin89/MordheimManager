@@ -7,9 +7,10 @@
   "scripts": {
     "dev": "vite",
     "build:about": "node scripts/build-about.mjs",
-    "build": "node scripts/design-sheet.mjs --check && node scripts/check-nav-coverage.mjs && node scripts/test-pairing.mjs && node scripts/test-rout.mjs && node scripts/test-promotion.mjs && node scripts/test-turn-tracker.mjs && node scripts/test-free-dagger.mjs && node scripts/build-about.mjs && tsc -b && vite build",
+    "build": "node scripts/design-sheet.mjs --check && node scripts/check-nav-coverage.mjs && node scripts/test-pairing.mjs && node scripts/test-rout.mjs && node scripts/test-promotion.mjs && node scripts/test-turn-tracker.mjs && node scripts/test-free-dagger.mjs && node scripts/test-battle-flow.mjs && node scripts/build-about.mjs && tsc -b && vite build",
     "preview": "vite preview",
     "lint": "tsc --noEmit",
+    "test:battle-flow": "node scripts/test-battle-flow.mjs",
     "test:tracker": "node scripts/test-turn-tracker.mjs",
     "test:rout": "node scripts/test-rout.mjs",
     "test:promotion": "node scripts/test-promotion.mjs",
