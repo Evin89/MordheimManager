@@ -44,6 +44,15 @@ export default function StepBattleInfo({ warband, draft, updateDraft }: StepProp
         onChange={(patch) => updateDraft(patch)}
       />
 
+      <label className="block space-y-1 text-sm font-semibold text-bone-200">
+        <span>{strings.battle.duringBattle.tracker.turnsPlayed}</span>
+        <TextField type="number" min={0} step={1} value={draft.turns ?? ''}
+          onChange={(event) => {
+            const value = event.currentTarget.valueAsNumber;
+            updateDraft({ turns: Number.isFinite(value) ? Math.max(0, Math.trunc(value)) : undefined });
+          }} />
+      </label>
+
       <div className="space-y-2">
         <label className="block text-bone-200 text-sm font-semibold" htmlFor="scenario-select">
           {strings.postBattle.battleInfo.scenarioLabel}

@@ -183,6 +183,7 @@ export type Warband = {
 export type BattleResult = 'win' | 'loss' | 'draw';
 
 export type BattleRecord = {
+  turns?: number;
   id: string;
   warbandId: string; // which of the user's warbands this record belongs to
   date: string;

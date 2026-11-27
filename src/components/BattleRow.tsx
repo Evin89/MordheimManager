@@ -44,6 +44,7 @@ export default function BattleRow({
           <p className="text-bone-100 font-semibold truncate">{battle.scenario || 'Scenario not recorded'}</p>
           <p className="text-bone-300 text-sm truncate">
             {battle.date} · {warbandName}
+            {battle.turns !== undefined && ` · ${strings.battle.duringBattle.tracker.turns(battle.turns)}`}
           </p>
         </div>
         <div className="shrink-0 flex items-center gap-1.5">
