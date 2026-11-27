@@ -110,6 +110,7 @@ export type PostBattleDraft = {
   opponentWarbandName: string;
   result: BattleResult;
   date: string;
+  turns?: number;
   underdogBonus: number;
   /** Enemy models this warband took out of action — self-reported, not derivable. */
   enemiesTakenOut: number;

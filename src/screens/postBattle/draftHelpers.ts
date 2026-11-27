@@ -5,7 +5,7 @@ import { getWyrdstoneSellPrice } from '../../lib/wyrdstonePricing';
 import { countModels } from '../../lib/rating';
 import { resolveEquipmentItem } from '../../lib/equipmentLookup';
 import { unitGainsExperience } from '../../lib/ruleEffects';
-import { buildPromotedHero } from '../../lib/promotion';
+import { buildPromotedHero, canPromote, heroCount, MAX_HEROES } from '../../lib/promotion';
 import { applyInjuryStatChange, injuryStatChange } from '../../lib/injuryLookup';
 import { createHenchmenGroupFromType } from '../../lib/warbandFactory';
 import { withoutFreeDaggers } from '../../lib/freeDagger';
@@ -197,6 +197,17 @@ export function previewWarbandAfterDeaths(warband: Warband, draft: PostBattleDra
   return { ...warband, heroes, henchmenGroups, hiredSwords };
 }
 
+/** Reserve slots for staged promotions in the same roster order used at commit. */
+export function draftPromotions(warband: Warband, draft: PostBattleDraft) {
+  const afterDeaths = previewWarbandAfterDeaths(warband, draft);
+  const slots = Math.max(0, MAX_HEROES - heroCount(afterDeaths));
+  const groupIds = new Set(afterDeaths.henchmenGroups
+    .filter((group) => group.count > 0 && draft.henchmenGroups[group.id]?.ladsGotTalent)
+    .slice(0, slots)
+    .map((group) => group.id));
+  return { groupIds, hasRoom: groupIds.size < slots };
+}
+
 export function applyDraftToWarband(
   warband: Warband,
   draft: PostBattleDraft,
@@ -311,7 +322,8 @@ export function applyDraftToWarband(
 
     // "That Lad's Got Talent" (lib/promotion): one member leaves the group and
     // joins the Heroes, keeping his characteristics and Experience.
-    if (state.ladsGotTalent && newCount > 0) {
+    const promote = state.ladsGotTalent && newCount > 0 && canPromote({ heroes: [...heroes, ...promotedHeroes] });
+    if (promote) {
       promotedHeroes.push(
         buildPromotedHero(warband, group, {
           stats: groupStats,
@@ -323,11 +335,11 @@ export function applyDraftToWarband(
     }
 
     // The promoted lad is no longer part of the group.
-    const remaining = state.ladsGotTalent ? Math.max(0, newCount - 1) : newCount;
+    const remaining = promote ? newCount - 1 : newCount;
     // Promoting the last member leaves nobody behind: the group goes, and so does
     // its equipment list — he took that kit with him, so nothing goes to the
     // treasury. Unlike a wiped-out group there is no keep/delete choice to make.
-    if (state.ladsGotTalent && remaining === 0) continue;
+    if (promote && remaining === 0) continue;
 
     henchmenGroups.push({
       ...group,
@@ -439,6 +451,7 @@ export function applyDraftToWarband(
     id: generateId(),
     warbandId: warband.id,
     date: draft.date,
+    turns: draft.turns,
     scenario: draft.scenario,
     opponents: opponentList,
     opponentWarbandIds:
@@ -472,6 +485,7 @@ export function buildFriendlyRecord(warband: Warband, draft: PostBattleDraft): B
     id: generateId(),
     warbandId: warband.id,
     date: draft.date,
+    turns: draft.turns,
     scenario: draft.scenario,
     opponents: opponentList,
     opponentWarbandIds:
@@ -572,6 +586,7 @@ function statIncreaseTags(increases: StatIncreases): string[] {
 /** Human-readable bullet points for the final confirmation step. */
 export function buildDiffSummary(warband: Warband, draft: PostBattleDraft): string[] {
   const lines: string[] = [];
+  const { groupIds: promotions } = draftPromotions(warband, draft);
 
   for (const hero of warband.heroes) {
     const state = draft.heroes[hero.id];
@@ -622,7 +637,7 @@ export function buildDiffSummary(warband: Warband, draft: PostBattleDraft): stri
     const advanceTags = statIncreaseTags(state.statIncreases);
     if (advanceTags.length > 0) lines.push(`${group.groupName} advances: ${advanceTags.join(', ')}.`);
     const survivors = Math.max(0, group.count - state.diedCount);
-    if (state.ladsGotTalent && survivors > 0) {
+    if (promotions.has(group.id)) {
       lines.push(
         survivors === 1
           ? `That Lad's Got Talent: the last of ${group.groupName} joins the Heroes, and the group is disbanded.`

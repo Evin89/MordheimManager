@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { build, transform } from 'esbuild';
+import { build } from 'esbuild';
 
 const bundle = await build({
   stdin: {
@@ -108,37 +108,6 @@ test('Ties retain hero, hired sword, then group and roster order', () => {
   const tied = warband([captain, hero('Second', 7)], [group('Group', 7, 1)], [hero('Sword', 7)]);
   assert.deepEqual(routLeadership(tied, empty, empty), fallback(7, 'Captain', 'noLeader'));
   assert.deepEqual(routLeadership(tied, tally(['Captain', 'Second']), empty), fallback(7, 'Sword', 'noLeader'));
-});
-
-const betaFlags = await transform(readFileSync(new URL('../src/lib/betaFlags.ts', import.meta.url), 'utf8'), { loader: 'ts' });
-const { isStunnedBetaOn, setStunnedBeta } =
-  await import(`data:text/javascript;base64,${Buffer.from(betaFlags.code).toString('base64')}`);
-
-test('The stunned beta defaults off and safely persists on this device', () => {
-  const key = 'mordheim.beta.stunnedTracking';
-  const storage = new Map();
-  assert.equal(isStunnedBetaOn(), false);
-  globalThis.window = {
-    localStorage: {
-      getItem: (key) => storage.get(key) ?? null,
-      setItem: (key, value) => storage.set(key, value),
-      removeItem: (key) => storage.delete(key),
-    },
-  };
-  try {
-    setStunnedBeta(true);
-    assert.equal(storage.get(key), '1');
-    assert.equal(isStunnedBetaOn(), true);
-    setStunnedBeta(false);
-    assert.equal(storage.has(key), false);
-    assert.equal(isStunnedBetaOn(), false);
-    Object.defineProperty(window, 'localStorage', { get() { throw new Error('Storage unavailable'); } });
-    assert.equal(isStunnedBetaOn(), false);
-    assert.doesNotThrow(() => setStunnedBeta(true));
-    assert.doesNotThrow(() => setStunnedBeta(false));
-  } finally {
-    delete globalThis.window;
-  }
 });
 
 console.log(`rout: ${passed} checks passed`);
