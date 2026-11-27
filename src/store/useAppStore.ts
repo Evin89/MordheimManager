@@ -1,3 +1,4 @@
+import type { FirstPlayer, TrackerPhase } from '../lib/turnTracker';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Battlefield } from '../lib/solo/battlefield';
@@ -16,6 +17,7 @@ export type BattleEvent = {
   id: string;
   turn: number;
   text: string;
+  phase?: TrackerPhase;
 };
 
 /**
@@ -49,6 +51,20 @@ export type BattleSession = {
   events: BattleEvent[];
   notes: string;
   outOfAction: OutOfActionTally;
+  /** §45.1 — models currently stunned; same shape as outOfAction; discarded at commit. */
+  stunned?: OutOfActionTally;
+  phase?: TrackerPhase;
+  firstPlayer?: FirstPlayer;
+  knockedDown?: OutOfActionTally;
+  fleeing?: OutOfActionTally;
+  rallied?: OutOfActionTally;
+  recovery?: {
+    turn: number;
+    models: Record<string, { eligible: number; converted: number; checked: boolean }>;
+    eventId?: string;
+    finished?: boolean;
+    failedRallies?: Record<string, number>;
+  };
   /** Your modelId → how many enemy models it has taken out of action (§4.3.1 A).
    * Feeds each hero's +1-per-enemy XP default at the Experience step. */
   enemyOutOfAction: Record<string, number>;
@@ -74,6 +90,14 @@ export type BattleSession = {
    */
   wizard?: { step: number; draft: unknown; warbandUpdatedAt: string | null };
 };
+
+export function stunnedOf(session: BattleSession): OutOfActionTally {
+  return session.stunned ?? emptyOutOfAction();
+}
+
+export function phaseOf(session: BattleSession): TrackerPhase {
+  return session.phase ?? (session.turn === 1 && session.events.length === 0 ? 'pregame' : 'start');
+}
 
 /** The starting state for a table-side session. Lives here because both battle
  * screens create one and they must not drift apart. */
@@ -101,16 +125,16 @@ export function defaultBattleSession(warbandId: string): BattleSession {
  * and Play, and the roster's Continue battle button.
  */
 export function hasBattleProgress(session: BattleSession | undefined): boolean {
+  if (!session) return false;
   return (
-    !!session &&
-    (!!session.wizard ||
-      session.turn > 1 ||
-      session.events.length > 0 ||
-      session.outOfAction.heroIds.length > 0 ||
-      session.outOfAction.hiredSwordIds.length > 0 ||
-      Object.keys(session.outOfAction.henchmenCounts).length > 0 ||
-      Object.keys(session.enemyOutOfAction).length > 0 ||
-      Object.keys(session.wyrdstoneCarried).length > 0)
+    !!session.wizard ||
+    phaseOf(session) !== 'pregame' ||
+    [session.outOfAction, session.stunned, session.knockedDown, session.fleeing, session.rallied]
+      .some((tally) => tally && (tally.heroIds.length > 0 || tally.hiredSwordIds.length > 0
+        || Object.values(tally.henchmenCounts).some((count) => count > 0))) ||
+    session.events.length > 0 ||
+    Object.keys(session.enemyOutOfAction).length > 0 ||
+    Object.keys(session.wyrdstoneCarried).length > 0
   );
 }
 

@@ -12,8 +12,10 @@ import advancesData from '../../data/advances.json';
 import { AdvanceTableEntry } from '../../data/types';
 import { StatLine } from '../../types';
 import { StatIncreases, StepProps } from './types';
-import { heroSkillLists, promotionSkillListOptions } from '../../lib/ruleEffects';
-import { getSkillList } from '../../lib/skillLookup';
+import { heroSkillLists } from '../../lib/ruleEffects';
+import PromotionListsPicker from '../../components/PromotionListsPicker';
+import { effectiveStatMaximums } from '../../lib/racialMaximums';
+import { draftPromotions } from './draftHelpers';
 
 type LastAdvanceRoll = {
   total: number;
@@ -54,6 +56,8 @@ type AdvanceRecorderProps = {
   recorded: number;
   /** Henchmen groups only: the promotion result from their advance table. */
   ladsGotTalent?: boolean;
+  ladAtHeroMax?: boolean;
+  blockedPromotion?: boolean;
   onToggleLadsGotTalent?: () => void;
 };
 
@@ -79,6 +83,8 @@ function AdvanceRecorder({
   due,
   recorded,
   ladsGotTalent,
+  ladAtHeroMax,
+  blockedPromotion,
   onToggleLadsGotTalent,
 }: AdvanceRecorderProps) {
   const [open, setOpen] = useState<'stat' | 'skill' | 'spell' | null>(null);
@@ -182,7 +188,7 @@ function AdvanceRecorder({
           {lastRoll.subRoll !== undefined && (
             <p className="text-bone-300 text-xs">{strings.postBattle.advances.subRollLabel(lastRoll.subRoll)}</p>
           )}
-          {lastRoll.special && (
+          {lastRoll.special && !ladAtHeroMax && (
             <p className="text-ember-400 text-xs">{strings.postBattle.advances.specialResultHint}</p>
           )}
           {lastRoll.needsReroll && (
@@ -220,6 +226,10 @@ function AdvanceRecorder({
         </div>
       )}
 
+      {(blockedPromotion || (lastRoll?.special && ladAtHeroMax)) && (
+        <p className="text-ember-400 text-xs">{strings.postBattle.advances.ladAtHeroMax}</p>
+      )}
+
       <p className="text-bone-300 text-xs pt-1">{strings.postBattle.advances.manualEntryLabel}</p>
 
       {open === null && (
@@ -255,16 +265,17 @@ function AdvanceRecorder({
           {/* Henchmen have no skill lists of their own — their table's
               equivalent of "New Skill" is the promotion result, which had no
               control at all and so could not be recorded. */}
-          {onToggleLadsGotTalent && (
-            <button
-              type="button"
+          {onToggleLadsGotTalent && !ladAtHeroMax && (
+            <Button
+              size="dense"
+              fullWidth={false}
+              variant={ladsGotTalent ? 'primary' : 'secondary'}
+              aria-pressed={ladsGotTalent}
               onClick={onToggleLadsGotTalent}
-              className={`flex-1 min-w-[9rem] min-h-[40px] rounded-md border text-sm font-semibold ${
-                ladsGotTalent ? 'bg-ember-500 text-on-accent border-ember-500' : 'border-ink-700 text-bone-200'
-              }`}
+              className="flex-1 min-w-[9rem]"
             >
               {strings.postBattle.advances.ladsGotTalent}
-            </button>
+            </Button>
           )}
         </div>
       )}
@@ -365,6 +376,7 @@ function recordedCount(
 }
 
 export default function StepAdvances({ warband, draft, updateDraft }: StepProps) {
+  const promotions = draftPromotions(warband, draft);
   // Only models that crossed an Experience box this battle. Previously anyone
   // who gained a single point of XP was offered an advance, which is why the
   // step handed out far more than the campaign should.
@@ -408,7 +420,7 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               {strings.postBattle.advances.currentXp}: {hero.xp + state.xpAwarded}
             </p>
             <AdvanceRecorder
-              statMaximums={hero.statMaximums}
+              statMaximums={effectiveStatMaximums(warband.warbandType, hero.unitType, hero.statMaximums)}
               currentStats={hero.stats}
               skillLists={heroSkillLists(warband.warbandType, hero, warband.subfaction)}
               knownSkills={hero.skills}
@@ -474,6 +486,8 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
 
       {groupsDue.map(({ model: group, state: rawState, due }) => {
         const state = rawState!;
+        const promotionSelected = promotions.groupIds.has(group.id);
+        const ladAtHeroMax = !promotionSelected && !promotions.hasRoom;
         return (
           <div key={group.id} className="rounded-lg bg-ink-900 border border-ink-800 p-4 space-y-2">
             <p className="text-bone-100 font-semibold">{group.groupName}</p>
@@ -486,17 +500,17 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               warbandType={warband.warbandType}
               isLeader={false}
               statIncreases={state.statIncreases}
-              newSkills={state.ladsGotTalent ? [strings.postBattle.advances.ladsGotTalent] : []}
+              newSkills={promotionSelected ? [strings.postBattle.advances.ladsGotTalent] : []}
               advanceEntries={advancesData.henchmenAdvanceTable.entries}
               due={due}
-              recorded={recordedCount(state.statIncreases) + (state.ladsGotTalent ? 1 : 0)}
-              // "That Lad's Got Talent" promotes one member of the group to a
-              // Hero. Recorded here and applied on commit rather than silently
-              // dropped, which is what the empty handler used to do.
-              ladsGotTalent={state.ladsGotTalent}
+              recorded={recordedCount(state.statIncreases) + (promotionSelected ? 1 : 0)}
+              ladsGotTalent={promotionSelected}
+              ladAtHeroMax={ladAtHeroMax}
+              blockedPromotion={state.ladsGotTalent && !promotionSelected}
               onToggleLadsGotTalent={() =>
                 updateDraft((current) => {
                   const s = current.henchmenGroups[group.id];
+                  if (!s.ladsGotTalent && !draftPromotions(warband, current).hasRoom) return {};
                   return {
                     henchmenGroups: {
                       ...current.henchmenGroups,
@@ -534,14 +548,18 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
                   return {
                     henchmenGroups: {
                       ...current.henchmenGroups,
-                      [group.id]: { ...s, statIncreases: { ...s.statIncreases, [key]: (s.statIncreases[key] ?? 0) + 1 } },
+                      [group.id]: {
+                        ...s,
+                        ladsGotTalent: s.ladsGotTalent && draftPromotions(warband, current).groupIds.has(group.id),
+                        statIncreases: { ...s.statIncreases, [key]: (s.statIncreases[key] ?? 0) + 1 },
+                      },
                     },
                   };
                 })
               }
               onAddSkill={() => {}}
             />
-            {state.ladsGotTalent && (
+            {promotionSelected && (
               <PromotionListsPicker
                 warbandType={warband.warbandType}
                 subfaction={warband.subfaction}
@@ -570,7 +588,7 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
               {strings.postBattle.advances.currentXp}: {sword.xp + state.xpAwarded}
             </p>
             <AdvanceRecorder
-              statMaximums={sword.statMaximums}
+              statMaximums={effectiveStatMaximums(warband.warbandType, sword.type, sword.statMaximums)}
               currentStats={sword.stats}
               skillLists={sword.skillLists}
               knownSkills={sword.skills}
@@ -637,57 +655,4 @@ export default function StepAdvances({ warband, draft, updateDraft }: StepProps)
   );
 }
 
-/**
- * §15 — the skill lists a promoted Henchman takes. Fixed ones (an Ogre's Combat
- * and Strength) are shown, not asked; otherwise the player picks the usual two
- * from the pool his unit's rules allow, and any `extra` list is added on top.
- */
-function PromotionListsPicker({
-  warbandType,
-  subfaction,
-  unitType,
-  chosen,
-  onChange,
-}: {
-  warbandType: string;
-  subfaction?: string;
-  unitType: string;
-  chosen: string[];
-  onChange: (lists: string[]) => void;
-}) {
-  const t = strings.postBattle.advances.promotion;
-  const opts = promotionSkillListOptions(warbandType, unitType, subfaction);
-  const label = (id: string) => getSkillList(id)?.name ?? id;
-
-  if (opts.fixed) {
-    return <p className="text-bone-200 text-sm">{t.fixed([...opts.fixed, ...opts.extra].map(label).join(', '))}</p>;
-  }
-
-  return (
-    <div className="space-y-1">
-      <p className="text-bone-200 text-sm">{t.choose(opts.choose)}</p>
-      <div className="flex flex-wrap gap-2">
-        {opts.options.map((id) => {
-          const on = chosen.includes(id);
-          const full = !on && chosen.length >= opts.choose;
-          return (
-            <button
-              key={id}
-              type="button"
-              disabled={full}
-              onClick={() => onChange(on ? chosen.filter((c) => c !== id) : [...chosen, id])}
-              aria-pressed={on}
-              className={`min-h-[40px] px-3 rounded-md border text-sm font-semibold disabled:opacity-40 ${
-                on ? 'border-ember-500 text-ember-400' : 'border-ink-700 text-bone-200'
-              }`}
-            >
-              {label(id)}
-            </button>
-          );
-        })}
-      </div>
-      {opts.extra.length > 0 && <p className="text-bone-300 text-xs">{t.extra(opts.extra.map(label).join(', '))}</p>}
-    </div>
-  );
-}
 

@@ -22,6 +22,8 @@ import { useSoloStore, SoloSession } from '../../store/useSoloStore';
 import { generateId } from '../../lib/id';
 import { logFeatureUse } from '../../api/featureUsage';
 import { Button, Card, Field, SectionHeading, Select } from '../../components/ui';
+import { DISCORD_SOLO_PLAY_URL } from '../../components/DiscordLink';
+import { strings } from '../../strings';
 
 
 const DIFFICULTIES = [
@@ -143,6 +145,15 @@ export default function SoloSetupScreen() {
         <Link to="/solo/collection" className="inline-flex items-center min-h-[44px] text-ember-400 text-sm font-semibold">
           Manage my collection ›
         </Link>
+        <a
+          href={DISCORD_SOLO_PLAY_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={strings.discord.soloPlayAria}
+          className="flex items-center min-h-[44px] text-ember-400 text-sm font-semibold"
+        >
+          {strings.discord.soloPlay}
+        </a>
       </div>
 
       <main className="flex-1 px-4 py-6 space-y-6">

@@ -40,7 +40,10 @@
     {
       "roll": "22",
       "name": "Leg Wound",
-      "effect": "The warrior's leg is broken. He suffers a -1 Movement characteristic penalty from now on."
+      "effect": "The warrior's leg is broken. He suffers a -1 Movement characteristic penalty from now on.",
+      "statChange": {
+        "M": -1
+      }
     },
     {
       "roll": "23",
@@ -60,12 +63,18 @@
     {
       "roll": "26",
       "name": "Chest Wound",
-      "effect": "The warrior has been badly wounded in the chest. He recovers but is weakened by the injury so his Toughness is reduced by -1."
+      "effect": "The warrior has been badly wounded in the chest. He recovers but is weakened by the injury so his Toughness is reduced by -1.",
+      "statChange": {
+        "T": -1
+      }
     },
     {
       "roll": "31",
       "name": "Blinded in One Eye",
-      "effect": "The warrior survives but loses the sight in one eye; randomly determine which. A character who loses an eye has his Ballistic Skill reduced by -1. If subsequently blinded in his remaining good eye, he must retire from the warband."
+      "effect": "The warrior survives but loses the sight in one eye; randomly determine which. A character who loses an eye has his Ballistic Skill reduced by -1. If subsequently blinded in his remaining good eye, he must retire from the warband.",
+      "statChange": {
+        "BS": -1
+      }
     },
     {
       "roll": "32",
@@ -75,12 +84,18 @@
     {
       "roll": "33",
       "name": "Nervous Condition",
-      "effect": "The warrior's nervous system has been damaged. His Initiative is permanently reduced by -1."
+      "effect": "The warrior's nervous system has been damaged. His Initiative is permanently reduced by -1.",
+      "statChange": {
+        "I": -1
+      }
     },
     {
       "roll": "34",
       "name": "Hand Injury",
-      "effect": "The warrior's hand is badly injured. His Weapon Skill is permanently reduced by -1."
+      "effect": "The warrior's hand is badly injured. His Weapon Skill is permanently reduced by -1.",
+      "statChange": {
+        "WS": -1
+      }
     },
     {
       "roll": "35",

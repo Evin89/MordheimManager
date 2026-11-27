@@ -18,6 +18,11 @@ export type IssueReport = {
   userAgent: string;
   status: IssueStatus;
   adminNotes: string;
+  /** Migration 0073 — one public, English sentence about the fix. Posted to
+   * Discord #fixed-issues by a trigger once the report is closed with it set. */
+  publicSummary: string;
+  /** When the summary was queued for Discord; null until then. Set once. */
+  fixedPostedAt: string | null;
   createdAt: string;
 };
 
@@ -31,6 +36,8 @@ type IssueRow = {
   user_agent: string;
   status: IssueStatus;
   admin_notes: string;
+  public_summary: string | null;
+  fixed_posted_at: string | null;
   created_at: string;
 };
 
@@ -46,6 +53,8 @@ function toReport(row: IssueRow): IssueReport {
     userAgent: row.user_agent,
     status: row.status,
     adminNotes: row.admin_notes,
+    publicSummary: row.public_summary ?? '',
+    fixedPostedAt: row.fixed_posted_at ?? null,
     createdAt: row.created_at,
   };
 }
@@ -140,10 +149,28 @@ export async function fetchIssueReports(
   };
 }
 
-export async function updateIssueStatus(id: string, status: IssueStatus): Promise<void> {
-  if (isDemoMode()) return demo.updateIssueStatus(id, status);
-  const { error } = await supabase.from('issue_reports').update({ status }).eq('id', id);
+export type IssuePatch = { status?: IssueStatus; publicSummary?: string };
+
+/**
+ * Admin: change a report's status and/or public summary in ONE update.
+ *
+ * One write matters for the Discord trigger (migration 0073): it fires on
+ * `status, public_summary` and posts when the row ends up closed with a
+ * non-empty summary that was not posted before. Closing and summarising in two
+ * writes would still post once, but a single write keeps the intent atomic.
+ */
+export async function updateIssue(id: string, patch: IssuePatch): Promise<void> {
+  if (isDemoMode()) return demo.updateIssue(id, patch);
+  const row: { status?: IssueStatus; public_summary?: string } = {};
+  if (patch.status) row.status = patch.status;
+  if (patch.publicSummary !== undefined) row.public_summary = patch.publicSummary.trim();
+  if (Object.keys(row).length === 0) return;
+  const { error } = await supabase.from('issue_reports').update(row).eq('id', id);
   if (error) throw error;
+}
+
+export async function updateIssueStatus(id: string, status: IssueStatus): Promise<void> {
+  return updateIssue(id, { status });
 }
 
 // ---------------------------------------------------------------------------

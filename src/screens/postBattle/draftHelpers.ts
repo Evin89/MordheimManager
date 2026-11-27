@@ -1,11 +1,12 @@
 import { generateId } from '../../lib/id';
 import { defaultHouseRules } from '../../data/houseRules';
-import { getUnitRacialMaximums } from '../../lib/racialMaximums';
 import { applySpellGains, getSpell, loweredAdvanceDetail } from '../../lib/spellLookup';
 import { getWyrdstoneSellPrice } from '../../lib/wyrdstonePricing';
 import { countModels } from '../../lib/rating';
 import { resolveEquipmentItem } from '../../lib/equipmentLookup';
-import { promotionSkillListOptions, unitGainsExperience } from '../../lib/ruleEffects';
+import { unitGainsExperience } from '../../lib/ruleEffects';
+import { buildPromotedHero, canPromote, heroCount, MAX_HEROES } from '../../lib/promotion';
+import { applyInjuryStatChange, injuryStatChange } from '../../lib/injuryLookup';
 import { createHenchmenGroupFromType } from '../../lib/warbandFactory';
 import { getWarbandDefinition } from '../../data/warbandRegistry';
 import { EquipmentItem } from '../../types';
@@ -196,6 +197,17 @@ export function previewWarbandAfterDeaths(warband: Warband, draft: PostBattleDra
   return { ...warband, heroes, henchmenGroups, hiredSwords };
 }
 
+/** Reserve slots for staged promotions in the same roster order used at commit. */
+export function draftPromotions(warband: Warband, draft: PostBattleDraft) {
+  const afterDeaths = previewWarbandAfterDeaths(warband, draft);
+  const slots = Math.max(0, MAX_HEROES - heroCount(afterDeaths));
+  const groupIds = new Set(afterDeaths.henchmenGroups
+    .filter((group) => group.count > 0 && draft.henchmenGroups[group.id]?.ladsGotTalent)
+    .slice(0, slots)
+    .map((group) => group.id));
+  return { groupIds, hasRoom: groupIds.size < slots };
+}
+
 export function applyDraftToWarband(
   warband: Warband,
   draft: PostBattleDraft,
@@ -244,22 +256,31 @@ export function applyDraftToWarband(
       advances.push({ id: generateId(), type: 'skill', detail, battleRef: draft.scenario });
     }
 
+    // New injuries' characteristic penalties (Chest Wound: −1 T…) land on the
+    // profile, and each injury keeps its own change so it can be undone.
+    const newInjuries = state.injuries.map((injury) => {
+      const statChange = injuryStatChange(injury.name);
+      return {
+        id: generateId(),
+        name: injury.name,
+        effect: injury.effect,
+        dateAcquired: draft.date,
+        ...(statChange ? { statChange } : {}),
+      };
+    });
+    const injuredStats = newInjuries.reduce(
+      (stats, injury) => applyInjuryStatChange(stats, injury.statChange),
+      applyStatIncreases(hero.stats, state.statIncreases),
+    );
+
     heroes.push({
       ...hero,
       xp: hero.xp + state.xpAwarded,
-      stats: applyStatIncreases(hero.stats, state.statIncreases),
+      stats: injuredStats,
       skills: [...hero.skills, ...state.newSkills],
       ...applySpellGains(hero.spells, hero.spellReductions, state.newSpells),
       advances,
-      injuries: [
-        ...hero.injuries,
-        ...state.injuries.map((injury) => ({
-          id: generateId(),
-          name: injury.name,
-          effect: injury.effect,
-          dateAcquired: draft.date,
-        })),
-      ],
+      injuries: [...hero.injuries, ...newInjuries],
       status: state.participated ? state.resultingStatus : 'active',
     });
   }
@@ -298,59 +319,26 @@ export function applyDraftToWarband(
     const groupXp = unitGainsExperience(warband.warbandType, group) ? group.xp + state.xpAwarded : group.xp;
     const groupStats = applyStatIncreases(group.stats, state.statIncreases);
 
-    // "That Lad's Got Talent": one member leaves the group and joins the
-    // Heroes, keeping the characteristics and Experience he had as a Henchman.
-    // His skill lists come from his unit's rule effects (ruleEffects): fixed by
-    // the rules where they say so, otherwise the two the player picked in the
-    // Advances step, plus any list the rules add on top.
-    const promotion = promotionSkillListOptions(warband.warbandType, group.unitType, warband.subfaction);
-    const promotedLists = [
-      ...(promotion.fixed ?? (state.promotionSkillLists ?? []).slice(0, promotion.choose)),
-      ...promotion.extra,
-    ];
-    if (state.ladsGotTalent && newCount > 0) {
-      promotedHeroes.push({
-        id: generateId(),
-        name: `${group.unitType} (promoted)`,
-        unitType: group.unitType,
-        isLeader: false,
-        isLargeCreature: group.isLargeCreature,
-        stats: groupStats,
-        // The racial ceiling for his unit type, not the stats he happens to
-        // have. Using his own line froze the promoted model permanently: every
-        // stat already sat at its "maximum", so he could never advance again.
-        statMaximums: getUnitRacialMaximums(warband.warbandType, group.unitType) ?? groupStats,
-        xp: groupXp,
-        startingXp: groupXp,
-        advances: [],
-        skillLists: promotedLists,
-        skills: [],
-        // A promoted Henchman is not a caster: which lists a warband's Heroes
-        // may use varies, and none of them grant magic on promotion. Left empty
-        // for the same reason as `skillLists` — the player sets it if the
-        // warband's own rules say otherwise.
-        spellLists: [],
-        spells: [],
-        injuries: [],
-        // He keeps the kit he carried as a Henchman. A group's equipment list is
-        // what every member carries, so he takes a copy (fresh ids — the items
-        // are now his own) and the group keeps its list for the rest.
-        equipment: group.equipment.map((item) => ({ ...item, id: generateId() })),
-        status: 'active',
-        notes:
-          `Promoted from ${group.groupName} by "That Lad's Got Talent" after ${draft.scenario || 'a battle'}. ` +
-          (promotedLists.length > 0
-            ? 'He keeps the equipment he carried in the group.'
-            : 'Set his skill lists — the rulebook decides these per warband. He keeps the equipment he carried in the group.'),
-      });
+    // "That Lad's Got Talent" (lib/promotion): one member leaves the group and
+    // joins the Heroes, keeping his characteristics and Experience.
+    const promote = state.ladsGotTalent && newCount > 0 && canPromote({ heroes: [...heroes, ...promotedHeroes] });
+    if (promote) {
+      promotedHeroes.push(
+        buildPromotedHero(warband, group, {
+          stats: groupStats,
+          xp: groupXp,
+          chosenLists: state.promotionSkillLists ?? [],
+          origin: `after ${draft.scenario || 'a battle'}`,
+        }),
+      );
     }
 
     // The promoted lad is no longer part of the group.
-    const remaining = state.ladsGotTalent ? Math.max(0, newCount - 1) : newCount;
+    const remaining = promote ? newCount - 1 : newCount;
     // Promoting the last member leaves nobody behind: the group goes, and so does
     // its equipment list — he took that kit with him, so nothing goes to the
     // treasury. Unlike a wiped-out group there is no keep/delete choice to make.
-    if (state.ladsGotTalent && remaining === 0) continue;
+    if (promote && remaining === 0) continue;
 
     henchmenGroups.push({
       ...group,
@@ -462,6 +450,7 @@ export function applyDraftToWarband(
     id: generateId(),
     warbandId: warband.id,
     date: draft.date,
+    turns: draft.turns,
     scenario: draft.scenario,
     opponents: opponentList,
     opponentWarbandIds:
@@ -495,6 +484,7 @@ export function buildFriendlyRecord(warband: Warband, draft: PostBattleDraft): B
     id: generateId(),
     warbandId: warband.id,
     date: draft.date,
+    turns: draft.turns,
     scenario: draft.scenario,
     opponents: opponentList,
     opponentWarbandIds:
@@ -595,6 +585,7 @@ function statIncreaseTags(increases: StatIncreases): string[] {
 /** Human-readable bullet points for the final confirmation step. */
 export function buildDiffSummary(warband: Warband, draft: PostBattleDraft): string[] {
   const lines: string[] = [];
+  const { groupIds: promotions } = draftPromotions(warband, draft);
 
   for (const hero of warband.heroes) {
     const state = draft.heroes[hero.id];
@@ -645,7 +636,7 @@ export function buildDiffSummary(warband: Warband, draft: PostBattleDraft): stri
     const advanceTags = statIncreaseTags(state.statIncreases);
     if (advanceTags.length > 0) lines.push(`${group.groupName} advances: ${advanceTags.join(', ')}.`);
     const survivors = Math.max(0, group.count - state.diedCount);
-    if (state.ladsGotTalent && survivors > 0) {
+    if (promotions.has(group.id)) {
       lines.push(
         survivors === 1
           ? `That Lad's Got Talent: the last of ${group.groupName} joins the Heroes, and the group is disbanded.`

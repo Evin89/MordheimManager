@@ -121,6 +121,17 @@ const html = `<!doctype html>
         <div class="cta">
           <a class="btn btn-primary" href="/app">Open the app</a>
           <a class="btn btn-ghost" href="/">Home</a>
+          <!-- Community entry point (§4.10.1): own server invite, works for non-members. -->
+          <a
+            class="discord-link"
+            href="https://discord.gg/F7HTH5zrmj"
+            target="_blank"
+            rel="noopener external"
+            aria-label="Join the Mordheim Manager Discord for questions and suggestions"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>
+            <span>Join the Discord</span>
+          </a>
         </div>
       </header>
 
@@ -139,6 +150,7 @@ ${entriesHtml}
           <a href="/app/gallery">Public gallery</a>
           <a href="/app/rules">Rules reference</a>
           <a href="/">Home</a>
+          <a href="https://discord.gg/F7HTH5zrmj" target="_blank" rel="noopener external">Mordheim Manager Discord</a>
         </div>
         <p class="community-label">Other Mordheim resources</p>
         <div class="links links-community">

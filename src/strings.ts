@@ -105,6 +105,8 @@ export const strings = {
   discord: {
     cta: 'Questions or ideas? Join the Discord',
     aria: 'Join the Mordheim Manager Discord for questions and suggestions',
+    soloPlay: 'Questions, ideas or bugs? #solo-play on Discord ›',
+    soloPlayAria: 'Open the #solo-play forum on the Mordheim Manager Discord',
   },
   // §26.5 — the owner-only nudge to make a battle-tested private warband public.
   // The copy says exactly what the flag does: campaign-mates see the warband
@@ -1131,6 +1133,19 @@ ${url}`,
     addToExisting: 'Add to an existing group instead',
     newGroup: 'Start a new group',
   },
+  // Henchmen screen — advances recorded outside the post-battle wizard.
+  henchmenDetail: {
+    advanceHelp:
+      'A Henchman advance is +1 to one characteristic (never more than +1 per stat) — tap it below — or, on a roll of 10–12, "That Lad\'s Got Talent": one member becomes a Hero.',
+    ladsGotTalent: "That Lad's Got Talent — promote a member",
+    ladAtHeroMax: 'Your warband already has 6 Heroes. Dismiss a Hero first, or re-roll the advance.',
+    promotePrompt: (group: string) => `Promote one member of ${group} to a Hero?`,
+    promoteImpact: (left: number) =>
+      `He keeps the group's profile, Experience and equipment. ${left} ${left === 1 ? 'member stays' : 'members stay'} in the group.`,
+    promoteImpactLast:
+      "He keeps the group's profile, Experience and equipment. He is the last member, so the group is disbanded.",
+    promoteAction: 'Promote to Hero',
+  },
   modelDetail: {
     hiredSwordFixedGear: "Hired Swords carry exactly what their entry lists, so they can't buy or be given other equipment.",
     hiredSwordMissingGear: (entry: string) =>
@@ -1198,6 +1213,11 @@ ${url}`,
     ineligibleEquipmentWarning: (items: string) =>
       `Not on this model's equipment list: ${items}. Unassign it, or re-add a skill that allows it.`,
     removedToast: (what: string) => `Removed: ${what}`,
+    removeInjuryPrompt: (injury: string, model: string) => `Remove ${injury} from ${model}?`,
+    removeInjuryRestores: (change: string) => `This undoes its penalty on the profile (${change}).`,
+    removeInjuryNoStats:
+      'The profile stays as it is — this injury was recorded without a characteristic change. Check the profile by hand if you lowered it yourself.',
+    removeInjuryAction: 'Remove injury',
     spells: {
       // The heading itself comes from the list's kind — a priest prays rather
       // than casts — so these take the word rather than hardcoding "spell".
@@ -1358,13 +1378,86 @@ ${url}`,
         seriousLog: (key: string, name: string) => `Serious injury (${key}): ${name}`,
         logged: 'Logged to events.',
       },
+      tracker: {
+        phases: {
+          pregame: 'Pre-game', start: 'Start of turn', recovery: 'Recovery', movement: 'Movement',
+          shooting: 'Shooting', combat: 'Close combat', opponent: "Opponent's turn", ended: 'End of game',
+        },
+        strip: ['Start', 'Recovery', 'Move', 'Shooting', 'Combat', 'Opponent'],
+        states: {
+          standing: 'Standing', knockedDown: 'Knocked down', stunned: 'Stunned',
+          outOfAction: 'Out of action', fleeing: 'Fleeing', rallied: 'Rallied',
+        },
+        backToSetup: 'Go back to pre-game?',
+        adjust: (label: string, delta: number) => delta < 0 ? `Decrease ${label}` : `Increase ${label}`,
+        firstQuestion: 'Who goes first?',
+        meFirst: 'I go first',
+        themFirst: 'They go first',
+        numbering: 'Each player takes a whole turn. The first player takes turns 1, 3, 5… and the second takes turns 2, 4, 6…',
+        startTurn: 'Start turn 1',
+        yourTurn: 'Your turn',
+        back: '‹ Back',
+        next: (step: string) => `Next: ${step} ›`,
+        down: (down: number, total: number) => `${down}/${total} down`,
+        rules: 'Rules for this step',
+        psychology: 'Psychology',
+        noPsychology: 'Nothing to do — no psychology tests listed.',
+        noFleeing: 'Nothing to do — nobody is fleeing.',
+        noRecovery: 'Nothing to do — nobody needs to stand up or rally.',
+        noKnockedDown: 'Nothing to do — nobody is knocked down.',
+        noShooters: 'Nothing to do — nobody can shoot.',
+        noCasters: 'Nothing to do — nobody can cast.',
+        movementOrder: ['Charges', 'Compulsory moves', 'Remaining moves'],
+        knockedDownList: (names: string) => `Knocked down: ${names}`,
+        combatReminder: 'Check the rules for knocked-down and stunned models in close combat.',
+        opponentSteps: ['Movement', 'Shooting', 'Close combat (both sides fight)'],
+        opponentHint: 'Nothing to tick — mark wounds and states on your cards as they happen.',
+        canShoot: 'Can shoot',
+        canCast: 'Can cast',
+        standUp: 'Stands up',
+        standAll: (n: number) => `Stand up all ${n}`,
+        converted: (n: number) => `${n} stunned → knocked down`,
+        stood: (name: string, count: number) => `${name} ×${count} stood up`,
+        modelCount: (name: string, count: number) => count === 1 ? name : `${name} ×${count}`,
+        withLeadership: (name: string, count: number, ld: number) => `${name} ×${count} · Ld ${ld}`,
+        vsLeadership: (roll: number, ld: number) => `${roll} vs Ld ${ld}`,
+        rollLog: (name: string, test: string, result: string) => `${name} · ${test}: ${result}`,
+        roll2d6: 'Roll 2D6',
+        rollD6: 'Roll D6',
+        noRally: "Closest model is an enemy — can't rally",
+        rallyResult: (name: string, roll: number, ld: number, pass: boolean) =>
+          `${name} · ${roll} vs Ld ${ld} · ${pass ? "Rallied" : "Still fleeing"}`,
+        cast: 'Cast 2D6',
+        difficulty: (value: string) => `Difficulty ${value}`,
+        castResult: (roll: number, difficulty: string, pass: boolean) =>
+          `${roll} vs Difficulty ${difficulty} · ${pass ? "Passed" : "Failed"}`,
+        board: 'Board',
+        end: 'End game',
+        voluntaryRout: 'Voluntary rout',
+        endedHint: 'Continue to the post-battle sequence when ready.',
+        event: (turn: number, step: string, text: string) => `T${turn} · ${step}: ${text}`,
+        turnsPlayed: 'Turns played',
+        turns: (count: number) => `${count} ${count === 1 ? "turn" : "turns"}`,
+      },
+      stunnedReminder: 'Out of action if an enemy can attack it in close combat.',
+      rulesLink: 'Rules',
+      undo: 'Undo',
+      sittingOut: (names: string) => `Sitting out this battle: ${names}`,
       rout: {
         section: 'Rout test',
         status: (down: number, total: number, pct: number) =>
           `${down} of ${total} out of action (${pct}%)`,
         safe: 'Below 25% — no rout test needed.',
         required: 'A quarter of the warband is down — take a Rout test at the start of your turn.',
-        bestLd: (n: number) => `Best Leadership on the table: ${n}`,
+        leaderLd: (ld: number, name: string) => `Leadership ${ld} (${name}, leader)`,
+        fallbackLd: (ld: number, name: string, reason: 'leaderOutOfAction' | 'leaderStunned' | 'leaderNotPlaying' | 'noLeader') =>
+          `Leadership ${ld} (${name}: ${{
+            leaderOutOfAction: 'leader out of action',
+            leaderStunned: 'leader stunned',
+            leaderNotPlaying: 'leader not playing',
+            noLeader: 'no leader',
+          }[reason]})`,
+        noLd: 'Nobody left to take the test.',
         roll: 'Roll rout test (2D6)',
         passLog: (total: number, ld: number) => `Rout test passed (rolled ${total} vs Ld ${ld})`,
         failLog: (total: number, ld: number) => `Rout test FAILED (rolled ${total} vs Ld ${ld}) — the warband routs`,
@@ -1475,6 +1568,7 @@ ${url}`,
       rerollNeeded: (stat: string) =>
         `${stat} is already at its maximum — roll again for a characteristic that can still be raised.`,
       ladsGotTalent: "That Lad's Got Talent",
+      ladAtHeroMax: 'Your warband already has 6 Heroes — re-roll this advance (the table says to re-roll at the Hero maximum).',
       // §15 — skill lists for the promoted Hero, from his unit's rules.
       promotion: {
         fixed: (lists: string) => `His rules fix his skill lists: ${lists}.`,

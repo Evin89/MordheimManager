@@ -4,7 +4,7 @@ import HeaderTools from '../components/HeaderTools';
 import { HEADER_SHELL } from '../components/headerStyles';
 import { Link, useNavigate } from 'react-router-dom';
 import AppBanner from '../components/AppBanner';
-import DiscordLink from '../components/DiscordLink';
+import DiscordLink, { DISCORD_CHANNEL_URL } from '../components/DiscordLink';
 import GetStartedCard from '../components/GetStartedCard';
 import { InstallNudgeCard } from '../components/InstallCard';
 import { Card, SectionHeading, buttonClasses } from '../components/ui';
@@ -46,13 +46,13 @@ function HomeHeader() {
  * who never open Profile at all. Last on the page in both views, because
  * nobody launches the app to read release notes.
  */
-function AboutSection() {
+function AboutSection({ signedIn }: { signedIn: boolean }) {
   return (
     <section className="space-y-3">
       <SectionHeading>{strings.account.aboutSection}</SectionHeading>
-      {/* Community entry point (§4.10) — reaches signed-out visitors too, since
-          AboutSection is on both Home views. */}
-      <DiscordLink />
+      {/* Community entry point (§4.10.1) — AboutSection is on both Home views:
+          the invite for signed-out visitors, the channel for members. */}
+      {signedIn ? <DiscordLink url={DISCORD_CHANNEL_URL} /> : <DiscordLink />}
       {/* §44.1 — Resources reachable from the bottom of every Home view, signed in or out. */}
       <Link
         to="/resources"
@@ -119,7 +119,7 @@ function SignedOutHome() {
           </div>
         </section>
 
-        <AboutSection />
+        <AboutSection signedIn={false} />
       </main>
     </div>
   );
@@ -204,7 +204,7 @@ export default function HomeScreen() {
             </div>
           </section>
 
-          <AboutSection />
+          <AboutSection signedIn />
         </main>
       </div>
     );

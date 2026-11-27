@@ -64,3 +64,14 @@ begin
 end $$;
 grant usage on schema t to anon, authenticated;
 grant execute on all functions in schema t to anon, authenticated;
+
+-- pg_cron stand-in. 0014/0055 guard pg_cron, but 0072 calls cron.unschedule /
+-- cron.schedule directly (fine in production, where pg_cron is enabled since
+-- 0014). Just enough for those calls to apply here; nothing is ever run.
+create schema cron;
+create table cron.job (jobid bigserial primary key, jobname text, schedule text, command text);
+create function cron.schedule(p_name text, p_schedule text, p_command text) returns bigint
+  language sql as $$ insert into cron.job (jobname, schedule, command)
+    values (p_name, p_schedule, p_command) returning jobid $$;
+create function cron.unschedule(p_jobid bigint) returns boolean
+  language sql as $$ delete from cron.job where jobid = p_jobid returning true $$;
