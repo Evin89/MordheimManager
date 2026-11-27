@@ -2,6 +2,19 @@ import { HenchmenGroup, Hero, StatLine, Warband } from '../types';
 import { generateId } from './id';
 import { getUnitRacialMaximums } from './racialMaximums';
 import { promotionSkillListOptions } from './ruleEffects';
+import { isInWarband } from './rating';
+
+/** Mordheim FAQ (faq-143): a warband has at most 6 Heroes; Hired Swords don't count (errata, Recruiting Hired Swords). */
+export const MAX_HEROES = 6;
+
+/** Heroes still in the warband (isInWarband), Hired Swords excluded. */
+export function heroCount(warband: Pick<Warband, 'heroes'>): number {
+  return warband.heroes.filter((hero) => isInWarband(hero.status)).length;
+}
+
+export function canPromote(warband: Pick<Warband, 'heroes'>): boolean {
+  return heroCount(warband) < MAX_HEROES;
+}
 
 /**
  * "That Lad's Got Talent": one member leaves a Henchman group and joins the
