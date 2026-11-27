@@ -202,13 +202,37 @@ async function proxyAnalytics(request, url) {
   return fetch(upstream);
 }
 
+/**
+ * §44.6 — the same `X-Robots-Tag: noindex` that public/_headers puts on /app/*,
+ * for responses this Worker builds or rewrites itself (_headers rules are not
+ * applied to those). Returns a copy, since fetched responses have immutable
+ * headers.
+ */
+function withNoindex(response) {
+  const out = new Response(response.body, response);
+  out.headers.set('X-Robots-Tag', 'noindex');
+  return out;
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const path = url.pathname;
 
+    // §44.6 — https only. The zone's "Always Use HTTPS" setting is the real
+    // fix (it covers every path, not just the ones routed through this Worker);
+    // this is the safety net for the paths that are, so an http:// URL never
+    // serves a 200 that a crawler could index next to the https one.
+    // Local `wrangler dev` is plain http on localhost — leave that alone, or
+    // every Worker-first path would redirect-loop in development.
+    const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
+    if (url.protocol === 'http:' && !isLocal && (request.method === 'GET' || request.method === 'HEAD')) {
+      url.protocol = 'https:';
+      return Response.redirect(url.toString(), 301);
+    }
+
     if (path === ANALYTICS_PREFIX || path.startsWith(`${ANALYTICS_PREFIX}/`)) {
-      return proxyAnalytics(request, url);
+      return withNoindex(await proxyAnalytics(request, url));
     }
 
     // The bare front door is the marketing landing, for everyone now — the app
@@ -238,13 +262,18 @@ export default {
       const id = path.slice('/app/rosters/'.length).split('/')[0];
       const shell = await env.ASSETS.fetch(request); // SPA fallback -> index.html
       const roster = await fetchPublicRoster(env, id);
-      if (!roster) return shell;
+      if (!roster) return withNoindex(shell);
 
       // .transform() streams the rewritten body while carrying the shell's own
       // status and headers, so it is already the response to return.
       const canonical = `https://mordheimmanager.net/app/rosters/${id}`;
-      return injectRosterMeta(shell, roster, canonical);
+      // Shared rosters unfurl in chats but stay out of search (§44.6).
+      return withNoindex(injectRosterMeta(shell, roster, canonical));
     }
+
+    // Only /app/rosters/* (humans) reaches this line from under /app; set the
+    // header here too rather than trusting _headers on a Worker-fetched asset.
+    if (path.startsWith('/app/')) return withNoindex(await env.ASSETS.fetch(request));
 
     return env.ASSETS.fetch(request);
   },

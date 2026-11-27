@@ -1,5 +1,7 @@
-# §44.1 — no paths are blocked; the sitemap only lists pages without
+# §44.1 / §44.6 — no paths are blocked. The sitemap only lists pages without
 # Games Workshop content (landing, about, legal, and the blank-sheet Resources).
+# Everything else under /app is kept out of search with an X-Robots-Tag: noindex
+# header (public/_headers), which only works if crawlers may fetch the page.
 User-agent: *
 Allow: /
 
